@@ -5,6 +5,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#160d1c">
 <title>Spooky Party · 31 de octubre</title>
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=DM+Sans:wght@400;500;600;700&display=swap');
 :root{--pink:#ff63bd;--cream:#f5e9ce;--bg:#160d1c}
@@ -18,6 +19,21 @@
 @keyframes float{50%{transform:translateY(-7px)}}@keyframes dance{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}@keyframes reveal{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 @media(max-width:600px){.invitation{padding:20px 20px 0}.hero{padding-top:48px}.hero h1{font-size:100px}.ticket div{padding:20px 8px}.ticket strong{font-size:23px}.ticket small{font-size:8px}.ticket span{font-size:9px}.details{grid-template-columns:1fr;gap:24px;padding:36px 0}.countdown{margin-bottom:42px}.rsvp{padding:36px 18px}.art{margin-top:24px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.rsvp-qr { width: 204px; height: 194px; margin: 28px auto 12px; overflow: hidden; border-radius: 12px; border: 1px solid #ff63bd55; position: relative; background: #160d1c; } .rsvp-qr img { position: absolute; width: 1143px; max-width: none; height: 1600px; left: -352px; top: -1278px; } .qr-caption { font-size: 12px; color: #cebcca; }
+/* The event details become three keepsake tickets. */
+.ticket{border:0;background:none;gap:18px;max-width:840px;margin-top:28px}
+.ticket>div{position:relative;overflow:hidden;border:1px solid #ff63bd55;border-radius:22px;padding:30px 18px;background:radial-gradient(ellipse at 50% 0%,#ff63bd20,transparent 75%),#201225;box-shadow:0 12px 30px #00000025}
+.ticket>div+div{border-left:1px solid #ff63bd55}
+.ticket>div::before{content:'';position:absolute;inset:8px;border:1px solid #f5e9ce18;border-radius:16px;pointer-events:none}
+.ticket .ticket-symbol{display:block;font-size:30px;line-height:1;margin-bottom:18px;color:var(--pink);text-shadow:0 0 18px #ff63bd50;animation:ticket-spark 4s ease-in-out infinite}
+.ticket>div:nth-child(2) .ticket-symbol{animation-delay:1s}
+.ticket>div:nth-child(3) .ticket-symbol{animation-delay:2s}
+.ticket small{display:block;color:#efd1e4;letter-spacing:.22em;font-size:10px}
+.ticket strong{font-size:36px;color:var(--cream);margin:12px 0}
+.ticket span:not(.ticket-symbol){color:#e4cddd;font-size:12px}
+@keyframes ticket-spark{0%,100%{opacity:.65;text-shadow:0 0 5px #ff63bd30}50%{opacity:1;text-shadow:0 0 22px #ff63bd90}}
+@media(max-width:600px){.ticket{grid-template-columns:1fr;gap:14px}.ticket>div{display:grid;grid-template-columns:52px 1fr;text-align:left;gap:5px 14px;padding:24px}.ticket .ticket-symbol{grid-column:1;grid-row:1/4;margin:0;align-self:center;text-align:center;font-size:36px}.ticket small,.ticket strong,.ticket span:not(.ticket-symbol){grid-column:2}.ticket strong{font-size:32px;margin:3px 0}.ticket small{font-size:9px}.ticket span:not(.ticket-symbol){font-size:12px}}
+@media(prefers-reduced-motion:reduce){.ticket .ticket-symbol{animation:none}}
 </style>
 </head>
 <body>
@@ -46,11 +62,11 @@
 <path class="spark" d="m29 30 3 10 10 3-10 3-3 10-3-10-10-3 10-3zm337 123 3 10 10 3-10 3-3 10-3-10-10-3 10-3z" fill="#ff63bd"/>
 </svg>
 </div>
-<div class="ticket"><div><small>La fecha</small><strong>31 octubre</strong><span>Sábado · 2026</span></div><div><small>La hora</small><strong>9:00 p. m.</strong><span>Que empiece la noche</span></div><div><small>El lugar</small><strong>Casa de Caro</strong><span>Nos vemos ahí</span></div></div>
+<div class="ticket"><div><span class="ticket-symbol" aria-hidden="true">✦</span><small>La fecha</small><strong>31 octubre</strong><span>Sábado · 2026</span></div><div><span class="ticket-symbol" aria-hidden="true">☽</span><small>La hora</small><strong>9:00 p. m.</strong><span>Que empiece la noche</span></div><div><span class="ticket-symbol" aria-hidden="true">⌂</span><small>El lugar</small><strong>Casa de Caro</strong><span>Nos vemos ahí</span></div></div>
 </section>
 <div class="countdown" aria-label="Cuenta regresiva para la fiesta"><p>EL CONJURO ESTÁ POR COMENZAR</p><div class="clock" id="clock"></div></div>
 <section class="details"><div><p class="eyebrow">La única regla</p><h2>Ven como quieras.<br><em>Pero ven disfrazado.</em></h2><p>Una noche para salir de lo cotidiano, compartir con amigos y celebrar Halloween. Prepara tu disfraz: el resto empieza cuando llegues.</p></div><div class="detail-cards"><article class="detail-card"><span>DRESS CODE</span><h3>Solo disfraces de Halloween</h3><p>Deja que tu lado más spooky haga su entrada.</p></article><article class="detail-card"><span>COVER</span><h3>$150 MXN</h3><p>Para acompañarnos en esta noche de ultratumba.</p></article></div></section>
-<section class="rsvp"><p class="eyebrow">¿Te atreves a venir?</p><h2>La noche está mejor contigo.</h2><p>Guarda la fecha y prepara tu disfraz.<br>Nos vemos el 31 de octubre.</p><a class="calendar" href="./spooky-party.ics" download>Guardar en mi calendario <span aria-hidden="true">↗</span></a><p class="pending">Confirmación de asistencia y ubicación: próximamente.</p></section>
+<section class="rsvp"><p class="eyebrow">¿Te atreves a venir?</p><h2>La noche está mejor contigo.</h2><p>Guarda la fecha y prepara tu disfraz.<br>Nos vemos el 31 de octubre.</p><a class="calendar" href="./spooky-party.ics" download>Guardar en mi calendario <span aria-hidden="true">↗</span></a><div class="rsvp-qr"><img src="./invitacion-original.jpeg" alt="Código QR de la invitación original para confirmar asistencia" width="1143" height="1600"></div><p class="qr-caption">Escanea el QR para confirmar tu asistencia.</p><p class="pending">Ubicación exacta: próximamente.</p></section>
 <footer>Una noche de miedo. Una invitación de <span>Nordra Studio.</span></footer>
 </main>
 <script>
