@@ -14,6 +14,7 @@ export function useLanguage() {
   return useSyncExternalStore(listener => { listeners.add(listener); return () => { listeners.delete(listener); }; }, () => language);
 }
 const translations: Record<string, string> = {
+"Temporada":"Seasonal",
 "Contactar a Nordra Studio por WhatsApp al +52 811 11 97 607":"Contact Nordra Studio on WhatsApp at +52 811 11 97 607",
 "Nordra Studio, ir al inicio":"Nordra Studio, go to home",
 "Inicio":"Home","Quiénes somos":"About us","Paquetes":"Packages","Eventos":"Events","Contacto":"Contact","Contáctanos":"Contact us","Cambiar tema":"Switch theme","Navegación principal":"Main navigation",

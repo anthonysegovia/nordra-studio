@@ -2129,3 +2129,150 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media (prefers-reduced-motion: reduce) {
   .scroll-aurora-curtain { animation: none; }
 }
+
+/* Seasonal invitation spotlight. */
+.seasonal-section { padding: 32px 0 48px; }
+.seasonal-panel { position: relative; overflow: hidden; display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 60px; padding: 42px; border: 1px solid var(--border); border-radius: 28px; background: radial-gradient(ellipse at 100% 0%,rgba(190,130,240,.14),transparent 60%),radial-gradient(ellipse at 0% 100%,rgba(224,151,63,.12),transparent 65%),var(--surface-strong); }
+.seasonal-copy .eyebrow { color: #996032; font-size: 10px; letter-spacing: .18em; }
+.dark .seasonal-copy .eyebrow { color: #ecc795; }
+.seasonal-copy h2 { font-size: clamp(27px,3vw,38px); font-weight: 400; line-height: 1.18; letter-spacing: -.035em; margin: 16px 0; }
+.seasonal-copy h2 > span { color: #8755a3; }
+.dark .seasonal-copy h2 > span { color: #d4b3ed; }
+.seasonal-copy > p:not(.eyebrow) { font-size: 16px; line-height: 1.8; color: var(--muted); max-width: 520px; }
+.seasonal-cta { display: inline-flex; align-items: center; gap: 22px; border: 1px solid var(--border); border-radius: 12px; padding: 13px 18px; margin-top: 22px; background: color-mix(in srgb,var(--violet) 10%,var(--surface-strong)); font-size: 14px; }
+.seasonal-cta:hover { border-color: var(--violet); }
+.seasonal-cta:focus-visible { outline: 2px solid var(--violet); outline-offset: 4px; }
+.seasonal-occasions { display: grid; gap: 12px; }
+.seasonal-occasion { --occasion: #c37533; display: flex; align-items: center; gap: 18px; padding: 16px 20px; border: 1px solid color-mix(in srgb,var(--occasion) 30%,var(--border)); background: color-mix(in srgb,var(--occasion) 7%,var(--surface-strong)); border-radius: 16px; font-size: 18px; }
+.seasonal-occasion-1 { --occasion: #a28a44; }
+.seasonal-occasion-2 { --occasion: #9871ce; }
+.seasonal-icon { display: grid; place-items: center; width: 48px; height: 48px; color: var(--occasion); background: color-mix(in srgb,var(--occasion) 12%,transparent); border-radius: 14px; flex-shrink: 0; }
+.dark .seasonal-icon { color: color-mix(in srgb,var(--occasion) 60%,white); }
+.seasonal-star { margin-left: auto; color: var(--occasion); font-size: 14px; }
+.seasonal-occasions > p { text-align: center; color: var(--muted); font-size: 12px; margin: 8px 0 0; }
+@media (max-width: 800px) { .seasonal-panel { grid-template-columns: 1fr; gap: 32px; padding: 28px; } .seasonal-copy > p:not(.eyebrow) { max-width: none; } }
+@media (max-width: 480px) { .seasonal-panel { padding: 24px 20px; } .seasonal-occasion { font-size: 16px; padding: 12px 14px; } }
+
+/* Illustrated celebrations bring the seasonal spotlight to life. */
+.seasonal-panel { grid-template-columns: 1fr; gap: 32px; padding: 52px 42px 36px; background: radial-gradient(ellipse at 5% 5%,rgba(246,143,54,.15),transparent 45%),radial-gradient(ellipse at 90% 80%,rgba(168,85,224,.2),transparent 60%),var(--surface-strong); }
+.seasonal-copy { max-width: 760px; }
+.seasonal-copy h2 { font-size: clamp(30px,4vw,46px); }
+.seasonal-copy > p:not(.eyebrow) { max-width: 680px; }
+.seasonal-lights { position: absolute; top: 0; left: 0; right: 0; height: 28px; display: flex; justify-content: space-around; border-top: 1px solid var(--border); pointer-events: none; }
+.seasonal-lights i { width: 7px; height: 12px; border-radius: 2px 2px 50% 50%; background: #f9c16a; box-shadow: 0 0 16px #f4ad5870; position: relative; margin-top: 8px; }
+.seasonal-lights i::before { content: ''; position: absolute; height: 8px; width: 1px; background: var(--muted); top: -8px; left: 3px; }
+.seasonal-lights i:nth-child(3n) { background: #d49af6; box-shadow: 0 0 16px #bb76ed80; }
+.seasonal-lights i:nth-child(3n + 1) { background: #72d9ba; box-shadow: 0 0 16px #72d9ba70; }
+.seasonal-occasions { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+.seasonal-occasion { display: flex; flex-direction: column; gap: 8px; text-align: center; padding: 22px 16px; position: relative; overflow: hidden; background: radial-gradient(ellipse at 50% 20%,color-mix(in srgb,var(--occasion) 25%,transparent),transparent 75%),var(--surface-strong); }
+.seasonal-occasion-0 { --occasion: #e78a38; }
+.seasonal-occasion-1 { --occasion: #599b80; }
+.seasonal-occasion-2 { --occasion: #a876df; }
+.seasonal-occasion strong { font-weight: 500; font-size: 20px; }
+.seasonal-caption { color: var(--muted); font-size: 12px; line-height: 1.6; }
+.seasonal-art { width: 160px; height: 110px; position: relative; color: var(--occasion); }
+.seasonal-art svg { width: 100%; height: 100%; filter: drop-shadow(0 5px 12px color-mix(in srgb,var(--occasion) 25%,transparent)); }
+.seasonal-art .festive-tree { width: 90px; height: 100px; position: absolute; left: 25px; top: 0; }
+.seasonal-art .festive-gift { width: 45px; height: 45px; position: absolute; left: 100px; top: 62px; color: #d7aa55; }
+.seasonal-art .festive-firework { width: 92px; height: 92px; position: absolute; left: 32px; top: 8px; }
+.festive-spark { position: absolute; right: 18px; top: 12px; font-size: 20px; color: #daa956; }
+.festive-orbit { position: absolute; inset: 8px 25px; border: 1px dashed #b68be6; border-radius: 50%; transform: rotate(-20deg); }
+.seasonal-occasions > p { grid-column: 1 / -1; }
+.seasonal-cta { background: linear-gradient(120deg,#8a4abd,#6544a3); color: #fff; border-color: #ae82d5; box-shadow: 0 6px 24px #854ebc25; }
+@media (max-width: 640px) { .seasonal-panel { padding: 42px 20px 26px; } .seasonal-occasions { grid-template-columns: 1fr; gap: 12px; } .seasonal-occasion { display: grid; grid-template-columns: 90px 1fr; text-align: left; gap: 4px 16px; padding: 16px; } .seasonal-art { width: 90px; height: 80px; grid-row: span 2; } .seasonal-art .festive-tree { width: 65px; height: 75px; left: 0; } .seasonal-art .festive-gift { width: 30px; height: 30px; left: 55px; top: 48px; } .seasonal-art .festive-firework { width: 65px; height: 65px; left: 10px; } .festive-orbit { inset: 5px; } .festive-spark { right: 0; top: 0; } .seasonal-occasion strong { align-self: end; font-size: 18px; } }
+
+/* Each occasion feels like a miniature invitation. */
+.seasonal-occasion { border-radius: 100px 100px 20px 20px; padding-top: 28px; gap: 10px; text-decoration: none; transition: transform .25s ease,box-shadow .25s ease,border-color .25s ease; }
+.seasonal-occasion::before { content: ''; position: absolute; inset: 9px; border: 1px solid color-mix(in srgb,var(--occasion) 22%,transparent); border-radius: inherit; pointer-events: none; }
+.seasonal-card-label { font-size: 8px; letter-spacing: .22em; color: var(--muted); margin: 2px 0 8px; }
+.seasonal-art { width: 180px; height: 125px; }
+.seasonal-occasion-0 { background: radial-gradient(ellipse at 50% 35%,rgba(235,142,49,.25),transparent 65%),var(--surface-strong); }
+.seasonal-occasion-1 { background: radial-gradient(ellipse at 50% 35%,rgba(57,168,122,.25),transparent 65%),var(--surface-strong); }
+.seasonal-occasion-2 { background: radial-gradient(ellipse at 50% 35%,rgba(156,99,211,.28),transparent 65%),var(--surface-strong); }
+.seasonal-card-action { display: flex; align-items: center; gap: 14px; font-size: 12px; color: var(--text); padding: 12px 0 0; margin-top: 6px; border-top: 1px solid color-mix(in srgb,var(--occasion) 35%,transparent); }
+.seasonal-occasion:hover { transform: translateY(-5px); border-color: var(--occasion); box-shadow: 0 12px 30px color-mix(in srgb,var(--occasion) 14%,transparent); }
+.seasonal-occasion:focus-visible { outline: 2px solid var(--occasion); outline-offset: 4px; }
+@media (max-width: 640px) { .seasonal-occasion { border-radius: 20px; padding: 20px 16px; } .seasonal-card-label { grid-column: 2; margin: 0; } .seasonal-art { grid-column: 1; grid-row: 1 / 5; width: 90px; height: 95px; align-self: center; } .seasonal-card-action { padding-top: 8px; margin-top: 4px; grid-column: 2; } }
+@media (prefers-reduced-motion: reduce) { .seasonal-occasion { transition: none; } .seasonal-occasion:hover { transform: none; } }
+
+/* Seasonal invitations are a full destination in the page navigation. */
+.seasonal-section { padding: 80px 0; scroll-margin-top: 88px; }
+@media (max-width: 640px) { .seasonal-section { padding: 56px 0; } }
+@media (min-width: 961px) and (max-width: 1200px) { .main-nav { gap: 12px; } .nav-link { font-size: 12px; } .header-inner { gap: 18px; } }
+
+/* Small festive gestures keep the illustrations alive. */
+.seasonal-occasion-0 .seasonal-art svg { transform-origin: 50% 85%; animation: pumpkin-sway 4s ease-in-out infinite; }
+.seasonal-occasion-1 .seasonal-art svg { animation: christmas-glow 3s ease-in-out infinite; }
+.seasonal-occasion-1 .seasonal-art circle { animation: ornament-twinkle 2.4s ease-in-out infinite; }
+.seasonal-occasion-1 .seasonal-art circle:nth-of-type(2) { animation-delay: .8s; }
+.seasonal-occasion-1 .seasonal-art circle:nth-of-type(3) { animation-delay: 1.6s; }
+.seasonal-occasion-2 .seasonal-art svg > g:first-child { transform-origin: 50% 25%; animation: fireworks-spark 3.2s ease-in-out infinite; }
+.seasonal-occasion-2 .seasonal-art svg > g:last-child { transform-origin: 50% 95%; animation: toast-sway 4.5s ease-in-out infinite; }
+@keyframes pumpkin-sway { 0%,100% { transform: rotate(-4deg) translateY(0); } 50% { transform: rotate(4deg) translateY(-4px); } }
+@keyframes christmas-glow { 0%,100% { filter: drop-shadow(0 0 4px #72d9ba30); } 50% { filter: drop-shadow(0 0 12px #72d9ba70); } }
+@keyframes ornament-twinkle { 0%,100% { opacity: .45; } 50% { opacity: 1; filter: drop-shadow(0 0 3px #ffe3a5); } }
+@keyframes fireworks-spark { 0%,100% { opacity: .45; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.08); } }
+@keyframes toast-sway { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@media (prefers-reduced-motion: reduce) { .seasonal-art svg,.seasonal-art circle,.seasonal-art svg > g { animation: none !important; } }
+
+/* Seasonal cards reveal invitation details on their reverse. */
+.seasonal-flip { --occasion: #e78a38; perspective: 1200px; min-width: 0; }
+.seasonal-flip.seasonal-occasion-1 { --occasion: #599b80; }
+.seasonal-flip.seasonal-occasion-2 { --occasion: #a876df; }
+.seasonal-flip-inner { display: grid; transform-style: preserve-3d; transition: transform .65s cubic-bezier(.2,.7,.2,1); height: 100%; }
+.seasonal-flip.is-flipped .seasonal-flip-inner { transform: rotateY(180deg); }
+.seasonal-flip-face { grid-area: 1 / 1; backface-visibility: hidden; min-width: 0; }
+.seasonal-flip-face > .seasonal-occasion { width: 100%; height: 100%; color: var(--text); font-family: inherit; cursor: pointer; justify-content: center; }
+.seasonal-flip-face > .seasonal-occasion:hover { transform: none; }
+.seasonal-flip-back { transform: rotateY(180deg); display: flex; flex-direction: column; padding: 22px; border: 1px solid color-mix(in srgb,var(--occasion) 45%,var(--border)); border-radius: 24px; background: radial-gradient(ellipse at 100% 0%,color-mix(in srgb,var(--occasion) 15%,transparent),transparent 70%),var(--surface-strong); }
+.seasonal-return { align-self: flex-end; border: 0; padding: 6px; color: var(--muted); background: transparent; font: inherit; font-size: 12px; cursor: pointer; }
+.seasonal-flip-back h3 { font-size: 20px; font-weight: 500; margin: 12px 0; }
+.seasonal-price { font-size: 36px; font-weight: 500; margin: 0; letter-spacing: -.035em; }
+.seasonal-price span { font-size: 13px; color: var(--muted); letter-spacing: 0; }
+.seasonal-price-note { color: var(--muted); font-size: 11px; line-height: 1.6; margin: 8px 0 18px; }
+.seasonal-flip-back h4 { font-size: 13px; font-weight: 500; margin: 0 0 12px; }
+.seasonal-flip-back ul { padding-left: 18px; margin: 0 0 22px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.seasonal-flip-back li { margin-bottom: 8px; }
+.seasonal-flip-back li::marker { color: var(--occasion); }
+.seasonal-back-cta { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 12px; background: color-mix(in srgb,var(--occasion) 12%,transparent); }
+.seasonal-return:focus-visible,.seasonal-back-cta:focus-visible { outline: 2px solid var(--occasion); outline-offset: 3px; }
+@media (max-width: 640px) { .seasonal-flip-face > .seasonal-occasion { display: flex; text-align: center; min-height: 370px; } .seasonal-flip-face .seasonal-art { width: 160px; height: 110px; } .seasonal-flip-face .seasonal-card-label { margin-bottom: 12px; } }
+@media (prefers-reduced-motion: reduce) { .seasonal-flip-inner { transition: none; } }
+.seasonal-flip.seasonal-occasion-0,.seasonal-flip.seasonal-occasion-1,.seasonal-flip.seasonal-occasion-2 { background: none; }
+
+/* A soft glow emphasizes the seasonal invitation price. */
+.seasonal-price { margin-bottom: 20px; animation: seasonal-price-glow 3s ease-in-out infinite; }
+@keyframes seasonal-price-glow {
+  0%,100% { text-shadow: 0 0 5px color-mix(in srgb,var(--occasion) 20%,transparent); }
+  50% { text-shadow: 0 0 10px color-mix(in srgb,var(--occasion) 65%,transparent),0 0 24px color-mix(in srgb,var(--occasion) 40%,transparent); }
+}
+.seasonal-price span { text-shadow: none; }
+@media (prefers-reduced-motion: reduce) { .seasonal-price { animation: none; } }
+
+/* Package ranges share the soft price emphasis. */
+.package-price { animation: package-price-glow 3s ease-in-out infinite; }
+.package-price span { text-shadow: none; }
+@keyframes package-price-glow {
+  0%,100% { text-shadow: 0 0 5px color-mix(in srgb,var(--package-tint) 20%,transparent); }
+  50% { text-shadow: 0 0 10px color-mix(in srgb,var(--package-tint) 65%,transparent),0 0 24px color-mix(in srgb,var(--package-tint) 40%,transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .package-price { animation: none; } }
+
+/* A highlight travels across the price from right to left. */
+.package-price,.seasonal-price {
+  --price-ink: var(--package-accent, var(--text));
+  --price-light: var(--package-tint, var(--occasion));
+  width: fit-content;
+  color: transparent;
+  background-image: linear-gradient(90deg,var(--price-ink) 0%,var(--price-ink) 40%,color-mix(in srgb,var(--price-light) 45%,white) 50%,var(--price-ink) 60%,var(--price-ink) 100%);
+  background-size: 300% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-shadow: 0 0 12px color-mix(in srgb,var(--price-light) 22%,transparent);
+  animation: price-shine-left 3.5s linear infinite;
+}
+.seasonal-price { --price-ink: var(--text); --price-light: var(--occasion); }
+.package-price span { color: var(--package-accent); }
+.seasonal-price span { color: var(--muted); }
+@keyframes price-shine-left { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+@media (prefers-reduced-motion: reduce) { .package-price,.seasonal-price { animation: none; background: none; color: var(--price-ink); text-shadow: none; } }

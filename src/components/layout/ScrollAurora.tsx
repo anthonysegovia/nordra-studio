@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 
 const stops = [
   { id: "inicio", color: [0, 191, 214], secondary: [58, 99, 230] },
+  { id: "temporada", color: [144, 81, 203], secondary: [203, 132, 64] },
   { id: "nosotros", color: [26, 187, 171], secondary: [50, 110, 233] },
   { id: "paquetes", color: [64, 105, 240], secondary: [136, 77, 230] },
   { id: "eventos", color: [153, 80, 224], secondary: [210, 85, 170] },

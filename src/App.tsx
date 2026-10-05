@@ -1,5 +1,6 @@
 import { Header } from "./components/layout/Header";
 import { Hero } from "./sections/Hero";
+import { Seasonal } from "./sections/Seasonal";
 import { About } from "./sections/About";
 import { Packages } from "./sections/Packages";
 import { Events } from "./sections/Events";
@@ -13,6 +14,7 @@ export default function App() {
       <Header />
       <main>
         <Hero />
+        <Seasonal />
         <About />
         <Packages />
         <Events />

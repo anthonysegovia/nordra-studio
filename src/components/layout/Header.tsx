@@ -4,6 +4,7 @@ import { ThemeToggle } from "../ui/ThemeToggle";
 
 const navigation = [
   { id: "inicio", label: "Inicio" },
+  { id: "temporada", label: "Temporada" },
   { id: "nosotros", label: "Quiénes somos" },
   { id: "paquetes", label: "Paquetes" },
   { id: "eventos", label: "Eventos" },
