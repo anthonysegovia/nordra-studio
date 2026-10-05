@@ -34,6 +34,31 @@
 @keyframes ticket-spark{0%,100%{opacity:.65;text-shadow:0 0 5px #ff63bd30}50%{opacity:1;text-shadow:0 0 22px #ff63bd90}}
 @media(max-width:600px){.ticket{grid-template-columns:1fr;gap:14px}.ticket>div{display:grid;grid-template-columns:52px 1fr;text-align:left;gap:5px 14px;padding:24px}.ticket .ticket-symbol{grid-column:1;grid-row:1/4;margin:0;align-self:center;text-align:center;font-size:36px}.ticket small,.ticket strong,.ticket span:not(.ticket-symbol){grid-column:2}.ticket strong{font-size:32px;margin:3px 0}.ticket small{font-size:9px}.ticket span:not(.ticket-symbol){font-size:12px}}
 @media(prefers-reduced-motion:reduce){.ticket .ticket-symbol{animation:none}}
+
+/* Enter through the haunted doorway and keep a personalized ticket. */
+.gate{padding:34px 24px}.gate h1{font-size:clamp(38px,6vw,60px)}.gate-inner{width:100%}
+.portal{width:210px;height:235px;position:relative;margin:24px auto;perspective:850px;border:2px solid #f5e9ce45;border-radius:110px 110px 4px 4px;background:radial-gradient(ellipse at 50% 70%,#ff63bd99,#52204a 60%,#160d1c);box-shadow:0 0 55px #ff63bd25;overflow:hidden}
+.portal-light{position:absolute;inset:0;display:grid;place-items:center;font-size:70px;color:#ffe7ca;text-shadow:0 0 30px #ff63bd;animation:twinkle 3s infinite}
+.door{position:absolute;top:0;bottom:0;width:50%;background:linear-gradient(110deg,#382438,#211424 70%);border:1px solid #ab73975c;transition:transform 1s cubic-bezier(.3,.1,.3,1);z-index:2;backface-visibility:hidden}
+.door-left{left:0;transform-origin:left;border-radius:110px 0 0 0}.door-right{right:0;transform-origin:right;border-radius:0 110px 0 0}
+.door-panel{position:absolute;inset:25px 12px 16px;border:1px solid #f5e9ce35;border-radius:60px 60px 3px 3px;box-shadow:inset 0 0 14px #0005}
+.door-knob{position:absolute;top:62%;width:9px;height:9px;border-radius:50%;background:#f2c09b;box-shadow:0 0 10px #ff63bd45}.door-left .door-knob{right:12px}.door-right .door-knob{left:12px}
+.opening .door-left{transform:rotateY(-105deg)}.opening .door-right{transform:rotateY(105deg)}
+.portal-fog{position:absolute;bottom:-20px;left:-50%;width:200%;height:80px;background:radial-gradient(ellipse,#e4bcd660,transparent 70%);filter:blur(14px);z-index:3;animation:fog-drift 7s ease-in-out infinite;pointer-events:none}
+@keyframes fog-drift{50%{transform:translateX(15px) scale(1.15)}}
+#entry-form{display:grid;justify-items:center;gap:10px}#entry-form label{font-size:12px;color:var(--cream)}
+#guest-name{width:min(100%,310px);border:1px solid #ff63bd55;border-radius:12px;padding:13px 16px;background:#f5e9ce05;color:var(--cream);font:inherit;font-size:14px;text-align:center}
+#guest-name:focus{outline:2px solid var(--pink);outline-offset:3px}#name-note{font-size:10px;line-height:1.6;color:#bdaabc;max-width:300px}
+#entry-form .primary{margin-top:6px}.primary:disabled{cursor:default}
+.guest-pass{display:grid;grid-template-columns:1fr 180px;margin:26px auto 44px;max-width:840px;border:1px solid #ff63bd55;border-radius:20px;background:linear-gradient(120deg,#ff63bd12,#f5e9ce04);overflow:hidden}
+.pass-main{padding:28px}.pass-main h2{font:500 34px/1.2 'Cormorant Garamond',serif;margin:14px 0;overflow-wrap:anywhere}.pass-main h2 span{color:var(--pink)}.pass-main p:not(.eyebrow){font-size:12px;color:#d2bfce}.pass-main small{font-size:10px;color:#bdaabc;line-height:1.7;display:block}
+.pass-stub{border-left:1px dashed #ff63bd55;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:22px}
+.pass-stub>span{font-size:30px;color:var(--pink)}.pass-stub strong{font-size:14px;letter-spacing:.15em}
+#save-pass{font-size:11px;background:transparent;border:1px solid #f5e9ce40;color:var(--cream);border-radius:30px;padding:10px 12px}
+#save-pass:hover{border-color:var(--pink)}
+@media(max-width:600px){.guest-pass{grid-template-columns:1fr}.pass-stub{border-left:0;border-top:1px dashed #ff63bd55;flex-direction:row;justify-content:space-between;padding:20px}.pass-main{padding:24px}.pass-main h2{font-size:30px}}
+@media(prefers-reduced-motion:reduce){.door{transition:none}}
+
 </style>
 </head>
 <body>
@@ -41,11 +66,16 @@
 <section class="gate" id="gate">
 <div class="gate-inner">
 <p class="eyebrow">31 de octubre · Casa de Caro</p>
-<div class="seal" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M22 43C22 8 78 8 78 43q0 19-12 24v17H34V67Q22 62 22 43" fill="#f5e9ce"/><ellipse cx="36" cy="46" rx="10" ry="12" fill="#160d1c"/><ellipse cx="64" cy="46" rx="10" ry="12" fill="#160d1c"/><path d="m50 54-6 12h12zM42 74v10m8-10v10m8-10v10" stroke="#160d1c" stroke-width="3"/></svg></div>
-<h1>Hay noches<br>que no son para dormir.</h1>
-<p>Tienes una invitación.<br>Y algo nos dice que va a estar de miedo.</p>
-<button class="primary" id="open">Abrir mi invitación <span aria-hidden="true">↗</span></button>
-<span class="gate-note">Entra… si te atreves.</span>
+<h1>Al otro lado,<br>la noche te espera.</h1>
+<p>Una puerta. Una fiesta. Tu nombre en la lista de la noche.</p>
+<div class="portal" aria-hidden="true"><div class="portal-light">✦</div><div class="door door-left"><span class="door-panel"></span><span class="door-knob"></span></div><div class="door door-right"><span class="door-panel"></span><span class="door-knob"></span></div><div class="portal-fog"></div></div>
+<form id="entry-form">
+<label for="guest-name">¿Cómo te llamas?</label>
+<input id="guest-name" name="guest" maxlength="40" placeholder="Tu nombre o apodo" autocomplete="given-name" aria-describedby="name-note">
+<small id="name-note">Opcional · Solo se usa para personalizar tu boleto en esta página.</small>
+<button class="primary" id="open" type="submit">Abrir la puerta <span aria-hidden="true">↗</span></button>
+</form>
+<span class="gate-note" id="entry-note">Entra… si te atreves.</span>
 </div>
 </section>
 <main class="invitation" id="invitation" hidden>
@@ -64,6 +94,9 @@
 </div>
 <div class="ticket"><div><span class="ticket-symbol" aria-hidden="true">✦</span><small>La fecha</small><strong>31 octubre</strong><span>Sábado · 2026</span></div><div><span class="ticket-symbol" aria-hidden="true">☽</span><small>La hora</small><strong>9:00 p. m.</strong><span>Que empiece la noche</span></div><div><span class="ticket-symbol" aria-hidden="true">⌂</span><small>El lugar</small><strong>Casa de Caro</strong><span>Nos vemos ahí</span></div></div>
 </section>
+<section class="guest-pass" aria-labelledby="pass-title">
+<div class="pass-main"><p class="eyebrow">TU BOLETO PARA UNA NOCHE DE MIEDO</p><h2 id="pass-title"><span id="pass-name">Tú</span>, estás invitado.</h2><p>Spooky Party · 31 de octubre de 2026</p><small>Un recuerdo de la fiesta · La asistencia se confirma con el QR.</small></div><div class="pass-stub"><span aria-hidden="true">✦</span><strong>31 / 10</strong><button id="save-pass" type="button">Guardar boleto ↓</button></div>
+</section>
 <div class="countdown" aria-label="Cuenta regresiva para la fiesta"><p>EL CONJURO ESTÁ POR COMENZAR</p><div class="clock" id="clock"></div></div>
 <section class="details"><div><p class="eyebrow">La única regla</p><h2>Ven como quieras.<br><em>Pero ven disfrazado.</em></h2><p>Una noche para salir de lo cotidiano, compartir con amigos y celebrar Halloween. Prepara tu disfraz: el resto empieza cuando llegues.</p></div><div class="detail-cards"><article class="detail-card"><span>DRESS CODE</span><h3>Solo disfraces de Halloween</h3><p>Deja que tu lado más spooky haga su entrada.</p></article><article class="detail-card"><span>COVER</span><h3>$150 MXN</h3><p>Para acompañarnos en esta noche de ultratumba.</p></article></div></section>
 <section class="rsvp"><p class="eyebrow">¿Te atreves a venir?</p><h2>La noche está mejor contigo.</h2><p>Guarda la fecha y prepara tu disfraz.<br>Nos vemos el 31 de octubre.</p><a class="calendar" href="./spooky-party.ics" download>Guardar en mi calendario <span aria-hidden="true">↗</span></a><div class="rsvp-qr"><img src="./invitacion-original.jpeg" alt="Código QR de la invitación original para confirmar asistencia" width="1143" height="1600"></div><p class="qr-caption">Escanea el QR para confirmar tu asistencia.</p><p class="pending">Ubicación exacta: próximamente.</p></section>
@@ -72,7 +105,30 @@
 <script>
 const sky=document.querySelector('.sky');
 for(let i=0;i<35;i++){const star=document.createElement('i');star.style.left=(i*37%100)+'%';star.style.top=(i*23%100)+'%';star.style.animationDelay=(i%7)*.6+'s';sky.append(star);}
-document.getElementById('open').addEventListener('click',()=>{document.getElementById('gate').hidden=true;document.getElementById('invitation').hidden=false;document.getElementById('party-title').setAttribute('tabindex','-1');document.getElementById('party-title').focus({preventScroll:true});window.scrollTo(0,0);});
+let guestName='Tú';
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.getElementById('entry-form').addEventListener('submit',event=>{
+ event.preventDefault();
+ const gate=document.getElementById('gate');
+ if(gate.classList.contains('opening'))return;
+ guestName=document.getElementById('guest-name').value.trim()||'Tú';
+ document.getElementById('pass-name').textContent=guestName;
+ document.getElementById('open').disabled=true;
+ document.getElementById('entry-note').textContent='La noche te da la bienvenida…';
+ gate.classList.add('opening');
+ setTimeout(()=>{
+  gate.hidden=true;
+  document.getElementById('invitation').hidden=false;
+  const heading=document.getElementById('party-title');
+  heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});window.scrollTo(0,0);
+ },reduced?0:1100);
+});
+document.getElementById('save-pass').addEventListener('click',()=>{
+ const safe=guestName.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+ const svg='<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="550" viewBox="0 0 1000 550"><rect width="1000" height="550" rx="30" fill="#160d1c"/><rect x="20" y="20" width="960" height="510" rx="20" fill="none" stroke="#ff63bd"/><text x="60" y="90" fill="#ff63bd" font-family="Georgia" font-size="22">TU BOLETO · SPOOKY PARTY</text><text x="60" y="195" fill="#f5e9ce" font-family="Georgia" font-size="45" textLength="'+Math.min(850,guestName.length*24)+'" lengthAdjust="spacingAndGlyphs">'+safe+'</text><text x="60" y="260" fill="#ff63bd" font-family="Georgia" font-size="36">Estás invitado.</text><text x="60" y="355" fill="#f5e9ce" font-family="Georgia" font-size="26">31 de octubre de 2026 · 9:00 p. m.</text><text x="60" y="405" fill="#f5e9ce" font-family="Georgia" font-size="26">Casa de Caro · Disfraces · Cover $150 MXN</text><text x="60" y="485" fill="#cbb8c8" font-family="Georgia" font-size="16">Un recuerdo de la fiesta. Confirma tu asistencia con el QR de la invitación.</text></svg>';
+ const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
+ const link=document.createElement('a');link.href=url;link.download='mi-boleto-spooky-party.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
 const date=new Date('2026-10-31T21:00:00-06:00');
 function countdown(){let total=Math.max(0,Math.floor((date-Date.now())/1000));const values=[Math.floor(total/86400),Math.floor(total/3600)%24,Math.floor(total/60)%60,total%60];document.getElementById('clock').innerHTML=values.map((value,i)=>'<div><strong>'+String(value).padStart(2,'0')+'</strong><small>'+['DÍAS','HORAS','MIN','SEG'][i]+'</small></div>').join('');}
 countdown();setInterval(countdown,1000);
