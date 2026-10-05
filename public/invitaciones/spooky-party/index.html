@@ -224,7 +224,6 @@
 .photo-viewer button,.photo-viewer a{border:1px solid #d9a4c160;border-radius:20px;background:transparent;color:#f5e9ce;padding:9px 15px;text-decoration:none;font-size:13px}
 .photo-viewer p{font-size:14px;line-height:1.6;color:#efd2e3}
 .photo-viewer img{display:block;width:100%;height:auto;border-radius:12px;-webkit-touch-callout:default;user-select:auto;-webkit-user-select:auto}
-.photo-viewer .photo-download{display:inline-block;margin-top:16px}
 </style>
 </head>
 <body>
@@ -268,9 +267,8 @@
 </main>
 <dialog class="photo-viewer" id="photo-viewer" aria-labelledby="photo-viewer-title">
 <header><h2 id="photo-viewer-title">Tu invitación en imagen</h2><button type="button" id="close-photo" autofocus>Cerrar</button></header>
-<p>En iPhone, mantén pulsada la imagen y elige “Guardar en Fotos” o “Añadir a Fotos”, si aparece en el menú.</p>
-<img id="invitation-photo" alt="Invitación Spooky Party: 31 de octubre de 2026, 9:00 p. m., Casa de Caro. Disfraces de Halloween y cover de 150 pesos.">
-<a class="photo-download" id="photo-download" download="invitacion-spooky-party.png">Descargar imagen</a>
+<p>Mantén pulsada la imagen y elige “Guardar en Fotos” o “Añadir a Fotos”, si aparece en el menú.</p>
+<img src="./invitacion-original.jpeg" id="invitation-photo" alt="Invitación Spooky Party: 31 de octubre de 2026, 9:00 p. m., Casa de Caro. Disfraces de Halloween y cover de 150 pesos.">
 </dialog>
 <script>
 const sky=document.querySelector('.sky');
@@ -304,32 +302,10 @@ document.getElementById('entry-form').addEventListener('submit',event=>{
   heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});window.scrollTo(0,0);
  },reduced?0:1100);
 });
-async function createInvitationImage(){
- const artwork=document.querySelector('.art svg').innerHTML;
- const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1200" viewBox="0 0 800 1200"><defs><radialGradient id="bg"><stop stop-color="#3a1730"/><stop offset="1" stop-color="#160d1c"/></radialGradient></defs><rect width="800" height="1200" fill="url(#bg)"/><rect x="30" y="30" width="740" height="1140" rx="140" fill="none" stroke="#f5e9ce" stroke-opacity=".5"/><rect x="45" y="45" width="710" height="1110" rx="130" fill="none" stroke="#ff63bd" stroke-opacity=".35"/><g fill="#ff63bd"><path d="m100 180 4 14 14 4-14 4-4 14-4-14-14-4 14-4zm600 660 4 14 14 4-14 4-4 14-4-14-14-4 14-4z"/><circle cx="120" cy="550" r="3"/><circle cx="690" cy="310" r="3"/></g><g text-anchor="middle" font-family="Georgia,serif"><text x="400" y="112" fill="#ff63bd" font-size="16" letter-spacing="5">ESTÁS INVITADO</text><text x="400" y="183" fill="#f5e9ce" font-size="36">Una noche de miedo te espera.</text><g transform="translate(120 220) scale(1.4)">${artwork}</g><text x="400" y="590" fill="#f5e9ce" font-size="94">Spooky</text><text x="400" y="685" fill="#ff63bd" font-size="106" font-style="italic">Party</text><text x="400" y="756" fill="#f5e9ce" font-size="30">Sábado 31 de octubre de 2026</text><text x="400" y="804" fill="#ff63bd" font-size="34">9:00 p. m. · Casa de Caro</text><path d="M180 850H620" stroke="#ff63bd" stroke-opacity=".5"/><text x="400" y="903" fill="#f5e9ce" font-size="24">Solo disfraces de Halloween</text><text x="400" y="948" fill="#f5e9ce" font-size="24">Cover $150 MXN</text><text x="400" y="1015" fill="#cfbdcb" font-size="19">Disfraces, música y amigos.</text><text x="400" y="1046" fill="#cfbdcb" font-size="19">Nos vemos en casa de Caro.</text><text x="400" y="1110" fill="#cfbdcb" font-size="13">Confirma tu asistencia con el QR de la invitación web.</text></g></svg>`;
- const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
- try{
-  const image=new Image();image.src=url;await image.decode();
-  const canvas=document.createElement('canvas');canvas.width=1600;canvas.height=2400;
-  canvas.getContext('2d').drawImage(image,0,0,1600,2400);
-  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
-  if(!blob)throw new Error('No se pudo crear la imagen');
-  return new File([blob],'invitacion-spooky-party.png',{type:'image/png'});
- }finally{URL.revokeObjectURL(url);}
-}
 const photoButton=document.getElementById('save-pass');
-let invitationPhoto=null;
-photoButton.disabled=true;photoButton.textContent='Preparando imagen…';
-createInvitationImage().then(file=>{invitationPhoto=file;photoButton.disabled=false;photoButton.textContent='Guardar imagen ↓';}).catch(()=>{photoButton.textContent='No se pudo crear la imagen';});
 const photoViewer=document.getElementById('photo-viewer');
-let photoUrl=null;
-photoButton.addEventListener('click',()=>{
- if(!invitationPhoto)return;
- if(!photoUrl)photoUrl=URL.createObjectURL(invitationPhoto);
- document.getElementById('invitation-photo').src=photoUrl;
- document.getElementById('photo-download').href=photoUrl;
- photoViewer.showModal();
-});
+photoButton.textContent='Guardar imagen ↓';
+photoButton.addEventListener('click',()=>photoViewer.showModal());
 document.getElementById('close-photo').addEventListener('click',()=>photoViewer.close());
 photoViewer.addEventListener('close',()=>photoButton.focus({preventScroll:true}));
 const date=new Date('2026-10-31T21:00:00-06:00');
