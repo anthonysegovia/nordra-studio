@@ -46,9 +46,9 @@
 .opening .door-left{transform:rotateY(-105deg)}.opening .door-right{transform:rotateY(105deg)}
 .portal-fog{position:absolute;bottom:-20px;left:-50%;width:200%;height:80px;background:radial-gradient(ellipse,#e4bcd660,transparent 70%);filter:blur(14px);z-index:3;animation:fog-drift 7s ease-in-out infinite;pointer-events:none}
 @keyframes fog-drift{50%{transform:translateX(15px) scale(1.15)}}
-#entry-form{display:grid;justify-items:center;gap:10px}#entry-form label{font-size:12px;color:var(--cream)}
-#guest-name{width:min(100%,310px);border:1px solid #ff63bd55;border-radius:12px;padding:13px 16px;background:#f5e9ce05;color:var(--cream);font:inherit;font-size:16px;text-align:center}
-#guest-name:focus{outline:2px solid var(--pink);outline-offset:3px}#name-note{font-size:10px;line-height:1.6;color:#bdaabc;max-width:300px}
+#entry-form{display:grid;justify-items:center;gap:10px}
+
+
 #entry-form .primary{margin-top:6px}.primary:disabled{cursor:default}
 .guest-pass{display:grid;grid-template-columns:1fr 180px;margin:26px auto 44px;max-width:840px;border:1px solid #ff63bd55;border-radius:20px;background:linear-gradient(120deg,#ff63bd12,#f5e9ce04);overflow:hidden}
 .pass-main{padding:28px}.pass-main h2{font:500 34px/1.2 'Cormorant Garamond',serif;margin:14px 0;overflow-wrap:anywhere}.pass-main h2 span{color:var(--pink)}.pass-main p:not(.eyebrow){font-size:12px;color:#d2bfce}.pass-main small{font-size:10px;color:#bdaabc;line-height:1.7;display:block}
@@ -73,12 +73,10 @@
 <div class="gate-inner">
 <p class="eyebrow">31 de octubre · Casa de Caro</p>
 <h1>Al otro lado,<br>la noche te espera.</h1>
-<p>Una puerta. Una fiesta. Tu nombre en la lista de la noche.</p>
+<p>Una puerta. Una fiesta. Una noche que no vas a olvidar.</p>
 <div class="portal" aria-hidden="true"><div class="portal-light">✦</div><div class="door door-left"><span class="door-panel"></span><span class="door-knob"></span></div><div class="door door-right"><span class="door-panel"></span><span class="door-knob"></span></div><div class="portal-fog"></div></div>
 <form id="entry-form">
-<label for="guest-name">¿Cómo te llamas?</label>
-<input id="guest-name" name="guest" maxlength="40" placeholder="Tu nombre o apodo" autocomplete="given-name" aria-describedby="name-note">
-<small id="name-note">Opcional · Solo se usa para personalizar tu invitación en esta página.</small>
+
 <button class="primary" id="open" type="submit">Abrir la puerta <span aria-hidden="true">↗</span></button>
 </form>
 <span class="gate-note" id="entry-note">Entra… si te atreves.</span>
@@ -101,25 +99,23 @@
 <div class="ticket"><div><span class="ticket-symbol" aria-hidden="true">✦</span><small>La fecha</small><strong>31 octubre</strong><span>Sábado · 2026</span></div><div><span class="ticket-symbol" aria-hidden="true">☽</span><small>La hora</small><strong>9:00 p. m.</strong><span>Que empiece la noche</span></div><div><span class="ticket-symbol" aria-hidden="true">⌂</span><small>El lugar</small><strong>Casa de Caro</strong><span>Nos vemos ahí</span></div></div>
 </section>
 <section class="guest-pass" aria-labelledby="pass-title">
-<div class="pass-main"><p class="eyebrow">UNA INVITACIÓN SOLO PARA TI</p><h2 id="pass-title"><span id="pass-name">Tú</span>, estás invitado.</h2><p>Spooky Party · 31 de octubre de 2026</p><small>Un recuerdo de la fiesta · La asistencia se confirma con el QR.</small></div><div class="pass-stub"><span aria-hidden="true">✦</span><strong>31 / 10</strong><button id="save-pass" type="button">Guardar invitación ↓</button></div>
+<div class="pass-main"><p class="eyebrow">UNA INVITACIÓN SOLO PARA TI</p><h2 id="pass-title">Estás invitado.</h2><p>Spooky Party · 31 de octubre de 2026</p><small>Un recuerdo de la fiesta · La asistencia se confirma con el QR.</small></div><div class="pass-stub"><span aria-hidden="true">✦</span><strong>31 / 10</strong><button id="save-pass" type="button">Guardar invitación ↓</button></div>
 </section>
 <div class="countdown" aria-label="Cuenta regresiva para la fiesta"><p>EL CONJURO ESTÁ POR COMENZAR</p><div class="clock" id="clock"></div></div>
 <section class="details"><div><p class="eyebrow">La única regla</p><h2>Ven como quieras.<br><em>Pero ven disfrazado.</em></h2><p>Una noche para salir de lo cotidiano, compartir con amigos y celebrar Halloween. Prepara tu disfraz: el resto empieza cuando llegues.</p></div><div class="detail-cards"><article class="detail-card"><span>DRESS CODE</span><h3>Solo disfraces de Halloween</h3><p>Deja que tu lado más spooky haga su entrada.</p></article><article class="detail-card"><span>COVER</span><h3>$150 MXN</h3><p>Para acompañarnos en esta noche de ultratumba.</p></article></div></section>
-<section class="rsvp"><p class="eyebrow">¿Te atreves a venir?</p><h2>La noche está mejor contigo.</h2><p>Guarda la fecha y prepara tu disfraz.<br>Nos vemos el 31 de octubre.</p><a class="calendar" href="./spooky-party.ics" target="_blank" rel="noopener noreferrer" download="spooky-party.ics">Guardar en mi calendario <span aria-hidden="true">↗</span></a><div class="rsvp-qr"><img src="./invitacion-original.jpeg" alt="Código QR de la invitación original para confirmar asistencia" width="1143" height="1600"></div><p class="qr-caption">Escanea el QR para confirmar tu asistencia.</p><p class="pending">Ubicación exacta: próximamente.</p></section>
+<section class="rsvp"><p class="eyebrow">¿Te atreves a venir?</p><h2>La noche está mejor contigo.</h2><p>Guarda la fecha y prepara tu disfraz.<br>Nos vemos el 31 de octubre.</p><a class="calendar" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Spooky%20Party&amp;dates=20261101T030000Z%2F20261101T040000Z&amp;ctz=America%2FMonterrey&amp;location=Casa%20de%20Caro&amp;details=Disfraces%20de%20Halloween.%20Cover%3A%20%24150%20MXN.%20Hora%20de%20inicio%3A%2031%20de%20octubre%2C%209%3A00%20p.%20m.%20La%20hora%20de%20fin%20es%20solo%20para%20el%20recordatorio.%20Invitaci%C3%B3n%3A%20https%3A%2F%2Fnordrastudio.mx%2Finvitaciones%2Fspooky-party%2Findex.html" target="_blank" rel="noopener noreferrer">Agregar a Google Calendar <span aria-hidden="true">↗</span></a><div class="rsvp-qr"><img src="./invitacion-original.jpeg" alt="Código QR de la invitación original para confirmar asistencia" width="1143" height="1600"></div><p class="qr-caption">Escanea el QR para confirmar tu asistencia.</p><p class="pending">Ubicación exacta: próximamente.</p></section>
 <footer>Una noche de miedo. Una invitación de <span>Nordra Studio.</span></footer>
 </main>
 <script>
 const sky=document.querySelector('.sky');
 for(let i=0;i<35;i++){const star=document.createElement('i');star.style.left=(i*37%100)+'%';star.style.top=(i*23%100)+'%';star.style.animationDelay=(i%7)*.6+'s';sky.append(star);}
-let guestName='Tú';
+
 const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.getElementById('entry-form').addEventListener('submit',event=>{
  event.preventDefault();
  const gate=document.getElementById('gate');
  if(gate.classList.contains('opening'))return;
- guestName=document.getElementById('guest-name').value.trim()||'Tú';
- document.getElementById('guest-name').blur();
- document.getElementById('pass-name').textContent=guestName; document.getElementById('arrival-greeting').textContent=guestName==='Tú'?'La noche te espera.':guestName+', la noche te espera.';
+
  document.getElementById('open').disabled=true;
  document.getElementById('entry-note').textContent='La noche te da la bienvenida…';
  gate.classList.add('opening');
@@ -131,10 +127,8 @@ document.getElementById('entry-form').addEventListener('submit',event=>{
  },reduced?0:1100);
 });
 document.getElementById('save-pass').addEventListener('click',()=>{
- const safe=guestName.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
  const artwork=document.querySelector('.art svg').innerHTML;
- const nameSize=Math.min(48,Math.max(23,600/(guestName.length*.6)));
- const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1200" viewBox="0 0 800 1200"><defs><radialGradient id="bg"><stop stop-color="#3a1730"/><stop offset="1" stop-color="#160d1c"/></radialGradient></defs><rect width="800" height="1200" fill="url(#bg)"/><rect x="30" y="30" width="740" height="1140" rx="140" fill="none" stroke="#f5e9ce" stroke-opacity=".5"/><rect x="45" y="45" width="710" height="1110" rx="130" fill="none" stroke="#ff63bd" stroke-opacity=".35"/><g fill="#ff63bd"><path d="m100 180 4 14 14 4-14 4-4 14-4-14-14-4 14-4zm600 660 4 14 14 4-14 4-4 14-4-14-14-4 14-4z"/><circle cx="120" cy="550" r="3"/><circle cx="690" cy="310" r="3"/></g><g text-anchor="middle" font-family="Georgia,serif"><text x="400" y="112" fill="#ff63bd" font-size="16" letter-spacing="5">ESTÁS INVITADO</text><text x="400" y="183" fill="#f5e9ce" font-size="${nameSize}">${safe}</text><g transform="translate(120 220) scale(1.4)">${artwork}</g><text x="400" y="590" fill="#f5e9ce" font-size="94">Spooky</text><text x="400" y="685" fill="#ff63bd" font-size="106" font-style="italic">Party</text><text x="400" y="756" fill="#f5e9ce" font-size="30">Sábado 31 de octubre de 2026</text><text x="400" y="804" fill="#ff63bd" font-size="34">9:00 p. m. · Casa de Caro</text><path d="M180 850H620" stroke="#ff63bd" stroke-opacity=".5"/><text x="400" y="903" fill="#f5e9ce" font-size="24">Solo disfraces de Halloween</text><text x="400" y="948" fill="#f5e9ce" font-size="24">Cover $150 MXN</text><text x="400" y="1015" fill="#cfbdcb" font-size="19">Dulces delicias, huesos que traquetean</text><text x="400" y="1046" fill="#cfbdcb" font-size="19">y ritmos de ultratumba.</text><text x="400" y="1110" fill="#cfbdcb" font-size="13">Confirma tu asistencia con el QR de la invitación web.</text></g></svg>`;
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1200" viewBox="0 0 800 1200"><defs><radialGradient id="bg"><stop stop-color="#3a1730"/><stop offset="1" stop-color="#160d1c"/></radialGradient></defs><rect width="800" height="1200" fill="url(#bg)"/><rect x="30" y="30" width="740" height="1140" rx="140" fill="none" stroke="#f5e9ce" stroke-opacity=".5"/><rect x="45" y="45" width="710" height="1110" rx="130" fill="none" stroke="#ff63bd" stroke-opacity=".35"/><g fill="#ff63bd"><path d="m100 180 4 14 14 4-14 4-4 14-4-14-14-4 14-4zm600 660 4 14 14 4-14 4-4 14-4-14-14-4 14-4z"/><circle cx="120" cy="550" r="3"/><circle cx="690" cy="310" r="3"/></g><g text-anchor="middle" font-family="Georgia,serif"><text x="400" y="112" fill="#ff63bd" font-size="16" letter-spacing="5">ESTÁS INVITADO</text><text x="400" y="183" fill="#f5e9ce" font-size="36">Una noche de miedo te espera.</text><g transform="translate(120 220) scale(1.4)">${artwork}</g><text x="400" y="590" fill="#f5e9ce" font-size="94">Spooky</text><text x="400" y="685" fill="#ff63bd" font-size="106" font-style="italic">Party</text><text x="400" y="756" fill="#f5e9ce" font-size="30">Sábado 31 de octubre de 2026</text><text x="400" y="804" fill="#ff63bd" font-size="34">9:00 p. m. · Casa de Caro</text><path d="M180 850H620" stroke="#ff63bd" stroke-opacity=".5"/><text x="400" y="903" fill="#f5e9ce" font-size="24">Solo disfraces de Halloween</text><text x="400" y="948" fill="#f5e9ce" font-size="24">Cover $150 MXN</text><text x="400" y="1015" fill="#cfbdcb" font-size="19">Dulces delicias, huesos que traquetean</text><text x="400" y="1046" fill="#cfbdcb" font-size="19">y ritmos de ultratumba.</text><text x="400" y="1110" fill="#cfbdcb" font-size="13">Confirma tu asistencia con el QR de la invitación web.</text></g></svg>`;
  const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
  const link=document.createElement('a');link.href=url;link.download='mi-invitacion-spooky-party.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
