@@ -290,11 +290,32 @@ document.getElementById('entry-form').addEventListener('submit',event=>{
   heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});window.scrollTo(0,0);
  },reduced?0:1100);
 });
-document.getElementById('save-pass').addEventListener('click',()=>{
+async function createInvitationImage(){
  const artwork=document.querySelector('.art svg').innerHTML;
  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1200" viewBox="0 0 800 1200"><defs><radialGradient id="bg"><stop stop-color="#3a1730"/><stop offset="1" stop-color="#160d1c"/></radialGradient></defs><rect width="800" height="1200" fill="url(#bg)"/><rect x="30" y="30" width="740" height="1140" rx="140" fill="none" stroke="#f5e9ce" stroke-opacity=".5"/><rect x="45" y="45" width="710" height="1110" rx="130" fill="none" stroke="#ff63bd" stroke-opacity=".35"/><g fill="#ff63bd"><path d="m100 180 4 14 14 4-14 4-4 14-4-14-14-4 14-4zm600 660 4 14 14 4-14 4-4 14-4-14-14-4 14-4z"/><circle cx="120" cy="550" r="3"/><circle cx="690" cy="310" r="3"/></g><g text-anchor="middle" font-family="Georgia,serif"><text x="400" y="112" fill="#ff63bd" font-size="16" letter-spacing="5">ESTÁS INVITADO</text><text x="400" y="183" fill="#f5e9ce" font-size="36">Una noche de miedo te espera.</text><g transform="translate(120 220) scale(1.4)">${artwork}</g><text x="400" y="590" fill="#f5e9ce" font-size="94">Spooky</text><text x="400" y="685" fill="#ff63bd" font-size="106" font-style="italic">Party</text><text x="400" y="756" fill="#f5e9ce" font-size="30">Sábado 31 de octubre de 2026</text><text x="400" y="804" fill="#ff63bd" font-size="34">9:00 p. m. · Casa de Caro</text><path d="M180 850H620" stroke="#ff63bd" stroke-opacity=".5"/><text x="400" y="903" fill="#f5e9ce" font-size="24">Solo disfraces de Halloween</text><text x="400" y="948" fill="#f5e9ce" font-size="24">Cover $150 MXN</text><text x="400" y="1015" fill="#cfbdcb" font-size="19">Disfraces, música y amigos.</text><text x="400" y="1046" fill="#cfbdcb" font-size="19">Nos vemos en casa de Caro.</text><text x="400" y="1110" fill="#cfbdcb" font-size="13">Confirma tu asistencia con el QR de la invitación web.</text></g></svg>`;
  const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
- const link=document.createElement('a');link.href=url;link.download='mi-invitacion-spooky-party.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ try{
+  const image=new Image();image.src=url;await image.decode();
+  const canvas=document.createElement('canvas');canvas.width=1600;canvas.height=2400;
+  canvas.getContext('2d').drawImage(image,0,0,1600,2400);
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
+  if(!blob)throw new Error('No se pudo crear la imagen');
+  return new File([blob],'invitacion-spooky-party.png',{type:'image/png'});
+ }finally{URL.revokeObjectURL(url);}
+}
+const photoButton=document.getElementById('save-pass');
+let invitationPhoto=null;
+photoButton.disabled=true;photoButton.textContent='Preparando imagen…';
+createInvitationImage().then(file=>{invitationPhoto=file;photoButton.disabled=false;photoButton.textContent='Guardar imagen ↓';}).catch(()=>{photoButton.textContent='No se pudo crear la imagen';});
+photoButton.addEventListener('click',async()=>{
+ if(!invitationPhoto)return;
+ try{
+  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[invitationPhoto]})){
+   await navigator.share({files:[invitationPhoto]});return;
+  }
+ }catch(error){if(error.name==='AbortError')return;}
+ const url=URL.createObjectURL(invitationPhoto);
+ const link=document.createElement('a');link.href=url;link.download=invitationPhoto.name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
 });
 const date=new Date('2026-10-31T21:00:00-06:00');
 function countdown(){let total=Math.max(0,Math.floor((date-Date.now())/1000));const values=[Math.floor(total/86400),Math.floor(total/3600)%24,Math.floor(total/60)%60,total%60];document.getElementById('clock').innerHTML=values.map((value,i)=>'<div><strong>'+String(value).padStart(2,'0')+'</strong><small>'+['DÍAS','HORAS','MIN','SEG'][i]+'</small></div>').join('');}
