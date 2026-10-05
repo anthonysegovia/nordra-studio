@@ -1,3 +1,4 @@
+import { t, useLanguage, setLanguage } from "../../language";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "../ui/ThemeToggle";
 
@@ -15,21 +16,49 @@ function currentSection() {
 }
 
 export function Header() {
+  const language = useLanguage();
   const [activeSection, setActiveSection] = useState(currentSection);
 
   useEffect(() => {
-    const syncSection = () => setActiveSection(currentSection());
-    window.addEventListener("hashchange", syncSection);
-    return () => window.removeEventListener("hashchange", syncSection);
+    let frame = 0;
+    const syncSection = () => {
+      frame = 0;
+      const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height ?? 90;
+      const readingLine = headerHeight + Math.min(160, window.innerHeight * .2);
+      let section = navigation[0].id;
+      for (const { id } of navigation) {
+        const element = document.getElementById(id);
+        if (element && element.getBoundingClientRect().top <= readingLine) section = id;
+      }
+      // The last section may be too short to reach the reading line.
+      if (window.scrollY > 0 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+        section = navigation[navigation.length - 1].id;
+      }
+      setActiveSection(section);
+    };
+    const schedule = () => { if (!frame) frame = window.requestAnimationFrame(syncSection); };
+    const observer = new ResizeObserver(schedule);
+    observer.observe(document.body);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("hashchange", schedule);
+    schedule();
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("hashchange", schedule);
+    };
   }, []);
 
   return (
     <header className="site-header">
       <div className="site-shell header-inner">
-        <a href="#inicio" className="brand-approved" aria-label="Nordra Studio">
+        <a href="#inicio" className="brand-approved" aria-label={t("Nordra Studio")}>
           <img
             src="/nordra-header-approved.png"
-            alt="Nordra Studio"
+            alt={t("Nordra Studio")}
             className="brand-approved-image"
             data-theme="dark"
             width={2172}
@@ -37,7 +66,7 @@ export function Header() {
           />
           <img
             src="/nordra-header-approved-light.png"
-            alt="Nordra Studio"
+            alt={t("Nordra Studio")}
             className="brand-approved-image"
             data-theme="light"
             width={2172}
@@ -45,7 +74,7 @@ export function Header() {
           />
         </a>
 
-        <nav className="main-nav" aria-label="Navegación principal">
+        <nav className="main-nav" aria-label={t("Navegación principal")}>
           {navigation.map(({ id, label }) => (
             <a
               key={id}
@@ -54,15 +83,15 @@ export function Header() {
               aria-current={activeSection === id ? "location" : undefined}
               onClick={() => setActiveSection(id)}
             >
-              {label}
+              {t(label)}
             </a>
           ))}
         </nav>
 
         <div className="header-actions">
+          <button type="button" className="language-toggle" onClick={() => setLanguage(language === "es" ? "en" : "es")} aria-label={language === "es" ? "Switch to English" : "Cambiar a español"}><span className={language === "es" ? "language-active" : ""}>ES</span><span aria-hidden="true">/</span><span className={language === "en" ? "language-active" : ""}>EN</span></button>
           <ThemeToggle />
-          <a href="#contacto" className="outline-cta">
-            Contáctanos <span>→</span>
+          <a href="#contacto" className="outline-cta">{t("Contáctanos")}{" "}<span>→</span>
           </a>
         </div>
       </div>
