@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "spooky.nordrastudio.mx" }],
+      "destination": "/invitaciones/spooky-party/index.html"
+    },
+    {
+      "source": "/favicon.svg",
+      "has": [{ "type": "host", "value": "spooky.nordrastudio.mx" }],
+      "destination": "/invitaciones/spooky-party/favicon.svg"
+    },
+    {
+      "source": "/invitacion-original.jpeg",
+      "has": [{ "type": "host", "value": "spooky.nordrastudio.mx" }],
+      "destination": "/invitaciones/spooky-party/invitacion-original.jpeg"
+    }
+  ]
+}
