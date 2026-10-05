@@ -59,10 +59,16 @@
 @media(max-width:600px){.guest-pass{grid-template-columns:1fr}.pass-stub{border-left:0;border-top:1px dashed #ff63bd55;flex-direction:row;justify-content:space-between;padding:20px}.pass-main{padding:24px}.pass-main h2{font-size:30px}}
 @media(prefers-reduced-motion:reduce){.door{transition:none}}
 
+.guest-pass{grid-template-columns:1fr;text-align:center;background:radial-gradient(ellipse at 50% 0%,#ff63bd16,transparent 80%),#201225}.pass-main{padding:32px 24px 12px}.pass-stub{border:0;flex-direction:column;gap:12px;padding:12px 24px 28px}.pass-stub>span,.pass-stub>strong{display:none}#save-pass{padding:13px 23px;font-size:12px}.arrival-greeting{color:var(--pink);font:italic 500 25px/1.4 'Cormorant Garamond',serif;margin:0 0 24px;overflow-wrap:anywhere;animation:reveal 1s ease .3s both}
+.ambient-fog{position:fixed;bottom:-90px;left:-20%;width:140%;height:220px;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 25% 80%,#bc8fa020,transparent 50%),radial-gradient(ellipse at 75% 90%,#ff63bd16,transparent 50%);filter:blur(24px);animation:ambient-drift 18s ease-in-out infinite}
+.gate,.invitation{position:relative;z-index:1}@keyframes ambient-drift{50%{transform:translateX(4%) translateY(-18px)}}
+.cobweb{position:absolute;top:18px;width:95px;height:95px;opacity:.25;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23f5e9ce' stroke-width='.8'%3E%3Cpath d='M0 0V98M0 0L25 97M0 0L50 87M0 0L73 73M0 0L87 50M0 0L97 25M0 0H98M0 22Q5 25 7 26T14 24 21 18 26 10 28 0M0 44Q9 43 12 46T25 43 36 36 44 25 48 12 48 0M0 66Q11 63 17 69T36 62 53 53 64 36 70 18 72 0M0 88Q15 85 23 91T48 84 70 70 86 48 92 24 94 0'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
+.cobweb-left{left:0}.cobweb-right{right:0;transform:scaleX(-1)}.scroll-reveal{transition:opacity .75s ease,transform .75s ease}.scroll-reveal.awaiting{opacity:0;transform:translateY(24px)}
+@media(max-width:600px){.cobweb{width:55px;height:55px;opacity:.18}.arrival-greeting{font-size:23px}}@media(prefers-reduced-motion:reduce){.ambient-fog{animation:none}.scroll-reveal{transition:none}.scroll-reveal.awaiting{opacity:1;transform:none}.arrival-greeting{animation:none}}
 </style>
 </head>
 <body>
-<div class="sky" aria-hidden="true"></div>
+<div class="sky" aria-hidden="true"></div><div class="ambient-fog" aria-hidden="true"></div>
 <section class="gate" id="gate">
 <div class="gate-inner">
 <p class="eyebrow">31 de octubre · Casa de Caro</p>
@@ -72,7 +78,7 @@
 <form id="entry-form">
 <label for="guest-name">¿Cómo te llamas?</label>
 <input id="guest-name" name="guest" maxlength="40" placeholder="Tu nombre o apodo" autocomplete="given-name" aria-describedby="name-note">
-<small id="name-note">Opcional · Solo se usa para personalizar tu boleto en esta página.</small>
+<small id="name-note">Opcional · Solo se usa para personalizar tu invitación en esta página.</small>
 <button class="primary" id="open" type="submit">Abrir la puerta <span aria-hidden="true">↗</span></button>
 </form>
 <span class="gate-note" id="entry-note">Entra… si te atreves.</span>
@@ -81,7 +87,7 @@
 <main class="invitation" id="invitation" hidden>
 <header class="topbar"><span>ESTÁS INVITADO</span><span>HALLOWEEN · 2026</span></header>
 <section class="hero" aria-labelledby="party-title">
-<p class="eyebrow">Una noche fuera de este mundo</p>
+<p class="arrival-greeting" id="arrival-greeting">La noche te espera.</p><p class="eyebrow">Una noche fuera de este mundo</p><div class="cobweb cobweb-left" aria-hidden="true"></div><div class="cobweb cobweb-right" aria-hidden="true"></div>
 <h1 id="party-title">Spooky<em>Party</em></h1>
 <p class="hero-sub">Dulces delicias, huesos que traquetean<br>y ritmos de ultratumba.</p>
 <div class="art" aria-hidden="true">
@@ -95,7 +101,7 @@
 <div class="ticket"><div><span class="ticket-symbol" aria-hidden="true">✦</span><small>La fecha</small><strong>31 octubre</strong><span>Sábado · 2026</span></div><div><span class="ticket-symbol" aria-hidden="true">☽</span><small>La hora</small><strong>9:00 p. m.</strong><span>Que empiece la noche</span></div><div><span class="ticket-symbol" aria-hidden="true">⌂</span><small>El lugar</small><strong>Casa de Caro</strong><span>Nos vemos ahí</span></div></div>
 </section>
 <section class="guest-pass" aria-labelledby="pass-title">
-<div class="pass-main"><p class="eyebrow">TU BOLETO PARA UNA NOCHE DE MIEDO</p><h2 id="pass-title"><span id="pass-name">Tú</span>, estás invitado.</h2><p>Spooky Party · 31 de octubre de 2026</p><small>Un recuerdo de la fiesta · La asistencia se confirma con el QR.</small></div><div class="pass-stub"><span aria-hidden="true">✦</span><strong>31 / 10</strong><button id="save-pass" type="button">Guardar boleto ↓</button></div>
+<div class="pass-main"><p class="eyebrow">UNA INVITACIÓN SOLO PARA TI</p><h2 id="pass-title"><span id="pass-name">Tú</span>, estás invitado.</h2><p>Spooky Party · 31 de octubre de 2026</p><small>Un recuerdo de la fiesta · La asistencia se confirma con el QR.</small></div><div class="pass-stub"><span aria-hidden="true">✦</span><strong>31 / 10</strong><button id="save-pass" type="button">Guardar invitación ↓</button></div>
 </section>
 <div class="countdown" aria-label="Cuenta regresiva para la fiesta"><p>EL CONJURO ESTÁ POR COMENZAR</p><div class="clock" id="clock"></div></div>
 <section class="details"><div><p class="eyebrow">La única regla</p><h2>Ven como quieras.<br><em>Pero ven disfrazado.</em></h2><p>Una noche para salir de lo cotidiano, compartir con amigos y celebrar Halloween. Prepara tu disfraz: el resto empieza cuando llegues.</p></div><div class="detail-cards"><article class="detail-card"><span>DRESS CODE</span><h3>Solo disfraces de Halloween</h3><p>Deja que tu lado más spooky haga su entrada.</p></article><article class="detail-card"><span>COVER</span><h3>$150 MXN</h3><p>Para acompañarnos en esta noche de ultratumba.</p></article></div></section>
@@ -112,7 +118,7 @@ document.getElementById('entry-form').addEventListener('submit',event=>{
  const gate=document.getElementById('gate');
  if(gate.classList.contains('opening'))return;
  guestName=document.getElementById('guest-name').value.trim()||'Tú';
- document.getElementById('pass-name').textContent=guestName;
+ document.getElementById('pass-name').textContent=guestName; document.getElementById('arrival-greeting').textContent=guestName==='Tú'?'La noche te espera.':guestName+', la noche te espera.';
  document.getElementById('open').disabled=true;
  document.getElementById('entry-note').textContent='La noche te da la bienvenida…';
  gate.classList.add('opening');
@@ -125,12 +131,14 @@ document.getElementById('entry-form').addEventListener('submit',event=>{
 });
 document.getElementById('save-pass').addEventListener('click',()=>{
  const safe=guestName.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
- const svg='<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="550" viewBox="0 0 1000 550"><rect width="1000" height="550" rx="30" fill="#160d1c"/><rect x="20" y="20" width="960" height="510" rx="20" fill="none" stroke="#ff63bd"/><text x="60" y="90" fill="#ff63bd" font-family="Georgia" font-size="22">TU BOLETO · SPOOKY PARTY</text><text x="60" y="195" fill="#f5e9ce" font-family="Georgia" font-size="45" textLength="'+Math.min(850,guestName.length*24)+'" lengthAdjust="spacingAndGlyphs">'+safe+'</text><text x="60" y="260" fill="#ff63bd" font-family="Georgia" font-size="36">Estás invitado.</text><text x="60" y="355" fill="#f5e9ce" font-family="Georgia" font-size="26">31 de octubre de 2026 · 9:00 p. m.</text><text x="60" y="405" fill="#f5e9ce" font-family="Georgia" font-size="26">Casa de Caro · Disfraces · Cover $150 MXN</text><text x="60" y="485" fill="#cbb8c8" font-family="Georgia" font-size="16">Un recuerdo de la fiesta. Confirma tu asistencia con el QR de la invitación.</text></svg>';
+ const artwork=document.querySelector('.art svg').innerHTML;
+ const nameSize=Math.min(48,Math.max(23,600/(guestName.length*.6)));
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1200" viewBox="0 0 800 1200"><defs><radialGradient id="bg"><stop stop-color="#3a1730"/><stop offset="1" stop-color="#160d1c"/></radialGradient></defs><rect width="800" height="1200" fill="url(#bg)"/><rect x="30" y="30" width="740" height="1140" rx="140" fill="none" stroke="#f5e9ce" stroke-opacity=".5"/><rect x="45" y="45" width="710" height="1110" rx="130" fill="none" stroke="#ff63bd" stroke-opacity=".35"/><g fill="#ff63bd"><path d="m100 180 4 14 14 4-14 4-4 14-4-14-14-4 14-4zm600 660 4 14 14 4-14 4-4 14-4-14-14-4 14-4z"/><circle cx="120" cy="550" r="3"/><circle cx="690" cy="310" r="3"/></g><g text-anchor="middle" font-family="Georgia,serif"><text x="400" y="112" fill="#ff63bd" font-size="16" letter-spacing="5">ESTÁS INVITADO</text><text x="400" y="183" fill="#f5e9ce" font-size="${nameSize}">${safe}</text><g transform="translate(120 220) scale(1.4)">${artwork}</g><text x="400" y="590" fill="#f5e9ce" font-size="94">Spooky</text><text x="400" y="685" fill="#ff63bd" font-size="106" font-style="italic">Party</text><text x="400" y="756" fill="#f5e9ce" font-size="30">Sábado 31 de octubre de 2026</text><text x="400" y="804" fill="#ff63bd" font-size="34">9:00 p. m. · Casa de Caro</text><path d="M180 850H620" stroke="#ff63bd" stroke-opacity=".5"/><text x="400" y="903" fill="#f5e9ce" font-size="24">Solo disfraces de Halloween</text><text x="400" y="948" fill="#f5e9ce" font-size="24">Cover $150 MXN</text><text x="400" y="1015" fill="#cfbdcb" font-size="19">Dulces delicias, huesos que traquetean</text><text x="400" y="1046" fill="#cfbdcb" font-size="19">y ritmos de ultratumba.</text><text x="400" y="1110" fill="#cfbdcb" font-size="13">Confirma tu asistencia con el QR de la invitación web.</text></g></svg>`;
  const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
- const link=document.createElement('a');link.href=url;link.download='mi-boleto-spooky-party.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ const link=document.createElement('a');link.href=url;link.download='mi-invitacion-spooky-party.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
 const date=new Date('2026-10-31T21:00:00-06:00');
 function countdown(){let total=Math.max(0,Math.floor((date-Date.now())/1000));const values=[Math.floor(total/86400),Math.floor(total/3600)%24,Math.floor(total/60)%60,total%60];document.getElementById('clock').innerHTML=values.map((value,i)=>'<div><strong>'+String(value).padStart(2,'0')+'</strong><small>'+['DÍAS','HORAS','MIN','SEG'][i]+'</small></div>').join('');}
-countdown();setInterval(countdown,1000);
+countdown();setInterval(countdown,1000); if(!reduced && 'IntersectionObserver' in window){ const sections=document.querySelectorAll('.ticket,.guest-pass,.countdown,.details,.rsvp');const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.remove('awaiting');observer.unobserve(entry.target);}});},{threshold:.08});sections.forEach(section=>{section.classList.add('scroll-reveal','awaiting');observer.observe(section);});}
 </script>
 </body></html>
