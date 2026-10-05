@@ -2276,3 +2276,30 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .seasonal-price span { color: var(--muted); }
 @keyframes price-shine-left { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
 @media (prefers-reduced-motion: reduce) { .package-price,.seasonal-price { animation: none; background: none; color: var(--price-ink); text-shadow: none; } }
+
+/* Stable mobile invitation rows and immediate hiding of the inactive face. */
+.seasonal-flip-face { -webkit-backface-visibility: hidden; }
+.seasonal-flip-face[aria-hidden="true"] { visibility: hidden; pointer-events: none; }
+.seasonal-flip-face[aria-hidden="true"] .seasonal-art { visibility: hidden; }
+.seasonal-flip-face[aria-hidden="true"] .seasonal-art svg,.seasonal-flip-face[aria-hidden="true"] .seasonal-art svg > g,.seasonal-flip-face[aria-hidden="true"] .seasonal-art circle { animation-play-state: paused; }
+@media (max-width: 640px) {
+  .seasonal-flip-inner { transition-duration: .4s; }
+  .seasonal-flip-face > .seasonal-occasion {
+    display: grid;
+    grid-template-columns: minmax(0,1fr);
+    grid-template-rows: 20px 110px 48px 40px 44px;
+    align-content: center;
+    justify-items: center;
+    gap: 10px;
+    min-height: 380px;
+    padding: 24px 18px;
+  }
+  .seasonal-flip-face .seasonal-card-label,
+  .seasonal-flip-face .seasonal-art,
+  .seasonal-flip-face .seasonal-card-action { grid-column: auto; grid-row: auto; margin: 0; }
+  .seasonal-flip-face .seasonal-art { align-self: center; }
+  .seasonal-flip-face .seasonal-occasion strong { display: flex; align-items: center; justify-content: center; align-self: stretch; line-height: 1.3; width: 100%; }
+  .seasonal-flip-face .seasonal-caption { align-self: center; }
+  .seasonal-flip-face .seasonal-card-action { align-self: center; }
+}
+@media (prefers-reduced-motion: reduce) { .seasonal-flip-inner { transition: none; } }
