@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#160d1c">
+<title>Spooky Party · 31 de octubre</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=DM+Sans:wght@400;500;600;700&display=swap');
+:root{--pink:#ff63bd;--cream:#f5e9ce;--bg:#160d1c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--cream);font-family:'DM Sans',sans-serif}button,a{font:inherit}button{cursor:pointer}a{color:inherit}button:focus-visible,a:focus-visible{outline:2px solid var(--pink);outline-offset:5px}
+.sky{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 20%,#82335a28,transparent 65%),radial-gradient(ellipse at 10% 85%,#623e7925,transparent 50%);z-index:-1}.sky i{position:absolute;border-radius:50%;width:3px;height:3px;background:var(--cream);animation:twinkle 4s ease-in-out infinite}.sky i:nth-child(3n){background:var(--pink)}@keyframes twinkle{50%{opacity:.2;transform:scale(.7)}}
+.gate{min-height:100svh;display:grid;place-items:center;text-align:center;padding:28px}.gate-inner{max-width:520px}.eyebrow{font-size:10px;letter-spacing:.27em;text-transform:uppercase;color:var(--pink)}.seal{width:126px;height:126px;border:1px solid #ff63bd55;border-radius:50%;margin:34px auto;display:grid;place-items:center;box-shadow:0 0 60px #ff63bd15;animation:float 5s ease-in-out infinite}.seal svg{width:68px}.gate h1{font:500 clamp(42px,7vw,68px)/1.03 'Cormorant Garamond',serif;margin:0 0 20px}.gate p:not(.eyebrow){color:#d2c3ce;font-size:14px;line-height:1.8}.primary{border:1px solid var(--pink);border-radius:100px;background:var(--pink);color:#200e20;padding:16px 26px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:24px;margin-top:25px;transition:box-shadow .3s,transform .3s}.primary:hover{box-shadow:0 0 32px #ff63bd45;transform:translateY(-2px)}.gate-note{display:block;margin-top:20px;font-size:10px;letter-spacing:.12em;color:#bdaabc}
+[hidden]{display:none!important}.invitation{max-width:1100px;margin:auto;padding:28px 32px 0;animation:reveal 1s ease both}.topbar{display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:.15em;padding:14px 0 28px;border-bottom:1px solid #f5e9ce20}.topbar span:last-child{color:var(--pink)}
+.hero{position:relative;text-align:center;padding:70px 0 40px}.hero .eyebrow{color:var(--cream)}.hero h1{font:600 clamp(78px,14vw,158px)/.8 'Cormorant Garamond',serif;letter-spacing:-.07em;margin:36px 0 22px}.hero h1 em{display:block;color:var(--pink);font-weight:500;letter-spacing:-.05em}.hero-sub{font-size:13px;color:#cebbc9;letter-spacing:.04em;line-height:1.8}.art{width:min(430px,90%);margin:32px auto 0;position:relative}.art svg{width:100%;overflow:visible}.skull-left{animation:dance 4s ease-in-out infinite;transform-origin:105px 150px}.skull-right{animation:dance 4s ease-in-out -2s infinite;transform-origin:295px 150px}.spark{animation:twinkle 3s ease-in-out infinite}.cocktail{animation:float 4s ease-in-out infinite}.ticket{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid #f5e9ce40;border-radius:18px;position:relative;background:#f5e9ce04;margin:20px auto 0;max-width:740px}.ticket div{text-align:center;padding:27px 18px}.ticket div+div{border-left:1px dashed #f5e9ce35}.ticket small{font-size:9px;letter-spacing:.18em;color:#c1abba;text-transform:uppercase}.ticket strong{display:block;font:600 30px 'Cormorant Garamond',serif;margin:8px 0}.ticket span{font-size:11px;color:#d2c1cc}
+.countdown{text-align:center;margin:38px 0 70px}.countdown>p{font-size:10px;letter-spacing:.17em;color:#bba8b7}.clock{display:flex;justify-content:center;gap:28px}.clock strong{display:block;font:500 32px 'Cormorant Garamond',serif;color:var(--pink);font-variant-numeric:tabular-nums}.clock small{font-size:8px;letter-spacing:.15em}
+.details{display:grid;grid-template-columns:1fr 1fr;gap:25px;border-top:1px solid #f5e9ce20;padding:55px 0}.details h2{font:500 38px/1.1 'Cormorant Garamond',serif;margin:12px 0 20px}.details h2 em{color:var(--pink)}.details p{font-size:14px;line-height:1.9;color:#cfbdcb;max-width:440px}.detail-cards{display:grid;gap:14px}.detail-card{padding:24px;border:1px solid #f5e9ce20;border-radius:16px;background:linear-gradient(120deg,#ff63bd08,transparent)}.detail-card span{font-size:9px;color:var(--pink);letter-spacing:.16em}.detail-card h3{font:600 24px 'Cormorant Garamond',serif;margin:9px 0}.detail-card p{margin:0;font-size:12px}.rsvp{text-align:center;border:1px solid #ff63bd35;border-radius:24px;padding:48px 24px;margin:15px 0 45px;background:radial-gradient(ellipse at 50% 100%,#ff63bd15,transparent 70%)}.rsvp h2{font:500 clamp(36px,5vw,50px) 'Cormorant Garamond',serif;margin:10px 0}.rsvp p{color:#cebcca;font-size:13px;line-height:1.8}.rsvp .pending{font-size:11px;color:#bda9b9;margin:24px 0 0}.calendar{display:inline-flex;text-decoration:none;font-size:12px;align-items:center;gap:12px;padding:13px 22px;border-radius:100px;border:1px solid #f5e9ce40;margin-top:15px}.calendar:hover{border-color:var(--pink)}footer{text-align:center;padding:25px 0 35px;border-top:1px solid #f5e9ce20;font-size:10px;letter-spacing:.1em;color:#baa7b6}footer span{color:var(--pink)}
+@keyframes float{50%{transform:translateY(-7px)}}@keyframes dance{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}@keyframes reveal{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@media(max-width:600px){.invitation{padding:20px 20px 0}.hero{padding-top:48px}.hero h1{font-size:100px}.ticket div{padding:20px 8px}.ticket strong{font-size:23px}.ticket small{font-size:8px}.ticket span{font-size:9px}.details{grid-template-columns:1fr;gap:24px;padding:36px 0}.countdown{margin-bottom:42px}.rsvp{padding:36px 18px}.art{margin-top:24px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+<section class="gate" id="gate">
+<div class="gate-inner">
+<p class="eyebrow">31 de octubre · Casa de Caro</p>
+<div class="seal" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M22 43C22 8 78 8 78 43q0 19-12 24v17H34V67Q22 62 22 43" fill="#f5e9ce"/><ellipse cx="36" cy="46" rx="10" ry="12" fill="#160d1c"/><ellipse cx="64" cy="46" rx="10" ry="12" fill="#160d1c"/><path d="m50 54-6 12h12zM42 74v10m8-10v10m8-10v10" stroke="#160d1c" stroke-width="3"/></svg></div>
+<h1>Hay noches<br>que no son para dormir.</h1>
+<p>Tienes una invitación.<br>Y algo nos dice que va a estar de miedo.</p>
+<button class="primary" id="open">Abrir mi invitación <span aria-hidden="true">↗</span></button>
+<span class="gate-note">Entra… si te atreves.</span>
+</div>
+</section>
+<main class="invitation" id="invitation" hidden>
+<header class="topbar"><span>ESTÁS INVITADO</span><span>HALLOWEEN · 2026</span></header>
+<section class="hero" aria-labelledby="party-title">
+<p class="eyebrow">Una noche fuera de este mundo</p>
+<h1 id="party-title">Spooky<em>Party</em></h1>
+<p class="hero-sub">Dulces delicias, huesos que traquetean<br>y ritmos de ultratumba.</p>
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 400 210">
+<g class="skull-left"><path d="M52 78C52 8 156 8 156 78q0 33-22 44v40H75v-40Q52 110 52 78" fill="#f5e9ce"/><ellipse cx="81" cy="80" rx="17" ry="21" fill="#160d1c"/><ellipse cx="128" cy="80" rx="17" ry="21" fill="#160d1c"/><path d="m105 95-11 20h22z" fill="#160d1c"/><path d="M86 145v17m13-17v17m13-17v17m13-17v17" stroke="#160d1c" stroke-width="4"/><path d="M69 180q35 18 70 0" stroke="#ff63bd" stroke-width="5" fill="none"/></g>
+<g class="skull-right"><path d="M243 78C243 8 347 8 347 78q0 33-22 44v40h-59v-40Q243 110 243 78" fill="#f5e9ce"/><ellipse cx="272" cy="80" rx="17" ry="21" fill="#160d1c"/><ellipse cx="319" cy="80" rx="17" ry="21" fill="#160d1c"/><path d="m296 95-11 20h22z" fill="#160d1c"/><path d="M277 145v17m13-17v17m13-17v17m13-17v17" stroke="#160d1c" stroke-width="4"/><path d="M260 180q35 18 70 0" stroke="#ff63bd" stroke-width="5" fill="none"/></g>
+<g class="cocktail"><path d="m170 86 30 31 30-31z" fill="#ff63bd" stroke="#f5e9ce" stroke-width="2"/><path d="M200 117v36m-17 0h34m-33-80 26 35" stroke="#f5e9ce" stroke-width="3"/></g>
+<path class="spark" d="m29 30 3 10 10 3-10 3-3 10-3-10-10-3 10-3zm337 123 3 10 10 3-10 3-3 10-3-10-10-3 10-3z" fill="#ff63bd"/>
+</svg>
+</div>
+<div class="ticket"><div><small>La fecha</small><strong>31 octubre</strong><span>Sábado · 2026</span></div><div><small>La hora</small><strong>9:00 p. m.</strong><span>Que empiece la noche</span></div><div><small>El lugar</small><strong>Casa de Caro</strong><span>Nos vemos ahí</span></div></div>
+</section>
+<div class="countdown" aria-label="Cuenta regresiva para la fiesta"><p>EL CONJURO ESTÁ POR COMENZAR</p><div class="clock" id="clock"></div></div>
+<section class="details"><div><p class="eyebrow">La única regla</p><h2>Ven como quieras.<br><em>Pero ven disfrazado.</em></h2><p>Una noche para salir de lo cotidiano, compartir con amigos y celebrar Halloween. Prepara tu disfraz: el resto empieza cuando llegues.</p></div><div class="detail-cards"><article class="detail-card"><span>DRESS CODE</span><h3>Solo disfraces de Halloween</h3><p>Deja que tu lado más spooky haga su entrada.</p></article><article class="detail-card"><span>COVER</span><h3>$150 MXN</h3><p>Para acompañarnos en esta noche de ultratumba.</p></article></div></section>
+<section class="rsvp"><p class="eyebrow">¿Te atreves a venir?</p><h2>La noche está mejor contigo.</h2><p>Guarda la fecha y prepara tu disfraz.<br>Nos vemos el 31 de octubre.</p><a class="calendar" href="./spooky-party.ics" download>Guardar en mi calendario <span aria-hidden="true">↗</span></a><p class="pending">Confirmación de asistencia y ubicación: próximamente.</p></section>
+<footer>Una noche de miedo. Una invitación de <span>Nordra Studio.</span></footer>
+</main>
+<script>
+const sky=document.querySelector('.sky');
+for(let i=0;i<35;i++){const star=document.createElement('i');star.style.left=(i*37%100)+'%';star.style.top=(i*23%100)+'%';star.style.animationDelay=(i%7)*.6+'s';sky.append(star);}
+document.getElementById('open').addEventListener('click',()=>{document.getElementById('gate').hidden=true;document.getElementById('invitation').hidden=false;document.getElementById('party-title').setAttribute('tabindex','-1');document.getElementById('party-title').focus({preventScroll:true});window.scrollTo(0,0);});
+const date=new Date('2026-10-31T21:00:00-06:00');
+function countdown(){let total=Math.max(0,Math.floor((date-Date.now())/1000));const values=[Math.floor(total/86400),Math.floor(total/3600)%24,Math.floor(total/60)%60,total%60];document.getElementById('clock').innerHTML=values.map((value,i)=>'<div><strong>'+String(value).padStart(2,'0')+'</strong><small>'+['DÍAS','HORAS','MIN','SEG'][i]+'</small></div>').join('');}
+countdown();setInterval(countdown,1000);
+</script>
+</body></html>
