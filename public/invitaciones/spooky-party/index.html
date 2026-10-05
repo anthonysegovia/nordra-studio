@@ -217,6 +217,14 @@
 @keyframes portal-release{40%{filter:drop-shadow(0 0 35px #ff9ad5aa)}100%{filter:drop-shadow(0 0 12px #ff63bd20)}}
 @keyframes portal-light-release{0%{opacity:.6}40%{opacity:1;filter:brightness(1.8)}100%{opacity:.7;filter:brightness(1)}}
 @media(prefers-reduced-motion:reduce){.portal,#entry-form #open,.opening .portal,.opening .portal-light{animation:none}.entrance-flight{display:none}}
+.photo-viewer{width:min(620px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:20px;border:1px solid #d9a4c160;border-radius:20px;background:#211426;color:#f5e9ce;overflow:auto;box-shadow:0 20px 80px #0008}
+.photo-viewer::backdrop{background:#100914e6}
+.photo-viewer header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.photo-viewer h2{font:500 28px 'Cormorant Garamond',serif;margin:0}
+.photo-viewer button,.photo-viewer a{border:1px solid #d9a4c160;border-radius:20px;background:transparent;color:#f5e9ce;padding:9px 15px;text-decoration:none;font-size:13px}
+.photo-viewer p{font-size:14px;line-height:1.6;color:#efd2e3}
+.photo-viewer img{display:block;width:100%;height:auto;border-radius:12px;-webkit-touch-callout:default;user-select:auto;-webkit-user-select:auto}
+.photo-viewer .photo-download{display:inline-block;margin-top:16px}
 </style>
 </head>
 <body>
@@ -258,6 +266,12 @@
 <section class="rsvp"><p class="eyebrow">¿Te atreves a venir?</p><h2>La noche está mejor contigo.</h2><p>Guarda la fecha y prepara tu disfraz.<br>Nos vemos el 31 de octubre.</p><a class="calendar" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Spooky%20Party&amp;dates=20261101T030000Z%2F20261101T040000Z&amp;ctz=America%2FMonterrey&amp;location=Casa%20de%20Caro&amp;details=Disfraces%20de%20Halloween.%20Cover%3A%20%24150%20MXN.%20Hora%20de%20inicio%3A%2031%20de%20octubre%2C%209%3A00%20p.%20m.%20La%20hora%20de%20fin%20es%20solo%20para%20el%20recordatorio.%20Invitaci%C3%B3n%3A%20https%3A%2F%2Fspooky.nordrastudio.mx%2F" target="_blank" rel="noopener noreferrer">Agregar a Google Calendar <span aria-hidden="true">↗</span></a><div class="rsvp-qr"><img src="./invitacion-original.jpeg" alt="Código QR de la invitación original para confirmar asistencia" width="1143" height="1600"></div><p class="qr-caption">Escanea el QR para confirmar tu asistencia.</p><p class="pending">Ubicación exacta: próximamente.</p></section>
 <footer>Una noche de miedo. Una invitación de <span>Nordra Studio.</span></footer>
 </main>
+<dialog class="photo-viewer" id="photo-viewer" aria-labelledby="photo-viewer-title">
+<header><h2 id="photo-viewer-title">Tu invitación en imagen</h2><button type="button" id="close-photo" autofocus>Cerrar</button></header>
+<p>En iPhone, mantén pulsada la imagen y elige “Guardar en Fotos” o “Añadir a Fotos”, si aparece en el menú.</p>
+<img id="invitation-photo" alt="Invitación Spooky Party: 31 de octubre de 2026, 9:00 p. m., Casa de Caro. Disfraces de Halloween y cover de 150 pesos.">
+<a class="photo-download" id="photo-download" download="invitacion-spooky-party.png">Descargar imagen</a>
+</dialog>
 <script>
 const sky=document.querySelector('.sky');
 for(let i=0;i<35;i++){const star=document.createElement('i');star.style.left=(i*37%100)+'%';star.style.top=(i*23%100)+'%';star.style.animationDelay=(i%7)*.6+'s';sky.append(star);}
@@ -307,16 +321,17 @@ const photoButton=document.getElementById('save-pass');
 let invitationPhoto=null;
 photoButton.disabled=true;photoButton.textContent='Preparando imagen…';
 createInvitationImage().then(file=>{invitationPhoto=file;photoButton.disabled=false;photoButton.textContent='Guardar imagen ↓';}).catch(()=>{photoButton.textContent='No se pudo crear la imagen';});
-photoButton.addEventListener('click',async()=>{
+const photoViewer=document.getElementById('photo-viewer');
+let photoUrl=null;
+photoButton.addEventListener('click',()=>{
  if(!invitationPhoto)return;
- try{
-  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[invitationPhoto]})){
-   await navigator.share({files:[invitationPhoto]});return;
-  }
- }catch(error){if(error.name==='AbortError')return;}
- const url=URL.createObjectURL(invitationPhoto);
- const link=document.createElement('a');link.href=url;link.download=invitationPhoto.name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+ if(!photoUrl)photoUrl=URL.createObjectURL(invitationPhoto);
+ document.getElementById('invitation-photo').src=photoUrl;
+ document.getElementById('photo-download').href=photoUrl;
+ photoViewer.showModal();
 });
+document.getElementById('close-photo').addEventListener('click',()=>photoViewer.close());
+photoViewer.addEventListener('close',()=>photoButton.focus({preventScroll:true}));
 const date=new Date('2026-10-31T21:00:00-06:00');
 function countdown(){let total=Math.max(0,Math.floor((date-Date.now())/1000));const values=[Math.floor(total/86400),Math.floor(total/3600)%24,Math.floor(total/60)%60,total%60];document.getElementById('clock').innerHTML=values.map((value,i)=>'<div><strong>'+String(value).padStart(2,'0')+'</strong><small>'+['DÍAS','HORAS','MIN','SEG'][i]+'</small></div>').join('');}
 countdown();setInterval(countdown,1000); if(!reduced && 'IntersectionObserver' in window){ const sections=document.querySelectorAll('.ticket,.guest-pass,.countdown,.details,.rsvp');const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.remove('awaiting');observer.unobserve(entry.target);}});},{threshold:.08});sections.forEach(section=>{section.classList.add('scroll-reveal','awaiting');observer.observe(section);});}
