@@ -1,19 +1,20 @@
 {
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
+      "src": "^/$",
       "has": [{ "type": "host", "value": "spooky.nordrastudio.mx" }],
-      "destination": "/invitaciones/spooky-party/index.html"
+      "dest": "/invitaciones/spooky-party/index.html"
     },
     {
-      "source": "/favicon.svg",
+      "src": "^/favicon\\.svg$",
       "has": [{ "type": "host", "value": "spooky.nordrastudio.mx" }],
-      "destination": "/invitaciones/spooky-party/favicon.svg"
+      "dest": "/invitaciones/spooky-party/favicon.svg"
     },
     {
-      "source": "/invitacion-original.jpeg",
+      "src": "^/invitacion-original\\.jpeg$",
       "has": [{ "type": "host", "value": "spooky.nordrastudio.mx" }],
-      "destination": "/invitaciones/spooky-party/invitacion-original.jpeg"
-    }
+      "dest": "/invitaciones/spooky-party/invitacion-original.jpeg"
+    },
+    { "handle": "filesystem" }
   ]
 }
