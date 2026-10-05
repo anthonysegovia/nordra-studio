@@ -47,7 +47,7 @@
 .portal-fog{position:absolute;bottom:-20px;left:-50%;width:200%;height:80px;background:radial-gradient(ellipse,#e4bcd660,transparent 70%);filter:blur(14px);z-index:3;animation:fog-drift 7s ease-in-out infinite;pointer-events:none}
 @keyframes fog-drift{50%{transform:translateX(15px) scale(1.15)}}
 #entry-form{display:grid;justify-items:center;gap:10px}#entry-form label{font-size:12px;color:var(--cream)}
-#guest-name{width:min(100%,310px);border:1px solid #ff63bd55;border-radius:12px;padding:13px 16px;background:#f5e9ce05;color:var(--cream);font:inherit;font-size:14px;text-align:center}
+#guest-name{width:min(100%,310px);border:1px solid #ff63bd55;border-radius:12px;padding:13px 16px;background:#f5e9ce05;color:var(--cream);font:inherit;font-size:16px;text-align:center}
 #guest-name:focus{outline:2px solid var(--pink);outline-offset:3px}#name-note{font-size:10px;line-height:1.6;color:#bdaabc;max-width:300px}
 #entry-form .primary{margin-top:6px}.primary:disabled{cursor:default}
 .guest-pass{display:grid;grid-template-columns:1fr 180px;margin:26px auto 44px;max-width:840px;border:1px solid #ff63bd55;border-radius:20px;background:linear-gradient(120deg,#ff63bd12,#f5e9ce04);overflow:hidden}
@@ -118,6 +118,7 @@ document.getElementById('entry-form').addEventListener('submit',event=>{
  const gate=document.getElementById('gate');
  if(gate.classList.contains('opening'))return;
  guestName=document.getElementById('guest-name').value.trim()||'Tú';
+ document.getElementById('guest-name').blur();
  document.getElementById('pass-name').textContent=guestName; document.getElementById('arrival-greeting').textContent=guestName==='Tú'?'La noche te espera.':guestName+', la noche te espera.';
  document.getElementById('open').disabled=true;
  document.getElementById('entry-note').textContent='La noche te da la bienvenida…';
