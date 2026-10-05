@@ -2303,3 +2303,112 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .seasonal-flip-face .seasonal-card-action { align-self: center; }
 }
 @media (prefers-reduced-motion: reduce) { .seasonal-flip-inner { transition: none; } }
+
+/* Both faces share the same invitation silhouette. */
+.seasonal-flip-back { border-radius: 100px 100px 20px 20px; padding-top: 48px; }
+@media (max-width: 640px) { .seasonal-flip-back { border-radius: 20px; padding-top: 22px; } }
+
+/* Keep each face visible until the rotation reaches its edge. */
+.seasonal-flip-face {
+  transform: translateZ(1px);
+  visibility: visible;
+  transition: visibility 0s linear;
+}
+.seasonal-flip-back { transform: rotateY(180deg) translateZ(1px); }
+.seasonal-flip-face[aria-hidden="true"] {
+  visibility: hidden;
+  transition-delay: .325s;
+}
+.seasonal-flip-face[aria-hidden="true"] .seasonal-art { visibility: inherit; }
+@media (max-width: 640px) { .seasonal-flip-face[aria-hidden="true"] { transition-delay: .2s; } }
+@media (prefers-reduced-motion: reduce) { .seasonal-flip-face[aria-hidden="true"] { transition-delay: 0s; } }
+.seasonal-flip-inner { transition-timing-function: ease-in-out; }
+
+/* Event-specific decorations frame both sides of each invitation. */
+.seasonal-flip-face { position: relative; }
+.seasonal-flip-face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 100px 100px 20px 20px;
+  background-repeat: no-repeat;
+  background-position: left 8px top 36px,right 8px bottom 20px;
+  background-size: 42px 130px;
+  opacity: .85;
+}
+.seasonal-occasion-0 .seasonal-flip-face::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 130'%3E%3Cpath d='M9 125Q30 90 13 60T25 5M15 63Q39 58 30 42' fill='none' stroke='%235d9567' stroke-width='2'/%3E%3Cpath d='M15 104Q-2 95 4 79Q23 82 15 104M18 85Q38 79 34 65Q17 65 18 85M13 55Q-1 46 5 31Q23 36 13 55M17 30Q36 26 33 12Q16 12 17 30' fill='%237cae6a'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 130'%3E%3Cpath d='M9 125Q30 90 13 60T25 5' fill='none' stroke='%235d9567' stroke-width='2'/%3E%3Cpath d='M15 104Q-2 95 4 79Q23 82 15 104M18 85Q38 79 34 65Q17 65 18 85M13 55Q-1 46 5 31Q23 36 13 55M17 30Q36 26 33 12Q16 12 17 30' fill='%237cae6a'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 130'%3E%3Cpath d='M33 125Q12 90 29 60T17 5' fill='none' stroke='%235d9567' stroke-width='2'/%3E%3Cpath d='M27 104Q44 95 38 79Q19 82 27 104M24 85Q4 79 8 65Q25 65 24 85M29 55Q43 46 37 31Q19 36 29 55' fill='%237cae6a'/%3E%3C/svg%3E");
+}
+.seasonal-occasion-1 .seasonal-flip-face::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 130'%3E%3Cpath d='M18 0Q5 30 18 65T18 130' fill='none' stroke='%23709978' stroke-width='2'/%3E%3Cg fill='%23f5cf72'%3E%3Cellipse cx='12' cy='22' rx='4' ry='7'/%3E%3Cellipse cx='23' cy='89' rx='4' ry='7'/%3E%3C/g%3E%3Cellipse cx='13' cy='56' rx='4' ry='7' fill='%23e68b99'/%3E%3Cellipse cx='17' cy='120' rx='4' ry='7' fill='%237dd6b5'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 130'%3E%3Cpath d='M24 0Q37 30 24 65T24 130' fill='none' stroke='%23709978' stroke-width='2'/%3E%3Cg fill='%23f5cf72'%3E%3Cellipse cx='30' cy='22' rx='4' ry='7'/%3E%3Cellipse cx='19' cy='89' rx='4' ry='7'/%3E%3C/g%3E%3Cellipse cx='29' cy='56' rx='4' ry='7' fill='%237dd6b5'/%3E%3Cellipse cx='25' cy='120' rx='4' ry='7' fill='%23e68b99'/%3E%3C/svg%3E");
+}
+.seasonal-occasion-2 .seasonal-flip-face::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 130'%3E%3Cpath d='m16 10 3 8 8 3-8 3-3 8-3-8-8-3 8-3zm9 62 2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23edc87e'/%3E%3Cpath d='m9 47 5 7m13 57-4 8' stroke='%23bc8be2' stroke-width='3'/%3E%3Ccircle cx='25' cy='43' r='2' fill='%23edc87e'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 130'%3E%3Cpath d='m26 10 3 8 8 3-8 3-3 8-3-8-8-3 8-3zm-9 62 2 6 6 2-6 2-2 6-2-6-6-2 6-2z' fill='%23edc87e'/%3E%3Cpath d='m33 47-5 7m-13 57 4 8' stroke='%23bc8be2' stroke-width='3'/%3E%3C/svg%3E");
+}
+.seasonal-flip-back { padding-left: 42px; padding-right: 42px; }
+@media (max-width: 640px) { .seasonal-flip-face::after { border-radius: 20px; background-position: left 3px top 20px,right 3px bottom 20px; background-size: 30px 110px; } .seasonal-flip-back { padding-left: 34px; padding-right: 34px; } }
+
+/* Dimensional garlands wrap around and project beyond the card edges. */
+.seasonal-flip-face::after {
+  inset: -16px;
+  border-radius: inherit;
+  background-size: 100% 100%;
+  background-position: center;
+  opacity: 1;
+  z-index: 2;
+}
+.seasonal-occasion-0 .seasonal-flip-face::after { background-image: url('/seasonal-frame-halloween.svg'); }
+.seasonal-occasion-1 .seasonal-flip-face::after { background-image: url('/seasonal-frame-christmas.svg'); }
+.seasonal-occasion-2 .seasonal-flip-face::after { background-image: url('/seasonal-frame-newyear.svg'); }
+.seasonal-occasions { gap: 28px; }
+@media (max-width: 640px) {
+  .seasonal-occasions { gap: 28px; }
+  .seasonal-flip-face::after { inset: -10px; background-size: 100% 100%; background-position: center; }
+}
+@media (max-width: 640px) {
+  .seasonal-occasion-0 .seasonal-flip-face::after { background-image: url('/seasonal-frame-halloween-mobile.svg'); }
+  .seasonal-occasion-1 .seasonal-flip-face::after { background-image: url('/seasonal-frame-christmas-mobile.svg'); }
+  .seasonal-occasion-2 .seasonal-flip-face::after { background-image: url('/seasonal-frame-newyear-mobile.svg'); }
+}
+
+/* Small corner accents replace the continuous decorative frame. */
+.seasonal-flip-face::after {
+  inset: -8px;
+  background-size: 54px 125px,54px 125px;
+  background-position: left 2px top 66px,right 2px bottom 18px;
+  background-repeat: no-repeat;
+  opacity: .8;
+}
+.seasonal-occasion-0 .seasonal-flip-face::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 54 125'%3E%3Cdefs%3E%3ClinearGradient id='l' x2='1' y2='1'%3E%3Cstop stop-color='%23a9c782'/%3E%3Cstop offset='1' stop-color='%234b7753'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M16 117Q28 80 18 45T33 8' fill='none' stroke='%23708d61' stroke-width='1.5'/%3E%3Cpath d='M19 85Q0 81 7 65Q24 68 19 85M20 57Q41 49 35 35Q20 38 20 57M23 30Q6 25 14 13Q28 17 23 30' fill='url(%23l)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 54 125'%3E%3Cpath d='M37 10Q24 48 35 80T21 116' fill='none' stroke='%23708d61' stroke-width='1.5'/%3E%3Cpath d='M32 49Q49 51 44 68Q28 65 32 49M33 80Q10 88 17 101Q32 100 33 80' fill='%238aac71'/%3E%3C/svg%3E");
+}
+.seasonal-occasion-1 .seasonal-flip-face::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 54 125'%3E%3Cpath d='M34 8Q5 50 25 110' fill='none' stroke='%2357806d' stroke-width='1.5'/%3E%3Cellipse cx='24' cy='28' rx='3' ry='6' fill='%23f7d28b'/%3E%3Cellipse cx='16' cy='58' rx='3' ry='6' fill='%23d88797'/%3E%3Cellipse cx='20' cy='90' rx='3' ry='6' fill='%239bdbc4'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 54 125'%3E%3Cpath d='M30 12Q48 70 18 114' fill='none' stroke='%2357806d' stroke-width='1.5'/%3E%3Cellipse cx='34' cy='33' rx='3' ry='6' fill='%239bdbc4'/%3E%3Cellipse cx='35' cy='65' rx='3' ry='6' fill='%23f7d28b'/%3E%3Cellipse cx='26' cy='96' rx='3' ry='6' fill='%23d88797'/%3E%3C/svg%3E");
+}
+.seasonal-occasion-2 .seasonal-flip-face::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 54 125'%3E%3Cpath d='m28 22 2 7 7 2-7 2-2 7-2-7-7-2 7-2zm-12 40 2 5 5 2-5 2-2 5-2-5-5-2 5-2z' fill='%23dfbf82'/%3E%3Ccircle cx='25' cy='93' r='1.5' fill='%23c39cdc'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 54 125'%3E%3Cpath d='m33 82 2 7 7 2-7 2-2 7-2-7-7-2 7-2zm5-42 2 5 5 2-5 2-2 5-2-5-5-2 5-2z' fill='%23dfbf82'/%3E%3Ccircle cx='29' cy='23' r='1.5' fill='%23c39cdc'/%3E%3C/svg%3E");
+}
+.seasonal-flip-face::after { filter: drop-shadow(2px 3px 2px #00000035); }
+@media (max-width: 640px) {
+  .seasonal-flip-face::after { background-size: 40px 100px,40px 100px; background-position: left 0 top 14px,right 0 bottom 14px; }
+}
+
+/* A short entrance welcomes visitors without blocking navigation. */
+.site-header { animation: page-header-enter .7s ease-out both; }
+.site-header .brand-approved { animation: page-logo-glow 1.2s ease-out; }
+.hero-copy > .eyebrow { animation: page-content-enter .7s ease-out .1s both; }
+.hero-copy h1 { animation: page-content-enter .8s ease-out .18s both; }
+.hero-description { animation: page-content-enter .8s ease-out .28s both; }
+.hero-actions { animation: page-content-enter .8s ease-out .38s both; }
+.hero-benefits { animation: page-content-enter .8s ease-out .48s both; }
+.hero-visual { animation: page-content-enter 1s ease-out .25s both; }
+.scroll-aurora { animation: page-aurora-enter 1.2s ease-out both; }
+@keyframes page-header-enter { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes page-content-enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes page-logo-glow { 0% { filter: drop-shadow(0 0 0 transparent); } 45% { filter: drop-shadow(0 0 12px #38cfe080); } 100% { filter: drop-shadow(0 0 0 transparent); } }
+@keyframes page-aurora-enter { from { opacity: .25; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .site-header,.site-header .brand-approved,.hero-copy > .eyebrow,.hero-copy h1,.hero-description,.hero-actions,.hero-benefits,.hero-visual,.scroll-aurora { animation: none; }
+}
