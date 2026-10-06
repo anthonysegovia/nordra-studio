@@ -1,5 +1,5 @@
 import { t, useLanguage } from "../language";
-import { BarChart3, Box, Zap } from "lucide-react";
+import { BarChart3, Box, Zap, Coffee, Ruler, TrendingUp, Heart, Sparkles, ArrowUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const demos = [
@@ -42,6 +42,8 @@ const eventDemos = [
     return () => window.clearInterval(timer);
   }, [paused, hovered, reducedMotion, activeDemo]);
   const demo = demos[activeDemo];
+  const PhotoIcon = [Coffee, Ruler, TrendingUp][activeDemo];
+  const photoNotes = language === "en" ? ["Origin & ritual", "Light & texture", "Vision & strategy"] : ["Origen y ritual", "Luz y textura", "Visión y estrategia"];
   const eventDemo = eventDemos[activeDemo];
   return (
     <section id="inicio" className="hero-section hero-section-v6">
@@ -102,7 +104,9 @@ const eventDemos = [
             <div className="desktop-demo" aria-hidden="true">
               <div className="demo-browser"><span /><span /><span /><div>{t("vista previa · negocio")}</div></div>
               <div key={activeDemo} className={`outdoor-demo coffee-demo demo-variant-${activeDemo}`}>
-                <div className={`business-photo business-photo-${activeDemo}`}><img src={businessPhotos[activeDemo]} alt="" width={1024} height={1536} /><span className="business-photo-label">{t(demo.subtitle)}</span></div>
+                <div className={`business-photo business-photo-${activeDemo}`}><img src={businessPhotos[activeDemo]} alt="" width={1024} height={1536} /><span className="business-photo-label">{t(demo.subtitle)}</span><span className="business-photo-stamp"><PhotoIcon size={15} /><small>0{activeDemo + 1}</small></span></div>
+                <div className={`business-detail business-detail-${activeDemo}`}><img src={businessPhotos[activeDemo]} alt="" width={1024} height={1536} /><span>{photoNotes[activeDemo]}</span></div>
+                <div className="demo-editorial-detail">{activeDemo === 0 ? <><Coffee size={20} /><strong>BRUMA / 01</strong><span>{language === "en" ? "Notes of cacao & caramel" : "Notas de cacao y caramelo"}</span><small>{language === "en" ? "Slow mornings. Great coffee." : "Mañanas lentas. Gran café."}</small></> : activeDemo === 1 ? <><span>{language === "en" ? "SELECTED PROJECT / 01" : "PROYECTO SELECCIONADO / 01"}</span><strong>Casa Olivo</strong><small>{language === "en" ? "Warmth in every corner" : "Calidez en cada rincón"}</small></> : <><span>{language === "en" ? "FROM IDEA TO ACTION" : "DE LA IDEA A LA ACCIÓN"}</span><div className="demo-strategy-chart"><i /><i /><i /><i /><i /></div><strong>{language === "en" ? "A clear path forward" : "Un camino claro para crecer"}</strong><small>{language === "en" ? "Diagnose · Plan · Act" : "Diagnóstico · Plan · Acción"}</small></>}</div>
                 <div className="outdoor-navigation"><strong>{demo.brand}<span>{t(demo.subtitle)}</span></strong><span>{t("Nosotros")} &nbsp; {t("Soluciones")} &nbsp; {t("Contacto")}</span><span className="outdoor-menu">↗</span></div>
                 <div className="outdoor-copy">
                   <span className="outdoor-kicker">{t(demo.kicker)}</span>
@@ -116,12 +120,15 @@ const eventDemos = [
             <div className="phone-demo" aria-hidden="true">
               <div className="phone-speaker" />
               <div key={activeDemo} className={`event-demo event-variant-${activeDemo}`}>
-                <span className="event-monogram">{eventDemo.monogram}</span>
+                <span className="event-monogram">{activeDemo === 0 ? "THE WEDDING" : activeDemo === 1 ? "BIRTHDAY CLUB" : "EN / CREATIVE SESSION"}</span>
                 <div className="event-arch"><img src={eventPhotos[activeDemo]} alt="" width={1024} height={1536} /><span>{eventDemo.message}</span></div>
+                <div className="hero-invite-ornament">{activeDemo === 0 ? <Heart size={11} /> : activeDemo === 1 ? <Sparkles size={12} /> : <ArrowUpRight size={12} />}</div>
                 <span className="event-kicker">{t(eventDemo.kicker)}</span>
                 <h3>{eventDemo.title}</h3>
                 <p>{t(eventDemo.description)}</p>
+                <div className="hero-invite-details"><strong>{activeDemo === 0 ? "18 / 09 / 27" : activeDemo === 1 ? "24 JUL · 19:00" : "12 JUN · 10:00"}</strong><span>{activeDemo === 0 ? "JARDÍN MAGNOLIA" : activeDemo === 1 ? "TERRAZA AURORA" : "ESPACIO NODO"}</span></div>
                 <span className="event-demo-button">{t(eventDemo.button)}</span>
+                {activeDemo === 2 && <div className="hero-pass-barcode" />}
               </div>
             </div>
             <div className="showcase-caption">{t("DISEÑOS DE EJEMPLO")}<span>{t(demo.name)} + {t("eventos")}</span></div>
