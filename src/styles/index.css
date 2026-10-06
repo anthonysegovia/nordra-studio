@@ -3000,3 +3000,94 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .event-choice-copy > span { color: #d5dcd8; }
 .event-choice-copy > small { color: #d3e4db; border-top-color: #d3e4db33; }
 .event-choice-gallery .event-choice[aria-expanded="true"] { border-color: #9bcdbb; box-shadow: 0 0 0 2px #9bcdbb33,0 15px 35px #182c3622; }
+.event-plan-kicker { display: block; margin-bottom: 7px; color: var(--muted); font-size: 9px; font-weight: 500; letter-spacing: .18em; }
+.event-care-heading h4 { max-width: none; margin-bottom: 0; }
+.event-care-intro { margin: 10px 0 0; font-size: 16px; line-height: 1.6; color: #87705d; }
+.dark .event-care-intro { color: #c1ab9a; }
+/* NEXO: an expressive strategy studio with an abstract visual system. */
+.demo-variant-2 { background: #131d32; color: #f4f1ff; }
+.demo-variant-2 .outdoor-navigation > span { color: #c5d1e5; }
+.demo-variant-2 .outdoor-navigation strong { letter-spacing: .22em; }
+.demo-variant-2 .outdoor-kicker { color: #b5e6b4; }
+.demo-variant-2 .outdoor-copy h2 { color: #f4f1ff; font-weight: 600; letter-spacing: -.055em; }
+.demo-variant-2 .outdoor-copy h2 em { color: #c6e4a2; }
+.demo-variant-2 .outdoor-copy p { color: #bac8dc; }
+.demo-variant-2 .outdoor-button { background: #c6e4a2; color: #17263a; }
+.demo-variant-2 .business-photo { top: 75px; right: 14px; width: 39%; height: 150px; overflow: hidden; border-radius: 50%; background: radial-gradient(circle at 35% 30%,#dcc7ff,#8c83db 40%,#445d91 75%,#263b59); box-shadow: inset -12px -15px 25px #15264477,0 0 40px #9b88e12b; }
+.demo-variant-2 .business-photo img { display: none; }
+.demo-variant-2 .business-photo::before { content: ''; position: absolute; inset: 27% -15%; border: 9px solid #cceda3; border-radius: 50%; transform: rotate(-35deg); box-shadow: 0 3px 12px #1a283b55,inset 0 3px 8px #1a283b55; }
+.demo-variant-2 .business-photo::after { inset: 13%; border: 1px solid #eef0ff77; border-radius: 50%; background: none; transform: rotate(35deg) scaleX(.5); }
+.demo-variant-2 .demo-editorial-detail { top: 224px; right: 14px; width: 39%; background: #ffffff0d; border: 1px solid #b9cbe033; border-radius: 10px; color: #f0f4ff; box-shadow: 0 8px 24px #0002; }
+.demo-variant-2 .demo-editorial-detail > span { color: #c6e4a2; }
+.demo-variant-2 .demo-strategy-chart { height: 30px; }
+.demo-variant-2 .demo-strategy-chart i { background: linear-gradient(0deg,#759cb4,#c6e4a2); }
+.demo-variant-2 .outdoor-footer { color: #c7d3e5; }
+@media (max-width: 640px) { .demo-variant-2 .business-photo { top: 66px; right: 8px; width: 35%; height: 110px; } .demo-variant-2 .business-photo::before { border-width: 6px; } .demo-variant-2 .demo-editorial-detail { top: 182px; right: 8px; width: 35%; padding: 8px; } .demo-variant-2 .demo-strategy-chart { height: 24px; } }
+/* A calmer daylight palette with restrained northern-light accents. */
+:root:not(.dark) { --bg: #f7f7f4; --surface: rgba(255,255,252,.9); --surface-strong: #fffefa; --text: #24313c; --muted: #66716f; --border: rgba(55,75,72,.13); --header: rgba(249,249,246,.9); --cyan: #579eaa; --cyan-2: #69aeb6; --blue: #537c9f; --violet: #89769e; --pink: #ad88a5; --shadow: 0 15px 45px rgba(38,56,53,.06); }
+:root:not(.dark) .scroll-aurora { background: radial-gradient(ellipse at 90% 25%,rgb(var(--aurora-color) / .055),transparent 62%),radial-gradient(ellipse at 5% 80%,rgb(var(--aurora-secondary) / .045),transparent 65%),var(--bg); }
+:root:not(.dark) .scroll-aurora-curtain { opacity: .25; }
+:root:not(.dark) .hero-backdrop .aurora { opacity: .2; }
+:root:not(.dark) .package-card { background: linear-gradient(155deg,color-mix(in srgb,var(--package-tint) 4%,var(--surface-strong)),var(--surface-strong) 60%); }
+:root:not(.dark) .event-plan { background: linear-gradient(145deg,#f7f3eb,var(--surface-strong) 70%); }
+:root:not(.dark) .event-plan-1 { background: linear-gradient(145deg,#f4f0f6,var(--surface-strong) 70%); }
+:root:not(.dark) .event-plan-2 { background: linear-gradient(145deg,#f0f4ef,var(--surface-strong) 70%); }
+:root:not(.dark) .showcase-aura { opacity: .4; }
+/* Daylight illustration inks remain visible on pale invitation paper. */
+:root:not(.dark) .seasonal-occasion-2 .seasonal-art svg > g:first-child { stroke: #8057a3; }
+:root:not(.dark) .seasonal-occasion-2 .seasonal-art svg > g:first-child path[stroke] { stroke: #a17b35; }
+:root:not(.dark) .seasonal-occasion-2 .seasonal-art svg > g:last-child { stroke: #956e30; fill: #d9b96f26; }
+:root:not(.dark) .seasonal-occasion-2 .seasonal-art svg { stroke-width: 2.3; }
+:root:not(.dark) .seasonal-occasion-2 .seasonal-art svg > g:first-child { animation-name: fireworks-daylight; }
+@keyframes fireworks-daylight { 0%,100% { opacity: .8; transform: scale(.95); } 50% { opacity: 1; transform: scale(1.05); } }
+@media (prefers-reduced-motion: reduce) { :root:not(.dark) .seasonal-occasion-2 .seasonal-art svg > g:first-child { animation: none; } }
+/* Event plan prices share the gentle business-package highlight. */
+.event-plan-price { background-image: linear-gradient(90deg,var(--text) 0%,var(--text) 40%,color-mix(in srgb,var(--violet) 55%,var(--text)) 50%,var(--text) 60%,var(--text) 100%); background-size: 250% 100%; background-clip: text; -webkit-background-clip: text; color: transparent; animation: price-shine-left 3.5s linear infinite; }
+.event-plan-price small { color: var(--text); }
+.event-plan-price > span { color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .event-plan-price { animation: none; background: none; color: var(--text); } }
+/* A warm, connected set of principles for the studio. */
+.about-section .about-principles { position: relative; padding: 32px; border-radius: 28px; background: linear-gradient(145deg,color-mix(in srgb,#e9d9bf 20%,var(--surface-strong)),var(--surface)); box-shadow: 0 15px 40px #5d47300a; }
+.about-principles-label { margin-bottom: 25px; color: var(--text); font-size: 10px; letter-spacing: .16em; }
+.about-principle { position: relative; border: 1px solid var(--border); border-radius: 18px; padding: 22px; margin-top: 14px; gap: 18px; background: color-mix(in srgb,#ead8be 14%,var(--surface-strong)); transition: transform .3s ease,box-shadow .3s ease; }
+.about-principle:nth-of-type(2) { background: color-mix(in srgb,#dfcfe7 18%,var(--surface-strong)); }
+.about-principle:nth-of-type(3) { background: color-mix(in srgb,#cde0d4 18%,var(--surface-strong)); }
+.about-principle:last-child { padding-bottom: 22px; }
+.about-principle:hover { transform: translateY(-3px); box-shadow: 0 8px 20px #5d473010; }
+.about-principle > svg { width: 23px; height: 23px; padding: 12px; border-radius: 50% 50% 12px 12px; color: #926d43; background: #d5b78622; border: 1px solid #bda47f55; }
+.about-principle:nth-of-type(2) > svg { color: #8b679d; background: #c1a6d022; border-color: #bba0cd55; }
+.about-principle:nth-of-type(3) > svg { color: #528373; background: #9bc2ac22; border-color: #9bc2ac55; }
+.about-principle h3 { font: 400 22px/1.25 Georgia,serif; letter-spacing: -.025em; margin-bottom: 10px; }
+.about-principle p { font-size: 14px; line-height: 1.8; color: var(--muted); }
+.dark .about-principle > svg { color: #e0bf92; }.dark .about-principle:nth-of-type(2) > svg { color: #d4adeb; }.dark .about-principle:nth-of-type(3) > svg { color: #a7dac5; }
+@media (max-width: 640px) { .about-section .about-principles { padding: 24px 18px; }.about-principle { padding: 18px 14px; gap: 13px; }.about-principle:last-child { padding-bottom: 18px; }.about-principle h3 { font-size: 20px; }.about-principle > svg { padding: 9px; width: 20px; height: 20px; } }
+@media (prefers-reduced-motion: reduce) { .about-principle { transition: none; }.about-principle:hover { transform: none; } }
+/* Event pricing starts with a compact invitation to explore. */
+details.event-plan { display: block; padding: 0; interpolate-size: allow-keywords; }
+.event-plans-grid { align-items: start; }
+.event-plan-summary { display: block; padding: 28px; cursor: pointer; list-style: none; }
+.event-plan-summary::-webkit-details-marker { display: none; }
+.event-plan-summary:focus-visible { outline: 2px solid var(--violet); outline-offset: -5px; border-radius: 27px; }
+.event-plan-summary .event-plan-subtitle { min-height: 5.4em; margin-bottom: 20px; }
+.event-plan-explore { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 15px; border-top: 1px solid var(--border); color: var(--text); font-size: 12px; }
+.event-plan-explore svg { transition: transform .4s ease; }
+.event-plan[open] .event-plan-explore svg { transform: rotate(180deg); }
+.event-plan-content { padding: 0 28px 28px; }
+.event-plan-content .event-plan-price { margin: 0 0 22px; }
+.event-plan-content a { margin-top: 0; }
+.event-plan::details-content { height: 0; opacity: 0; overflow: hidden; transition: height .4s cubic-bezier(.22,1,.36,1),opacity .3s ease,content-visibility .4s; transition-behavior: allow-discrete; }
+.event-plan[open]::details-content { height: auto; opacity: 1; }
+@media (max-width: 900px) { .event-plan-summary .event-plan-subtitle { min-height: 0; } }
+@media (prefers-reduced-motion: reduce) { .event-plan::details-content,.event-plan-explore svg { transition: none; } }
+/* Clear disclosure affordances for celebration cards. */
+.event-choice-copy > small { border: 1px solid #f2f4ed77; padding: 12px 14px; border-radius: 12px; background: #f8f8efee; color: #263d42; font-size: 12px; font-weight: 500; margin-top: 3px; box-shadow: 0 4px 12px #00000012; transition: background .3s ease,box-shadow .3s ease; }
+.event-choice-copy > small svg { transition: transform .4s ease; }
+.event-choice-gallery .event-choice:hover .event-choice-copy > small { background: #fffdf6; box-shadow: 0 5px 18px #00000026; }
+.event-choice-gallery .event-choice:hover { border-color: #c3e1d5; }
+.event-choice-gallery .event-choice[aria-expanded="true"] .event-choice-copy > small { background: #dcefe5; color: #244139; }
+.event-choice-gallery .event-choice[aria-expanded="true"] .event-choice-copy > small svg { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) { .event-choice-copy > small,.event-choice-copy > small svg { transition: none; } }
+/* A quiet but recognizable invitation to explore. */
+.event-choice-copy > small { background: #ffffff08; color: #e4eee8; border-color: #e4eee833; box-shadow: none; padding: 11px 13px; font-weight: 400; font-size: 11px; }
+.event-choice-gallery .event-choice:hover .event-choice-copy > small { background: #ffffff12; border-color: #e4eee855; box-shadow: none; }
+.event-choice-gallery .event-choice[aria-expanded="true"] .event-choice-copy > small { background: #aed5c512; color: #e4eee8; border-color: #aed5c566; }
