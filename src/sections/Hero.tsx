@@ -66,8 +66,8 @@ export function Hero() {
           </div>
           <div className="vision-caption"><span>NORDRA STUDIO</span><p>{language === "en" ? "Ideas with their own light." : "Ideas con luz propia."}</p></div>
           <div className="vision-paths">
-            <a href="#paquetes"><span className="vision-path-number">01</span><div><span>{language === "en" ? "YOUR BUSINESS" : "TU NEGOCIO"}</span><strong>{language === "en" ? "A presence that feels like you." : "Una presencia que se siente tuya."}</strong></div><ArrowUpRight size={20} /></a>
-            <a href="#eventos"><span className="vision-path-number">02</span><div><span>{language === "en" ? "YOUR CELEBRATION" : "TU CELEBRACIÓN"}</span><strong>{language === "en" ? "A moment worth sharing." : "Un momento que merece compartirse."}</strong></div><ArrowUpRight size={20} /></a>
+            <a href="#paquetes"><div><span>{language === "en" ? "YOUR BUSINESS" : "TU NEGOCIO"}</span><strong>{language === "en" ? "A presence that feels like you." : "Una presencia que se siente tuya."}</strong></div><ArrowUpRight size={20} /></a>
+            <a href="#eventos"><div><span>{language === "en" ? "YOUR CELEBRATION" : "TU CELEBRACIÓN"}</span><strong>{language === "en" ? "A moment worth sharing." : "Un momento que merece compartirse."}</strong></div><ArrowUpRight size={20} /></a>
           </div>
         </div>
       </div>
