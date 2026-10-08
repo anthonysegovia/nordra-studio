@@ -3539,3 +3539,6 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 .admin-pagination button:not(:disabled):hover { background:#c8b4df19; }
 .admin-pagination button:disabled { cursor:default; }
 @media(max-width:600px) { .admin-pagination { flex-direction:column; align-items:flex-start; padding:18px 20px 0; } .admin-pagination>div { width:100%; justify-content:space-between; gap:8px; } }
+
+.package-coming-soon { display:inline-block; vertical-align:middle; margin:5px 0 5px 12px; padding:5px 10px; border:1px solid #b8a4d64a; border-radius:20px; background:#b8a4d612; color:var(--text); font-size:10px; font-family:inherit; font-weight:500; letter-spacing:.025em; line-height:1.4; white-space:nowrap; }
+@media(max-width:600px) { .package-coming-soon { display:table; margin:8px 0 0; } }

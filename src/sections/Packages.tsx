@@ -41,7 +41,7 @@ function PackageCard({ pack, index, expanded, onToggle }: { pack: (typeof packag
     <div className={`package-card package-accordion package-tone-${index % 3}${expanded ? " is-open" : ""}`}>
       <button type="button" className="package-trigger" aria-expanded={expanded} aria-controls={`package-panel-${index}`} onClick={onToggle}>
         <span className="package-emblem"><Icon size={26} aria-hidden="true" /></span>
-        <span className="package-summary-copy"><span className="package-summary-title">{t(pack.name)}</span><span className="package-summary-tagline">{t(pack.tagline)}</span></span>
+        <span className="package-summary-copy"><span className="package-summary-title">{t(pack.name)}{index === 4 && <span className="package-coming-soon">{language === "en" ? "Coming soon" : "Disponible pronto"}</span>}</span><span className="package-summary-tagline">{t(pack.tagline)}</span></span>
         <span className="package-summary-action"><span>{t("Explorar paquete")}</span><ChevronDown size={20} aria-hidden="true" /></span>
       </button>
       <div id={`package-panel-${index}`} className="package-panel" inert={!expanded}><div className="package-panel-clip"><div className="package-expanded">
