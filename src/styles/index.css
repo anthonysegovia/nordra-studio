@@ -3569,3 +3569,31 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 .footer-bottom { padding-top:20px; }
 @media(max-width:760px) { .footer.footer-contact { padding-top:44px; } .footer-contact-heading:has(.footer-contact-actions) { grid-template-columns:1fr; gap:26px; padding-bottom:32px; } .footer-contact-copy h2 { max-width:16ch; font-size:40px; } .footer-contact .footer-inner { grid-template-columns:1fr 1fr; gap:30px 20px; padding:28px 0; } .footer-brand-block { grid-column:1/-1; } .footer-brand-block .brand-approved { width:200px; } .footer-contact .payment-notice { padding:16px; } }
 @media(prefers-reduced-motion:reduce) { .footer-contact-actions .footer-phone,.footer-explore a { transition:none; } .footer-contact-actions .footer-phone:hover,.footer-explore a:hover { transform:none; } }
+
+.nordra-vision { position:relative; display:flex; flex-direction:column; justify-content:center; min-width:0; width:100%; min-height:530px; padding:24px 0; }
+.vision-art { position:relative; height:300px; display:grid; place-items:center; isolation:isolate; }
+.vision-art::before { content:""; position:absolute; inset:20% 10%; background:radial-gradient(ellipse,#27dfd51a,transparent 65%); filter:blur(20px); }
+.vision-art img { position:relative; z-index:1; width:110%; max-width:620px; height:auto; object-fit:contain; mix-blend-mode:screen; filter:drop-shadow(0 18px 25px #1ca7ce16); animation:vision-breathe 7s ease-in-out infinite; }
+.vision-orbit { position:absolute; width:80%; height:80%; border:1px solid #9abfda22; border-radius:50%; transform:rotate(-22deg); }
+.vision-orbit-two { width:65%; height:105%; transform:rotate(28deg); border-color:#ba9cdb16; }
+.vision-star { position:absolute; width:5px; height:5px; border-radius:50%; background:#beefeb; box-shadow:0 0 14px #69f5e9; }
+.vision-star-one { top:16%; left:22%; }
+.vision-star-two { bottom:22%; right:12%; width:3px; height:3px; }
+.vision-caption { position:relative; text-align:center; margin:4px 0 28px; }
+.vision-caption>span { font-size:9px; letter-spacing:.35em; color:var(--muted); }
+.vision-caption p { margin:10px 0 0; font-family:Georgia,serif; font-size:30px; font-style:italic; color:var(--text); }
+.vision-paths { display:grid; gap:0; margin:0 12px; }
+.vision-paths a { display:flex; gap:18px; align-items:center; padding:18px 8px; text-decoration:none; color:var(--text); border-top:1px solid var(--border); transition:background .25s ease; }
+.vision-paths a:last-child { border-bottom:1px solid var(--border); }
+.vision-path-number { font-size:11px; color:var(--muted); }
+.vision-paths a>div { flex:1; }
+.vision-paths a>div>span { display:block; font-size:9px; letter-spacing:.15em; color:var(--cyan); margin-bottom:7px; }
+.vision-paths strong { display:block; font-size:14px; font-weight:400; }
+.vision-paths svg { color:var(--muted); transition:transform .25s ease,color .25s ease; }
+.vision-paths a:hover { background:color-mix(in srgb,var(--cyan) 4%,transparent); }
+.vision-paths a:hover svg { color:var(--cyan); transform:translate(2px,-2px); }
+.vision-paths a:focus-visible { outline:2px solid var(--cyan); outline-offset:4px; }
+@keyframes vision-breathe { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
+@media(max-width:960px) { .nordra-vision { min-height:450px; max-width:600px; margin:auto; } }
+@media(max-width:640px) { .nordra-vision { min-height:0; padding:10px 0 30px; } .vision-art { height:220px; } .vision-art img { width:100%; } .vision-caption p { font-size:26px; } .vision-caption { margin-bottom:24px; } .vision-paths { margin:0; } .vision-paths strong { font-size:13px; } }
+@media(prefers-reduced-motion:reduce) { .vision-art img { animation:none; } .vision-paths a,.vision-paths svg { transition:none; } }

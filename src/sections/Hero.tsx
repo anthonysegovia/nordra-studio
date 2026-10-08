@@ -1,50 +1,8 @@
 import { t, useLanguage } from "../language";
-import { BarChart3, Box, Zap, Coffee, Ruler, TrendingUp, Heart, Sparkles, ArrowUpRight } from "lucide-react";
-import { useEffect, useState } from "react";
-
-const demos = [
-  { name: "Café", brand: "BRUMA", subtitle: "CAFÉ DE ESPECIALIDAD", kicker: "DEL ORIGEN A TU TAZA", title: "Buen café.", accent: "Buenos días.", description: "Haz de cada mañana un ritual.", detail: "Descubre tu próximo café favorito.", button: "Explorar el café", footer: "Un café para cada momento." },
-  { name: "Interiores", brand: "FORMA", subtitle: "ESTUDIO DE INTERIORES", kicker: "DISEÑO PARA HABITAR", title: "Tu espacio.", accent: "Tu esencia.", description: "Espacios que se sienten como tú.", detail: "Diseño pensado para tu día a día.", button: "Conocer el estudio", footer: "Cada detalle tiene un propósito." },
-  { name: "Consultoría", brand: "NEXO", subtitle: "CONSULTORÍA DE NEGOCIOS", kicker: "IDEAS QUE AVANZAN", title: "Tu siguiente", accent: "gran paso.", description: "Claridad para tomar decisiones.", detail: "Estrategia para mover tu negocio.", button: "Conocer soluciones", footer: "Una visión clara. Nuevas posibilidades." },
-];
-
-const businessPhotos = ["/demo-coffee-v2.jpg", "/demo-interiors-v2.jpg", "/demo-consulting-v2.jpg"];
-const eventPhotos = ["/demo-wedding-v2.jpg", "/demo-birthday-v2.jpg", "/demo-creative-v2.jpg"];
+import { BarChart3, Box, Zap, ArrowUpRight } from "lucide-react";
 
 export function Hero() {
   const language = useLanguage();
-const eventDemos = [
-  { monogram: "A & M", message: <>{t("Una nueva")}<br />{t("historia juntos.")}</>, kicker: "NOS CASAMOS", title: "Ana & Mateo", description: "Una celebración para recordar.", button: "Confirma tu asistencia" },
-  { monogram: "V", message: <>{t("Hoy toca")}<br />{t("celebrar.")}</>, kicker: "ESTÁS INVITADO", title: "Valeria · 30", description: "Un año más. Mil nuevos recuerdos.", button: "Quiero acompañarte" },
-  { monogram: "EN", message: <>{t("Ideas que")}<br />{t("nos conectan.")}</>, kicker: "ENCUENTRO CREATIVO", title: "Entre Ideas", description: "Un espacio para compartir e inspirar.", button: "Quiero asistir" },
-];
-
-
-  const [activeDemo, setActiveDemo] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  useEffect(() => {
-    [...businessPhotos, ...eventPhotos].forEach(src => {
-      const image = new Image();
-      image.src = src;
-    });
-  }, []);
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReducedMotion(media.matches);
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-  useEffect(() => {
-    if (paused || hovered || reducedMotion) return;
-    const timer = window.setInterval(() => setActiveDemo(index => (index + 1) % demos.length), 6500);
-    return () => window.clearInterval(timer);
-  }, [paused, hovered, reducedMotion, activeDemo]);
-  const demo = demos[activeDemo];
-  const PhotoIcon = [Coffee, Ruler, TrendingUp][activeDemo];
-  const photoNotes = language === "en" ? ["Origin & ritual", "Light & texture", "Vision & strategy"] : ["Origen y ritual", "Luz y textura", "Visión y estrategia"];
-  const eventDemo = eventDemos[activeDemo];
   return (
     <section id="inicio" className="hero-section hero-section-v6">
       <div className="hero-backdrop hero-backdrop-v6" aria-hidden="true">
@@ -98,44 +56,18 @@ const eventDemos = [
           </div>
         </div>
 
-        <div className="hero-visual hero-showcase">
-          <div className="web-showcase" role="region" aria-label={t("Diseños de ejemplo para negocios y eventos")} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocusCapture={() => setHovered(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setHovered(false); }}>
-            <div className="showcase-aura" aria-hidden="true" />
-            <div className="desktop-demo" aria-hidden="true">
-              <div className="demo-browser"><span /><span /><span /><div>{t("vista previa · negocio")}</div></div>
-              <div key={activeDemo} className={`outdoor-demo coffee-demo demo-variant-${activeDemo}`}>
-                <div className={`business-photo business-photo-${activeDemo}`}><img src={businessPhotos[activeDemo]} alt="" width={1024} height={1536} /><span className="business-photo-label">{t(demo.subtitle)}</span><span className="business-photo-stamp"><PhotoIcon size={15} /><small>0{activeDemo + 1}</small></span></div>
-                <div className={`business-detail business-detail-${activeDemo}`}><img src={businessPhotos[activeDemo]} alt="" width={1024} height={1536} /><span>{photoNotes[activeDemo]}</span></div>
-                <div className="demo-editorial-detail">{activeDemo === 0 ? <><Coffee size={20} /><strong>BRUMA / 01</strong><span>{language === "en" ? "Notes of cacao & caramel" : "Notas de cacao y caramelo"}</span><small>{language === "en" ? "Slow mornings. Great coffee." : "Mañanas lentas. Gran café."}</small></> : activeDemo === 1 ? <><span>{language === "en" ? "SELECTED PROJECT / 01" : "PROYECTO SELECCIONADO / 01"}</span><strong>Casa Olivo</strong><small>{language === "en" ? "Warmth in every corner" : "Calidez en cada rincón"}</small></> : <><span>{language === "en" ? "FROM IDEA TO ACTION" : "DE LA IDEA A LA ACCIÓN"}</span><div className="demo-strategy-chart"><i /><i /><i /><i /><i /></div><strong>{language === "en" ? "A clear path forward" : "Un camino claro para crecer"}</strong><small>{language === "en" ? "Diagnose · Plan · Act" : "Diagnóstico · Plan · Acción"}</small></>}</div>
-                <div className="outdoor-navigation"><strong>{demo.brand}<span>{t(demo.subtitle)}</span></strong><span>{t("Nosotros")} &nbsp; {t("Soluciones")} &nbsp; {t("Contacto")}</span><span className="outdoor-menu">↗</span></div>
-                <div className="outdoor-copy">
-                  <span className="outdoor-kicker">{t(demo.kicker)}</span>
-                  <h2>{t(demo.title)}<br /><em>{t(demo.accent)}</em></h2>
-                  <p>{t(demo.description)}<br />{t(demo.detail)}</p>
-                  <span className="outdoor-button">{t(demo.button)} <span>↗</span></span>
-                </div>
-                <div className="outdoor-footer"><span className="outdoor-coordinate">{t(demo.footer)}<br /><small>{t("DISEÑO CON PERSONALIDAD")}</small></span><span className="outdoor-next">0{activeDemo + 1} / 03 &nbsp; →</span></div>
-              </div>
-            </div>
-            <div className="phone-demo" aria-hidden="true">
-              <div className="phone-speaker" />
-              <div key={activeDemo} className={`event-demo event-variant-${activeDemo}`}>
-                <span className="event-monogram">{activeDemo === 0 ? "THE WEDDING" : activeDemo === 1 ? "BIRTHDAY CLUB" : "EN / CREATIVE SESSION"}</span>
-                <div className="event-arch"><img src={eventPhotos[activeDemo]} alt="" width={1024} height={1536} /><span>{eventDemo.message}</span></div>
-                <div className="hero-invite-ornament">{activeDemo === 0 ? <Heart size={11} /> : activeDemo === 1 ? <Sparkles size={12} /> : <ArrowUpRight size={12} />}</div>
-                <span className="event-kicker">{t(eventDemo.kicker)}</span>
-                <h3>{eventDemo.title}</h3>
-                <p>{t(eventDemo.description)}</p>
-                <div className="hero-invite-details"><strong>{activeDemo === 0 ? "18 / 09 / 27" : activeDemo === 1 ? "24 JUL · 19:00" : "12 JUN · 10:00"}</strong><span>{activeDemo === 0 ? "JARDÍN MAGNOLIA" : activeDemo === 1 ? "TERRAZA AURORA" : "ESPACIO NODO"}</span></div>
-                <span className="event-demo-button">{t(eventDemo.button)}</span>
-                {activeDemo === 2 && <div className="hero-pass-barcode" />}
-              </div>
-            </div>
-            <div className="showcase-caption">{t("DISEÑOS DE EJEMPLO")}<span>{t(demo.name)} + {t("eventos")}</span></div>
-            <div className="showcase-controls" aria-label={t("Elegir diseño de escritorio")}>
-              {demos.map((item, index) => <button type="button" key={item.name} aria-label={`${language === "en" ? "View design:" : "Ver diseño de"} ${t(item.name)}`} aria-pressed={activeDemo === index} onClick={() => setActiveDemo(index)}>{index + 1}</button>)}
-              {!reducedMotion && <button type="button" aria-label={t(paused ? "Reanudar diseños" : "Pausar diseños")} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? "▶" : "Ⅱ"}</button>}
-            </div>
+        <div className="hero-visual nordra-vision">
+          <div className="vision-art" aria-hidden="true">
+            <span className="vision-orbit vision-orbit-one" />
+            <span className="vision-orbit vision-orbit-two" />
+            <span className="vision-star vision-star-one" />
+            <span className="vision-star vision-star-two" />
+            <img src="/nordra-isotype-transparent.png" alt="" width={1536} height={807} />
+          </div>
+          <div className="vision-caption"><span>NORDRA STUDIO</span><p>{language === "en" ? "Ideas with their own light." : "Ideas con luz propia."}</p></div>
+          <div className="vision-paths">
+            <a href="#paquetes"><span className="vision-path-number">01</span><div><span>{language === "en" ? "YOUR BUSINESS" : "TU NEGOCIO"}</span><strong>{language === "en" ? "A presence that feels like you." : "Una presencia que se siente tuya."}</strong></div><ArrowUpRight size={20} /></a>
+            <a href="#eventos"><span className="vision-path-number">02</span><div><span>{language === "en" ? "YOUR CELEBRATION" : "TU CELEBRACIÓN"}</span><strong>{language === "en" ? "A moment worth sharing." : "Un momento que merece compartirse."}</strong></div><ArrowUpRight size={20} /></a>
           </div>
         </div>
       </div>
