@@ -21,6 +21,7 @@ export async function createCheckout(item, token, { accessToken = process.env.ME
     method: "POST", headers, signal: AbortSignal.timeout(8000), body: JSON.stringify({
       items: [{ id: item.reference, title: `${item.project} · ${item.concept}`, quantity: 1, currency_id: "MXN", unit_price: item.amountCents / 100 }],
       external_reference: token, back_urls: { success: link.href, pending: link.href, failure: link.href },
+      statement_descriptor: "NORDRA STUDIO",
       auto_return: "approved", expires: true, expiration_date_to: item.expiresAt,
     }),
   });

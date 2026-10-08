@@ -44,6 +44,7 @@ const response = await fetch("https://api.mercadopago.com/checkout/preferences",
   body: JSON.stringify({
     items: [{ id: item.reference, title: `${item.project} · ${item.concept}`, quantity: 1, currency_id: "MXN", unit_price: item.amountCents / 100 }],
     external_reference: token,
+    statement_descriptor: "NORDRA STUDIO",
     back_urls: { success: returnLink.href, pending: returnLink.href, failure: returnLink.href },
     auto_return: "approved", expires: true, expiration_date_to: item.expiresAt,
   }),

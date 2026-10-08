@@ -52,6 +52,7 @@ test("checkout uses agreed cents, matching reference, test seller and HTTPS retu
     return { ok: true, json: async () => ({ id: "pref-1", init_point: row.checkout_url }) };
   } });
   assert.equal(sent.items[0].unit_price, 1499.5); assert.equal(sent.items[0].currency_id, "MXN");
+  assert.equal(sent.statement_descriptor, "NORDRA STUDIO");
   assert.equal(sent.external_reference, token); assert.match(sent.back_urls.success, /^https:\/\/nordrastudio.mx\//);
   assert.equal(result.preferenceId, "pref-1");
 });
