@@ -3422,3 +3422,7 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 .payment-notice svg { flex-shrink:0; margin-top:4px; }
 .payment-bottom { font-size:12px; color:#a39daf; text-align:center; padding-bottom:20px; }
 @media(max-width:700px) { .payment-page { padding:22px 20px; } .payment-layout { grid-template-columns:1fr; gap:30px; padding:48px 0 32px; } .payment-intro h1 { font-size:40px; } .payment-intro>a { margin-top:10px; } .payment-card { padding:25px; } .payment-nav a { font-size:12px; } .payment-nav .payment-brand { font-size:19px; } }
+.payment-refresh { display:block; width:100%; margin-top:16px; padding:12px; border:1px solid #cbb3e03b; border-radius:10px; background:transparent; color:#e1d4ed; font-size:13px; cursor:pointer; }
+.payment-refresh:disabled { opacity:.5; cursor:wait; }
+.payment-refresh:focus-visible { outline:2px solid #e5caf6; outline-offset:4px; }
+.payment-notice-success { background:#8dbb9a17; border:1px solid #8dbb9a36; color:#d2e9d9; }
