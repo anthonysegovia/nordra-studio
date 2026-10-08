@@ -3597,3 +3597,9 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 @media(max-width:960px) { .nordra-vision { min-height:450px; max-width:600px; margin:auto; } }
 @media(max-width:640px) { .nordra-vision { min-height:0; padding:10px 0 30px; } .vision-art { height:220px; } .vision-art img { width:100%; } .vision-caption p { font-size:26px; } .vision-caption { margin-bottom:24px; } .vision-paths { margin:0; } .vision-paths strong { font-size:13px; } }
 @media(prefers-reduced-motion:reduce) { .vision-art img { animation:none; } .vision-paths a,.vision-paths svg { transition:none; } }
+
+.hero-visual.nordra-vision { animation:none; transform:none; opacity:1; }
+
+.dark .hero-visual.nordra-vision { mix-blend-mode:screen; }
+
+.vision-art img { mask-image:url('/nordra-isotype-transparent.png'); mask-mode:luminance; mask-size:100% 100%; mask-repeat:no-repeat; filter:brightness(1.3); }
