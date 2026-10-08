@@ -15,7 +15,7 @@ Temporada conserva enlaces de pago directos de Mercado Pago. Esta implementació
 
 ## Configuración y pruebas pendientes antes de cobros reales
 
-- Crear o configurar la aplicación de Mercado Pago y utilizar sus credenciales de prueba inicialmente.
+- Crear o configurar la aplicación de Mercado Pago y utilizar una cuenta vendedora de prueba inicialmente. El script verifica que la cuenta corresponda al modo test/live antes de crear la preferencia. Checkout Pro utiliza `init_point` también para pruebas; no usar `sandbox_init_point`. Para completar una prueba, usar una cuenta compradora de prueba distinta y los datos de tarjeta de prueba oficiales.
 - Establecer `MERCADO_PAGO_ACCESS_TOKEN` únicamente en el entorno del script local. Nunca usar prefijo `VITE_`, subirlo al repositorio o compartirlo por chat.
 - Establecer `NORDRA_SITE_URL` con el origen HTTPS definitivo, sin rutas, parámetros ni fragmentos, y `NORDRA_PAYMENT_MODE=test`. Cambiar a `live` únicamente después de verificar el flujo con la cuenta adecuada.
 - Preparar un archivo local `cotizacion.private.json`, excluido de Git, con este formato (importes de ejemplo):
@@ -45,3 +45,5 @@ Antes de automatizar confirmaciones, activar servicios o ampliar el volumen, imp
 La demostración está disponible; los cobros reales no se han configurado, probado ni publicado. Las tarifas y políticas comerciales siguen en los borradores para revisión.
 
 Fuentes: [Crear preferencia de Checkout Pro](https://www.mercadopago.com.mx/developers/es/reference/online-payments/checkout-pro-preferences/create-preference/post), [Checkout Pro](https://www.mercadopago.com.mx/developers/es/docs/checkout-pro-orders/overview?scope=prod).
+
+Pruebas de Checkout Pro: [Guía oficial de cuentas de prueba e init_point](https://www.mercadopago.com.mx/developers/es/news/2023/11/16/Questions-on-how-to-test-your-integration--).

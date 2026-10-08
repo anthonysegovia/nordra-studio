@@ -26,6 +26,18 @@ if (Object.values(requests).some(existing => existing.reference === item.referen
 }
 const link = new URL(`/?pago=${token}`, site);
 const returnLink = new URL(link); returnLink.searchParams.set("retorno", "1");
+// En Checkout Pro las pruebas usan init_point y cuentas de prueba.
+// Verificar la cuenta antes de crear preferencias evita confundir test/live.
+const accountResponse = await fetch("https://api.mercadopago.com/users/me", {
+  signal: AbortSignal.timeout(15000),
+  headers: { Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}` },
+});
+if (!accountResponse.ok) throw new Error("No se pudo verificar el entorno de la cuenta de Mercado Pago.");
+const account = await accountResponse.json();
+const testAccount = Array.isArray(account.tags) && account.tags.includes("test_user");
+if ((process.env.NORDRA_PAYMENT_MODE === "test") !== testAccount) {
+  throw new Error("La cuenta no corresponde al modo elegido. Para test utiliza una cuenta vendedora de prueba; para live, una cuenta real.");
+}
 const response = await fetch("https://api.mercadopago.com/checkout/preferences", {
   method: "POST", signal: AbortSignal.timeout(15000),
   headers: { Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`, "Content-Type": "application/json" },
@@ -38,7 +50,7 @@ const response = await fetch("https://api.mercadopago.com/checkout/preferences",
 });
 if (!response.ok) throw new Error(`Mercado Pago rechazó crear el cobro (${response.status}). No se guardó ni se cobró dinero.`);
 const preference = await response.json();
-candidate.checkoutUrl = process.env.NORDRA_PAYMENT_MODE === "test" ? preference.sandbox_init_point : preference.init_point;
+candidate.checkoutUrl = preference.init_point;
 getPaymentRequest(token, JSON.stringify({ [token]: candidate }));
 requests[token] = candidate;
 await writeFile(outputFile, JSON.stringify(requests, null, 2), { mode: 0o600 });
