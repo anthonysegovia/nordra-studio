@@ -37,15 +37,6 @@ export function Footer() {
           </a>
         </div>
       </div>
-      <div className="site-shell">
-        <div className="payment-notice">
-          <span className="payment-notice-icon" aria-hidden="true"><img src="/mercado-pago-icon.svg" alt="" width={40} height={40} /></span>
-          <div>
-            <h3>{t("Aceptamos pagos con Mercado Pago")}</h3>
-            <p>{t("Al confirmar tu cotización, te enviamos un link para pagar con tarjeta de crédito o débito.")}</p>
-          </div>
-        </div>
-      </div>
       <div className="site-shell footer-inner">
         <div className="footer-brand-block">
         <a href="#inicio" className="brand-approved" aria-label={t("Nordra Studio, ir al inicio")}>
@@ -74,14 +65,26 @@ export function Footer() {
         </div>
         <nav className="footer-explore" aria-label={language === "en" ? "Explore Nordra Studio" : "Explora Nordra Studio"}>
           <span>{language === "en" ? "EXPLORE" : "EXPLORA"}</span>
+          <a href="#temporada">{language === "en" ? "Seasonal invitations" : "Invitaciones de temporada"}</a>
           <a href="#nosotros">{language === "en" ? "About us" : "Quiénes somos"}</a>
           <a href="#paquetes">{language === "en" ? "For your business" : "Para tu negocio"}</a>
           <a href="#eventos">{language === "en" ? "For your celebration" : "Para tu celebración"}</a>
         </nav>
         <div className="footer-meta">
+          <span className="footer-column-label">{language === "en" ? "LET’S CONNECT" : "CERCA DE TU IDEA"}</span>
 
           <span>{t("Monterrey, Nuevo León")}</span>
-          <a href="mailto:hola@nordrastudio.mx">{t("hola@nordrastudio.mx")}</a>
+          <span>{language === "en" ? "Monday–Friday · 9 a.m.–6 p.m." : "Lunes a viernes · 9 a.m.–6 p.m."}</span>
+          <span>{language === "en" ? "Mexico City time" : "Hora de Ciudad de México"}</span>
+        </div>
+      </div>
+      <div className="site-shell">
+        <div className="payment-notice">
+          <span className="payment-notice-icon" aria-hidden="true"><img src="/mercado-pago-icon.svg" alt="" width={40} height={40} /></span>
+          <div>
+            <h3>{t("Aceptamos pagos con Mercado Pago")}</h3>
+            <p>{t("Al confirmar tu cotización, te enviamos un link para pagar con tarjeta de crédito o débito.")}</p>
+          </div>
         </div>
       </div>
       <div className="site-shell footer-bottom"><span>© {new Date().getFullYear()} Nordra Studio</span><a href="#inicio">{language === "en" ? "Back to top ↑" : "Volver al inicio ↑"}</a></div>
