@@ -53,7 +53,7 @@ export function Seasonal() {
                   <h3>{occasion}</h3>
                   <p className="seasonal-price">$499 <span>MXN · {english ? "VAT included" : "IVA incluido"}</span></p>
                   <h4>{english ? "Your invitation includes" : "Tu invitación incluye"}</h4>
-                  <ul>{includes.map(item => <li key={item}>{item}</li>)}</ul>
+                  <ul>{includes.map(item => <li key={item}>{item}</li>)}</ul><p className="seasonal-support-note">{english ? "Support through 7 days after your event. Monday–Friday, 9 a.m.–6 p.m., Mexico City time. Initial response within one business day. Help sharing your link and fixing malfunctions; changes after approval are quoted separately. Nordra errors are corrected at no charge." : "Soporte hasta 7 días después del evento. Lunes a viernes, 9 a.m.–6 p.m., hora de Ciudad de México. Primera respuesta en un día hábil. Ayuda para compartir tu enlace y corregir fallas; cambios tras la aprobación se cotizan aparte. Los errores de Nordra se corrigen sin costo."}</p>
                   <a className="seasonal-back-cta" href={`https://wa.me/528129022231?text=${encodeURIComponent(inquiry)}`} target="_blank" rel="noopener noreferrer">{english ? "Ask about my invitation" : "Consultar mi invitación"}<ArrowUpRight size={16} aria-hidden="true" /></a>
                 </div>
                 </div>
