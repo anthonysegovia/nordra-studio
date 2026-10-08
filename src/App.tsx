@@ -21,9 +21,9 @@ export default function App() {
       <main>
         <Hero />
         <Seasonal />
-        <About />
         <Packages />
         <Events />
+        <About />
       </main>
       <Footer />
     </div>
