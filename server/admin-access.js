@@ -1,8 +1,20 @@
 import { createClient } from "@supabase/supabase-js";
 
 export function adminConfigured(env = process.env) {
-  return Boolean(env.SUPABASE_URL && env.SUPABASE_PUBLISHABLE_KEY && env.SUPABASE_SECRET_KEY &&
-    /^[a-f0-9-]{36}$/i.test(env.NORDRA_ADMIN_USER_ID || "") && env.NORDRA_SITE_URL);
+  return adminConfigurationIssues(env).length === 0;
+}
+export function adminConfigurationIssues(env = process.env) {
+  const issues = [];
+  for (const name of ["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY", "SUPABASE_SECRET_KEY", "NORDRA_ADMIN_USER_ID", "NORDRA_SITE_URL"]) {
+    if (!env[name]?.trim()) issues.push(`${name}: falta configurar`);
+  }
+  if (env.NORDRA_ADMIN_USER_ID?.trim() && !/^[a-f0-9-]{36}$/i.test(env.NORDRA_ADMIN_USER_ID)) issues.push("NORDRA_ADMIN_USER_ID: formato incorrecto; copia el UID sin espacios ni comillas");
+  for (const name of ["SUPABASE_URL", "NORDRA_SITE_URL"]) {
+    if (!env[name]?.trim()) continue;
+    try { if (new URL(env[name]).protocol !== "https:") throw new Error(); }
+    catch { issues.push(`${name}: debe ser una URL HTTPS válida`); }
+  }
+  return issues;
 }
 export function authClient() {
   return createClient(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {

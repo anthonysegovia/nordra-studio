@@ -1,10 +1,10 @@
-import { adminConfigured, authClient, authorizeAdmin, jsonBody, sameOrigin, setSessionCookie, validAdmin } from "../server/admin-access.js";
+import { adminConfigurationIssues, adminConfigured, authClient, authorizeAdmin, jsonBody, sameOrigin, setSessionCookie, validAdmin } from "../server/admin-access.js";
 
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "private, no-store");
   res.setHeader("X-Robots-Tag", "noindex, nofollow");
   try {
-    if (req.method === "GET") return res.status(200).json({ configured: adminConfigured(), signedIn: await authorizeAdmin(req) });
+    if (req.method === "GET") return res.status(200).json({ configured: adminConfigured(), configurationIssues: adminConfigurationIssues(), signedIn: await authorizeAdmin(req) });
     if (!["POST", "DELETE"].includes(req.method)) { res.setHeader("Allow", "GET, POST, DELETE"); return res.status(405).json({ error: "Método no permitido." }); }
     if (!sameOrigin(req)) return res.status(403).json({ error: "Solicitud no permitida." });
     if (req.method === "DELETE") { setSessionCookie(res, "", 0); return res.status(200).json({ signedIn: false }); }

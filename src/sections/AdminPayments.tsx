@@ -22,6 +22,7 @@ export function AdminPayments({ demoMode }: { demoMode: boolean }) {
   const [signedIn, setSignedIn] = useState(demoMode);
   const [ready, setReady] = useState(demoMode);
   const [configured, setConfigured] = useState(true);
+  const [configurationIssues, setConfigurationIssues] = useState<string[]>([]);
   const [rows, setRows] = useState<PaymentRow[]>(demoMode ? demoRows : []);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -50,7 +51,7 @@ export function AdminPayments({ demoMode }: { demoMode: boolean }) {
     document.title = "Administración | Nordra Studio";
     const robots = document.createElement("meta"); robots.name = "robots"; robots.content = "noindex, nofollow"; document.head.appendChild(robots);
     if (!demoMode) api("/api/admin-session").then(async data => {
-      setConfigured(data.configured); setSignedIn(data.signedIn);
+      setConfigured(data.configured); setConfigurationIssues(data.configurationIssues || []); setSignedIn(data.signedIn);
       if (data.signedIn) await load();
     }).catch(() => setError("No pudimos consultar el acceso. Intenta nuevamente más tarde.")).finally(() => setReady(true));
     return () => { document.title = previous; robots.remove(); };
@@ -119,7 +120,7 @@ export function AdminPayments({ demoMode }: { demoMode: boolean }) {
     <header className="admin-header"><a href="/" className="payment-logo" aria-label="Nordra Studio · Inicio"><img src="/nordra-header-approved.png" alt="Nordra Studio" width={2172} height={724} /></a><span><ShieldCheck size={17} /> Administración</span>{signedIn ? <button onClick={logout} disabled={busy}><LogOut size={16} /> Salir</button> : <a href="/"><ArrowLeft size={16} /> Inicio</a>}</header>
     {demoMode && <div className="admin-demo">Demostración · Datos ficticios · Los cambios se pierden al recargar y no crean pagos reales.</div>}
     {error && <p className="admin-alert" role="alert">{error}</p>}{message && <p className="admin-message" role="status">{message}</p>}
-    {!ready ? <p role="status">Comprobando acceso…</p> : !signedIn ? <section className="admin-login"><ShieldCheck size={28} /><h1>Tu espacio de trabajo.</h1><p>Inicia sesión para gestionar los cobros de Nordra.</p>{configured ? <form onSubmit={login}><label>Correo<input name="email" type="email" autoComplete="username" required maxLength={254} /></label><label>Contraseña<input name="password" type="password" autoComplete="current-password" required maxLength={200} /></label><button className="payment-submit" disabled={busy}>{busy ? "Ingresando…" : "Entrar al panel"}</button></form> : <p className="admin-alert">El acceso todavía requiere configurar la base de datos y el usuario administrador.</p>}</section> : <>
+    {!ready ? <p role="status">Comprobando acceso…</p> : !signedIn ? <section className="admin-login"><ShieldCheck size={28} /><h1>Tu espacio de trabajo.</h1><p>Inicia sesión para gestionar los cobros de Nordra.</p>{configured ? <form onSubmit={login}><label>Correo<input name="email" type="email" autoComplete="username" required maxLength={254} /></label><label>Contraseña<input name="password" type="password" autoComplete="current-password" required maxLength={200} /></label><button className="payment-submit" disabled={busy}>{busy ? "Ingresando…" : "Entrar al panel"}</button></form> : <div className="admin-alert"><p>El acceso todavía requiere configurar la base de datos y el usuario administrador.</p>{configurationIssues.length > 0 && <ul>{configurationIssues.map(issue => <li key={issue}>{issue}</li>)}</ul>}<p>Revisa estas variables en Production y vuelve a desplegar el proyecto.</p></div>}</section> : <>
       <div className="admin-title"><div><span className="payment-eyebrow">GESTIÓN DE COBROS</span><h1>Cada proyecto, en orden.</h1><p>Anticipos, saldos y renovaciones en un mismo lugar.</p></div><button className="admin-primary" onClick={openRequest} disabled={busy}><Plus size={18} /> Crear solicitud</button></div>
       <div className="admin-stats"><article><span>Solicitudes mostradas</span><strong>{rows.length}</strong></article><article><span>Por pagar</span><strong>{rows.filter(row => row.state === "open" || row.state === "retry").length}</strong></article><article><span>Confirmado en esta lista</span><strong>{money(rows.filter(row => row.state === "paid").reduce((sum, row) => sum + row.amountCents, 0))}</strong></article></div>
       {createdLink && <div className="admin-created"><div><strong>Tu enlace está listo</strong><a href={createdLink} target="_blank" rel="noopener noreferrer">Abrir página de pago <ExternalLink size={15} /></a></div><button onClick={() => copy(createdLink)}><Copy size={16} /> Copiar enlace</button></div>}
