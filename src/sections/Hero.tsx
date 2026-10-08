@@ -62,7 +62,7 @@ export function Hero() {
             <span className="vision-orbit vision-orbit-two" />
             <span className="vision-star vision-star-one" />
             <span className="vision-star vision-star-two" />
-            <img src="/nordra-isotype-transparent.png" alt="" width={1536} height={807} />
+            <div className="vision-symbol"><img src="/nordra-isotype-transparent.png" alt="" width={1536} height={807} /></div>
           </div>
           <div className="vision-caption"><span>NORDRA STUDIO</span><p>{language === "en" ? "Ideas with their own light." : "Ideas con luz propia."}</p></div>
           <div className="vision-paths">
