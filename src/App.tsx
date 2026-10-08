@@ -6,8 +6,11 @@ import { Packages } from "./sections/Packages";
 import { Events } from "./sections/Events";
 import { Footer } from "./components/layout/Footer";
 import { ScrollAurora } from "./components/layout/ScrollAurora";
+import { Payment } from "./sections/Payment";
 
 export default function App() {
+  const paymentToken = new URLSearchParams(window.location.search).get("pago");
+  if (paymentToken !== null) return <Payment token={paymentToken} />;
   return (
     <div className="min-h-screen text-foreground aurora-page">
       <ScrollAurora />

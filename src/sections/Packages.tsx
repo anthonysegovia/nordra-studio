@@ -49,13 +49,13 @@ function PackageCard({ pack, index, expanded, onToggle }: { pack: (typeof packag
           <h3>{t(pack.name)}</h3>
           <p className="package-audience">{t(pack.audience)}</p>
           <p className="package-audience">{t(pack.details)}</p>
-          <p className="package-price">{priceRanges[index]} <span>{t("MXN")}</span></p>
+          <p className="package-price">{priceRanges[index]} <span>{t("MXN")} · {t("IVA incluido")}</span></p>
           <p className="package-options-note">{t("Rango de referencia. La inversión final depende del diseño, contenido y funcionalidades acordadas.")}</p>
         </div>
         <div>
           <fieldset className="package-options"><legend>{t("¿Qué te gustaría incluir?")}</legend>{pack.features.map(feature => <label key={t(feature)}><input type="checkbox" checked={selected.includes(feature)} onChange={() => setSelected(current => current.includes(feature) ? current.filter(item => item !== feature) : [...current, feature])} /><span>{t(feature)}</span><small>{t("Incluido")}</small></label>)}</fieldset>
           <p className="package-options-note">{t("Estas opciones están contempladas en el paquete. Tu selección nos ayuda a preparar la propuesta; desmarcarlas no aplica un descuento automático.")}</p>
-          <div className="package-action"><a href={`https://wa.me/528111197607?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener noreferrer" aria-label={language === "en" ? `Request a quote for ${t(pack.name)} on WhatsApp` : `Solicitar cotización de ${pack.name} por WhatsApp`}>{t("Cotizar mi selección")}<ArrowUpRight size={17} aria-hidden="true" /></a></div>
+          <div className="package-action"><a href={`https://wa.me/528129022231?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener noreferrer" aria-label={language === "en" ? `Request a quote for ${t(pack.name)} on WhatsApp` : `Solicitar cotización de ${pack.name} por WhatsApp`}>{t("Cotizar mi selección")}<ArrowUpRight size={17} aria-hidden="true" /></a></div>
         </div>
       </div>
     </div></div></div>

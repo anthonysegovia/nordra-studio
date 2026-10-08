@@ -6,10 +6,10 @@ export function Seasonal() {
   const english = useLanguage() === "en";
   const [flipped, setFlipped] = useState<number | null>(null);
   const frontButtons = useRef<(HTMLButtonElement | null)[]>([]);
-  const backButtons = useRef<(HTMLButtonElement | null)[]>([]);
+  const backButtons = useRef<(HTMLDivElement | null)[]>([]);
   const flip = (index: number, open: boolean) => {
     setFlipped(open ? index : null);
-    window.requestAnimationFrame(() => (open ? backButtons : frontButtons).current[index]?.focus({ preventScroll: true }));
+    window.requestAnimationFrame(() => (open ? backButtons.current[index] : frontButtons.current[index])?.focus({ preventScroll: true }));
   };
   const includes = english
     ? ["Personalized design to match your celebration", "Your event's date, time and location", "A digital invitation to share with your guests"]
@@ -31,7 +31,7 @@ export function Seasonal() {
             <p className="eyebrow">{english ? "A SEASON TO CELEBRATE" : "UNA TEMPORADA PARA CELEBRAR"}</p>
             <h2 id="seasonal-title">{english ? "Let the celebration begin" : "Que la celebración empiece"}<br /><span>{english ? "with the invitation." : "desde la invitación."}</span></h2>
             <p>{english ? "Personalized digital invitations with your event's style and all the details your guests need. Let's create something special for your next celebration." : "Invitaciones digitales personalizadas con el estilo de tu evento y los detalles que tus invitados necesitan. Hagamos algo especial para tu próxima celebración."}</p>
-            <a className="seasonal-cta" href={`https://wa.me/528111197607?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener noreferrer">{english ? "Create my invitation" : "Quiero mi invitación"}<ArrowUpRight size={18} aria-hidden="true" /></a>
+            <a className="seasonal-cta" href={`https://wa.me/528129022231?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener noreferrer">{english ? "Create my invitation" : "Quiero mi invitación"}<ArrowUpRight size={18} aria-hidden="true" /></a>
           </div>
           <div className="seasonal-occasions">
             {occasions.map((occasion, index) => {
@@ -48,13 +48,13 @@ export function Seasonal() {
                 <span className="seasonal-card-action">{english ? "View details and price" : "Ver detalles e inversión"}<ArrowUpRight size={15} aria-hidden="true" /></span>
                 </button>
                 </div>
-                <div className={`seasonal-flip-face seasonal-flip-back seasonal-occasion-${index}`} inert={flipped !== index} aria-hidden={flipped !== index}>
-                  <button type="button" className="seasonal-return" ref={element => { backButtons.current[index] = element; }} onClick={() => flip(index, false)} aria-label={english ? `Return to ${occasion}` : `Volver a ${occasion}`}>← {english ? "Back" : "Volver"}</button>
+                <div className={`seasonal-flip-face seasonal-flip-back seasonal-occasion-${index}`} ref={element => { backButtons.current[index] = element; }} role="button" tabIndex={flipped === index ? 0 : -1} aria-label={english ? `Turn ${occasion} back` : `Girar ${occasion} al frente`} onClick={e => { if (!(e.target as HTMLElement).closest("a")) flip(index, false); }} onKeyDown={e => { if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " " || e.key === "Escape")) { e.preventDefault(); flip(index, false); } }} inert={flipped !== index} aria-hidden={flipped !== index}>
+
                   <h3>{occasion}</h3>
-                  <p className="seasonal-price">$499 <span>MXN</span></p>
+                  <p className="seasonal-price">$499 <span>MXN · {english ? "VAT included" : "IVA incluido"}</span></p>
                   <h4>{english ? "Your invitation includes" : "Tu invitación incluye"}</h4>
                   <ul>{includes.map(item => <li key={item}>{item}</li>)}</ul>
-                  <a className="seasonal-back-cta" href={`https://wa.me/528111197607?text=${encodeURIComponent(inquiry)}`} target="_blank" rel="noopener noreferrer">{english ? "Ask about my invitation" : "Consultar mi invitación"}<ArrowUpRight size={16} aria-hidden="true" /></a>
+                  <a className="seasonal-back-cta" href={`https://wa.me/528129022231?text=${encodeURIComponent(inquiry)}`} target="_blank" rel="noopener noreferrer">{english ? "Ask about my invitation" : "Consultar mi invitación"}<ArrowUpRight size={16} aria-hidden="true" /></a>
                 </div>
                 </div>
               </div>;

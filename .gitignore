@@ -1,4 +1,5 @@
 node_modules/
+*.private.json
 dist/
 .vercel/
 design-assets/

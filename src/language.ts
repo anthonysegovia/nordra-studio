@@ -14,8 +14,12 @@ export function useLanguage() {
   return useSyncExternalStore(listener => { listeners.add(listener); return () => { listeners.delete(listener); }; }, () => language);
 }
 const translations: Record<string, string> = {
+"Al confirmar tu cotización, te enviamos un link para pagar con tarjeta de crédito o débito.":"Once your quote is confirmed, we send you a link to pay by credit or debit card.",
+"Escríbenos por correo":"Email us",
+"Aceptamos pagos con Mercado Pago":"We accept payments through Mercado Pago",
+"Al confirmar tu cotización, te compartimos un link de pago para realizar el pago de tu proyecto con tarjeta de crédito o débito.":"Once your quote is confirmed, we send you a payment link to pay for your project by credit or debit card.",
 "Temporada":"Seasonal",
-"Contactar a Nordra Studio por WhatsApp al +52 811 11 97 607":"Contact Nordra Studio on WhatsApp at +52 811 11 97 607",
+"Contactar a Nordra Studio por WhatsApp al +52 81 2902 2231":"Contact Nordra Studio on WhatsApp at +52 81 2902 2231",
 "Nordra Studio, ir al inicio":"Nordra Studio, go to home",
 "Inicio":"Home","Quiénes somos":"About us","Paquetes":"Packages","Eventos":"Events","Contacto":"Contact","Contáctanos":"Contact us","Cambiar tema":"Switch theme","Navegación principal":"Main navigation",
 "IDEAS · DISEÑO · EXPERIENCIAS · RESULTADOS":"IDEAS · DESIGN · EXPERIENCES · RESULTS",
@@ -50,6 +54,7 @@ const translations: Record<string, string> = {
 "Rango de referencia. La inversión final depende del diseño, contenido y funcionalidades acordadas.":"Estimated range. The final price depends on the agreed design, content and features.",
 "Estas opciones están contempladas en el paquete. Tu selección nos ayuda a preparar la propuesta; desmarcarlas no aplica un descuento automático.":"These options are included in the package. Your selection helps us prepare a proposal; deselecting them does not automatically reduce the price.",
 "Cada propuesta detalla el alcance y la inversión. Dominio, alojamiento y costos de servicios externos se especifican por separado en la cotización.":"Each proposal details the scope and price. Domain, hosting and external service costs are specified separately in the quote.",
+"IVA incluido":"VAT included",
 "EVENTOS Y CELEBRACIONES":"EVENTS AND CELEBRATIONS","Hay días que se esperan.":"Some days are eagerly awaited.","Y se recuerdan para siempre.":"And remembered forever.",
 "Antes de la primera foto y del primer abrazo, hay una invitación. Hagamos que la tuya se sienta tan especial como lo que estás por celebrar.":"Before the first photo and the first hug comes an invitation. Let's make yours feel as special as the occasion you are celebrating.",
 "Bodas":"Weddings","Cumpleaños y celebraciones":"Birthdays and celebrations","Eventos y encuentros":"Events and gatherings","INSPIRACIÓN DE DISEÑO":"DESIGN INSPIRATION",
