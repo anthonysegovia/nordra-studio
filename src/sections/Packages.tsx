@@ -36,15 +36,16 @@ function PackageCard({ pack, index, expanded, onToggle }: { pack: (typeof packag
   const [selected, setSelected] = useState(pack.features);
   const icons = [...packageIcons, Code2, ShoppingBag];
   const Icon = icons[index];
+  const comingSoon = index === 4;
   const message = language === "en" ? `Hi! I am interested in ${t(pack.name)} from Nordra Studio. The estimated range is ${priceRanges[index]} MXN. I would like to include: ${selected.length ? selected.map(t).join(", ") : "I would like to discuss the options with you"}. I would like a quote for my project.` : `¡Hola! Me interesa ${pack.name} de Nordra Studio. El rango de referencia es ${priceRanges[index]} MXN. Me gustaría incluir: ${selected.length ? selected.join(", ") : "prefiero definirlo contigo"}. Quisiera una cotización para mi proyecto.`;
   return (
-    <div className={`package-card package-accordion package-tone-${index % 3}${expanded ? " is-open" : ""}`}>
-      <button type="button" className="package-trigger" aria-expanded={expanded} aria-controls={`package-panel-${index}`} onClick={onToggle}>
+    <div className={`package-card package-accordion package-tone-${index % 3}${expanded ? " is-open" : ""}${comingSoon ? " is-unavailable" : ""}`}>
+      <button type="button" className="package-trigger" disabled={comingSoon} aria-expanded={expanded && !comingSoon} aria-controls={`package-panel-${index}`} onClick={onToggle}>
         <span className="package-emblem"><Icon size={26} aria-hidden="true" /></span>
-        <span className="package-summary-copy"><span className="package-summary-title">{t(pack.name)}{index === 4 && <span className="package-coming-soon">{language === "en" ? "Coming soon" : "Disponible pronto"}</span>}</span><span className="package-summary-tagline">{t(pack.tagline)}</span></span>
-        <span className="package-summary-action"><span>{t("Explorar paquete")}</span><ChevronDown size={20} aria-hidden="true" /></span>
+        <span className="package-summary-copy"><span className="package-summary-title">{t(pack.name)}{comingSoon && <span className="package-coming-soon">{language === "en" ? "Coming soon" : "Disponible pronto"}</span>}</span><span className="package-summary-tagline">{t(pack.tagline)}</span></span>
+        <span className="package-summary-action"><span>{comingSoon ? (language === "en" ? "In preparation" : "En preparación") : t("Explorar paquete")}</span>{!comingSoon && <ChevronDown size={20} aria-hidden="true" />}</span>
       </button>
-      <div id={`package-panel-${index}`} className="package-panel" inert={!expanded}><div className="package-panel-clip"><div className="package-expanded">
+      <div id={`package-panel-${index}`} className="package-panel" inert={!expanded || comingSoon}><div className="package-panel-clip"><div className="package-expanded">
         <div className="package-expanded-intro">
           <h3>{t(pack.name)}</h3>
           <p className="package-audience">{t(pack.audience)}</p>

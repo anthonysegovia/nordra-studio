@@ -3542,3 +3542,9 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 
 .package-coming-soon { display:inline-block; vertical-align:middle; margin:5px 0 5px 12px; padding:5px 10px; border:1px solid #b8a4d64a; border-radius:20px; background:#b8a4d612; color:var(--text); font-size:10px; font-family:inherit; font-weight:500; letter-spacing:.025em; line-height:1.4; white-space:nowrap; }
 @media(max-width:600px) { .package-coming-soon { display:table; margin:8px 0 0; } }
+
+.package-card.is-unavailable { opacity:.65; filter:saturate(.45); }
+.package-card.is-unavailable .package-trigger { cursor:not-allowed; }
+.package-card.is-unavailable .package-trigger:hover { transform:none; background:transparent; }
+.package-card.is-unavailable .package-summary-action { color:var(--muted); }
+.package-card.is-unavailable .package-panel { display:none; }
