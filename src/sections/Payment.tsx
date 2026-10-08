@@ -10,9 +10,23 @@ const demo: PaymentRequest = {
   amountCents: 149950, expiresAt: "2030-12-31T23:59:59-06:00", state: "open", checkoutUrl: null,
 };
 
+function readDemo(): PaymentRequest {
+  try {
+    const raw = new URLSearchParams(window.location.search).get("ejemplo");
+    if (!raw || raw.length > 2000) return demo;
+    const data = JSON.parse(raw);
+    if (!["reference", "project", "concept"].every(key => typeof data[key] === "string" && data[key].length > 0 && data[key].length <= 160)
+      || !Number.isSafeInteger(data.amountCents) || data.amountCents <= 0 || data.amountCents > 100000000
+      || typeof data.expiresAt !== "string" || !Number.isFinite(Date.parse(data.expiresAt))) return demo;
+    const state = ["open", "paid", "closed", "pending", "retry", "expired", "review", "verification_unavailable"].includes(data.state) ? data.state : "open";
+    return { reference: data.reference, project: data.project, concept: data.concept, amountCents: data.amountCents, expiresAt: data.expiresAt,
+      state: state === "open" && Date.parse(data.expiresAt) <= Date.now() ? "expired" : state, checkoutUrl: null };
+  } catch { return demo; }
+}
+
 export function Payment({ token }: { token: string }) {
   const isDemo = token === "demo";
-  const [request, setRequest] = useState<PaymentRequest | null>(isDemo ? demo : null);
+  const [request, setRequest] = useState<PaymentRequest | null>(isDemo ? readDemo() : null);
   const [error, setError] = useState("");
   const [checking, setChecking] = useState(false);
   const [refresh, setRefresh] = useState(0);
@@ -55,7 +69,7 @@ export function Payment({ token }: { token: string }) {
     <div className="payment-layout">
       <section className="payment-intro"><span className="payment-eyebrow">UN PASO MÁS CERCA</span><h1>Tu proyecto,<br /><em>a punto de comenzar.</em></h1><p>Consulta el concepto y el importe acordado en tu cotización. Nos encargamos de acompañarte en lo que sigue.</p><a href={contact} target="_blank" rel="noopener noreferrer"><MessageCircle size={18} /> ¿Tienes alguna duda?</a></section>
       <section className="payment-card" aria-label="Detalle del pago" aria-busy={checking}>
-        {isDemo && <div className="payment-demo"><p>Demostración · Datos ficticios, sin cargos reales</p><label htmlFor="payment-demo-state">Vista de pago</label><select id="payment-demo-state" value={request?.state ?? "open"} onChange={event => setRequest({ ...demo, state: event.target.value as PaymentRequest["state"] })}>
+        {isDemo && <div className="payment-demo"><p>Demostración · Datos ficticios, sin cargos reales</p><label htmlFor="payment-demo-state">Vista de pago</label><select id="payment-demo-state" value={request?.state ?? "open"} onChange={event => setRequest(previous => ({ ...(previous || demo), state: event.target.value as PaymentRequest["state"] }))}>
           <option value="open">Antes de pagar</option><option value="paid">Pago aprobado</option><option value="pending">Pago pendiente</option><option value="retry">Pago rechazado o cancelado</option><option value="expired">Enlace vencido</option><option value="verification_unavailable">Verificación no disponible</option>
         </select></div>}
         {error ? <div role="alert"><h2>No pudimos abrir tu pago</h2><p>{error}</p><a href={contact}>Contactar a Nordra</a></div> : !request ? <p role="status">Cargando tu pago…</p> : <>
