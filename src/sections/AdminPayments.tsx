@@ -3,7 +3,7 @@ import { ArrowLeft, Copy, Download, ExternalLink, LogOut, Plus, RefreshCw, Shiel
 import { chargeModes, paymentCatalog, suggestedAmount, type ChargeMode } from "../data/paymentCatalog";
 
 type PaymentRow = { token: string; reference: string; project: string; concept: string; amountCents: number; expiresAt: string; state: string; createdAt: string; link: string };
-const labels: Record<string, string> = { open: "Por pagar", paid: "Confirmado", pending: "Pendiente", retry: "Reintento disponible", closed: "Cerrado", expired: "Vencido", creating: "Preparando enlace", verification_unavailable: "Sin verificar", review: "Revisión necesaria", creation_failed: "Creación incompleta" };
+const labels: Record<string, string> = { open: "Por pagar", paid: "Confirmado", pending: "Pendiente", retry: "Reintento disponible", closed: "Cerrado", expired: "Vencido", creating: "Preparando enlace", verification_unavailable: "Sin verificar", review: "Revisión necesaria", refunded: "Reembolsado", partially_refunded: "Reembolso parcial", creation_failed: "Creación incompleta" };
 function demoLink(row: Omit<PaymentRow, "link">) {
   return `/?${new URLSearchParams({ pago: "demo", ejemplo: JSON.stringify({ reference: row.reference, project: row.project, concept: row.concept, amountCents: row.amountCents, expiresAt: row.expiresAt, state: row.state }) })}`;
 }

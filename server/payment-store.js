@@ -21,7 +21,7 @@ export function adminRow(row, site = process.env.NORDRA_SITE_URL) {
   const observed = row.last_verified_state;
   return { token: row.token, reference: row.reference, project: row.project, concept: row.concept,
     amountCents: row.amount_cents, expiresAt: row.expires_at, createdAt: row.created_at,
-    state: observed && ["paid", "pending", "review", "verification_unavailable"].includes(observed) ? observed : expired ? "expired" : row.state,
+    state: observed && ["paid", "pending", "refunded", "partially_refunded", "review", "verification_unavailable"].includes(observed) ? observed : expired ? "expired" : row.state,
     link: link.href };
 }
 export async function saveObservedState(token, state) {

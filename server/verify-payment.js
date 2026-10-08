@@ -22,6 +22,8 @@ export async function verifyPayment(request, token, { accessToken = process.env.
       Number.isFinite(payment.transaction_amount) && Math.abs(payment.transaction_amount * 100 - request.amountCents) < 0.001);
     if (direct && !matches.includes(direct)) return unavailable;
     if (payments.some(payment => payment.external_reference === token && !matches.includes(payment))) return unavailable;
+    if (matches.length === 1 && matches[0].status === "refunded") return { ...request, state: "refunded", checkoutUrl: null };
+    if (matches.length === 1 && matches[0].status === "approved" && matches[0].transaction_amount_refunded > 0 && matches[0].transaction_amount_refunded < matches[0].transaction_amount) return { ...request, state: "partially_refunded", checkoutUrl: null };
     // No ofrecer otro cobro si existe devolución, disputa o importe inesperado.
     if (matches.some(payment => ["refunded", "charged_back", "in_mediation"].includes(payment.status) || payment.transaction_amount_refunded > 0)) {
       return { ...request, state: "review", checkoutUrl: null };

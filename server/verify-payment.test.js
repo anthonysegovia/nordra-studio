@@ -85,3 +85,10 @@ test("truncated payment history fails closed instead of assuming no prior paymen
   const result = await verify([], { fetcher: async url => ({ ok: true, json: async () => url.endsWith("/users/me") ? { id: 10 } : { results: [], paging: { total: 101 } } }) });
   assert.equal(result.state, "verification_unavailable"); assert.equal(result.checkoutUrl, null);
 });
+
+test("distinguishes full and partial refunds while keeping disputes and multiple payments under review", async () => {
+  assert.equal((await verify([{ ...payment, status: "refunded" }])).state, "refunded");
+  assert.equal((await verify([{ ...payment, transaction_amount_refunded: 50 }])).state, "partially_refunded");
+  assert.equal((await verify([{ ...payment, status: "charged_back", transaction_amount_refunded: 50 }])).state, "review");
+  assert.equal((await verify([{ ...payment, status: "refunded" }, { ...payment, id: 124 }])).state, "review");
+});
