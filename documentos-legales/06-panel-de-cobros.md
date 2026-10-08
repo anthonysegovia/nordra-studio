@@ -50,3 +50,5 @@ Antes de usar datos reales, completar el aviso de privacidad con el proveedor, u
 Fuentes: [Supabase Auth: getUser](https://supabase.com/docs/reference/javascript/auth-getuser), [Claves API](https://supabase.com/docs/guides/getting-started/api-keys), [RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).
 
 Runtime de Vercel fijado a Node.js 24 en package.json, compatible con el SDK instalado.
+
+El formulario incluye un catálogo de páginas, paquetes de eventos, temporada, alojamiento y extras. Al seleccionar servicio y modalidad de cobro, se sugiere el importe con IVA incluido, editable. Las tarifas por rango usan el importe inicial como referencia; los servicios sin tarifa fija requieren cotización manual. El saldo sugerido del 50% no sustituye comprobar los pagos reales y la cotización.
