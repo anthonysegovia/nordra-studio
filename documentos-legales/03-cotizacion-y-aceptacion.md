@@ -133,3 +133,19 @@ Los plazos de inactividad se cuentan desde una solicitud concreta, comunicada al
 Soporte de temporada: desde la entrega hasta 7 días naturales después del evento, por WhatsApp de trabajo o hola@nordrastudio.mx. Incluye ayuda para compartir el enlace y corregir fallas de funcionamiento del servicio contratado. Cambios solicitados después de la aprobación se cotizan por separado; corregir errores atribuibles a Nordra no tiene costo. Primera respuesta en máximo un día hábil. Esta vigencia de soporte no define ni amplía por sí misma la duración del alojamiento de temporada, que se especifica en la cotización.
 Boreal: soporte desde la entrega hasta 30 días naturales después del evento, por los mismos canales. Las incidencias de funcionamiento de Boreal tienen prioridad frente a consultas generales, con primera respuesta en máximo 4 horas hábiles. No se garantiza resolución dentro de esas 4 horas ni asistencia en vivo el día del evento; ese acompañamiento requiere cotización y horario acordados por separado.
 Ambos servicios se atienden de lunes a viernes de 9:00 a 18:00, hora de Ciudad de México. Solo se cuentan horas dentro del horario de atención. Los mensajes recibidos fuera del horario se consideran recibidos al inicio del siguiente día hábil. Se comunica al cliente el seguimiento y el plazo estimado de resolución según la incidencia.
+
+## Derechos y licencia: acuerdo específico previo al inicio
+
+Modalidad propuesta: servicio alojado por Nordra.
+
+- Negocio o evento autorizado: [ ].
+- Materiales del cliente y permisos de terceros: [ ].
+- Componentes preexistentes de Nordra: [identificar].
+- Componentes de terceros y licencias: [identificar].
+- Diseño y código específicos del proyecto y titularidad acordada: [ ].
+- Alcance de la licencia: usos autorizados [ ], exclusividad [ ], territorio [ ], vigencia [ ], contraprestación [ ].
+- Entrega de fuentes: [no incluida / incluida mediante acuerdo adicional], archivos [ ], derechos [ ], costo [ ], plazo [ ].
+- Migración: [no incluida / propuesta adicional], alcance y requisitos [ ].
+- Aceptación expresa del acuerdo por ambas partes antes del inicio: [fecha, medio y evidencia].
+
+PENDIENTE DE REVISIÓN JURÍDICA: completar este pacto específico antes de contratar; no inferir titularidad de Nordra únicamente por ofrecer alojamiento o no entregar fuentes. Los materiales y exportaciones acordadas se entregan conforme a las condiciones de recuperación y cierre.
