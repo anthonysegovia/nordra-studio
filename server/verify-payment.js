@@ -21,13 +21,13 @@ export async function verifyPayment(request, token, { accessToken = process.env.
       String(payment.collector_id) === String(account.id) && payment.currency_id === "MXN" &&
       Number.isFinite(payment.transaction_amount) && Math.abs(payment.transaction_amount * 100 - request.amountCents) < 0.001);
     if (direct && !matches.includes(direct)) return unavailable;
+    if (payments.some(payment => payment.external_reference === token && !matches.includes(payment))) return unavailable;
     // No ofrecer otro cobro si existe devolución, disputa o importe inesperado.
     if (matches.some(payment => ["refunded", "charged_back", "in_mediation"].includes(payment.status) || payment.transaction_amount_refunded > 0)) {
       return { ...request, state: "review", checkoutUrl: null };
     }
     if (matches.some(payment => payment.status === "approved")) return { ...request, state: "paid", checkoutUrl: null };
     if (matches.some(payment => ["pending", "in_process", "authorized"].includes(payment.status))) return { ...request, state: "pending", checkoutUrl: null };
-    if (payments.some(payment => payment.external_reference === token && !matches.includes(payment))) return unavailable;
     if (matches.some(payment => !["rejected", "cancelled"].includes(payment.status))) return unavailable;
     if (request.state === "paid") return unavailable;
     if (request.state !== "open") return { ...request, checkoutUrl: null };

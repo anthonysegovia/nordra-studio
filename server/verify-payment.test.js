@@ -66,3 +66,22 @@ test("HTTP handler ignores forged browser success flags without secret", async (
     if (oldSecret === undefined) delete process.env.MERCADO_PAGO_ACCESS_TOKEN; else process.env.MERCADO_PAGO_ACCESS_TOKEN = oldSecret;
   }
 });
+
+test("a payment with unexpected amount blocks checkout even alongside an approved payment", async () => {
+  const result = await verify([payment, { ...payment, id: 999, transaction_amount: 90 }]);
+  assert.equal(result.state, "verification_unavailable"); assert.equal(result.checkoutUrl, null);
+});
+
+test("a rejected payment cannot reopen an expired or closed request", async () => {
+  for (const state of ["expired", "closed"]) {
+    const result = await verifyPayment({ ...request, state, checkoutUrl: null }, token, {
+      accessToken: "test-placeholder", fetcher: async url => ({ ok: true, json: async () => url.endsWith("/users/me") ? { id: 10 } : { results: [{ ...payment, status: "rejected" }], paging: { total: 1 } } }),
+    });
+    assert.equal(result.state, state); assert.equal(result.checkoutUrl, null);
+  }
+});
+
+test("truncated payment history fails closed instead of assuming no prior payment", async () => {
+  const result = await verify([], { fetcher: async url => ({ ok: true, json: async () => url.endsWith("/users/me") ? { id: 10 } : { results: [], paging: { total: 101 } } }) });
+  assert.equal(result.state, "verification_unavailable"); assert.equal(result.checkoutUrl, null);
+});

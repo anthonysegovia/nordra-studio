@@ -7,8 +7,11 @@ import { Events } from "./sections/Events";
 import { Footer } from "./components/layout/Footer";
 import { ScrollAurora } from "./components/layout/ScrollAurora";
 import { Payment } from "./sections/Payment";
+import { AdminPayments } from "./sections/AdminPayments";
 
 export default function App() {
+  const panel = new URLSearchParams(window.location.search).get("panel");
+  if (panel !== null) return <AdminPayments demoMode={panel === "demo"} />;
   const paymentToken = new URLSearchParams(window.location.search).get("pago");
   if (paymentToken !== null) return <Payment token={paymentToken} />;
   return (
