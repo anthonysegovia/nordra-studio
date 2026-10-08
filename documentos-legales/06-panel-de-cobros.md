@@ -52,3 +52,7 @@ Fuentes: [Supabase Auth: getUser](https://supabase.com/docs/reference/javascript
 Runtime de Vercel fijado a Node.js 24 en package.json, compatible con el SDK instalado.
 
 El formulario incluye un catálogo de páginas, paquetes de eventos, temporada, alojamiento y extras. Al seleccionar servicio y modalidad de cobro, se sugiere el importe con IVA incluido, editable. Las tarifas por rango usan el importe inicial como referencia; los servicios sin tarifa fija requieren cotización manual. El saldo sugerido del 50% no sustituye comprobar los pagos reales y la cotización.
+
+## Folios automáticos
+
+Aplicar también `supabase/002_quote_references.sql` en el editor SQL de Supabase. El panel reserva un folio anual NDR-2026-001 al abrir una nueva solicitud. Las reservas se serializan en la base de datos y los reintentos conservan el folio. Puede haber saltos por solicitudes canceladas; los folios no se reciclan. El campo sigue editable para usar la misma referencia en anticipo y saldo. La lista sugiere referencias de las 100 solicitudes recientes; referencias anteriores se pueden escribir manualmente. En demostración, la numeración solo dura durante la sesión y se reinicia al recargar.

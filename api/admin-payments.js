@@ -20,6 +20,12 @@ export default async function handler(req, res) {
     }
     let body;
     try { body = jsonBody(req); } catch { return res.status(400).json({ error: "Solicitud no válida." }); }
+    if (req.method === "POST" && body.action === "reserve-reference") {
+      if (typeof body.requestId !== "string" || !/^[a-f0-9-]{36}$/i.test(body.requestId)) return res.status(400).json({ error: "Solicitud no válida." });
+      const { data, error } = await db.rpc("nordra_reserve_reference", { reservation_id: body.requestId });
+      if (error) throw error;
+      return res.status(200).json({ reference: data });
+    }
     if (req.method === "PATCH") {
       if (typeof body.token !== "string" || !/^[a-f0-9]{64}$/.test(body.token)) return res.status(400).json({ error: "Solicitud de pago no válida." });
       const { data, error } = await db.from("nordra_payment_requests").select("*").eq("token", body.token).maybeSingle();
