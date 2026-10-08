@@ -3563,7 +3563,7 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 .footer-column-label { color:var(--muted); font-size:10px; letter-spacing:.16em; margin-bottom:4px; }
 .footer-explore a { width:fit-content; text-decoration:none; transition:color .2s ease,transform .2s ease; }
 .footer-explore a:hover { transform:translateX(3px); }
-.footer-contact .footer-meta>span:last-child { font-size:11px; color:var(--muted); }
+.footer-contact .footer-meta>span:last-child { font-size:inherit; color:var(--muted); }
 .footer-contact .payment-notice { margin:0 0 24px; padding:16px 20px; border:1px solid var(--border); border-radius:16px; background:color-mix(in srgb,var(--surface) 65%,transparent); }
 .footer-contact .payment-notice-icon { flex-shrink:0; }
 .footer-bottom { padding-top:20px; }
