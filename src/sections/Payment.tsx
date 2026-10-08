@@ -65,7 +65,7 @@ export function Payment({ token }: { token: string }) {
   const contact = `https://wa.me/528129022231?text=${encodeURIComponent(`Hola, necesito ayuda con mi pago${request ? ` de la cotización ${request.reference}` : ""}.`)}`;
   const money = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" });
   return <main className="payment-page">
-    <nav className="payment-nav"><a href="/" className="payment-brand">NORDRA<span>STUDIO</span></a><a href="/"><ArrowLeft size={16} /> Volver al inicio</a></nav>
+    <nav className="payment-nav"><a href="/" className="payment-logo" aria-label="Nordra Studio · Inicio"><img src="/nordra-header-approved.png" alt="Nordra Studio" width={2172} height={724} /></a><a href="/"><ArrowLeft size={16} /> Volver al inicio</a></nav>
     <div className="payment-layout">
       <section className="payment-intro"><span className="payment-eyebrow">UN PASO MÁS CERCA</span><h1>Tu proyecto,<br /><em>a punto de comenzar.</em></h1><p>Consulta el concepto y el importe acordado en tu cotización. Nos encargamos de acompañarte en lo que sigue.</p><a href={contact} target="_blank" rel="noopener noreferrer"><MessageCircle size={18} /> ¿Tienes alguna duda?</a></section>
       <section className="payment-card" aria-label="Detalle del pago" aria-busy={checking}>

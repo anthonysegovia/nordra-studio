@@ -3484,3 +3484,8 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 .admin-price-note strong { color:#d5c1e6; font-weight:500; }
 .admin-price-note p { color:#aaa4b7; margin:7px 0 0; line-height:1.6; }
 .admin-form-actions { grid-column:1/-1; }
+
+/* Marca oficial en el panel y en los pagos. */
+.payment-logo { display:block; width:190px; flex-shrink:0; }
+.payment-logo img { display:block; width:100%; height:auto; object-fit:contain; }
+@media(max-width:600px) { .payment-logo { width:145px; } }
