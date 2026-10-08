@@ -14,6 +14,20 @@ export default async function handler(req, res) {
     if (!await authorizeAdmin(req)) return res.status(401).json({ error: "Inicia sesión con tu usuario administrador." });
     const db = databaseClient();
     if (req.method === "GET") {
+      if (req.query?.backup === "1") {
+        const tables = {};
+        for (const table of ["nordra_payment_requests", "nordra_quote_references"]) {
+          const records = [];
+          for (let offset = 0; ; offset += 500) {
+            const { data, error } = await db.from(table).select("*").order(table === "nordra_payment_requests" ? "token" : "request_id").range(offset, offset + 499);
+            if (error) return res.status(503).json({ error: "No pudimos completar el respaldo. Comprueba que aplicaste 003_backup_access.sql en Supabase." });
+            records.push(...data);
+            if (data.length < 500) break;
+          }
+          tables[table] = records;
+        }
+        return res.status(200).json({ format: "nordra-payments-backup", version: 1, exportedAt: new Date().toISOString(), tables });
+      }
       const { data, error } = await db.from("nordra_payment_requests").select("*").order("created_at", { ascending: false }).limit(100);
       if (error) throw error;
       return res.status(200).json({ requests: data.map(row => adminRow(row)) });
