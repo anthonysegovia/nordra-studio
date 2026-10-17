@@ -17,31 +17,21 @@ export function MobileNavigation() {
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState("inicio");
   useEffect(() => {
-    let previous = window.scrollY;
-    let anchor = previous;
     let frame = 0;
     const update = () => {
       frame = 0;
-      const y = window.scrollY;
       const hero = document.getElementById("inicio");
-      const pastHero = !hero || hero.getBoundingClientRect().bottom < window.innerHeight * .75;
-      if (Math.abs(y - anchor) > 12) {
-        setVisible(pastHero && y < anchor);
-        anchor = y;
-      }
-      if (!pastHero) setVisible(false);
-      if (y + window.innerHeight >= document.documentElement.scrollHeight - 8) setVisible(pastHero);
+      const heroBottom = hero?.getBoundingClientRect().bottom ?? 0;
+      // Separate thresholds avoid flicker near the edge of the hero.
+      setVisible(wasVisible => heroBottom < window.innerHeight * (wasVisible ? .85 : .65));
       let current = "inicio";
       for (const id of ["temporada", "paquetes", "eventos", "nosotros", "contacto"]) {
         if ((document.getElementById(id)?.getBoundingClientRect().top ?? Infinity) < window.innerHeight * .4) current = id;
       }
       setActive(current);
-      previous = y;
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
     update();
-    // Direct section links should expose the shortcuts on arrival.
-    if (window.location.hash && window.location.hash !== "#inicio") setVisible(true);
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     return () => { cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); };
