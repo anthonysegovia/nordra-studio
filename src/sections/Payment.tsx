@@ -62,7 +62,7 @@ export function Payment({ token }: { token: string }) {
     }
     return () => { controller.abort(); clearTimeout(timer); robots.remove(); referrer.remove(); document.title = previous; };
   }, [token, isDemo, refresh]);
-  const contact = `https://wa.me/528129022231?text=${encodeURIComponent(`Hola, necesito ayuda con mi pago${request ? ` de la cotización ${request.reference}` : ""}.`)}`;
+  const contact = "https://wa.me/message/NRMRZZWEXWZ6C1";
   const money = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN" });
   return <main className="payment-page">
     <nav className="payment-nav"><a href="/" className="payment-logo" aria-label="Nordra Studio · Inicio"><img src="/nordra-header-approved.png" alt="Nordra Studio" width={2172} height={724} /></a><a href="/"><ArrowLeft size={16} /> Volver al inicio</a></nav>

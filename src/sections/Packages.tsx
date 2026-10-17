@@ -37,7 +37,6 @@ function PackageCard({ pack, index, expanded, onToggle }: { pack: (typeof packag
   const icons = [...packageIcons, Code2, ShoppingBag];
   const Icon = icons[index];
   const comingSoon = index === 4;
-  const message = language === "en" ? `Hi! I am interested in ${t(pack.name)} from Nordra Studio. The estimated range is ${priceRanges[index]} MXN. I would like to include: ${selected.length ? selected.map(t).join(", ") : "I would like to discuss the options with you"}. I would like a quote for my project.` : `¡Hola! Me interesa ${pack.name} de Nordra Studio. El rango de referencia es ${priceRanges[index]} MXN. Me gustaría incluir: ${selected.length ? selected.join(", ") : "prefiero definirlo contigo"}. Quisiera una cotización para mi proyecto.`;
   return (
     <div className={`package-card package-accordion package-tone-${index % 3}${expanded ? " is-open" : ""}${comingSoon ? " is-unavailable" : ""}`}>
       <button type="button" className="package-trigger" disabled={comingSoon} aria-expanded={expanded && !comingSoon} aria-controls={`package-panel-${index}`} onClick={onToggle}>
@@ -56,7 +55,7 @@ function PackageCard({ pack, index, expanded, onToggle }: { pack: (typeof packag
         <div>
           <fieldset className="package-options"><legend>{t("¿Qué te gustaría incluir?")}</legend>{pack.features.map(feature => <label key={t(feature)}><input type="checkbox" checked={selected.includes(feature)} onChange={() => setSelected(current => current.includes(feature) ? current.filter(item => item !== feature) : [...current, feature])} /><span>{t(feature)}</span><small>{t("Incluido")}</small></label>)}</fieldset>
           <p className="package-options-note">{t("Estas opciones están contempladas en el paquete. Tu selección nos ayuda a preparar la propuesta; desmarcarlas no aplica un descuento automático.")}</p>
-          <div className="package-action"><a href={`https://wa.me/528129022231?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener noreferrer" aria-label={language === "en" ? `Request a quote for ${t(pack.name)} on WhatsApp` : `Solicitar cotización de ${pack.name} por WhatsApp`}>{t("Cotizar mi selección")}<ArrowUpRight size={17} aria-hidden="true" /></a></div>
+          <div className="package-action"><a href="https://wa.me/message/NRMRZZWEXWZ6C1" target="_blank" rel="noopener noreferrer" aria-label={language === "en" ? `Request a quote for ${t(pack.name)} on WhatsApp` : `Solicitar cotización de ${pack.name} por WhatsApp`}>{t("Cotizar mi selección")}<ArrowUpRight size={17} aria-hidden="true" /></a></div>
         </div>
       </div>
     </div></div></div>

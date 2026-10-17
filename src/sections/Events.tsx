@@ -42,7 +42,7 @@ export function Events() {
     progress: english ? "Your community is growing" : "Tu comunidad crece",
   };
   const labels = english ? ["Weddings", "Celebrations", "Gatherings"] : ["Bodas", "Celebraciones", "Encuentros"];
-  const contact = `https://wa.me/528129022231?text=${encodeURIComponent(english ? `Hi! I am interested in ${event.englishMessage} from Nordra Studio. I would like to discuss the details.` : `¡Hola! Me interesa ${event.message} de Nordra Studio. Me gustaría platicar sobre los detalles.`)}`;
+  const contact = "https://wa.me/message/NRMRZZWEXWZ6C1";
   return (
     <section id="eventos" className={`section celebrations-section celebration-mood-${event.theme}`} aria-labelledby="celebrations-title">
       <div className="site-shell">
@@ -129,7 +129,7 @@ export function Events() {
                 <h4>{plan.name}</h4><p className="event-plan-price">{index === 2 && <small>{english ? "From" : "Desde"} </small>}{plan.price}<span> MXN · {english ? "VAT included" : "IVA incluido"}</span></p>
                 <p className="event-plan-includes">{english ? "Your plan includes" : "Tu paquete incluye"}</p>
                 <ul>{plan.features.map(feature => <li key={feature}><Check size={15} aria-hidden="true" />{feature}</li>)}</ul>
-                <a href={`https://wa.me/528129022231?text=${encodeURIComponent(english ? `Hi! I am interested in ${plan.name} for ${event.englishMessage}. The reference price is ${index === 2 ? "from " : ""}${plan.price} MXN. I would like to agree on the scope and get a quote.` : `¡Hola! Me interesa ${plan.name} para ${event.message}. El precio de referencia es ${index === 2 ? "desde " : ""}${plan.price} MXN. Quisiera definir el alcance y recibir una cotización.`)}`} target="_blank" rel="noopener noreferrer">{english ? "Discuss this plan" : "Platiquemos de tu evento"}<ArrowUpRight size={17} aria-hidden="true" /></a>
+                <a href="https://wa.me/message/NRMRZZWEXWZ6C1" target="_blank" rel="noopener noreferrer">{english ? "Discuss this plan" : "Platiquemos de tu evento"}<ArrowUpRight size={17} aria-hidden="true" /></a>
               </div>
             </div>
           </div>)}</div>

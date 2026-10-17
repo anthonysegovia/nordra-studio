@@ -50,7 +50,7 @@ export function MobileNavigation() {
     <nav className={`mobile-dock${visible || open ? " is-visible" : ""}`} aria-label={english ? "Quick navigation" : "Navegación rápida"} inert={!visible && !open}>
       <a href="#inicio"><Home size={19} /><span>{english ? "Home" : "Inicio"}</span></a>
       <button ref={explore} type="button" className="mobile-dock-explore" aria-haspopup="dialog" aria-expanded={open} aria-controls="mobile-explore" onClick={() => { dialog.current?.showModal(); setOpen(true); }}><Compass size={21} /><span>{english ? "Explore" : "Explorar"}</span></button>
-      <a href="https://wa.me/528129022231" target="_blank" rel="noopener noreferrer"><MessageCircle size={19} /><span>{english ? "Let's talk" : "Hablemos"}</span></a>
+      <a href="https://wa.me/message/NRMRZZWEXWZ6C1" target="_blank" rel="noopener noreferrer"><MessageCircle size={19} /><span>{english ? "Let's talk" : "Hablemos"}</span></a>
     </nav>
     <dialog ref={dialog} id="mobile-explore" className="mobile-explore" aria-labelledby="mobile-explore-title" onClose={() => { setOpen(false); explore.current?.focus({ preventScroll: true }); }} onClick={event => { if (event.target === event.currentTarget) close(); }}>
       <div className="mobile-explore-content">
