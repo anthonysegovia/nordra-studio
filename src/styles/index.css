@@ -2283,7 +2283,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .seasonal-price span { font-size: 13px; color: var(--muted); letter-spacing: 0; }
 .seasonal-price-note { color: var(--muted); font-size: 11px; line-height: 1.6; margin: 8px 0 18px; }
 .seasonal-flip-back h4 { font-size: 13px; font-weight: 500; margin: 0 0 12px; }
-.seasonal-flip-back ul { padding-left: 18px; margin: 0 0 22px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.seasonal-flip-back ul { list-style: disc outside; padding-left: 18px; margin: 0 0 22px; color: var(--muted); font-size: 12px; line-height: 1.7; }
 .seasonal-flip-back li { margin-bottom: 8px; }
 .seasonal-flip-back li::marker { color: var(--occasion); }
 .seasonal-back-cta { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 12px; background: color-mix(in srgb,var(--occasion) 12%,transparent); }
@@ -3238,6 +3238,36 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 .event-plan-back { cursor: pointer; }
 .seasonal-flip-back { cursor: pointer; }
 .seasonal-flip-back:focus-visible,.event-plan-back:focus-visible { outline: 2px solid var(--violet); outline-offset: 4px; }
+
+/* Compact seasonal cards with native disclosure controls on phones. */
+.seasonal-mobile-card { display: none; }
+@media (max-width: 640px) {
+  .seasonal-panel { padding: 30px 16px 24px; gap: 24px; }
+  .seasonal-copy h2 { font-size: 29px; }
+  .seasonal-copy > p:not(.eyebrow) { font-size: 14px; line-height: 1.65; }
+  .seasonal-copy .seasonal-cta { display: none; }
+  .seasonal-occasions { grid-template-columns: minmax(0,1fr); gap: 16px; }
+  .seasonal-flip { perspective: none; }
+  .seasonal-flip > .seasonal-flip-inner { display: none; }
+  .seasonal-mobile-card { display: flex; flex-direction: column; gap: 16px; padding: 20px; border: 1px solid color-mix(in srgb,var(--occasion) 40%,var(--border)); border-radius: 20px; background: radial-gradient(ellipse at 0 0,color-mix(in srgb,var(--occasion) 13%,transparent),transparent 70%),var(--surface-strong); }
+  .seasonal-mobile-heading { display: grid; grid-template-columns: 72px minmax(0,1fr); align-items: center; gap: 12px; }
+  .seasonal-mobile-heading .seasonal-art { width: 72px; height: 66px; }
+  .seasonal-mobile-heading .seasonal-card-label { margin: 0 0 6px; font-size: 9px; letter-spacing: .1em; line-height: 1.5; }
+  .seasonal-mobile-heading h3 { margin: 0 0 5px; font-size: 20px; font-weight: 500; line-height: 1.25; }
+  .seasonal-mobile-heading .seasonal-caption { margin: 0; font-size: 12px; }
+  .seasonal-mobile-card .seasonal-price { margin: 0; font-size: 30px; animation: none; }
+  .seasonal-mobile-card .seasonal-price span { display: inline-block; font-size: 12px; }
+  .seasonal-mobile-details { border-top: 1px solid var(--border); }
+  .seasonal-mobile-details summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; cursor: pointer; list-style: none; font-size: 13px; }
+  .seasonal-mobile-details summary::-webkit-details-marker { display: none; }
+  .seasonal-mobile-details summary > span { font-size: 22px; color: var(--occasion); transition: transform .2s; }
+  .seasonal-mobile-details[open] summary > span { transform: rotate(45deg); }
+  .seasonal-mobile-details ul { list-style: disc outside; padding-left: 18px; margin: 4px 0 8px; font-size: 13px; line-height: 1.65; color: var(--muted); }
+  .seasonal-mobile-details li + li { margin-top: 8px; }
+  .seasonal-mobile-details li::marker { color: var(--occasion); }
+  .seasonal-mobile-details summary:focus-visible { outline: 2px solid var(--occasion); outline-offset: 3px; border-radius: 4px; }
+  .seasonal-mobile-card .seasonal-back-cta { min-height: 48px; margin-top: 0; font-size: 13px; }
+}
 /* Let the visible face determine the card height. */
 .event-plan-flip-inner { position: relative; display: block; height: auto; }
 .event-plan-face { width: 100%; }

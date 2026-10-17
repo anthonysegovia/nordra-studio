@@ -4,7 +4,7 @@ export const chargeModes: { id: ChargeMode; label: string }[] = [
   { id: "full", label: "Pago completo" }, { id: "deposit", label: "Anticipo del 50%" }, { id: "balance", label: "Saldo del 50%" },
 ];
 export const paymentCatalog: CatalogService[] = [
-  { id: "landing-essential", group: "Páginas de negocios", label: "Landing Esencial", cents: 149900, note: "Rango de referencia: $1,499–$2,999. Precargamos el importe inicial; ajusta según la cotización." },
+  { id: "landing-essential", group: "Páginas de negocios", label: "Landing Esencial", cents: 179900, note: "Rango de referencia: $1,799–$2,999. Precargamos el importe inicial; ajusta según la cotización." },
   { id: "landing-professional", group: "Páginas de negocios", label: "Landing Profesional", cents: 299900, note: "Rango de referencia: $2,999–$5,999. Ajusta según la cotización." },
   { id: "business-site", group: "Páginas de negocios", label: "Sitio de Negocio", cents: 499900, note: "Rango de referencia: $4,999–$9,999. Ajusta según la cotización." },
   { id: "custom-web", group: "Páginas de negocios", label: "Web a medida", cents: 799900, note: "Rango de referencia: $7,999–$14,999+. Ajusta según el alcance acordado." },
@@ -14,9 +14,9 @@ export const paymentCatalog: CatalogService[] = [
     { id: `${event.id}-aurora`, group: "Eventos y celebraciones", label: `${event.label} · Aurora`, cents: 299900 },
     { id: `${event.id}-boreal`, group: "Eventos y celebraciones", label: `${event.label} · Boreal`, cents: 499900, note: "Desde $4,999. Confirma el precio final de la propuesta." },
   ]),
-  { id: "halloween", group: "Invitaciones de temporada", label: "Invitación de Halloween", cents: 49900 },
-  { id: "christmas", group: "Invitaciones de temporada", label: "Invitación de Posadas y Navidad", cents: 49900 },
-  { id: "new-year", group: "Invitaciones de temporada", label: "Invitación de Fin de año", cents: 49900 },
+  { id: "halloween", group: "Invitaciones de temporada", label: "Invitación de Halloween", cents: 59900 },
+  { id: "christmas", group: "Invitaciones de temporada", label: "Invitación de Posadas y Navidad", cents: 59900 },
+  { id: "new-year", group: "Invitaciones de temporada", label: "Invitación de Fin de año", cents: 59900 },
   { id: "hosting-info-month", group: "Alojamiento y soporte", label: "Informativa · Alojamiento mensual", cents: 29900 },
   { id: "hosting-info-six", group: "Alojamiento y soporte", label: "Informativa · Alojamiento por 6 meses", cents: 149500 },
   { id: "hosting-info-year", group: "Alojamiento y soporte", label: "Informativa · Alojamiento anual", cents: 299000 },

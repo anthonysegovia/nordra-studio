@@ -24,7 +24,7 @@ const packages = [
 ];
 
 const packageIcons = [Sprout, PanelsTopLeft, Building2];
-const priceRanges = ["$1,499–$2,999", "$2,999–$5,999", "$4,999–$9,999", "$7,999–$14,999+", "$11,999–$29,999+"];
+const priceRanges = ["$1,799–$2,999", "$2,999–$5,999", "$4,999–$9,999", "$7,999–$14,999+", "$11,999–$29,999+"];
 
 const customPackages = [
   { name: "Web a medida", tagline: "Funcionalidades que acompañan tu negocio.", audience: "Para un proyecto que necesita algo más que una página informativa.", features: ["Diseño personalizado y adaptable", "Formularios avanzados", "Catálogo de productos o servicios", "Integraciones según el alcance", "WhatsApp, mapa y redes sociales", "SEO y 2 rondas de cambios"], details: "Reservas, pagos y otras integraciones se definen en la propuesta. El alcance y los servicios externos necesarios se cotizan según tu proyecto." },
