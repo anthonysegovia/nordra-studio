@@ -8,6 +8,7 @@ import { Footer } from "./components/layout/Footer";
 import { ScrollAurora } from "./components/layout/ScrollAurora";
 import { Payment } from "./sections/Payment";
 import { AdminPayments } from "./sections/AdminPayments";
+import { MobileNavigation } from "./components/layout/MobileNavigation";
 
 export default function App() {
   const panel = new URLSearchParams(window.location.search).get("panel");
@@ -26,6 +27,7 @@ export default function App() {
         <About />
       </main>
       <Footer />
+      <MobileNavigation />
     </div>
   );
 }

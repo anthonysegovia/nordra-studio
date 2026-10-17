@@ -3239,35 +3239,7 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 .seasonal-flip-back { cursor: pointer; }
 .seasonal-flip-back:focus-visible,.event-plan-back:focus-visible { outline: 2px solid var(--violet); outline-offset: 4px; }
 
-/* Compact seasonal cards with native disclosure controls on phones. */
-.seasonal-mobile-card { display: none; }
-@media (max-width: 640px) {
-  .seasonal-panel { padding: 30px 16px 24px; gap: 24px; }
-  .seasonal-copy h2 { font-size: 29px; }
-  .seasonal-copy > p:not(.eyebrow) { font-size: 14px; line-height: 1.65; }
-  .seasonal-copy .seasonal-cta { display: none; }
-  .seasonal-occasions { grid-template-columns: minmax(0,1fr); gap: 16px; }
-  .seasonal-flip { perspective: none; }
-  .seasonal-flip > .seasonal-flip-inner { display: none; }
-  .seasonal-mobile-card { display: flex; flex-direction: column; gap: 16px; padding: 20px; border: 1px solid color-mix(in srgb,var(--occasion) 40%,var(--border)); border-radius: 20px; background: radial-gradient(ellipse at 0 0,color-mix(in srgb,var(--occasion) 13%,transparent),transparent 70%),var(--surface-strong); }
-  .seasonal-mobile-heading { display: grid; grid-template-columns: 72px minmax(0,1fr); align-items: center; gap: 12px; }
-  .seasonal-mobile-heading .seasonal-art { width: 72px; height: 66px; }
-  .seasonal-mobile-heading .seasonal-card-label { margin: 0 0 6px; font-size: 9px; letter-spacing: .1em; line-height: 1.5; }
-  .seasonal-mobile-heading h3 { margin: 0 0 5px; font-size: 20px; font-weight: 500; line-height: 1.25; }
-  .seasonal-mobile-heading .seasonal-caption { margin: 0; font-size: 12px; }
-  .seasonal-mobile-card .seasonal-price { margin: 0; font-size: 30px; animation: none; }
-  .seasonal-mobile-card .seasonal-price span { display: inline-block; font-size: 12px; }
-  .seasonal-mobile-details { border-top: 1px solid var(--border); }
-  .seasonal-mobile-details summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; cursor: pointer; list-style: none; font-size: 13px; }
-  .seasonal-mobile-details summary::-webkit-details-marker { display: none; }
-  .seasonal-mobile-details summary > span { font-size: 22px; color: var(--occasion); transition: transform .2s; }
-  .seasonal-mobile-details[open] summary > span { transform: rotate(45deg); }
-  .seasonal-mobile-details ul { list-style: disc outside; padding-left: 18px; margin: 4px 0 8px; font-size: 13px; line-height: 1.65; color: var(--muted); }
-  .seasonal-mobile-details li + li { margin-top: 8px; }
-  .seasonal-mobile-details li::marker { color: var(--occasion); }
-  .seasonal-mobile-details summary:focus-visible { outline: 2px solid var(--occasion); outline-offset: 3px; border-radius: 4px; }
-  .seasonal-mobile-card .seasonal-back-cta { min-height: 48px; margin-top: 0; font-size: 13px; }
-}
+
 /* Let the visible face determine the card height. */
 .event-plan-flip-inner { position: relative; display: block; height: auto; }
 .event-plan-face { width: 100%; }
@@ -3640,3 +3612,33 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 @keyframes vision-light-sweep { 0%,15% { background-position:140% 0; opacity:0; } 35% { opacity:.6; } 65% { opacity:.6; } 85%,100% { background-position:-40% 0; opacity:0; } }
 @media(max-width:640px) { .vision-symbol { width:100%; } }
 @media(prefers-reduced-motion:reduce) { .vision-symbol { animation:none; } .vision-symbol::after { animation:none; opacity:0; } }
+
+/* Phone shortcuts and a visual section directory. */
+.mobile-dock,.mobile-explore { display: none; }
+@media (max-width: 640px) {
+  .aurora-page { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  .mobile-dock { position: fixed; z-index: 60; bottom: calc(14px + env(safe-area-inset-bottom)); left: 50%; width: min(330px,calc(100% - 32px)); display: grid; grid-template-columns: 1fr 1.2fr 1fr; padding: 7px; border: 1px solid var(--border); border-radius: 24px; background: color-mix(in srgb,var(--surface-strong) 94%,transparent); box-shadow: 0 8px 32px #0003; backdrop-filter: blur(18px); transform: translate(-50%,140px); visibility: hidden; transition: transform .25s,visibility .25s; }
+  .mobile-dock.is-visible { transform: translate(-50%,0); visibility: visible; }
+  .mobile-dock a,.mobile-dock button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 50px; border: 0; border-radius: 17px; background: transparent; color: var(--text); font: inherit; font-size: 11px; cursor: pointer; }
+  .mobile-dock .mobile-dock-explore { background: color-mix(in srgb,var(--violet) 18%,var(--surface-strong)); }
+  .mobile-dock :focus-visible,.mobile-explore :focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
+  .mobile-explore[open] { display: block; position: fixed; inset: auto 0 0; width: 100%; max-width: 520px; max-height: 88dvh; margin: 0 auto; padding: 0; border: 1px solid var(--border); border-bottom: 0; border-radius: 28px 28px 0 0; color: var(--text); background: var(--surface-strong); overflow-y: auto; overscroll-behavior: contain; box-shadow: 0 -16px 70px #0004; animation: mobile-directory-in .25s ease-out; }
+  .mobile-explore::backdrop { background: #08061499; backdrop-filter: blur(5px); }
+  .mobile-explore-content { padding: 20px 20px calc(24px + env(safe-area-inset-bottom)); }
+  .mobile-explore-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .mobile-explore-top > span { font-size: 9px; letter-spacing: .12em; color: var(--muted); }
+  .mobile-explore-top button { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: transparent; border: 1px solid var(--border); color: var(--text); cursor: pointer; }
+  .mobile-explore h2 { margin: 12px 0 8px; font-size: 29px; font-weight: 400; letter-spacing: -.035em; }
+  .mobile-explore-content > p { margin: 0 0 22px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+  .mobile-explore-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+  .mobile-explore-grid a { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-height: 160px; padding: 16px 12px; border: 1px solid color-mix(in srgb,var(--destination) 30%,var(--border)); border-radius: 18px; background: radial-gradient(ellipse at 0 0,color-mix(in srgb,var(--destination) 15%,transparent),transparent 90%); }
+  .mobile-explore-grid a > svg { color: var(--destination); }
+  .mobile-explore-grid strong { font-size: 15px; font-weight: 500; }
+  .mobile-explore-grid a > span { font-size: 12px; line-height: 1.5; color: var(--muted); }
+  .mobile-explore-grid a[aria-current] { border-color: var(--destination); }
+  .mobile-explore-grid small { font-size: 10px; color: var(--text); margin-top: auto; }
+  .mobile-explore-grid .mobile-explore-arrow { position: absolute; top: 16px; right: 12px; }
+  .mobile-explore-contact { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; margin-top: 18px; font-size: 12px; }
+}
+@keyframes mobile-directory-in { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .mobile-dock { transition: none; } .mobile-explore[open] { animation: none; } }
