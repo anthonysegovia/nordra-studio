@@ -3673,3 +3673,9 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 .hosting-details p { color: var(--muted); font-size: 13px; line-height: 1.8; }
 .hosting-details a { font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) { .hosting-details summary svg { transition: none; } }
+
+/* Keep the mountain clean on mobile browsers with mask compositing differences. */
+@media (max-width: 640px) {
+  .vision-symbol::after { content: none; }
+  .vision-art::before { content: none; }
+}
