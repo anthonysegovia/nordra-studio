@@ -18,3 +18,7 @@
 - Documentos legales siguen en revisión; no se aceptaron acuerdos ni se modificó producción.
 
 Siguiente paso operativo: probar el enlace de cotización en teléfono, recepción del correo y pago con credenciales/cuentas de prueba según el entorno de Mercado Pago, con intervención del usuario para los pasos financieros. No presentar estas verificaciones pendientes como completadas.
+
+## Actualización de evidencias — 18 de octubre de 2026
+
+El usuario confirmó posteriormente que WhatsApp abre y funciona, que recibió el correo y que los pagos ya se habían probado en una sesión anterior. Son confirmaciones del usuario; esta revisión no ejecutó otra transacción ni verificó una conciliación en producción. Sustituyen la petición de repetir esas comprobaciones básicas, no los límites de las pruebas automatizadas descritas arriba.
