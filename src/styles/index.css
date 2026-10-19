@@ -3679,3 +3679,51 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
   .vision-symbol::after { content: none; }
   .vision-art::before { content: none; }
 }
+
+/* Compact the end of the business packages section. */
+.packages-section { padding-bottom: 32px; }
+.packages-section .package-note { margin: 10px 0 0; max-width: none; }
+.hosting-details summary { padding: 16px 0; }
+@media (max-width: 640px) { .packages-section { padding-bottom: 24px; } }
+
+/* Quiet motion for hosting plans; prices share the site's text shimmer. */
+.hosting-options > div { transition: border-color .35s ease, box-shadow .35s ease, transform .35s ease; }
+@media (hover: hover) and (pointer: fine) {
+  .hosting-options > div:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--cyan) 35%, var(--border)); box-shadow: 0 8px 22px #0000000a; }
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .hosting-options strong { display: inline-block; background-image: linear-gradient(90deg, var(--text) 0%, var(--text) 40%, color-mix(in srgb, var(--cyan) 45%, var(--text)) 50%, var(--text) 60%, var(--text) 100%); background-size: 250% 100%; background-clip: text; -webkit-background-clip: text; color: transparent; animation: price-shine-left 6s linear infinite; }
+  .hosting-options > div:nth-child(2) strong { animation-delay: -3s; }
+}
+.hosting-details[open] > div { animation: hosting-details-reveal .35s ease-out; }
+@keyframes hosting-details-reveal { from { opacity: .5; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@supports (animation-timeline: view()) {
+  .hosting-info > .eyebrow, .hosting-info > h3, .hosting-options > div { animation: hosting-arrive linear both; animation-timeline: view(); animation-range: entry 0% entry 85%; }
+}
+@keyframes hosting-arrive { from { opacity: .5; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hosting-info > .eyebrow, .hosting-info > h3, .hosting-options > div, .hosting-options strong, .hosting-details[open] > div { animation: none; translate: none; }
+  .hosting-options > div { transition: none; }
+  .hosting-options > div:hover { transform: none; }
+  .hosting-options strong { background: none; color: var(--text); }
+}
+
+/* Animate the disclosure's height, not only the text inside it. */
+.hosting-details { interpolate-size: allow-keywords; }
+.hosting-details::details-content {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: height .5s cubic-bezier(.22, 1, .36, 1), opacity .35s ease, content-visibility .5s;
+  transition-behavior: allow-discrete;
+}
+.hosting-details[open]::details-content { height: auto; opacity: 1; }
+.hosting-details[open] > div { animation: none; }
+@media (prefers-reduced-motion: reduce) { .hosting-details::details-content { transition: none; } }
+
+/* Hosting is the next step in choosing a business package. */
+.packages-section .hosting-info { margin-top: 28px; padding-top: 8px; border-top: 0; }
+.packages-section .hosting-info h3 { max-width: none; margin: 0 0 12px; font-size: clamp(19px, 2.2vw, 24px); font-weight: 500; line-height: 1.4; }
+.packages-section .hosting-options { margin-top: 20px; }
+.packages-section .hosting-options > div { border-radius: 14px; border-color: var(--border); }
+@media (max-width: 640px) { .packages-section .hosting-info { margin-top: 22px; } }

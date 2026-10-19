@@ -92,11 +92,11 @@ export function Packages() {
         </div>
         <aside id="alojamiento-negocios" className="hosting-info" aria-labelledby="hosting-info-title">
           <p className="eyebrow">{t("SEGUIMOS CONTIGO")}</p>
-          <h3 id="hosting-info-title">{t("Tu negocio sigue. Nosotros te acompañamos.")}</h3>
-          <p>{t("Publicar es el comienzo. Tu paquete incluye el primer mes de alojamiento y soporte técnico; después, elige cómo mantener tu página en línea con nosotros. El plan se paga por separado del desarrollo.")}</p>
+          <h3 id="hosting-info-title">{t("Elige tu paquete. Nosotros lo mantenemos en línea.")}</h3>
+          <p>{t("Todos los paquetes de negocio incluyen el primer mes de alojamiento y soporte técnico desde la publicación. Después, elige la continuidad que prefieras; se paga por separado del desarrollo.")}</p>
           <div className="hosting-options">
             <div><h4>{t("Página informativa sencilla")}</h4><p><strong>$299</strong> {t("MXN al mes")}</p><p>{t("O $1,495 por 6 meses · $2,990 por 12 meses")}</p></div>
-            <div><h4>{t("Aplicación con panel o registros")}</h4><p>{t("Desde")} <strong>$599</strong> {t("MXN al mes")}</p><p>{t("Desde $2,995 por 6 meses · $5,990 por 12 meses")}</p></div>
+            <div><h4>{t("Aplicación con panel o registros")}</h4><p><strong>$599</strong> {t("MXN al mes")}</p><p>{t("O $2,995 por 6 meses · $5,990 por 12 meses")}</p></div>
           </div>
           <p className="hosting-summary">{t("Todos los precios incluyen IVA. El primer mes va por nuestra cuenta; tu plan de pago comienza después, sin cargos automáticos.")}</p>
           <details className="hosting-details"><summary>{t("Qué incluye y cómo funciona")}<ChevronDown size={17} aria-hidden="true" /></summary><div>

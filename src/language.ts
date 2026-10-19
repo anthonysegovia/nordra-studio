@@ -16,6 +16,8 @@ export function useLanguage() {
 const translations: Record<string, string> = {
 "Incluye el primer mes de alojamiento y soporte desde la publicación. Después, el alojamiento se paga por separado según el plan acordado.":"Includes the first month of hosting and support from publication. Hosting is then paid separately under the agreed plan.",
 "Ver continuidad y costos":"View ongoing plans and costs",
+"Elige tu paquete. Nosotros lo mantenemos en línea.":"Choose your package. We keep it online.",
+"Todos los paquetes de negocio incluyen el primer mes de alojamiento y soporte técnico desde la publicación. Después, elige la continuidad que prefieras; se paga por separado del desarrollo.":"All business packages include the first month of hosting and technical support from launch. Then choose your ongoing plan, billed separately from development.",
 "SEGUIMOS CONTIGO":"WE ARE HERE FOR WHAT COMES NEXT",
 "Tu negocio sigue. Nosotros te acompañamos.":"Your business keeps growing. We are here with you.",
 "Publicar es el comienzo. Tu paquete incluye el primer mes de alojamiento y soporte técnico; después, elige cómo mantener tu página en línea con nosotros. El plan se paga por separado del desarrollo.":"Going live is just the beginning. Your package includes the first month of hosting and technical support. Then choose how to keep your website online with us. The plan is billed separately from development.",
@@ -29,7 +31,7 @@ const translations: Record<string, string> = {
 "MXN al mes":"MXN per month",
 "Desde":"From",
 "O $1,495 por 6 meses · $2,990 por 12 meses":"Or $1,495 for 6 months · $2,990 for 12 months",
-"Desde $2,995 por 6 meses · $5,990 por 12 meses":"From $2,995 for 6 months · $5,990 for 12 months",
+"O $2,995 por 6 meses · $5,990 por 12 meses":"Or $2,995 for 6 months · $5,990 for 12 months",
 "IVA incluido. Los planes semestrales y anuales se pagan por adelantado; empiezan al terminar el mes incluido. La cotización fija el precio final, la capacidad y las fechas de tu proyecto.":"VAT included. Six-month and annual plans are paid in advance and start after the included month. Your quote specifies the final price, capacity and project dates.",
 "Incluye subdominio de Nordra sujeto a disponibilidad, revisión preventiva mensual y mantenimiento de las funciones contratadas. Dominio propio, cambios de contenido, funciones nuevas y servicios externos se cotizan por separado.":"Includes a Nordra subdomain subject to availability, monthly preventive checks and maintenance of contracted features. A custom domain, content updates, new features and external services are quoted separately.",
 "Renovación con tu aceptación y pago, sin cargos automáticos. Estos planes corresponden a negocios; los eventos tienen su propia vigencia.":"Renewal requires your acceptance and payment, with no automatic charges. These plans apply to businesses; events have their own hosting terms.",
