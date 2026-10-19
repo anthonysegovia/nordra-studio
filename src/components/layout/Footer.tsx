@@ -80,6 +80,7 @@ export function Footer() {
 
           <span>{t("Monterrey, Nuevo León")}</span>
           <span>{language === "en" ? "Monday–Friday · 9 a.m.–6 p.m." : "Lunes a viernes · 9 a.m.–6 p.m."}</span>
+          <span>{language === "en" ? "Saturday · 10 a.m.–4 p.m." : "Sábados · 10 a.m.–4 p.m."}</span>
           <span>{language === "en" ? "Mexico City time" : "Hora de Ciudad de México"}</span>
         </div>
       </div>
@@ -92,7 +93,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="site-shell footer-bottom"><span>© {new Date().getFullYear()} Nordra Studio</span><a href="#inicio">{language === "en" ? "Back to top ↑" : "Volver al inicio ↑"}</a></div>
+      <div className="site-shell footer-bottom"><span>© {new Date().getFullYear()} Nordra Studio</span><a href="/aviso-de-privacidad.html" hrefLang="es">{language === "en" ? "Privacy notice (Spanish)" : "Aviso de privacidad"}</a><a href="/terminos-del-servicio.html" hrefLang="es">{language === "en" ? "Terms of service (Spanish)" : "Términos del servicio"}</a><a href="#inicio">{language === "en" ? "Back to top ↑" : "Volver al inicio ↑"}</a></div>
     </footer>
   );
 }

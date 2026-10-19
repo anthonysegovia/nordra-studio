@@ -17,6 +17,16 @@ export function Seasonal() {
   const occasions = english
     ? ["Halloween", "Posadas & Christmas", "New Year's Eve"]
     : ["Halloween", "Posadas y Navidad", "Fin de año"];
+  const invitationContact = (occasion?: string) => {
+    const message = english
+      ? occasion
+        ? `Hi Nordra Studio! I'd like to ask about a digital invitation for ${occasion}. I'm interested in the $599 MXN seasonal invitation. I'd like to discuss my event's date and details.`
+        : "Hi Nordra Studio! I'd like a personalized digital invitation for a seasonal celebration. Could you help me choose an option for my event?"
+      : occasion
+        ? `¡Hola, Nordra Studio! Me gustaría consultar una invitación digital para ${occasion}. Me interesa la invitación de temporada de $599 MXN. Quisiera platicar sobre la fecha y los detalles de mi evento.`
+        : "¡Hola, Nordra Studio! Me gustaría una invitación digital personalizada para una celebración de temporada. ¿Me ayudan a elegir una opción para mi evento?";
+    return `https://wa.me/528129022231?text=${encodeURIComponent(message)}`;
+  };
   const captions = english ? ["A little mystery. A lot of fun.", "Gather, share and celebrate.", "A toast to new beginnings."] : ["Un poco de misterio. Mucha diversión.", "Reunirnos, compartir y celebrar.", "Un brindis por nuevos comienzos."];
   const cardLabels = english
     ? ["THE MYSTERY STARTS HERE", "THE MAGIC OF COMING TOGETHER", "A TOAST TO WHAT'S NEXT"]
@@ -31,7 +41,7 @@ export function Seasonal() {
             <p className="eyebrow">{english ? "A SEASON TO CELEBRATE" : "UNA TEMPORADA PARA CELEBRAR"}</p>
             <h2 id="seasonal-title">{english ? "Let the celebration begin" : "Que la celebración empiece"}<br /><span>{english ? "with the invitation." : "desde la invitación."}</span></h2>
             <p>{english ? "Personalized digital invitations with your event's style and all the details your guests need. Let's create something special for your next celebration." : "Invitaciones digitales personalizadas con el estilo de tu evento y los detalles que tus invitados necesitan. Hagamos algo especial para tu próxima celebración."}</p>
-            <a className="seasonal-cta" href="https://wa.me/message/NRMRZZWEXWZ6C1" target="_blank" rel="noopener noreferrer">{english ? "Create my invitation" : "Quiero mi invitación"}<ArrowUpRight size={18} aria-hidden="true" /></a>
+            <a className="seasonal-cta" href={invitationContact()} target="_blank" rel="noopener noreferrer">{english ? "Create my invitation" : "Quiero mi invitación"}<ArrowUpRight size={18} aria-hidden="true" /></a>
           </div>
           <div className="seasonal-occasions">
             {occasions.map((occasion, index) => {
@@ -54,7 +64,10 @@ export function Seasonal() {
                   <p className="seasonal-price">$599 <span>MXN · {english ? "VAT included" : "IVA incluido"}</span></p>
                   <h4>{english ? "Your invitation includes" : "Tu invitación incluye"}</h4>
                   <ul>{includes.map(item => <li key={item}>{item}</li>)}</ul>
-                  <a className="seasonal-back-cta" href="https://wa.me/message/NRMRZZWEXWZ6C1" target="_blank" rel="noopener noreferrer">{english ? "Ask about my invitation" : "Consultar mi invitación"}<ArrowUpRight size={16} aria-hidden="true" /></a>
+                  <a className="seasonal-back-cta" href={invitationContact(occasion)} target="_blank" rel="noopener noreferrer">{english ? "Ask about my invitation" : "Consultar mi invitación"}<ArrowUpRight size={16} aria-hidden="true" /></a>
+                  {index === 0 && <a className="seasonal-demo-link" href="/demos/halloween/index.html" target="_blank" rel="noopener noreferrer" hrefLang="es">{english ? "View an example (Spanish)" : "Ver un ejemplo"}<ArrowUpRight size={15} aria-hidden="true" /></a>}
+                  {index === 1 && <a className="seasonal-demo-link" href="/demos/posada/index.html" target="_blank" rel="noopener noreferrer" hrefLang="es">{english ? "View an example (Spanish)" : "Ver un ejemplo"}<ArrowUpRight size={15} aria-hidden="true" /></a>}
+                  {index === 2 && <a className="seasonal-demo-link" href="/demos/ano-nuevo/index.html" target="_blank" rel="noopener noreferrer" hrefLang="es">{english ? "View an example (Spanish)" : "Ver un ejemplo"}<ArrowUpRight size={15} aria-hidden="true" /></a>}
                 </div>
                 </div>
               </div>;

@@ -84,6 +84,6 @@ export function Payment({ token }: { token: string }) {
           <p className="payment-security"><LockKeyhole size={15} /> {request.state === "paid" ? "Estado verificado con Mercado Pago." : "Completarás tu pago en Mercado Pago."}</p><p className="payment-fine">Este pago corresponde a la cotización aceptada. No activa cargos automáticos. La confirmación se realiza tras verificar el pago recibido.</p>
         </>}
       </section>
-    </div><p className="payment-bottom">Nordra Studio · Atención de lunes a viernes, de 9:00 a 18:00, hora de Ciudad de México.</p>
+    </div><p className="payment-bottom">Nordra Studio · Atención de lunes a viernes de 9:00 a 18:00 y sábados de 10:00 a 16:00, hora de Ciudad de México.</p>
   </main>;
 }

@@ -1,5 +1,5 @@
 import { t, useLanguage } from "../language";
-import { ArrowUpRight, ChevronDown, Code2, ShoppingBag, Sprout, PanelsTopLeft, Building2 } from "lucide-react";
+import { ArrowUpRight, Check, ChevronDown, Code2, ShoppingBag, Sprout, PanelsTopLeft, Building2 } from "lucide-react";
 import { useState } from "react";
 
 const packages = [
@@ -33,10 +33,20 @@ const customPackages = [
 
 function PackageCard({ pack, index, expanded, onToggle }: { pack: (typeof packages)[number]; index: number; expanded: boolean; onToggle: () => void }) {
   const language = useLanguage();
-  const [selected, setSelected] = useState(pack.features);
   const icons = [...packageIcons, Code2, ShoppingBag];
   const Icon = icons[index];
   const comingSoon = index === 4;
+  const quoteMessage = [
+    language === "en"
+      ? `Hi Nordra Studio! I'd like a quote for the ${t(pack.name)} package.`
+      : `¡Hola, Nordra Studio! Me gustaría cotizar el paquete ${t(pack.name)}.`,
+    "",
+    language === "en" ? "Included in this package:" : "Este paquete incluye:",
+    ...pack.features.map(feature => `• ${t(feature)}`),
+    "",
+    language === "en" ? "I'd like to discuss my project and confirm the scope and final price." : "Me gustaría platicar de mi proyecto y confirmar el alcance y el precio final.",
+  ].join("\n");
+  const quoteUrl = `https://wa.me/528129022231?text=${encodeURIComponent(quoteMessage)}`;
   return (
     <div className={`package-card package-accordion package-tone-${index % 3}${expanded ? " is-open" : ""}${comingSoon ? " is-unavailable" : ""}`}>
       <button type="button" className="package-trigger" disabled={comingSoon} aria-expanded={expanded && !comingSoon} aria-controls={`package-panel-${index}`} onClick={onToggle}>
@@ -51,11 +61,12 @@ function PackageCard({ pack, index, expanded, onToggle }: { pack: (typeof packag
           <p className="package-audience">{t(pack.details)}</p>
           <p className="package-price">{priceRanges[index]} <span>{t("MXN")} · {t("IVA incluido")}</span></p>
           <p className="package-options-note">{t("Rango de referencia. La inversión final depende del diseño, contenido y funcionalidades acordadas.")}</p>
+          <p className="package-options-note">{t("Incluye el primer mes de alojamiento y soporte desde la publicación. Después, el alojamiento se paga por separado según el plan acordado.")} <a href="#alojamiento-negocios">{t("Ver continuidad y costos")}</a></p>
         </div>
         <div>
-          <fieldset className="package-options"><legend>{t("¿Qué te gustaría incluir?")}</legend>{pack.features.map(feature => <label key={t(feature)}><input type="checkbox" checked={selected.includes(feature)} onChange={() => setSelected(current => current.includes(feature) ? current.filter(item => item !== feature) : [...current, feature])} /><span>{t(feature)}</span><small>{t("Incluido")}</small></label>)}</fieldset>
-          <p className="package-options-note">{t("Estas opciones están contempladas en el paquete. Tu selección nos ayuda a preparar la propuesta; desmarcarlas no aplica un descuento automático.")}</p>
-          <div className="package-action"><a href="https://wa.me/message/NRMRZZWEXWZ6C1" target="_blank" rel="noopener noreferrer" aria-label={language === "en" ? `Request a quote for ${t(pack.name)} on WhatsApp` : `Solicitar cotización de ${pack.name} por WhatsApp`}>{t("Cotizar mi selección")}<ArrowUpRight size={17} aria-hidden="true" /></a></div>
+          <div className="package-options"><h4>{t("Incluido en tu paquete")}</h4><ul>{pack.features.map(feature => <li key={feature}><Check size={17} aria-hidden="true" /><span>{t(feature)}</span></li>)}</ul></div>
+          <p className="package-options-note">{t("¿Necesitas algo más? Los extras y las funciones a medida se cotizan por separado según el alcance de tu proyecto.")}</p>
+          <div className="package-action"><a href={quoteUrl} target="_blank" rel="noopener noreferrer" aria-label={language === "en" ? `Request a quote for ${t(pack.name)} on WhatsApp` : `Solicitar cotización de ${pack.name} por WhatsApp`}>{t("Cotizar este paquete")}<ArrowUpRight size={17} aria-hidden="true" /></a></div>
         </div>
       </div>
     </div></div></div>
@@ -79,6 +90,19 @@ export function Packages() {
         <div className="custom-packages">
           {customPackages.map((pack, index) => <PackageCard key={t(pack.name)} pack={pack} index={index + 3} expanded={activePackage === index + 3} onToggle={() => togglePackage(index + 3)} />)}
         </div>
+        <aside id="alojamiento-negocios" className="hosting-info" aria-labelledby="hosting-info-title">
+          <p className="eyebrow">{t("DESPUÉS DE PUBLICAR")}</p>
+          <h3 id="hosting-info-title">{t("Tu página también necesita un lugar para vivir.")}</h3>
+          <p>{t("El desarrollo incluye el primer mes de alojamiento y soporte técnico desde la publicación. Después eliges la continuidad; se cobra aparte del desarrollo.")}</p>
+          <div className="hosting-options">
+            <div><h4>{t("Página informativa sencilla")}</h4><p><strong>$299</strong> {t("MXN al mes")}</p><p>{t("O $1,495 por 6 meses · $2,990 por 12 meses")}</p></div>
+            <div><h4>{t("Aplicación con panel o registros")}</h4><p>{t("Desde")} <strong>$599</strong> {t("MXN al mes")}</p><p>{t("Desde $2,995 por 6 meses · $5,990 por 12 meses")}</p></div>
+          </div>
+          <p>{t("IVA incluido. Los planes semestrales y anuales se pagan por adelantado; empiezan al terminar el mes incluido. La cotización fija el precio final, la capacidad y las fechas de tu proyecto.")}</p>
+          <p>{t("Incluye subdominio de Nordra sujeto a disponibilidad, revisión preventiva mensual y mantenimiento de las funciones contratadas. Dominio propio, cambios de contenido, funciones nuevas y servicios externos se cotizan por separado.")}</p>
+          <p>{t("Renovación con tu aceptación y pago, sin cargos automáticos. Estos planes corresponden a negocios; los eventos tienen su propia vigencia.")}</p>
+          <a href="/terminos-del-servicio.html#7-dominios-alojamiento-y-vigencia" hrefLang="es">{t("Consultar alojamiento, cancelaciones y reembolsos")}</a>
+        </aside>
         <p className="package-note">{t("Cada propuesta detalla el alcance y la inversión. Dominio, alojamiento y costos de servicios externos se especifican por separado en la cotización.")}</p>
       </div>
     </section>
