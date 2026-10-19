@@ -211,6 +211,9 @@
 .photo-viewer p{font-size:14px;line-height:1.6;color:#efd2e3}
 .photo-viewer img{display:block;width:100%;height:auto;border-radius:12px;-webkit-touch-callout:default;user-select:auto;-webkit-user-select:auto}
 .demo-banner{position:sticky;top:0;z-index:1100;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 24px;background:#211426f5;border-bottom:1px solid #ff63bd55;font-size:11px;color:#f5e9ce}.demo-banner strong{color:#ff96d2;letter-spacing:.1em}.demo-banner a{text-underline-offset:4px}.calendar{background:transparent;color:var(--cream)}.demo-status{min-height:2em;color:#ffb7dc!important}.cover-card .cover-seal h3.demo-cover{font-size:38px}.gate{min-height:calc(100svh - 55px)}@media(max-width:600px){.demo-banner{padding:12px 16px;font-size:10px}}
+
+/* Open the invitation by touching the illustration. */
+.interactive-art{cursor:pointer}.interactive-art .art-trigger#open{position:absolute;inset:0;z-index:10;display:block;width:100%;height:100%;min-width:0;margin:0;padding:0;border:0;border-radius:110px 110px 4px 4px;background:transparent;box-shadow:none;transform:none;animation:none;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}.interactive-art .art-trigger#open::before,.interactive-art .art-trigger#open::after{content:none}.interactive-art .art-trigger#open:focus-visible{outline:2px solid currentColor;outline-offset:10px}.interactive-art .art-trigger#open:disabled{cursor:default;opacity:1}.interactive-art:has(.art-trigger:hover){filter:drop-shadow(0 0 18px #e9c29655)}.touch-hint{display:block;text-align:center;letter-spacing:.12em;font-size:12px;color:inherit;animation:touch-hint-glow 2.8s ease-in-out infinite}.touch-hint::before{content:'✧ ';}.opening .touch-hint,.entering .touch-hint{animation:none}@keyframes touch-hint-glow{50%{opacity:.55}}@media(prefers-reduced-motion:reduce){.touch-hint{animation:none}}
 </style>
 </head>
 <body>
@@ -221,12 +224,12 @@
 <p class="eyebrow">31 de octubre de 2026 · Lugar de ejemplo</p>
 <h1>Al otro lado,<br>la noche te espera.</h1>
 <p>Una puerta. Una fiesta. Una noche que no vas a olvidar.</p>
-<div class="portal" aria-hidden="true"><div class="portal-light">✦</div><span class="portal-crest" aria-hidden="true">☽</span><div class="door door-left"><span class="door-panel"></span><span class="door-panel-lower"></span><span class="door-ornament" aria-hidden="true">✦</span><span class="door-knob"></span></div><div class="door door-right"><span class="door-panel"></span><span class="door-panel-lower"></span><span class="door-ornament" aria-hidden="true">✦</span><span class="door-knob"></span></div><div class="portal-fog"></div></div>
+<div class="portal interactive-art"><button class="art-trigger" id="open" type="submit" form="entry-form" aria-label="Abrir la invitación de Halloween" aria-describedby="entry-note"></button><div class="portal-light">✦</div><span class="portal-crest" aria-hidden="true">☽</span><div class="door door-left"><span class="door-panel"></span><span class="door-panel-lower"></span><span class="door-ornament" aria-hidden="true">✦</span><span class="door-knob"></span></div><div class="door door-right"><span class="door-panel"></span><span class="door-panel-lower"></span><span class="door-ornament" aria-hidden="true">✦</span><span class="door-knob"></span></div><div class="portal-fog"></div></div>
 <form id="entry-form">
 
-<button class="primary" id="open" type="submit"><svg class="entry-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="4"/><path d="m11 11 9 9m-4-4 3-3m-1 5 3-3"/></svg><span>Abrir la puerta</span><span class="entry-arrow" aria-hidden="true">↗</span></button>
+
 </form>
-<span class="gate-note" id="entry-note">Entra… si te atreves.</span>
+<span class="touch-hint gate-note" id="entry-note">Toca la puerta</span>
 </div>
 </section>
 <main class="invitation" id="invitation" hidden>
