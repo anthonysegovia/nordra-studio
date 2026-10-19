@@ -16,6 +16,11 @@ export function useLanguage() {
 const translations: Record<string, string> = {
 "Incluye el primer mes de alojamiento y soporte desde la publicación. Después, el alojamiento se paga por separado según el plan acordado.":"Includes the first month of hosting and support from publication. Hosting is then paid separately under the agreed plan.",
 "Ver continuidad y costos":"View ongoing plans and costs",
+"SEGUIMOS CONTIGO":"WE ARE HERE FOR WHAT COMES NEXT",
+"Tu negocio sigue. Nosotros te acompañamos.":"Your business keeps growing. We are here with you.",
+"Publicar es el comienzo. Tu paquete incluye el primer mes de alojamiento y soporte técnico; después, elige cómo mantener tu página en línea con nosotros. El plan se paga por separado del desarrollo.":"Going live is just the beginning. Your package includes the first month of hosting and technical support. Then choose how to keep your website online with us. The plan is billed separately from development.",
+"Todos los precios incluyen IVA. El primer mes va por nuestra cuenta; tu plan de pago comienza después, sin cargos automáticos.":"All prices include VAT. The first month is included; your paid plan starts afterwards, with no automatic charges.",
+"Qué incluye y cómo funciona":"What is included and how it works",
 "DESPUÉS DE PUBLICAR":"AFTER PUBLICATION",
 "Tu página también necesita un lugar para vivir.":"Your website also needs a place to live.",
 "El desarrollo incluye el primer mes de alojamiento y soporte técnico desde la publicación. Después eliges la continuidad; se cobra aparte del desarrollo.":"Development includes the first month of hosting and technical support from publication. You then choose an ongoing plan, billed separately from development.",

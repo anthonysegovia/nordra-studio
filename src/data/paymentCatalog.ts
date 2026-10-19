@@ -12,7 +12,7 @@ export const paymentCatalog: CatalogService[] = [
   ...[ { id: "wedding", label: "Boda" }, { id: "celebration", label: "Cumpleaños y celebración" }, { id: "gathering", label: "Evento y encuentro" } ].flatMap(event => [
     { id: `${event.id}-bruma`, group: "Eventos y celebraciones", label: `${event.label} · Bruma`, cents: 149900 },
     { id: `${event.id}-aurora`, group: "Eventos y celebraciones", label: `${event.label} · Aurora`, cents: 299900 },
-    { id: `${event.id}-boreal`, group: "Eventos y celebraciones", label: `${event.label} · Boreal`, cents: 499900, note: "Desde $4,999. Confirma el precio final de la propuesta." },
+    { id: `${event.id}-boreal`, group: "Eventos y celebraciones", label: `${event.label} · Boreal`, cents: 599900, note: "Desde $5,999. Confirma el precio final de la propuesta." },
   ]),
   { id: "halloween", group: "Invitaciones de temporada", label: "Invitación de Halloween", cents: 59900 },
   { id: "christmas", group: "Invitaciones de temporada", label: "Invitación de Posadas y Navidad", cents: 59900 },

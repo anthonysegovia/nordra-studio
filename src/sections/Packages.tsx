@@ -91,17 +91,20 @@ export function Packages() {
           {customPackages.map((pack, index) => <PackageCard key={t(pack.name)} pack={pack} index={index + 3} expanded={activePackage === index + 3} onToggle={() => togglePackage(index + 3)} />)}
         </div>
         <aside id="alojamiento-negocios" className="hosting-info" aria-labelledby="hosting-info-title">
-          <p className="eyebrow">{t("DESPUÉS DE PUBLICAR")}</p>
-          <h3 id="hosting-info-title">{t("Tu página también necesita un lugar para vivir.")}</h3>
-          <p>{t("El desarrollo incluye el primer mes de alojamiento y soporte técnico desde la publicación. Después eliges la continuidad; se cobra aparte del desarrollo.")}</p>
+          <p className="eyebrow">{t("SEGUIMOS CONTIGO")}</p>
+          <h3 id="hosting-info-title">{t("Tu negocio sigue. Nosotros te acompañamos.")}</h3>
+          <p>{t("Publicar es el comienzo. Tu paquete incluye el primer mes de alojamiento y soporte técnico; después, elige cómo mantener tu página en línea con nosotros. El plan se paga por separado del desarrollo.")}</p>
           <div className="hosting-options">
             <div><h4>{t("Página informativa sencilla")}</h4><p><strong>$299</strong> {t("MXN al mes")}</p><p>{t("O $1,495 por 6 meses · $2,990 por 12 meses")}</p></div>
             <div><h4>{t("Aplicación con panel o registros")}</h4><p>{t("Desde")} <strong>$599</strong> {t("MXN al mes")}</p><p>{t("Desde $2,995 por 6 meses · $5,990 por 12 meses")}</p></div>
           </div>
+          <p className="hosting-summary">{t("Todos los precios incluyen IVA. El primer mes va por nuestra cuenta; tu plan de pago comienza después, sin cargos automáticos.")}</p>
+          <details className="hosting-details"><summary>{t("Qué incluye y cómo funciona")}<ChevronDown size={17} aria-hidden="true" /></summary><div>
           <p>{t("IVA incluido. Los planes semestrales y anuales se pagan por adelantado; empiezan al terminar el mes incluido. La cotización fija el precio final, la capacidad y las fechas de tu proyecto.")}</p>
           <p>{t("Incluye subdominio de Nordra sujeto a disponibilidad, revisión preventiva mensual y mantenimiento de las funciones contratadas. Dominio propio, cambios de contenido, funciones nuevas y servicios externos se cotizan por separado.")}</p>
           <p>{t("Renovación con tu aceptación y pago, sin cargos automáticos. Estos planes corresponden a negocios; los eventos tienen su propia vigencia.")}</p>
           <a href="/terminos-del-servicio.html#7-dominios-alojamiento-y-vigencia" hrefLang="es">{t("Consultar alojamiento, cancelaciones y reembolsos")}</a>
+          </div></details>
         </aside>
         <p className="package-note">{t("Cada propuesta detalla el alcance y la inversión. Dominio, alojamiento y costos de servicios externos se especifican por separado en la cotización.")}</p>
       </div>
