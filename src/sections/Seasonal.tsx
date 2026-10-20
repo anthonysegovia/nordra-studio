@@ -66,6 +66,7 @@ export function Seasonal() {
                   <ul>{includes.map(item => <li key={item}>{item}</li>)}</ul>
                   <a className="seasonal-back-cta" href={invitationContact(occasion)} target="_blank" rel="noopener noreferrer">{english ? "Ask about my invitation" : "Consultar mi invitación"}<ArrowUpRight size={16} aria-hidden="true" /></a>
                   {index === 0 && <a className="seasonal-demo-link" href="/demos/halloween/index.html" target="_blank" rel="noopener noreferrer" hrefLang="es">{english ? "View an example (Spanish)" : "Ver un ejemplo"}<ArrowUpRight size={15} aria-hidden="true" /></a>}
+                  {index === 0 && <a className="seasonal-demo-link" href="/demos/halloween-mansion/index.html" target="_blank" rel="noopener noreferrer" hrefLang="es">{english ? "Explore the mansion (Spanish)" : "Explorar La Mansión de Medianoche"}<ArrowUpRight size={15} aria-hidden="true" /></a>}
                   {index === 1 && <a className="seasonal-demo-link" href="/demos/posada/index.html" target="_blank" rel="noopener noreferrer" hrefLang="es">{english ? "View an example (Spanish)" : "Ver un ejemplo"}<ArrowUpRight size={15} aria-hidden="true" /></a>}
                   {index === 2 && <a className="seasonal-demo-link" href="/demos/celebra-2027/" target="_blank" rel="noopener noreferrer" hrefLang="es">{english ? "View an example (Spanish)" : "Ver un ejemplo"}<ArrowUpRight size={15} aria-hidden="true" /></a>}
                 </div>
