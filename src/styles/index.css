@@ -3773,3 +3773,30 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
     box-shadow: none;
   }
 }
+/* Wedding showcase actions: an invitation to explore, with a quiet contact link. */
+.event-story .wedding-contact-link {
+  display: inline-flex; width: fit-content; min-height: 0; padding: 9px 0;
+  border: 0; border-bottom: 1px solid var(--border); border-radius: 0;
+  background: transparent; box-shadow: none; color: var(--muted);
+  font-size: 12px; gap: 12px; margin-top: 15px; text-decoration: none;
+}
+.event-story .wedding-contact-link:hover { background: transparent; color: var(--text); transform: none; box-shadow: none; }
+.wedding-demo-link {
+  display: flex; align-items: center; gap: 17px; width: fit-content; max-width: 100%;
+  padding: 20px 0; margin-top: 12px; color: var(--text); text-decoration: none;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.wedding-demo-envelope {
+  position: relative; flex: 0 0 48px; height: 35px; display: grid; place-items: center;
+  border: 1px solid #aa916b80; border-radius: 3px; color: #b19872; font-size: 16px;
+  background: linear-gradient(33deg,transparent 49%,#aa916b25 50%,transparent 52%),linear-gradient(-33deg,transparent 49%,#aa916b25 50%,transparent 52%);
+  transition: transform .3s;
+}
+.wedding-demo-link strong { display: block; font-size: 16px; font-weight: 500; line-height: 1.4; }
+.wedding-demo-link small { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; letter-spacing: .035em; }
+.wedding-demo-link > svg { flex-shrink: 0; color: #b19872; transition: transform .3s; }
+.wedding-demo-link:hover .wedding-demo-envelope { transform: rotate(-5deg) translateY(-2px); }
+.wedding-demo-link:hover > svg { transform: translate(2px,-2px); }
+.wedding-demo-link:focus-visible,.wedding-contact-link:focus-visible { outline: 2px solid var(--violet); outline-offset: 6px; }
+@media(max-width:640px) { .wedding-demo-link { width: 100%; gap: 13px; } .wedding-demo-link > svg { margin-left:auto; } }
+@media(prefers-reduced-motion:reduce) { .wedding-demo-envelope,.wedding-demo-link > svg { transition:none; } }
