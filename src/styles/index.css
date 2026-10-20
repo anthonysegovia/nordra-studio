@@ -3727,3 +3727,24 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 .packages-section .hosting-options { margin-top: 20px; }
 .packages-section .hosting-options > div { border-radius: 14px; border-color: var(--border); }
 @media (max-width: 640px) { .packages-section .hosting-info { margin-top: 22px; } }
+/* Light theme: preserve the mountain's color instead of screening it over white. */
+:root:not(.dark) .hero-visual.nordra-vision,
+:root:not(.dark) .vision-art {
+  mix-blend-mode: normal;
+}
+:root:not(.dark) .vision-art img {
+  filter: brightness(.88) saturate(1.12) drop-shadow(0 12px 22px #253f8c14);
+}
+:root:not(.dark) .vision-symbol::after {
+  content: none;
+}
+:root:not(.dark) .vision-art::before {
+  background: radial-gradient(ellipse, #b9dfe955, #d7cced30 45%, transparent 70%);
+  filter: blur(24px);
+}
+:root:not(.dark) .vision-orbit {
+  border-color: #53739728;
+}
+:root:not(.dark) .vision-orbit-two {
+  border-color: #8060a825;
+}
