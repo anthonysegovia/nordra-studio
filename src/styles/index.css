@@ -3748,3 +3748,28 @@ details.event-plan { display: block; padding: 0; interpolate-size: allow-keyword
 :root:not(.dark) .vision-orbit-two {
   border-color: #8060a825;
 }
+/* Resolve luminance inside SVG; browsers consume an ordinary alpha mask. */
+.vision-art .vision-symbol img {
+  -webkit-mask-image: url('/nordra-isotype-alpha-mask.svg');
+  mask-image: url('/nordra-isotype-alpha-mask.svg');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  mask-mode: alpha;
+}
+@media (max-width: 640px) {
+  :root:not(.dark) .hero-visual.nordra-vision,
+  :root:not(.dark) .vision-art,
+  :root:not(.dark) .vision-symbol {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    outline: 0;
+  }
+  :root:not(.dark) .vision-art .vision-symbol img {
+    filter: brightness(.88) saturate(1.12);
+    border: 0;
+    box-shadow: none;
+  }
+}
