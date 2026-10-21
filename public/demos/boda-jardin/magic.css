@@ -1,0 +1,64 @@
+/* A twilight garden, with a little light left by each guest. */
+.hero{transition:background-color 1.4s,color 1.4s;isolation:isolate}
+.hero:before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% 12%,#d4bd7c22,transparent 45%),linear-gradient(160deg,#182e30,#304439 65%,#53604b);opacity:0;transition:opacity 1.4s}
+.hero:after{inset:28px max(24px,calc((100% - 700px)/2));border-color:#bba36b55;box-shadow:0 0 45px #d5b77812,inset 0 0 35px #d5b77812;transition:box-shadow 1.4s}
+.hero.is-night{color:#fff4d9;background-color:#243b33}
+.hero.is-night:before{opacity:1}
+.hero.is-night:after{border-color:#e0c38488;box-shadow:0 0 50px #e0c38422,inset 0 0 40px #e0c38415}
+.hero.is-night .intro,.hero.is-night .hero-bottom{color:#dce1c9}
+.hero.is-night .eyebrow,.hero.is-night .date-line strong,.hero.is-night .scroll-cue{color:#e4c98f}
+.hero.is-night .date-line span{border-color:#e4c98f55}
+.hero.is-night .botanical{color:#bac79b;opacity:.4}
+.sky-control{display:inline-flex;align-items:center;gap:10px;border:1px solid #aa925956;border-radius:30px;padding:11px 18px;min-height:44px;background:#fffdf66b;color:#746344;font-size:10px;letter-spacing:.05em;margin:0 0 14px;transition:background .6s,color .6s}
+.sky-control:hover{background:#f4e6c8}
+.is-night .sky-control{color:#f1dbab;border-color:#e4c98f55;background:#ffffff0a}
+.sky-control span{font:20px Georgia}
+.star-field{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.4s;overflow:hidden}
+.is-night .star-field{opacity:1}
+.star-field i{position:absolute;left:var(--sx);top:var(--sy);width:var(--size);height:var(--size);border-radius:50%;background:#ffedbd;box-shadow:0 0 9px #f5da94;animation:starlight var(--twinkle) ease-in-out infinite alternate;animation-delay:var(--wait)}
+.moon{position:absolute;right:17%;top:12%;width:37px;height:37px;border-radius:50%;box-shadow:-8px 5px 0 0 #f5dfaa;transform:rotate(-20deg);filter:drop-shadow(0 0 15px #eed39855)}
+
+
+
+
+
+
+
+
+@keyframes starlight{from{opacity:.2;transform:scale(.7)}to{opacity:.95;transform:scale(1.2)}}
+/* A small fashion atelier: illustrated outfits and touchable fabric samples. */
+.dress-studio{grid-column:1/-1;display:grid;grid-template-columns:1fr 1.05fr;background:#fcf9ef;border:1px solid #b5a47b55;box-shadow:0 22px 60px #52603e0c;text-align:left;overflow:hidden}
+.dress-art{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:38px 24px;background:radial-gradient(ellipse at 50% 40%,#fffdf1,#e8e8d8);border-right:1px solid #b5a47b40}
+.atelier-label{font-size:8px;letter-spacing:.24em;color:#777b60;text-align:center}
+.outfit-frame{width:100%;max-width:370px;margin:26px 0 12px;border:1px solid #ad9a7040;border-radius:48% 48% 0 0;padding-top:12px;position:relative}
+.outfit-drawing{display:block;width:100%;height:auto;overflow:visible}
+.dress-fabric{transition:fill .65s ease}
+.dress-art-caption{font:24px/1.25 'Cormorant Garamond',Georgia;text-align:center;color:#677157;transform:rotate(-5deg)}
+.dress-art-caption em{font-size:31px;color:#9b8152}
+.dress-copy{padding:45px 42px}
+.dress-copy .eyebrow{font-size:8px;letter-spacing:.18em;margin:0 0 18px;max-width:none}
+.dress-copy h3{font-size:clamp(48px,5vw,68px);margin:0 0 22px;letter-spacing:-.035em}
+.dress-copy h3 em{font-weight:400;color:#8c976f}
+.dress-copy .dress-intro{font-size:12px;max-width:310px;margin:0 0 24px}
+.outfit-guides{display:grid;gap:15px;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.outfit-guides p{margin:0;max-width:none}
+.outfit-guides strong{display:block;font:23px 'Cormorant Garamond',Georgia;font-weight:500;color:var(--ink)}
+.outfit-guides span{display:block;font-size:11px;line-height:1.6;margin-top:4px}
+.dress-palette{display:flex;gap:10px;margin:22px 0 9px}
+.dress-palette button{width:46px;height:46px;position:relative;padding:0;border:1px solid transparent;border-radius:50%;background:transparent;transition:transform .25s,border-color .25s}
+.dress-palette button:before{content:'';position:absolute;inset:5px;background:var(--tone);border-radius:50%;box-shadow:inset 0 0 0 1px #0000000a}
+.dress-palette button[aria-pressed=true]{border-color:#82704c}
+.dress-palette button[aria-pressed=true]:after{content:'✓';position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:17px;text-shadow:0 1px 3px #0006}
+.dress-palette button:hover{transform:translateY(-3px)}
+.dress-copy .palette-caption{font-size:10px;margin:0 0 6px;max-width:none}
+.palette-caption span{color:#6d5939}
+.dress-copy .dress-palette-note{font-size:10px;margin:0;max-width:none}
+.dress-footnote{display:flex;align-items:center;gap:14px;padding-top:23px;margin-top:23px;border-top:1px solid var(--line)}
+.dress-footnote>span{font:30px Georgia;color:#ae925d}
+.dress-footnote p{margin:0;font-size:11px}
+.details-grid>.dress-studio+.folded-note{grid-column:1/-1;width:min(540px,100%);justify-self:center;margin:0}
+.details-grid>.dress-studio+.folded-note summary{min-height:180px}
+@media(max-width:700px){.dress-studio{grid-template-columns:1fr}.dress-art{padding:26px 24px 30px;border-right:0;border-bottom:1px solid #b5a47b40}.outfit-frame{max-width:285px;margin:20px 0 10px}.dress-art-caption{font-size:21px}.dress-art-caption em{font-size:27px}.dress-copy{padding:30px 26px}.dress-copy h3{font-size:56px}.dress-copy h3 br{display:none}.dress-copy h3 em:before{content:' '}.dress-palette{gap:12px}.details-grid>.dress-studio+.folded-note{margin:0}}
+@media(prefers-reduced-motion:reduce){.dress-fabric,.dress-palette button{transition:none}}
+@media(max-width:700px){.moon{right:14%;top:16%;width:25px;height:25px}.sky-control{font-size:9px;margin-bottom:8px}.hero:after{inset:15px}.star-field i:nth-child(n+30){display:none}}
+@media(prefers-reduced-motion:reduce){.star-field i{animation:none;opacity:.65}.hero,.hero:before,.hero:after,.star-field,.sky-control{transition:none}}
