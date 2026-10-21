@@ -44,7 +44,7 @@
 .dress-footnote>span{font:30px Georgia}
 .dress-footnote p{margin:0;font-size:11px}
 .details-grid>.dress-studio+.folded-note{grid-column:1/-1;width:min(540px,100%);justify-self:center;margin:0}
-.details-grid>.dress-studio+.folded-note summary{min-height:180px}
+.details-grid>.dress-studio+.folded-note summary{min-height:0}
 @media(max-width:700px){
 .dress-studio{grid-template-columns:1fr}
 .dress-art{padding:26px 24px 30px;border-right:0;border-bottom:1px solid #b5a47b40}

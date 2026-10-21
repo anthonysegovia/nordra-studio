@@ -1,15 +1,16 @@
 const hero = document.querySelector('.hero');
 // Keep the native disclosure authoritative across cancellation and preference changes.
-document.querySelectorAll('.folded-note').forEach(note => {
+document.querySelectorAll('.gift-reveal').forEach(note => {
+  const content = note.querySelector('.gift-content');
   let animation, intendedOpen = note.open;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   function settle() {
     if (animation) { animation.onfinish = null; animation.cancel(); animation = null; }
     note.open = intendedOpen;
     note.style.height = ''; note.style.overflow = '';
-    note.querySelector('.note-inside').inert = !intendedOpen;
+    content.inert = !intendedOpen;
   }
-  note.addEventListener('toggle', () => { if (!animation) { intendedOpen = note.open; note.querySelector('.note-inside').inert = !note.open; } });
+  note.addEventListener('toggle', () => { if (!animation) { intendedOpen = note.open; content.inert = !note.open; } });
   note.querySelector('summary').addEventListener('click', event => {
     if (motion.matches || !note.animate) return;
     event.preventDefault();
@@ -19,8 +20,8 @@ document.querySelectorAll('.folded-note').forEach(note => {
     note.style.height = ''; note.open = intendedOpen;
     const end = note.getBoundingClientRect().height;
     note.open = true; note.style.overflow = 'hidden';
-    note.querySelector('.note-inside').inert = !intendedOpen;
-    animation = note.animate([{height:`${start}px`},{height:`${end}px`}], {duration:480,easing:'cubic-bezier(.22,1,.36,1)'});
+    content.inert = !intendedOpen;
+    animation = note.animate([{height:`${start}px`},{height:`${end}px`}], {duration:620,easing:'cubic-bezier(.22,1,.36,1)'});
     animation.onfinish = settle;
   });
   motion.addEventListener('change',()=>{if(!animation)intendedOpen=note.open;settle()});
@@ -40,13 +41,6 @@ document.querySelector('#open').setAttribute('aria-label', 'Tocar la perla y abr
 document.querySelector('.envelope').insertAdjacentHTML('beforeend','<span class="sea-postmark" aria-hidden="true">CANCÚN<br><b>19 · JUN</b><br>2027</span>');
 arrival.querySelector('.tidal-scene').insertAdjacentHTML('beforeend', `<div class="sunset-rays"></div><div class="pearl-ripples"><i></i><i></i><i></i></div><svg class="shore-birds" viewBox="0 0 180 60"><path d="M10 30Q25 17 40 30Q55 17 70 30M100 45Q110 36 120 45Q130 36 140 45M125 12Q135 3 145 12Q155 3 165 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`);
 hero.insertAdjacentHTML('beforeend', `<svg class="ocean-waves" viewBox="0 0 1440 170" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70Q180 20 360 70T720 70T1080 70T1440 70V80Q1260 30 1080 80T720 80T360 80T0 80Z" fill="currentColor"/><path d="M0 100Q180 50 360 100T720 100T1080 100T1440 100V108Q1260 58 1080 108T720 108T360 108T0 108Z" fill="currentColor"/><path d="M0 135Q180 85 360 135T720 135T1080 135T1440 135V142Q1260 92 1080 142T720 142T360 142T0 142Z" fill="currentColor"/></svg>`);
-const dressStudio = document.querySelector('.dress-studio');
-const dressColors = [...document.querySelectorAll('.dress-palette button')];
-dressColors.forEach(button => button.addEventListener('click', () => {
-  dressStudio.style.setProperty('--dress-color', button.dataset.color);
-  dressColors.forEach(color => color.setAttribute('aria-pressed', String(color === button)));
-  document.querySelector('#dress-color-name').textContent = button.dataset.name;
-}));
 const sky = document.createElement('div');
 sky.className = 'star-field';
 sky.setAttribute('aria-hidden', 'true');

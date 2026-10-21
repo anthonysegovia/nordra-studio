@@ -433,3 +433,26 @@ El lujo debe percibirse en cinco momentos: abrir una carta sin cortes, reconocer
 - Importación ICS en dos clientes y validación de la hora final antes de producción. La duración actual sigue siendo un dato de muestra.
 - Música y parallax opcionales diferidos: no hay audio autorizado y no se añadieron efectos experimentales sin evidencia de mejora.
 - Sede, mapas, regalos reales y backend RSVP conservan sus dependencias y límites originales. El rótulo «Tracy & Diego» del anfitrión queda para una tarea separada, según el alcance del plan.
+
+### Ajuste posterior solicitado — apertura más pausada
+
+- [x] Ralentizar ligeramente la apertura por petición del usuario: duración total de 1.650 a **2.200 ms**, fundido de 600 a 800 ms, solapa de 600 a 800 ms y salida de perla de 350 a 450 ms. Carta coordinada a 1.350 ms tras 550 ms; fallback a 2.350 ms.
+- Esta preferencia explícita sustituye el límite inicial de 1,8 s del plan. Se conservan respuesta inmediata al toque, «Ver invitación», movimiento reducido inmediato y navegación por hash.
+- Validación: `node scripts/check-wedding.mjs`, `npm run build` y `git diff --check` correctos; apertura comprobada en navegador.
+
+### Ajuste posterior solicitado — detalles más minimalistas en móvil
+
+- [x] Sustituir el encabezado doble por «Vestimenta y regalos» y organizar el contenido en una sola columna.
+- [x] Mostrar primero «Formal de playa», dos opciones de atuendo y las recomendaciones de blanco y calzado; acortar textos sin cambiar las indicaciones.
+- [x] Conservar ilustración y cuatro tonos en el desplegable nativo opcional «Ver inspiración de colores», con vista previa compacta y selección anunciada.
+- [x] Convertir regalos en una fila desplegable compacta, manteniendo el aviso de demostración sin enlaces ni aportaciones.
+- [x] Verificar apertura/cierre por teclado, selección de coral y actualización de prendas/nombre, cuatro muestras de aproximadamente 46×46 px y ausencia de desbordamiento en el ancho CSS efectivo comprobado de 454 px. El navegador integrado escala su viewport; no se declara como dispositivo físico.
+- Validaciones: `node scripts/check-wedding.mjs`, `npm run build` y `git diff --check` correctos. La apertura más pausada solicitada anteriormente se conserva.
+
+### Ajuste posterior solicitado — suavidad y regreso a celeste y arena
+
+- [x] Unificar la animación de altura de colores y regalos (620 ms), conservando reversión rápida, teclado, limpieza al terminar y movimiento reducido nativo.
+- [x] Recuperar degradados difuminados de celeste, agua y arena en portada, fondo general y detalles, por preferencia explícita del usuario. Se conserva el sobre coral y la apertura pausada.
+- [x] Suavizar bordes y esquinas de las tarjetas y retirar la altura mínima heredada de regalos.
+- [x] Mantener desplazamiento suave al navegar entre secciones; el hash inicial tras abrir y la preferencia reducida mantienen acceso inmediato.
+- Validación: cinco activaciones rápidas del desplegable de colores, selección de tono, teclado y regalos en navegador; estado final sin altura ni overflow residual y sin desbordamiento horizontal. Comprobación automatizada y compilación correctas.

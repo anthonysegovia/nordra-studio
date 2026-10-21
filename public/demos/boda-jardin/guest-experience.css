@@ -1,0 +1,78 @@
+/* An interactive styling desk, scoped away from the invitation's other sections. */
+#detalles.guest-experience{padding:80px 0;background:radial-gradient(ellipse at 4% 25%,#e9c8b557,transparent 55%),linear-gradient(180deg,var(--paper),#ede4d6 65%,var(--paper));color:#493a33}
+.guest-experience .guest-wrap{width:min(1100px,calc(100% - 44px));margin:auto}
+.guest-heading{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:34px;text-align:left}
+.guest-experience .guest-heading h2{font-size:clamp(38px,5vw,58px);margin:8px 0 0;letter-spacing:-.035em}
+.guest-experience .guest-heading p{max-width:290px;margin:0;font-size:15px;line-height:1.7;color:#655e55}
+.guest-experience .guest-heading .eyebrow{font-size:11px;letter-spacing:.15em;color:#75533f}
+.guest-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+.guest-atelier{--look-color:#398f97;overflow:hidden;background:#fffcf7;border:1px solid #bba58f70;border-radius:120px 120px 12px 12px;box-shadow:0 18px 50px #59402b0a}
+.atelier-top{padding:35px 28px 20px;text-align:center}
+.guest-experience .atelier-top .eyebrow{font-size:10px;color:#716052;letter-spacing:.16em;margin:0 auto 10px}
+.guest-experience .atelier-top h3{font:400 40px/1.1 'Cormorant Garamond',Georgia;margin:0 0 20px;color:#493a33}
+.outfit-switch{display:inline-flex;padding:5px;border:1px solid #bba58f77;background:#f0e7db;border-radius:40px;gap:4px}
+.outfit-switch button{min-height:44px;padding:10px 24px;border:0;border-radius:30px;background:transparent;color:#655b4e;font-size:14px;transition:background .35s,color .35s,box-shadow .35s}
+.outfit-switch button[aria-pressed=true]{background:#fffdf8;color:#3a554e;box-shadow:0 3px 12px #513c2812}
+.atelier-workspace{display:grid;grid-template-columns:minmax(0,1fr) 225px;align-items:stretch}
+.atelier-stage{position:relative;isolation:isolate;display:grid;place-items:center;min-height:365px;background:radial-gradient(ellipse at 50% 45%,#fffcf5 25%,#dfdfcd 100%);margin:0 0 0 20px;border-radius:90px 90px 4px 4px;overflow:hidden}
+.atelier-stage:before{content:'';position:absolute;inset:12px;border:1px solid #a9a58c55;border-radius:80px 80px 0 0;pointer-events:none}
+.atelier-stage:after{content:'';position:absolute;bottom:35px;left:20%;width:60%;height:14px;border-radius:50%;background:#7b73531a;filter:blur(5px);z-index:-1}
+.atelier-illustration{width:min(100%,310px);height:350px;display:block;overflow:visible}
+.look-fabric{fill:var(--look-color);transition:fill .65s ease;stroke:#4e514b;stroke-width:1.2}
+.look-dress-midi,.look-suit{display:none}
+[data-length=midi] .look-dress-long{display:none}[data-length=midi] .look-dress-midi{display:inline}
+[data-model=suit] .look-dress{display:none}[data-model=suit] .look-suit{display:inline}
+.stage-tag{position:absolute;bottom:13px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:.14em;color:#5d6657}
+.atelier-controls{padding:12px 24px 20px}
+.guest-experience .control-label{font-size:12px;font-weight:500;color:#615449;margin:0 0 12px;max-width:none}
+.fabric-swatches{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fabric-swatches button{position:relative;min-height:76px;border:1px solid transparent;border-radius:6px;padding:6px;background:transparent;color:#554b42;display:grid;justify-items:center;gap:5px;font-size:11px;transition:background .3s,border-color .3s}
+.fabric-swatches button i{display:block;width:100%;height:38px;border-radius:3px;background:repeating-linear-gradient(0deg,#ffffff12 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,#0000000a 0 1px,transparent 1px 3px),var(--fabric);box-shadow:0 2px 4px #0001;transition:transform .3s}
+.fabric-swatches button:hover i{transform:translateY(-2px)}
+.fabric-swatches button[aria-pressed=true]{border-color:#5e6d5d;background:#e7ecdf}
+.fabric-swatches button[aria-pressed=true]:after{content:'✓';position:absolute;right:9px;top:9px;background:#fff;border-radius:50%;width:18px;height:18px;color:#35584a;font-size:12px}
+.guest-experience .selected-fabric{font:italic 22px/1.2 'Cormorant Garamond',Georgia;color:#3e685e;margin:12px 0 20px}
+.length-options{padding-top:16px;border-top:1px solid #bba58f55}
+.length-buttons{display:flex;gap:8px}.length-buttons button{flex:1;min-height:44px;border:1px solid #bba58f77;background:transparent;border-radius:4px;color:#655b4e;font-size:13px}
+.length-buttons button[aria-pressed=true]{background:#355e55;color:#fff;border-color:#355e55}
+.guest-experience .suit-description{padding-top:16px;border-top:1px solid #bba58f55;font-size:13px;line-height:1.6;color:#655b4e;margin:0;max-width:none}
+.look-receipt{padding:20px 24px;margin:0 20px;border-bottom:1px solid #bba58f55;display:flex;gap:12px;align-items:center}
+.look-receipt>span{font:28px Georgia;color:#97734d}.look-receipt small{font-size:10px;letter-spacing:.1em;color:#706355;text-transform:uppercase;display:block;margin-bottom:3px}
+.guest-experience .look-result{font-size:14px;color:#384f45;margin:0;max-width:none}
+.atelier-advice{padding:22px 24px 26px}
+.advice-controls{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.advice-controls button{font-size:12px;min-height:44px;padding:8px 12px;border:1px solid #bba58f66;border-radius:30px;background:transparent;color:#60584e;transition:background .3s}
+.advice-controls button[aria-pressed=true]{background:#ece2d4;border-color:#8a7157;color:#493a33}
+.atelier-tip{min-height:100px;text-align:left}.atelier-tip strong{font:500 23px/1.2 'Cormorant Garamond',Georgia;color:#493a33}
+.guest-experience .atelier-tip p{font-size:14px;line-height:1.65;color:#655e55;margin:8px 0 0;max-width:none}
+.guest-experience .atelier-disclaimer{font-size:12px;line-height:1.6;color:#706355;max-width:none;margin:0;padding:15px 24px;background:#f2ebdf}
+.guest-experience .gift-reveal{background:#cc9c88;border:1px solid #ac7a65;border-radius:12px;color:#493a33;overflow:hidden;box-shadow:0 15px 40px #79543c12;margin-top:58px}
+.gift-reveal summary{display:block;list-style:none;cursor:pointer;text-align:center;padding:28px 24px 22px;position:relative}
+.gift-reveal summary::-webkit-details-marker{display:none}
+.gift-reveal summary:focus-visible{outline:2px solid #355e55;outline-offset:-6px;border-radius:12px}
+.gift-label{font-size:10px;letter-spacing:.18em;display:block;color:#593c30}
+.gift-object{display:block;width:140px;height:145px;position:relative;margin:38px auto 22px;perspective:700px}
+.gift-box{position:absolute;z-index:2;bottom:0;left:10px;right:10px;height:100px;background:linear-gradient(120deg,#f7ecdb,#d9c7ac);border:1px solid #ad9272;box-shadow:0 14px 22px #76503c26}
+.gift-box:after{content:'';position:absolute;left:45px;top:0;bottom:0;width:27px;background:linear-gradient(90deg,#506c58,#6c8468,#506c58)}
+.gift-lid{position:absolute;left:2px;right:2px;top:35px;height:22px;background:linear-gradient(110deg,#fff3de,#e0cfb3);border:1px solid #ad9272;z-index:3;transform-origin:15% 50%;transition:transform .65s cubic-bezier(.22,1,.36,1)}
+.gift-lid:before,.gift-lid:after{content:'';position:absolute;bottom:20px;width:43px;height:25px;border:5px solid #617a60;border-radius:60% 60% 0 60%}
+.gift-lid:before{left:21px;transform:rotate(18deg)}.gift-lid:after{right:20px;transform:scaleX(-1) rotate(18deg)}
+.gift-peek{position:absolute;z-index:1;top:52px;left:32px;right:32px;height:70px;display:grid;place-items:center;background:#fffcf4;border:1px solid #c5b496;font:italic 25px Georgia;color:#806345;transition:transform .65s cubic-bezier(.22,1,.36,1)}
+.gift-reveal[open] .gift-lid{transform:translate(-9px,-32px) rotate(-12deg)}
+.gift-reveal[open] .gift-peek{transform:translateY(-33px)}
+.gift-reveal summary:hover .gift-lid{transform:translateY(-5px)}.gift-reveal[open] summary:hover .gift-lid{transform:translate(-9px,-32px) rotate(-12deg)}
+.gift-title{font:400 36px/1.1 'Cormorant Garamond',Georgia;display:block;color:#49352c}
+.gift-subtitle{display:block;font-size:13px;line-height:1.6;color:#593f33;margin:12px auto 20px;max-width:200px}
+.gift-open-label{display:inline-flex;align-items:center;justify-content:space-between;gap:15px;min-height:44px;border-bottom:1px solid #805d4877;font-size:13px;color:#49352c}
+.gift-open-label b{font-size:23px;font-weight:400;transition:transform .5s}.gift-reveal[open] .gift-open-label b{transform:rotate(45deg)}
+.gift-content{margin:0 14px 14px;background:#fffcf6;padding:24px 20px;border:1px solid #a88c7166;border-radius:5px;text-align:left}
+.guest-experience .gift-content h4{font:400 27px/1.1 'Cormorant Garamond',Georgia;margin:0 0 13px;color:#493a33}
+.guest-experience .gift-content p{font-size:14px;line-height:1.7;max-width:none;margin:0 0 16px;color:#65584c}
+.gift-status{display:inline-block;padding:5px 9px;border:1px solid #9ea78b;background:#edf0e5;color:#42533d;font-size:11px;border-radius:20px}
+.guest-experience .gift-content .gift-demo{font-size:12px;margin:15px 0 0;padding-top:14px;border-top:1px solid #bba58f55;color:#706355}
+.gift-footnote{display:block;margin:16px 10px;font-size:12px;line-height:1.6;color:#655e55;text-align:center}
+.guest-experience button:focus-visible{outline:2px solid #245967;outline-offset:3px}
+@media(max-width:1000px){.guest-layout{grid-template-columns:minmax(0,1fr)}.guest-atelier{max-width:760px;width:100%;margin:auto}.guest-gifts{max-width:760px;width:100%;margin:auto}.guest-experience .gift-reveal{margin-top:0}.gift-reveal summary{display:grid;grid-template-columns:150px 1fr;column-gap:25px;text-align:left;align-items:center;padding:28px 35px}.gift-object{grid-column:1;grid-row:1/5;margin:5px 0}.gift-label,.gift-title,.gift-subtitle,.gift-open-label{grid-column:2}.gift-subtitle{max-width:none;margin:9px 0}.gift-open-label{justify-self:start}.gift-content{margin:0 24px 24px}}
+@media(max-width:600px){#detalles.guest-experience{padding:56px 0}.guest-experience .guest-wrap{width:calc(100% - 32px)}.guest-heading{display:block;margin-bottom:25px}.guest-experience .guest-heading h2{font-size:39px}.guest-experience .guest-heading p{margin-top:14px;max-width:330px;font-size:14px}.guest-atelier{border-radius:65px 65px 10px 10px}.atelier-top{padding:28px 18px 18px}.guest-experience .atelier-top h3{font-size:35px}.atelier-workspace{grid-template-columns:1fr}.atelier-stage{min-height:280px;margin:0 18px}.atelier-illustration{height:270px;width:250px}.stage-tag{bottom:8px}.atelier-controls{padding:20px 18px}.fabric-swatches{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.fabric-swatches button{font-size:10px;padding:4px;min-height:70px}.fabric-swatches button i{height:34px}.guest-experience .selected-fabric{margin:8px 0 15px;font-size:21px}.length-options{display:flex;align-items:center;gap:14px;padding-top:12px}.length-options .control-label{margin:0}.length-buttons{flex:1}.atelier-advice{padding:20px 18px}.look-receipt{margin:0 18px;padding:15px 0}.advice-controls{gap:5px}.advice-controls button{padding:8px 10px;font-size:11px}.atelier-tip{min-height:110px}.guest-experience .atelier-disclaimer{padding:14px 18px}.gift-reveal summary{grid-template-columns:100px 1fr;gap:8px 14px;padding:25px 18px}.gift-object{transform:scale(.7);transform-origin:left center;width:100px;margin:0}.gift-box{left:0;right:-20px}.gift-lid{left:-8px;right:-28px}.gift-peek{left:22px;right:-2px}.gift-title{font-size:30px}.gift-label{font-size:9px}.gift-subtitle{font-size:12px}.gift-open-label{font-size:12px;gap:8px}.gift-content{margin:0 14px 14px;padding:22px 18px}}
+@media(prefers-reduced-motion:reduce){.guest-experience *,.guest-experience *:before,.guest-experience *:after{animation:none!important;transition:none!important}}
+.motion-paused .guest-experience *,.motion-paused .guest-experience *:before,.motion-paused .guest-experience *:after{transition:none!important}
