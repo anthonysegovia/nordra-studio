@@ -1,31 +1,36 @@
 const hero = document.querySelector('.hero');
-// Animate the disclosure's actual height, including quick reversals.
+// Keep the native disclosure authoritative across cancellation and preference changes.
 document.querySelectorAll('.folded-note').forEach(note => {
-  let animation;
-  let intendedOpen = note.open;
+  let animation, intendedOpen = note.open;
+  const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  function settle() {
+    if (animation) { animation.onfinish = null; animation.cancel(); animation = null; }
+    note.open = intendedOpen;
+    note.style.height = ''; note.style.overflow = '';
+    note.querySelector('.note-inside').inert = !intendedOpen;
+  }
+  note.addEventListener('toggle', () => { if (!animation) { intendedOpen = note.open; note.querySelector('.note-inside').inert = !note.open; } });
   note.querySelector('summary').addEventListener('click', event => {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (motion.matches || !note.animate) return;
     event.preventDefault();
     const start = note.getBoundingClientRect().height;
     intendedOpen = !intendedOpen;
-    if (animation) animation.cancel();
-    note.style.height = '';
-    note.open = intendedOpen;
+    if (animation) { animation.onfinish = null; animation.cancel(); }
+    note.style.height = ''; note.open = intendedOpen;
     const end = note.getBoundingClientRect().height;
-    note.open = true;
-    note.style.overflow = 'hidden';
-    animation = note.animate([{height:`${start}px`},{height:`${end}px`}], {
-      duration:550,easing:'cubic-bezier(.22,1,.36,1)'
-    });
-    animation.onfinish = () => {
-      note.open = intendedOpen;
-      note.style.overflow = '';
-      animation = null;
-    };
+    note.open = true; note.style.overflow = 'hidden';
+    note.querySelector('.note-inside').inert = !intendedOpen;
+    animation = note.animate([{height:`${start}px`},{height:`${end}px`}], {duration:480,easing:'cubic-bezier(.22,1,.36,1)'});
+    animation.onfinish = settle;
   });
+  motion.addEventListener('change',()=>{if(!animation)intendedOpen=note.open;settle()});
+  if ('ResizeObserver' in window) {
+    let width = note.getBoundingClientRect().width;
+    new ResizeObserver(entries=>{const next=entries[0].contentRect.width;if(Math.abs(next-width)>.5){width=next;settle()}}).observe(note);
+  }
 });
 const arrival = document.querySelector('#gate');
-arrival.insertAdjacentHTML('afterbegin', `<div class="tidal-scene" aria-hidden="true"><span class="tidal-moon"></span><span class="tidal-orbit"></span><div class="tidal-sparks">${Array.from({length:22},(_,i)=>`<i style="--x:${(i*37+9)%100}%;--y:${(i*19+7)%91}%;--delay:-${i%6}s"></i>`).join('')}</div><svg class="tidal-water" viewBox="0 0 1000 240" preserveAspectRatio="none"><path d="M0 70Q125 30 250 70T500 70T750 70T1000 70V240H0Z" fill="#2c788c"/><path d="M0 115Q125 75 250 115T500 115T750 115T1000 115V240H0Z" fill="#41909c"/><path d="M0 160Q125 120 250 160T500 160T750 160T1000 160V240H0Z" fill="#79b8ba"/></svg></div>`);
+arrival.insertAdjacentHTML('afterbegin', `<div class="tidal-scene" aria-hidden="true"><span class="tidal-moon"></span><span class="tidal-orbit"></span><div class="tidal-sparks">${Array.from({length:10},(_,i)=>`<i style="--x:${(i*37+9)%100}%;--y:${(i*19+7)%91}%;--delay:-${i%6}s"></i>`).join('')}</div><svg class="tidal-water" viewBox="0 0 1000 240" preserveAspectRatio="none"><path d="M0 70Q125 30 250 70T500 70T750 70T1000 70V240H0Z" fill="#2c788c"/><path d="M0 115Q125 75 250 115T500 115T750 115T1000 115V240H0Z" fill="#41909c"/><path d="M0 160Q125 120 250 160T500 160T750 160T1000 160V240H0Z" fill="#79b8ba"/></svg></div>`);
 document.querySelector('.arrival-copy .eyebrow').textContent = 'DESDE CANCÚN, CON AMOR';
 document.querySelector('.arrival-copy>p:last-child').innerHTML = 'Nos casamos.<br><em>Te esperamos en Cancún.</em>';
 document.querySelector('.pocket-dedication').textContent = 'Invitación a nuestra boda';
@@ -45,7 +50,7 @@ dressColors.forEach(button => button.addEventListener('click', () => {
 const sky = document.createElement('div');
 sky.className = 'star-field';
 sky.setAttribute('aria-hidden', 'true');
-for (let i = 0; i < 46; i++) {
+for (let i = 0; i < 28; i++) {
   const star = document.createElement('i');
   star.style.cssText = `--sx:${(i * 37 + 7) % 100}%;--sy:${(i * 23 + 3) % 93}%;--size:${i % 3 + 1}px;--twinkle:${3 + i % 5}s;--wait:-${i % 7}s`;
   sky.append(star);
@@ -65,3 +70,67 @@ skyControl.addEventListener('click', () => {
   const night = hero.classList.toggle('is-night');
   skyControl.setAttribute('aria-pressed', String(night));
 });
+
+// Only the pearl and a quiet reflection move continuously; background work sleeps.
+const motionControl = document.createElement('button');
+motionControl.type = 'button'; motionControl.className = 'motion-control';
+motionControl.textContent = 'Pausar animaciones'; motionControl.setAttribute('aria-pressed','false');
+document.querySelector('.scroll-cue').before(motionControl);
+const entryMotionControl = motionControl.cloneNode(true);
+arrival.append(entryMotionControl);
+let manuallyPaused = false;
+const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+function syncMotion() {
+  document.documentElement.classList.toggle('motion-paused', manuallyPaused || document.hidden || motionPreference.matches);
+  [motionControl,entryMotionControl].forEach(control=>{
+    control.setAttribute('aria-pressed',String(manuallyPaused));
+    control.textContent=motionPreference.matches?'Movimiento reducido activado':manuallyPaused?'Reanudar animaciones':'Pausar animaciones';
+    control.disabled=motionPreference.matches;
+  });
+}
+[motionControl,entryMotionControl].forEach(control=>control.addEventListener('click',()=>{manuallyPaused=!manuallyPaused;syncMotion()}));
+document.addEventListener('visibilitychange',syncMotion);
+motionPreference.addEventListener('change',syncMotion);
+if ('IntersectionObserver' in window) {
+  const ambientObserver = new IntersectionObserver(entries=>entries.forEach(entry=>entry.target.classList.toggle('ambient-idle',!entry.isIntersecting)));
+  [arrival,hero].forEach(el=>ambientObserver.observe(el));
+}
+syncMotion();
+
+// Optional album: full optimized photographs, with native modal focus handling.
+const gallery = document.querySelector('#gallery');
+const photoButtons = [...document.querySelectorAll('[data-photo]')];
+const galleryImage = document.querySelector('#gallery-image');
+let photoIndex = 0, photoRevision = 0, photoOrigin;
+function showPhoto(index) {
+  photoIndex = (index + photoButtons.length) % photoButtons.length;
+  const revision = ++photoRevision;
+  const source = photoButtons[photoIndex].querySelector('img');
+  // Replace immediately: a slow preceding decode can never overwrite the last choice.
+  galleryImage.src = source.src.replace('-800.jpg','-1600.jpg');
+  galleryImage.alt = source.alt;
+  document.querySelector('#gallery-position').textContent = `${photoIndex+1} de ${photoButtons.length}`;
+  galleryImage.decode?.().then(()=>{
+    if (revision === photoRevision && !motionPreference.matches && gallery.open) galleryImage.animate([{opacity:.4},{opacity:1}],{duration:280,easing:'ease'});
+  }).catch(()=>{});
+  const next = new Image();
+  next.src = photoButtons[(photoIndex+1)%photoButtons.length].querySelector('img').src.replace('-800.jpg','-1600.jpg');
+  next.decode?.().catch(()=>{});
+}
+photoButtons.forEach((button,index)=>button.addEventListener('click',()=>{
+  photoOrigin=button;showPhoto(index);gallery.showModal();
+}));
+document.querySelector('#gallery-prev').addEventListener('click',()=>showPhoto(photoIndex-1));
+document.querySelector('#gallery-next').addEventListener('click',()=>showPhoto(photoIndex+1));
+document.querySelector('#gallery-close').addEventListener('click',()=>gallery.close());
+gallery.addEventListener('keydown',event=>{
+  if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();showPhoto(photoIndex+(event.key==='ArrowLeft'?-1:1))}
+});
+gallery.addEventListener('click',event=>{
+  if(event.target!==gallery)return;
+  const rect=gallery.getBoundingClientRect();
+  if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)gallery.close();
+});
+gallery.addEventListener('close',()=>{++photoRevision;photoOrigin?.focus({preventScroll:true})});
+
+motionPreference.addEventListener('change',()=>{if(motionPreference.matches)galleryImage.getAnimations().forEach(animation=>animation.cancel())});

@@ -1,116 +1,177 @@
-/* Cancún: ocean blue, Caribbean turquoise, coral and warm sand. */
-:root{--paper:#eef5f5;--ink:#173e50;--olive:#476976;--gold:#997039;--line:#426b7a40}
-.count #count-label{margin:0 0 8px}.count #count-label+.clock{margin-top:0;padding-top:0}.count #count-label+.clock:before{display:none}
-.story-nav a{padding:6px 10px}.story-nav a b{font-size:10px}
-@media(max-width:700px){.story-nav a{padding:6px 8px}}
-.hero h1{font-size:clamp(46px,13vw,112px)}
-.gate .envelope-letter h1{font-size:clamp(26px,7vw,36px)}
-.demo{background:#173e50;color:#edf6f6;border:0}.demo a{color:#fff}
-.gate{background:radial-gradient(ellipse at 50% 40%,#e4f5ef,transparent 65%),linear-gradient(155deg,#73b8ba,#dae8df 62%,#cbb08a)}
-.arrival-copy>p:last-child,.gate .arrival-instruction p{color:#244e5d!important}.arrival-copy .eyebrow{color:#275e6c}
-.gate:before,.gate:after{color:#217e88}.envelope-back{box-shadow:0 28px 65px #153c5140}
-.hero{background:linear-gradient(180deg,#d2e9ed 0%,#edf7f5 42%,#91cdcd 69%,#3b949e 84%,#e1c6a1 100%);color:#123c50;padding-bottom:100px}
-.hero .intro,.hero-bottom{color:#285865}.hero h1 em{background-image:linear-gradient(110deg,#217583,#649c9d,#1c5b6d)}
-.hero:after{border-color:#25727e66}.hero-inner .eyebrow,.hero-inner:before,.date-line strong,.scroll-cue{color:#1e6373}.date-line span{border-color:#286c7c66}
+/* Cancún, a la hora dorada: identity, arrival, album and interaction. */
+.count #count-label{margin:0 0 8px}
+.count #count-label+.clock{margin-top:0;padding-top:0}
+.count #count-label+.clock:before{display:none}
+.demo{border:0}
+.demo a{color:#fff}
+.arrival-copy>p:last-child,.gate .arrival-instruction p{color:#244e5d!important}
+.arrival-copy .eyebrow{color:#275e6c}
+.envelope-back{box-shadow:0 28px 65px #153c5140}
+.hero{padding-bottom:100px}
+.hero .intro,.hero-bottom{color:#285865}
+.hero h1 em{background-image:linear-gradient(110deg,#217583,#649c9d,#1c5b6d)}
+.hero-inner .eyebrow,.hero-inner:before,.date-line strong,.scroll-cue{color:#1e6373}
 .hero:before{background:radial-gradient(ellipse at 50% 12%,#85cbd421,transparent 45%),linear-gradient(180deg,#0b223c,#174c60 68%,#28717d 85%,#6c817d)}
-.hero.is-night{background-color:#12394c}.hero.is-night .intro,.hero.is-night .hero-bottom{color:#ecf7f5}
+.hero.is-night{background-color:#12394c}
+.hero.is-night .intro,.hero.is-night .hero-bottom{color:#ecf7f5}
 .hero .botanical{display:none}
 .ocean-waves{position:absolute;left:-5%;bottom:0;width:110%;height:165px;pointer-events:none;color:#f4fbf7;opacity:.7}
-.ocean-waves path{animation:shore-drift 9s ease-in-out infinite alternate;transform-origin:center}.ocean-waves path:nth-child(2){animation-delay:-4s;opacity:.45}.ocean-waves path:nth-child(3){animation-delay:-7s;opacity:.3}
-.is-night .ocean-waves{opacity:.25}.sky-control{color:#174e60;background:#ffffff80;border-color:#386a7d66}.sky-control:hover{background:#e1f4f3}
-.wedding-petals i{width:4px;height:4px;border-radius:50%;background:#f9ffff;box-shadow:0 0 7px #fff9}.wedding-petals i:nth-child(3n){background:#71c8d2}
-.quote,.quote .chapter-mark{background-color:#fff}.quote{background-image:repeating-linear-gradient(0deg,transparent,transparent 37px,#5c889015 38px,#5c889015 39px);border-color:#6d9aa54d;box-shadow:0 20px 45px #153c5112}
-.count{background:radial-gradient(circle at 0 62%,var(--paper) 12px,transparent 13px),radial-gradient(circle at 100% 62%,var(--paper) 12px,transparent 13px),#174c60;color:#fff;outline-color:#9bced080;box-shadow:0 16px 40px #143e5420}
-.count .chapter-mark small,.count>.eyebrow,.count .clock small,.count .ticket-heading>span,.count .ticket-heading small{color:#c6e4e6}.count .clock strong,.count .ticket-heading strong{color:#fff}.ticket-heading{border-color:#b9dadb80}
-
-.scene-panels{background:#fff;border-color:#7297a1}.scene-copy h3{color:#173e50}.scene-switch button[aria-selected=true]{color:#126b7b;border-color:#126b7b}
-.ceremony-art{background:linear-gradient(#c1e8ee 0%,#edf7ee 48%,#3c9faa 49%,#58b8bc 69%,#e6cba6 70%);color:#174759}.garden-arch{border:2px solid #fff7e3;border-bottom:0;border-radius:0;inset:40px 40px 45px;box-shadow:5px 0 0 #ffffff30}
-.garden-arch:before,.garden-arch:after{content:'';top:0;bottom:0;width:24px;background:linear-gradient(90deg,#fff9,#fffc,#fff4);border-radius:0 0 70% 10%}.garden-arch:before{left:0;transform:rotate(3deg)}.garden-arch:after{right:0;transform:rotate(-3deg)}
-.scene-symbol em{color:#87582e}.scene-ground{color:#fff}.party-art{background:radial-gradient(ellipse at 50% 5%,#e4c67b40,transparent 60%),linear-gradient(#102e49 60%,#23677b 61%,#487f87 80%,#ae9b7e)}
-.details{background:#17566a;border-radius:0;color:#fff}.details:before,.details:after{display:none}.details>.chapter-mark small{color:#9fd6db}.details>.chapter-mark>span{color:#fff}
-.dress-studio{background:#fff;border-color:#75a9b4;box-shadow:0 25px 60px #092d4040;color:#173e50}.dress-art{background:linear-gradient(160deg,#8dcad0,#c1e5e4 60%,#d7bb91);border-color:#5e99a5}.atelier-label{color:#235769}.outfit-frame{border-color:#2d778269;background:#eef8f12b}.dress-art-caption{color:#1e5667}.dress-art-caption em{color:#79552e}
-.dress-copy h3 em{color:#267d88}.details .dress-copy p{color:#466472}.dress-copy .eyebrow{color:#286e7d}.outfit-guides strong{color:#173e50}.palette-caption span{color:#17566a}.dress-footnote>span{color:#287e8a}
-.outfit-drawing path[fill="#737d70"]{fill:#ae9573;stroke:#756048}.outfit-drawing path[fill="#87917f"]{fill:#c8b18f;stroke:#756048}.outfit-drawing path[stroke="#52604f"]{stroke:#756048}.outfit-drawing path[stroke="#869575"]{stroke:#397f88}
-.folded-note{background:#e6cfaa;color:#284955;border-color:#b79c73}.folded-note:after{background:linear-gradient(45deg,#b5986d 49%,#17566a 50%)}.details .folded-note p,.note-open{color:#3c5c67}.folded-note .eyebrow,.note-number{color:#74532c}
-.rsvp h2{color:#17566a}.rsvp .letter-response{background:#fff;border-color:#528b98}.rsvp .letter-response:hover{background:#edf8f8}.rsvp .letter-response strong{color:#174c60}.button{background:#17566a;border-color:#17566a}.button:hover{background:#103f50}
-.story-nav{background:#133e51f2;border-color:#75a9b477;box-shadow:0 6px 30px #0e30452b}.story-nav a{color:#deeeee}.story-nav a[aria-current="location"]{background:#b9e0e2;color:#153f51}footer{background:#173e50;color:#d3e8ea}
+.ocean-waves path{animation:shore-drift 9s ease-in-out infinite alternate;transform-origin:center}
+.ocean-waves path:nth-child(2){animation-delay:-4s;opacity:.45}
+.ocean-waves path:nth-child(3){animation-delay:-7s;opacity:.3}
+.is-night .ocean-waves{opacity:.25}
+.wedding-petals i{width:4px;height:4px;border-radius:50%;background:#f9ffff;box-shadow:0 0 7px #fff9}
+.wedding-petals i:nth-child(3n){background:#71c8d2}
+.quote,.quote .chapter-mark{background-color:#fff}
+.quote{background-image:repeating-linear-gradient(0deg,transparent,transparent 37px,#5c889015 38px,#5c889015 39px);border-color:#6d9aa54d;box-shadow:0 20px 45px #153c5112}
+.count .chapter-mark small,.count>.eyebrow,.count .clock small,.count .ticket-heading>span,.count .ticket-heading small{color:#c6e4e6}
+.ceremony-art{background:linear-gradient(#c1e8ee 0%,#edf7ee 48%,#3c9faa 49%,#58b8bc 69%,#e6cba6 70%);color:#174759}
+.garden-arch{border:2px solid #fff7e3;border-bottom:0;border-radius:0;inset:40px 40px 45px;box-shadow:5px 0 0 #ffffff30}
+.garden-arch:before,.garden-arch:after{content:'';top:0;bottom:0;width:24px;background:linear-gradient(90deg,#fff9,#fffc,#fff4);border-radius:0 0 70% 10%}
+.garden-arch:before{left:0;transform:rotate(3deg)}
+.garden-arch:after{right:0;transform:rotate(-3deg)}
+.scene-symbol em{color:#87582e}
+.scene-ground{color:#fff}
+.party-art{background:radial-gradient(ellipse at 50% 5%,#e4c67b40,transparent 60%),linear-gradient(#102e49 60%,#23677b 61%,#487f87 80%,#ae9b7e)}
+.details{border-radius:0}
+.details:before,.details:after{display:none}
+.atelier-label{color:#235769}
+.outfit-frame{border-color:#2d778269;background:#eef8f12b}
+.dress-art-caption{color:#1e5667}
+.dress-art-caption em{color:#79552e}
+.dress-copy h3 em{color:#267d88}
+.dress-copy .eyebrow{color:#286e7d}
+.outfit-guides strong{color:#173e50}
+.palette-caption span{color:#17566a}
+.dress-footnote>span{color:#287e8a}
+.outfit-drawing path[fill="#737d70"]{fill:#ae9573;stroke:#756048}
+.outfit-drawing path[fill="#87917f"]{fill:#c8b18f;stroke:#756048}
+.outfit-drawing path[stroke="#52604f"]{stroke:#756048}
+.outfit-drawing path[stroke="#869575"]{stroke:#397f88}
+.details .folded-note p,.note-open{color:#3c5c67}
+.folded-note .eyebrow,.note-number{color:#74532c}
+.story-nav{box-shadow:0 6px 30px #0e30452b}
+.story-nav a[aria-current="location"]{background:#b9e0e2;color:#153f51}
 @keyframes shore-drift{from{transform:translateX(-1.5%)}to{transform:translateX(1.5%)}}
-@media(max-width:700px){.hero{padding-bottom:85px}.ocean-waves{height:110px}.date-line span{font-size:9px}.dress-copy h3{font-size:52px}.dress-art{border-bottom-color:#5e99a5}}
-@media(prefers-reduced-motion:reduce){.ocean-waves path{animation:none}}
-
-/* A letter carried in on a moonlit tide. */
-#historia.quote{max-width:100%;padding:55px 20px 35px;background:none;border:0;box-shadow:none;transform:none}
+@media(max-width:700px){
+.hero{padding-bottom:85px}
+.ocean-waves{height:110px}
+.dress-art{border-bottom-color:#5e99a5}
+}
+@media(prefers-reduced-motion:reduce){
+.ocean-waves path{animation:none}
+}
+#historia.quote{max-width:100%;background:none;border:0;box-shadow:none;transform:none}
 #historia.quote .chapter-mark{background:none;margin-bottom:38px}
 .shore-memories{display:grid;grid-template-columns:1.2fr 1fr;align-items:start;gap:28px;position:relative;margin:0 0 55px;padding:10px 10px 60px}
-.shore-photo{margin:0;padding:10px 10px 18px;background:#fff;box-shadow:0 16px 38px #173e5020;border:1px solid #55808d30;transform:rotate(-3deg)}
-.shore-photo:nth-child(2){margin-top:100px;transform:rotate(4deg)}
+.shore-photo{margin:0;padding:10px 10px 18px;box-shadow:0 16px 38px #173e5020;border:1px solid #55808d30}
+.shore-photo:nth-child(2){margin-top:100px}
 .photo-window{overflow:hidden;background:#b6d7db;aspect-ratio:4/3}
 .shore-photo:nth-child(2) .photo-window{aspect-ratio:4/5}
 .shore-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:43% 45%;transition:transform 1s ease}
 .shore-photo:nth-child(2) img{object-position:37% 50%}
 .shore-photo:hover img{transform:scale(1.035)}
 .shore-photo figcaption{font:italic 25px/1.25 'Cormorant Garamond',Georgia;color:#204f60;padding:18px 10px 0;text-align:left}
-.shore-photo figcaption span{display:block;font:8px/1.6 Jost,Arial;letter-spacing:.18em;color:#527684;margin-bottom:7px}
+.shore-photo figcaption span{display:block;font:8px/1.6 Jost,Arial;letter-spacing:.18em;margin-bottom:7px}
 .memory-note{position:absolute;bottom:45px;left:14%;font:italic 36px/1.1 'Cormorant Garamond',Georgia;color:#387c88;transform:rotate(-8deg)}
 #historia.quote>p{font-size:clamp(28px,4vw,38px);max-width:640px}
 #historia .letter-signature{max-width:650px;margin:auto}
-@media(max-width:700px){#historia.quote{padding:30px 0;margin:35px auto}.shore-memories{grid-template-columns:1fr;gap:28px;margin-bottom:15px;padding:8px 8px 55px}.shore-photo{width:94%;padding:8px 8px 15px;transform:rotate(-2deg)}.shore-photo:nth-child(2){width:85%;margin:0 0 0 auto;transform:rotate(3deg)}.shore-photo:nth-child(2) .photo-window{aspect-ratio:4/3}.shore-photo figcaption{font-size:24px;padding:14px 8px 0}.memory-note{bottom:0;left:6%;font-size:28px}.shore-photo:nth-child(2) img{object-position:42% 45%}}
-@media(prefers-reduced-motion:reduce){.shore-photo img{transition:none}.shore-photo:hover img{transform:none}}
-.gate{isolation:isolate;min-height:max(760px,calc(100svh - 36px));padding:65px 24px 75px;background:radial-gradient(ellipse at 50% 48%,#357d87 0%,#164e64 45%,#0b263f 100%)}
+@media(max-width:700px){
+#historia.quote{padding:30px 0;margin:35px auto}
+.shore-memories{grid-template-columns:1fr;margin-bottom:15px;padding:8px 8px 55px}
+.shore-photo{width:94%;padding:8px 8px 15px;transform:rotate(-2deg)}
+.shore-photo:nth-child(2){width:85%;margin:0 0 0 auto}
+.shore-photo:nth-child(2) .photo-window{aspect-ratio:4/3}
+.shore-photo figcaption{font-size:24px;padding:14px 8px 0}
+.memory-note{bottom:0;left:6%;font-size:28px}
+.shore-photo:nth-child(2) img{object-position:42% 45%}
+}
+@media(prefers-reduced-motion:reduce){
+.shore-photo img{transition:none}
+.shore-photo:hover img{transform:none}
+}
+.gate{isolation:isolate}
 .tidal-scene{position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
-.tidal-moon{position:absolute;top:9%;right:17%;width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fffdf0,#c4ded9);box-shadow:0 0 60px 15px #c6e5d626}
-.tidal-orbit{position:absolute;left:50%;top:48%;width:660px;height:660px;border:1px solid #c8e2d724;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 35px #bddfdb06,0 0 0 90px #bddfdb04}
-.tidal-water{position:absolute;bottom:-35px;left:-10%;width:120%;height:220px;opacity:.4}
-.tidal-water path{animation:shore-drift 8s ease-in-out infinite alternate}.tidal-water path:nth-child(2){animation-delay:-3s}.tidal-water path:nth-child(3){animation-delay:-6s}
-.tidal-sparks i{position:absolute;left:var(--x);top:var(--y);width:3px;height:3px;border-radius:50%;background:#e7fbef;box-shadow:0 0 12px 3px #b9e2d955;animation:starlight 4s var(--delay) ease-in-out infinite alternate}
-.gate:before,.gate:after{color:#c3e9de;opacity:.5}
-.gate .arrival-copy{margin-bottom:48px}.gate .arrival-copy .eyebrow{color:#b7e0e3;font-size:9px;letter-spacing:.3em;margin-bottom:18px}
-.gate .arrival-copy>p:last-child{font:400 clamp(35px,5vw,48px)/1.1 'Cormorant Garamond',Georgia!important;color:#fff9e9!important}.arrival-copy em{font-weight:400;color:#b5ded9}
-.gate .envelope{transform:rotate(-3deg);animation:sea-letter-arrive 1.5s ease both}
-.gate .envelope-back{background:#123e52;border:1px solid #76acb9;box-shadow:0 30px 60px #001a3280,0 0 60px #95d7d31a}
-.gate .envelope-pocket{background:linear-gradient(33deg,#286b7c 49.7%,transparent 50%) left bottom/51% 100% no-repeat,linear-gradient(-33deg,#205a70 49.7%,transparent 50%) right bottom/51% 100% no-repeat;background-color:#21566b;border-color:#8ab4bc80}
-.gate .envelope-flap{background:linear-gradient(165deg,#4d8e9c,#1b5268);filter:drop-shadow(0 3px 2px #092b4266)}
-.gate .pocket-dedication{color:#edf5e9;font-size:20px}.gate .pocket-monogram{color:#b5d9db;font-size:24px;letter-spacing:.22em}
-.gate .envelope-letter{background:linear-gradient(135deg,#fffef6,#e0f0ea);border-color:#b5d8d2;box-shadow:0 0 40px #c6efe733}.gate .letter-flower{color:#317887}.gate .letter-closing{color:#386776}
-.gate .seal{width:78px;height:78px;border:3px double #f1eee0;border-radius:50%;color:#356277;background:radial-gradient(circle at 30% 24%,#fff 0%,#f5f4e7 24%,#c4dcd7 52%,#91b5bf 74%,#e8f0e8 100%);box-shadow:inset -5px -5px 10px #45788833,0 0 0 7px #e9eee51c,0 0 35px #bcebe966;animation:pearl-breathe 4s ease-in-out infinite}
-.gate .seal span{font:italic 25px 'Cormorant Garamond',Georgia}.gate .seal:after{content:'✧';position:absolute;right:5px;top:-8px;font:24px Georgia;color:#fff}
-.sea-postmark{position:absolute;z-index:2;right:18px;bottom:18px;width:64px;height:64px;display:grid;place-content:center;text-align:center;border:1px solid #c8e4dd66;border-radius:50%;font:7px/1.5 Jost,Arial;letter-spacing:.12em;color:#c7e2dc;transform:rotate(12deg)}.sea-postmark b{font-size:8px;font-weight:400}
-.gate .arrival-instruction{position:relative;z-index:2;margin-top:32px}.gate .arrival-instruction p{color:#edf6ec!important;font-size:12px!important}.gate .arrival-instruction small{color:#b2d3d9}.instruction-line{background:linear-gradient(#cee7db,transparent)}.gate .opening-message{color:#eef8e9;bottom:35px;z-index:3}
-.gate.opening{animation:entry-fade .7s 2.5s both}.gate.opening .envelope{animation:letter-steady .6s ease both}.gate.opening .seal{animation:pearl-release .65s ease both}.gate.opening .envelope-letter{transition:transform 1.4s cubic-bezier(.22,1,.36,1) .65s;transform:translateY(-155px);box-shadow:0 0 65px #d5f6e980}
-.gate.opening .sea-postmark{opacity:0;transition:opacity .6s 1.3s}.gate.opening .tidal-orbit{animation:tide-opening 2.8s ease both}.gate.opening .tidal-sparks i{box-shadow:0 0 20px 5px #d1f4df88}
+.tidal-moon{position:absolute;border-radius:50%}
+.tidal-orbit{position:absolute;left:50%;top:48%;width:660px;height:660px;border:1px solid #c8e2d724;border-radius:50%;transform:translate(-50%,-50%)}
+.tidal-water{position:absolute;bottom:-35px;left:-10%;width:120%}
+.tidal-water path:nth-child(2){animation-delay:-3s}
+.tidal-water path:nth-child(3){animation-delay:-6s}
+.tidal-sparks i{position:absolute;left:var(--x);top:var(--y);border-radius:50%}
+.gate:before,.gate:after{opacity:.5}
+.gate .arrival-copy .eyebrow{margin-bottom:18px}
+.gate .arrival-copy>p:last-child{font:400 clamp(35px,5vw,48px)/1.1 'Cormorant Garamond',Georgia!important}
+.arrival-copy em{font-weight:400;color:#b5ded9}
+.gate .envelope-back{border:1px solid #76acb9}
+.gate .pocket-dedication{color:#edf5e9;font-size:20px}
+.gate .pocket-monogram{color:#b5d9db;font-size:24px;letter-spacing:.22em}
+.gate .seal{width:78px;height:78px;border:3px double #f1eee0;border-radius:50%}
+.gate .seal span{font:italic 25px 'Cormorant Garamond',Georgia}
+.gate .seal:after{content:'✧';position:absolute;right:5px;top:-8px;font:24px Georgia;color:#fff}
+.sea-postmark{position:absolute;z-index:2;right:18px;bottom:18px;width:64px;height:64px;display:grid;place-content:center;text-align:center;border:1px solid #c8e4dd66;border-radius:50%;font:7px/1.5 Jost,Arial;letter-spacing:.12em;transform:rotate(12deg)}
+.sea-postmark b{font-size:8px;font-weight:400}
+.gate .arrival-instruction{position:relative;z-index:2}
+.instruction-line{background:linear-gradient(#cee7db,transparent)}
+.gate .opening-message{bottom:35px;z-index:3}
+.gate.opening .envelope-letter{transition:transform 1.4s cubic-bezier(.22,1,.36,1) .65s}
+.gate.opening .sea-postmark{opacity:0;transition:opacity .6s 1.3s}
+.gate.opening .tidal-orbit{animation:tide-opening 2.8s ease both}
+.gate.opening .tidal-sparks i{box-shadow:0 0 20px 5px #d1f4df88}
 @keyframes sea-letter-arrive{from{opacity:0;transform:translateY(28px) rotate(-7deg)}to{opacity:1;transform:rotate(-3deg)}}
 @keyframes pearl-breathe{50%{box-shadow:inset -5px -5px 10px #45788833,0 0 0 11px #e9eee510,0 0 45px #bcebe988}}
 @keyframes pearl-release{to{opacity:0;scale:1.6;filter:blur(3px)}}
 @keyframes letter-steady{from{transform:rotate(-3deg)}to{transform:rotate(0)}}
 @keyframes tide-opening{to{transform:translate(-50%,-50%) scale(1.8);opacity:0}}
-@media(max-width:700px){.gate{min-height:max(680px,calc(100svh - 50px));padding:42px 22px 65px}.gate .arrival-copy{margin-bottom:38px}.tidal-moon{width:33px;height:33px;right:10%;top:6%}.tidal-orbit{width:410px;height:410px}.gate .seal{width:68px;height:68px}.gate .pocket-dedication{font-size:16px;bottom:54px}.gate .pocket-monogram{font-size:21px;bottom:20px}.sea-postmark{width:47px;height:47px;right:9px;bottom:10px;font-size:6px}.sea-postmark b{font-size:6px}.gate.opening .envelope-letter{transform:translateY(-115px)}.gate .arrival-instruction p{font-size:10px!important}.tidal-water{height:150px}}
-@media(prefers-reduced-motion:reduce){.gate .envelope,.gate .seal,.tidal-water path,.tidal-sparks i,.gate.opening,.gate.opening .envelope,.gate.opening .seal,.gate.opening .tidal-orbit{animation:none}.gate.opening .envelope-letter{transition:none}.gate .envelope{transform:none}}
-
-/* Sunset arrival: warm paper, coral folds and moving coastal light. */
+@media(max-width:700px){
+.tidal-orbit{width:410px;height:410px}
+.gate .seal{width:68px;height:68px}
+.gate .pocket-dedication{font-size:16px;bottom:54px}
+.gate .pocket-monogram{font-size:21px;bottom:20px}
+.sea-postmark{width:47px;height:47px;right:9px;bottom:10px;font-size:6px}
+.sea-postmark b{font-size:6px}
+.gate.opening .envelope-letter{transform:translateY(-115px)}
+.gate .arrival-instruction p{font-size:10px!important}
+}
+@media(prefers-reduced-motion:reduce){
+.gate .envelope,.gate .seal,.tidal-water path,.tidal-sparks i,.gate.opening,.gate.opening .envelope,.gate.opening .seal,.gate.opening .tidal-orbit{animation:none}
+.gate.opening .envelope-letter{transition:none}
+}
 .gate{background:radial-gradient(ellipse at 72% 20%,#fff5da 0%,transparent 48%),linear-gradient(170deg,#ecd4bc 0%,#f4e5d4 42%,#d7b6a3 75%,#8eafb0 100%)}
 .gate:before,.gate:after{color:#9e663d}
-.gate .arrival-copy .eyebrow{color:#80583c}.gate .arrival-copy>p:last-child{color:#513d35!important}.gate .arrival-copy em{color:#a0644f}
-.tidal-moon{width:90px;height:90px;top:11%;right:15%;background:radial-gradient(circle at 40% 35%,#fff9db,#ecc58c);box-shadow:0 0 70px 28px #fff1c570;animation:sunset-glow 7s ease-in-out infinite alternate}
+.gate .arrival-copy .eyebrow{color:#80583c}
+.gate .arrival-copy>p:last-child{color:#513d35!important}
+.gate .arrival-copy em{color:#a0644f}
+.tidal-moon{width:90px;height:90px;top:11%;right:15%;background:radial-gradient(circle at 40% 35%,#fff9db,#ecc58c);box-shadow:0 0 70px 28px #fff1c570}
 .tidal-orbit{border-color:#9d75552b;box-shadow:0 0 0 35px #a7835707,0 0 0 90px #a7835705}
-.tidal-water{opacity:.35;height:190px}.tidal-water path:first-child{fill:#bd8d78}.tidal-water path:nth-child(2){fill:#9ab8b3}.tidal-water path:nth-child(3){fill:#f4e8d7}
-.tidal-water path{animation:rolling-tide 9s ease-in-out infinite alternate}
+.tidal-water{opacity:.35;height:190px}
+.tidal-water path:first-child{fill:#bd8d78}
+.tidal-water path:nth-child(2){fill:#9ab8b3}
+.tidal-water path:nth-child(3){fill:#f4e8d7}
 .tidal-sparks i{width:4px;height:4px;background:#fffdf0;box-shadow:0 0 9px 2px #e4b26560;animation:sunset-drift 8s var(--delay) ease-in-out infinite}
 .sunset-rays{position:absolute;inset:-50%;background:repeating-conic-gradient(from 20deg at 65% 35%,transparent 0deg 13deg,#fff8dc24 15deg 19deg,transparent 21deg 40deg);animation:coastal-light 22s ease-in-out infinite alternate;opacity:.65}
-.shore-birds{position:absolute;top:18%;left:9%;width:180px;height:60px;color:#896d59;opacity:.65;animation:seabird-glide 13s ease-in-out infinite alternate}
-.gate .envelope{animation:sea-letter-arrive 1.5s ease both,letter-afloat 7s 1.5s ease-in-out infinite}
+.shore-birds{position:absolute;top:18%;left:9%;width:180px;height:60px;color:#896d59;opacity:.65}
 .gate .envelope-back{background:#af7766;border-color:#b58570;box-shadow:0 28px 50px #79573e38,0 0 60px #fff1ce55}
 .gate .envelope-pocket{background:linear-gradient(33deg,#d3a28d 49.7%,transparent 50%) left bottom/51% 100% no-repeat,linear-gradient(-33deg,#c5917e 49.7%,transparent 50%) right bottom/51% 100% no-repeat;background-color:#cb9983;border-color:#ad7761}
 .gate .envelope-flap{background:linear-gradient(155deg,#e5bba3,#b67d69);filter:drop-shadow(0 3px 2px #7f4f3b33)}
 .gate .envelope-pocket:after{content:'';position:absolute;inset:-100%;background:linear-gradient(105deg,transparent 42%,#fff5d942 50%,transparent 58%);animation:paper-glimmer 8s ease-in-out infinite;pointer-events:none}
-.gate .pocket-dedication,.gate .pocket-monogram{color:#543b32}.sea-postmark{color:#654735;border-color:#79503c77}
-.gate .envelope-letter{background:linear-gradient(135deg,#fffefa,#f4e9d5);border-color:#be9c70;box-shadow:0 0 40px #fff0cb55}.gate .letter-flower{color:#a07847}
-.gate .seal{color:#8b6748;background:radial-gradient(circle at 30% 24%,#fff 0%,#fff8e9 26%,#e6d4bb 55%,#c9ad92 78%,#fff5e3 100%);box-shadow:inset -5px -5px 10px #a68c6733,0 0 0 7px #fffaed33,0 0 30px #fff4cd99;animation:warm-pearl 4s ease-in-out infinite}
+.gate .pocket-dedication,.gate .pocket-monogram{color:#543b32}
+.sea-postmark{color:#654735;border-color:#79503c77}
+.gate .envelope-letter{background:linear-gradient(135deg,#fffefa,#f4e9d5);border-color:#be9c70;box-shadow:0 0 40px #fff0cb55}
+.gate .letter-flower{color:#a07847}
+.gate .seal{color:#8b6748;background:radial-gradient(circle at 30% 24%,#fff 0%,#fff8e9 26%,#e6d4bb 55%,#c9ad92 78%,#fff5e3 100%);box-shadow:inset -5px -5px 10px #a68c6733,0 0 0 7px #fffaed33,0 0 30px #fff4cd99}
 .gate .seal:after{animation:pearl-star 5s ease-in-out infinite}
-.gate .arrival-instruction p{color:#573f33!important}.gate .arrival-instruction small{color:#6a5245}.gate .instruction-line{background:linear-gradient(#987251,transparent)}.gate .opening-message{color:#5b4538}
+.gate .arrival-instruction p{color:#573f33!important}
+.gate .arrival-instruction small{color:#6a5245}
+.gate .instruction-line{background:linear-gradient(#987251,transparent)}
+.gate .opening-message{color:#5b4538}
 .pearl-ripples{position:absolute;inset:0;display:grid;place-items:center;opacity:0}
 .pearl-ripples i{position:absolute;width:160px;height:160px;border:1px solid #fff6dc;border-radius:50%;box-shadow:0 0 22px #fff5dc66}
-.gate.opening .pearl-ripples{opacity:1}.gate.opening .pearl-ripples i{animation:pearl-wave 2.6s ease-out both}.gate.opening .pearl-ripples i:nth-child(2){animation-delay:.25s}.gate.opening .pearl-ripples i:nth-child(3){animation-delay:.5s}
-.gate.opening .envelope{animation:letter-steady .6s ease both}.gate.opening .seal{animation:pearl-release .65s ease both}.gate.opening .envelope-letter{box-shadow:0 0 70px #fff4d2aa}.gate.opening .sunset-rays{animation:light-unfold 2.8s ease both}
+.gate.opening .pearl-ripples{opacity:1}
+.gate.opening .pearl-ripples i{animation:pearl-wave 2.6s ease-out both}
+.gate.opening .pearl-ripples i:nth-child(2){animation-delay:.25s}
+.gate.opening .pearl-ripples i:nth-child(3){animation-delay:.5s}
+.gate.opening .envelope-letter{box-shadow:0 0 70px #fff4d2aa}
+.gate.opening .sunset-rays{animation:light-unfold 2.8s ease both}
 @keyframes letter-afloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-9px) rotate(-1deg)}}
 @keyframes paper-glimmer{0%,30%{transform:translateX(-45%);opacity:0}45%{opacity:1}65%,100%{transform:translateX(45%);opacity:0}}
 @keyframes sunset-glow{to{transform:translateY(7px);box-shadow:0 0 90px 38px #fff1c580}}
@@ -122,24 +183,222 @@
 @keyframes pearl-star{50%{opacity:.35;transform:rotate(90deg) scale(.7)}}
 @keyframes pearl-wave{from{transform:scale(.4);opacity:.9}to{transform:scale(6);opacity:0}}
 @keyframes light-unfold{to{transform:rotate(18deg) scale(1.1);opacity:1}}
-@media(max-width:700px){.tidal-moon{width:48px;height:48px;top:6%;right:8%}.shore-birds{width:100px;top:9%;left:5%}.tidal-water{height:140px}.sunset-rays{opacity:.4}}
-@media(prefers-reduced-motion:reduce){.gate .envelope,.gate .seal,.gate .seal:after,.gate .envelope-pocket:after,.tidal-moon,.tidal-water path,.tidal-sparks i,.sunset-rays,.shore-birds,.gate.opening .sunset-rays,.gate.opening .pearl-ripples i{animation:none}.pearl-ripples{display:none}.gate .envelope{transform:none}}
-
-/* Quiet entrances and photographic scenes. */
-.reveal{opacity:0;transform:translate3d(0,8px,0);transition:opacity 1.2s ease,transform 1.5s cubic-bezier(.22,1,.36,1);transition-delay:0s}
-.reveal>:not(.garden-lights){opacity:1;transform:none;transition:none}
-.reveal.visible{opacity:1;transform:none}
+@media(max-width:700px){
+.tidal-moon{width:48px;height:48px;top:6%;right:8%}
+.shore-birds{width:100px;top:9%;left:5%}
+.tidal-water{height:140px}
+.sunset-rays{opacity:.4}
+}
+@media(prefers-reduced-motion:reduce){
+.gate .envelope,.gate .seal,.gate .seal:after,.gate .envelope-pocket:after,.tidal-moon,.tidal-water path,.tidal-sparks i,.sunset-rays,.shore-birds,.gate.opening .sunset-rays,.gate.opening .pearl-ripples i{animation:none}
+.pearl-ripples{display:none}
+.gate .envelope{transform:none}
+}
+.reveal{transition-delay:0s}
 .count.visible{transform:none}
-.scene-panels{display:grid;isolation:isolate;overflow:hidden;padding:10px;background:#fffaf3}
-.garden-scene{grid-area:1/1;animation:none;min-width:0;grid-template-columns:1.05fr 1fr;background:#fffaf3}
-.scene-art{min-height:510px;background:#e2d4bf;position:relative;display:block}
-.scene-art img{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform 1.8s cubic-bezier(.22,1,.36,1)}
+.scene-panels{display:grid;isolation:isolate;overflow:hidden}
+.garden-scene{grid-area:1/1;animation:none;min-width:0}
+.scene-art{position:relative;display:block}
+.scene-art img{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.8s cubic-bezier(.22,1,.36,1)}
 .scene-art:hover img{transform:scale(1.025)}
 .scene-art:after{content:'';position:absolute;inset:65% 0 0;background:linear-gradient(transparent,#132e3a88);pointer-events:none}
-.scene-photo-label{position:absolute;z-index:1;bottom:24px;left:24px;right:18px;color:#fff;font:9px/1.7 Jost,Arial;letter-spacing:.19em;text-shadow:0 1px 8px #0008}
-.scene-copy{padding:36px}.scene-copy h3{font-size:45px}.scene-address small{line-height:1.7}
+.scene-photo-label{position:absolute;z-index:1;color:#fff;font:9px/1.7 Jost,Arial}
+.scene-address small{line-height:1.7}
 .scene-switch button{transition:color .5s ease,border-color .5s ease,background .5s ease;border-radius:12px 12px 0 0}
-.scene-switch button[aria-selected=true]{background:#e0efed70}
 .note-inside{animation:none}
-@media(max-width:700px){.garden-scene{grid-template-columns:1fr;grid-template-rows:350px auto}.scene-art{min-height:0;height:350px}.scene-art img{object-position:center 52%}.scene-copy{padding:28px 24px;min-height:310px}.scene-copy h3{font-size:39px}.scene-photo-label{bottom:18px;left:18px;font-size:8px}.reveal{transform:translate3d(0,6px,0)}.reveal.visible{transform:none}}
-@media(prefers-reduced-motion:reduce){.reveal,.reveal>:not(.garden-lights){opacity:1;transform:none;transition:none}.scene-art img,.scene-switch button{transition:none}.scene-art:hover img{transform:none}}
+@media(max-width:700px){
+.scene-art img{object-position:center 52%}
+.scene-photo-label{bottom:18px;left:18px;font-size:8px}
+.reveal{transform:translate3d(0,6px,0)}
+.reveal.visible{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+.reveal,.reveal>:not(.garden-lights){opacity:1;transform:none;transition:none}
+.scene-art img,.scene-switch button{transition:none}
+.scene-art:hover img{transform:none}
+}
+:root{--paper:#f4e8d8;--surface:#fffcf7;--ink:#493a33;--olive:#5d625e;--gold:#77552d;--coral:#be8976;--marine:#245967;--line:#b99a82;--ease:cubic-bezier(.22,1,.36,1);--entrance:850ms;--space:8px}
+body{font-size:16px;background:var(--paper);color:var(--ink)}
+.demo{background:var(--ink);color:var(--surface);font-size:12px;line-height:1.5;padding:8px 16px}
+.eyebrow,.fine,.chapter-mark small,.ticket-heading>span,.ticket-heading small,.count>.eyebrow,.clock small,.scene-switch button small,.atelier-label,.dress-copy .eyebrow,.dress-copy .palette-caption,.dress-copy .dress-palette-note,.dress-footnote p,.letter-response em,.date-keepsake em,.keepsake-date small,footer{font-size:12px!important;letter-spacing:.08em}
+.fine{color:var(--olive)!important}
+.heading p:not(.eyebrow),.scene-copy>p:not(.eyebrow),.details p,.dress-copy .dress-intro,.outfit-guides span,.rsvp>p:not(.eyebrow),dialog p,label,.note-open{font-size:15px;line-height:1.7}
+.wrap{width:min(1040px,calc(100% - 40px))}
+.hero{min-height:min(850px,100svh);background:radial-gradient(ellipse at 70% 0%,#fff5db,transparent 60%),linear-gradient(180deg,#ecd4bc,var(--paper) 70%,#d8b9a5);color:var(--ink);padding:64px 20px 92px}
+.hero h1{font-size:clamp(50px,13vw,112px);animation:none}
+.hero h1 em{background:none;color:var(--marine);animation:none}
+.hero .intro,.hero-bottom,.hero-inner .eyebrow,.hero-inner:before,.date-line strong,.scroll-cue{color:var(--ink);animation:none}
+.date-line span{font-size:12px;border-color:var(--line);letter-spacing:.08em}
+.hero:after{border-color:var(--line)}
+.sky-control{background:var(--surface);color:var(--marine);font-size:12px;border-color:var(--marine)}
+.sky-control:hover{background:var(--paper)}
+.hero.is-night .hero-inner:before,.hero.is-night h1 em,.hero.is-night .date-line strong,.hero.is-night .eyebrow,.hero.is-night .scroll-cue{color:#f4dfb7}
+.hero.is-night{color:var(--surface)}
+.wedding-petals,.garden-lights,.sunset-rays,.tidal-sparks,.gate:before,.gate:after{display:none}
+.gate{min-height:calc(100svh - 50px);padding:36px 22px 28px;overflow:clip;gap:0}
+.gate .arrival-copy{margin-bottom:32px}
+.gate .arrival-copy .eyebrow{font-size:12px;letter-spacing:.15em}
+.gate .arrival-copy>p:last-child{font-size:clamp(30px,6vw,46px)!important}
+.gate .envelope{flex-shrink:0;animation:none;transform:rotate(-2deg)}
+.gate .arrival-instruction{margin-top:22px}
+.gate .arrival-instruction p{font-size:15px!important}
+.gate .arrival-instruction small{font-size:12px;letter-spacing:0}
+.gate .envelope-letter h1{font-size:clamp(26px,7vw,38px)}
+.gate .letter-closing{color:var(--olive)}
+.gate .envelope-pocket:after,.gate .seal:after{animation:none}
+.tidal-moon{animation:none}
+.shore-birds{animation:seabird-glide 10s ease both}
+.tidal-water path{animation:none}
+.gate .seal{animation:warm-pearl 4s ease-in-out infinite}
+.gate .envelope-letter{transition:transform .9s var(--ease) .45s}
+.envelope-flap{transition:transform .6s var(--ease) .15s}
+.gate.opening{animation:none}
+.gate.opening .envelope{animation:none;transform:none}
+.gate.opening .seal{animation:pearl-release .35s ease both}
+.gate.opening .envelope-letter{transform:translateY(-110px)}
+.opening .envelope-pocket{transition:opacity .5s ease .8s;transform:none}
+.opening .envelope-back{transition:opacity .5s ease .8s}
+.gate.opening .tidal-orbit,.gate.opening .pearl-ripples i{animation-duration:1.3s}
+.entry-skip,.motion-control{min-height:44px;padding:8px 16px;border:0;background:transparent;color:var(--ink);font-size:12px;text-decoration:underline;text-underline-offset:4px}
+.entry-skip{position:relative;z-index:5;margin-top:8px}
+.opening-message{pointer-events:none}
+.gate.opening .opening-message{opacity:0}
+.entry-active #gate{position:absolute;inset:0 0 auto;z-index:20;min-height:100svh}
+.entry-active #invitation{visibility:hidden;height:100svh;overflow:hidden}
+.entry-active .story-nav{visibility:hidden}
+.reveal{opacity:0;transform:translate3d(0,6px,0);transition:opacity var(--entrance) var(--ease),transform var(--entrance) var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+.reveal>:not(.garden-lights){opacity:1;transform:none;transition:none}
+.opened,.opened .hero .intro,.opened .date-line,.opened .hero-bottom,.opened .scroll-cue,.response-seal,.date-line strong,.scroll-cue span{animation:none}
+#historia.quote{margin:64px auto;padding:24px 0 40px}
+.shore-photo{transform:rotate(-2deg);border-color:var(--line);background:var(--surface)}
+.shore-photo:nth-child(2){transform:rotate(2deg)}
+.shore-photo figcaption,.memory-note{color:var(--ink)}
+.shore-photo figcaption span{font-size:12px;color:var(--olive)}
+.photo-window{display:block;width:100%;padding:0;border:0;cursor:zoom-in}
+.photo-window:focus-visible{outline:3px solid var(--marine);outline-offset:4px}
+.count{margin:64px auto;background:var(--surface);color:var(--ink);outline-color:var(--line);box-shadow:0 16px 40px #493a3310;padding:40px 20px 24px}
+.count .clock strong,.count .ticket-heading strong{color:var(--ink)}
+.count .ticket-heading>span,.count .ticket-heading small,.count #count-label,.count .clock small{color:var(--olive)}
+.ticket-heading{border-color:var(--line)}
+.clock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:0 0 20px}
+.clock>div{min-width:0}
+.clock strong{font-size:clamp(32px,7vw,45px);font-variant-numeric:tabular-nums}
+.clock small{letter-spacing:.02em}
+.count .calendar-button{color:var(--marine);font-size:15px;margin-bottom:0;min-height:44px}
+.places{padding:32px 0 64px}
+.scene-panels{padding:8px;background:var(--surface);border-color:var(--line)}
+.garden-scene{grid-template-columns:1fr 1fr;min-height:0;background:var(--surface)}
+.scene-measure{visibility:hidden;pointer-events:none;z-index:-1}
+.scene-art{min-height:0;aspect-ratio:4/5;height:auto;background:#dfcbb5}
+.scene-art img{object-position:50% 50%}
+.party-art img{object-position:52% 50%}
+.scene-photo-label{font-size:12px;letter-spacing:.04em;background:#302720e8;padding:6px 8px;left:12px;right:auto;bottom:12px;text-shadow:none}
+.scene-copy{padding:28px;min-height:0}
+.scene-copy h3{color:var(--ink);font-size:44px}
+.scene-address span{font-size:15px;color:var(--olive)}
+.scene-address small{font-size:12px;color:var(--olive)}
+.scene-switch button[aria-selected=true]{background:var(--surface);color:var(--marine);border-color:var(--marine)}
+.scene-switch button{color:var(--olive);padding:10px 18px}
+.details{background:#ecddcc;color:var(--ink);padding:64px 0}
+.details>.chapter-mark small{color:var(--olive)}
+.details>.chapter-mark>span{color:var(--ink)}
+.dress-studio{background:var(--surface);border-color:var(--line);color:var(--ink);box-shadow:0 20px 55px #493a3310}
+.dress-art{background:linear-gradient(150deg,#edd9c3,#f6ebdc);border-color:var(--line)}
+.atelier-label,.dress-art-caption,.dress-art-caption em,.dress-copy h3 em,.dress-copy .eyebrow,.outfit-guides strong,.palette-caption span,.dress-footnote>span{color:var(--ink)}
+.details .dress-copy p{color:var(--olive)}
+.folded-note{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.folded-note:after{background:linear-gradient(45deg,#d9bfab 49%,#ecddcc 50%)}
+.details .folded-note p,.note-open,.folded-note .eyebrow{color:var(--olive)}
+.dress-palette button[aria-pressed=true]{border:2px solid var(--ink)}
+.dress-palette button[aria-pressed=true]:after{background:var(--ink);border-radius:50%;inset:13px;font-size:14px;text-shadow:none}
+.rsvp h2{color:var(--ink)}
+.rsvp .letter-response{background:var(--surface);border-color:var(--line)}
+.rsvp .letter-response:hover{background:#f8f0e5}
+.rsvp .letter-response strong{color:var(--ink)}
+.button{background:var(--marine);border-color:var(--marine);font-size:15px;min-height:44px}
+.button:hover{background:#193f49}
+.calendar-button{color:var(--marine);font-size:15px}
+.story-nav{background:#493a33f5;border-color:#b99a82;backdrop-filter:none;padding:6px;gap:0;width:max-content;max-width:calc(100% - 16px)}
+.story-nav a{min-width:0;min-height:44px;padding:6px 9px;color:var(--surface)}
+.story-nav a b{font-size:12px}
+.story-nav a[aria-current=location]{background:var(--paper);color:var(--ink)}
+.story-nav a:focus-visible{outline-color:#fff4da}
+.story-nav a{scroll-margin-bottom:100px}
+[id]{scroll-margin-top:24px;scroll-margin-bottom:calc(90px + env(safe-area-inset-bottom))}
+footer{background:var(--ink);color:var(--surface);padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+dialog{background:var(--surface);border-color:var(--line);max-height:calc(100svh - 32px);padding:24px}
+dialog[open]{animation:dialog-arrive .2s var(--ease)}
+.close{position:sticky;top:0;z-index:2;background:var(--surface);color:var(--ink)}
+.confirmation{animation:dialog-arrive .2s var(--ease)}
+select{font-size:16px}
+dialog::backdrop{backdrop-filter:none;background:#302720b3}
+.motion-control{display:block;margin:16px auto;color:var(--olive)}
+.motion-paused :is(.shore-birds,.ocean-waves path,.star-field i),.motion-paused .gate:not(.opening) .seal,.ambient-idle :is(.shore-birds,.ocean-waves path,.star-field i),.gate.ambient-idle .seal{animation-play-state:paused!important}
+.star-field i{animation-play-state:paused}
+.is-night .star-field i{animation-play-state:running}
+@keyframes dialog-arrive{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(max-width:700px){
+.gate{min-height:100svh;padding:28px 22px}
+.gate .arrival-copy{margin-bottom:24px}
+.gate .envelope{height:220px}
+.gate .arrival-instruction{margin-top:18px}
+.instruction-line{height:16px;margin-bottom:8px}
+.hero{padding:52px 20px 88px}
+.hero h1{font-size:clamp(48px,14vw,84px)}
+.date-line span{font-size:12px;letter-spacing:0}
+.hero-bottom{font-size:15px}
+.shore-memories{gap:32px;padding-bottom:48px}
+.shore-photo,.shore-photo:nth-child(2){width:96%;transform:rotate(-1deg)}
+.shore-photo:nth-child(2){transform:rotate(1deg)}
+.garden-scene{grid-template-columns:1fr;grid-template-rows:auto auto}
+.scene-art{aspect-ratio:4/3;height:auto;min-height:0}
+.scene-copy{padding:24px 20px;min-height:0}
+.scene-copy h3{font-size:38px}
+.dress-copy{padding:28px 20px}
+.dress-copy h3{font-size:46px}
+.dress-palette{gap:8px}
+.story-nav a{padding:6px 8px}
+.story-nav a b{font-size:11px}
+.details-grid>.dress-studio+.folded-note{margin:0}
+.folded-note summary{padding:24px}
+.note-inside{padding:0 24px 24px}
+}
+@media(max-height:650px){
+.gate{justify-content:flex-start}
+.gate .arrival-copy{margin-bottom:20px}
+.gate .arrival-copy>p:last-child{font-size:30px!important}
+.gate .envelope{height:200px}
+.gate .arrival-instruction{margin-top:12px}
+.gate .instruction-line{display:none}
+.entry-skip{margin-top:0}
+}
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+.reveal{opacity:1;transform:none;transition:none}
+.gate.opening .envelope-letter{transform:none}
+.star-field i{animation:none}
+dialog[open],.confirmation{animation:none}
+}
+.gallery{width:min(1100px,calc(100% - 24px));padding:16px;overflow:auto}
+.gallery-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.gallery-toolbar h2{font-size:30px;margin:0}
+.gallery .close{float:none;flex-shrink:0}
+.gallery-frame{height:min(68svh,720px);display:grid;place-items:center;background:#eee3d4}
+.gallery-frame img{display:block;max-width:100%;width:100%;height:100%;min-height:0;object-fit:contain}
+.gallery-actions{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.gallery-actions button{min-width:44px;min-height:44px;border:0;background:transparent;color:var(--marine);font-size:15px}
+.gallery-actions p{margin:0;font-size:12px}
+.gallery-actions button:focus-visible{outline-color:var(--marine)}
+@media(max-width:400px){
+.gallery{padding:12px}
+.gallery-toolbar h2{font-size:26px}
+.gallery-actions button{font-size:12px;padding:8px 4px}
+}
+.scenes-enhanced .scene-art img{opacity:0;transition:opacity .35s ease,transform 1.2s var(--ease)}
+.scenes-enhanced .scene-art img.is-ready{opacity:1}
+@media(prefers-reduced-motion:reduce){
+.scene-art img{transition:none}
+}
+.hero.is-night .sky-control,.hero.is-night .sky-control:hover{background:#153b49;color:#fff0d1;border-color:var(--line)}
+.hero.is-night .motion-control{color:#ecf7f5}
