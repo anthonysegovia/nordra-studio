@@ -27,7 +27,15 @@
 .opening-contours path:nth-child(2) { opacity: .55; }.opening-contours path:nth-child(3) { opacity: .25; }.opening-contours ellipse { opacity: .6; }
 .opening-symbol-response { position: relative; width: min(56%,620px); transition: transform 1.4s var(--opening-ease); }
 .opening-symbol { animation: opening-mountain-drift 14s ease-in-out infinite; }
-.opening-symbol img { display: block; width: 100%; height: auto; mask-image: url('/nordra-isotype-transparent.webp'); mask-mode: luminance; mask-size: 100% 100%; mask-repeat: no-repeat; }
+.opening-symbol img {
+  display: block; width: 100%; height: auto;
+  /* Resolve luminance inside the existing SVG: Safari receives the same alpha
+     transparency as Chromium instead of exposing the image's dark backing. */
+  -webkit-mask-image: url('/nordra-isotype-alpha-mask.svg');
+  mask-image: url('/nordra-isotype-alpha-mask.svg');
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; mask-mode: alpha;
+}
 .dark .opening-symbol { mix-blend-mode: screen; }
 .opening-trail { stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 6 94; opacity: .45; animation: opening-light-travel 17s linear infinite; transition: opacity 1s ease,stroke-width 1s ease; }
 .opening-trail-business { stroke: var(--hero-teal); }.opening-trail-invitation { stroke: var(--hero-lilac); animation-delay: -8s; animation-direction: reverse; }

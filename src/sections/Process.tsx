@@ -106,34 +106,12 @@ export function Process() {
     if (!section) return;
     const observer = new IntersectionObserver(([entry]) => { section.dataset.inView = String(entry.isIntersecting); }, { threshold: .1 });
     observer.observe(section);
-    // The mobile illustration stays below the actual header, including zoom
-    // and translated layouts, without scrolling the reader on selection.
-    const header = document.querySelector(".site-header");
-    let scrollFrame = 0;
-    let headerHeight = 74;
-    const updatePinned = () => {
-      scrollFrame = 0;
-      const art = section.querySelector(".process-art")?.getBoundingClientRect();
-      section.dataset.artPinned = String(window.matchMedia("(max-width: 700px)").matches && !!art && art.top <= headerHeight + 1 && art.bottom > headerHeight);
-    };
-    const schedulePinned = () => { if (!scrollFrame) scrollFrame = requestAnimationFrame(updatePinned); };
-    const measureHeader = () => {
-      headerHeight = Math.ceil(header?.getBoundingClientRect().height ?? 74);
-      section.style.setProperty("--process-header-height", `${headerHeight}px`);
-      cancelAnimationFrame(scrollFrame);
-      updatePinned();
-    };
-    const headerObserver = new ResizeObserver(measureHeader);
-    if (header) headerObserver.observe(header);
-    measureHeader();
-    window.addEventListener("scroll", schedulePinned, { passive: true });
-    window.addEventListener("resize", schedulePinned);
     const pointer = window.matchMedia("(hover: hover) and (pointer: fine)");
     const clearHover = () => { setHoveredStep(null); setQuoteHovered(false); };
     pointer.addEventListener("change", clearHover);
     const visibility = () => { section.dataset.hidden = String(document.hidden); if (document.hidden) { clearHover(); cancelQuote(); } };
     visibility(); document.addEventListener("visibilitychange", visibility);
-    return () => { observer.disconnect(); headerObserver.disconnect(); cancelAnimationFrame(scrollFrame); window.clearTimeout(quoteTimer.current); window.removeEventListener("scroll", schedulePinned); window.removeEventListener("resize", schedulePinned); pointer.removeEventListener("change", clearHover); document.removeEventListener("visibilitychange", visibility); };
+    return () => { observer.disconnect(); window.clearTimeout(quoteTimer.current); pointer.removeEventListener("change", clearHover); document.removeEventListener("visibilitychange", visibility); };
   }, []);
   const steps = english ? [
     ["Tell us your idea", "Share your business or event, what you need and your preferred date on WhatsApp."],

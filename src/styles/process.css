@@ -118,12 +118,10 @@
   .process-eyebrow { margin-bottom: 10px; justify-content: space-between; }
   .process-studio .process-heading h2 { font-size: clamp(38px,9.5vw,52px); max-width: 16ch; }
   .process-studio { --process-art-height: clamp(126px,24svh,190px); }
-  .process-art { position: sticky; top: var(--process-header-height,74px); align-self: start; isolation: isolate; z-index: 3; width: 100%; height: var(--process-art-height); margin: 0; pointer-events: none; }
-  .process-art::before { content: ""; position: absolute; z-index: -1; inset: 0 -14px -10px; border-bottom: 1px solid var(--border); border-radius: 0 0 22px 22px; background: radial-gradient(ellipse at 50% 45%,color-mix(in srgb,var(--process-cyan) 8%,transparent),transparent 75%),var(--bg); opacity: 0; transition: opacity .35s ease; }
-  .process-studio[data-art-pinned=true] .process-art::before { opacity: 1; }
+  .process-art { position: relative; align-self: start; isolation: isolate; width: 100%; height: var(--process-art-height); margin: 0; pointer-events: none; }
   .process-art .process-illustration { height: 100%; width: 100%; overflow: hidden; }
   .process-art-note { display: none; }
-  .process-studio :is(.process-step-trigger,.process-start) { scroll-margin-top: calc(var(--process-art-height) + 12px); }
+  .process-studio :is(.process-step-trigger,.process-start) { scroll-margin-top: 96px; }
   .process-studio .process-steps { padding-top: 0; }
   .process-stage { column-gap: 17px; padding-bottom: 28px; }.process-stage-2 { padding-bottom: 0; }
   .process-studio .process-stage h3 { font-size: 20px; margin-bottom: 9px; }
