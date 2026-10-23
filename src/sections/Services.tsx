@@ -1,3 +1,4 @@
+import { sectionHref } from "../navigation";
 import { services } from "../data/services";
 import { ArrowUpRight } from "lucide-react";
 
@@ -16,7 +17,7 @@ export function Services() {
               Combinamos estrategia, diseño y tecnología para crear experiencias web que impulsan
               negocios y conectan con audiencias.
             </p>
-            <a href="#contacto">Ver todos los servicios →</a>
+            <a href={sectionHref("contacto")}>Ver todos los servicios →</a>
           </div>
         </div>
 

@@ -1,8 +1,11 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-nordra-demo="posada">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>html[data-nordra-demo]{background:#102b25;color-scheme:dark}</style>
+<link rel="stylesheet" href="/nordra-entry.css">
+<script src="/nordra-entry.js"></script>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#102b25">
 <meta name="description" content="Una invitación de posada navideña de ejemplo. Abre el sobre y descubre una noche para compartir. Sin registros ni cobros.">
@@ -57,7 +60,7 @@ dialog{width:min(460px,calc(100% - 32px));padding:32px;border:1px solid var(--li
 <symbol id="branch" viewBox="0 0 240 320"><g fill="none" stroke="currentColor" stroke-linecap="round"><path d="M25 310Q100 160 210 20" stroke-width="3"/><path d="m57 245-35-7m35 7-23-27m23 27 36 2m-24-30-34-13m34 13-18-34m18 34 36-3m-23-25-32-17m32 17-13-36m13 36 33-8m-19-18-30-20m30 20-8-37m8 37 35-15m-19-10-25-22m25 22-5-34m5 34 31-17m-14-5-23-25m23 25 1-33m-1 33 28-19m-12-4-17-24m17 24 4-29m-4 29 25-17" stroke-width="2"/><path d="M43 289q30-13 47-8M99 170q-31-36-32-60M122 138q31 1 57-15M153 92q-2-26 2-47" opacity=".5" stroke-width="2"/></g><g fill="#b35745"><circle cx="94" cy="235" r="5"/><circle cx="105" cy="241" r="5"/><circle cx="107" cy="230" r="5"/><circle cx="156" cy="153" r="5"/><circle cx="168" cy="151" r="5"/><circle cx="161" cy="141" r="5"/></g></symbol>
 </defs></svg>
 <div class="paper-grain" aria-hidden="true"></div>
-<aside class="sample-bar" aria-label="Aviso de demostración"><span><strong>DEMOSTRACIÓN</strong> · Invitación de ejemplo</span><a href="/#temporada">Volver a Nordra ↗</a></aside>
+<aside class="sample-bar" aria-label="Aviso de demostración"><span><strong>DEMOSTRACIÓN</strong> · Invitación de ejemplo</span><a href="/invitaciones.html#temporada">Volver a Nordra ↗</a></aside>
 <section class="gate" id="gate" aria-labelledby="gate-title">
 <svg class="sprig left" aria-hidden="true"><use href="#branch"/></svg><svg class="sprig right" aria-hidden="true"><use href="#branch"/></svg>
 <div class="gate-copy"><p class="eyebrow">Hay algo bonito esperándote</p><h1>Esta invitación<br>también es un abrazo.</h1><p class="description">Para volver a vernos, brindar por lo vivido<br>y compartir un poquito de magia.</p>
@@ -79,7 +82,7 @@ dialog{width:min(460px,calc(100% - 32px));padding:32px;border:1px solid var(--li
 <section class="program-section"><div class="section-heading"><p class="eyebrow">Así se comparte la noche</p><h2>Sin prisa.<br>Con mucho cariño.</h2><p>Un programa de ejemplo para que nadie se pierda su momento favorito.</p></div><ol class="timeline"><li><time>19:00</time><h3>Bienvenidas<br>y ponche</h3><p>El primer abrazo y algo calientito para empezar.</p></li><li><time>20:00</time><h3>A compartir<br>la mesa</h3><p>Una cena que se disfruta mejor entre todos.</p></li><li><time>21:00</time><h3>¡Dale, dale,<br>dale!</h3><p>La piñata, las risas y los dulces que nos reúnen.</p></li><li><time>22:00</time><h3>Por lo que<br>viene</h3><p>Un brindis de buenos deseos para cerrar el año.</p></li></ol>
 <div class="little-details"><article><span class="icon" aria-hidden="true">✧</span><h3>Un toque navideño</h3><p>Ven cómodo y abrigado. Si quieres, suma un detalle verde, rojo o dorado a tu ropa.</p></article><article><span class="icon" aria-hidden="true">☕</span><h3>Nos vemos aquí</h3><p>Jardín de los Abetos es un lugar de ejemplo. En tu invitación, este espacio puede incluir la ubicación de tu celebración.</p><button class="quiet-button" id="location-button" type="button">Ver ubicación de ejemplo ↗</button></article></div></section>
 <section class="rsvp-section"><svg class="star-small" aria-hidden="true"><use href="#star"/></svg><p class="eyebrow">Las mejores noches se comparten</p><h2>¿Nos acompañas<br>a celebrar?</h2><p>Tu lugar en la mesa empieza con una respuesta.<br>Prueba cómo se sentiría confirmar tu asistencia.</p><div class="actions"><button class="gold-button" id="rsvp-button" type="button">Confirmar en este ejemplo ↗</button><button class="quiet-button" id="calendar-button" type="button">Probar recordatorio</button></div><p class="demo-small">Esta es una demostración. Las respuestas son simuladas: no se solicitan datos personales, no se envían mensajes ni se crean recordatorios reales.</p></section>
-<footer>Una invitación para compartir, creada por <a href="/#temporada">Nordra Studio</a>.<br>Demostración · Todos los datos de la celebración son de ejemplo.</footer>
+<footer>Una invitación para compartir, creada por <a href="/invitaciones.html#temporada">Nordra Studio</a>.<br>Demostración · Todos los datos de la celebración son de ejemplo.</footer>
 </main>
 <dialog id="example-dialog" aria-labelledby="dialog-title"><p class="eyebrow">Solo una muestra de la experiencia</p><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="actions" id="rsvp-options" hidden><button class="gold-button" id="yes-button" type="button">¡Ahí estaré!</button><button class="quiet-button" id="no-button" type="button">Esta vez no podré</button></div><p class="dialog-status" id="dialog-status" role="status" aria-live="polite"></p><button class="dialog-close" id="close-dialog" type="button">Cerrar ejemplo</button></dialog>
 <script>

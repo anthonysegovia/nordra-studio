@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es" data-nordra-page>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Resolve the palette before the first paint, including on slow connections. -->
+    <script>
+      (() => {
+        let saved;
+        try { saved = localStorage.getItem("nordra-theme"); } catch {}
+        const dark = saved === "dark" || (saved !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("dark", dark);
+      })();
+    </script>
+    <style>html{background:#f7f7f4;color-scheme:light}html.dark{background:#020816;color-scheme:dark}body{margin:0;background:inherit}</style>
+    <link rel="stylesheet" href="/nordra-entry.css" />
+    <script src="/nordra-entry.js"></script>
+    <meta
+      name="description"
+      content="Explora ejemplos de invitaciones digitales para bodas, celebraciones y temporada. Compara paquetes y cotiza con Nordra Studio."
+    />
+    <title>Invitaciones digitales | Nordra Studio</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://nordrastudio.mx/invitaciones.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:site_name" content="Nordra Studio" />
+    <meta property="og:title" content="Invitaciones digitales | Nordra Studio" />
+    <meta property="og:description" content="Explora ejemplos de invitaciones digitales para bodas, celebraciones y temporada. Compara paquetes y cotiza con Nordra Studio." />
+    <meta property="og:url" content="https://nordrastudio.mx/invitaciones.html" />
+    <meta property="og:image" content="https://nordrastudio.mx/nordra-header-approved-light.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="2172" />
+    <meta property="og:image:height" content="724" />
+    <meta property="og:image:alt" content="Logo de Nordra Studio: montaña con aurora boreal." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Invitaciones digitales | Nordra Studio" />
+    <meta name="twitter:description" content="Explora ejemplos de invitaciones digitales para bodas, celebraciones y temporada. Compara paquetes y cotiza con Nordra Studio." />
+    <meta name="twitter:image" content="https://nordrastudio.mx/nordra-header-approved-light.png" />
+    <meta name="twitter:image:alt" content="Logo de Nordra Studio: montaña con aurora boreal." />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

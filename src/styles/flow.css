@@ -1,0 +1,126 @@
+/* Shared rhythm for the two service journeys. */
+.aurora-page main > .section{padding-block:72px}
+.packages-heading :is(h1,h2){max-width:20ch;text-wrap:balance}
+.packages-heading>p:last-child,.celebrations-heading>p:last-child{max-width:58ch;line-height:1.7}
+.service-route{display:flex;flex-wrap:wrap;gap:8px 24px;padding:14px 0;margin:24px 0 32px;border-block:1px solid var(--border)}
+.service-route a{display:flex;align-items:center;gap:10px;min-height:44px;color:var(--text);font-size:13px;text-decoration:none}
+.service-route a>span:last-child{color:var(--cyan)}
+.service-route a:hover,.service-next a:hover{text-decoration:underline;text-underline-offset:5px}
+.service-route a:focus-visible,.service-next a:focus-visible{outline:2px solid var(--cyan);outline-offset:4px;border-radius:4px}
+.service-route + .nordra-universes{margin-top:32px}
+.service-next{display:flex;align-items:center;flex-wrap:wrap;gap:8px 28px;margin-top:32px;padding:20px 0;border-top:1px solid var(--border)}
+.service-next p{font-size:14px;color:var(--muted);margin:0 auto 0 0}
+.service-next a{display:flex;gap:14px;align-items:center;min-height:44px;font-size:13px;color:var(--text);text-decoration:none}
+.service-next a span{color:var(--cyan)}
+#event-experience,#planes-eventos,#proceso,#alojamiento-negocios{scroll-margin-top:100px}
+.aurora-page main > .seasonal-section{padding-top:24px;padding-bottom:56px}
+.seasonal-section h2{font-size:clamp(28px,3.5vw,44px);line-height:1.15;text-wrap:balance}
+.about-copy>p{max-width:54ch}
+.aurora-page .process-section{border-top:1px solid var(--border);padding-bottom:48px}
+.process-section h2{max-width:22ch;text-wrap:balance}
+@media(max-width:640px){
+ .aurora-page main>.section{padding-block:44px}
+ .aurora-page main>.packages-section{padding-bottom:28px}
+ .packages-heading :is(h1,h2){font-size:32px;line-height:1.12}
+ .service-route{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:18px 0 24px;padding:8px 0}
+ .service-route a{font-size:12px;gap:5px;justify-content:center;text-align:center;line-height:1.35}
+ .service-route+.nordra-universes{margin-top:24px}
+ .service-next{gap:4px 22px;margin-top:24px;padding:16px 0 0}
+ .service-next p{flex-basis:100%;font-size:13px}
+ .aurora-page main>.seasonal-section{padding-top:8px;padding-bottom:36px}
+ .about-grid{gap:28px}.about-copy>p{font-size:14px;line-height:1.75}
+ .aurora-page .process-section{padding-bottom:32px}
+ .process-grid{gap:14px}.process-grid h3{font-size:18px}.process-grid p{line-height:1.65}
+}
+
+/* Navigation follows the service journeys, including tablet widths. */
+.mobile-menu-trigger{display:none}
+.mobile-dock a[aria-current]{background:color-mix(in srgb,var(--cyan) 12%,var(--surface-strong))}
+.mobile-menu-trigger,.mobile-explore-top button,.mobile-dock :is(a,button){transition:background-color .28s ease,border-color .28s ease,color .28s ease,opacity .28s ease}
+.mobile-menu-trigger:active,.mobile-explore-top button:active,.mobile-dock :is(a,button):active{opacity:.72}
+.mobile-explore a{transition:color .28s ease,background-color .28s ease,opacity .28s ease}
+.mobile-explore a:active{opacity:.72}
+.mobile-explore-grid a :is(strong,svg){transition:color .28s ease,transform .28s ease}
+.mobile-explore-grid a[data-selected] strong{color:var(--destination)}
+.mobile-explore-grid a[data-selected] .mobile-explore-arrow{transform:translate(2px,-2px)}
+@media(hover:hover){
+ .mobile-menu-trigger:hover,.mobile-explore-top button:hover{border-color:var(--cyan)}
+ .mobile-explore-grid a:hover strong{color:var(--destination)}
+ .mobile-explore-grid a:hover .mobile-explore-arrow{transform:translate(2px,-2px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .mobile-menu-trigger,.mobile-explore-top button,.mobile-dock :is(a,button),.mobile-explore a,.mobile-explore-grid a :is(strong,svg){transition:none}
+ .mobile-explore-grid a .mobile-explore-arrow{transform:none!important}
+}
+@media(max-width:960px){
+ .mobile-menu-trigger{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:44px;height:44px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:50%;cursor:pointer}
+ .mobile-menu-trigger:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+ .mobile-explore-grid{grid-template-columns:1fr;gap:0}
+ .mobile-explore-grid a{display:grid;grid-template-columns:28px 1fr 18px;gap:3px 10px;min-height:64px;padding:10px 0;border:0;border-bottom:1px solid var(--border);border-radius:0;background:none}
+ .mobile-explore-grid a>svg:first-child{grid-column:1;grid-row:1/3;align-self:center;width:20px}
+ .mobile-explore-grid strong{grid-column:2;font-size:14px}.mobile-explore-grid a>span{grid-column:2;font-size:12px}
+ .mobile-explore-grid .mobile-explore-arrow{position:static;grid-column:3;grid-row:1/3;align-self:center;width:16px}
+ .mobile-explore-grid small{grid-column:2;margin:0}
+ .mobile-explore-grid a[aria-current] strong{ text-decoration:underline;text-underline-offset:4px}
+ .mobile-explore-content>p{margin-bottom:12px}.mobile-explore h2{font-size:25px}
+ .mobile-menu-secondary{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:12px}
+ .mobile-menu-secondary a{display:inline-flex;align-items:center;min-height:44px;font-size:12px;color:var(--text)}
+ .mobile-explore-contact{margin-top:8px}
+}
+@media(min-width:641px) and (max-width:960px){.mobile-dock{display:none}}
+@media(max-width:640px){
+ .site-header .brand-approved{width:132px;min-width:0;flex-shrink:1}
+ .header-inner{gap:8px}.header-actions{gap:5px}
+ .header-actions .language-toggle{padding:0 8px;min-width:52px;min-height:44px}
+ .header-actions .theme-toggle{width:44px;height:44px;min-width:44px}
+}
+
+/* Footer directory mirrors the main journeys with generous touch targets. */
+.footer-contact .footer-inner{grid-template-columns:1.1fr 1fr 1fr 1.1fr;gap:28px}
+.footer-contact .footer-explore{gap:0;min-width:0}
+.footer-contact .footer-explore>span{margin-bottom:10px;line-height:1.5}
+.footer-contact .footer-explore a{display:flex;align-items:center;min-height:44px;width:100%;padding:6px 0;line-height:1.5;font-size:13px}
+.footer-contact .footer-explore a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+.footer-contact .footer-meta{font-size:12px;line-height:1.7;min-width:0}
+@media(max-width:1000px){
+ .footer-contact .footer-inner{grid-template-columns:1fr 1fr;gap:24px 28px}
+ .footer-contact .footer-brand-block{grid-column:1/-1}
+ .footer-contact .footer-meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 22px;padding-top:20px;border-top:1px solid var(--border)}
+ .footer-contact .footer-meta .footer-column-label{flex-basis:100%}
+}
+@media(max-width:640px){
+ .footer-contact .footer-inner{gap:20px 18px;padding-block:24px}
+ .footer-contact .footer-brand-block .brand-approved{width:168px}
+ .footer-contact .footer-tagline{font-size:13px;margin-top:8px;max-width:30ch}
+ .footer-contact .footer-explore a{font-size:12px}
+ .footer-contact .footer-explore>span{font-size:9px;letter-spacing:.12em}
+ .footer-contact .footer-meta{display:grid;grid-template-columns:1fr;gap:3px;padding-top:16px}
+ .footer-contact .footer-contact-copy h2{font-size:34px;max-width:17ch}
+}
+
+/* Separate, shareable service pages; the home remains an overview. */
+.journey-switch{display:flex;justify-content:space-between;gap:16px;padding-top:24px;padding-bottom:8px;flex-wrap:wrap}
+.journey-switch a{display:flex;align-items:center;min-height:44px;color:var(--text);font-size:13px;text-decoration:none}
+.journey-switch a:hover{text-decoration:underline;text-underline-offset:5px}
+.journey-switch~.section:first-of-type{padding-top:24px}
+.journey-switch a:focus-visible{outline:3px solid var(--cyan);outline-offset:4px}
+/* Balance section and card titles across the home, including translated copy. */
+.journey-home :is(h2,h3,.vision-caption p,.vision-paths strong,.hero-benefits strong){text-wrap:balance}
+@media(max-width:640px){
+ .journey-switch{padding-top:12px;gap:4px 12px}.journey-switch a{font-size:12px}.journey-switch~.section:first-of-type{padding-top:16px}
+ .journey-home .vision-paths{display:none}
+}
+@media(max-width:760px){
+ .journey-home .process-grid h3{font-size:18px}
+}
+@media(max-width:360px){
+ .header-inner{grid-template-columns:minmax(0,1fr) auto}
+ .site-header .brand-approved{width:min(132px,100%)}
+ .journey-home .about-section .about-principle{grid-template-columns:minmax(0,1fr);gap:8px}
+ .journey-home .about-section .about-principle:not(:last-child)::after{content:none}
+}
+
+/* Keep the layout stable while a modal locks scrolling. */
+html{scrollbar-gutter:stable}
+#page-top{scroll-margin-top:0}
+#contenido{scroll-margin-top:90px}

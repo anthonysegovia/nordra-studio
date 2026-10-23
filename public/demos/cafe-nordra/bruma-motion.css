@@ -1,0 +1,36 @@
+/* Motion art direction — quiet, tactile, progressively enhanced. */
+body{isolation:isolate}
+.page-ambience{position:fixed;inset:0;z-index:-1;isolation:isolate;overflow:hidden;pointer-events:none;contain:strict}
+.page-ambience .ambient-light{inset:-5%;background:radial-gradient(ellipse at 100% 25%,#b78c551a,transparent 58%),radial-gradient(ellipse at 0% 80%,#7d927514,transparent 48%)}
+.page-ambience .ambient-steam{left:65%;bottom:-15%;width:35%;background:radial-gradient(ellipse at 45% 55%,#fffdf5b3,transparent 50%)}
+.page-ambience .ambient-steam-second{display:none}
+.finder{background:#e4e7d9ed}
+.bruma-footer{position:relative;isolation:isolate;overflow:hidden}
+.bruma-atmosphere{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:paint}
+.bruma-atmosphere i{position:absolute;display:block;animation-play-state:paused!important;pointer-events:none}
+.ambient-running>.bruma-atmosphere i{animation-play-state:running!important}
+.hero>.bruma-atmosphere{mask-image:linear-gradient(90deg,transparent 10%,#0004 38%,#000 65%)}
+.ambient-light{inset:-12%;background:radial-gradient(ellipse at 76% 24%,#edbd7599,transparent 48%),linear-gradient(115deg,transparent 42%,#f5d6a147 51%,transparent 61%);animation:bruma-light 14s ease-in-out infinite alternate;transform-origin:70% 25%}
+.ambient-steam{width:38%;height:90%;left:53%;bottom:-25%;background:radial-gradient(ellipse at 42% 65%,#fff0d96b,transparent 28%),radial-gradient(ellipse at 58% 30%,#f5ebd24d,transparent 35%);border-radius:50%;animation:bruma-steam 11s ease-in-out infinite;animation-delay:-4s;transform:rotate(-16deg);opacity:0}
+.ambient-steam-second{left:72%;bottom:-30%;width:25%;animation-delay:-9s;animation-duration:15s}
+.bruma-footer>.bruma-atmosphere{mask-image:linear-gradient(0deg,#000,transparent 85%)}
+.bruma-footer .ambient-light{background:radial-gradient(ellipse at 85% 65%,#b9925280,transparent 55%)}
+.ambient-toggle{position:absolute;right:20px;top:14px;z-index:2;min-height:44px;padding:8px 12px;border:0;border-bottom:1px solid #f4f1e950;background:#193b2d70;color:#f4f1e9;font:10px var(--sans);letter-spacing:.04em;cursor:pointer}
+.ambient-toggle:focus-visible{outline:2px solid #f4f1e9;outline-offset:4px}
+@keyframes bruma-light{from{transform:translate3d(-5%,-2%,0) rotate(-5deg);opacity:.55}to{transform:translate3d(5%,4%,0) rotate(5deg);opacity:1}}
+@keyframes bruma-steam{0%{transform:translate3d(-12%,16%,0) rotate(-16deg) scale(.85);opacity:0}30%{opacity:1}70%{opacity:.75}100%{transform:translate3d(16%,-55%,0) rotate(12deg) scale(1.18);opacity:0}}
+@media(max-width:600px){.ambient-toggle{top:100px;right:12px;min-height:44px;font-size:9px;background:transparent;border:0;padding:8px}.hero>.bruma-atmosphere{mask-image:linear-gradient(180deg,#000 15%,#000d 32%,#0003 48%,transparent 68%)}.ambient-light{inset:-5%;opacity:.65}.ambient-steam{left:48%;bottom:5%;width:60%;height:75%}.ambient-steam-second{display:none}}
+@media(prefers-reduced-motion:reduce){.bruma-atmosphere i{animation:none!important}.ambient-light{opacity:.45}.ambient-steam,.ambient-toggle{display:none}}
+/* The 900px atlas provides 300px tiles for compact mobile cards. */
+@media(max-width:600px){.product-photo,.selection-thumb{background-image:url('./bruma-menu-900.webp')}}
+.reading-progress{position:absolute;left:0;right:0;bottom:0;height:2px;background:#af6e32;transform:scaleX(0);transform-origin:left;pointer-events:none}
+.ritual-cup{display:block;width:112px;height:94px;margin:auto}.cup-line,.steam-line{stroke-dasharray:1;stroke-dashoffset:0}.story-mark .sun-mark{font-size:0;line-height:1}.story-mark:hover .sun-mark{transform:none}
+.hero-image img{transition:none}.hero-image:hover img{transform:none}.space-image{overflow:hidden}.space-image img{transform-origin:center}
+.button,.add-item,.taste-controls button,.filters button{transition:background .25s ease,color .25s ease,box-shadow .25s ease,translate .3s cubic-bezier(.22,1,.36,1)}
+.button>span:last-child{transition:background .25s ease,color .25s ease}
+.button:focus-visible>span:last-child{background:#af4e2c;color:#fff}
+.add-item:active,.taste-controls button:active,.filters button:active{translate:0 2px}
+.desktop-nav a{position:relative}.desktop-nav a:after{content:'';position:absolute;bottom:-7px;left:0;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .3s ease}.desktop-nav a:focus-visible:after{transform:scaleX(1)}
+@media(hover:hover) and (pointer:fine){.button:hover>span:last-child{background:#af4e2c;color:#fff}.desktop-nav a:hover:after{transform:scaleX(1)}.add-item:hover>span:last-child{background:var(--ink);color:var(--paper)}}
+@media(max-width:600px){.ritual-cup{width:86px;height:76px}}
+@media(prefers-reduced-motion:reduce){.space-image img{transform:none!important}.button>span:last-child,.desktop-nav a:after{transition:none}.button,.add-item,.taste-controls button,.filters button{translate:none!important}.reading-progress{display:none}}

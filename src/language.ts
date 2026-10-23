@@ -14,6 +14,8 @@ export function useLanguage() {
   return useSyncExternalStore(listener => { listeners.add(listener); return () => { listeners.delete(listener); }; }, () => language);
 }
 const translations: Record<string, string> = {
+"Páginas web":"Websites",
+"Invitaciones":"Invitations",
 "Incluye el primer mes de alojamiento y soporte desde la publicación. Después, el alojamiento se paga por separado según el plan acordado.":"Includes the first month of hosting and support from publication. Hosting is then paid separately under the agreed plan.",
 "Ver continuidad y costos":"View ongoing plans and costs",
 "Elige tu paquete. Nosotros lo mantenemos en línea.":"Choose your package. We keep it online.",

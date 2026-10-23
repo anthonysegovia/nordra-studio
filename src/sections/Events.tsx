@@ -1,6 +1,10 @@
-import { useRef, useState } from "react";
+import { ServiceNext } from "../components/ServiceRoute";
+import { ServiceIntro } from "../components/ServiceIntro";
+import { PackageAurora } from "../components/PackageAurora";
+import { InvitationAurora } from "../components/InvitationAurora";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { t, useLanguage } from "../language";
-import { ArrowUpRight, Heart, Sparkles, Users, MapPin, CalendarDays, Check, X, ChevronDown, MessageCircle, Globe, SlidersHorizontal, Mail, ClipboardList, Palette } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Heart, Sparkles, Users, MapPin, CalendarDays, Check, X, ChevronDown, MessageCircle, Globe, SlidersHorizontal, Mail, ClipboardList, Palette, Pause, Play } from "lucide-react";
 
 const celebrations = [
   { title: "Bodas", subtitle: "El comienzo de una historia juntos.", description: "Un espacio para compartir la ilusión de ese día y reunir los detalles que quieres contar a tus invitados.", image: "/demo-wedding-v2.jpg", Icon: Heart, message: "una página para mi boda", englishMessage: "a wedding website", theme: "wedding", kicker: "NOS CASAMOS", name: "Valeria & Mateo", date: "18 · 09 · 2027", place: "Jardín Magnolia", time: "17:00", greeting: "Una nueva historia juntos.", englishGreeting: "A new story together." },
@@ -12,14 +16,125 @@ export function Events() {
   const language = useLanguage();
   const english = language === "en";
   const [active, setActive] = useState(0);
+  const [selected, setSelected] = useState(0);
+  const [changing, setChanging] = useState(false);
+  const [previewPaused, setPreviewPaused] = useState(false);
+  const explorer = useRef<HTMLDivElement>(null);
+  const categoryButtons = useRef<(HTMLButtonElement | null)[]>([]);
+  const changeTimer = useRef(0);
+  const detailTimer = useRef(0);
+  const detailTrigger = useRef<HTMLButtonElement | null>(null);
+  const detailClose = useRef<HTMLButtonElement>(null);
+  const [detailClosing, setDetailClosing] = useState(false);
   const [flippedPlan, setFlippedPlan] = useState<number | null>(null);
+  const plansRoot = useRef<HTMLDivElement>(null);
+  const [aurorasPaused, setAurorasPaused] = useState(false);
+  const [respondingPlans, setRespondingPlans] = useState<number[]>([]);
+  const responseTimers = useRef(new Map<number, number>());
+  const respondToPlan = useCallback((index: number) => {
+    // Repeated touches join the current wave without restarting the drift.
+    if (responseTimers.current.has(index)) return;
+    setRespondingPlans(current => [...current, index]);
+    responseTimers.current.set(index, window.setTimeout(() => {
+      setRespondingPlans(current => current.filter(value => value !== index));
+      responseTimers.current.delete(index);
+    }, 1400));
+  }, []);
   const planFronts = useRef<(HTMLButtonElement | null)[]>([]);
   const planBacks = useRef<(HTMLDivElement | null)[]>([]);
-  const flipPlan = (index: number, open: boolean) => {
+  const planContents = useRef<(HTMLDivElement | null)[]>([]);
+  const planFocusFrame = useRef(0);
+  const [planHeights, setPlanHeights] = useState<number[]>([]);
+  useEffect(() => {
+    const plans = plansRoot.current;
+    if (!plans) return;
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      (entry.target as HTMLElement).dataset.auroraVisible = String(entry.isIntersecting);
+    }), { threshold: .05 });
+    plans.querySelectorAll(".event-plan-flip").forEach(card => observer.observe(card));
+    const visibility = () => { plans.dataset.aurorasHidden = String(document.hidden); };
+    visibility();
+    document.addEventListener("visibilitychange", visibility);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", visibility);
+      window.cancelAnimationFrame(planFocusFrame.current);
+      responseTimers.current.forEach(timer => window.clearTimeout(timer));
+      responseTimers.current.clear();
+    };
+  }, []);
+  useLayoutEffect(() => {
+    const contents = planFronts.current.map((front, index) => flippedPlan === index ? planContents.current[index] : front);
+    const measure = () => {
+      // Measure layout, not the perspective-distorted bounds of a face mid-turn.
+      const heights = contents.map(content => content ? content.offsetHeight + 2 : 0);
+      setPlanHeights(current => heights.every((height, index) => height === current[index]) ? current : heights);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    contents.forEach(content => { if (content) observer.observe(content); });
+    return () => observer.disconnect();
+  }, [flippedPlan]);
+  const flipPlan = (index: number, open: boolean, keyboard = false) => {
+    window.cancelAnimationFrame(planFocusFrame.current);
+    respondToPlan(index);
+    if (flippedPlan !== null && flippedPlan !== index) respondToPlan(flippedPlan);
     setFlippedPlan(open ? index : null);
-    window.requestAnimationFrame(() => (open ? planBacks.current[index] : planFronts.current[index])?.focus({ preventScroll: true }));
+    planFocusFrame.current = window.requestAnimationFrame(() => {
+      const face = open ? planBacks.current[index] : planFronts.current[index];
+      if (!face) return;
+      face.dataset.keyboardFocus = String(keyboard);
+      face.focus({ preventScroll: true });
+    });
   };
   const [detail, setDetail] = useState<"location" | "agenda" | "rsvp" | null>(null);
+  const chooseOccasion = (index: number) => {
+    if (index === selected) return;
+    window.clearTimeout(changeTimer.current);
+    window.clearTimeout(detailTimer.current);
+    setSelected(index);
+    const change = () => {
+      setActive(index);
+      setDetail(null);
+      setDetailClosing(false);
+      setChanging(false);
+    };
+    if (previewPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) change();
+    else { setChanging(true); changeTimer.current = window.setTimeout(change, 180); }
+  };
+  const showDetail = (value: "location" | "agenda" | "rsvp", trigger: HTMLButtonElement) => {
+    window.clearTimeout(detailTimer.current);
+    detailTrigger.current = trigger;
+    setDetailClosing(false);
+    setDetail(value);
+  };
+  const closeDetail = () => {
+    if (detailClosing) return;
+    setDetailClosing(true);
+    const finish = () => {
+      setDetail(null);
+      setDetailClosing(false);
+      detailTrigger.current?.focus({ preventScroll: true });
+    };
+    if (previewPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) finish();
+    else detailTimer.current = window.setTimeout(finish, 220);
+  };
+  useEffect(() => { if (detail) detailClose.current?.focus({ preventScroll: true }); }, [detail]);
+  useEffect(() => {
+    const element = explorer.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(([entry]) => { element.dataset.inView = String(entry.isIntersecting); }, { threshold: .04 });
+    observer.observe(element);
+    const visibility = () => { element.dataset.hidden = String(document.hidden); };
+    visibility();
+    document.addEventListener("visibilitychange", visibility);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", visibility);
+      window.clearTimeout(changeTimer.current);
+      window.clearTimeout(detailTimer.current);
+    };
+  }, []);
   const event = celebrations[active];
   const Icon = event.Icon;
   const experience = active === 1 ? {
@@ -46,42 +161,53 @@ export function Events() {
   return (
     <section id="eventos" className={`section celebrations-section celebration-mood-${event.theme}`} aria-labelledby="celebrations-title">
       <div className="site-shell">
-        <div className="celebrations-heading"><p className="eyebrow">{t("EVENTOS Y CELEBRACIONES")}</p><h2 id="celebrations-title">{t("Hay días que se esperan.")}<br /><span>{t("Y se recuerdan para siempre.")}</span></h2><p>{t("Antes de la primera foto y del primer abrazo, hay una invitación. Hagamos que la tuya se sienta tan especial como lo que estás por celebrar.")}</p></div>
-        <p className="event-selection-hint">{english ? "Start with your occasion" : "Empieza por lo que vas a celebrar"}</p>
-        <div className="event-category-selector" role="group" aria-label={english ? "Choose a celebration" : "Elige una celebración"}>
-          {celebrations.map((item, index) => <button type="button" className={`event-category event-category-${item.theme}`} key={item.theme} aria-pressed={active === index} aria-controls="event-experience" onClick={() => { setActive(index); setDetail(null); }}><img className="event-category-image" src={item.image} alt="" width={1024} height={1536} loading="lazy" /><item.Icon size={19} aria-hidden="true" /><span>{labels[index]}</span></button>)}
+        <ServiceIntro event />
+        <div id="tipos-invitacion" className="invitation-explorer service-invitation-destination" ref={explorer} data-changing={changing} data-paused={previewPaused} data-occasion={celebrations[selected].theme} aria-labelledby="invitation-explorer-title">
+        <InvitationAurora occasion={celebrations[selected].theme} />
+        <div className="event-explorer-heading" data-service-arrival-anchor>
+          <div><p className="eyebrow">{english ? "MADE FOR YOUR OCCASION" : "INVITACIONES CON TU ESTILO"}</p><h2 id="invitation-explorer-title" tabIndex={-1} data-service-focus>{english ? "What are you celebrating?" : "¿Qué vas a celebrar?"}</h2></div>
+          <div className="event-explorer-intro"><p>{english ? "Choose an occasion and try the sample. Each invitation is personalized with your story, your style and your event’s details." : "Elige una ocasión y prueba la muestra. Cada invitación se personaliza con tu historia, tu estilo y los detalles de tu evento."}</p><button type="button" className="event-explorer-motion" aria-pressed={previewPaused} onClick={() => setPreviewPaused(value => !value)}>{previewPaused ? <Play size={12} aria-hidden="true"/> : <Pause size={12} aria-hidden="true"/>}{english ? (previewPaused ? "Resume atmosphere" : "Pause atmosphere") : (previewPaused ? "Activar ambiente" : "Pausar ambiente")}</button></div>
         </div>
-        <div id="event-experience" className="event-experience is-expanded"><div className="event-experience-clip"><div className="event-experience-content">
+        <div className="event-category-selector" role="tablist" aria-label={english ? "Choose a celebration" : "Elige una celebración"}>
+          {celebrations.map((item, index) => <button type="button" role="tab" id={`occasion-${item.theme}`} className={`event-category event-category-${item.theme}`} key={item.theme} ref={element => { categoryButtons.current[index] = element; }} aria-selected={selected === index} tabIndex={selected === index ? 0 : -1} aria-controls="event-experience" onClick={() => chooseOccasion(index)} onKeyDown={input => {
+            const next = input.key === "ArrowRight" ? (index + 1) % celebrations.length : input.key === "ArrowLeft" ? (index + celebrations.length - 1) % celebrations.length : input.key === "Home" ? 0 : input.key === "End" ? celebrations.length - 1 : null;
+            if (next !== null) { input.preventDefault(); chooseOccasion(next); categoryButtons.current[next]?.focus({ preventScroll: true }); }
+          }}><item.Icon size={18} aria-hidden="true" /><span>{labels[index]}</span></button>)}
+        </div>
+        <div id="event-experience" className="event-experience is-expanded" role="tabpanel" aria-labelledby={`occasion-${celebrations[selected].theme}`} aria-busy={changing} tabIndex={0}><div className="event-experience-clip"><div className="event-experience-content">
         <div id="event-showcase" className={`event-showcase event-theme-${event.theme}`}>
           <div className="event-story" key={`story-${active}`}>
-            <span className="event-chapter">0{active + 1} / {english ? "YOUR NEXT MEMORY" : "TU PRÓXIMO RECUERDO"}</span>
-            <span className="event-story-icon"><Icon size={25} aria-hidden="true" /></span>
-            <h3>{active === 0 ? (english ? "The beginning of an unforgettable memory." : "El comienzo de un recuerdo inolvidable.") : t(event.subtitle)}</h3><p>{active === 0 ? (english ? "From your story and photos to the last detail of the big day. A wedding website your guests can consult whenever they need, with the information you keep up to date." : "Desde su historia y sus fotos hasta el último detalle del gran día. Una aplicación web que sus invitados pueden consultar cuando quieran, con la información que ustedes mantienen al día.") : t(event.description)}</p>
+            <span className="event-chapter"><Icon size={16} aria-hidden="true"/>{labels[active]}</span>
+            <h3>{active === 0 ? (english ? "Your story, in every detail." : "Su historia, en cada detalle.") : active === 1 ? (english ? "An invitation with your personality." : "Una invitación con tu personalidad.") : (english ? "A place to bring people together." : "Un lugar para reunir a tu comunidad.")}</h3><p>{active === 0 ? (english ? "Share your story, photos and everything your guests need for the big day. Together in one link, always at hand." : "Compartan su historia, sus fotos y lo que sus invitados necesitan para el gran día. Todo en un enlace, siempre a la mano.") : active === 1 ? (english ? "Bring the date, venue and party details together in an invitation your guests can explore from their phones." : "Reúne la fecha, el lugar y los detalles de la fiesta en una invitación que tus invitados pueden explorar desde su celular.") : t(event.description)}</p>
             <div className="event-possibilities"><span><Check size={15} />{english ? "A design that feels like you" : "Un diseño que se siente como tú"}</span><span><Check size={15} />{english ? "All the details in one place" : "Todos los detalles en un lugar"}</span><span><Check size={15} />{english ? "Made to share from your phone" : "Lista para compartir desde tu celular"}</span></div>
-            <a className={`event-contact${active === 0 ? " wedding-contact-link" : ""}`} href={contact} target="_blank" rel="noopener noreferrer">{t("Planeemos algo especial")}<ArrowUpRight size={18} aria-hidden="true" /></a>
-            {active === 0 && <a className="wedding-demo-link" href="/demos/boda-jardin/index.html" target="_blank" rel="noopener noreferrer" hrefLang="es"><span className="wedding-demo-envelope" aria-hidden="true">♡</span><span><strong>{english ? "Open the invitation" : "Abrir la invitación"}</strong><small>{english ? "Tracy & Diego · Wedding demo in Spanish" : "Tracy & Diego · Demo de boda"}</small></span><ArrowUpRight size={17} aria-hidden="true" /></a>}
-            <p className="event-scope">{active === 0 ? (english ? "Guest features and a private dashboard for the couple are defined in your proposal." : "Las funciones para invitados y el panel privado de los novios se definen en su propuesta.") : (english ? "RSVP, maps and schedules can be included according to your project." : "Confirmación de asistencia, mapas y agenda según lo que necesite tu proyecto.")}</p>
           </div>
           <div className="event-stage">
-            <span className="event-stage-caption">{english ? "A LITTLE PREVIEW OF THE MAGIC" : "UN VISTAZO A LA MAGIA"}</span>
+            <span className="event-stage-caption">{english ? "TRY A SAMPLE INVITATION" : "EXPLORA UNA MUESTRA"}</span>
             <span className="event-orbit event-orbit-one" aria-hidden="true" /><span className="event-orbit event-orbit-two" aria-hidden="true" />
-            <Sparkles className="event-spark event-spark-one" size={26} aria-hidden="true" /><Sparkles className="event-spark event-spark-two" size={18} aria-hidden="true" />
             <div className="invitation-phone">
               <div className="invitation-screen" key={active}>
                 <div className="invitation-cover"><img src={event.image} alt="" loading="lazy" width={1024} height={1536} /><div className="invitation-cover-copy"><span>{t(event.kicker)}</span><h4>{event.name}</h4><p>{english ? event.englishGreeting : event.greeting}</p></div></div>
                 <div className="invitation-body"><span className="invitation-date">{event.date}</span><div className="invitation-flourish" aria-hidden="true"><span /><Icon size={16} /><span /></div><p>{english ? "Save a place in your calendar" : "Guarda un lugar en tu calendario"}</p>
-                  <div className="invitation-tools"><button type="button" onClick={() => setDetail("location")}><MapPin size={16} />{english ? "Location" : "Ubicación"}</button><button type="button" onClick={() => setDetail("agenda")}><CalendarDays size={16} />{english ? "Schedule" : "Agenda"}</button></div>
-                  <button type="button" className="invitation-rsvp" onClick={() => setDetail("rsvp")}>{t("Confirma tu asistencia")}<Heart size={14} aria-hidden="true" /></button>
+                  <div className="invitation-tools"><button type="button" aria-haspopup="dialog" onClick={input => showDetail("location", input.currentTarget)}><MapPin size={16} />{english ? "Location" : "Ubicación"}</button><button type="button" aria-haspopup="dialog" onClick={input => showDetail("agenda", input.currentTarget)}><CalendarDays size={16} />{english ? "Schedule" : "Agenda"}</button></div>
+                  <button type="button" className="invitation-rsvp" aria-haspopup="dialog" onClick={input => showDetail("rsvp", input.currentTarget)}>{t("Confirma tu asistencia")}<Heart size={14} aria-hidden="true" /></button>
                   <span className="invitation-example">{english ? "SAMPLE INVITATION" : "INVITACIÓN DE EJEMPLO"}</span>
                 </div>
-                {detail && <div className="invitation-detail" role="status"><button type="button" className="invitation-detail-close" aria-label={english ? "Close detail" : "Cerrar detalle"} onClick={() => setDetail(null)}><X size={18} /></button><Icon size={24} /><h5>{detail === "location" ? event.place : detail === "agenda" ? (english ? "Our meeting" : "Nuestra cita") : (english ? "We'll save you a place" : "Te guardamos un lugar")}</h5><p>{detail === "location" ? (english ? "Your invitation can show the address and directions to your celebration." : "Tu invitación puede mostrar la dirección y cómo llegar a tu celebración.") : detail === "agenda" ? `${event.date} · ${event.time}` : (english ? "Your guests can confirm their attendance here. This is a sample; no information is sent." : "Aquí tus invitados pueden confirmar su asistencia. Esta es una muestra; no se envían datos.")}</p><small>{english ? "Interactive sample · fictional details" : "Muestra interactiva · datos ficticios"}</small></div>}
+                {detail && <div className="invitation-detail" data-closing={detailClosing} role="dialog" aria-labelledby="invitation-detail-title" onKeyDown={input => { if (input.key === "Escape") { input.preventDefault(); input.stopPropagation(); closeDetail(); } }}><button ref={detailClose} type="button" className="invitation-detail-close" aria-label={english ? "Close detail" : "Cerrar detalle"} onClick={closeDetail}><X size={18} /></button><Icon size={24} /><h5 id="invitation-detail-title">{detail === "location" ? event.place : detail === "agenda" ? (english ? "Our meeting" : "Nuestra cita") : (english ? "We'll save you a place" : "Te guardamos un lugar")}</h5><p>{detail === "location" ? (english ? "Your invitation can show the address and directions to your celebration." : "Tu invitación puede mostrar la dirección y cómo llegar a tu celebración.") : detail === "agenda" ? `${event.date} · ${event.time}` : (english ? "Your guests can confirm their attendance here. This is a sample; no information is sent." : "Aquí tus invitados pueden confirmar su asistencia. Esta es una muestra; no se envían datos.")}</p><small>{english ? "Interactive sample · fictional details" : "Muestra interactiva · datos ficticios"}</small></div>}
               </div>
             </div>
             <span className="event-stage-footnote">{english ? "Try the invitation's buttons" : "Prueba los botones de la invitación"}</span>
           </div>
+          <div className="event-explorer-actions" key={`actions-${active}`}>
+            <div className="event-explorer-actions-row">
+              {active === 0 && <a className="event-explorer-primary" href="/demos/boda-jardin/index.html" hrefLang="es"><span>{english ? "Open full wedding demo" : "Ver demo completa"}</span><ArrowUpRight size={18} aria-hidden="true"/></a>}
+              <a className={active === 0 ? "event-explorer-packages" : "event-explorer-primary"} href="#planes-eventos"><span>{english ? "View packages" : "Ver paquetes"}</span><ArrowDown size={16} aria-hidden="true"/></a>
+            </div>
+            <p className="event-explorer-note">{active === 0 ? (english ? "A complete wedding invitation in Spanish, ready to explore." : "Una invitación de boda completa, lista para recorrer.") : (english ? "This interactive sample is a starting point. Your invitation is designed around your event." : "Esta muestra interactiva es un punto de partida. Diseñamos tu invitación alrededor de tu evento.")}</p>
+            <a className="event-explorer-contact" href={contact} target="_blank" rel="noopener noreferrer"><MessageCircle size={15} aria-hidden="true"/>{english ? "Talk to us on WhatsApp" : "Platicar por WhatsApp"}<ArrowUpRight size={14} aria-hidden="true"/></a>
+          </div>
         </div>
         <details className="event-extra-details" key={active}>
-          <summary><span className="event-experience-mark" aria-hidden="true"><Sparkles size={22} /></span><span className="event-experience-label"><strong>{english ? "Every detail, thoughtfully designed for you." : "Cada detalle, pensado para ustedes."}</strong><small>{english ? "The joy of sharing. The peace of planning." : "La emoción de compartir. La tranquilidad de organizar."}</small></span><ChevronDown size={19} aria-hidden="true" /></summary>
+          <summary><span className="event-experience-mark" aria-hidden="true"><Sparkles size={22} /></span><span className="event-experience-label"><strong>{english ? "What could your invitation include?" : "¿Qué puede incluir tu invitación?"}</strong><small>{english ? "Details for your guests and tools to organize · according to your plan" : "Detalles para tus invitados y herramientas para organizar · según tu paquete"}</small></span><ChevronDown size={19} aria-hidden="true" /></summary>
         {active === 0 && <div className="wedding-hub">
           <div className="wedding-guest-info"><div className="event-hub-copy"><p className="eyebrow">{english ? "FOR YOUR GUESTS" : "PARA SUS INVITADOS"}</p><h3>{english ? "Every detail, always at hand." : "Cada detalle, siempre a la mano."}</h3><p>{english ? "One link to discover your story, plan the day and check the latest details without searching through messages." : "Un solo enlace para conocer su historia, organizarse para el gran día y consultar los detalles actualizados sin buscar entre mensajes."}</p></div><div className="wedding-memory"><img src="/demo-wedding-v2.jpg" alt="" loading="lazy" width={1024} height={1536} /><div><span>{english ? "OUR STORY" : "NUESTRA HISTORIA"}</span><strong>Valeria & Mateo</strong><small>18 · 09 · 2027</small></div><span className="wedding-memory-seal"><Heart size={17} aria-hidden="true" />{english ? "A day to remember" : "Un día para recordar"}</span></div><div className="wedding-feature-grid">
             <span><Heart size={18} aria-hidden="true" /><strong>{english ? "Your story & photos" : "Su historia y sus fotos"}</strong><small>{english ? "Meet the couple and explore their gallery." : "Conozcan a los novios y recorran su galería."}</small></span>
@@ -109,28 +235,36 @@ export function Events() {
         </div>}
         </details>
         </div></div></div>
-        <div className="event-plans" aria-labelledby="event-plans-title">
-          <div className="event-plans-heading"><p className="eyebrow">{english ? "A PLAN FOR YOUR CELEBRATION" : "UN PLAN PARA TU CELEBRACIÓN"}</p><h3 id="event-plans-title">{english ? "Choose how you want to experience your event." : "Elige cómo quieres vivir tu celebración."}</h3><p>{english ? "Three options for your next step. Compare the essentials and turn over each card to see everything included." : "Tres opciones para dar el siguiente paso. Compara lo esencial y gira cada tarjeta para conocer todo lo que incluye."}</p></div>
+        </div>
+        <div id="planes-eventos" className="event-plans" ref={plansRoot} data-auroras-paused={aurorasPaused} aria-labelledby="event-plans-title">
+          <div className="event-plans-intro">
+            <div className="event-plans-heading" data-service-arrival-anchor><p className="eyebrow">{english ? "A PLAN FOR YOUR CELEBRATION" : "UN PLAN PARA TU CELEBRACIÓN"}</p><h3 id="event-plans-title" tabIndex={-1} data-service-focus>{english ? "Choose how you want to experience your event." : "Elige cómo quieres vivir tu celebración."}</h3><p>{english ? "Three options for your next step. Compare the essentials and turn over each card to see everything included." : "Tres opciones para dar el siguiente paso. Compara lo esencial y gira cada tarjeta para conocer todo lo que incluye."}</p></div>
+            <button type="button" className="package-aurora-toggle" aria-pressed={aurorasPaused} onClick={() => setAurorasPaused(value => !value)}>{aurorasPaused ? <Play size={13} aria-hidden="true" /> : <Pause size={13} aria-hidden="true" />}{english ? (aurorasPaused ? "Resume auroras" : "Pause auroras") : (aurorasPaused ? "Activar auroras" : "Pausar auroras")}</button>
+          </div>
           <div className="event-plans-grid">{[
             { name: "Bruma", level: english ? "Your digital invitation" : "Tu invitación digital", price: "$1,499", Icon: Mail, subtitle: english ? "Your celebration starts with a beautiful invitation." : "Ese primer vistazo que hace sentir: ya quiero estar ahí.", features: english ? ["Personalized design from our collection", "Up to 30 optimized photos", "Date, location and directions", "Dress code and schedule", "Event subdomain included", "3 revision rounds", "Hosting: up to 12 months before + 30 days after the event", "WhatsApp support from delivery through 30 days after the event"] : ["Diseño de catálogo personalizado", "Hasta 30 fotos optimizadas", "Fecha, ubicación y cómo llegar", "Código de vestimenta y agenda", "Subdominio del evento incluido", "3 rondas de cambios", "Alojamiento: hasta 12 meses antes + 30 días después", "Soporte por WhatsApp desde la entrega hasta 30 días después del evento"] },
             { name: "Aurora", level: english ? "Invitation + guest management" : "Invitación + gestión de invitados", price: "$2,999", Icon: ClipboardList, subtitle: english ? "All the details and your guest list in one place." : "Todo a la mano, para ti y para quienes te acompañan.", features: english ? ["Everything in Bruma", "Online attendance confirmation", "Private organizer dashboard", "Up to 300 guests and RSVP tracking", "Confirmed and pending guest overview", "Guest list and RSVP download before closing"] : ["Todo lo de Bruma", "Confirmación de asistencia en línea", "Dashboard privado del organizador", "Hasta 300 invitados y sus respuestas", "Resumen de confirmados y pendientes", "Descarga de lista y confirmaciones antes del cierre"] },
             { name: "Boreal", level: english ? "A more personalized experience" : "Una experiencia más personalizada", price: "$5,999", Icon: Palette, subtitle: english ? "An experience with its own personality." : "Para darle a tu día esos detalles que lo hacen muy tuyo.", features: english ? ["Everything in Aurora", "More personalized visual design", "QR passes or seating management, as quoted", "Additional features agreed in your proposal", "Scope tailored to your celebration", "Priority support"] : ["Todo lo de Aurora", "Diseño visual más personalizado", "Pases QR o mesas, según cotización", "Funciones adicionales acordadas", "Alcance adaptado a tu celebración", "Atención prioritaria"] },
-          ].map((plan, index) => <div className={`event-plan-flip${flippedPlan === index ? " is-flipped" : ""}`} key={plan.name} onKeyDown={e => { if (e.key === "Escape" && flippedPlan === index) flipPlan(index, false); }}>
+          ].map((plan, index) => <div className={`event-plan-flip aurora-card invitation-tone-${index}${flippedPlan === index ? " is-flipped" : ""}${respondingPlans.includes(index) ? " is-responding" : ""}`} key={plan.name} style={{ height: planHeights[index] || undefined }} onPointerDown={() => respondToPlan(index)} onClickCapture={event => { if (event.detail === 0) respondToPlan(index); }} onKeyDown={e => { if (e.key === "Escape" && flippedPlan === index) { e.preventDefault(); flipPlan(index, false, true); } }}>
             <div className="event-plan-flip-inner">
               <div className={`event-plan event-plan-${index} event-plan-face event-plan-front`} inert={flippedPlan === index} aria-hidden={flippedPlan === index}>
-                <button type="button" className="event-plan-summary" ref={el => { planFronts.current[index] = el; }} onClick={() => flipPlan(index, true)} aria-expanded={flippedPlan === index} aria-controls={`event-plan-back-${index}`} aria-label={english ? `View ${plan.name} details` : `Ver detalles de ${plan.name}`}>
+                <PackageAurora scope="invitation" index={index} face="front" />
+                <button type="button" className="event-plan-summary" ref={el => { planFronts.current[index] = el; }} onClick={event => flipPlan(index, true, event.detail === 0)} aria-expanded={flippedPlan === index} aria-controls={`event-plan-back-${index}`} aria-label={english ? `View ${plan.name} details` : `Ver detalles de ${plan.name}`}>
                   <div className="event-plan-top"><span className="event-plan-emblem"><plan.Icon size={24} aria-hidden="true" /></span>{index === 1 && <span>{english ? "WITH GUEST MANAGEMENT" : "CON GESTIÓN DE INVITADOS"}</span>}</div>
                   <span className="event-plan-kicker">{english ? "PLAN" : "PAQUETE"}</span><h4>{plan.name}</h4><span className="event-plan-level">{plan.level}</span><p className="event-plan-subtitle">{plan.subtitle}</p>
 
-                  <span className="event-plan-explore">{english ? "Turn to see details" : "Gira para conocerlo"}<ArrowUpRight size={18} aria-hidden="true" /></span>
+                  <span className="event-plan-price">{index === 2 && <small>{english ? "From" : "Desde"} </small>}{plan.price}<span> MXN · {english ? "VAT included" : "IVA incluido"}</span></span><span className="event-plan-explore">{english ? "Turn to see details" : "Gira para conocerlo"}<ArrowUpRight size={18} aria-hidden="true" /></span>
                 </button>
               </div>
-              <div id={`event-plan-back-${index}`} className={`event-plan event-plan-${index} event-plan-face event-plan-back`} ref={el => { planBacks.current[index] = el; }} role="button" tabIndex={flippedPlan === index ? 0 : -1} aria-label={english ? `Turn ${plan.name} back` : `Girar ${plan.name} al frente`} onKeyDown={e => { if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); flipPlan(index, false); } }} onClick={e => { if (!(e.target as HTMLElement).closest("a, button")) flipPlan(index, false); }} inert={flippedPlan !== index} aria-hidden={flippedPlan !== index}>
-
+              <div id={`event-plan-back-${index}`} className={`event-plan event-plan-${index} event-plan-face event-plan-back`} ref={el => { planBacks.current[index] = el; }} role="region" tabIndex={-1} aria-label={english ? `${plan.name} details` : `Detalles de ${plan.name}`} onClick={event => { if (!(event.target as HTMLElement).closest("a, button, summary, input, select, textarea") && !window.getSelection()?.toString()) flipPlan(index, false, event.detail === 0); }} onKeyDown={event => { if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); flipPlan(index, false, true); } }} inert={flippedPlan !== index} aria-hidden={flippedPlan !== index}>
+                <PackageAurora scope="invitation" index={index} face="back" />
+                <div className="event-plan-back-content" ref={el => { planContents.current[index] = el; }}>
+                <span className="flip-return-hint">{english ? "↶ Tap anywhere to turn back" : "↶ Toca la tarjeta para volver"}</span>
                 <h4>{plan.name}</h4><p className="event-plan-price">{index === 2 && <small>{english ? "From" : "Desde"} </small>}{plan.price}<span> MXN · {english ? "VAT included" : "IVA incluido"}</span></p>
                 <p className="event-plan-includes">{english ? "Your plan includes" : "Tu paquete incluye"}</p>
                 <ul>{plan.features.map(feature => <li key={feature}><Check size={15} aria-hidden="true" />{feature}</li>)}</ul>
-                <a href="https://wa.me/message/NRMRZZWEXWZ6C1" target="_blank" rel="noopener noreferrer">{english ? "Discuss this plan" : "Platiquemos de tu evento"}<ArrowUpRight size={17} aria-hidden="true" /></a>
+                <a href={`https://wa.me/528129022231?text=${encodeURIComponent(english ? `Hi Nordra! I would like a quote for ${plan.name} for ${t(event.title)}.` : `¡Hola, Nordra! Me gustaría cotizar ${plan.name} para ${event.title.toLowerCase()}.`)}`} target="_blank" rel="noopener noreferrer">{english ? "Discuss this plan" : "Platiquemos de tu evento"}<ArrowUpRight size={17} aria-hidden="true" /></a>
+                </div>
               </div>
             </div>
           </div>)}</div>
@@ -146,6 +280,7 @@ export function Events() {
           </div>
         </div>
         <div className="celebrations-note"><p><strong>{t("Tu historia marca el diseño.")}</strong>{" "}{t("Platiquemos sobre el estilo, los detalles y las funciones que necesitas; con eso preparamos una propuesta para tu celebración.")}</p><span>{t("Fotografías de ejemplo · Cada proyecto se personaliza")}</span></div>
+        <ServiceNext />
       </div>
     </section>
   );

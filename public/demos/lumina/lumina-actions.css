@@ -1,0 +1,110 @@
+/* Lúmina's action language: a line of light and an architectural doorway. */
+.action{position:relative;isolation:isolate;overflow:hidden;min-height:60px;padding:6px 7px 6px 23px;gap:24px;border:1px solid #244cc5;border-radius:5px 32px 32px 5px;background:#244cc5;color:#fff;font:italic 21px/1.2 var(--serif);letter-spacing:-.025em;box-shadow:inset 0 1px 0 #ffffff30;transition:transform .2s ease,background .25s ease}
+.action:before{content:'';position:absolute;inset:-30% -20%;z-index:-1;background:linear-gradient(110deg,transparent 25%,#ffffff26 49%,transparent 72%);transform:translateX(-65%);opacity:0;transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .25s;pointer-events:none}
+.action:after{content:'';position:absolute;left:11px;top:18px;bottom:18px;width:1px;background:#ffffff75;transform:scaleY(.6);transform-origin:center;transition:transform .4s;pointer-events:none}
+.action b{width:44px;height:46px;min-width:44px;border-radius:24px 24px 4px 4px;background:#edf2ff;color:var(--blue);font:25px/1 var(--sans);transform:none;transition:transform .35s cubic-bezier(.22,1,.36,1),background .25s}
+.action:hover b{transform:none;background:#edf2ff}
+.action.light{background:#edf2ff;color:#203f9f;border-color:#edf2ff;box-shadow:inset 0 1px 0 #fff}
+.action.light b{background:#244cc5;color:#fff}.action.light:before{background:linear-gradient(110deg,transparent 25%,#ffffffb3 49%,transparent 72%)}.action.light:after{background:#244cc580}
+.action:focus-visible:before{transform:translateX(25%);opacity:1}.action:focus-visible:after{transform:scaleY(1)}.action:focus-visible b{transform:translateY(-2px);background:#fff}.action.light:focus-visible b{background:#203f9f}
+.action:not(:disabled):active{transform:translateY(1px)}.action:not(:disabled):active b{transform:translateY(2px)}.action:disabled{opacity:1;background:#dce2ed;color:#52627a;border-color:#dce2ed;box-shadow:none}.action:disabled b{background:#eef1f7;color:#52627a}.action:disabled:after{background:#52627a66}
+.text-link{position:relative;border:0;font:italic 19px/1.3 var(--serif);letter-spacing:-.02em;min-height:48px;padding-block:9px;text-decoration:none}
+.text-link:after{content:'';position:absolute;bottom:4px;left:0;right:0;height:1px;background:currentColor;opacity:.5;transform:scaleX(.3);transform-origin:left;transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .25s}.text-link:focus-visible:after,.text-link:active:after{transform:scaleX(1);opacity:1}
+.header-actions .header-book{position:relative;font:italic 18px var(--serif);letter-spacing:-.025em;padding-inline:4px;border-bottom-color:#244cc540}
+.care-tabs button{position:relative;padding-left:15px;transition:color .25s}.care-tabs button:before{content:'';position:absolute;left:0;top:26%;bottom:26%;width:2px;background:var(--blue);transform:scaleY(0);transition:transform .35s cubic-bezier(.22,1,.36,1)}.care-tabs button[aria-selected=true]:before{transform:scaleY(1)}.care-tabs b{transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.choices span{border-radius:16px 16px 3px 3px;transition:background .2s,color .2s,transform .2s,border-color .2s}.choices input:checked+span{box-shadow:inset 0 2px 0 #ffffff55}.choices label:active span{transform:translateY(1px)}
+.dialog-head button{border:1px solid var(--line);border-radius:24px 24px 5px 5px;transition:background .2s,transform .2s}.dialog-head button:active{transform:scale(.95);background:#e4eafb}
+dialog[open]{animation:lumina-arrive .32s cubic-bezier(.22,1,.36,1)}
+@keyframes lumina-arrive{from{opacity:.3;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@media(hover:hover) and (pointer:fine){.action:not(:disabled):hover:before{transform:translateX(25%);opacity:1}.action:not(:disabled):hover:after{transform:scaleY(1)}.action:not(:disabled):hover b{transform:translateY(-2px);background:#fff}.action.light:not(:disabled):hover b{background:#203f9f}.text-link:hover:after{transform:scaleX(1);opacity:1}.header-book:hover{color:#172e52}.dialog-head button:hover{background:#e4eafb}}
+@media(max-width:1100px){.header-actions .header-book{font-size:16px}}
+@media(max-width:760px){.hero .action,.action{font-size:20px;min-height:58px;gap:20px}.hero-actions{gap:10px 20px}.hero .text-link{font-size:17px}.mobile-dock button{position:relative;min-height:48px;padding:12px 18px 12px 23px;border:1px solid #244cc5;border-radius:3px 25px 25px 3px;font:italic 17px/1.2 var(--serif);letter-spacing:-.025em;transition:transform .2s}.mobile-dock button:before{content:'';position:absolute;left:11px;top:14px;bottom:14px;width:1px;background:#ffffff80}.mobile-dock button:active{transform:translateY(1px)}.care-bottom .text-link{font-size:19px}.choices span{min-height:48px}}
+@media(prefers-reduced-motion:reduce){.action,.action b,.action:before,.action:after,.text-link:after,.care-tabs button:before,.care-tabs b,.choices span,.dialog-head button,.mobile-dock button{transition:none!important;transform:none!important}dialog[open]{animation:none}.action:before{display:none}}
+.hero .action{font-size:21px}
+@media(max-width:760px){.hero .action{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.care-tabs button:before{transform:scaleY(0)!important}.care-tabs button[aria-selected=true]:before{transform:scaleY(1)!important}}
+
+/* The mobile navigation echoes the illuminated arch of Lúmina's actions. */
+.nav-arrow{display:none}
+@media(max-width:900px){
+ header nav{left:12px;right:12px;padding:8px 16px 10px;border:1px solid #244cc526;border-top:2px solid #7b96e6;border-radius:0 0 24px 4px;background:linear-gradient(120deg,#edf2fc,#f7f8f4 75%);box-shadow:0 18px 32px -24px #172e5266;max-height:calc(100dvh - 170px);overflow-y:auto;transform-origin:top}
+ header nav.open{animation:none}
+ header nav a{display:grid;grid-template-columns:minmax(0,1fr) 30px;gap:10px;min-height:58px;padding:8px 0;font:italic 20px/1.2 Georgia,serif;text-decoration:none;transition:color .2s}
+ header nav a:last-child{border-bottom:0}
+
+ .nav-arrow{display:grid;place-items:center;width:28px;height:34px;border:1px solid #244cc533;border-radius:16px 16px 3px 3px;color:var(--blue);font:16px/1 Arial,sans-serif;transition:transform .25s,background .25s,color .25s}
+ header nav a:is(:hover,:focus-visible){color:var(--blue);text-decoration:none}
+ header nav a:is(:hover,:focus-visible) .nav-arrow{transform:translateY(-2px);background:var(--blue);color:#fff}
+ header nav a:active .nav-arrow{transform:translateY(1px)}
+ #menu-toggle{margin-left:6px;border:1px solid #244cc533;border-radius:22px 22px 4px 4px;background:#edf2fc;transition:background .25s,border-color .25s}
+ #menu-toggle[aria-expanded=true]{background:#dfe8fc;border-color:#244cc566}
+ #menu-toggle span{background:var(--blue)}
+}
+
+/* A quiet, architectural signature for the final invitation. */
+.lumina-footer{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 12% 10%,#325d994f,transparent 60%),#172e52;padding-block:44px 24px}
+.lumina-footer:before{content:'';position:absolute;z-index:-1;pointer-events:none;width:540px;height:640px;left:-80px;top:26px;border:1px solid #9fbdec26;border-radius:280px 280px 0 0;box-shadow:0 0 0 24px #a7c4f005,0 0 0 48px #a7c4f004}
+.footer-eyebrow{display:flex;align-items:center;gap:12px;color:#cfdbed;font-size:10px;letter-spacing:.15em}
+.footer-eyebrow>span:first-child{font-size:22px;color:#a9c3f7;line-height:1}
+.lumina-footer .footer-main{align-items:center;gap:clamp(32px,7vw,100px);padding-block:32px 42px}
+.lumina-footer .footer-main h2{font:clamp(44px,5.3vw,76px)/1.06 var(--serif);letter-spacing:-.045em}
+.footer-main h2 em{font-weight:400;color:#bbd1ff}
+.footer-invitation{border-left:1px solid #b9d1ff40;padding-left:28px}
+.lumina-footer .footer-main p{max-width:40ch;margin-bottom:20px;line-height:1.7}
+.lumina-footer .action{max-width:100%;width:fit-content}
+.lumina-footer .footer-bottom{padding-top:18px;gap:20px}
+.footer-logo>span{font:28px var(--sans);color:#abc6fa}
+.footer-credit{line-height:1.6}
+.footer-top{gap:12px;font-size:11px;flex-shrink:0}
+.footer-top b{display:grid;place-items:center;width:30px;height:36px;border:1px solid #b9d1ff55;border-radius:18px 18px 3px 3px;font:16px var(--sans);transition:background .25s,transform .25s}
+.footer-top:is(:hover,:focus-visible) b{background:#ffffff15;transform:translateY(-3px)}
+@media(max-width:760px){
+ .lumina-footer{padding-block:30px 20px}
+ .lumina-footer:before{width:300px;height:430px;left:-64px;top:20px}
+ .footer-eyebrow{font-size:8px;gap:10px;letter-spacing:.12em}
+ .lumina-footer .footer-main{gap:22px;padding-block:24px 28px}
+ .lumina-footer .footer-main h2{font-size:46px}
+ .footer-invitation{padding-left:16px}
+ .lumina-footer .footer-main p{font-size:13px;margin-bottom:18px}
+ .lumina-footer .action{width:100%;gap:10px;justify-content:space-between;font-size:20px}
+ .lumina-footer .footer-main small{font-size:9px;line-height:1.6;margin-top:10px}
+ .lumina-footer .footer-bottom{display:grid;grid-template-columns:1fr auto;gap:10px 16px;padding-top:16px}
+ .lumina-footer .footer-logo{width:auto;font-size:30px}
+ .footer-logo>span{font-size:24px}
+ .footer-top{grid-column:2;grid-row:1;font-size:10px}
+ .footer-credit{grid-column:1/-1;font-size:9px}
+}
+
+/* Shared finishing details across care, questions and the sample schedule. */
+#care-panel{border-radius:3px 36px 3px 3px;background:linear-gradient(125deg,#e9effa,#edf2fb);border-top:1px solid #244cc526}
+.visit-art{position:relative;isolation:isolate;background:radial-gradient(ellipse at 45% 12%,#fff9,transparent 64%),#e4eafb}
+.visit-art:before{content:'';position:absolute;inset:16px;border:1px solid #244cc51c;border-radius:inherit;z-index:-1;pointer-events:none}
+.faq summary{font:20px/1.4 var(--serif);gap:16px;padding-block:12px}
+.faq summary:after{display:grid;place-items:center;flex:none;width:30px;height:36px;font:20px/1 var(--sans);border:1px solid #244cc533;border-radius:18px 18px 3px 3px;transition:background .25s,color .25s}
+.faq details[open] summary:after{background:var(--blue);color:#fff;border-color:var(--blue)}
+.faq details[open] summary{color:var(--blue)}
+.faq details p{max-width:58ch;padding-right:46px}
+@supports (interpolate-size:allow-keywords){
+ .faq details{interpolate-size:allow-keywords}
+ .faq details::details-content{block-size:0;overflow:clip;transition:block-size .32s cubic-bezier(.22,1,.36,1),content-visibility .32s;transition-behavior:allow-discrete}
+ .faq details[open]::details-content{block-size:auto}
+}
+#booking{border-radius:32px 32px 6px 6px}
+.dialog-head{background:linear-gradient(115deg,#edf2fc,var(--paper));border-top:2px solid #8fa9e7}
+.dialog-head h2{font:36px/1.1 var(--serif);letter-spacing:-.035em}
+#booking-service{border-radius:18px 18px 3px 3px;border-color:#244cc540;background:#fff;color:var(--ink);padding:14px 12px;font-size:16px}
+#times{grid-template-columns:repeat(4,minmax(0,1fr))}
+.booking-summary{border-left:2px solid #88a4e5;border-radius:3px 20px 3px 3px;font-size:13px}
+.result-mark{border-radius:34px 34px 4px 4px;border:1px solid #244cc526}
+#result-summary{background:#e9effa;border-block:1px solid #244cc526;padding:16px;border-radius:3px 20px 3px 3px}
+.approach :focus-visible,.lumina-footer :focus-visible{outline-color:#d9e6ff}
+@media(max-width:760px){
+ body{padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+ html{scroll-padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))}
+ .faq summary{font-size:18px;min-height:68px}
+ .faq details p{padding-right:12px}
+ #care-panel{border-radius:3px 28px 3px 3px}
+ #booking{max-width:100%;border-radius:26px 26px 0 0}
+ .dialog-head h2{font-size:28px}
+ #times{grid-template-columns:repeat(2,minmax(0,1fr))}
+}

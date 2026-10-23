@@ -1,0 +1,117 @@
+/* Nordra's mountain, woven from the three intentions behind the studio. */
+.aurora-page main > .about-story {
+  --story-cyan: #277e87; --story-blue: #526eac; --story-lilac: #8b65a8;
+  position: relative; padding-block: 70px 48px; overflow: clip;
+}
+.dark .aurora-page main > .about-story { --story-cyan: #83d8db; --story-blue: #9ab3f0; --story-lilac: #c4a0e5; }
+#nosotros.about-story { scroll-margin-top: 0; }
+.about-story .story-shell { position: relative; }
+.story-topline { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 30px; }
+.story-topline .eyebrow { margin: 0; font-size: 10px; letter-spacing: .24em; }
+.story-origin { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font-size: 9px; letter-spacing: .16em; }
+.story-origin > span { width: 4px; height: 4px; border-radius: 50%; background: var(--story-cyan); box-shadow: 0 0 0 4px color-mix(in srgb,var(--story-cyan) 10%,transparent); }
+.story-intro { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(30px,7vw,110px); align-items: center; }
+.about-story .story-heading h2 { margin: 0; font-size: clamp(44px,4.7vw,64px); line-height: 1.08; letter-spacing: -.052em; font-weight: 400; text-wrap: balance; }
+.about-story .story-heading h2 span { display: inline-block; padding-bottom: .12em; color: var(--story-lilac); }
+@supports (background-clip:text) { .about-story .story-heading h2 span { background: linear-gradient(105deg,var(--story-cyan),var(--story-blue) 55%,var(--story-lilac)); background-clip: text; -webkit-background-clip: text; color: transparent; } }
+.story-heading .story-note { margin: 10px 0 0; font-size: clamp(17px,1.65vw,21px); letter-spacing: -.025em; line-height: 1.5; color: var(--muted); }
+.story-copy p { max-width: 48ch; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.85; text-wrap: pretty; }
+.story-copy p + p { margin-top: 18px; }
+.story-weave { position: relative; margin: -12px -10px -12px; pointer-events: none; }
+.story-signature { display: block; width: 100%; height: auto; overflow: visible; }
+.story-silk-drift { animation: story-silk-drift 12s ease-in-out infinite; transform-origin: 600px 220px; }
+.story-ridge-light { animation: story-light-passage 19s linear infinite; opacity: .7; }
+.story-dust { animation: story-dust-drift 14s ease-in-out infinite; }
+.story-silk-response { transform-origin: 600px 220px; transition: transform 1.1s cubic-bezier(.22,1,.36,1); }
+.story-strand { opacity: .58; transition: opacity .8s ease,transform 1.1s cubic-bezier(.22,1,.36,1); }
+.story-strand > path { stroke-width: 1.1; stroke-linecap: round; }
+.story-connection { opacity: .3; transition: opacity .8s ease; }
+.story-endpoint { opacity: .45; transition: opacity .8s ease; }
+.story-aura { opacity: .65; transition: opacity 1s ease; }
+.story-summit { opacity: .65; transition: opacity .8s ease; }
+.about-story[data-active-intention=listen] .story-strand-listen { opacity: 1; transform: translate(-3px,-4px); }
+.about-story[data-active-intention=shape] .story-strand-shape { opacity: 1; transform: translateY(-7px); }
+.about-story[data-active-intention=connect] .story-strand-connect { opacity: 1; transform: translate(4px,-4px); }
+.about-story[data-active-intention=listen] .story-strand-listen :is(.story-connection,.story-endpoint),
+.about-story[data-active-intention=shape] .story-strand-shape :is(.story-connection,.story-endpoint),
+.about-story[data-active-intention=connect] .story-strand-connect :is(.story-connection,.story-endpoint) { opacity: .9; }
+.about-story:not([data-active-intention=rest]) .story-aura,.about-story[data-inviting=true] .story-aura { opacity: 1; }
+.about-story[data-inviting=true] .story-silk-response { transform: translateY(-4px) scale(1.012); }
+.about-story[data-inviting=true] .story-strand,.about-story[data-inviting=true] .story-summit { opacity: 1; }
+.story-values-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 0 0 8px; }
+.story-values-heading > p { color: var(--muted); font-size: 9px; letter-spacing: .16em; margin: 0; }
+.story-motion { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; color: var(--muted); background: transparent; cursor: pointer; transition: color .4s ease,background-color .4s ease; }
+.story-motion:hover { color: var(--text); background: color-mix(in srgb,var(--story-cyan) 8%,transparent); }
+.story-values { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: clamp(28px,5vw,76px); }
+.story-value { --intention-color: var(--story-cyan); position: relative; min-width: 0; }
+.story-value-shape { --intention-color: var(--story-blue); }
+.story-value-connect { --intention-color: var(--story-lilac); }
+.story-intention-mark { display: none; width: 58px; height: 38px; color: var(--intention-color); stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; overflow: visible; transition: transform .8s cubic-bezier(.22,1,.36,1),opacity .6s ease; }
+.story-intention-mark circle { fill: var(--intention-color); stroke: none; }
+.about-story .story-value h3 { margin: 0 0 12px; font-size: clamp(18px,1.8vw,22px); font-weight: 400; letter-spacing: -.025em; line-height: 1.35; text-wrap: balance; }
+.story-value-trigger { padding: 0; border: 0; background: transparent; color: var(--text); font: inherit; text-align: left; letter-spacing: inherit; line-height: inherit; cursor: pointer; touch-action: manipulation; transition: color .6s ease; }
+.story-value-trigger::after { content: ""; position: absolute; inset: 0; }
+.story-value p { margin: 0; max-width: 38ch; color: var(--muted); font-size: 13px; line-height: 1.85; text-wrap: pretty; }
+.story-value[data-active] .story-value-trigger { color: var(--intention-color); }
+.story-value[data-active] .story-intention-mark { transform: translateY(-3px); }
+.story-value[data-active] .story-mark-shape { transform: translateY(-3px) scale(1.07); }
+.story-value[data-active] .story-mark-connect { transform: scaleX(1.1); }
+.story-signoff { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 24px; margin-top: 38px; padding-top: 24px; border-top: 1px solid var(--border); }
+.story-signoff > p { margin: 0; font-size: 13px; color: var(--muted); letter-spacing: -.01em; }
+.story-invitation { position: relative; display: inline-flex; align-items: center; gap: 24px; min-height: 48px; color: var(--text); font-size: 16px; letter-spacing: -.02em; transition: color .5s ease; }
+.story-invitation::after { content: ""; position: absolute; bottom: 4px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,var(--story-cyan),var(--story-lilac)); transform: scaleX(.2); transform-origin: left; opacity: .5; transition: transform .8s cubic-bezier(.22,1,.36,1),opacity .5s ease; }
+.story-invitation svg { color: var(--story-cyan); transition: transform .7s cubic-bezier(.22,1,.36,1); }
+.about-story[data-inviting=true] .story-invitation { color: var(--story-cyan); }
+.about-story[data-inviting=true] .story-invitation::after { transform: scaleX(1); opacity: .8; }
+.about-story[data-inviting=true] .story-invitation svg { transform: translate(2px,-2px); }
+.about-story :is(a,button):focus-visible { outline: 2px solid var(--story-cyan); outline-offset: 6px; border-radius: 3px; }
+.story-signature * { animation-play-state: paused; }
+.about-story[data-in-view=true]:not([data-paused=true]):not([data-hidden=true]) .story-signature * { animation-play-state: running; }
+.about-story[data-paused=true] *, .about-story[data-paused=true] *::after { transition: none; }
+@keyframes story-silk-drift { 0%,100% { transform: translateY(2px); } 50% { transform: translateY(-4px); } }
+@keyframes story-light-passage { from { stroke-dashoffset: 7; } to { stroke-dashoffset: -93; } }
+@keyframes story-dust-drift { 0%,100% { transform: translateY(2px); opacity: .4; } 50% { transform: translateY(-4px); opacity: .7; } }
+@media(max-width:960px) {
+  .story-intro { gap: 36px; }
+  .about-story .story-heading h2 { font-size: 46px; }
+  .story-copy p { font-size: 13px; }
+  .story-values { gap: 30px; }
+  .about-story .story-value h3 { font-size: 19px; }
+  .story-weave { margin-top: 12px; }
+}
+@media(max-width:700px) {
+  .aurora-page main > .about-story { padding-block: 44px 32px; }
+  .story-topline { margin-bottom: 24px; gap: 12px; }
+  .story-topline .eyebrow { font-size: 9px; }
+  .story-origin { font-size: 8px; letter-spacing: .09em; gap: 7px; }
+  .story-intro { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  .about-story .story-heading h2 { font-size: clamp(40px,10.8vw,58px); }
+  .story-heading .story-note { font-size: 18px; margin-top: 8px; }
+  .story-copy p { font-size: 14px; line-height: 1.8; max-width: 52ch; }
+  .story-copy p + p { margin-top: 14px; }
+  .story-weave { margin: 10px -60px 0; }
+  .story-signature { width: 100%; height: clamp(140px,35vw,220px); }
+  .story-connection,.story-endpoint { display: none; }
+  .story-values-heading { margin-top: 4px; margin-bottom: 12px; }
+  .story-values-heading > p { font-size: 8px; }
+  .story-values { grid-template-columns: minmax(0,1fr); gap: 28px; }
+  .story-value { display: grid; grid-template-columns: 58px minmax(0,1fr); gap: 20px; align-items: start; }
+  .story-intention-mark { display: block; margin-top: 1px; }
+  .about-story .story-value h3 { margin-bottom: 8px; font-size: 20px; }
+  .story-value p { font-size: 13px; max-width: 48ch; }
+  .story-signoff { margin-top: 30px; padding-top: 20px; gap: 10px; }
+  .story-signoff > p { font-size: 12px; width: 100%; }
+  .story-invitation { font-size: 16px; }
+}
+@media(max-width:360px) {
+  .story-topline { flex-wrap: wrap; gap: 12px; }
+  .story-value { grid-template-columns: 44px minmax(0,1fr); gap: 14px; }
+  .story-intention-mark { width: 44px; height: 32px; }
+  .about-story .story-value h3 { font-size: 18px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .about-story *, .about-story *::after { animation: none!important; transition: none!important; }
+  .story-motion { display: none; }
+  .story-values-heading { min-height: 44px; }
+  .about-story .story-strand,.about-story .story-silk-response,.about-story .story-intention-mark { transform: none!important; }
+}

@@ -1,6 +1,9 @@
 <!doctype html>
-<html lang="es"><head>
+<html lang="es" data-nordra-demo="halloween"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>html[data-nordra-demo]{background:#160d1c;color-scheme:dark}</style>
+<link rel="stylesheet" href="/nordra-entry.css">
+<script src="/nordra-entry.js"></script>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#160d1c">
 <title>Demo Halloween | Nordra Studio</title>
@@ -200,8 +203,8 @@
 @keyframes entrance-flight{0%{opacity:0;transform:translate(-50%,-50%) scale(.25) rotate(0)}12%{opacity:1}75%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--fly-x)),calc(-50% + var(--fly-y))) scale(1.6) rotate(var(--fly-angle))}}
 @keyframes portal-aura{0%,100%{filter:drop-shadow(0 0 8px #ff63bd12)}50%{filter:drop-shadow(0 0 18px #ff88ce35)}}
 @keyframes entry-aura{0%,100%{box-shadow:inset 0 1px 0 #ffe4f150,0 10px 28px #0005,0 0 25px #ff63bd20}50%{box-shadow:inset 0 1px 0 #ffe4f150,0 10px 28px #0005,0 0 38px #ff63bd40}}
-@keyframes portal-release{40%{filter:drop-shadow(0 0 35px #ff9ad5aa)}100%{filter:drop-shadow(0 0 12px #ff63bd20)}}
-@keyframes portal-light-release{0%{opacity:.6}40%{opacity:1;filter:brightness(1.8)}100%{opacity:.7;filter:brightness(1)}}
+@keyframes portal-release{from{filter:drop-shadow(0 0 12px #ff63bd20)}to{filter:drop-shadow(0 0 16px #ff88ce28)}}
+@keyframes portal-light-release{from{opacity:.6}to{opacity:.7}}
 @media(prefers-reduced-motion:reduce){.portal,#entry-form #open,.opening .portal,.opening .portal-light{animation:none}.entrance-flight{display:none}}
 .photo-viewer{width:min(620px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:20px;border:1px solid #d9a4c160;border-radius:20px;background:#211426;color:#f5e9ce;overflow:auto;box-shadow:0 20px 80px #0008}
 .photo-viewer::backdrop{background:#100914e6}
@@ -217,7 +220,7 @@
 </style>
 </head>
 <body>
-<aside class="demo-banner" aria-label="Aviso de demostración"><span><strong>DEMOSTRACIÓN</strong> · Evento de ejemplo</span><a href="/#temporada">Volver a Nordra ↗</a></aside>
+<aside class="demo-banner" aria-label="Aviso de demostración"><span><strong>DEMOSTRACIÓN</strong> · Evento de ejemplo</span><a href="/invitaciones.html#temporada">Volver a Nordra ↗</a></aside>
 <div class="sky" aria-hidden="true"></div><div class="ambient-fog" aria-hidden="true"></div>
 <section class="gate" id="gate">
 <div class="gate-inner">

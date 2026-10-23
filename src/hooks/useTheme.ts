@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 
 export function useTheme() {
-  const [dark, setDark] = useState(() => {
-    const saved = localStorage.getItem("nordra-theme");
-    if (saved) return saved === "dark";
-    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? true;
-  });
+  // The HTML head resolves the theme before CSS/React can paint a light frame.
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains("dark"));
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
-    localStorage.setItem("nordra-theme", dark ? "dark" : "light");
+    try { localStorage.setItem("nordra-theme", dark ? "dark" : "light"); } catch { /* Storage may be unavailable in private browsing. */ }
   }, [dark]);
 
   return { dark, toggleTheme: () => setDark((v) => !v) };

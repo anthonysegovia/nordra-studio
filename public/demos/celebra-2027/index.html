@@ -1,7 +1,10 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-nordra-demo="celebra-2027">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>html[data-nordra-demo]{background:#101017;color-scheme:dark}</style>
+<link rel="stylesheet" href="/nordra-entry.css">
+<script src="/nordra-entry.js"></script>
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#101017">
 <title>Por todo lo que viene · Año Nuevo | Nordra Studio</title>
 <meta name="description" content="Invitación de Año Nuevo de ejemplo. Una noche de destellos, buenos deseos y un brindis por el 2027. Sin registro ni cobros.">
@@ -54,16 +57,16 @@ dialog{width:min(470px,calc(100% - 32px));padding:32px;border:1px solid var(--li
 .invitation.revealing .year{animation:year-arrives 1.2s .5s both}
 @keyframes midnight-turn{from{transform:rotate(-6deg)}to{transform:rotate(360deg)}}
 @keyframes hour-arrives{to{transform:rotate(0)}}
-@keyframes clock-awakens{0%{box-shadow:0 0 15px #d6bc8810}50%{box-shadow:0 0 65px #d6bc8870,inset 0 0 30px #d6bc8820}100%{box-shadow:0 0 100px #d6bc8800;opacity:.3}}
-@keyframes twelve-shines{45%{color:#fff1d2;text-shadow:0 0 22px #f1d19b}100%{opacity:.2}}
-@keyframes halo-rush{to{transform:rotate(240deg) scale(1.2);opacity:0}}
+@keyframes clock-awakens{0%{box-shadow:0 0 15px #d6bc8810}55%{box-shadow:0 0 26px #d6bc8826,inset 0 0 18px #d6bc8810}100%{box-shadow:0 0 30px #d6bc8800;opacity:.3}}
+@keyframes twelve-shines{45%{text-shadow:0 0 10px #d6bc8830}100%{opacity:.2}}
+@keyframes halo-rush{to{transform:rotate(12deg) scale(1.02);opacity:0}}
 @keyframes magic-ripple{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}18%{opacity:.8}100%{opacity:0;transform:translate(-50%,-50%) scale(8)}}
 @keyframes magic-ray-flight{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}15%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.5)}}
 @keyframes midnight-wish{0%{opacity:0;filter:blur(7px);letter-spacing:.18em}30%,65%{opacity:1;filter:blur(0);letter-spacing:.05em}100%{opacity:0;filter:blur(3px);transform:translate(-50%,-55%) scale(1.06)}}
 @keyframes entry-recedes{to{opacity:0;transform:scale(.95) translateY(10px)}}
-@keyframes night-unfolds{from{opacity:0;filter:blur(5px);transform:scale(1.025)}to{opacity:1;filter:blur(0);transform:none}}
-@keyframes golden-arrival{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-@keyframes year-arrives{from{opacity:0;transform:translateY(20px);filter:blur(5px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes night-unfolds{from{opacity:.8;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes golden-arrival{from{opacity:.65;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes year-arrives{from{opacity:.65;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.midnight-magic{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.sparkles{display:none}}
 
@@ -74,7 +77,7 @@ dialog{width:min(470px,calc(100% - 32px));padding:32px;border:1px solid var(--li
 <body>
 <svg class="library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><symbol id="firework" viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="100" cy="100" r="9"/><path d="M100 15v48m0 74v48M15 100h48m74 0h48M40 40l34 34m52 52 34 34M40 160l34-34m52-52 34-34M65 18l18 44m34 76 18 44M18 65l44 18m76 34 44 18M18 135l44-18m76-34 44-18M65 182l18-44m34-76 18-44"/><circle cx="100" cy="5" r="2"/><circle cx="195" cy="100" r="2"/><circle cx="100" cy="195" r="2"/><circle cx="5" cy="100" r="2"/></g></symbol></defs></svg>
 <div class="stars" aria-hidden="true"></div>
-<aside class="demo-bar" aria-label="Aviso de demostración"><span><strong>DEMOSTRACIÓN</strong> · Invitación de ejemplo</span><a href="/#temporada">Volver a Nordra ↗</a></aside>
+<aside class="demo-bar" aria-label="Aviso de demostración"><span><strong>DEMOSTRACIÓN</strong> · Invitación de ejemplo</span><a href="/invitaciones.html#temporada">Volver a Nordra ↗</a></aside>
 <section class="entry" id="entry" aria-labelledby="entry-title"><div class="entry-inner"><p class="eyebrow">Una última noche. Un nuevo comienzo.</p><h1>Hay momentos<br>que merecen <em>un brindis.</em></h1><p class="entry-copy">Despide lo vivido. Abraza lo que viene.<br>Esta noche, empieza una nueva historia.</p><div class="clock-art interactive-art"><button class="art-trigger" id="enter-button" type="button" aria-label="Abrir la invitación de Año Nuevo" aria-describedby="entry-note"></button><div class="clock-halo"></div><span class="clock-number">XII</span><div class="hand hour-hand"></div><div class="hand minute-hand"></div><i class="clock-dot"></i><span class="clock-bottom">EL COMIENZO DE ALGO BONITO</span></div><p class="touch-hint entry-note" id="entry-note">Toca el reloj</p></div></section>
 <main class="invitation" id="invitation" hidden>
 <section class="hero" aria-labelledby="party-title"><div class="burst-art left" aria-hidden="true"><svg><use href="#firework"/></svg></div><div class="burst-art right" aria-hidden="true"><svg><use href="#firework"/></svg></div><p class="eyebrow">31 de diciembre de 2026 · Una noche para celebrar</p><h1 id="party-title" tabindex="-1">Por todo<br><em>lo que viene.</em></h1><p class="hero-copy">Que el último recuerdo del año sea juntos.<br>Y el primero del siguiente, también.</p><div class="year" aria-label="2027">20<span>27</span></div><div class="hero-rule" aria-hidden="true">✧</div><p class="eyebrow">Cena · Música · Doce buenos deseos</p><button class="light-show-button" id="lights-button" type="button">Enciende un poco de magia ✧</button><p id="lights-status" role="status" class="entry-note"></p></section>
@@ -83,7 +86,7 @@ dialog{width:min(470px,calc(100% - 32px));padding:32px;border:1px solid var(--li
 <section class="toast-section"><div class="toast-layout"><div class="glasses-art"><svg viewBox="0 0 300 300" role="img" aria-label="Dos copas de champaña ilustradas brindando"><g fill="none" stroke="#a17e48" stroke-width="2"><g class="glass-left"><path d="m85 65 48-10 18 82q4 24-17 29-24 5-31-20Z" fill="#d6bc8822"/><path d="m96 110 46-10 8 37q4 24-17 29-24 5-30-20Z" fill="#d6bc8860"/><path d="m134 167 17 73m-48 10 87-20"/><circle cx="117" cy="130" r="2"/><circle cx="130" cy="144" r="2"/><circle cx="122" cy="155" r="1.5"/></g><g class="glass-right"><path d="m165 55 48 10-18 81q-6 23-29 18-22-5-17-29Z" fill="#d6bc8822"/><path d="m155 100 46 10-7 35q-6 24-28 19-22-5-17-29Z" fill="#d6bc8860"/><path d="m166 165-17 74m-39-9 86 19"/><circle cx="180" cy="125" r="2"/><circle cx="168" cy="144" r="1.5"/><circle cx="183" cy="146" r="1.5"/></g><path d="M151 20v17m-22-11 7 12m38-12-7 12M56 102l-12-2m193 2 12-2"/><path d="m65 190 3 10 10 3-10 3-3 10-3-10-10-3 10-3Zm171-31 2 7 7 2-7 2-2 7-2-7-7-2 7-2Z" fill="#d6bc88" stroke="none"/></g></svg></div><div><p class="eyebrow">Lo mejor no cabe en una cuenta regresiva</p><h2>Por lo vivido.<br><em>Por vivirlo contigo.</em></h2><p>Por las historias que todavía nos hacen reír. Por quienes llegaron, por lo que aprendimos y por todas las primeras veces que nos esperan.</p><p>Hagamos de esta noche una buena despedida y un comienzo aún mejor. La mesa está puesta; solo faltas tú.</p><p class="handwritten">Brindemos por un año que se sienta nuestro.</p></div></div></section>
 <section class="program-section"><div class="section-title"><p class="eyebrow">La noche, momento a momento</p><h2>Así comienza<br>lo que viene.</h2><p>Un programa de ejemplo para disfrutar desde el primer encuentro hasta el último abrazo.</p></div><ol class="program"><li><time>21:00</time><h3>La bienvenida</h3><p>Nos reunimos, nos ponemos al día y dejamos que empiece la música.</p></li><li><time>22:00</time><h3>Una mesa compartida</h3><p>Cena, buenas conversaciones y motivos para agradecer.</p></li><li><time>23:45</time><h3>Doce deseos</h3><p>Prepara las uvas y ese deseo que guardaste todo el año.</p></li><li class="midnight"><time>00:00<br>1 ENE</time><h3>Hola, 2027.</h3><p>El brindis, el abrazo y una nueva página por escribir.</p></li></ol><div class="small-cards"><article><span class="ornament" aria-hidden="true">✦</span><h3>Un toque de brillo</h3><p>Negro, dorado, plateado o ese detalle que te haga sentir especial. Una celebración para recibir el año a tu manera.</p></article><article><span class="ornament" aria-hidden="true">⌖</span><h3>El punto de encuentro</h3><p>Terraza Medianoche es un lugar de ejemplo. Tu invitación puede incluir la ubicación de tu celebración.</p><button class="outline-button" id="location-button" type="button">Ver ubicación de ejemplo ↗</button></article></div></section>
 <section class="rsvp-section"><span class="decoration" aria-hidden="true">✧</span><p class="eyebrow">Que no falte tu brindis</p><h2>¿Recibimos<br>el año juntos?</h2><p>El mejor comienzo tiene a nuestra gente cerca.<br>Prueba la confirmación de esta invitación.</p><div class="actions"><button class="gold-button" id="rsvp-button" type="button">Confirmar en este ejemplo ↗</button><button class="outline-button" id="calendar-button" type="button">Probar recordatorio</button></div><p class="demo-note">Demostración: las respuestas son simuladas. No se solicitan datos personales, no se envían mensajes ni se crean eventos reales en tu calendario.</p></section>
-<footer>Una invitación para los nuevos comienzos, de <a href="/#temporada">Nordra Studio</a>.<br>Todos los datos de la celebración son de ejemplo.</footer>
+<footer>Una invitación para los nuevos comienzos, de <a href="/invitaciones.html#temporada">Nordra Studio</a>.<br>Todos los datos de la celebración son de ejemplo.</footer>
 </main>
 <dialog id="example-dialog" aria-labelledby="dialog-title"><p class="eyebrow">Una muestra de la experiencia</p><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="actions" id="response-options" hidden><button class="gold-button" id="yes-button" type="button">¡Brindamos juntos!</button><button class="outline-button" id="no-button" type="button">Esta vez no podré</button></div><p id="response-status" role="status" aria-live="polite"></p><button class="close-button" id="close-dialog" type="button">Cerrar ejemplo</button></dialog>
 <script>

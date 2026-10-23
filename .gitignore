@@ -3,6 +3,7 @@ node_modules/
 dist/
 .vercel/
 design-assets/
+review/
 *.tsbuildinfo
 *.log
 .env

@@ -1,35 +1,38 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 const stops = [
   { id: "inicio", color: [0, 191, 214], secondary: [58, 99, 230] },
-  { id: "temporada", color: [144, 81, 203], secondary: [203, 132, 64] },
-  { id: "nosotros", color: [26, 187, 171], secondary: [50, 110, 233] },
   { id: "paquetes", color: [64, 105, 240], secondary: [136, 77, 230] },
   { id: "eventos", color: [153, 80, 224], secondary: [210, 85, 170] },
+  { id: "temporada", color: [144, 81, 203], secondary: [203, 132, 64] },
+  { id: "nosotros", color: [26, 187, 171], secondary: [50, 110, 233] },
   { id: "contacto", color: [0, 159, 181], secondary: [52, 86, 181] },
 ];
 
 export function ScrollAurora() {
   const layer = useRef<HTMLDivElement>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let frame = 0;
-    let positions: number[] = [];
+    let activeStops: (typeof stops[number] & { top: number })[] = [];
     const measure = () => {
-      positions = stops.map(stop => {
+      activeStops = stops.flatMap(stop => {
         const element = document.getElementById(stop.id);
-        return element ? element.getBoundingClientRect().top + window.scrollY : 0;
-      });
+        return element ? [{ ...stop, top: element.getBoundingClientRect().top + window.scrollY }] : [];
+      }).sort((first, second) => first.top - second.top);
     };
     const render = () => {
       frame = 0;
-      if (!layer.current) return;
-      const y = window.scrollY + window.innerHeight * .35;
+      if (!layer.current || !activeStops.length) return;
+      const y = window.scrollY;
       let index = 0;
-      while (index < stops.length - 2 && y > positions[index + 1]) index++;
-      const progress = Math.min(1, Math.max(0, (y - positions[index]) / Math.max(1, positions[index + 1] - positions[index])));
+      while (index < activeStops.length - 1 && y > activeStops[index + 1].top) index++;
+      const current = activeStops[index];
+      const next = activeStops[Math.min(index + 1, activeStops.length - 1)];
+      const progress = Math.min(1, Math.max(0, (y - current.top) / Math.max(1, next.top - current.top)));
       const mix = (first: number[], second: number[]) => first.map((value, channel) => Math.round(value + (second[channel] - value) * progress)).join(" ");
-      layer.current.style.setProperty("--aurora-color", mix(stops[index].color, stops[index + 1].color));
-      layer.current.style.setProperty("--aurora-secondary", mix(stops[index].secondary, stops[index + 1].secondary));
+      layer.current.style.setProperty("--aurora-color", mix(current.color, next.color));
+      layer.current.style.setProperty("--aurora-secondary", mix(current.secondary, next.secondary));
     };
     const schedule = () => { if (!frame) frame = window.requestAnimationFrame(render); };
     const resize = () => { measure(); schedule(); };
@@ -37,7 +40,9 @@ export function ScrollAurora() {
     observer.observe(document.body);
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", resize);
-    resize();
+    // Match the destination before paint, rather than switching colors a frame later.
+    measure();
+    render();
     return () => {
       observer.disconnect();
       window.removeEventListener("scroll", schedule);

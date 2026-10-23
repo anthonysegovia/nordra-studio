@@ -4,30 +4,38 @@ document.querySelectorAll('.gift-reveal').forEach(note => {
   const content = note.querySelector('.gift-content');
   let animation, intendedOpen = note.open;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  function syncExpanded() {
+    note.dataset.expanded=String(intendedOpen);
+    weddingSetText(note.querySelector('.gift-action-copy'),intendedOpen?'Cerrar información':'Abrir información');
+  }
   function settle() {
     if (animation) { animation.onfinish = null; animation.cancel(); animation = null; }
     note.open = intendedOpen;
     note.style.height = ''; note.style.overflow = '';
     content.inert = !intendedOpen;
+    syncExpanded();
   }
-  note.addEventListener('toggle', () => { if (!animation) { intendedOpen = note.open; content.inert = !note.open; } });
+  settle();
+  note.addEventListener('toggle', () => { if (!animation) { intendedOpen = note.open; content.inert = !note.open; syncExpanded(); } });
   note.querySelector('summary').addEventListener('click', event => {
-    if (motion.matches || !note.animate) return;
     event.preventDefault();
+    if (!weddingMotionAllowed() || !note.animate) { intendedOpen=!intendedOpen;settle();return; }
     const start = note.getBoundingClientRect().height;
     intendedOpen = !intendedOpen;
+    syncExpanded();
     if (animation) { animation.onfinish = null; animation.cancel(); }
     note.style.height = ''; note.open = intendedOpen;
     const end = note.getBoundingClientRect().height;
     note.open = true; note.style.overflow = 'hidden';
     content.inert = !intendedOpen;
-    animation = note.animate([{height:`${start}px`},{height:`${end}px`}], {duration:620,easing:'cubic-bezier(.22,1,.36,1)'});
+    animation = note.animate([{height:`${start}px`},{height:`${end}px`}], {duration:540,easing:'cubic-bezier(.4,0,.2,1)'});
     animation.onfinish = settle;
   });
   motion.addEventListener('change',()=>{if(!animation)intendedOpen=note.open;settle()});
+  document.addEventListener('wedding:motionchange',()=>{if(!weddingMotionAllowed())settle()});
   if ('ResizeObserver' in window) {
-    let width = note.getBoundingClientRect().width;
-    new ResizeObserver(entries=>{const next=entries[0].contentRect.width;if(Math.abs(next-width)>.5){width=next;settle()}}).observe(note);
+    let width;
+    new ResizeObserver(entries=>{const next=entries[0].contentRect.width;if(width!==undefined&&Math.abs(next-width)>.5)settle();width=next}).observe(note);
   }
 });
 const arrival = document.querySelector('#gate');
@@ -78,9 +86,10 @@ function syncMotion() {
   document.documentElement.classList.toggle('motion-paused', manuallyPaused || document.hidden || motionPreference.matches);
   [motionControl,entryMotionControl].forEach(control=>{
     control.setAttribute('aria-pressed',String(manuallyPaused));
-    control.textContent=motionPreference.matches?'Movimiento reducido activado':manuallyPaused?'Reanudar animaciones':'Pausar animaciones';
+    weddingSetText(control,motionPreference.matches?'Movimiento reducido activado':manuallyPaused?'Reanudar animaciones':'Pausar animaciones');
     control.disabled=motionPreference.matches;
   });
+  document.dispatchEvent(new Event('wedding:motionchange'));
 }
 [motionControl,entryMotionControl].forEach(control=>control.addEventListener('click',()=>{manuallyPaused=!manuallyPaused;syncMotion()}));
 document.addEventListener('visibilitychange',syncMotion);
@@ -91,28 +100,67 @@ if ('IntersectionObserver' in window) {
 }
 syncMotion();
 
+// Saving the date gives the keepsake a small paper-like lift, including on touch.
+const calendarFeedback = new Set();
+document.querySelectorAll('[data-calendar],#calendar').forEach(button=>{
+  button.addEventListener('click',()=>{
+    if(!weddingMotionAllowed()||!button.animate)return;
+    const paper=button.querySelector('.keepsake-date')||button;
+    const start=getComputedStyle(paper).transform;
+    paper.getAnimations().forEach(animation=>animation.cancel());
+    const resting=getComputedStyle(paper).transform;
+    const animation=paper.animate([
+      {transform:start},
+      {transform:'translateY(-3px) rotate(1deg)',offset:.45},
+      {transform:resting}
+    ],{duration:700,easing:'ease-in-out'});
+    calendarFeedback.add(animation);
+    animation.finished.catch(()=>{}).finally(()=>calendarFeedback.delete(animation));
+  });
+});
+document.addEventListener('wedding:motionchange',()=>{
+  if(!weddingMotionAllowed())calendarFeedback.forEach(animation=>animation.cancel());
+});
+
 // Optional album: full optimized photographs, with native modal focus handling.
 const gallery = document.querySelector('#gallery');
 const photoButtons = [...document.querySelectorAll('[data-photo]')];
 const galleryImage = document.querySelector('#gallery-image');
 let photoIndex = 0, photoRevision = 0, photoOrigin;
-function showPhoto(index) {
+function clearPhotoTransition() {
+  gallery.querySelectorAll('.gallery-previous').forEach(image=>{image.getAnimations().forEach(animation=>animation.cancel());image.remove()});
+}
+async function showPhoto(index) {
   photoIndex = (index + photoButtons.length) % photoButtons.length;
+  const selectedIndex=photoIndex;
   const revision = ++photoRevision;
   const source = photoButtons[photoIndex].querySelector('img');
-  // Replace immediately: a slow preceding decode can never overwrite the last choice.
-  galleryImage.src = source.src.replace('-800.jpg','-1600.jpg');
-  galleryImage.alt = source.alt;
-  document.querySelector('#gallery-position').textContent = `${photoIndex+1} de ${photoButtons.length}`;
-  galleryImage.decode?.().then(()=>{
-    if (revision === photoRevision && !motionPreference.matches && gallery.open) galleryImage.animate([{opacity:.4},{opacity:1}],{duration:280,easing:'ease'});
-  }).catch(()=>{});
+  const candidate=new Image();
+  candidate.src=source.src.replace('-800.jpg','-1600.jpg');
+  // Keep the visible photo until its replacement is decoded. Late requests cannot win.
+  try { await candidate.decode(); } catch { candidate.src=source.currentSrc||source.src; }
+  if(revision!==photoRevision||!gallery.open)return;
+  const changed=galleryImage.src!==candidate.src;
+  const previous=changed&&galleryImage.complete&&galleryImage.naturalWidth&&weddingMotionAllowed()?galleryImage.cloneNode():null;
+  clearPhotoTransition();
+  galleryImage.src=candidate.src;galleryImage.alt=source.alt;
+  weddingSetText(document.querySelector('#gallery-position'),`${selectedIndex+1} de ${photoButtons.length}`);
+  if(previous){
+    previous.removeAttribute('id');previous.alt='';previous.setAttribute('aria-hidden','true');previous.className='gallery-previous';
+    galleryImage.after(previous);
+    const fade=previous.animate([{opacity:1},{opacity:0}],{duration:420,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'});
+    fade.finished.then(()=>previous.remove()).catch(()=>previous.remove());
+  }
   const next = new Image();
   next.src = photoButtons[(photoIndex+1)%photoButtons.length].querySelector('img').src.replace('-800.jpg','-1600.jpg');
   next.decode?.().catch(()=>{});
 }
 photoButtons.forEach((button,index)=>button.addEventListener('click',()=>{
-  photoOrigin=button;showPhoto(index);gallery.showModal();
+  photoOrigin=button;clearPhotoTransition();
+  const preview=button.querySelector('img');
+  galleryImage.src=preview.currentSrc||preview.src;galleryImage.alt=preview.alt;
+  weddingSetText(document.querySelector('#gallery-position'),`${index+1} de ${photoButtons.length}`,{immediate:true});
+  gallery.showModal();showPhoto(index);
 }));
 document.querySelector('#gallery-prev').addEventListener('click',()=>showPhoto(photoIndex-1));
 document.querySelector('#gallery-next').addEventListener('click',()=>showPhoto(photoIndex+1));
@@ -125,6 +173,7 @@ gallery.addEventListener('click',event=>{
   const rect=gallery.getBoundingClientRect();
   if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)gallery.close();
 });
-gallery.addEventListener('close',()=>{++photoRevision;photoOrigin?.focus({preventScroll:true})});
+gallery.addEventListener('close',()=>{++photoRevision;clearPhotoTransition();photoOrigin?.focus({preventScroll:true})});
 
-motionPreference.addEventListener('change',()=>{if(motionPreference.matches)galleryImage.getAnimations().forEach(animation=>animation.cancel())});
+motionPreference.addEventListener('change',()=>{if(motionPreference.matches)clearPhotoTransition()});
+document.addEventListener('wedding:motionchange',()=>{if(!weddingMotionAllowed())clearPhotoTransition()});

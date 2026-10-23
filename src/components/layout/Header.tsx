@@ -1,24 +1,33 @@
+import { sectionHref, page } from "../../navigation";
 import { t, useLanguage, setLanguage } from "../../language";
 import { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
 import { ThemeToggle } from "../ui/ThemeToggle";
 
 const navigation = [
-  { id: "inicio", label: "Inicio" },
-  { id: "temporada", label: "Temporada" },
-  { id: "paquetes", label: "Paquetes" },
-  { id: "eventos", label: "Eventos" },
-  { id: "nosotros", label: "Quiénes somos" },
-  { id: "contacto", label: "Contacto" },
+  { id: "inicio", label: "Inicio", en: "Home" },
+  { id: "paquetes", label: "Negocios", en: "Business" },
+  { id: "universos", label: "Demos", en: "Demos" },
+  { id: "eventos", label: "Invitaciones", en: "Invitations" },
+  { id: "proceso", label: "Cómo empezar", en: "How it works" },
+  { id: "contacto", label: "Contacto", en: "Contact" },
 ];
 
 function currentSection() {
   const id = window.location.hash.slice(1);
-  return navigation.some((item) => item.id === id) ? id : "inicio";
+  return navigation.some((item) => item.id === id) ? id : page === "business" ? "paquetes" : page === "events" ? "eventos" : "inicio";
 }
 
 export function Header() {
   const language = useLanguage();
   const [activeSection, setActiveSection] = useState(currentSection);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const updateMenu = (event: Event) => setMenuOpen((event as CustomEvent<boolean>).detail);
+    window.addEventListener("nordra:navigation-change", updateMenu);
+    return () => window.removeEventListener("nordra:navigation-change", updateMenu);
+  }, []);
 
   useEffect(() => {
     let frame = 0;
@@ -26,7 +35,7 @@ export function Header() {
       frame = 0;
       const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height ?? 90;
       const readingLine = headerHeight + Math.min(160, window.innerHeight * .2);
-      let section = navigation[0].id;
+      let section = page === "business" ? "paquetes" : page === "events" ? "eventos" : "inicio";
       for (const { id } of navigation) {
         const element = document.getElementById(id);
         if (element && element.getBoundingClientRect().top <= readingLine) section = id;
@@ -56,9 +65,9 @@ export function Header() {
   return (
     <header className="site-header">
       <div className="site-shell header-inner">
-        <a href="#inicio" className="brand-approved" aria-label={t("Nordra Studio")}>
+        <a href={sectionHref("inicio")} className="brand-approved" aria-label={t("Nordra Studio")}>
           <img
-            src="/nordra-header-approved.png"
+            src="/nordra-header-approved.webp"
             alt={t("Nordra Studio")}
             className="brand-approved-image"
             data-theme="dark"
@@ -66,7 +75,7 @@ export function Header() {
             height={724}
           />
           <img
-            src="/nordra-header-approved-light.png"
+            src="/nordra-header-approved-light.webp"
             alt={t("Nordra Studio")}
             className="brand-approved-image"
             data-theme="light"
@@ -76,15 +85,15 @@ export function Header() {
         </a>
 
         <nav className="main-nav" aria-label={t("Navegación principal")}>
-          {navigation.map(({ id, label }) => (
+          {navigation.map(({ id, label, en }) => (
             <a
               key={id}
-              href={`#${id}`}
+              href={sectionHref(id)}
               className={`nav-link${activeSection === id ? " nav-active" : ""}`}
               aria-current={activeSection === id ? "location" : undefined}
               onClick={() => setActiveSection(id)}
             >
-              {t(label)}
+              {language === "en" ? en : label}
             </a>
           ))}
         </nav>
@@ -92,7 +101,8 @@ export function Header() {
         <div className="header-actions">
           <button type="button" className="language-toggle" onClick={() => setLanguage(language === "es" ? "en" : "es")} aria-label={language === "es" ? "Switch to English" : "Cambiar a español"}><span className={language === "es" ? "language-active" : ""}>ES</span><span aria-hidden="true">/</span><span className={language === "en" ? "language-active" : ""}>EN</span></button>
           <ThemeToggle />
-          <a href="#contacto" className="outline-cta">{t("Contáctanos")}{" "}<span>→</span>
+          <button type="button" className="mobile-menu-trigger" aria-label={language === "en" ? "Open navigation menu" : "Abrir menú de navegación"} aria-haspopup="dialog" aria-expanded={menuOpen} aria-controls="mobile-explore" onClick={() => window.dispatchEvent(new Event("nordra:open-navigation"))}><Menu size={20} aria-hidden="true" /></button>
+          <a href={sectionHref("contacto")} className="outline-cta">{t("Contáctanos")}{" "}<span>→</span>
           </a>
         </div>
       </div>

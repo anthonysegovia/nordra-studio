@@ -1,3 +1,4 @@
+import { sectionHref } from "../navigation";
 import { ArrowUpRight } from "lucide-react";
 
 const projects = [
@@ -22,7 +23,7 @@ export function Portfolio() {
               Cada proyecto es una historia. Descubre cómo transformamos ideas en experiencias digitales
               que conectan y generan valor.
             </p>
-            <a href="#contacto">Ver portafolio completo →</a>
+            <a href={sectionHref("contacto")}>Ver portafolio completo →</a>
           </div>
         </div>
 

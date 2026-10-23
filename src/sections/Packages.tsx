@@ -1,6 +1,11 @@
+import { sectionHref } from "../navigation";
+import { ServiceNext } from "../components/ServiceRoute";
+import { ServiceIntro } from "../components/ServiceIntro";
+import { PackageAurora } from "../components/PackageAurora";
 import { t, useLanguage } from "../language";
-import { ArrowUpRight, Check, ChevronDown, Code2, ShoppingBag, Sprout, PanelsTopLeft, Building2 } from "lucide-react";
-import { useState } from "react";
+import { ArrowUpRight, Check, ChevronDown, Pause, Play } from "lucide-react";
+import { BusinessExamples } from "./BusinessExamples";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const packages = [
   {
@@ -23,7 +28,6 @@ const packages = [
   },
 ];
 
-const packageIcons = [Sprout, PanelsTopLeft, Building2];
 const priceRanges = ["$1,799–$2,999", "$2,999–$5,999", "$4,999–$9,999", "$7,999–$14,999+", "$11,999–$29,999+"];
 
 const customPackages = [
@@ -33,9 +37,56 @@ const customPackages = [
 
 function PackageCard({ pack, index, expanded, onToggle }: { pack: (typeof packages)[number]; index: number; expanded: boolean; onToggle: () => void }) {
   const language = useLanguage();
-  const icons = [...packageIcons, Code2, ShoppingBag];
-  const Icon = icons[index];
-  const comingSoon = index === 4;
+  const front = useRef<HTMLButtonElement>(null);
+  const back = useRef<HTMLDivElement>(null);
+  const frontContent = useRef<HTMLDivElement>(null);
+  const backContent = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState<number>();
+  const [scopeOpen, setScopeOpen] = useState(false);
+  const [auroraResponding, setAuroraResponding] = useState(false);
+  const responseTimer = useRef(0);
+  const previousExpanded = useRef(expanded);
+  const focusFrame = useRef(0);
+  const respondToAurora = useCallback(() => {
+    // Rapid taps join the same gentle wave instead of restarting it.
+    if (responseTimer.current) return;
+    setAuroraResponding(true);
+    responseTimer.current = window.setTimeout(() => {
+      setAuroraResponding(false);
+      responseTimer.current = 0;
+    }, 1400);
+  }, []);
+  useEffect(() => {
+    if (previousExpanded.current !== expanded) respondToAurora();
+    previousExpanded.current = expanded;
+  }, [expanded, respondToAurora]);
+  useEffect(() => () => {
+    window.cancelAnimationFrame(focusFrame.current);
+    window.clearTimeout(responseTimer.current);
+  }, []);
+  useLayoutEffect(() => {
+    const content = expanded ? backContent.current : frontContent.current;
+    if (!content) return;
+    // Perspective changes visual bounds during the turn, never layout height.
+    const measure = () => {
+      const nextHeight = content.offsetHeight + 2;
+      setHeight(current => current === nextHeight ? current : nextHeight);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, [expanded, language]);
+  const flip = (keyboard = false) => {
+    window.cancelAnimationFrame(focusFrame.current);
+    onToggle();
+    focusFrame.current = window.requestAnimationFrame(() => {
+      const face = expanded ? front.current : back.current;
+      if (!face) return;
+      face.dataset.keyboardFocus = String(keyboard);
+      face.focus({ preventScroll: true });
+    });
+  };
   const quoteMessage = [
     language === "en"
       ? `Hi Nordra Studio! I'd like a quote for the ${t(pack.name)} package.`
@@ -48,45 +99,76 @@ function PackageCard({ pack, index, expanded, onToggle }: { pack: (typeof packag
   ].join("\n");
   const quoteUrl = `https://wa.me/528129022231?text=${encodeURIComponent(quoteMessage)}`;
   return (
-    <div className={`package-card package-accordion package-tone-${index % 3}${expanded ? " is-open" : ""}${comingSoon ? " is-unavailable" : ""}`}>
-      <button type="button" className="package-trigger" disabled={comingSoon} aria-expanded={expanded && !comingSoon} aria-controls={`package-panel-${index}`} onClick={onToggle}>
-        <span className="package-emblem"><Icon size={26} aria-hidden="true" /></span>
-        <span className="package-summary-copy"><span className="package-summary-title">{t(pack.name)}{comingSoon && <span className="package-coming-soon">{language === "en" ? "Coming soon" : "Disponible pronto"}</span>}</span><span className="package-summary-tagline">{t(pack.tagline)}</span></span>
-        <span className="package-summary-action"><span>{comingSoon ? (language === "en" ? "In preparation" : "En preparación") : t("Explorar paquete")}</span>{!comingSoon && <ChevronDown size={20} aria-hidden="true" />}</span>
+    <div className={`package-card package-accordion business-flip aurora-card package-tone-${index}${expanded ? " is-open" : ""}${auroraResponding ? " is-responding" : ""}`} style={{ height }} onPointerDown={respondToAurora} onClickCapture={event => { if (event.detail === 0) respondToAurora(); }} onClick={event => {
+      if (!(event.target as HTMLElement).closest("a, button, .package-scope, input, select, textarea") && !window.getSelection()?.toString()) flip(event.detail === 0);
+    }} onKeyDown={event => { if (event.key === "Escape" && expanded) { event.preventDefault(); flip(true); } }}>
+      <div className="business-flip-inner">
+      <div className="business-flip-front" inert={expanded} aria-hidden={expanded}>
+      <PackageAurora scope="business" index={index} face="front"/>
+      <div className="business-front-content" ref={frontContent}>
+      <button type="button" className="package-trigger" ref={front} aria-expanded={expanded} aria-controls={`package-panel-${index}`} onClick={event => flip(event.detail === 0)}>
+        <span className="package-summary-copy"><span className="package-summary-title">{t(pack.name)}</span><span className="package-compare-audience">{t(pack.audience)}</span><span className="package-compare-price">{priceRanges[index]} <small>MXN · {t("IVA incluido")}</small></span></span>
+        <span className="package-summary-action"><span>{language === "en" ? "Tap to turn" : "Toca para girar"}</span><ChevronDown size={20} aria-hidden="true" /></span>
       </button>
-      <div id={`package-panel-${index}`} className="package-panel" inert={!expanded || comingSoon}><div className="package-panel-clip"><div className="package-expanded">
+      <a className="package-quick-quote" href={quoteUrl} target="_blank" rel="noopener noreferrer" aria-label={language === "en" ? `Quote ${t(pack.name)} on WhatsApp` : `Cotizar ${pack.name} por WhatsApp`}>{language === "en" ? "Request a quote" : "Solicitar cotización"}<ArrowUpRight size={16} aria-hidden="true" /></a>
+      </div></div>
+      <div id={`package-panel-${index}`} className="package-panel" ref={back} role="region" tabIndex={-1} aria-label={language === "en" ? `${t(pack.name)} details. Press Enter to turn back.` : `Detalles de ${pack.name}. Presiona Enter para volver.`} aria-hidden={!expanded} onKeyDown={event => {
+        if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); flip(true); }
+      }} inert={!expanded}><PackageAurora scope="business" index={index} face="back"/><div className="package-panel-clip" ref={backContent}><div className="package-expanded">
         <div className="package-expanded-intro">
+          <button type="button" className="flip-return-hint business-return" onClick={event => flip(event.detail === 0)}>{language === "en" ? "↶ Back to package" : "↶ Volver al paquete"}</button>
           <h3>{t(pack.name)}</h3>
-          <p className="package-audience">{t(pack.audience)}</p>
-          <p className="package-audience">{t(pack.details)}</p>
-          <p className="package-price">{priceRanges[index]} <span>{t("MXN")} · {t("IVA incluido")}</span></p>
-          <p className="package-options-note">{t("Rango de referencia. La inversión final depende del diseño, contenido y funcionalidades acordadas.")}</p>
-          <p className="package-options-note">{t("Incluye el primer mes de alojamiento y soporte desde la publicación. Después, el alojamiento se paga por separado según el plan acordado.")} <a href="#alojamiento-negocios">{t("Ver continuidad y costos")}</a></p>
+          <p className="package-price">{priceRanges[index]} <span>MXN · {t("IVA incluido")}</span></p>
         </div>
-        <div>
-          <div className="package-options"><h4>{t("Incluido en tu paquete")}</h4><ul>{pack.features.map(feature => <li key={feature}><Check size={17} aria-hidden="true" /><span>{t(feature)}</span></li>)}</ul></div>
-          <p className="package-options-note">{t("¿Necesitas algo más? Los extras y las funciones a medida se cotizan por separado según el alcance de tu proyecto.")}</p>
-          <div className="package-action"><a href={quoteUrl} target="_blank" rel="noopener noreferrer" aria-label={language === "en" ? `Request a quote for ${t(pack.name)} on WhatsApp` : `Solicitar cotización de ${pack.name} por WhatsApp`}>{t("Cotizar este paquete")}<ArrowUpRight size={17} aria-hidden="true" /></a></div>
+        <div className="package-options"><h4>{t("Incluido en tu paquete")}</h4><ul>{pack.features.map(feature => <li key={feature}><Check size={17} aria-hidden="true" /><span>{t(feature)}</span></li>)}</ul></div>
+        <div className="package-action"><a href={quoteUrl} target="_blank" rel="noopener noreferrer" aria-label={language === "en" ? `Request a quote for ${t(pack.name)} on WhatsApp` : `Solicitar cotización de ${pack.name} por WhatsApp`}>{t("Cotizar este paquete")}<ArrowUpRight size={17} aria-hidden="true" /></a></div>
+        <div className={`package-scope${scopeOpen ? " is-expanded" : ""}`}>
+          <button type="button" className="package-scope-toggle" aria-expanded={scopeOpen} aria-controls={`package-scope-${index}`} onClick={() => setScopeOpen(value => !value)}>{language === "en" ? "Scope and conditions" : "Alcance y condiciones"}<ChevronDown size={16} aria-hidden="true" /></button>
+          <div id={`package-scope-${index}`} className="package-scope-reveal" inert={!scopeOpen} aria-hidden={!scopeOpen}><div>
+          <p>{t(pack.details)}</p>
+          <p>{t("Rango de referencia. La inversión final depende del diseño, contenido y funcionalidades acordadas.")}</p>
+          <p>{t("Incluye el primer mes de alojamiento y soporte desde la publicación. Después, el alojamiento se paga por separado según el plan acordado.")} <a href={sectionHref("alojamiento-negocios")}>{t("Ver continuidad y costos")}</a></p>
+          <p>{t("¿Necesitas algo más? Los extras y las funciones a medida se cotizan por separado según el alcance de tu proyecto.")}</p>
+          </div></div>
         </div>
       </div>
-    </div></div></div>
+    </div></div></div></div>
   );
 }
 export function Packages() {
-  useLanguage();
+  const language = useLanguage();
+  const root = useRef<HTMLElement>(null);
+  const [aurorasPaused, setAurorasPaused] = useState(false);
   const [activePackage, setActivePackage] = useState<number | null>(null);
   const togglePackage = (index: number) => setActivePackage(current => current === index ? null : index);
+  useEffect(() => {
+    const section = root.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      (entry.target as HTMLElement).dataset.auroraVisible = String(entry.isIntersecting);
+    }), { threshold: .05 });
+    section.querySelectorAll(".business-flip").forEach(card => observer.observe(card));
+    const visibility = () => { section.dataset.aurorasHidden = String(document.hidden); };
+    visibility();
+    document.addEventListener("visibilitychange", visibility);
+    return () => { observer.disconnect(); document.removeEventListener("visibilitychange", visibility); };
+  }, [language]);
   return (
-    <section id="paquetes" className="section packages-section" aria-labelledby="packages-title">
+    <section id="paquetes" className="section packages-section" ref={root} data-auroras-paused={aurorasPaused} aria-labelledby="packages-title">
       <div className="site-shell">
-        <div className="packages-heading">
-          <p className="eyebrow">{t("UNA OPCIÓN PARA CADA IDEA")}</p>
-          <h2 id="packages-title">{t("Paquetes para tu negocio")}</h2>
-          <p>{t("Empieza con lo que necesitas hoy. Encontramos contigo la opción que mejor se adapta a tu proyecto.")}</p>
+        <ServiceIntro />
+        <BusinessExamples />
+        <div className="service-packages-heading" data-service-arrival-anchor>
+        <div className="package-heading-row">
+          <h2 id="opciones-negocio" className="comparison-heading" tabIndex={-1} data-service-focus>{language === "en" ? "Compare your options" : "Compara tus opciones"}</h2>
+          <button type="button" className="package-aurora-toggle" aria-pressed={aurorasPaused} onClick={() => setAurorasPaused(value => !value)}>{aurorasPaused ? <Play size={13} aria-hidden="true" /> : <Pause size={13} aria-hidden="true" />}{language === "en" ? (aurorasPaused ? "Resume auroras" : "Pause auroras") : (aurorasPaused ? "Activar auroras" : "Pausar auroras")}</button>
+        </div>
+        <p className="comparison-note">{language === "en" ? "Reference ranges in MXN, VAT included. Final scope and price are confirmed in your quote. Hosting after the first month is billed separately; see plans below." : "Rangos orientativos en MXN, IVA incluido. Confirmamos alcance y precio final en tu cotización. El alojamiento después del primer mes se cobra aparte; consulta los planes abajo."}</p>
         </div>
         <div className="packages-grid">
           {packages.map((pack, index) => <PackageCard key={t(pack.name)} pack={pack} index={index} expanded={activePackage === index} onToggle={() => togglePackage(index)} />)}
         </div>
+        <p className="custom-packages-label">{language === "en" ? "For projects with specific needs" : "Para proyectos con necesidades específicas"}</p>
         <div className="custom-packages">
           {customPackages.map((pack, index) => <PackageCard key={t(pack.name)} pack={pack} index={index + 3} expanded={activePackage === index + 3} onToggle={() => togglePackage(index + 3)} />)}
         </div>
@@ -107,6 +189,7 @@ export function Packages() {
           </div></details>
         </aside>
         <p className="package-note">{t("Cada propuesta detalla el alcance y la inversión. Dominio, alojamiento y costos de servicios externos se especifican por separado en la cotización.")}</p>
+        <ServiceNext />
       </div>
     </section>
   );

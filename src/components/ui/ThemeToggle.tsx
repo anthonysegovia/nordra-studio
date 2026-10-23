@@ -10,6 +10,7 @@ export function ThemeToggle() {
     <button
       type="button"
       aria-label={t("Cambiar tema")}
+      aria-pressed={dark}
       onClick={toggleTheme}
       className="theme-toggle group"
     >

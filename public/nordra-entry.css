@@ -1,0 +1,30 @@
+/* One calm handoff between documents, without changing the screen's brightness. */
+@view-transition { navigation: auto; }
+html[data-nordra-page] { background: #f7f7f4; color-scheme: light; }
+html[data-nordra-page].dark { background: #020816; color-scheme: dark; }
+::view-transition-group(root) { animation-duration: 560ms; animation-timing-function: cubic-bezier(.4,0,.2,1); }
+::view-transition-old(root), ::view-transition-new(root) { mix-blend-mode: plus-lighter; }
+::view-transition-old(root) { animation: nordra-page-out 560ms cubic-bezier(.4,0,.2,1) both; }
+::view-transition-new(root) { animation: nordra-page-in 560ms cubic-bezier(.4,0,.2,1) both; }
+@keyframes nordra-page-out { to { opacity: 0; transform: translateY(-4px); } }
+@keyframes nordra-page-in { from { opacity: 0; transform: translateY(4px); } }
+
+/* Between Studio pages, show one sharp header with no snapshot scaling or fade.
+   When entering/leaving a demo, it fades once with the rest of the document. */
+::view-transition-group(nordra-header) { animation: none; }
+::view-transition-old(nordra-header) { animation: none; opacity: 0; }
+::view-transition-new(nordra-header) { animation: none; opacity: 1; mix-blend-mode: normal; }
+::view-transition-old(nordra-header):only-child { animation: nordra-header-out 560ms cubic-bezier(.4,0,.2,1) both; }
+::view-transition-new(nordra-header):only-child { animation: nordra-header-in 560ms cubic-bezier(.4,0,.2,1) both; }
+@keyframes nordra-header-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes nordra-header-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Each demo keeps its own palette; fixed invitation gates must not be moved. */
+html[data-nordra-demo]:not([data-native-arrival]) body { animation: nordra-demo-arrive 640ms ease-out; }
+html[data-nordra-demo][data-journey-leaving] body { animation: none; opacity: .84; transition: opacity 220ms ease; }
+@keyframes nordra-demo-arrive { from { opacity: .92; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+  html[data-nordra-demo] body { animation: none !important; transition: none !important; opacity: 1; }
+}
