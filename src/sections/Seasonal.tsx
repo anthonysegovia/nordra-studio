@@ -118,8 +118,8 @@ export function Seasonal() {
         <div className="seasonal-panel">
           <div className="seasonal-lights" aria-hidden="true">{Array.from({ length: 12 }, (_, index) => <i key={index} />)}</div>
           <div className="seasonal-copy">
-            <p className="eyebrow">{english ? "A SEASON TO CELEBRATE" : "UNA TEMPORADA PARA CELEBRAR"}</p>
-            <h2 id="seasonal-title">{english ? "Let the celebration begin" : "Que la celebración empiece"}<br /><span>{english ? "with the invitation." : "desde la invitación."}</span></h2>
+            <p className="eyebrow">{english ? "SEASONAL INVITATIONS" : "INVITACIONES DE TEMPORADA"}</p>
+            <h1 id="seasonal-title">{english ? "Let the celebration begin" : "Que la celebración empiece"}<br /><span>{english ? "with the invitation" : "desde la invitación"}</span></h1>
             <p>{english ? "Personalized digital invitations with your event's style and all the details your guests need. Let's create something special for your next celebration." : "Invitaciones digitales personalizadas con el estilo de tu evento y los detalles que tus invitados necesitan. Hagamos algo especial para tu próxima celebración."}</p>
             <a className="seasonal-cta" href={invitationContact()} target="_blank" rel="noopener noreferrer">{english ? "Create my invitation" : "Quiero mi invitación"}<ArrowUpRight size={18} aria-hidden="true" /></a>
           </div>
@@ -151,7 +151,7 @@ export function Seasonal() {
                 <div className="seasonal-back-content" ref={element => { backContents.current[index] = element; }}>
                   <button type="button" className="seasonal-return" onClick={event => flip(index, false, event.detail === 0)}><ArrowLeft size={14} aria-hidden="true" />{english ? "Back" : "Volver"}</button>
                   <h3>{occasion}</h3>
-                  <p className="seasonal-price">$599 <span>MXN · {english ? "VAT included" : "IVA incluido"}</span></p><p className="seasonal-scope-note">{english ? "Personalized seasonal design. Features, revisions and hosting period are confirmed in your quote." : "Diseño de temporada personalizado. Confirmamos funciones, cambios y vigencia en tu cotización."}</p><a className="seasonal-compare-link" href="#comparar-paquetes">{english ? "See the main plans" : "Ver paquetes principales"}<ArrowUpRight size={13} aria-hidden="true" /></a>
+                  <p className="seasonal-price">$599 <span>MXN · {english ? "VAT included" : "IVA incluido"}</span></p><p className="seasonal-scope-note">{english ? "Personalized seasonal design. Features, revisions and hosting period are confirmed in your quote." : "Diseño de temporada personalizado. Confirmamos funciones, cambios y vigencia en tu cotización."}</p><a className="seasonal-compare-link" href="/invitaciones.html#comparar-paquetes">{english ? "See the main plans" : "Ver paquetes principales"}<ArrowUpRight size={13} aria-hidden="true" /></a>
                   <div className="seasonal-list-heading"><h4 id={`seasonal-list-title-${index}`}>{english ? "Explore the designs" : "Explora los diseños"}</h4></div>
                   <ul className="seasonal-demo-list" aria-labelledby={`seasonal-list-title-${index}`}>
                     {designs.map(demo => <li key={demo.href}>

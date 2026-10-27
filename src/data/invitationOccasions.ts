@@ -19,7 +19,7 @@ export function getOccasions(english: boolean) {
     },
     {
       id: "birthday" as const, path: "/cumpleanos.html",
-      label: english ? "Birthdays" : "Cumpleaños", intro: english ? "The magic of celebrating your life." : "La magia de celebrar tu vida.",
+      label: english ? "Birthdays" : "Cumpleaños", intro: english ? "Your party starts with the first tap." : "Tu fiesta, desde el primer toque.",
       title: english ? "The party starts with your invitation" : "La fiesta empieza con tu invitación",
       copy: english ? "Your colors, your photographs and your favorite people. Let's set the mood for your celebration." : "Tus colores, tus fotos y tus personas favoritas. Empecemos a darle ambiente a tu celebración.",
       mood: english ? "Colorful · playful · personal" : "Colorida · divertida · muy tú",
@@ -33,7 +33,7 @@ export function getOccasions(english: boolean) {
     },
     {
       id: "gathering" as const, path: "/eventos.html",
-      label: english ? "Events" : "Eventos", intro: english ? "The wonder of coming together." : "La magia de encontrarnos.",
+      label: english ? "Events" : "Eventos", intro: english ? "Gatherings with their own identity." : "Encuentros con identidad propia.",
       title: english ? "Bring people together, from the first impression" : "Conecta desde la primera invitación",
       copy: english ? "For gatherings, launches and special occasions. Give your guests the details they need in one place." : "Para encuentros, lanzamientos y ocasiones especiales. Todo lo que tus invitados necesitan, en un solo lugar.",
       mood: english ? "Clear · contemporary · connected" : "Clara · contemporánea · cercana",

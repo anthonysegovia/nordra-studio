@@ -1,0 +1,36 @@
+/* The category cards use the same live designs as their destination pages. */
+.invitation-design-art{isolation:isolate;background:#e8eafd;display:flex;flex-direction:column;justify-content:center;padding:24px 20px 12px}
+.invitation-design-art.artwork-gathering{background:radial-gradient(ellipse at 75% 25%,#d7ebef,#cdddeb 75%)}
+.hub-design-stage{position:relative;display:grid;place-items:center;flex:1;min-height:0}
+.hub-design-stage .bday-poster{width:75%;max-width:250px;border-radius:6px;transform:rotate(-7deg);box-shadow:12px 20px 32px #23307830;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+.hub-design-stage .ev-poster{width:100%;aspect-ratio:1.15;transform:perspective(700px) rotateY(-12deg) rotate(-4deg);box-shadow:10px 20px 30px #112c4630;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+.hub-design-stage .ev-poster-title{font-size:19cqw;bottom:15%}
+.hub-design-stage .ev-poster .ev-connection-mark{width:95%;right:-17%;top:2%}
+.hub-design-stage .ev-poster-top{font-size:1.9cqw;padding-bottom:10px}
+.hub-design-stage .ev-poster-bottom{font-size:1.6cqw}
+.hub-design-caption{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:20px;font:500 8px/1.6 ui-monospace,monospace;letter-spacing:.1em;color:#334269}
+.hub-design-caption>span{font-size:18px}
+.invitation-design-art .ev-connection-mark i,.invitation-design-art .ev-crystal-art{animation:none!important}
+.occasion-choice:is(:hover,:focus-visible) .hub-design-stage .bday-poster{transform:rotate(-2deg) translateY(-5px)}
+.occasion-choice:is(:hover,:focus-visible) .hub-design-stage .ev-poster{transform:perspective(700px) rotateY(-3deg) rotate(-1deg) translateY(-4px)}
+.invitation-hub .occasion-hub-hero{padding-block:40px 38px}
+.invitation-hub .occasion-hub-hero h1{font-size:clamp(42px,5vw,66px)}
+.invitation-hub .occasion-choices{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.invitation-hub .occasion-choice{border-radius:10px;box-shadow:0 14px 35px #20376508}
+.invitation-hub .occasion-choice-copy{padding:23px 24px;min-height:122px}
+.invitation-hub .occasion-choice-copy h2{font-size:33px}
+.invitation-hub .occasion-choice-copy p{font-size:14px}
+.invitation-hub .occasion-seasonal{grid-column:1/-1;display:grid;grid-template-columns:1fr 190px;align-items:center;max-height:165px;background:linear-gradient(110deg,var(--occasion-surface),var(--occasion-tint))}
+.invitation-hub .occasion-seasonal .occasion-choice-copy{background:none;padding-block:22px;min-height:0}
+.invitation-hub .occasion-seasonal .invitation-art{aspect-ratio:1.2;background:transparent}
+.invitation-hub .occasion-seasonal .editorial-image{mix-blend-mode:multiply;object-fit:contain}
+.invitation-hub .occasion-hub-note{margin-top:25px;padding:25px;border:1px solid var(--occasion-line);border-radius:8px;background:var(--occasion-surface)}
+.dark .invitation-design-art.artwork-birthday{background:radial-gradient(ellipse at 50% 50%,#36345a,#1b2546)}
+.dark .invitation-design-art.artwork-gathering{background:radial-gradient(ellipse at 50% 50%,#274d63,#142d43)}
+.dark .hub-design-caption{color:#c8dcec}
+.dark .invitation-hub .occasion-seasonal .editorial-image{mix-blend-mode:normal}
+@media(max-width:960px) and (min-width:761px){.invitation-hub .occasion-choices{gap:16px}.invitation-hub .occasion-choice-copy{padding:18px;min-height:135px}.invitation-hub .occasion-choice-copy h2{font-size:28px}.invitation-design-art{padding:18px 14px 10px}}
+@media(max-width:760px){.invitation-hub .occasion-hub-hero{padding-block:30px}.invitation-hub .occasion-hub-hero h1{font-size:41px}.invitation-hub .occasion-hub-hero>p:last-child{font-size:16px}.invitation-hub .occasion-choices{grid-template-columns:1fr;gap:17px}.invitation-hub .occasion-choice{display:grid;grid-template-columns:1fr 1.05fr;align-items:stretch}.invitation-hub .occasion-choice-copy{padding:22px 17px;min-height:0;align-self:center}.invitation-hub .occasion-choice-copy h2{font-size:27px;gap:8px;flex-wrap:wrap}.invitation-hub .occasion-choice-copy h2 svg{width:18px}.invitation-hub .occasion-choice-copy p{font-size:12px}.invitation-hub .occasion-choice>.invitation-art{align-self:stretch;min-height:190px;aspect-ratio:auto}.invitation-hub .occasion-choice>.invitation-art:not(.invitation-design-art) img{position:absolute;inset:0}.invitation-design-art{padding:17px 10px 10px}.hub-design-stage .bday-poster{width:78%;max-width:155px}.hub-design-caption{font-size:6px;padding-top:13px;letter-spacing:.05em}.hub-design-caption>span{font-size:14px}.invitation-hub .occasion-seasonal{grid-template-columns:1fr 100px;max-height:130px}.invitation-hub .occasion-seasonal>.invitation-art{min-height:120px}.invitation-hub .occasion-seasonal .editorial-image{position:static!important}.invitation-hub .occasion-hub-note{padding:20px;gap:10px;font-size:12px}.invitation-hub .occasion-hub-note>p{font-size:14px}.invitation-hub .occasion-hub-note>span{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.hub-design-stage :is(.bday-poster,.ev-poster){transition:none;transform:none!important}}
+.invitation-design-art.artwork-birthday{background:radial-gradient(ellipse at 25% 15%,#d9f5ff,#e2def8 65%,#cad5f3)}.invitation-hub .occasion-seasonal .occasion-choice-copy{grid-column:1;grid-row:1;order:0}.invitation-hub .occasion-seasonal>.invitation-art{grid-column:2;grid-row:1;order:1}.invitation-hub .occasion-birthday .occasion-choice-copy h2{font-family:NordraBirthday,sans-serif;font-weight:550;letter-spacing:-.06em}.invitation-hub .occasion-gathering .occasion-choice-copy h2{font-family:NordraEvent,sans-serif;font-weight:550;letter-spacing:-.05em}.dark .invitation-design-art.artwork-birthday{background:radial-gradient(ellipse at 50% 50%,#36345a,#1b2546)}
+@media(max-width:760px){.invitation-hub .occasion-choice-copy p{display:block;line-height:1.65;margin-top:12px}.invitation-hub .occasion-birthday .occasion-choice-copy h2{font-size:22px;flex-wrap:nowrap}.invitation-hub .occasion-seasonal .occasion-choice-copy p{margin-top:5px}}

@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect } from "react";
-import { page, invitationOccasion } from "./navigation";
+import { page, invitationOccasion, isSeasonalPage } from "./navigation";
 import { getOccasions } from "./data/invitationOccasions";
 import { HomePreview } from "./sections/HomePreview";
 import { sectionHref } from "./navigation";
@@ -8,7 +8,7 @@ import { Hero } from "./sections/Hero";
 import { Seasonal } from "./sections/Seasonal";
 import { About } from "./sections/About";
 import { Packages } from "./sections/Packages";
-import { InvitationHub, OccasionPage, InvitationClosing } from "./sections/InvitationJourney";
+import { InvitationHub, OccasionPage, InvitationClosing, OccasionNavigation } from "./sections/InvitationJourney";
 import { Footer } from "./components/layout/Footer";
 import { ScrollAurora } from "./components/layout/ScrollAurora";
 import { Payment } from "./sections/Payment";
@@ -27,6 +27,7 @@ export default function App() {
     const href = id && sectionHref(id);
     if (href && !href.startsWith("#")) { window.location.replace(href); return; }
     document.title = language === "en" ? (page === "business" ? "Business websites | Nordra Studio" : page === "events" ? "Digital invitations | Nordra Studio" : "Nordra Studio | Websites & invitations") : (page === "business" ? "Páginas para negocios | Nordra Studio" : page === "events" ? "Invitaciones digitales | Nordra Studio" : "Nordra Studio | Páginas web e invitaciones");
+    if (isSeasonalPage) document.title = `${language === "en" ? "Seasonal digital invitations" : "Invitaciones de temporada"} | Nordra Studio`;
     if (invitationOccasion) {
       const occasion = getOccasions(language === "en").find(item => item.id === invitationOccasion)!;
       document.title = `${language === "en" ? `Digital invitations for ${occasion.label.toLowerCase()}` : `Invitaciones para ${occasion.label.toLowerCase()}`} | Nordra Studio`;
@@ -46,7 +47,7 @@ export default function App() {
   const paymentToken = new URLSearchParams(window.location.search).get("pago");
   if (paymentToken !== null) return <Payment token={paymentToken} />;
   return (
-    <div id="page-top" className={`min-h-screen text-foreground aurora-page journey-${page}${page === "events" ? ` invitation-journey journey-${invitationOccasion ?? "hub"}` : ""}`}>
+    <div id="page-top" className={`min-h-screen text-foreground aurora-page journey-${page}${page === "events" ? ` invitation-journey journey-${invitationOccasion ?? (isSeasonalPage ? "seasonal" : "hub")}` : ""}`}>
       {page !== "events" && <ScrollAurora />}
       <a className="skip-link" href={sectionHref("contenido")}>{language === "en" ? "Skip to content" : "Saltar al contenido"}</a>
       <Header />
@@ -54,7 +55,7 @@ export default function App() {
         {page === "business" && <nav className="site-shell journey-switch" aria-label={language === "en" ? "Service navigation" : "Navegación de servicios"}><a href="/">{language === "en" ? "← Home" : "← Inicio"}</a><a href={page === "business" ? "/invitaciones.html" : "/negocios.html"}>{language === "en" ? (page === "business" ? "Looking for invitations? ↗" : "Looking for a business website? ↗") : (page === "business" ? "¿Buscas invitaciones? ↗" : "¿Buscas una página para tu negocio? ↗")}</a></nav>}
         {page === "home" && <><Hero /><HomePreview /><About /></>}
         {page === "business" && <Packages />}
-        {page === "events" && (invitationOccasion ? <OccasionPage occasion={invitationOccasion} /> : <><InvitationHub /><Seasonal /></>)}
+        {page === "events" && (invitationOccasion ? <OccasionPage occasion={invitationOccasion} /> : isSeasonalPage ? <><OccasionNavigation english={language === "en"} current="seasonal" /><Seasonal /></> : <InvitationHub />)}
         {page !== "events" && <Process />}
       </main>
       {page === "events" ? <InvitationClosing occasion={invitationOccasion} /> : <Footer />}

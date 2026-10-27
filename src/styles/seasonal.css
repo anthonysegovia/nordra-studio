@@ -118,3 +118,6 @@
   .seasonal-section * { animation: none !important; transition: none !important; }
   .seasonal-demo-row:hover,.seasonal-demo-row .seasonal-demo-arrow,.seasonal-back-cta svg,.seasonal-occasion .seasonal-card-action svg { transform: none !important; }
 }
+
+/* The seasonal collection has its own page and category navigation. */
+.journey-seasonal .seasonal-section { padding-top: 24px; }
