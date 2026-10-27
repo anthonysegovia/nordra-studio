@@ -3,8 +3,8 @@
   const root = document.documentElement;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const nativeTransitions = 'onpageswap' in window && 'onpagereveal' in window;
-  const routes = new Set(['/', '/negocios.html', '/invitaciones.html',
-    ...['cafe-nordra', 'lumina', 'boda-jardin', 'halloween', 'halloween-mansion', 'posada', 'celebra-2027'].map(name => `/demos/${name}/`)]);
+  const routes = new Set(['/', '/negocios.html', '/invitaciones.html', '/bodas.html', '/cumpleanos.html', '/eventos.html',
+    ...['cafe-nordra', 'lumina', 'boda-jardin', 'halloween', 'halloween-mansion', 'posada', 'posada-luz', 'posada-pinata', 'celebra-2027', 'del-otro-lado'].map(name => `/demos/${name}/`)]);
   const canonicalPath = path => path.replace(/\/index\.html$/, '/');
   // Language variants belong to the public demo; payment/admin URLs do not.
   const publicPage = url => routes.has(canonicalPath(url.pathname)) &&

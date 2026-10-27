@@ -1,0 +1,52 @@
+[
+  {
+    "id": "halloween",
+    "title": "Spooky Party",
+    "heading": "Spooky<em>Party</em>",
+    "eyebrow": "HALLOWEEN · LA PUERTA ESTÁ ABIERTA",
+    "caption": "Disfraces, copas y una noche por descubrir",
+    "description": "Abre la puerta a Spooky Party: disfraces, copas y detalles de una celebración de Halloween. Invitación de muestra de Nordra Studio.",
+    "alt": "Spooky Party en marfil y rosa sobre fondo ciruela, con las calaveras y el cóctel de la invitación de Halloween",
+    "image": "halloween-social-v1.jpg"
+  },
+  {
+    "id": "halloween-mansion",
+    "title": "La Mansión de Medianoche",
+    "heading": "La Mansión<em>de Medianoche</em>",
+    "eyebrow": "UNA CARTA HA LLEGADO PARA TI",
+    "caption": "El misterio comienza en la puerta",
+    "description": "Una carta sellada, una mansión bajo la luna y tres velas por encender. Explora esta invitación de Halloween de muestra de Nordra Studio.",
+    "alt": "La Mansión de Medianoche con una casa de ventanas iluminadas bajo la luna, tonos verde oscuro y cobre",
+    "image": "halloween-mansion-social-v1.jpg"
+  },
+  {
+    "id": "posada",
+    "title": "Una noche para reunirnos",
+    "heading": "Una noche<em>para reunirnos</em>",
+    "eyebrow": "NOS VEMOS EN LA POSADA",
+    "caption": "Lo bonito es coincidir",
+    "description": "Abre el sobre y descubre una posada entre luces cálidas, cena y sobremesa. Invitación navideña de muestra de Nordra Studio.",
+    "alt": "Una noche para reunirnos en verde pino y dorado, con un sobre de papel, sello de cera y luces navideñas",
+    "image": "posada-social-v1.jpg"
+  },
+  {
+    "id": "celebra-2027",
+    "title": "Por todo lo que viene",
+    "heading": "Por todo<em>lo que viene</em>",
+    "eyebrow": "LA ÚLTIMA NOCHE DE 2026",
+    "caption": "Nos vemos en el primer brindis de 2027",
+    "description": "Un reloj a punto de dar las doce y un brindis por el 2027. Explora esta invitación de Año Nuevo de muestra de Nordra Studio.",
+    "alt": "Por todo lo que viene con un reloj dorado a medianoche y el año 2027 sobre fondo oscuro",
+    "image": "celebra-2027-social-v1.jpg"
+  },
+  {
+    "id": "del-otro-lado",
+    "title": "Del otro lado de las doce",
+    "heading": "DEL OTRO<br>LADO DE<em>LAS DOCE</em>",
+    "eyebrow": "ALMA & NICOLÁS · FIN DE AÑO",
+    "caption": "Una azotea, la ciudad y el primer abrazo del año",
+    "description": "Cruza el portal de cristal y descubre la noche de Alma y Nicolás sobre la ciudad. Invitación de Fin de Año de muestra de Nordra Studio.",
+    "alt": "Del otro lado de las doce con el portal de cristal iluminado en azul y violeta de la invitación de Fin de Año",
+    "image": "del-otro-lado-social-v1.jpg"
+  }
+]

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="360" viewBox="0 0 260 360">
+  <title>La Mansión de Medianoche</title>
+  <rect width="260" height="360" fill="#0c1813"/>
+  <path d="M76 183V101a54 54 0 0 1 108 0v82" fill="#15221a" stroke="#b5a478" stroke-width="1.5"/>
+  <path d="M85 183v-82a45 45 0 0 1 90 0v82M130 60v123" fill="none" stroke="#b5a478" stroke-opacity=".4"/>
+  <circle cx="142" cy="151" r="2.5" fill="#e5d5ab"/>
+  <text x="130" y="245" text-anchor="middle" fill="#eee4cc" font-family="Georgia,serif" font-size="33" letter-spacing="-1">La Mansión</text>
+  <text x="130" y="281" text-anchor="middle" fill="#cfbd8b" font-family="Georgia,serif" font-size="28" font-style="italic" letter-spacing="-1">de Medianoche</text>
+  <path d="M110 316h40" stroke="#b5a478" stroke-opacity=".45"/>
+</svg>

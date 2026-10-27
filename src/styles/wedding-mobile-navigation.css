@@ -1,0 +1,60 @@
+.workspace-section-content:focus { outline:none; }
+
+@media (max-width:760px) {
+  html:has(.workspace-navigation) { scroll-padding-bottom:calc(94px + env(safe-area-inset-bottom, 0px)); }
+  .wedding-workspace:has(.workspace-navigation) { padding-bottom:calc(94px + env(safe-area-inset-bottom, 0px)); }
+  .wedding-workspace .workspace-sidebar { flex-wrap:nowrap; gap:16px; }
+  .wedding-workspace .workspace-sidebar .workspace-navigation {
+    position:fixed;
+    inset:auto 0 0;
+    z-index:15;
+    display:grid;
+    grid-auto-flow:column;
+    grid-auto-columns:minmax(0,1fr);
+    gap:4px;
+    width:auto;
+    margin:0;
+    padding:8px max(10px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px));
+    border-top:1px solid #dcd0bd;
+    background:#faf7f1f5;
+    box-shadow:0 -8px 30px #5d493c08;
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+  }
+  .wedding-workspace .workspace-sidebar .workspace-navigation > :is(button,a) {
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:center;
+    gap:5px;
+    min-width:0;
+    min-height:64px;
+    margin:0;
+    padding:8px 3px 6px;
+    border:0;
+    border-radius:10px;
+    color:#75634e;
+    background:transparent;
+    font:12px/1.15 "Segoe UI",Arial,sans-serif;
+    text-align:center;
+    animation:workspace-reveal .4s ease both;
+  }
+  .wedding-workspace .workspace-sidebar .workspace-navigation > :is(button,a) > svg:first-child { width:21px; height:21px; flex-shrink:0; transition:transform .22s ease; }
+  .wedding-workspace .workspace-sidebar .workspace-navigation > :is(button,a) > span { display:block; max-width:100%; text-wrap:balance; }
+  .wedding-workspace .workspace-sidebar .workspace-navigation > :is(button,a):is(:hover,:focus-visible) { background:#efe7da; color:#5a4630; translate:none; }
+  .wedding-workspace .workspace-sidebar .workspace-navigation > :is(button,a):is(:hover,:focus-visible) > svg:first-child { transform:translateY(-2px); }
+  .wedding-workspace .workspace-sidebar .workspace-navigation > [aria-current=page] { background:#eae0d0; color:#5b442b; box-shadow:inset 0 0 0 1px #d2bfa33d; }
+  .wedding-workspace .workspace-sidebar .workspace-navigation > [aria-current=page] > span { font-weight:600; }
+  .wedding-workspace .workspace-navigation .workspace-nav-external { display:none; }
+  .workspace-section-content { scroll-margin-top:12px; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .wedding-workspace .workspace-sidebar .workspace-navigation > :is(button,a),
+  .wedding-workspace .workspace-sidebar .workspace-navigation > :is(button,a) > svg:first-child { animation:none; transition:none; transform:none!important; translate:none!important; scale:1!important; }
+}
+
+@media print {
+  .wedding-workspace .workspace-sidebar .workspace-navigation { display:none; }
+  .wedding-workspace:has(.workspace-navigation) { padding-bottom:0; }
+}

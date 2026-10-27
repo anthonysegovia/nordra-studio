@@ -1,0 +1,195 @@
+/* Christmas greenery, glass ornaments and warm lights throughout the invitation. */
+.opening{padding-top:120px;background:radial-gradient(ellipse at 50% 5%,#88632a16,transparent 60%)}
+.holiday-canopy{position:absolute;left:0;right:0;top:0;height:180px;z-index:3;pointer-events:none;overflow:hidden;mask-image:linear-gradient(#000 85%,transparent)}
+.holiday-canopy>img{position:absolute;top:-135px;left:50%;width:max(100%,900px);max-width:none;height:auto;transform:translateX(-50%);filter:drop-shadow(0 12px 12px #0004)}
+.holiday-lights{position:absolute;inset:0 0 35%;pointer-events:none;opacity:.75;transition:opacity 1s}
+.holiday-lights i{position:absolute;left:var(--bulb-x);top:var(--bulb-y);width:5px;height:8px;border-radius:40% 40% 50% 50%;background:#ffe3a8;box-shadow:0 0 4px #ffe7b8,0 0 12px #ffd78f90,0 0 26px #ffc76550;animation:christmas-glow 4.6s var(--bulb-delay) ease-in-out infinite alternate}
+.holiday-lights i::before{content:'';position:absolute;left:1px;right:1px;top:-3px;height:4px;background:#91845a;border-radius:1px}
+.hanging-ornaments{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+.ornament{position:absolute;top:20px;width:64px;height:160px;overflow:visible;transform-origin:50% 0;animation:ornament-sway 8s ease-in-out infinite}
+.ornament-a{left:6%;top:25px;width:65px;height:163px}
+.ornament-b{left:12%;top:-15px;width:46px;height:115px;animation-delay:-3s}
+.ornament-c{right:6%;top:40px;width:67px;height:168px;animation-delay:-4s}
+.ornament-d{right:13%;top:-14px;width:44px;height:110px;animation-delay:-6s}
+.has-entry:not(.is-open) .opening{padding-top:142px;padding-bottom:45px;background:radial-gradient(ellipse at 50% 20%,#6c56341a,transparent 60%)}
+.has-entry:not(.is-open) .star-stage{height:clamp(260px,37svh,380px);margin:7px auto 0}
+.has-entry:not(.is-open) .star-suspension{width:clamp(208px,29.6svh,304px)}
+.has-entry:not(.is-open) .entry-heading h2{font-size:clamp(46px,5vw,72px)}
+.entry-arch{top:62px;bottom:26px;width:min(580px,84%);border-color:#d6b36b45;background:radial-gradient(ellipse at 50% 40%,#e7b9520c,transparent 70%)}
+.entry-arch::before{border-color:#caa26024}
+.arch-star{display:none}
+.entry-side{color:#d6bd8e}
+.entry-wing{background:linear-gradient(90deg,#091f1c,#16352c)}
+.wing-right{background:linear-gradient(90deg,#16352c,#091f1c)}
+.entry-wing::after{border-color:#e2c59320}
+.entry-controls .entry-button{background:linear-gradient(110deg,#813443,#612534);border-color:#d9b776a0;box-shadow:inset 0 1px 0 #fff5d022,0 8px 28px #0002;color:#fff2dc;min-height:58px}
+.entry-controls .entry-button:hover{background:linear-gradient(110deg,#944052,#762c3d);border-color:#f0d19b;box-shadow:0 0 25px #e5c68d15}
+.entry-seal{background:radial-gradient(circle at 30% 25%,#e8cd99,#b38c52);color:#5c2931;border:1px solid #edd3a1;box-shadow:inset 0 0 0 3px #edd3a12b}
+.has-entry.is-lighting .holiday-lights{opacity:1}
+.has-entry.is-lighting .entry-button{background:linear-gradient(110deg,#994951,#78313b);box-shadow:0 0 26px #e5c68d25}
+.hero-copy,.hero-foot{position:relative;z-index:4}
+.party-plan{font-size:13px;line-height:1.7;letter-spacing:.045em;color:#e5d8bd;margin-top:8px}
+.party-plan>span{color:var(--gold);margin:0 8px}
+.hero-foot{border-top-color:#e2c59350}
+.gathering{padding-bottom:215px;overflow:clip;background:#f3ead8}
+.gathering::before{opacity:.5}
+.paper-greenery{position:absolute;right:-75px;top:-15px;width:380px;pointer-events:none;z-index:0;transform:rotate(8deg);opacity:.95}
+.paper-greenery img{width:100%;height:auto;filter:drop-shadow(0 4px 5px #23341b13)}
+.paper-topline{position:relative;z-index:1;margin-bottom:65px}
+.paper-topline svg{width:72px;height:58px;flex-shrink:0}
+.paper-topline span{background:#927b4a4d}
+.gathering-layout{position:relative;z-index:1}
+.gathering-copy>.eyebrow{color:#854136}
+.countdown-wrap{border-top:0;padding-top:6px}
+.countdown{gap:14px;margin-top:20px;align-items:stretch}
+.countdown>i{display:none}
+.countdown>div{position:relative;background:#fff9ed;border:1px solid #b49c6945;border-radius:4px 4px 12px 12px;padding:13px 3px 12px;box-shadow:0 5px 12px #63472806}
+.countdown>div::before{content:'';position:absolute;top:-4px;left:calc(50% - 3px);width:6px;height:6px;border-radius:50%;background:#8b3441;box-shadow:0 -4px 0 -1px #bda06b}
+.countdown .count-value{font-size:46px}
+.countdown>div>span:last-child{color:#6e6e5a;margin-top:5px}
+.date-letter{background:#fff9ec;border-color:#bc9a6040;padding-top:48px;box-shadow:0 16px 38px #54381712,0 2px 5px #54381708}
+.date-letter::before{background:#fdf5e5;border-color:#bc9a6040}
+.date-letter::after{width:95px;height:19px;top:22px;right:-19px;background:linear-gradient(#8d3645,#652534);transform:rotate(45deg);clip-path:none;border-block:1px solid #c8a56b;box-shadow:0 2px 4px #6d27321c}
+.card-greenery{position:absolute;top:-28px;left:-26px;width:210px;height:auto;pointer-events:none;transform:rotate(-8deg);filter:drop-shadow(0 4px 4px #33452316)}
+.letter-edge{border-color:#bda47745}
+.letter-heading{padding-right:10px}
+.letter-heading>svg{color:#a5753e}
+.calendar-button{background:#742b3a;border-color:#742b3a;color:#fff5e3}
+.calendar-button:hover{background:#8a3446}
+.footer{position:relative;border-top:1px solid #d7b3734d;background:#122b24;padding-top:28px;padding-bottom:28px}
+.footer::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:repeating-linear-gradient(90deg,#b88e4c 0 30px,#8b3441 30px 60px,#244537 60px 90px);opacity:.65}
+.christmas-table{position:absolute;bottom:calc(100% - 18px);left:50%;width:270px;transform:translateX(-50%);pointer-events:none;z-index:2}
+.christmas-table img{display:block;width:100%;height:auto;filter:drop-shadow(0 7px 10px #4d3e2110)}
+@keyframes christmas-glow{from{opacity:.55}to{opacity:1}}
+@keyframes ornament-sway{0%,100%{transform:rotate(-1.3deg)}50%{transform:rotate(1.3deg)}}
+[data-motion=paused] :is(.holiday-lights i,.ornament),[data-offscreen=true] :is(.holiday-lights i,.ornament){animation-play-state:paused!important}
+@media(min-width:1400px){
+  .holiday-canopy>img{top:-200px}
+  .holiday-canopy{height:210px}
+  .has-entry:not(.is-open) .opening{padding-top:160px}
+}
+@media(max-width:700px){
+  .opening{padding-top:108px}
+  .holiday-canopy{height:117px;mask-image:linear-gradient(#000 88%,transparent)}
+  .holiday-canopy>img{width:700px;top:-108px;left:48%}
+  .holiday-lights{inset:0 0 15%}
+  .holiday-lights i{width:4px;height:6px}
+  .holiday-lights i:nth-child(even){display:none}
+  .ornament-a{left:2%;top:10px;width:38px;height:95px}
+  .ornament-b{display:none}
+  .ornament-c{right:2%;top:29px;width:38px;height:95px}
+  .ornament-d{display:none}
+  .has-entry:not(.is-open) .opening{padding:112px 18px 32px}
+  .has-entry:not(.is-open) .star-stage{height:clamp(225px,38svh,330px);margin:8px auto 0}
+  .has-entry:not(.is-open) .star-suspension{width:clamp(180px,30.4svh,264px)}
+  .has-entry:not(.is-open) .entry-heading h2{font-size:clamp(37px,10.5vw,61px)}
+  .entry-arch{width:calc(100% - 32px);top:53px;bottom:15px;border-radius:48% 48% 3px 3px / 24% 24% 3px 3px}
+  .entry-side{top:45%;font-size:7px;color:#d6bd8e}
+  .side-left{left:12px}.side-right{right:12px}
+  .entry-controls .entry-button{min-height:55px}
+  .entry-controls .entry-date{margin-top:18px}
+  .gathering{padding-top:35px;padding-bottom:213px}
+  .paper-greenery{width:255px;right:-93px;top:-5px;opacity:.85}
+  .paper-topline{margin-bottom:41px;gap:16px}
+  .paper-topline svg{width:64px;height:50px}
+  .gathering-layout{gap:48px}
+  .countdown{gap:12px}
+  .countdown .count-value{font-size:36px}
+  .countdown>div{padding:12px 3px 11px}
+  .card-greenery{width:165px;top:-23px;left:-18px}
+  .date-letter{padding-top:43px}
+  .date-letter::after{width:75px;right:-14px;top:19px;height:16px}
+  .christmas-table{width:245px;bottom:calc(100% - 14px)}
+  .footer{padding-top:24px;padding-bottom:15px}
+}
+@media(max-width:350px){
+  .has-entry:not(.is-open) .opening{padding-top:104px;padding-inline:16px}
+  .has-entry:not(.is-open) .entry-heading h2{font-size:37px}
+  .holiday-canopy>img{left:47%}
+  .card-greenery{width:145px}
+}
+@media(prefers-reduced-motion:reduce){
+  .holiday-lights i,.ornament{animation:none!important}
+}
+
+/* Calendar choices and a compact keepsake use the same paper and wine palette. */
+.calendar-picker{margin-top:24px}
+.calendar-picker>.calendar-button{margin-top:0;list-style:none;cursor:pointer;min-height:52px}
+.calendar-picker>.calendar-button::-webkit-details-marker{display:none}
+.calendar-picker>.calendar-button:focus-visible{outline:2px solid var(--wine);outline-offset:4px}
+.calendar-picker[open] .end-arrow{transform:rotate(180deg)}
+.calendar-options{padding:4px 15px 12px;border:1px solid #bda47760;border-top:0;background:#f8f0e0}
+.calendar-options>p{font-size:11px;line-height:1.6;margin:14px 0;color:#596454}
+.calendar-option{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #bda47745;font-size:12px;line-height:1.6;color:var(--pine)}
+.calendar-option:hover{color:var(--wine)}
+.calendar-option small{display:block;font-size:10px;color:#6b6b5b}
+.calendar-option>span:last-child{color:var(--wine);font-size:18px}
+.calendar-file{display:inline-block;padding:15px 0 5px;text-decoration:underline;text-underline-offset:4px;font-size:10px;color:var(--wine)}
+.calendar-web{display:flex;align-items:center;min-height:44px;padding:10px 0;font-size:11px;line-height:1.6}
+.calendar-options>.calendar-help{font-size:10px;margin:8px 0 0}
+.invitation-download{display:flex;align-items:center;justify-content:center;gap:11px;min-height:52px;padding:13px 10px;margin-top:12px;border:1px solid #96764d85;font-size:12px;color:var(--wine);transition:background .2s}
+.invitation-download:hover{background:#e2c59326}
+.keepsake-open{overflow:hidden}
+.keepsake-dialog{width:min(440px,calc(100% - 28px));max-height:calc(100dvh - 32px);margin:auto;padding:28px 26px 18px;overflow:auto;overscroll-behavior:contain;border:1px solid #bda47780;border-radius:6px;background:#fff9ec;color:var(--pine);box-shadow:0 24px 100px #0005;color-scheme:light;text-align:center}
+.keepsake-dialog::backdrop{background:#071d1cce;backdrop-filter:blur(5px)}
+.dialog-close{position:absolute;right:7px;top:7px;width:44px;height:44px;display:grid;place-items:center;border:0;background:transparent;color:var(--wine)}
+.keepsake-dialog>.eyebrow{font-size:8px;padding-inline:24px;color:#795f3e}
+.keepsake-dialog h2{font-size:39px;line-height:1.1;margin:10px 0 7px;letter-spacing:-.025em}
+#download-description{font-size:11px;color:#646b5b;line-height:1.6}
+.keepsake-preview{height:min(37dvh,310px);width:auto;max-width:100%;object-fit:contain;margin:18px auto;box-shadow:0 5px 18px #14272022}
+.keepsake-actions{display:grid;gap:8px}
+.keepsake-actions>.calendar-button{margin:0;justify-content:center;min-height:48px;font-size:12px}
+.save-to-phone{min-height:44px;border:1px solid #bda47790;background:transparent;color:var(--wine);font-size:12px}
+.save-to-phone:disabled{opacity:.6;cursor:wait}
+.keepsake-hint,.keepsake-status{font-size:10px;color:#646b5b;line-height:1.6;margin-top:12px}
+.keepsake-status:empty{display:none}
+@media(max-width:350px){.invitation-download{font-size:11px}.keepsake-dialog{padding-inline:18px}.keepsake-dialog h2{font-size:34px}}
+
+/* One gentle motion language for touch, pointer and keyboard interactions. */
+:root{--touch-ease:cubic-bezier(.22,.68,.2,1);--touch-time:360ms}
+.entry-controls .entry-button{isolation:isolate}
+.entry-controls .entry-button:hover,.has-entry.is-lighting .entry-button{background:linear-gradient(110deg,#813443,#612534)}
+.entry-controls .entry-button::after{content:'';position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;background:#f8d59b;opacity:0;transition:opacity 600ms var(--touch-ease)}
+.entry-controls .entry-button:hover::after{opacity:.07}
+.has-entry.is-lighting .entry-button::after{opacity:.12}
+:is(.wordmark,.motion-toggle,.entry-button,.text-link,.calendar-button,.calendar-option,.calendar-file,.invitation-download,.dialog-close,.save-to-phone,.footer a){transition:color var(--touch-time) var(--touch-ease),background-color var(--touch-time) var(--touch-ease),border-color var(--touch-time) var(--touch-ease),box-shadow 440ms var(--touch-ease),opacity var(--touch-time) var(--touch-ease),transform 440ms var(--touch-ease)}
+:is(.invitation-download,.save-to-phone,.dialog-close):active{transform:translateY(1px) scale(.99)}
+:is(.calendar-button,.entry-button):active{transform:translateY(1px)}
+:is(.calendar-option,.calendar-file,.wordmark,.footer a):active{opacity:.8}
+:is(.wordmark,.motion-toggle,.footer a):focus-visible{color:var(--gold)}
+:is(.calendar-option,.calendar-file,.invitation-download,.save-to-phone):focus-visible{background-color:#e2c59326;outline-color:var(--wine)}
+.dialog-close{border-radius:50%}
+.dialog-close:is(:hover,:focus-visible){background-color:#702f3e0b}
+.dialog-close .icon,.invitation-download .icon,.calendar-option>span:last-child,.back-top>span{transition:transform 440ms var(--touch-ease),opacity 360ms var(--touch-ease)}
+.calendar-picker>.calendar-button .end-arrow{transform:rotate(0);transition:transform 460ms var(--touch-ease)}
+.calendar-picker[open]>.calendar-button .end-arrow,.calendar-picker[data-expanded=true]>.calendar-button .end-arrow{transform:rotate(180deg)}
+.calendar-picker[data-expanded=false]>.calendar-button .end-arrow{transform:rotate(0)}
+.keepsake-dialog[open]::backdrop{animation:keepsake-veil-in 440ms var(--touch-ease) both}
+.keepsake-dialog.is-closing::backdrop{animation:keepsake-veil-out 260ms var(--touch-ease) both}
+.has-interaction-motion .keepsake-preview{opacity:0;transform:translateY(4px);transition:opacity 520ms var(--touch-ease),transform 600ms var(--touch-ease)}
+.has-interaction-motion .keepsake-preview.is-ready{opacity:1;transform:none}
+.share-slot,.status-slot{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows 440ms var(--touch-ease),opacity 360ms var(--touch-ease),margin-top 440ms var(--touch-ease)}
+.share-slot>div,.status-slot>div{min-height:0;overflow:hidden}
+.share-slot{margin-top:-8px}
+.share-slot.is-ready{grid-template-rows:1fr;opacity:1;margin-top:0}
+.share-slot .save-to-phone{width:100%;display:block}
+.status-slot:has(.keepsake-status:not(:empty)){grid-template-rows:1fr;opacity:1;margin-top:12px}
+.status-slot .keepsake-status{margin:0;padding:1px 0}
+.motion-toggle[aria-pressed=true] .play-icon,.motion-toggle[aria-pressed=false] .pause-icon{animation:control-icon-in 360ms var(--touch-ease)}
+.skip-link{transition:transform 360ms var(--touch-ease)}
+@keyframes keepsake-veil-in{from{opacity:0}to{opacity:1}}
+@keyframes keepsake-veil-out{from{opacity:var(--veil-opacity,1)}to{opacity:0}}
+@keyframes control-icon-in{from{opacity:.2;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@media(hover:hover) and (pointer:fine){
+  .invitation-download:hover .icon{transform:translateY(2px)}
+  .calendar-option:hover>span:last-child{transform:translate(2px,-2px)}
+  .back-top:hover>span{transform:translateY(-2px)}
+  .dialog-close:hover .icon{transform:rotate(8deg)}
+  .save-to-phone:hover{background-color:#e2c59326;border-color:#96764d}
+  .wordmark:hover{color:var(--gold)}
+}
+[data-motion=paused] :is(.calendar-picker,.calendar-options,.share-slot,.status-slot,.keepsake-preview,.reveal-ready,button,a,summary),[data-motion=paused] .keepsake-dialog::backdrop{transition:none!important;animation:none!important}
+@media(prefers-reduced-motion:reduce){
+  .keepsake-dialog::backdrop{animation:none!important}
+  :is(.wordmark,.motion-toggle,.entry-button,.text-link,.calendar-button,.calendar-option,.calendar-file,.invitation-download,.dialog-close,.save-to-phone,.footer a):active{transform:none}
+}

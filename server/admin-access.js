@@ -49,10 +49,10 @@ export async function authorizeAdmin(req) {
   const { data, error } = await authClient().auth.getUser(token);
   return !error && validAdmin(data.user);
 }
-export function jsonBody(req) {
+export function jsonBody(req, maxBytes = 8192) {
   if (!(req.headers["content-type"] || "").startsWith("application/json")) throw new Error("Invalid content type");
-  if (Number(req.headers["content-length"] || 0) > 8192) throw new Error("Body too large");
+  if (Number(req.headers["content-length"] || 0) > maxBytes) throw new Error("Body too large");
   const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
-  if (!body || typeof body !== "object" || Array.isArray(body) || JSON.stringify(body).length > 8192) throw new Error("Invalid body");
+  if (!body || typeof body !== "object" || Array.isArray(body) || Buffer.byteLength(JSON.stringify(body), 'utf8') > maxBytes) throw new Error("Invalid body");
   return body;
 }

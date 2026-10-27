@@ -1,3 +1,5 @@
+import { invitationMoney, invitationOffers } from "./invitationPricing";
+
 export type ChargeMode = "full" | "deposit" | "balance";
 export type CatalogService = { id: string; label: string; group: string; cents: number | null; note?: string };
 export const chargeModes: { id: ChargeMode; label: string }[] = [
@@ -9,11 +11,10 @@ export const paymentCatalog: CatalogService[] = [
   { id: "business-site", group: "Páginas de negocios", label: "Sitio de Negocio", cents: 499900, note: "Rango de referencia: $4,999–$9,999. Ajusta según la cotización." },
   { id: "custom-web", group: "Páginas de negocios", label: "Web a medida", cents: 799900, note: "Rango de referencia: $7,999–$14,999+. Ajusta según el alcance acordado." },
   { id: "shop", group: "Páginas de negocios", label: "Tienda en línea", cents: 1199900, note: "Rango de referencia: $11,999–$29,999+. Ajusta según el alcance acordado." },
-  ...[ { id: "wedding", label: "Boda" }, { id: "celebration", label: "Cumpleaños y celebración" }, { id: "gathering", label: "Evento y encuentro" } ].flatMap(event => [
-    { id: `${event.id}-bruma`, group: "Eventos y celebraciones", label: `${event.label} · Bruma`, cents: 149900 },
-    { id: `${event.id}-aurora`, group: "Eventos y celebraciones", label: `${event.label} · Aurora`, cents: 299900 },
-    { id: `${event.id}-boreal`, group: "Eventos y celebraciones", label: `${event.label} · Boreal`, cents: 299900, note: "Desde $2,999. Confirma el precio final de la propuesta." },
-  ]),
+  ...[ { id: "wedding", label: "Boda" }, { id: "celebration", label: "Cumpleaños y celebración" }, { id: "gathering", label: "Evento y encuentro" } ].flatMap(event => invitationOffers.map(plan => ({
+    id: `${event.id}-${plan.id}`, group: "Eventos y celebraciones", label: `${event.label} · ${plan.name}`, cents: plan.cents,
+    note: `Precio de apertura: ${plan.startingAt ? "desde " : ""}${invitationMoney(plan.cents)} MXN. Precio regular: ${plan.startingAt ? "desde " : ""}${invitationMoney(plan.regularCents)} MXN. IVA incluido.${plan.startingAt ? " Confirma el precio final de la propuesta." : ""}`,
+  }))),
   { id: "halloween", group: "Invitaciones de temporada", label: "Invitación de Halloween", cents: 59900 },
   { id: "christmas", group: "Invitaciones de temporada", label: "Invitación de Posadas y Navidad", cents: 59900 },
   { id: "new-year", group: "Invitaciones de temporada", label: "Invitación de Fin de año", cents: 59900 },

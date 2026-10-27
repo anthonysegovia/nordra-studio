@@ -1,0 +1,189 @@
+/* A wedding album: light, silk, an intimate photograph and room to breathe. */
+@font-face { font-family:NordraWedding; src:url('/fonts/wedding/cormorant-latin-roman.woff2') format('woff2'); font-weight:300 700; font-style:normal; font-display:swap; }
+@font-face { font-family:NordraWedding; src:url('/fonts/wedding/cormorant-latin-italic.woff2') format('woff2'); font-weight:300 700; font-style:italic; font-display:swap; }
+.invitation-journey.journey-wedding {
+  --occasion-bg:#fcfaf6; --occasion-surface:#fffefb; --occasion-ink:#655040; --occasion-muted:#756456;
+  --occasion-accent:#795e49; --occasion-line:#ded2c2; --occasion-tint:#f1eade;
+  --bg:var(--occasion-bg); --surface:var(--occasion-surface); --surface-strong:var(--occasion-surface); --text:var(--occasion-ink); --muted:var(--occasion-muted); --border:var(--occasion-line);
+  --cyan:var(--occasion-accent); --blue:var(--occasion-accent); --violet:var(--occasion-accent);
+  position:relative; isolation:isolate; overflow:clip; background:var(--occasion-bg); color:var(--occasion-ink);
+}
+.dark .invitation-journey.journey-wedding { --occasion-bg:#3b332d; --occasion-surface:#4b4037; --occasion-ink:#fff7eb; --occasion-muted:#e0d0bd; --occasion-accent:#ead4b8; --occasion-line:#8c7864; --occasion-tint:#514438; background:var(--occasion-bg); }
+.journey-wedding :is(a,button,[role=tabpanel],summary):focus-visible { outline:2px solid var(--occasion-accent); outline-offset:5px; }
+.journey-wedding .nav-active::after { background:var(--occasion-accent); box-shadow:none; }
+.journey-wedding .nav-active { animation:none; }
+.journey-wedding .outline-cta { border-color:var(--occasion-line); }
+.journey-wedding .occasion-navigation { font-size:13px; gap:16px; padding-block:12px 0; }
+.journey-wedding .occasion-current { color:var(--occasion-ink); }
+.journey-wedding .occasion-eyebrow { font-weight:500; letter-spacing:.17em; font-size:11px; }
+.journey-wedding .occasion-button { background:var(--occasion-tint); color:var(--occasion-ink); border:1px solid var(--occasion-line); border-radius:100px; font-weight:500; box-shadow:0 3px 12px #6a523b05; }
+.journey-wedding .occasion-button:hover { opacity:1; background:var(--occasion-surface); }
+.journey-wedding .occasion-text-link { font-size:14px; text-decoration-thickness:1px; }
+.wedding-atmosphere { position:fixed; inset:-10%; z-index:-1; pointer-events:none; overflow:hidden; }
+.wedding-atmosphere i { position:absolute; display:block; width:90%; height:58%; border-radius:50%; filter:blur(48px); transform-origin:center; animation:wedding-light-drift 22s ease-in-out infinite alternate; }
+.wedding-atmosphere i:nth-child(1) { top:8%; left:-22%; background:linear-gradient(150deg,transparent 22%,#fffef5b3 46%,#e4d1b466 54%,transparent 68%); transform:rotate(-24deg); }
+.wedding-atmosphere i:nth-child(2) { top:33%; right:-25%; background:linear-gradient(165deg,transparent 20%,#e8d8bf63 44%,#ffffffd9 55%,transparent 70%); animation-name:wedding-light-return; animation-duration:28s; }
+.wedding-atmosphere i:nth-child(3) { width:55%; height:44%; bottom:-6%; left:16%; background:radial-gradient(ellipse,#fff 0%,#ecddc54d 35%,transparent 68%); animation-duration:32s; }
+.dark .wedding-atmosphere { opacity:.14; }
+.wedding-atmosphere.is-paused i { animation-play-state:paused; }
+@keyframes wedding-light-drift { from { transform:translate3d(-3%,-5%,0) rotate(-24deg) scale(.97); } to { transform:translate3d(12%,14%,0) rotate(-9deg) scale(1.12); } }
+@keyframes wedding-light-return { from { transform:translate3d(4%,8%,0) rotate(15deg); } to { transform:translate3d(-13%,-12%,0) rotate(-8deg); } }
+.wedding-cover { display:grid; grid-template-columns:.87fr 1.13fr; grid-template-rows:auto auto 1fr auto; column-gap:24px; padding-block:12px 55px; }
+.wedding-cover-kicker { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; gap:18px; padding-block:10px 20px; }
+.wedding-cover-kicker .occasion-eyebrow { margin:0; }
+.wedding-motion-toggle { display:inline-flex; align-items:center; gap:7px; min-height:44px; border:0; background:none; color:var(--occasion-muted); font:inherit; font-size:12px; padding:0 8px; cursor:pointer; }
+.wedding-cover h1 { grid-column:1/-1; grid-row:2; align-self:start; position:relative; z-index:2; width:max-content; max-width:100%; font-family:NordraWedding,Georgia,serif; font-size:clamp(68px,8.4vw,112px); font-weight:400; line-height:.96; letter-spacing:-.045em; margin:14px 0 0; pointer-events:none; }
+.wedding-cover h1 em { display:block; padding-left:10%; font-weight:400; color:var(--occasion-accent); }
+.wedding-cover-image { grid-column:2; grid-row:2/4; min-width:0; margin:54px 0 0; }
+.wedding-cover-image>.invitation-art { height:570px; aspect-ratio:auto; border-radius:46% 3px 40% 3px; mask-image:linear-gradient(90deg,transparent,#000 13%); }
+.wedding-cover-image .editorial-image { object-position:63% 50%; }
+.dark .wedding-cover-image>.invitation-art { mask-image:linear-gradient(90deg,transparent 12%,#000 45%); }
+.wedding-cover-image figcaption { text-align:right; font-family:NordraWedding,Georgia,serif; font-size:23px; font-style:italic; color:var(--occasion-accent); padding:18px 20px 0; }
+.wedding-cover-intro { grid-column:1; grid-row:3; align-self:end; padding:32px 60px 54px 0; max-width:390px; }
+.wedding-cover-intro>p { font-size:17px; line-height:1.85; color:var(--occasion-muted); margin-bottom:24px; }
+.wedding-explore-link { display:flex; align-items:center; gap:15px; font-size:15px; line-height:1.4; width:fit-content; }
+.wedding-arrow-circle { display:grid; place-items:center; width:60px; height:60px; flex-shrink:0; border:1px solid var(--occasion-line); border-radius:50%; background:color-mix(in srgb,var(--occasion-surface) 60%,transparent); transition:background .3s,transform .3s; }
+.wedding-explore-link:hover .wedding-arrow-circle { transform:translateY(3px); background:var(--occasion-surface); }
+.wedding-cover-intro>.occasion-text-link { margin:15px 0 0 75px; }
+.wedding-cover-foot { grid-column:1/-1; display:flex; justify-content:space-between; gap:18px; align-items:center; padding-block:32px 0; margin-top:30px; border-top:1px solid var(--occasion-line); color:var(--occasion-muted); font-size:13px; }
+.wedding-cover-foot>span:first-child { font-size:10px; letter-spacing:.15em; }
+.journey-wedding :is(.wedding-atelier h2,.wedding-guests h2,.wedding-process h2,.wedding-footer h2,.occasion-plans h2) { font-family:NordraWedding,Georgia,serif; font-weight:400; letter-spacing:-.035em; line-height:1.06; font-size:clamp(44px,5vw,66px); margin:0 0 22px; }
+.wedding-atelier { padding-block:65px 90px; scroll-margin-top:100px; }
+.wedding-atelier-heading { text-align:center; }
+.wedding-atelier-heading .occasion-eyebrow { justify-content:center; }
+.wedding-atelier-heading>p:last-child { font-size:17px; color:var(--occasion-muted); }
+.wedding-atelier-layout { display:grid; grid-template-columns:.9fr 1.1fr; align-items:center; gap:70px; max-width:1060px; margin:50px auto 0; }
+.wedding-atelier-selection { padding-bottom:30px; }
+.wedding-project-name { font-family:NordraWedding,Georgia,serif; font-size:35px; line-height:1.1; margin:0 0 8px; }
+.wedding-project-meta { font-size:13px; color:var(--occasion-muted); margin:0 0 30px; }
+.wedding-preview-caption { animation:wedding-project-reveal .3s ease both; }
+@keyframes wedding-project-reveal { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.wedding-preview-tabs { display:grid; }
+.wedding-preview-tabs button { display:flex; align-items:center; justify-content:space-between; gap:20px; font-family:NordraWedding,Georgia,serif; font-size:32px; min-height:76px; text-align:left; background:transparent; color:var(--occasion-muted); border:0; border-bottom:1px solid var(--occasion-line); padding:12px 2px; cursor:pointer; transition:color .3s; }
+.wedding-preview-tabs button[aria-selected=true] { color:var(--occasion-ink); border-bottom-color:var(--occasion-accent); }
+.wedding-preview-tabs button svg { opacity:.35; transition:transform .3s,opacity .3s; }
+.wedding-preview-tabs button[aria-selected=true] svg { opacity:1; transform:rotate(45deg); }
+.wedding-preview-caption { font-size:16px; color:var(--occasion-muted); line-height:1.75; margin:24px 0 12px; min-height:56px; max-width:34ch; }
+.wedding-script { font-family:NordraWedding,Georgia,serif; font-size:24px; font-style:italic; color:var(--occasion-accent); margin:0 0 14px; line-height:1.3; }
+.wedding-example-note { font-size:11px; color:var(--occasion-muted); letter-spacing:.02em; margin:18px 0 0; line-height:1.6; }
+.wedding-guests { display:grid; grid-template-columns:.8fr 1.2fr; gap:60px; align-items:center; padding-block:60px 80px; }
+.wedding-guests h2 em { display:block; font-weight:400; }
+.wedding-guests-copy>p:not(.occasion-eyebrow) { color:var(--occasion-muted); max-width:45ch; }
+.wedding-guests-copy .occasion-button { margin-top:8px; }
+.wedding-guests-copy .wedding-guests-note { font-size:13px; line-height:1.8; margin-top:22px; }
+.journey-wedding .occasion-plans { padding-block:60px 75px; }
+.journey-wedding .occasion-section-heading { max-width:none; text-align:center; margin-bottom:48px; }
+.journey-wedding .occasion-section-heading .occasion-eyebrow { justify-content:center; }
+.journey-wedding .occasion-plan-grid { gap:0; border-block:1px solid var(--occasion-line); padding-block:32px; background:color-mix(in srgb,var(--occasion-surface) 50%,transparent); }
+.journey-wedding .occasion-plan { padding:15px 32px; border:0; border-right:1px solid var(--occasion-line); border-radius:0; background:none; }
+.journey-wedding .occasion-plan:last-child { border-right:0; }
+.journey-wedding .occasion-plan-top { margin-bottom:16px; }
+.journey-wedding .occasion-plan-top svg { width:22px; }
+.journey-wedding .occasion-plan h3 { font-family:NordraWedding,Georgia,serif; font-size:47px; font-weight:400; margin:0 0 10px; }
+.journey-wedding .occasion-plan-price { font-size:30px; font-weight:400; }
+.journey-wedding .occasion-plan>ul { min-height:160px; }
+.journey-wedding .occasion-plan .occasion-button { font-size:14px; }
+.journey-wedding .occasion-plans-note { margin:28px auto 0; text-align:center; font-size:13px; }
+.wedding-process { padding-block:55px 75px; scroll-margin-top:110px; text-align:center; }
+.wedding-process .occasion-eyebrow { justify-content:center; }
+.wedding-process ol { display:grid; grid-template-columns:repeat(3,1fr); list-style:none; padding:0; gap:40px; margin:50px 0 30px; }
+.wedding-process li { position:relative; font-family:NordraWedding,Georgia,serif; font-size:28px; line-height:1.25; padding:25px 10px; border-top:1px solid var(--occasion-line); }
+.wedding-process li::before { content:""; position:absolute; left:calc(50% - 3px); top:-4px; width:7px; height:7px; border-radius:50%; background:var(--occasion-accent); }
+.wedding-process>p:last-child { font-size:14px; color:var(--occasion-muted); max-width:72ch; margin:auto; line-height:1.8; }
+.wedding-footer { text-align:center; padding:75px 0 25px; border-top:1px solid var(--occasion-line); background:linear-gradient(170deg,transparent,var(--occasion-tint)); scroll-margin-top:90px; }
+.wedding-footer-heart { margin:0 auto 24px; color:var(--occasion-accent); }
+.wedding-footer .occasion-eyebrow { justify-content:center; }
+.journey-wedding .wedding-footer h2 { font-size:clamp(60px,7vw,90px); }
+.wedding-footer h2 em { font-weight:400; }
+.wedding-signature { font-family:NordraWedding,Georgia,serif; font-size:27px; font-style:italic; color:var(--occasion-accent); margin:28px 0 60px; }
+.wedding-footer-bottom { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:16px 28px; border-top:1px solid var(--occasion-line); padding-top:20px; font-size:12px; color:var(--occasion-muted); }
+.wedding-footer-bottom a { display:inline-flex; align-items:center; min-height:44px; gap:7px; }
+.wedding-footer-bottom>span { margin-right:auto; }
+@media (max-width:1050px) {
+  .wedding-cover h1 { font-size:clamp(65px,8.7vw,96px); }
+  .wedding-cover-image>.invitation-art { height:530px; }
+  .wedding-cover-intro { padding-right:25px; }
+  .wedding-atelier-layout { gap:50px; }
+  .wedding-guests { gap:50px; }
+  .journey-wedding .occasion-plan { padding-inline:23px; }
+}
+@media (max-width:760px) {
+  .wedding-cover { grid-template-columns:1fr; padding-block:6px 30px; }
+  .wedding-cover-kicker { padding:2px 0 18px; gap:8px; }
+  .wedding-cover-kicker .occasion-eyebrow { font-size:10px; letter-spacing:.1em; }
+  .wedding-motion-toggle { font-size:11px; padding-right:0; white-space:nowrap; }
+  .wedding-cover h1 { grid-column:1; grid-row:2; text-align:center; width:100%; font-size:clamp(50px,10.7vw,76px); margin:10px 0 0; }
+  .wedding-cover h1 em { padding-left:0; }
+  .wedding-cover-image { grid-column:1; grid-row:3; margin:24px auto 0; width:min(100%,500px); }
+  .wedding-cover-image>.invitation-art { height:auto; aspect-ratio:1.04; border-radius:40% 3px 35% 3px; mask-image:none; }
+  .dark .wedding-cover-image>.invitation-art { mask-image:none; }
+  .wedding-cover-image figcaption { font-size:21px; padding:16px 0 0; text-align:center; }
+  .wedding-cover-intro { grid-column:1; grid-row:4; padding:28px 0 5px; width:100%; max-width:480px; margin:auto; text-align:center; }
+  .wedding-cover-intro>p { margin:0 auto 22px; max-width:32ch; font-size:16px; line-height:1.8; }
+  .wedding-explore-link { margin:auto; }
+  .wedding-arrow-circle { width:50px; height:50px; }
+  .wedding-cover-intro>.occasion-text-link { margin:10px 0 0; }
+  .wedding-cover-foot { grid-row:5; justify-content:center; text-align:center; padding-top:24px; margin-top:22px; }
+  .wedding-cover-foot>span:first-child { display:none; }
+  .wedding-atelier { padding-block:40px 55px; }
+  .wedding-atelier-layout { display:flex; flex-direction:column; gap:12px; margin-top:25px; }
+  .wedding-atelier-selection { display:contents; }
+  .wedding-project-name { order:-2; text-align:center; font-size:32px; margin:12px 0 0; }
+  .wedding-project-meta { order:-1; text-align:center; margin:0 0 8px; }
+  .wedding-preview-tabs { display:flex; order:0; width:100%; justify-content:center; }
+  .wedding-preview-tabs button { justify-content:center; font-family:inherit; font-size:14px; min-height:54px; padding:10px 15px; flex:1; white-space:nowrap; }
+  .wedding-preview-tabs button svg { display:none; }
+  .wedding-preview-caption { order:2; text-align:center; min-height:0; margin:10px auto 0; max-width:32ch; }
+  .wedding-atelier-selection>.occasion-text-link { order:3; }
+  .wedding-guests { grid-template-columns:1fr; gap:35px; padding-block:25px 45px; }
+  .wedding-guests-copy { text-align:center; }
+  .wedding-guests-copy .occasion-eyebrow { justify-content:center; }
+  .wedding-guests-copy>p { margin-inline:auto; }
+  .journey-wedding .occasion-plans { padding-block:40px 50px; }
+  .journey-wedding .occasion-plan-grid { border:0; padding:0; background:transparent; gap:0; }
+  .journey-wedding .occasion-plan { border:0; border-top:1px solid var(--occasion-line); padding:32px 10px; }
+  .journey-wedding .occasion-plan>ul { min-height:0; }
+  .journey-wedding .occasion-plan-top { margin-bottom:10px; }
+  .journey-wedding .occasion-section-heading { margin-bottom:25px; }
+  .wedding-process { padding-block:20px 50px; }
+  .wedding-process ol { grid-template-columns:1fr; gap:8px; margin-top:35px; }
+  .wedding-process li { padding:22px 0 15px; font-size:27px; }
+  .wedding-footer { padding-top:50px; padding-bottom:105px; }
+  .wedding-footer-bottom { gap:4px 22px; }
+  .wedding-footer-bottom>span { width:100%; margin:10px 0; }
+  .wedding-atmosphere i { filter:blur(32px); }
+}
+@media (max-width:380px) {
+  .wedding-cover h1 { font-size:44px; }
+  .wedding-motion-toggle span { display:none; }
+  .wedding-motion-toggle { width:44px; justify-content:center; }
+  .wedding-preview-tabs button { font-size:13px; padding-inline:8px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .wedding-atmosphere i { animation:none; }
+  .wedding-motion-toggle { display:none; }
+  .wedding-arrow-circle,.wedding-preview-tabs button,.wedding-preview-tabs button svg { transition:none; }
+  .wedding-explore-link:hover .wedding-arrow-circle { transform:none; }
+}
+
+/* Distinct chapters: an ivory album, a sand-colored workspace invitation,
+   spacious packages and an asymmetrical, quieter process. */
+.journey-wedding :is(.wedding-atelier,.occasion-plans,.wedding-process) { position:relative; isolation:isolate; }
+.journey-wedding :is(.wedding-atelier,.occasion-plans,.wedding-process)::before { content:""; position:absolute; z-index:-1; inset:0 calc(50% - 50vw); pointer-events:none; }
+.journey-wedding .wedding-atelier { padding-block:85px 100px; }
+.journey-wedding .wedding-atelier::before { background:var(--occasion-surface); border-top:1px solid var(--occasion-line); }
+.journey-wedding .occasion-plans { padding-block:95px 90px; }
+.journey-wedding .occasion-plans::before { background:color-mix(in srgb,var(--occasion-bg) 55%,var(--occasion-surface)); }
+.journey-wedding .occasion-plan-grid { background:var(--occasion-surface); border:1px solid var(--occasion-line); border-radius:8px; padding-block:32px; box-shadow:0 18px 50px #795e4907; }
+.journey-wedding .occasion-section-heading { margin-bottom:50px; }
+.journey-wedding .wedding-process { display:grid; grid-template-columns:1fr 1fr; gap:0 90px; padding-block:80px; text-align:left; }
+.journey-wedding .wedding-process::before { background:var(--occasion-tint); border-block:1px solid var(--occasion-line); }
+.journey-wedding .wedding-process>.occasion-eyebrow { grid-column:1; align-self:end; justify-content:start; }
+.journey-wedding .wedding-process h2 { grid-column:1; margin-bottom:0; }
+.journey-wedding .wedding-process ol { grid-column:2; grid-row:1/3; display:flex; flex-direction:column; justify-content:center; margin:0; gap:0; }
+.journey-wedding .wedding-process li { padding:21px 0 21px 27px; font-size:30px; border-top:0; border-bottom:1px solid var(--occasion-line); }
+.journey-wedding .wedding-process li::before { left:0; top:50%; width:5px; height:5px; }
+.journey-wedding .wedding-process>p:last-child { grid-column:1/-1; text-align:left; max-width:none; margin:35px 0 0; font-size:13px; }
+.journey-wedding .wedding-footer { border-top:0; padding-top:90px; background:radial-gradient(ellipse at 50% 20%,var(--occasion-surface),var(--occasion-bg) 70%); }
+@media(max-width:1050px) { .journey-wedding .wedding-process { gap:0 50px; } }
+@media(max-width:760px) { .journey-wedding .wedding-atelier { padding-block:55px 65px; } .journey-wedding .occasion-plans { padding-block:60px; } .journey-wedding .occasion-plan-grid { padding:0 22px; } .journey-wedding .occasion-plan:first-child { border-top:0; } .journey-wedding .occasion-section-heading { margin-bottom:30px; } .journey-wedding .wedding-process { grid-template-columns:1fr; padding-block:55px; text-align:center; gap:0; } .journey-wedding .wedding-process>.occasion-eyebrow { justify-content:center; } .journey-wedding .wedding-process ol { grid-column:1; grid-row:auto; margin-top:28px; text-align:left; } .journey-wedding .wedding-process li { font-size:27px; } .journey-wedding .wedding-process>p:last-child { text-align:center; line-height:1.8; } .journey-wedding .wedding-footer { padding-top:60px; } }

@@ -8,7 +8,7 @@
       (() => {
         let saved;
         try { saved = localStorage.getItem("nordra-theme"); } catch {}
-        const dark = saved === "dark" || (saved !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+        const dark = saved === "dark";
         document.documentElement.classList.toggle("dark", dark);
       })();
     </script>

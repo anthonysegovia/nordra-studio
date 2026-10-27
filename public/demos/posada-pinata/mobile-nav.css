@@ -1,0 +1,15 @@
+.mobile-nav{display:none}
+@media(max-width:700px){
+  html{scroll-padding-bottom:calc(98px + env(safe-area-inset-bottom,0px))}
+  body{padding-bottom:calc(98px + env(safe-area-inset-bottom,0px))}
+  .has-entry:not(.is-open) body{padding-bottom:0}
+  .mobile-nav{--nav-index:0;position:fixed;z-index:30;bottom:max(12px,env(safe-area-inset-bottom,0px));left:12px;right:12px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;max-width:460px;margin-inline:auto;padding:5px 6px;border:1px solid #ddc596a6;border-radius:17px;background:#f7f0e3f5;box-shadow:0 8px 32px #001b1933,inset 0 0 0 3px #fff7;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--pine);transition:opacity .4s var(--ease),transform .5s var(--ease),visibility .5s}
+  .mobile-nav a{position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;min-height:54px;min-width:0;text-decoration:none;font:500 9px var(--sans);color:#526358;transition:color .4s var(--ease);border-radius:11px;-webkit-tap-highlight-color:transparent}
+  .mobile-nav .icon{height:21px;width:21px;stroke-width:1.3;transition:transform .45s var(--ease),color .4s var(--ease)}
+  .mobile-nav a[aria-current]{color:var(--wine)}.mobile-nav a[aria-current] .icon{transform:translateY(-1px)}.mobile-nav a:active .icon{transform:scale(.94)}.mobile-nav a:focus-visible{outline:2px solid var(--wine);outline-offset:1px}
+  .mobile-nav-marker{position:absolute;top:5px;bottom:5px;left:6px;width:calc((100% - 12px)/5);background:linear-gradient(145deg,#702f3e0e,#702f3e05);border:1px solid #b493643f;border-radius:11px;pointer-events:none;transform:translateX(calc(var(--nav-index) * 100%));transition:transform .55s var(--ease)}
+  .has-entry:not(.is-open) .mobile-nav,.keepsake-open .mobile-nav,.mobile-nav[data-keyboard=true]{opacity:0;transform:translateY(18px);visibility:hidden;pointer-events:none}
+  .toast{bottom:calc(94px + env(safe-area-inset-bottom,0px))}
+}
+@media(prefers-reduced-motion:reduce){.mobile-nav,.mobile-nav *{animation:none!important;transition:none!important}}
+[data-motion=paused] .mobile-nav,[data-motion=paused] .mobile-nav *{animation:none!important;transition:none!important}

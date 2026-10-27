@@ -1,0 +1,24 @@
+/* The portfolio shows the original section, including its original interactions. */
+html[data-studio-preview] { scroll-behavior:auto; }
+[data-studio-preview] body { min-width:0; }
+[data-studio-preview] :is(.demo,.story-nav,.entry-return,.nordra-invitation-nav,.scroll-cue,footer) { display:none!important; }
+[data-studio-preview] #invitation > * { display:none!important; }
+[data-studio-preview] #invitation > .wrap > * { display:none!important; }
+[data-studio-preview=story] #invitation > .wrap,
+[data-studio-preview=day] #invitation > .wrap,
+[data-studio-preview=story] #invitation .quote,
+[data-studio-preview=day] #invitation .places,
+[data-studio-preview=reply] #invitation > .rsvp { display:block!important; }
+[data-studio-preview] #invitation > .wrap { padding:0; }
+[data-studio-preview] .hero { min-height:620px; }
+[data-studio-preview] :is(.quote,.places,.rsvp) { padding:32px 22px; min-height:620px; }
+[data-studio-preview] .reveal { opacity:1; transform:none; }
+[data-studio-preview] :is(a,button,summary,input,select,textarea) {
+  transition:color .25s ease,background-color .25s ease,border-color .25s ease,box-shadow .25s ease,scale .25s ease,translate .25s ease;
+}
+[data-studio-preview] :is(button,a,summary):is(:hover,:focus-visible) { translate:0 -2px; }
+[data-studio-preview] :is(button,a,summary):active { scale:.98; }
+[data-studio-preview] :is(input,select,textarea):focus { box-shadow:0 0 0 3px #b5857033; }
+@media(prefers-reduced-motion:reduce) {
+  [data-studio-preview] :is(a,button,summary,input,select,textarea) { transition:none; translate:none!important; scale:1!important; }
+}

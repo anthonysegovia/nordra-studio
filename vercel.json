@@ -1,6 +1,22 @@
 {
   "routes": [
     {
+      "src": "^/favicon\\.ico$",
+      "has": [{ "type": "host", "value": "confirmadoscova.nordrastudio.mx" }],
+      "dest": "/invitaciones/posada-confirmados/assets/confirmados-icon-v1.ico"
+    },
+    {
+      "src": "^/apple-touch-icon\\.png$",
+      "has": [{ "type": "host", "value": "confirmadoscova.nordrastudio.mx" }],
+      "dest": "/invitaciones/posada-confirmados/assets/confirmados-apple-v1.png"
+    },
+    {
+      "src": "^/$",
+      "has": [{ "type": "host", "value": "confirmadoscova.nordrastudio.mx" }],
+      "dest": "/invitaciones/posada-confirmados/index.html",
+      "headers": { "X-Robots-Tag": "noindex, nofollow" }
+    },
+    {
       "src": "^/demos/ano-nuevo(?:/index\\.html|/)?$",
       "status": 308,
       "headers": { "Location": "/demos/celebra-2027/" }

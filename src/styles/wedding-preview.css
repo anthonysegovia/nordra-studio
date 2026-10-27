@@ -1,0 +1,135 @@
+/* Open excerpts from the invitation, with the page itself as their canvas. */
+.wedding-open-preview { min-width:0; width:100%; }
+.wedding-preview-content { min-height:520px; animation:wedding-project-reveal .45s ease both; }
+.wedding-preview-content[hidden] { display:none; }
+.wedding-story-preview figure { margin:0; }
+.wedding-story-preview img { display:block; width:100%; height:auto; aspect-ratio:1.3; object-fit:cover; border-radius:2px; }
+.wedding-story-preview figcaption { font-family:NordraWedding,Georgia,serif; font-size:24px; font-style:italic; color:var(--occasion-muted); padding-top:15px; text-align:right; }
+.wedding-preview-dedication { font-family:NordraWedding,Georgia,serif; font-size:22px; font-style:italic; color:var(--occasion-muted); margin:28px 0 0; }
+.wedding-preview-dedication span { display:block; font-size:34px; line-height:1.2; font-style:normal; color:var(--occasion-ink); margin-top:4px; }
+.wedding-preview-date { font-size:12px; letter-spacing:.14em; text-align:center; margin:0 0 22px; color:var(--occasion-muted); }
+.wedding-day-preview>img { display:block; width:100%; height:auto; aspect-ratio:1.5; object-fit:cover; object-position:center; border-radius:2px; }
+.wedding-day-times { display:grid; grid-template-columns:1fr 1fr; gap:20px; text-align:center; padding-block:20px; margin-top:10px; border-bottom:1px solid var(--occasion-line); }
+.wedding-day-times p { font-size:15px; margin:0; color:var(--occasion-muted); }
+.wedding-day-times p+p { border-left:1px solid var(--occasion-line); }
+.wedding-day-times span { display:block; font:400 45px/1.1 NordraWedding,Georgia,serif; color:var(--occasion-ink); margin-bottom:7px; }
+.wedding-preview-note { color:var(--occasion-muted); font-size:12px; line-height:1.7; text-align:center; margin:18px 0 0; }
+.wedding-paper-monogram { font:italic 38px/1 NordraWedding,Georgia,serif; letter-spacing:-.08em; color:var(--occasion-accent); }
+.wedding-paper-monogram em { font-size:.62em; font-weight:400; padding-inline:3px; }
+.wedding-rsvp-preview { padding:16px 34px 0; text-align:center; }
+.wedding-rsvp-preview .occasion-eyebrow { justify-content:center; margin:20px 0 12px; font-size:10px; }
+.wedding-rsvp-preview h3 { font:400 46px/1.1 NordraWedding,Georgia,serif; letter-spacing:-.025em; margin:0 0 28px; }
+.wedding-rsvp-preview form { text-align:left; }
+.wedding-rsvp-preview form>label,.wedding-rsvp-preview legend { display:block; font-size:13px; color:var(--occasion-muted); margin:0 0 8px; }
+.wedding-rsvp-preview input:not([type=radio]) { display:block; min-width:0; width:100%; min-height:48px; padding:10px 0; background:transparent; border:0; border-bottom:1px solid var(--occasion-line); border-radius:0; color:var(--occasion-ink); font:inherit; font-size:16px; }
+.wedding-rsvp-preview input::placeholder,.wedding-guestbook input::placeholder { color:var(--occasion-muted); opacity:.85; }
+.wedding-rsvp-preview fieldset { border:0; margin:25px 0; padding:0; display:flex; flex-wrap:wrap; gap:10px 20px; }
+.wedding-rsvp-preview fieldset label { display:flex; align-items:center; gap:8px; min-height:44px; color:var(--occasion-muted); font-size:14px; cursor:pointer; transition:color .25s ease; }
+.wedding-rsvp-preview fieldset label:has(:checked) { color:var(--occasion-ink); }
+.wedding-rsvp-preview input[type=radio] { width:17px; height:17px; accent-color:var(--occasion-accent); }
+.wedding-rsvp-preview .occasion-button { width:100%; justify-content:center; min-height:48px; }
+.wedding-rsvp-result { min-height:76px; font-size:13px; line-height:1.6; padding-top:14px; text-align:center; color:var(--occasion-muted); }
+.wedding-rsvp-result>span { display:flex; align-items:center; justify-content:center; gap:6px; animation:wedding-project-reveal .3s ease both; }
+.wedding-rsvp-result a { display:inline-flex; gap:8px; align-items:center; justify-content:center; min-height:44px; text-decoration:underline; text-underline-offset:5px; }
+.wedding-rsvp-error { font-size:13px; color:var(--occasion-ink); border-left:2px solid var(--occasion-accent); padding-left:10px; margin-top:15px; }
+.wedding-rsvp-preview .wedding-preview-note { margin-top:0; }
+/* A wedding keepsake translated into a useful, quiet guest list. */
+.wedding-guests { grid-template-columns:.75fr 1.25fr; scroll-margin-top:120px; }
+.wedding-guestbook { min-width:0; padding:32px 34px 16px; color:var(--occasion-ink); background:var(--occasion-surface); border:1px solid var(--occasion-line); border-radius:3px; box-shadow:0 18px 55px #795e4909; }
+.wedding-guestbook-heading { display:flex; gap:22px; align-items:center; margin:0 0 32px; }
+.wedding-guestbook-heading>.wedding-paper-monogram { display:flex; align-items:center; justify-content:center; flex-shrink:0; width:76px; height:80px; border:1px solid var(--occasion-line); border-radius:50% 50% 0 0; padding:8px; font-size:30px; }
+.wedding-guestbook-heading p { margin:0 0 7px; font-size:10px; letter-spacing:.15em; color:var(--occasion-muted); }
+.wedding-guestbook-heading h3 { font:400 33px/1.1 NordraWedding,Georgia,serif; letter-spacing:-.025em; margin:0 0 7px; }
+.wedding-guestbook-heading h3 em { font-weight:400; }
+.wedding-guestbook-heading div>span { font-size:12px; color:var(--occasion-muted); }
+.wedding-guestbook .guest-panel-heading h4 { font:400 26px/1.2 NordraWedding,Georgia,serif; margin:0; }
+.wedding-guestbook .guest-panel-heading button { border:0; border-radius:0; padding:8px 0 8px 10px; font-size:12px; color:var(--occasion-muted); }
+.wedding-guestbook .guest-panel-stats { margin:8px 0 24px; padding:22px 0; gap:20px; border-color:var(--occasion-line); }
+.wedding-guestbook .guest-panel-stats strong { font:400 46px/1 NordraWedding,Georgia,serif; }
+.wedding-guestbook .guest-panel-stats span { font-size:12px; line-height:1.5; margin-top:9px; }
+.wedding-guestbook .guest-panel-filters { grid-template-columns:minmax(0,1.2fr) minmax(130px,.8fr); gap:22px; }
+.wedding-guestbook .guest-panel-filters label>span:first-child { font-size:12px; color:var(--occasion-muted); margin-bottom:5px; }
+.wedding-guestbook :is(input,select) { display:block; min-width:0; width:100%; min-height:46px; padding:9px 0; border:0; border-bottom:1px solid var(--occasion-line); border-radius:0; background:transparent; color:var(--occasion-ink); font:inherit; font-size:14px; }
+.wedding-guestbook .guest-panel-search input { padding-left:25px; }
+.wedding-guestbook .guest-panel-search svg { left:0; top:16px; }
+.wedding-guestbook select { cursor:pointer; padding-right:20px; }
+.wedding-guestbook select option { color:var(--occasion-ink); background:var(--occasion-surface); }
+.wedding-guestbook .guest-panel-count { font-size:12px; margin:20px 0 8px; }
+.wedding-guestbook .guest-panel-list { min-height:165px; }
+.wedding-guestbook .guest-panel-list li { padding:17px 0; font-size:15px; border-color:var(--occasion-line); animation:wedding-project-reveal .3s ease both; }
+.wedding-guestbook .guest-panel-attendance { border:0; border-radius:0; background:transparent; color:var(--occasion-muted); padding:0; font-size:12px; }
+.wedding-guestbook .guest-panel-attendance[data-attendance=yes] { border:0; background:none; color:var(--occasion-ink); }
+.wedding-guestbook .guest-panel-attendance::before { content:""; display:inline-block; width:5px; height:5px; margin-right:7px; border-radius:50%; background:var(--occasion-line); vertical-align:middle; }
+.wedding-guestbook .guest-panel-attendance[data-attendance=yes]::before { background:var(--occasion-accent); }
+.wedding-guestbook .guest-panel-empty { min-height:165px; font-size:14px; padding-block:30px; }
+.wedding-guestbook-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 16px; margin-top:15px; color:var(--occasion-muted); font-size:11px; }
+.wedding-guestbook-footer button { display:inline-flex; align-items:center; gap:7px; min-height:44px; border:0; background:none; color:inherit; font:inherit; font-size:12px; padding:8px 0 8px 8px; cursor:pointer; }
+.wedding-guestbook :is(input,select):focus-visible,.wedding-rsvp-preview input:focus-visible { outline:2px solid var(--occasion-accent); outline-offset:4px; }
+@media(max-width:1050px) {
+  .wedding-rsvp-preview { padding-inline:14px; }
+  .wedding-guests { grid-template-columns:.7fr 1.3fr; gap:35px; }
+  .wedding-guestbook { padding-inline:24px; }
+  .wedding-guestbook-heading { gap:16px; }
+  .wedding-guestbook-heading h3 { font-size:29px; }
+}
+@media(max-width:760px) {
+  .wedding-open-preview { order:1; max-width:500px; padding-top:16px; }
+  .wedding-preview-content { min-height:0; }
+  .wedding-story-preview img { aspect-ratio:1.22; }
+  .wedding-story-preview figcaption { font-size:22px; }
+  .wedding-preview-dedication { text-align:center; margin-top:24px; }
+  .wedding-preview-dedication span { font-size:31px; }
+  .wedding-preview-caption { max-width:36ch; }
+  .wedding-day-times { padding-bottom:18px; }
+  .wedding-day-times span { font-size:40px; }
+  .wedding-rsvp-preview { padding:10px 12px 0; }
+  .wedding-rsvp-preview h3 { font-size:42px; }
+  .wedding-guests { grid-template-columns:1fr; gap:24px; padding-top:40px; }
+  .wedding-guestbook { width:100%; max-width:600px; margin:auto; padding:25px 20px 12px; }
+  .wedding-guestbook-heading { margin-bottom:25px; }
+  .wedding-guestbook-heading>.wedding-paper-monogram { width:55px; height:67px; font-size:27px; padding:8px; }
+  .wedding-guestbook-heading h3 { font-size:28px; }
+  .wedding-guestbook .guest-panel-stats { gap:12px; }
+  .wedding-guestbook .guest-panel-stats strong { font-size:43px; }
+  .wedding-guestbook .guest-panel-stats span { font-size:11px; }
+  .wedding-guestbook .guest-panel-filters { gap:16px; grid-template-columns:1fr; }
+  .wedding-guestbook :is(input,select) { font-size:16px; }
+  .wedding-guestbook .guest-panel-list li { font-size:14px; }
+  .wedding-guestbook .guest-panel-attendance { font-size:11px; }
+}
+@media(max-width:380px) {
+  .wedding-guestbook { padding-inline:16px; }
+  .wedding-guestbook-heading { gap:12px; }
+  .wedding-guestbook-heading>.wedding-paper-monogram { display:none; }
+  .wedding-guestbook-heading h3 { font-size:30px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .wedding-preview-content,.wedding-rsvp-result>span,.wedding-guestbook .guest-panel-list li { animation:none; }
+  .wedding-rsvp-preview fieldset label { transition:none; }
+}
+
+/* A short invitation to a separate, full-size workspace. */
+.wedding-panel-invitation { --occasion-ink:#5d4d3e; --occasion-muted:#746452; --occasion-accent:#806b50; --occasion-line:#d2c3ad; --occasion-surface:#fffcf5; --occasion-tint:#f8f3e9; color:var(--occasion-ink); background:#e9e0d0; border-block:1px solid #d9cbb7; scroll-margin-top:90px; }
+.wedding-panel-invitation .wedding-guests { grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); padding-block:85px; gap:55px; }
+.wedding-panel-invitation .wedding-guests-copy>p:not(.occasion-eyebrow) { font-size:16px; line-height:1.8; max-width:37ch; }
+.wedding-panel-invitation .wedding-guests-copy .wedding-guests-note { font-size:12px; margin-top:20px; }
+.wedding-panel-invitation .occasion-button { background:#806b50; border-color:#806b50; color:#fffdf7; padding:14px 22px; font-size:14px; }
+.wedding-panel-invitation .occasion-button:hover { background:#6c5940; color:#fffdf7; }
+.wedding-dashboard-preview { min-width:0; width:100%; margin:0; }
+.wedding-dashboard-preview>a { display:block; overflow:hidden; border:1px solid #cbbbA3; border-radius:10px; background:#f6f3ed; box-shadow:0 22px 48px -22px #6a513b40,0 3px 10px #6a513b0a; transition:transform .4s ease,box-shadow .4s ease,border-color .3s ease; }
+.wedding-dashboard-preview>a:is(:hover,:focus-visible) { transform:translateY(-4px); box-shadow:0 28px 50px -20px #6a513b50; border-color:#a99578; }
+.wedding-dashboard-preview>a:active { transform:translateY(-1px); }
+.wedding-dashboard-preview>a:focus-visible { outline:2px solid #806b50; outline-offset:6px; }
+.wedding-dashboard-frame { display:flex; align-items:center; justify-content:space-between; gap:15px; min-height:48px; padding:12px 18px; background:#fcf9f3; border-bottom:1px solid #ded5c8; }
+.wedding-dashboard-frame>span:first-child { font:400 16px/1 NordraWedding,Georgia,serif; letter-spacing:.15em; white-space:nowrap; }
+.wedding-dashboard-frame em { font:normal 8px/1 "Segoe UI",sans-serif; letter-spacing:.17em; padding-left:7px; }
+.wedding-dashboard-frame>span:last-child { display:flex; align-items:center; gap:7px; font-size:11px; color:#746452; }
+.wedding-dashboard-frame svg { transition:transform .3s ease; }
+.wedding-dashboard-preview>a:is(:hover,:focus-visible) .wedding-dashboard-frame svg { transform:translate(2px,-2px); }
+.wedding-dashboard-screen { overflow:hidden; }
+.wedding-dashboard-screen img { display:block; width:100%; height:auto; transition:transform .65s ease; }
+.wedding-dashboard-preview>a:is(:hover,:focus-visible) img { transform:scale(1.012); }
+.wedding-dashboard-preview figcaption { margin-top:16px; text-align:right; font-size:11px; letter-spacing:.02em; color:#746452; }
+@media(max-width:1050px) { .wedding-panel-invitation .wedding-guests { gap:30px; } .wedding-dashboard-frame { padding-inline:12px; } }
+@media(max-width:760px) { .wedding-panel-invitation .wedding-guests { grid-template-columns:1fr; padding-block:55px 60px; gap:32px; } .wedding-dashboard-preview { max-width:650px; margin-inline:auto; } .wedding-panel-invitation .wedding-guests-copy>p:not(.occasion-eyebrow) { font-size:15px; } .wedding-dashboard-frame { min-height:44px; gap:8px; } .wedding-dashboard-frame>span:first-child { font-size:14px; } .wedding-dashboard-frame em { display:none; } .wedding-dashboard-frame>span:last-child { font-size:10px; } .wedding-dashboard-preview figcaption { text-align:center; font-size:10px; margin-top:12px; } }
+@media(prefers-reduced-motion:reduce) { .wedding-dashboard-preview a,.wedding-dashboard-preview img,.wedding-dashboard-frame svg { transition:none; } .wedding-dashboard-preview>a:is(:hover,:focus-visible,:active),.wedding-dashboard-preview>a:is(:hover,:focus-visible) :is(img,svg) { transform:none; } }

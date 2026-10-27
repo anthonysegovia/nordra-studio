@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es" data-nordra-demo="del-otro-lado">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="canonical" href="https://nordrastudio.mx/demos/del-otro-lado/index.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:site_name" content="Nordra Studio">
+<meta property="og:title" content="Del otro lado de las doce">
+<meta property="og:description" content="Cruza el portal de cristal y descubre la noche de Alma y Nicolás sobre la ciudad. Invitación de Fin de Año de muestra de Nordra Studio.">
+<meta property="og:url" content="https://nordrastudio.mx/demos/del-otro-lado/index.html">
+<meta property="og:image" content="https://nordrastudio.mx/demos/del-otro-lado/assets/del-otro-lado-social-v1.jpg">
+<meta property="og:image:secure_url" content="https://nordrastudio.mx/demos/del-otro-lado/assets/del-otro-lado-social-v1.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Del otro lado de las doce con el portal de cristal iluminado en azul y violeta de la invitación de Fin de Año">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Del otro lado de las doce">
+<meta name="twitter:description" content="Cruza el portal de cristal y descubre la noche de Alma y Nicolás sobre la ciudad. Invitación de Fin de Año de muestra de Nordra Studio.">
+<meta name="twitter:image" content="https://nordrastudio.mx/demos/del-otro-lado/assets/del-otro-lado-social-v1.jpg">
+<meta name="twitter:image:alt" content="Del otro lado de las doce con el portal de cristal iluminado en azul y violeta de la invitación de Fin de Año">
+  <meta name="theme-color" content="#101b32">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Del otro lado de las doce · Fin de Año | Nordra Studio</title>
+  <meta name="description" content="Una azotea, doce campanadas y una aurora por estrenar. Explora una invitación de Fin de Año con música y una celebración entre dos años. Demo de Nordra Studio.">
+  <link rel="icon" href="./assets/emblema.svg" type="image/svg+xml">
+  <link rel="preload" href="./assets/fonts/syne.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="./assets/umbral-cristal-v2.png" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="/nordra-entry.css">
+  <link rel="stylesheet" href="./noche.css">
+  <link rel="stylesheet" href="./umbral.css">
+  <script src="/nordra-entry.js" defer></script>
+  <script src="./noche.js" defer></script>
+<link rel="stylesheet" href="/invitation-nav.css">
+<script src="/invitation-nav.js" defer></script>
+</head>
+<body>
+  <svg class="svg-library" aria-hidden="true"><defs>
+    <symbol id="star" viewBox="0 0 40 40"><path d="M20 1c1 14 5 18 19 19-14 1-18 5-19 19C19 25 15 21 1 20 15 19 19 15 20 1Z" fill="currentColor"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+    <symbol id="sound" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4Zm13-3a8 8 0 0 1 0 10m-1-7a3 3 0 0 1 0 4"/></symbol>
+    <symbol id="pause" viewBox="0 0 24 24"><path d="M9 5v14m6-14v14"/></symbol>
+  </defs></svg>
+  <div class="night-sky" aria-hidden="true"><div class="aurora aurora-a"></div><div class="aurora aurora-b"></div><canvas id="sky"></canvas></div>
+  <a class="skip-link" href="#detalles">Saltar a los detalles</a>
+
+  <header class="masthead">
+    <a class="wordmark" href="/invitaciones.html#temporada" aria-label="Volver a las invitaciones de Nordra Studio">NORDRA<span>STUDIO</span></a>
+    <span class="demo-label">Una invitación de muestra</span>
+    <div class="ambient-controls">
+      <button type="button" id="sound-toggle" aria-pressed="false" aria-label="Reproducir música" hidden><svg class="icon" aria-hidden="true"><use href="#sound"/></svg><span>Música</span></button>
+      <button type="button" id="motion-toggle" aria-pressed="false" aria-label="Pausar animaciones" hidden><svg class="icon" aria-hidden="true"><use href="#pause"/></svg><span>Pausar</span></button>
+    </div>
+  </header>
+
+  <section class="threshold" aria-labelledby="threshold-title" hidden>
+    <div class="threshold-scenery" aria-hidden="true" data-motion="living-crystal"><img class="threshold-art" src="./assets/umbral-cristal-v2.png" width="1536" height="1024" alt="" fetchpriority="high"><div class="threshold-prism"></div><div class="midnight-dial"><div class="dial-ring"></div><div class="dial-ring ring-tilt"></div><i style="--ray:0"></i><i style="--ray:1"></i><i style="--ray:2"></i><i style="--ray:3"></i><i style="--ray:4"></i><i style="--ray:5"></i><i style="--ray:6"></i><i style="--ray:7"></i><i style="--ray:8"></i><i style="--ray:9"></i><i style="--ray:10"></i><i style="--ray:11"></i></div><span class="gate-year">2027</span></div>
+    <div class="threshold-content">
+      <p class="overline">Una invitación de Alma &amp; Nicolás</p>
+      <h1 id="threshold-title"><span>Del otro</span><span>lado de</span><em>las doce</em></h1>
+      <p class="threshold-copy">Todavía es este año<br>Al abrir, empieza nuestra noche</p>
+      <button class="button pearl" id="enter" type="button"><span>Encender las doce</span><svg class="entry-star" aria-hidden="true"><use href="#star"/></svg></button>
+      <span class="threshold-note">31 de diciembre · Monterrey</span>
+    </div>
+    <div class="threshold-bottom"><span>EL ÚLTIMO UMBRAL DEL AÑO</span><span>Te guardamos el primer abrazo <svg aria-hidden="true"><use href="#star"/></svg></span></div>
+  </section>
+  <div class="crossing-light" aria-hidden="true"></div>
+  <canvas id="magic-layer" aria-hidden="true"></canvas>
+
+  <audio id="night-music" src="./assets/noche-abierta.mp3" preload="none" loop></audio>
+  <span id="sound-status" class="sound-status" role="status" aria-live="polite"></span>
+  <main id="invitation">
+    <section class="hero shell" id="inicio" aria-labelledby="night-title">
+      <div class="hero-copy">
+        <p class="overline">Alma &amp; Nicolás · 31 diciembre 2026</p>
+        <h1 id="night-title" tabindex="-1"><span>Nos vemos</span><em>del otro lado</em><span>de las doce</span></h1>
+        <p class="intro">Dejamos una silla para ti,<br>las uvas en la mesa y la noche abierta.</p>
+        <a class="button pearl" href="#respuesta">Ese lugar es mío <svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></a>
+        <a class="quiet-link" href="#detalles">Descubre lo que hemos preparado <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="portal-art" role="img" aria-label="Una aurora azul y violeta atraviesa un arco de luz, como una puerta hacia el año nuevo">
+        <div class="portal-orbit orbit-outer"></div><div class="portal-orbit orbit-middle"></div>
+        <div class="portal-window"><img class="hero-crystal" src="./assets/umbral-cristal-v2.png" alt="" width="1536" height="1024" decoding="async"><div class="portal-mist"></div><div class="portal-horizon"></div><div class="portal-reflection"></div><span class="portal-star star-a">✦</span><span class="portal-star star-b">✧</span><span class="portal-star star-c">·</span><div class="portal-year">2027</div><span class="portal-caption">EL CIELO AÚN ESTÁ POR ESCRIBIR</span></div>
+        <div class="orbital-spark"></div><span class="portal-side">UNA NOCHE ENTRE DOS AÑOS</span>
+      </div>
+      <div class="hero-bottom"><span>Monterrey, México</span><span>Nos quedamos hasta el primer abrazo del año <svg aria-hidden="true"><use href="#star"/></svg></span></div>
+    </section>
+
+    <section class="letter" aria-labelledby="letter-title">
+      <div class="shell letter-layout">
+        <div><p class="overline">Antes de que cambie el año</p><h2 id="letter-title">Nos guardamos<br><em>lo que importa</em></h2><div class="letter-sign">Alma &amp; Nicolás <svg aria-hidden="true"><use href="#star"/></svg></div></div>
+        <div class="letter-copy"><p>Las sobremesas que se alargaron. La llamada que llegó justo a tiempo. Las canciones que ahora tienen nombre y apellido.</p><p>El último día del año queremos sentar todo eso a la mesa. Cocinaremos algo rico, subiremos el volumen y dejaremos que las doce nos encuentren donde queremos estar: cerca.</p><p class="handwritten">Trae una historia. Nosotros ponemos la siguiente.</p></div>
+      </div>
+    </section>
+
+    <section class="details shell" id="detalles" aria-labelledby="details-title">
+      <div class="section-heading"><p class="overline">La cita con las doce</p><h2 id="details-title">Una azotea<br><em>La ciudad debajo</em></h2></div>
+      <div class="event-facts">
+        <article><span class="fact-label">EL DÍA</span><h3>Jueves, 31<br>de diciembre</h3><p>La última noche de 2026.</p><a class="text-link" href="./la-ultima-noche.ics" download="fin-de-ano-demo-nordra.ics">Guardar fecha de ejemplo <span aria-hidden="true">↗</span></a></article>
+        <article><span class="fact-label">LA HORA</span><h3>Desde las<br>9 de la noche</h3><p>Llega con hambre. Quédate con ganas de bailar.</p><span class="tiny-note">Horario de Monterrey</span></article>
+        <article><span class="fact-label">EL LUGAR</span><h3>La azotea<br>de Alma y Nicolás</h3><p>Monterrey · Un rincón sobre la ciudad.</p><button type="button" class="text-link" id="location-open">Asomarte al lugar <span aria-hidden="true">↗</span></button></article>
+      </div>
+      <div class="countdown-wrap"><div><p class="overline">Cada vez falta menos</p><p class="countdown-line" id="countdown-title">Para encontrarnos entre dos años.</p></div><div class="countdown" role="timer" aria-label="Tiempo restante para el Año Nuevo en Monterrey"><div><strong id="days">—</strong><span>días</span></div><div><strong id="hours">—</strong><span>horas</span></div><div><strong id="minutes">—</strong><span>minutos</span></div><div><strong id="seconds">—</strong><span>segundos</span></div></div></div>
+    </section>
+
+    <section class="evening shell" aria-labelledby="evening-title">
+      <div class="evening-title"><p class="overline">El ritmo de la noche</p><h2 id="evening-title">Sin prisa<br><em>Salvo a las doce</em></h2><p>Hay un momento para cada cosa.<br>Y toda la madrugada para improvisar.</p><div class="little-orbit" aria-hidden="true"><svg><use href="#star"/></svg></div></div>
+      <ol class="itinerary">
+        <li><time datetime="2026-12-31T21:00:00-06:00">9:00 p. m.</time><div><h3>La primera copa</h3><p>La puerta abierta, hielo en los vasos y ese abrazo de «ya llegaste».</p></div></li>
+        <li><time datetime="2026-12-31T22:00:00-06:00">10:00 p. m.</time><div><h3>Una mesa larga</h3><p>Cena para compartir. Las anécdotas también se sirven al centro.</p></div></li>
+        <li><time datetime="2026-12-31T23:50:00-06:00">11:50 p. m.</time><div><h3>Doce deseos a la mano</h3><p>Repartimos las uvas, llenamos las copas y buscamos a quién abrazar.</p></div></li>
+        <li class="midnight"><time datetime="2027-01-01T00:00:00-06:00">Medianoche</time><div><h3>Ya estamos del otro lado</h3><p>El primer brindis. La primera canción. Nadie mira el reloj.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="dress shell" aria-labelledby="dress-title"><div class="dress-orb" aria-hidden="true"><span></span><svg><use href="#star"/></svg></div><div><p class="overline">Para vestir la noche</p><h2 id="dress-title">Algo oscuro<br><em>Algo que atrape la luz</em></h2><p>Azul tinta, negro o plata. Una textura, un arete, un destello pequeño. Y zapatos que no te hagan irte antes.</p><div class="swatches" aria-label="Paleta sugerida: azul tinta, negro y plata"><span class="ink">Azul tinta</span><span class="black">Negro</span><span class="silver">Plata</span></div><p class="tiny-note">La azotea se enfría después de las doce. Trae algo para abrigarte.</p></div></section>
+
+    <section class="rsvp shell" id="respuesta" aria-labelledby="rsvp-title"><svg class="rsvp-star" aria-hidden="true"><use href="#star"/></svg><p class="overline">Nos falta saber una cosa</p><h2 id="rsvp-title">Cuando den las doce,<br><em>¿te encontramos aquí?</em></h2><p>Queremos poner tu copa en la mesa.<br>Cuéntanos antes del 27 de diciembre.</p><button class="button pearl" id="rsvp-open" type="button">Poner mi nombre en la mesa <svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></button><p class="tiny-note">Prueba la experiencia. Esta demo no registra asistencia.</p></section>
+    <footer><a class="footer-title" href="#inicio">Del otro lado de las doce <span aria-hidden="true">✦</span></a><p>Una noche imaginada por <a href="/invitaciones.html#temporada">Nordra Studio</a>.</p><a class="text-link" href="/invitaciones.html#temporada">Encontrar la invitación para mi noche <span aria-hidden="true">↗</span></a><span class="footer-note">Demostración · Los anfitriones, el lugar y la celebración son ficticios.</span></footer>
+  </main>
+
+  <dialog id="rsvp-dialog" aria-labelledby="rsvp-dialog-title"><button class="dialog-close" type="button" aria-label="Cerrar confirmación">×</button><div id="rsvp-fields"><p class="overline">Hay un lugar con tu nombre</p><h2 id="rsvp-dialog-title">Contamos<br><em>contigo</em></h2><p class="dialog-intro">Prueba una respuesta con tu nombre o un apodo. No se envía ni se guarda fuera de esta página.</p><form id="rsvp-form" novalidate><label for="guest-name">¿Cómo te llamamos?</label><input id="guest-name" name="guest" maxlength="50" autocomplete="off" placeholder="Tu nombre o un apodo" required aria-describedby="rsvp-error"><fieldset><legend>¿Te vemos en la azotea?</legend><div class="choice-row"><label><input type="radio" name="attendance" value="yes" checked><span>Ahí estaré <b aria-hidden="true">✦</b></span></label><label><input type="radio" name="attendance" value="no"><span>Esta vez no podré</span></label></div></fieldset><div id="company-field"><label for="company">¿Cuántos lugares imaginamos?</label><select id="company" name="company"><option value="1">Solo el mío</option><option value="2">El mío y uno más</option><option value="3">Tres lugares</option><option value="4">Cuatro lugares</option></select></div><label for="song">¿Qué canción te saca de la silla? <small>(opcional)</small></label><input id="song" name="song" maxlength="100" placeholder="Esa que no puedes escuchar sentado" autocomplete="off"><p id="rsvp-error" class="status error" role="alert"></p><button class="button pearl" type="submit">Probar mi respuesta <svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></button></form></div><div id="rsvp-success" hidden tabindex="-1"><svg class="success-star" aria-hidden="true"><use href="#star"/></svg><p class="overline">Así se sentiría responder</p><h2 id="success-title"></h2><p id="success-copy"></p><p class="tiny-note">Respuesta de ejemplo. No se ha enviado información ni reservado un lugar real.</p><button type="button" id="rsvp-again" class="text-link">Probar otra respuesta <span aria-hidden="true">↗</span></button></div></dialog>
+
+  <dialog id="location-dialog" aria-labelledby="location-title"><button class="dialog-close" type="button" aria-label="Cerrar lugar">×</button><p class="overline">Un rincón sobre la ciudad</p><h2 id="location-title">Arriba, donde<br><em>cabe la noche</em></h2><div class="rooftop" role="img" aria-label="Ilustración de una azotea iluminada bajo una estrella"><div class="roof-moon"></div><div class="roof-building building-left"></div><div class="roof-building building-right"></div><div class="roof-table"></div><div class="roof-lights"><i></i><i></i><i></i><i></i><i></i></div></div><p>La azotea de Alma y Nicolás es imaginaria. En tu invitación, este espacio llevaría la dirección y el mapa de tu celebración.</p><p class="tiny-note">Lugar de ejemplo · Monterrey</p></dialog>
+  <noscript><div class="no-script">Puedes leer toda la invitación. Para probar la confirmación, activa JavaScript.</div></noscript>
+</body>
+</html>

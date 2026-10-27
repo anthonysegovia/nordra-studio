@@ -1,0 +1,24 @@
+/* Quiet, consistent feedback for mouse, touch and keyboard. */
+.invitation-journey :is(a,button,summary,input,select,textarea) {
+  transition: color .24s ease, background-color .24s ease, border-color .24s ease,
+    box-shadow .24s ease, opacity .24s ease, translate .24s ease, scale .24s ease;
+}
+.invitation-journey :is(a,button,summary):is(:hover,:focus-visible) {
+  translate:0 -2px;
+}
+.invitation-journey :is(a,button,summary):active { scale:.98; translate:0 0; }
+.invitation-journey :is(input,select,textarea):is(:hover,:focus) {
+  border-color:var(--occasion-accent,var(--cyan));
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--occasion-accent,var(--cyan)) 16%,transparent);
+}
+.invitation-journey input:is([type=radio],[type=checkbox]):active { scale:.9; }
+.invitation-journey :is(button,input,select):disabled { translate:none; scale:1; }
+.invitation-journey :is(a,button,summary):focus-visible {
+  outline:2px solid var(--occasion-accent,var(--cyan)); outline-offset:5px;
+}
+.invitation-journey details[open]>ul { animation:invitation-control-reveal .28s ease both; }
+@keyframes invitation-control-reveal { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+@media(prefers-reduced-motion:reduce) {
+  .invitation-journey :is(a,button,summary,input,select,textarea) { transition:none; translate:none!important; scale:1!important; }
+  .invitation-journey details[open]>ul { animation:none; }
+}

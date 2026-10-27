@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Nordra Studio//Diseno Marfil//ES
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:valentina-sebastian-marfil-design@nordrastudio.mx
+DTSTAMP:20261026T120000Z
+DTSTART:20270619T230000Z
+DTEND:20270620T060000Z
+SUMMARY:Diseno Nordra - Valentina y Sebastian
+LOCATION:Ciudad de Mexico - Sede por definir
+DESCRIPTION:Diseno ilustrativo de Nordra Studio. No es un evento real.
+STATUS:TENTATIVE
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

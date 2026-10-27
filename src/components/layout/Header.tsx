@@ -7,7 +7,6 @@ import { ThemeToggle } from "../ui/ThemeToggle";
 const navigation = [
   { id: "inicio", label: "Inicio", en: "Home" },
   { id: "paquetes", label: "Negocios", en: "Business" },
-  { id: "universos", label: "Demos", en: "Demos" },
   { id: "eventos", label: "Invitaciones", en: "Invitations" },
   { id: "proceso", label: "Cómo empezar", en: "How it works" },
   { id: "contacto", label: "Contacto", en: "Contact" },
@@ -88,7 +87,7 @@ export function Header() {
           {navigation.map(({ id, label, en }) => (
             <a
               key={id}
-              href={sectionHref(id)}
+              href={id === "eventos" ? "/invitaciones.html" : sectionHref(id)}
               className={`nav-link${activeSection === id ? " nav-active" : ""}`}
               aria-current={activeSection === id ? "location" : undefined}
               onClick={() => setActiveSection(id)}

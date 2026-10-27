@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="360" viewBox="0 0 260 360">
+  <title>Por todo lo que viene</title>
+  <rect width="260" height="360" fill="#111319"/>
+  <circle cx="217" cy="15" r="75" fill="none" stroke="#c2a66a" stroke-opacity=".4"/>
+  <path d="m62 62 3 10 10 3-10 3-3 10-3-10-10-3 10-3Z" fill="#d5bd82"/>
+  <text x="130" y="169" text-anchor="middle" fill="#eee5d2" font-family="Georgia,serif" font-size="44" letter-spacing="-2">Por todo</text>
+  <text x="130" y="217" text-anchor="middle" fill="#d5bd82" font-family="Georgia,serif" font-size="43" font-style="italic" letter-spacing="-2">lo que</text>
+  <text x="130" y="270" text-anchor="middle" fill="#d5bd82" font-family="Georgia,serif" font-size="53" font-style="italic" letter-spacing="-2">viene.</text>
+  <path d="M110 316h40" stroke="#c2a66a" stroke-opacity=".45"/>
+</svg>

@@ -1,0 +1,30 @@
+.personal-dedication{font-family:Georgia,serif;font-size:clamp(15px,2vw,20px);line-height:1.6;letter-spacing:.02em;max-width:600px;margin:20px auto;color:#77694e;overflow-wrap:anywhere}
+.personal-rsvp [hidden]{display:none!important}
+.personal-rsvp .personal-pass{display:flex;align-items:center;justify-content:center;text-decoration:none}
+.personal-rsvp a:focus-visible{outline:2px solid #998361;outline-offset:4px}
+.personal-rsvp a:active{transform:scale(.98)}
+dialog.personal-rsvp{width:min(620px,calc(100% - 28px));max-height:calc(100svh - 28px);padding:38px;background:#fcf9f2;color:#51483c;border:1px solid #d9cbb1;border-radius:8px}
+.personal-rsvp h2{font-size:clamp(32px,5vw,44px);margin:12px 0 18px;line-height:1.15}
+.personal-introduction{font-size:15px;line-height:1.7;margin-bottom:25px;overflow-wrap:anywhere}
+.personal-people{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;text-align:left}
+.personal-person{margin:0;border:1px solid #e4dac9;border-radius:5px;padding:18px;background:#f4eee3;min-width:0}
+.personal-person legend{font:12px/1.5 Arial,sans-serif;color:#7f7058;padding:0 6px}
+.personal-rsvp .personal-name{font:22px/1.3 Georgia,serif;margin:5px 0 24px;overflow-wrap:anywhere;min-height:48px}
+.personal-rsvp label{display:block;margin:9px 0 7px;font:13px/1.5 Arial,sans-serif}
+.personal-rsvp :is(input,select){width:100%;min-height:48px;background:#fffdf8;color:#51483c;border:1px solid #cfc1a9;border-radius:4px;padding:11px 12px;font:16px/1.4 Arial,sans-serif;transition:border-color .22s,box-shadow .22s,background-color .22s}
+.personal-rsvp input{margin-bottom:16px}
+.personal-rsvp :is(input,select):is(:hover,:focus-visible){border-color:#998361;box-shadow:0 2px 0 #a58d5a22}
+.personal-rsvp :is(button,input,select):focus-visible{outline:2px solid #998361;outline-offset:4px}
+.personal-rsvp .button{margin-top:24px;min-height:48px;width:100%;background:#827054;color:#fffdf7;border:1px solid #827054;border-radius:5px;padding:13px 18px;transition:background-color .22s,transform .22s}
+.personal-rsvp .button:hover{background:#6c5b43;transform:translateY(-2px)}
+.personal-rsvp button:active{transform:scale(.98)}
+.personal-rsvp button:disabled{opacity:.5;cursor:default;transform:none}
+.personal-status{font:14px/1.7 Arial,sans-serif;color:#58664c;min-height:24px;margin:16px 0 0}
+.personal-status.is-error{color:#925d46}
+.personal-note{font:11px/1.7 Arial,sans-serif;color:#807463;margin:16px 0 0}
+.personal-retry{background:transparent;border:0;border-bottom:1px solid #cfc1a9;color:#806b50;min-height:44px;font-size:13px;transition:color .22s,transform .22s}
+.personal-retry:hover{transform:translateY(-2px);color:#51483c}
+.personal-saved-mark{display:inline-block;margin-right:7px;animation:personal-saved .35s ease both}
+@keyframes personal-saved{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(max-width:600px){dialog.personal-rsvp{padding:32px 22px 24px}.personal-people{grid-template-columns:1fr}.personal-person{padding:14px}.personal-rsvp .personal-name{min-height:0;margin-bottom:15px}}
+@media(prefers-reduced-motion:reduce){.personal-rsvp :is(a,button,input,select),.personal-saved-mark{transition:none;animation:none}.personal-rsvp :is(a,button):is(:hover,:active){transform:none}}

@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Nordra Studio//Demo Se viene la posada//ES
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:demo-posada-pinata-20261219@nordrastudio.mx
+DTSTAMP:20261024T220000Z
+DTSTART:20261220T000000Z
+SUMMARY:Se viene la posada · Demo
+LOCATION:Jardín Aurora · Lugar de ejemplo
+DESCRIPTION:Demo de invitación de Nordra Studio. Datos de ejemplo. Sába
+ do 19 de diciembre de 2026\, desde las 6:00 p. m. en Jardín Aurora. Hor
+ arios aproximados: bienvenida 6:00 p. m.\; cena 7:30 p. m.\; intercambio
+  8:30 p. m.\; piñata 10:00 p. m. Sin hora de fin definida.
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

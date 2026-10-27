@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="360" viewBox="0 0 260 360">
+  <title>Spooky Party</title>
+  <rect width="260" height="360" fill="#1a1020"/>
+  <path d="M178 45a36 36 0 1 0 31 57 37 37 0 0 1-31-57Z" fill="#bfaabf" opacity=".65"/>
+  <path d="m55 80 3 9 9 3-9 3-3 9-3-9-9-3 9-3Z" fill="#ed8ac0"/>
+  <text x="130" y="207" text-anchor="middle" fill="#f4ead4" font-family="Georgia,serif" font-size="49" letter-spacing="-2">Spooky</text>
+  <text x="130" y="265" text-anchor="middle" fill="#ed8ac0" font-family="Georgia,serif" font-size="67" font-style="italic" letter-spacing="-3">Party</text>
+  <path d="M110 312h40" stroke="#ed8ac0" stroke-opacity=".45"/>
+</svg>

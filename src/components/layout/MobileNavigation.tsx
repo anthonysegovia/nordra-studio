@@ -4,12 +4,10 @@ import { ArrowUpRight, Layers, Compass, MessageCircle, Sparkles, Globe, Heart, X
 import { useLanguage } from "../../language";
 
 const sections = [
-  { id: "opciones-negocio", es: "Paquetes web", en: "Web packages", description: "Opciones y precios para negocios", english: "Business options and pricing", Icon: Globe, color: "#a68bde" },
-  { id: "planes-eventos", es: "Paquetes de invitaciones", en: "Invitation packages", description: "Bruma, Aurora y Boreal", english: "Bruma, Aurora and Boreal", Icon: Heart, color: "#ce8ea5" },
-  { id: "universos", es: "Demos de negocios", en: "Business demos", description: "Explora Bruma y Lúmina", english: "Explore Bruma and Lumina", Icon: Sparkles, color: "#73b8a4" },
-  { id: "event-experience", es: "Ejemplos de invitaciones", en: "Invitation examples", description: "Bodas, celebraciones y encuentros", english: "Weddings, celebrations and gatherings", Icon: Heart, color: "#ce8ea5" },
+  { id: "paquetes", es: "Negocios", en: "Business", description: "Páginas web para tu marca", english: "Websites for your brand", Icon: Globe, color: "#a68bde" },
+  { id: "eventos", es: "Invitaciones", en: "Invitations", description: "Encuentra tu tipo de celebración", english: "Find your kind of celebration", Icon: Heart, color: "#ce8ea5" },
+  { id: "temporada", es: "Temporada", en: "Seasonal", description: "Halloween, Navidad y fin de año", english: "Halloween, Christmas and New Year", Icon: Sparkles, color: "#cf915b" },
   { id: "proceso", es: "Cómo empezar", en: "How it works", description: "Cotización, aprobación y entrega", english: "Quote, approval and delivery", Icon: Compass, color: "#a68bde" },
-  { id: "temporada", es: "De temporada", en: "Seasonal", description: "Halloween, Navidad y Fin de año", english: "Halloween, Christmas and New Year", Icon: Sparkles, color: "#cf915b" },
 ];
 
 export function MobileNavigation() {
@@ -151,8 +149,8 @@ export function MobileNavigation() {
   };
   return <>
     <nav ref={dock} className={`mobile-dock${visible ? " is-visible" : ""}${obscuresAction ? " is-obscured" : ""}`} aria-label={english ? "Quick navigation" : "Navegación rápida"} inert={!visible || obscuresAction}>
-      <a href={sectionHref("universos")} aria-current={active === "universos" ? "location" : undefined}><Sparkles size={19} aria-hidden="true" /><span>Demos</span></a>
-      <button ref={explore} type="button" className="mobile-dock-explore" aria-haspopup="dialog" aria-expanded={open} aria-controls="mobile-explore" onClick={openMenu}><Layers size={21} aria-hidden="true" /><span>{english ? "Packages" : "Paquetes"}</span></button>
+      <a href={sectionHref("inicio")} aria-current={active === "inicio" ? "location" : undefined}><Compass size={19} aria-hidden="true" /><span>{english ? "Home" : "Inicio"}</span></a>
+      <button ref={explore} type="button" className="mobile-dock-explore" aria-haspopup="dialog" aria-expanded={open} aria-controls="mobile-explore" onClick={openMenu}><Layers size={21} aria-hidden="true" /><span>{english ? "Explore" : "Explorar"}</span></button>
       <a href={sectionHref("contacto")} aria-current={active === "contacto" ? "location" : undefined}><MessageCircle size={19} aria-hidden="true" /><span>{english ? "Contact" : "Contacto"}</span></a>
     </nav>
     <dialog ref={dialog} id="mobile-explore" className="mobile-explore" data-phase={phase} aria-labelledby="mobile-explore-title"
@@ -168,8 +166,8 @@ export function MobileNavigation() {
       <div className="mobile-explore-content">
         <div className="mobile-explore-top"><span>{english ? "FIND YOUR NEXT IDEA" : "ENCUENTRA TU PRÓXIMA IDEA"}</span><button type="button" onClick={close} aria-label={english ? "Close" : "Cerrar"} autoFocus><X size={22} /></button></div>
         <h2 id="mobile-explore-title">{english ? "Find your next step." : "Encuentra tu siguiente paso."}</h2>
-        <p>{english ? "Compare packages or explore an example." : "Compara paquetes o explora un ejemplo."}</p>
-        <div className="mobile-explore-grid">{sections.map(({ id, es, en, description, english: descriptionEn, Icon, color }) => <a key={id} href={sectionHref(id)} data-selected={selected === sectionHref(id) || undefined} style={{ "--destination": color } as React.CSSProperties} aria-current={active === id ? "location" : undefined} onClick={followLink}><Icon size={25} /><strong>{english ? en : es}</strong><span>{english ? descriptionEn : description}</span><ArrowUpRight className="mobile-explore-arrow" size={17} />{active === id && <small>{english ? "You are here" : "Estás aquí"}</small>}</a>)}</div>
+        <p>{english ? "Find the right space for your idea." : "Encuentra el espacio para tu idea."}</p>
+        <div className="mobile-explore-grid">{sections.map(({ id, es, en, description, english: descriptionEn, Icon, color }) => <a key={id} href={(id === "eventos" ? "/invitaciones.html" : sectionHref(id))} data-selected={selected === (id === "eventos" ? "/invitaciones.html" : sectionHref(id)) || undefined} style={{ "--destination": color } as React.CSSProperties} aria-current={active === id ? "location" : undefined} onClick={followLink}><Icon size={25} /><strong>{english ? en : es}</strong><span>{english ? descriptionEn : description}</span><ArrowUpRight className="mobile-explore-arrow" size={17} />{active === id && <small>{english ? "You are here" : "Estás aquí"}</small>}</a>)}</div>
         <div className="mobile-menu-secondary"><a href={sectionHref("inicio")} onClick={followLink}>{english ? "Home" : "Inicio"}</a><a href={sectionHref("alojamiento-negocios")} onClick={followLink}>{english ? "Hosting" : "Alojamiento"}</a><a href={sectionHref("nosotros")} onClick={followLink}>{english ? "About Nordra" : "Conoce Nordra"}</a></div>
         <a className="mobile-explore-contact" href={sectionHref("contacto")} onClick={followLink}>{english ? "Have something in mind? Let's talk" : "¿Ya tienes algo en mente? Platiquemos"}<ArrowUpRight size={17} /></a>
       </div>

@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Nordra Studio//Del otro lado de las doce DEMO//ES
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:del-otro-lado-demo-2026@nordrastudio.mx
+DTSTAMP:20261024T120000Z
+DTSTART:20270101T030000Z
+DTEND:20270101T090000Z
+SUMMARY:DEMO - Del otro lado de las doce
+LOCATION:Lugar ficticio - Monterrey
+DESCRIPTION:Evento de ejemplo de Nordra Studio. No es una celebracion real.
+URL:https://nordrastudio.mx/demos/del-otro-lado/index.html
+STATUS:TENTATIVE
+END:VEVENT
+END:VCALENDAR

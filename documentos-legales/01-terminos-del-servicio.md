@@ -61,7 +61,7 @@ El reembolso se realiza en máximo 10 días hábiles desde la confirmación del 
 Desde la baja, el proyecto y sus datos operativos se conservan con acceso restringido durante 30 días naturales para las exportaciones acordadas, con aviso al menos 5 días naturales antes de eliminar, sujeto a obligaciones legales y al ciclo de borrado de respaldos que se informe. La conservación no implica que la página permanezca publicada.
 El desarrollo y el dominio se atienden conforme a sus condiciones separadas; esta fórmula no determina su devolución. Los incumplimientos de Nordra y los derechos legales de cancelación, revocación, devolución o compensación se atienden por separado y no se limitan por esta política. Esta política corresponde al alojamiento de negocios; los eventos conservan sus condiciones específicas.
 
-En los paquetes de eventos Bruma, Aurora y Boreal anunciados, se incluye subdominio y alojamiento hasta 12 meses antes y 30 días después del evento. La cotización fija las fechas de cierre y fin de recuperación conforme a «Temporada y eventos: vigencia y recuperación» de este apartado. Estas condiciones no se aplican automáticamente a paquetes de negocios o temporada.
+En los paquetes de eventos Aurora y Boreal anunciados, se incluye enlace del evento en Nordra y alojamiento hasta 12 meses antes y 90 días después del evento. La cotización fija las fechas de cierre y fin de recuperación conforme a «Temporada y eventos: vigencia y recuperación» de este apartado. Estas condiciones no se aplican automáticamente a paquetes de negocios o temporada.
 
 ### Alcance del mantenimiento
 
@@ -73,7 +73,7 @@ Los cambios de textos, fotografías o diseño y las funciones nuevas se cotizan 
 
 ### Temporada y eventos: vigencia y recuperación
 
-Para invitaciones de temporada, el alojamiento permanece activo desde la publicación hasta 7 días naturales después del evento. Para Bruma, Aurora y Boreal, se mantiene la vigencia incluida de hasta 12 meses antes y 30 días naturales después del evento. La cotización establece las fechas exactas de publicación, cierre del alojamiento y fin del periodo de recuperación.
+Para invitaciones de temporada, el alojamiento permanece activo desde la publicación hasta 7 días naturales después del evento. Para Aurora y Boreal, se incluye alojamiento, enlaces personales y acceso al panel hasta 12 meses antes y 90 días naturales después del evento. La cotización establece las fechas exactas de publicación, cierre del alojamiento y fin del periodo de recuperación.
 
 Al concluir el alojamiento se despublica la página y se desactiva el panel, cuando exista. Desde ese cierre se conservan los materiales y datos operativos con acceso restringido durante 30 días naturales. Durante ese periodo el cliente puede solicitar sus materiales y las exportaciones incluidas en su paquete sin costo adicional, mediante los controles de autorización y entrega segura acordados. La conservación no mantiene activa la página ni el panel y no amplía la vigencia del soporte contratado.
 
@@ -83,12 +83,12 @@ Si cambia la fecha del evento, las partes acuerdan por escrito las nuevas fechas
 
 ## 8. Eventos y gestión de invitados
 
-Los paquetes de eventos anunciados contemplan hasta 30 fotos optimizadas y 3 rondas de cambios. Bruma incluye invitación de catálogo personalizada. Aurora suma confirmaciones y panel privado para hasta 300 invitados, con descarga de lista y respuestas antes del cierre. Boreal suma personalización y funciones adicionales acordadas, con QR o mesas según cotización. El precio de Boreal se anuncia «desde» y requiere precio final en la propuesta.
+Los paquetes de eventos anunciados contemplan hasta 30 fotos optimizadas y 3 rondas de cambios. Aurora incluye invitación de catálogo personalizada, cuenta propia y panel privado de invitados; enlaces personales para individuales, parejas y +1; confirmación por persona, resumen de confirmados y pendientes, búsqueda, filtros y descarga de lista. El límite es de 300 personas, incluidos acompañantes. Boreal incluye lo de Aurora y suma organización de mesas, pases QR personales y registro de entradas por persona, además de mayor personalización visual y atención prioritaria. Las funciones adicionales a medida se cotizan por separado. El precio de Boreal se anuncia «desde» y requiere precio final en la propuesta. Por apertura, Aurora se ofrece en $1,999 MXN (precio regular $2,999 MXN) y Boreal desde $2,999 MXN (precio regular desde $5,999 MXN), IVA incluido y pago único por evento. La cotización confirma el importe final antes de contratar; las cotizaciones ya aceptadas conservan sus condiciones.
 Cada proyecto define datos solicitados a invitados, permisos del organizador, exportación, proveedores utilizados y fechas de conservación. Se documentarán los roles de Nordra y del organizador en el tratamiento de esos datos. No se usan listas de invitados para publicidad de Nordra sin una base válida independiente.
 
 ### Datos de invitados
 
-Para los eventos con gestión de invitados, los datos base son nombre, confirmación de asistencia y número de acompañantes. Se puede solicitar también un correo electrónico opcional, destinado exclusivamente a enviar confirmaciones o avisos relacionados con el evento. No proporcionar correo no impide confirmar asistencia. El formulario explica esta finalidad junto al campo opcional y permite consultar el aviso de privacidad aplicable.
+Aurora y Boreal incluyen lista previa y confirmación por persona mediante enlaces personales para invitados individuales, parejas y +1, conforme al alcance contratado. Cada enlace permite responder únicamente por las personas asignadas a esa invitación. Se puede solicitar también un correo electrónico opcional, destinado exclusivamente a enviar confirmaciones o avisos relacionados con el evento. No proporcionar correo no impide confirmar asistencia. El formulario explica esta finalidad junto al campo opcional y permite consultar el aviso de privacidad aplicable.
 
 La recopilación del correo no incluye por sí sola una función de envío automatizado: la cotización identifica las comunicaciones incluidas, quién las envía y los proveedores utilizados. Estos datos no se utilizan para publicidad de Nordra; cualquier uso publicitario requiere autorización independiente. Los campos adicionales se justifican y documentan por proyecto antes de recopilarse. Los permisos del organizador, acceso, exportación y conservación se documentan conforme al servicio contratado y al aviso aplicable.
 

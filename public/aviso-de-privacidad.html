@@ -10,8 +10,8 @@
   <script>
     try {
       const preference = localStorage.getItem('nordra-theme');
-      document.documentElement.classList.toggle('dark', preference ? preference === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
-    } catch { document.documentElement.classList.add('dark'); }
+      document.documentElement.classList.toggle('dark', preference === 'dark');
+    } catch { document.documentElement.classList.remove('dark'); }
   </script>
   <style>
     :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #0b101b; color: #e7edf6; }
@@ -103,7 +103,7 @@
     });
     window.addEventListener('storage', event => {
       if (event.key === 'nordra-theme') {
-        document.documentElement.classList.toggle('dark', event.newValue ? event.newValue === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', event.newValue === 'dark');
         syncThemeButton();
       }
     });

@@ -1,0 +1,172 @@
+/* A quiet extension of the wedding workspace: paper, warm ink and restrained motion. */
+.wedding-workspace [hidden] { display:none!important; }
+.workspace-sidebar nav button { display:flex; align-items:center; gap:11px; padding:13px 12px; min-height:48px; font-size:13px; border:0; border-radius:5px; background:transparent; text-align:left; }
+.workspace-sidebar nav button:is(:hover,:focus-visible) { background:#f6f3ed; }
+.workspace-sidebar nav button.workspace-nav-current { background:#faf8f3; }
+.boreal-section { --boreal-line:#dfd7ca; animation:boreal-enter .45s ease both; }
+.boreal-heading { display:flex; justify-content:space-between; align-items:center; gap:24px; padding:24px 0 27px; }
+.boreal-heading .workspace-eyebrow { margin:0 0 9px; }
+.boreal-heading h2 { margin:0; font:400 clamp(32px,3vw,43px)/1.1 NordraWedding,Georgia,serif; letter-spacing:-.02em; }
+.boreal-heading p:not(.workspace-eyebrow) { color:#766b5e; font-size:14px; margin:12px 0 0; }
+.boreal-heading-actions { display:flex; align-items:center; gap:18px; flex-shrink:0; }
+.wedding-workspace .boreal-quiet { display:inline-flex; gap:8px; align-items:center; justify-content:center; padding:10px 2px; min-height:44px; border:0; background:transparent; color:#76634c; font-size:13px; }
+.wedding-workspace .boreal-quiet:hover { color:#41372b; }
+.boreal-icon { display:inline-grid; place-items:center; width:44px; min-width:44px; height:44px; border:0; background:transparent; color:#806b50; border-radius:50%; }
+.boreal-icon:hover { background:#ece5d9; }
+.boreal-summary { display:grid; grid-template-columns:repeat(3,1fr); border-block:1px solid var(--boreal-line); padding:23px 0; margin-bottom:30px; }
+.boreal-summary>div { padding:0 26px; border-left:1px solid var(--boreal-line); display:flex; gap:12px; align-items:center; }
+.boreal-summary>div:first-child { border-left:0; padding-left:0; }
+.boreal-summary strong { font:400 45px/1 NordraWedding,Georgia,serif; white-space:nowrap; }
+.boreal-summary strong small { font-size:25px; color:#9b8c79; }
+.boreal-summary span { font-size:12px; max-width:125px; color:#766b5e; }
+.boreal-table-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(195px,1fr)); gap:18px; }
+.boreal-table-card { border:1px solid var(--boreal-line); background:#fbf9f5; border-radius:9px; overflow:hidden; transition:box-shadow .25s ease,border-color .25s ease; }
+.boreal-table-card.is-selected { border-color:#a89373; box-shadow:0 5px 24px #806b5010; }
+.boreal-table-select { display:flex; align-items:center; flex-direction:column; border:0; background:transparent; width:100%; padding:27px 18px 12px; }
+.boreal-table-drawing { width:150px; height:150px; position:relative; display:grid; place-items:center; margin-bottom:11px; }
+.boreal-table-center { display:flex; justify-content:center; flex-direction:column; align-items:center; gap:7px; width:108px; height:108px; border:1px solid #d9cebb; border-radius:50%; background:radial-gradient(circle at 30% 25%,#fffdf9,#f0e9dc); color:#806b50; }
+.boreal-table-center>span { font:27px NordraWedding,Georgia,serif; }
+.boreal-table-center small { font-size:19px; color:#96866f; }
+.boreal-table-drawing>i { position:absolute; top:calc(50% - 4px); left:calc(50% - 4px); height:8px; width:8px; border:1px solid #d1c6b5; border-radius:50%; background:#fffdf8; transition:background .25s ease,border-color .25s ease; }
+.boreal-table-drawing>i.is-filled,.boreal-legend i.is-filled { background:#968060; border-color:#968060; }
+.boreal-table-drawing>i.is-reserved,.boreal-legend i.is-reserved { background:#dfd3bf; border-color:#bca889; }
+.boreal-table-select h3 { font:400 29px/1.1 NordraWedding,Georgia,serif; margin:0; }
+.boreal-table-select p { margin:8px 0 0; font-size:12px; color:#766b5e; }
+.boreal-table-actions { display:flex; align-items:center; justify-content:space-between; padding:2px 20px; border-top:1px solid #e8e0d4; }
+.boreal-legend { display:flex; flex-wrap:wrap; gap:22px; font-size:11px; color:#766b5e; margin:18px 0 32px; }
+.boreal-legend>span { display:flex; align-items:center; gap:7px; }
+.boreal-legend i { width:8px; height:8px; border:1px solid; border-radius:50%; }
+.boreal-assignment-panel { border:1px solid var(--boreal-line); border-radius:9px; padding:25px 28px; background:#fffdf9; }
+.boreal-list-heading { display:flex; gap:20px; align-items:center; justify-content:space-between; margin-bottom:22px; }
+.boreal-list-heading h3 { font:400 28px/1.2 NordraWedding,Georgia,serif; margin:0; }
+.boreal-list-heading>span { font-size:11px; color:#857866; max-width:230px; text-align:right; }
+.boreal-filters { display:grid; grid-template-columns:minmax(0,1fr) minmax(140px,.6fr); gap:22px; }
+.boreal-filters label { display:block; min-width:0; }
+.boreal-filters label>span:first-child { display:block; font-size:12px; color:#766b5e; margin-bottom:9px; }
+.boreal-section :is(input:not([type=checkbox]):not([type=file]),select) { width:100%; min-width:0; min-height:46px; border:1px solid #dfd5c6; border-radius:5px; background:#fffdf9; padding:10px 12px; font-size:14px; }
+.boreal-search { display:flex; align-items:center; position:relative; }
+.boreal-search>svg { position:absolute; left:12px; color:#94836a; pointer-events:none; }
+.boreal-section .boreal-search>input[type=search] { padding-left:37px; }
+.boreal-feedback:empty { height:19px; }
+.boreal-feedback>p { display:flex; align-items:center; gap:8px; font-size:13px; margin:18px 0; color:#68705b; }
+.boreal-error,.boreal-feedback>p.boreal-error { color:#945d47; font-size:13px; line-height:1.6; }
+.boreal-seating-group { border-top:1px solid #e5ded2; padding:16px 0; }
+.boreal-group-heading { display:flex; gap:18px; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.boreal-group-heading>span { font-size:11px; color:#99836a; letter-spacing:.02em; }
+.boreal-group-seat { display:flex; gap:10px; align-items:center; font-size:11px; color:#80705a; }
+.boreal-section .boreal-group-seat select { width:140px; min-height:44px; font-size:12px; border-color:transparent; background:#f5f0e8; }
+.boreal-seating-person { display:flex; gap:18px; justify-content:space-between; align-items:center; padding:9px 0; }
+.boreal-seating-person>div { min-width:0; }
+.boreal-seating-person strong { display:block; font-weight:500; font-size:14px; overflow-wrap:anywhere; }
+.boreal-seating-person small { display:block; font-size:11px; color:#8b7e6b; margin-top:3px; }
+.boreal-seating-person>label { width:180px; flex-shrink:0; }
+.boreal-pagination { display:flex; align-items:center; justify-content:center; gap:20px; padding:18px 0 0; }
+.boreal-pagination button { display:flex; align-items:center; gap:8px; min-height:44px; border:0; background:transparent; font-size:13px; }
+.boreal-pagination span { font-size:12px; color:#80705a; }
+.boreal-empty { grid-column:1/-1; padding:40px 20px; text-align:center; border:1px dashed #d5c7b3; border-radius:8px; }
+.boreal-empty>svg { margin:auto; color:#a38c69; }
+.boreal-empty h3 { font:30px NordraWedding,Georgia,serif; margin:12px 0; }
+.boreal-empty p,.boreal-empty-note { color:#8a7b67; font-size:13px; }
+.boreal-empty-note { padding:20px 0; text-align:center; }
+.boreal-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+.boreal-table-editor h2 { font:400 37px/1.1 NordraWedding,Georgia,serif; margin:10px 0 25px; }
+.boreal-table-editor .workspace-dialog-inner { padding:38px; }
+.boreal-table-editor fieldset { display:grid; gap:20px; }
+.boreal-table-editor fieldset label { display:grid; gap:8px; }
+.boreal-table-editor small { font-size:12px; color:#8a7b67; }
+.boreal-dialog-close { position:absolute; top:7px; right:7px; }
+.boreal-reception-grid { display:grid; grid-template-columns:300px minmax(0,1fr); align-items:start; gap:32px; }
+.boreal-scanner { padding:18px; border:1px solid var(--boreal-line); border-radius:9px; background:#fffdf9; text-align:center; }
+.boreal-camera { position:relative; aspect-ratio:1; border-radius:7px; overflow:hidden; background:radial-gradient(ellipse at 50% 35%,#fffdf8,#eee6d9); margin-bottom:18px; }
+.boreal-camera video { position:absolute; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .3s ease; }
+.boreal-camera.is-running video { opacity:1; }
+.boreal-camera-frame { position:absolute; inset:15%; border:1px solid #b5a286; border-radius:11px; pointer-events:none; }
+.boreal-camera.is-running .boreal-camera-frame { border-color:#fffdf8; box-shadow:0 0 0 100px #33251d38; }
+.boreal-camera-placeholder { position:absolute; inset:0; padding:28px; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+.boreal-camera-placeholder>svg { color:#a18a67; }
+.boreal-camera-placeholder h3 { font:26px/1.05 NordraWedding,Georgia,serif; max-width:170px; margin:15px 0 9px; }
+.boreal-camera-placeholder p { font-size:11px; max-width:150px; margin:0; color:#8b7b64; }
+.boreal-scanner>.workspace-button { width:100%; }
+.boreal-upload { position:relative; display:flex; align-items:center; gap:8px; justify-content:center; min-height:44px; font-size:12px; color:#806b50; margin-top:5px; overflow:hidden; cursor:pointer; transition:background-color .2s ease,translate .2s ease; }
+.boreal-upload:hover { background:#f5efe5; translate:0 -1px; }
+.boreal-upload:has(input:focus-visible) { outline:2px solid #806b50; outline-offset:2px; }
+.boreal-upload input { position:absolute; inset:0; opacity:0; width:100%; cursor:pointer; }
+.boreal-upload.is-disabled { opacity:.5; cursor:default; }
+.boreal-scanner>small { display:block; font-size:11px; color:#8a7b67; margin-top:9px; }
+.boreal-reception-access { border-top:1px solid #d9cfbe; margin-top:25px; padding:24px 5px 0; }
+.boreal-reception-access>svg { color:#a38b68; }
+.boreal-reception-access h3 { font:27px NordraWedding,Georgia,serif; margin:10px 0; }
+.boreal-reception-access p { font-size:12px; color:#80705a; margin:0 0 7px; }
+.boreal-reception-access>small { display:block; font-size:11px; color:#8a7b67; }
+.boreal-access-link { margin-top:14px; }
+.boreal-access-link label { display:block; font-size:11px; color:#766b5e; }
+.boreal-section .boreal-access-link input { margin-top:7px; font-size:12px; }
+.boreal-access-link>div { display:flex; align-items:center; gap:15px; }
+.boreal-access-link a { display:flex; align-items:center; gap:5px; font-size:12px; min-height:44px; }
+.boreal-reception-guests { min-width:0; }
+.boreal-list-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:15px 0;font-size:13px;color:#6d5b45}
+.boreal-list-meta p{margin:0}
+.boreal-list-meta label{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.boreal-section .boreal-list-meta select{width:72px;min-height:38px;padding:6px 8px;font-size:14px}
+.boreal-reception-list>button strong{font-size:16px;line-height:1.4}
+.boreal-reception-list>button small{font-size:13px;line-height:1.5;color:#6e5c45}
+.boreal-arrival-result { background:#fffdf9; border:1px solid #dbcdb7; border-radius:9px; padding:22px; margin:3px 0 20px; animation:boreal-enter .3s ease both; }
+.boreal-arrival-result:empty { display:none; }
+.boreal-arrival-result:focus { outline:none; }
+.boreal-result-heading { display:flex; align-items:start; justify-content:space-between; gap:12px; }
+.boreal-result-heading .workspace-eyebrow { margin:0 0 8px; font-size:9px; }
+.boreal-result-heading h3 { font:29px/1.15 NordraWedding,Georgia,serif; margin:0 0 20px; }
+.boreal-result-heading .boreal-icon { margin:-9px -9px 0 0; }
+.boreal-arrival-person { display:flex; justify-content:space-between; align-items:center; gap:10px; border-top:1px solid #e7dfd2; padding:16px 0; }
+.boreal-arrival-person label { display:flex; align-items:start; gap:13px; cursor:pointer; min-height:44px; }
+.boreal-arrival-person input[type=checkbox] { width:19px; height:19px; flex-shrink:0; accent-color:#877456; margin:3px 0; }
+.boreal-arrival-person strong { display:block; font-size:14px; font-weight:500; }
+.boreal-arrival-person small { display:block; color:#847563; font-size:11px; margin-top:5px; }
+.boreal-arrival-person.has-arrived small { color:#617254; }
+.boreal-seat-label { display:inline-block; font-size:11px; padding:4px 9px; background:#f0e9dd; color:#806b50; border-radius:3px; margin-top:10px; }
+.boreal-result-actions { display:flex; align-items:center; justify-content:space-between; gap:14px; border-top:1px solid #e7dfd2; padding-top:17px; }
+.boreal-feedback>p.boreal-notice { padding:12px 15px; background:#edf0e7; border:1px solid #d7dfcd; border-radius:5px; }
+.boreal-feedback>p.is-already { background:#f3ebdc; border-color:#dfcfb4; color:#8b7048; }
+.boreal-reception-list { border-top:1px solid #ddd3c3; }
+.boreal-reception-list>button { display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%; text-align:left; border:0; border-bottom:1px solid #e1d7c8; background:transparent; padding:18px 12px; }
+.boreal-reception-list>button:is(:hover,.is-selected) { background:#efe8dc; }
+.boreal-reception-list strong { display:block; font-size:14px; font-weight:500; }
+.boreal-reception-list small { display:block; color:#877762; font-size:11px; margin-top:5px; }
+.boreal-reception-list svg { color:#988062; }
+.boreal-guest-pass-link { margin:22px auto 15px; }
+.boreal-pass-page { padding:32px 20px; text-align:center; background:radial-gradient(ellipse at 50% 20%,#fffdf8 0,#f1ebdf 75%); }
+.boreal-pass-page .workspace-brand { text-align:center; }
+.boreal-pass-card { max-width:560px; margin:38px auto; padding:44px 40px 32px; border:1px solid #ddd0b9; border-radius:100px 100px 8px 8px; background:#fffdf8; box-shadow:0 18px 60px #8c735515; }
+.boreal-pass-card>svg { margin:auto; color:#ac9470; }
+.boreal-pass-card>.workspace-eyebrow { margin:20px 0 14px; }
+.boreal-pass-card h1 { font:400 44px/1.05 NordraWedding,Georgia,serif; margin:0 0 18px; }
+.boreal-pass-date { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:7px; font-size:12px; color:#83725b; }
+.boreal-pass-recipient { padding-top:25px; margin-top:25px; border-top:1px solid #e5dccc; }
+.boreal-pass-recipient small { font-size:9px; letter-spacing:.13em; color:#9b8568; }
+.boreal-pass-recipient h2 { font:400 27px/1.2 NordraWedding,Georgia,serif; margin:12px 0 0; }
+.boreal-pass-qr { width:280px; max-width:100%; height:auto; margin:15px auto 0; }
+.boreal-pass-card>p { font-size:13px; color:#766b5e; }
+.boreal-pass-card>p>span { font-size:11px; }
+.boreal-pass-people { border-top:1px solid #e5dccc; margin:23px 0; }
+.boreal-pass-people>div { display:flex; justify-content:space-between; gap:16px; text-align:left; padding:15px 0; border-bottom:1px solid #e5dccc; }
+.boreal-pass-people strong { font-size:13px; font-weight:500; }
+.boreal-pass-people span { display:flex; align-items:center; gap:5px; color:#8c775a; font-size:12px; }
+.boreal-pass-sample { display:block; margin-top:22px; color:#96836a; font-size:10px; }
+.boreal-pass-page footer,.boreal-reception-page footer { font:italic 18px NordraWedding,Georgia,serif; color:#9b8568; text-align:center; }
+.boreal-reception-page { padding:30px max(24px,calc((100vw - 1160px)/2)); }
+.boreal-reception-page>header { display:flex; align-items:center; justify-content:space-between; gap:24px; border-bottom:1px solid #dfd5c6; padding-bottom:24px; }
+.boreal-reception-page>header>span { display:flex; align-items:center; gap:8px; font-size:12px; color:#928067; }
+.boreal-reception-couple { font:italic 27px NordraWedding,Georgia,serif; margin:30px 0 3px; color:#9c8566; }
+.boreal-demo-note { font-size:11px; color:#9b8568; }
+.boreal-reception-page footer { padding:45px 0 10px; }
+.boreal-connection-error { border:1px solid #dabda1; background:#faf0e4; padding:15px 20px; border-radius:6px; font-size:13px; }
+.boreal-connection-error p { margin:0; }
+/* Text appears once, as phrases, keeping reading calm and accessible. */
+.wedding-workspace :is(h1,h2,h3,p,label,small,legend,summary),.boreal-section :is(strong,span) { animation:boreal-text .4s ease both; }
+.boreal-table-card,.boreal-seating-group,.boreal-reception-list>button { animation:boreal-enter .4s ease both; }
+@keyframes boreal-enter { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+@keyframes boreal-text { from { opacity:.35; } to { opacity:1; } }
+@media(max-width:1200px) { .boreal-reception-grid { grid-template-columns:245px minmax(0,1fr); gap:23px; } .boreal-camera-placeholder { padding:20px; } .boreal-camera-placeholder h3 { font-size:23px; } .boreal-summary>div { gap:8px; padding-inline:17px; } .boreal-summary strong { font-size:39px; } .boreal-heading { gap:16px; } .boreal-heading-actions { gap:12px; } }
+@media(max-width:960px) { .boreal-heading { align-items:flex-start; flex-direction:column; } .boreal-reception-grid { grid-template-columns:1fr; } .boreal-reception-grid>aside { display:grid; grid-template-columns:minmax(210px,280px) 1fr; gap:24px; } .boreal-reception-access { border-top:0; margin-top:0; padding-top:15px; } .boreal-summary>div { flex-direction:column; align-items:start; gap:7px; } .boreal-summary span { max-width:100%; } }
+@media(max-width:760px) { .workspace-sidebar { flex-wrap:wrap; gap:20px; } .workspace-sidebar nav { display:flex; width:100%; order:3; border-top:1px solid #d8cdbb; padding-top:12px; gap:5px; } .workspace-sidebar nav button { justify-content:center; flex:1; padding:10px 7px; min-height:46px; font-size:12px; gap:7px; } .workspace-sidebar nav>a { display:none; } .workspace-sidebar-bottom { margin-left:auto; } .boreal-heading { padding:22px 0; } .boreal-heading h2 { font-size:34px; } .boreal-heading-actions { width:100%; justify-content:space-between; } .boreal-summary { padding:20px 0; margin-bottom:24px; } .boreal-summary>div { padding:0 13px; } .boreal-summary strong { font-size:36px; } .boreal-summary span { font-size:11px; } .boreal-table-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; } .boreal-table-select { padding:16px 8px 13px; } .boreal-table-drawing { width:140px; height:140px; scale:.85; margin:-4px 0 0; } .boreal-table-select h3 { font-size:27px; } .boreal-table-select p { font-size:11px; } .boreal-table-actions { padding-inline:12px; } .boreal-table-actions .boreal-quiet { font-size:12px; } .boreal-assignment-panel { padding:22px 17px; } .boreal-list-heading { display:block; } .boreal-list-heading>span { display:block; text-align:left; margin-top:7px; } .boreal-filters { grid-template-columns:1fr; gap:16px; } .boreal-section :is(input:not([type=checkbox]):not([type=file]),select) { font-size:16px; } .boreal-seating-person>label { width:135px; } .boreal-group-heading { align-items:flex-start; flex-direction:column; gap:7px; } .boreal-group-seat { justify-content:space-between; width:100%; } .boreal-section .boreal-group-seat select { font-size:14px; } .boreal-reception-grid>aside { grid-template-columns:1fr; gap:5px; } .boreal-camera { max-height:260px; aspect-ratio:auto; height:235px; } .boreal-camera-placeholder h3 { font-size:29px; max-width:240px; } .boreal-camera-placeholder p { font-size:12px; max-width:220px; } .boreal-camera-frame { inset:12% 22%; } .boreal-reception-access { padding:20px 5px; } .boreal-scanner>small { font-size:12px; } .boreal-result-actions { flex-wrap:wrap; } .boreal-arrival-result { padding:20px 16px; } .boreal-result-actions .workspace-button { flex:1; } .boreal-pass-card { padding:36px 24px 28px; margin:28px auto; } .boreal-pass-card h1 { font-size:38px; } .boreal-pass-people>div { flex-wrap:wrap; gap:4px 12px; } .boreal-reception-page { padding:25px 20px; } .boreal-reception-page>header>span { font-size:11px; } .boreal-reception-couple { font-size:24px; } .boreal-table-editor .workspace-dialog-inner { padding:34px 22px 25px; } }
+@media(prefers-reduced-motion:reduce) { .wedding-workspace *, .wedding-workspace *::before, .wedding-workspace *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } .boreal-upload:hover { translate:none; } }

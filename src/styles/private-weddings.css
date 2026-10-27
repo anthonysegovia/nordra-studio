@@ -1,0 +1,50 @@
+.wedding-client-entry {padding:30px 6vw 40px;background:radial-gradient(ellipse at 20% 20%,#fffdf7 0,transparent 55%),#f6f3ed}
+.wedding-client-entry>header {display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:auto}
+.client-card {max-width:550px;margin:65px auto 30px;padding:42px 46px;background:#fffcf6;border:1px solid #e2d8c9;border-radius:4px;box-shadow:0 18px 65px #6f543c07;animation:workspace-reveal .45s ease both;text-align:center}
+.client-card .workspace-monogram {margin-bottom:28px;width:70px;height:84px}
+.client-card h1 {font:400 clamp(34px,4vw,44px)/1.1 NordraWedding,Georgia,serif;letter-spacing:-.025em;margin:15px 0}
+.client-card>p {font-size:14px;color:#807363;line-height:1.7}
+.client-card form {display:grid;gap:18px;margin-top:28px;text-align:left}
+.client-card label,.real-response-person label {display:grid;gap:9px;font-size:13px}
+.client-card input,.real-response-person :is(input,select) {width:100%;min-width:0;min-height:48px;padding:12px 14px;border:1px solid #d9cebd;background:#fffdf9;border-radius:4px;font-size:15px}
+.client-card form small {font-size:12px;color:#827566;margin-top:-13px}
+.client-card .workspace-button {margin-top:8px;justify-content:center}
+.client-card .client-help {font-size:12px;margin:25px 0;line-height:1.7}
+.client-privacy {display:flex;gap:8px;align-items:center;justify-content:center;font-size:11px!important;border-top:1px solid #e6ded2;padding-top:20px;margin-top:28px}
+.client-back {display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;min-height:44px;color:#827361}
+.client-event-list {display:grid;gap:12px;margin:30px 0}
+.client-event-list button {display:flex;align-items:center;justify-content:space-between;gap:20px;background:#f2ece1;border:1px solid #ddd0bb;text-align:left;padding:20px;border-radius:5px}
+.client-event-list strong {display:block;font:26px NordraWedding,Georgia,serif}
+.client-event-list small {display:block;margin-top:10px;font-size:12px;color:#867560}
+.workspace-topbar button:not(.workspace-language) {border:1px solid #d6ccbb;border-radius:4px;background:transparent;padding:8px 12px;min-height:44px}
+.workspace-invitation-card>svg {margin:0 auto 20px;color:#9b805e}
+.workspace-invitation-card>p:not(.workspace-eyebrow) {font-size:14px;line-height:1.9;margin:25px 0 12px}
+.workspace-invitation-card>small {font-size:12px;color:#887962}
+.wedding-invitation-actions[hidden] {display:none}
+.real-wedding-invitation {background:#f7f3eb}
+.real-wedding-invitation>header {max-width:1140px;margin:auto;padding:30px 24px;border-bottom:1px solid #e5dccd}
+.real-wedding-invitation>header .workspace-brand {font-size:22px}.real-wedding-invitation .workspace-brand>span{font-size:8px}
+.real-invitation-hero {max-width:1000px;margin:0 auto;padding:75px 30px 65px;text-align:center}
+.real-invitation-hero.has-photo {display:grid;grid-template-columns:minmax(220px,.85fr) minmax(0,1.2fr);gap:55px;align-items:center;text-align:left}
+.real-invitation-hero>img {aspect-ratio:3/4;object-fit:cover;border-radius:48% 48% 3px 3px;width:100%}
+.real-invitation-heart {display:inline-grid;place-items:center;width:68px;height:80px;border:1px solid #baaa90;border-radius:50% 50% 2px 2px;color:#a18867;margin-bottom:28px}
+.real-invitation-hero h1 {font:400 clamp(46px,6vw,76px)/1 NordraWedding,Georgia,serif;letter-spacing:-.035em;margin:22px 0 25px;overflow-wrap:anywhere}
+.personal-recipient {font-size:14px;line-height:1.8;color:#807362;margin:25px 0}.personal-recipient strong{font-weight:500;display:block;color:#5c4b38}
+.real-invitation-date {display:flex;justify-content:center;align-items:center;gap:9px;font-size:13px;color:#7c6a53}
+.has-photo .real-invitation-date {justify-content:flex-start}
+.real-invitation-hero .workspace-button {margin-top:24px}
+.real-invitation-response {border-top:1px solid #e2d7c5;background:#eeE7db;padding:55px max(24px,calc((100% - 760px)/2));text-align:center}
+.real-invitation-response h2 {font:400 clamp(34px,4vw,46px)/1.1 NordraWedding,Georgia,serif;margin:15px 0}
+.real-invitation-response>p:not(.workspace-eyebrow) {font-size:14px;color:#85745f;line-height:1.8}
+.real-invitation-response form {margin:35px auto 20px;max-width:760px}
+.real-response-fields {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:18px;padding:0;border:0;margin:0 0 25px;text-align:left;min-width:0}
+.real-response-person {padding:24px;background:#fffaf1;border:1px solid #ded2bd;border-radius:5px;min-width:0}
+.real-response-person h3 {font:400 29px/1.15 NordraWedding,Georgia,serif;margin:18px 0 25px;overflow-wrap:anywhere}
+.real-response-person label+label {margin-top:18px}
+.real-invitation-response small {display:block;font-size:12px;color:#82715c;margin-top:24px}
+.real-reply-success {display:flex;align-items:center;justify-content:center;gap:10px;background:#e2e6d8;padding:16px;border-radius:4px;color:#526047!important}
+.real-reply-error {max-width:660px;text-align:center;margin:30px auto;padding:20px;color:#8c5b46}
+.personal-loading {padding:100px 20px;text-align:center}
+.real-wedding-invitation>footer {text-align:center;font:italic 21px NordraWedding,Georgia,serif;padding:34px;color:#988466}
+@media(max-width:700px){.client-card{padding:32px 23px;margin:45px auto 25px}.wedding-client-entry{padding:25px 20px}.workspace-topbar>div{gap:8px;flex-wrap:wrap;justify-content:flex-end}.real-invitation-hero.has-photo{grid-template-columns:1fr;gap:32px;text-align:center}.real-invitation-hero{padding:40px 25px}.real-invitation-hero>img{max-width:280px;margin:auto}.has-photo .real-invitation-date{justify-content:center}.real-invitation-response{padding:40px 20px}.real-response-person{padding:22px}.client-event-list button{padding:15px}.workspace-welcome h1{overflow-wrap:anywhere}}
+@media(prefers-reduced-motion:reduce){.client-card{animation:none}}

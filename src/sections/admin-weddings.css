@@ -1,0 +1,44 @@
+.admin-sections {display:flex;gap:8px;margin:22px 0 32px;padding-bottom:16px;border-bottom:1px solid var(--border,#c8c2b533)}
+.admin-sections button {display:flex;align-items:center;gap:8px;padding:12px 22px;border:1px solid #96857044;background:transparent;border-radius:8px;min-height:46px}
+.admin-sections button[aria-current=page] {background:#8d785c1c;border-color:#8d785c88}
+.admin-page :is(button,a,input,select,summary){transition:background .2s,border-color .2s,transform .2s,box-shadow .2s}
+.admin-page :is(button,a):hover {transform:translateY(-1px)}
+.admin-page :is(button,a):active {transform:scale(.98)}
+.admin-page :is(input,select):focus-visible {box-shadow:0 0 0 3px #9f8b6530;outline:2px solid #a48b64;outline-offset:2px}
+.admin-weddings .admin-title h1 {font-family:Georgia,serif;font-weight:400}
+.admin-wedding-toolbar {display:flex;align-items:center;gap:14px;margin:22px 0;flex-wrap:wrap}
+.admin-wedding-toolbar a,.admin-wedding-toolbar button,.admin-wedding-list article>button,.admin-wedding-access button {display:inline-flex;gap:8px;align-items:center;min-height:44px}
+.admin-wedding-toolbar input {min-width:min(310px,100%)}
+.admin-wedding-detail {display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,1fr);gap:24px;align-items:start}
+.admin-wedding-detail .admin-form-panel {margin:0}
+.admin-wedding-detail form {display:block!important}
+.admin-wedding-detail fieldset {border:0;padding:0;min-width:0}
+.admin-wedding-detail label {display:grid;gap:7px;margin:0 0 18px}
+.admin-wedding-detail :is(input,select) {width:100%;min-width:0;min-height:46px}
+.admin-wedding-detail small {font-size:12px;opacity:.7;line-height:1.6}
+.admin-wedding-pair {display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.admin-wedding-detail details {margin:20px 0}
+.admin-wedding-detail summary {cursor:pointer;min-height:44px;padding:10px 0;opacity:.8}
+.admin-wedding-detail summary:hover {opacity:1}
+.admin-wedding-retention {display:flex;gap:10px;padding:16px;border-radius:8px;background:#93826116;font-size:13px;line-height:1.6}
+.admin-wedding-retention svg {flex-shrink:0;margin-top:3px}
+.admin-wedding-access>svg {color:#9f8765;margin-bottom:16px}
+.admin-wedding-access p {font-size:14px;line-height:1.7;opacity:.78}
+.admin-wedding-access ul {list-style:none;padding:0;margin:20px 0}
+.admin-wedding-access li {display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid #a68e6830;padding:10px 0;font-size:13px;overflow-wrap:anywhere}
+.admin-wedding-access li>div {display:flex;gap:4px}
+.admin-access-ready {padding:18px;margin:24px 0;background:#a08b6315;border:1px solid #a08b6340;border-radius:8px;overflow-wrap:anywhere}
+.admin-access-ready input {font-size:12px;margin:8px 0 12px}
+.admin-access-ready small {display:block;margin-top:12px}
+.admin-wedding-access-note {border-top:1px solid #a08b6330;padding-top:18px;margin-top:24px}
+.admin-wedding-list {display:grid;gap:14px}
+.admin-wedding-list article {display:flex;align-items:center;gap:24px;padding:26px;border:1px solid #9f8b6530;border-radius:12px;background:#9f8b6508;animation:wedding-admin-enter .3s ease both}
+.admin-wedding-list article>div {flex:1;min-width:0}
+.admin-wedding-list h2 {font-family:Georgia,serif;font-size:25px;font-weight:400;margin:8px 0;overflow-wrap:anywhere}
+.admin-wedding-list p {margin:0 0 8px;font-size:14px;opacity:.8}
+.admin-wedding-list small {font-size:12px;opacity:.7}
+.admin-wedding-emblem {display:grid;place-items:center;width:55px;height:66px;border:1px solid #9f8b6560;border-radius:50% 50% 3px 3px;color:#a58c66}
+.admin-wedding-list .admin-empty {text-align:center;padding:50px 20px}.admin-wedding-list .admin-empty svg {margin:auto}
+@keyframes wedding-admin-enter {from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){.admin-wedding-detail{grid-template-columns:1fr}.admin-wedding-list article{gap:15px;flex-wrap:wrap;padding:20px}.admin-wedding-list article>button{margin-left:auto}.admin-wedding-pair{grid-template-columns:1fr}.admin-wedding-toolbar label{width:100%}.admin-wedding-toolbar input{width:100%;min-width:0}}
+@media(prefers-reduced-motion:reduce){.admin-page :is(button,a,input,select,summary){transition:none!important;transform:none!important}.admin-wedding-list article{animation:none}}

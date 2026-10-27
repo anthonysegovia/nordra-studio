@@ -41,7 +41,7 @@ document.querySelectorAll('.gift-reveal').forEach(note => {
 const arrival = document.querySelector('#gate');
 arrival.insertAdjacentHTML('afterbegin', `<div class="tidal-scene" aria-hidden="true"><span class="tidal-moon"></span><span class="tidal-orbit"></span><div class="tidal-sparks">${Array.from({length:10},(_,i)=>`<i style="--x:${(i*37+9)%100}%;--y:${(i*19+7)%91}%;--delay:-${i%6}s"></i>`).join('')}</div><svg class="tidal-water" viewBox="0 0 1000 240" preserveAspectRatio="none"><path d="M0 70Q125 30 250 70T500 70T750 70T1000 70V240H0Z" fill="#2c788c"/><path d="M0 115Q125 75 250 115T500 115T750 115T1000 115V240H0Z" fill="#41909c"/><path d="M0 160Q125 120 250 160T500 160T750 160T1000 160V240H0Z" fill="#79b8ba"/></svg></div>`);
 document.querySelector('.arrival-copy .eyebrow').textContent = 'DESDE CANCÚN, CON AMOR';
-document.querySelector('.arrival-copy>p:last-child').innerHTML = 'Nos casamos.<br><em>Te esperamos en Cancún.</em>';
+document.querySelector('.arrival-copy>p:last-child').innerHTML = 'Nos casamos<br><em>Te esperamos en Cancún</em>';
 document.querySelector('.pocket-dedication').textContent = 'Invitación a nuestra boda';
 document.querySelector('.arrival-instruction p').textContent = 'Toca la perla para abrir la invitación';
 document.querySelector('.letter-flower').innerHTML = `<svg viewBox="0 0 80 60" width="45" height="34" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M33 54C29 47 4 29 8 20Q10 12 18 14Q19 3 30 9Q40 -2 50 9Q61 3 62 14Q70 12 72 20C76 29 51 47 47 54Z"/><path d="M40 51V8M36 51L21 15M32 49L12 24M44 51L59 15M48 49L68 24M33 54H47"/></svg>`;

@@ -1,5 +1,6 @@
 // The sample response stays local. Its form folds away as the reply card appears.
 (() => {
+  if (new URLSearchParams(location.hash.slice(1)).has('invitacion')) return;
   const dialog = document.querySelector('#dialog');
   const panels = dialog.querySelector('.rsvp-panels');
   const form = dialog.querySelector('#form');
@@ -67,7 +68,7 @@
     const attending = attendance.value === 'yes';
     dialog.querySelector('#result').textContent = attending ? '¡Qué alegría!' : 'Gracias';
     dialog.querySelector('#result-detail').textContent = attending
-      ? `${guests.value} ${guests.value === '1' ? 'lugar de muestra.' : 'lugares de muestra.'}`
+      ? `${guests.value} ${guests.value === '1' ? 'persona.' : 'personas.'}`
       : 'por hacérnoslo saber.';
     form.inert = true; form.setAttribute('aria-hidden', 'true');
     confirmation.hidden = false; confirmation.inert = false; confirmation.setAttribute('aria-hidden', 'false');
