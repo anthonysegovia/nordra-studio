@@ -194,3 +194,15 @@
 @media (prefers-reduced-motion:reduce) { .occasion-choice { transition:none; } .occasion-choice:hover { transform:none; } }
 
 
+
+/* Full-page aurora ribbons sit behind content, with a palette for each occasion. */
+.invitation-atmosphere { position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden; opacity:.5; }
+.invitation-atmosphere i { position:absolute; width:85%; height:75%; border-radius:50%; filter:blur(44px); opacity:.62; background:radial-gradient(ellipse,transparent 24%,var(--atmosphere-primary) 45%,transparent 68%); animation:invitation-aurora-drift 27s ease-in-out infinite alternate; }
+.invitation-atmosphere i:first-child { top:-22%; left:-25%; }
+.invitation-atmosphere i:nth-child(2) { right:-28%; top:8%; background:radial-gradient(ellipse,transparent 23%,var(--atmosphere-secondary) 44%,transparent 67%); animation-delay:-12s; animation-duration:34s; }
+.invitation-atmosphere i:nth-child(3) { bottom:-38%; left:15%; width:100%; background:radial-gradient(ellipse,transparent 20%,var(--atmosphere-third) 43%,transparent 67%); animation-delay:-8s; animation-duration:38s; }
+.dark .invitation-atmosphere { opacity:.34; }
+:is(.bday-content,.ev-content).is-paused .invitation-atmosphere i { animation-play-state:paused; }
+@keyframes invitation-aurora-drift { from { transform:translate3d(-4%,-5%,0) rotate(-28deg) scale(.94); } to { transform:translate3d(12%,16%,0) rotate(-12deg) scale(1.1); } }
+@media(max-width:640px) { .invitation-atmosphere i { filter:blur(32px); width:110%; } }
+@media(prefers-reduced-motion:reduce) { .invitation-atmosphere i { animation:none!important; } }

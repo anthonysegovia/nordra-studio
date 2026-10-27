@@ -146,3 +146,20 @@
 @media(max-width:1000px) and (min-width:761px){.bday-atelier{gap:5%}.bday-featured-design{min-height:580px;padding:60px 25px 85px}.bday-design-curation .bday-design-choice{gap:15px;grid-template-columns:65px 1fr}}
 @media(max-width:760px){.bday-designs{padding-block:55px}.bday-atelier{grid-template-columns:1fr;gap:35px;margin-top:30px}.bday-featured-design{min-height:510px;max-width:470px;width:100%;justify-self:center;padding:55px 40px 80px}.bday-featured-poster{max-width:280px;width:85%}.bday-material-label{top:25px;font-size:8px}.bday-featured-open{bottom:22px;font-size:11px}.bday-design-curation>h3{font-size:33px}.bday-design-curation>p:not(.bday-label):not(.bday-footnote){font-size:13px;max-width:none}.bday-design-curation .bday-design-grid{margin-block:20px}.bday-design-curation .bday-design-choice,.bday-design-curation .bday-design-choice:first-child{grid-column:auto;grid-template-columns:64px 1fr;gap:18px;padding-block:13px}.bday-design-curation .bday-design-choice:first-child .bday-design-art{grid-row:auto}.bday-design-curation .bday-design-choice:first-child .bday-design-choice-title,.bday-design-curation .bday-design-choice-title{font-size:22px;margin:0 0 5px;align-self:auto}.bday-design-curation .bday-design-choice-copy,.bday-design-curation .bday-design-choice:first-child .bday-design-choice-copy{font-size:12px}.bday-unwrapping{width:240px;margin:0 auto 35px}.bday-experience-inner{padding-block:50px;gap:40px}.bday-experience-statement h2{font-size:43px}.bday-panel-section{padding-block:50px}.bday-live-panel{transform:none}}
 @media(prefers-reduced-motion:reduce){.bday-featured-poster{animation:none;transform:none}.bday-unwrapping :is(img,.bday-paper-wing){transition:none;transform:none!important}}
+
+/* Occasion-colored auroras stay visible across the page. */
+.invitation-journey.journey-birthday { position:relative; isolation:isolate; --atmosphere-primary:#7584ee; --atmosphere-secondary:#7bcee4; --atmosphere-third:#ad88e4; }
+
+/* Birthday palette: lavender, pearl blue and violet, with an ink-blue night mode. */
+.invitation-journey.journey-birthday {
+ --occasion-bg:#e1e9f8; --occasion-surface:#f0f3fc; --occasion-ink:#242343; --occasion-muted:#5d5b79; --occasion-accent:#5141be; --occasion-line:#cfc5e5; --occasion-tint:#ded6f1;
+ background:linear-gradient(130deg,#dde8f8 12%,#dcebf4 54%,#e0d5f2 100%);
+}
+.dark .invitation-journey.journey-birthday {
+ --occasion-bg:#1c1931; --occasion-surface:#2b2544; --occasion-ink:#f6f0ff; --occasion-muted:#c6badb; --occasion-accent:#c2afff; --occasion-line:#514462; --occasion-tint:#382f55;
+ background:linear-gradient(130deg,#241d38,#1b2440 54%,#30203f);
+}
+.bday-panel-section:before { background:linear-gradient(120deg,#d8dcf1,#e6d9f1 65%,#d9def4); }
+.dark .bday-panel-section:before { background:linear-gradient(120deg,#25243f,#352746 65%,#222d49); }
+.bday-footer { background:linear-gradient(120deg,#d5dcf3,#e0d0ed 65%,#cbdcf0); color:#2d284a; }
+.dark .bday-footer { background:linear-gradient(120deg,#262642,#382845 65%,#21364b); color:#f6f0ff; }
