@@ -20,6 +20,9 @@
 .invitation-plans-clear .occasion-plan details { margin-top:15px; }
 .invitation-plans-clear .occasion-plan summary { font-size:14px; }
 .invitation-plans-clear .occasion-plan summary svg { transition:transform .25s ease; }
+.invitation-plans-clear .occasion-plan details .plan-feature-list { display:grid; gap:12px; list-style:none; padding:0; margin:12px 0 0; }
+.invitation-plans-clear .plan-feature-list li { display:grid; grid-template-columns:20px minmax(0,1fr); align-items:start; gap:10px; padding:0; line-height:1.6; }
+.plan-feature-marker { display:grid; place-items:center; width:20px; height:20px; margin-top:2px; border:1px solid var(--occasion-line); border-radius:50%; color:var(--occasion-accent); background:color-mix(in srgb,var(--occasion-tint) 55%,var(--occasion-surface)); }
 .plan-reception-note { margin:10px 0 0; font-size:14px; color:var(--occasion-muted); line-height:1.6; }
 .invitation-plans-clear .occasion-plans-note { line-height:1.9; }
 .journey-wedding .invitation-plans-clear .occasion-plan-grid { gap:22px; padding:0; border:0; border-radius:0; background:none; box-shadow:none; }

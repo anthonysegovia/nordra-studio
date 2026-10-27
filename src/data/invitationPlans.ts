@@ -17,7 +17,7 @@ export function getInvitationPlans(english: boolean) {
         ? ["Personalized invitation", "Private panel and personal links", "Up to 300 people · couples and +1s"]
         : ["Invitación personalizada", "Panel privado y enlaces personales", "Hasta 300 personas · parejas y +1"],
       features: english ? [
-        "Personalized design from our collection", "Up to 30 optimized photos",
+        "Personalized design from our collection", "Memory gallery with up to 30 photos",
         "Your own account and private guest panel", "Personal links for individuals, couples and +1s",
         "RSVP per person, automatically reflected in your panel", "Up to 300 people, including companions",
         "Search, filters, pending replies and list download", "Copy links and share via WhatsApp",
@@ -25,7 +25,7 @@ export function getInvitationPlans(english: boolean) {
         "3 revision rounds", "Hosting: up to 12 months before + 90 days after the event",
         "WhatsApp support from delivery through 30 days after the event",
       ] : [
-        "Diseño de catálogo personalizado", "Hasta 30 fotos optimizadas",
+        "Diseño de catálogo personalizado", "Galería de recuerdos con hasta 30 fotos",
         "Cuenta propia y panel privado de invitados", "Enlaces personales para individuales, parejas y +1",
         "Confirmación por persona que se refleja automáticamente en tu panel", "Hasta 300 personas, incluidos acompañantes",
         "Búsqueda, filtros, pendientes y descarga de lista", "Copiar enlaces y compartir por WhatsApp",

@@ -47,7 +47,14 @@ export function InvitationPlans({ english, occasion, label }: { english: boolean
             <a href="/panel-boda.html#recepcion" target="_blank" rel="noopener noreferrer">{english ? "Explore QR passes" : "Ver pases QR"}<ArrowUpRight size={15} aria-hidden="true" /></a>
           </> : <a href="/panel-boda.html#confirmaciones" target="_blank" rel="noopener noreferrer">{english ? "Try the guest panel" : "Probar el panel de invitados"}<ArrowUpRight size={15} aria-hidden="true" /></a>}
         </div>}
-        <details><summary>{english ? "Everything included" : "Todo lo que incluye"}<ChevronDown size={18} aria-hidden="true" /></summary><ul>{plan.features.map(feature => <li key={feature}>{feature}</li>)}</ul>{boreal && <p className="plan-reception-note">{english ? "Check-in requires internet. Live event-day assistance is quoted separately." : "El registro requiere internet. La asistencia en vivo el día del evento se cotiza aparte"}</p>}</details>
+        <details>
+          <summary>{english ? "Everything included" : "Todo lo que incluye"}<ChevronDown size={18} aria-hidden="true" /></summary>
+          <ul className="plan-feature-list" role="list">{plan.features.map(feature => <li key={feature}>
+            <span className="plan-feature-marker" aria-hidden="true"><Check size={12} strokeWidth={1.6} /></span>
+            <span>{feature}</span>
+          </li>)}</ul>
+          {boreal && <p className="plan-reception-note">{english ? "Check-in requires internet. Live event-day assistance is quoted separately." : "El registro requiere internet. La asistencia en vivo el día del evento se cotiza aparte"}</p>}
+        </details>
       </article>;
     })}</div>
     <p className="occasion-plans-note">{english ? "Up to 300 people · Invitation and panel available until 90 days after the event" : "Hasta 300 personas · Invitación y panel disponibles hasta 90 días después del evento"}<br />{english ? "Final scope, dates and price confirmed in your quote" : "Alcance, fechas y precio final confirmados en tu cotización"} <a href="/terminos-del-servicio.html">{english ? "View terms (Spanish) ↗" : "Ver condiciones ↗"}</a></p>
