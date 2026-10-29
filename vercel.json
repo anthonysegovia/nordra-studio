@@ -2,40 +2,109 @@
   "routes": [
     {
       "src": "^/favicon\\.ico$",
-      "has": [{ "type": "host", "value": "confirmadoscova.nordrastudio.mx" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "confirmadoscova.nordrastudio.mx"
+        }
+      ],
       "dest": "/invitaciones/posada-confirmados/assets/confirmados-icon-v1.ico"
     },
     {
       "src": "^/apple-touch-icon\\.png$",
-      "has": [{ "type": "host", "value": "confirmadoscova.nordrastudio.mx" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "confirmadoscova.nordrastudio.mx"
+        }
+      ],
       "dest": "/invitaciones/posada-confirmados/assets/confirmados-apple-v1.png"
     },
     {
       "src": "^/$",
-      "has": [{ "type": "host", "value": "confirmadoscova.nordrastudio.mx" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "confirmadoscova.nordrastudio.mx"
+        }
+      ],
       "dest": "/invitaciones/posada-confirmados/index.html",
-      "headers": { "X-Robots-Tag": "noindex, nofollow" }
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow"
+      }
     },
     {
       "src": "^/demos/ano-nuevo(?:/index\\.html|/)?$",
       "status": 308,
-      "headers": { "Location": "/demos/celebra-2027/" }
+      "headers": {
+        "Location": "/demos/celebra-2027/"
+      }
     },
     {
       "src": "^/$",
-      "has": [{ "type": "host", "value": "spooky.nordrastudio.mx" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "spooky.nordrastudio.mx"
+        }
+      ],
       "dest": "/invitaciones/spooky-party/index.html"
     },
     {
       "src": "^/favicon\\.svg$",
-      "has": [{ "type": "host", "value": "spooky.nordrastudio.mx" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "spooky.nordrastudio.mx"
+        }
+      ],
       "dest": "/invitaciones/spooky-party/favicon.svg"
     },
     {
       "src": "^/invitacion-original\\.jpeg$",
-      "has": [{ "type": "host", "value": "spooky.nordrastudio.mx" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "spooky.nordrastudio.mx"
+        }
+      ],
       "dest": "/invitaciones/spooky-party/invitacion-original.jpeg"
     },
-    { "handle": "filesystem" }
+    {
+      "src": "^/(?:index\\.html|negocios\\.html|invitaciones\\.html|bodas\\.html|cumpleanos\\.html|eventos\\.html|temporada\\.html)?$",
+      "has": [
+        {
+          "type": "query",
+          "key": "panel"
+        }
+      ],
+      "dest": "/gestion.html",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow"
+      }
+    },
+    {
+      "src": "^/(?:index\\.html|negocios\\.html|invitaciones\\.html|bodas\\.html|cumpleanos\\.html|eventos\\.html|temporada\\.html)?$",
+      "has": [
+        {
+          "type": "query",
+          "key": "pago"
+        }
+      ],
+      "dest": "/gestion.html",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow"
+      }
+    },
+    {
+      "src": "^/portada\\.html$",
+      "status": 308,
+      "headers": {
+        "Location": "/"
+      }
+    },
+    {
+      "handle": "filesystem"
+    }
   ]
 }

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="360" viewBox="0 0 260 360">
+  <title>Se viene la posada</title>
+  <rect width="260" height="360" fill="#123b2f"/>
+  <path d="M130 0v53" stroke="#d5bd82" stroke-opacity=".65"/>
+  <path d="m102 173-8 23 9 13-7 19m33-42-4 22 7 19m26-52 10 20-6 17 8 13" fill="none" stroke="#bc8f74" stroke-width="3" stroke-linecap="round"/>
+  <path d="M130 120L130 53L142.58 93.87Z" fill="#efe3bd"/>
+  <path d="M130 120L142.58 93.87L182.38 78.23Z" fill="#ceb77e"/>
+  <path d="M130 120L182.38 78.23L158.27 113.55Z" fill="#8a3941"/>
+  <path d="M130 120L158.27 113.55L195.32 134.91Z" fill="#d7c38f"/>
+  <path d="M130 120L195.32 134.91L152.67 138.08Z" fill="#efe3bd"/>
+  <path d="M130 120L152.67 138.08L159.07 180.36Z" fill="#ceb77e"/>
+  <path d="M130 120L159.07 180.36L130 149Z" fill="#8a3941"/>
+  <path d="M130 120L130 149L100.93 180.36Z" fill="#d7c38f"/>
+  <path d="M130 120L100.93 180.36L107.33 138.08Z" fill="#efe3bd"/>
+  <path d="M130 120L107.33 138.08L64.68 134.91Z" fill="#ceb77e"/>
+  <path d="M130 120L64.68 134.91L101.73 113.55Z" fill="#8a3941"/>
+  <path d="M130 120L101.73 113.55L77.62 78.23Z" fill="#d7c38f"/>
+  <path d="M130 120L77.62 78.23L117.42 93.87Z" fill="#efe3bd"/>
+  <path d="M130 120L117.42 93.87L130 53Z" fill="#ceb77e"/>
+  <circle cx="130" cy="120" r="14" fill="#f2e5bd"/>
+  <path d="m130 110 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" fill="#9c7849"/>
+  <text x="130" y="282" text-anchor="middle" fill="#f2ead5" font-family="Georgia,serif" font-size="39" letter-spacing="-1">Se viene</text>
+  <text x="130" y="325" text-anchor="middle" fill="#dfcd98" font-family="Georgia,serif" font-size="43" font-style="italic" letter-spacing="-2">la posada</text>
+</svg>
