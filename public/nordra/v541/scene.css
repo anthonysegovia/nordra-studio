@@ -1290,3 +1290,6 @@ body[data-journey-motion=paused] .occasion-paper{display:none}
 @media(prefers-reduced-motion:reduce){.composition-track{height:auto}}
 .nordra-assembled>img,.nordra-assembled>.bruma-film{transition:none!important}
 .nordra-assembled:not(.is-loaded)>.bruma-film{opacity:0!important}
+
+/* Case stories keep their text without decorative numbering. */
+.scene .case-decision{display:block}

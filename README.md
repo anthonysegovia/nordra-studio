@@ -26,6 +26,6 @@ La demostración RSVP de las páginas comerciales usa datos ficticios y no enví
 
 Verificar siempre el proyecto y la versión actualmente publicada. La copia `../nordra-studio-publicar` también ha servido como origen de publicaciones directas: no desplegar una base anterior sobre ella. La base de esta migración coincide con el commit `bccf36e9f5e287681cdfcfee455cc61591b7e94f` y el deployment `dpl_BcGzDF4Q9tUG5X3Rnpueuk2UAoqG`.
 
-Preparar un deployment de producción con `--skip-domain`, verificarlo y promover exactamente ese deployment. No subir `.env`, archivos `*.private.json`, respaldos ni material de trabajo. La configuración de entorno del proyecto se conserva en Vercel.
+Preparar un deployment de producción con `--skip-domain` y verificarlo. Para publicar mediante Git, sincronizar la misma versión con `main` y comprobar el nuevo deployment y sus dominios; para publicación directa, promover el deployment verificado. No subir `.env`, archivos `*.private.json`, respaldos ni material de trabajo. La configuración de entorno del proyecto se conserva en Vercel.
 
 Las animaciones respetan la pausa global y `prefers-reduced-motion`. Los recursos de la propuesta y sus revisiones permanecen en su carpeta independiente; no son la carpeta que se publica.
