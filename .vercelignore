@@ -4,3 +4,11 @@
 .git
 node_modules
 dist
+artwork-source/
+design-assets/
+review/
+documentacion/
+documentos-legales/
+PLAN_BODA_PREMIUM.md
+scripts/
+**/*.test.js
