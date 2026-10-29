@@ -15,6 +15,18 @@
  reduced.addEventListener('change',e=>{paused=e.matches;sync();});document.addEventListener('visibilitychange',sync);addEventListener('nordra-theme',()=>{if(ready)render(time);});
  const canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');field.append(canvas);
  const inView=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();},{threshold:0});inView.observe(field);
+ if((smallScreen.matches||matchMedia('(pointer:coarse)').matches)&&window.NordraMobileAurora){
+  canvas.remove();const mobile=window.NordraMobileAurora;
+  const paletteIndex=Number(field.dataset.palette)||({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0;
+  const light=mobile.create(field,mobile.palettes[paletteIndex]);let unfold=Number(field.dataset.unfold)||0;
+  render=elapsed=>light.render(unfold,elapsed+index*3);
+  addEventListener('nordra-aurora-unfold',e=>{if(e.detail.field===field){unfold=e.detail.progress;render(time);}});
+  const paletteChange=e=>{const from=mobile.palettes[e.detail.from],to=mobile.palettes[e.detail.to];if(!from||!to)return;light.setColors(from.map((hex,i)=>{const a=hex.match(/\w{2}/g).map(v=>parseInt(v,16)),b=to[i].match(/\w{2}/g).map(v=>parseInt(v,16));return a.map((v,j)=>(v+(b[j]-v)*e.detail.blend)/255);}));render(time);};
+  if(host.dataset.view==='temporada')addEventListener('nordra-seasonal-palette',paletteChange);
+  if(field.classList.contains('showcase-aurora'))addEventListener('nordra-showcase-palette',paletteChange);
+  ready=true;render(0);if(parent!==window)tell('ready');else sync();
+  addEventListener('pagehide',()=>{stop();inView.disconnect();light.dispose();},{once:true});return;
+ }
  try{
  const gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:false,preserveDrawingBuffer:true});if(!gl)throw Error('WebGL');
  const vs='attribute vec2 a;varying vec2 uv;void main(){uv=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0.,1.);}';

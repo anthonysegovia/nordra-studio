@@ -168,3 +168,45 @@ body[data-journey-motion=paused] .package-details summary{transition:none}
 @media(prefers-reduced-motion:reduce){.package-details summary{transition:none}}
 /* Production: process copy stays full width without decorative numbers. */
 @media(max-width:700px){.scene .process-roadmap .process-list li{display:block}}
+
+/* 5.42: mobile is a composed page, with light behind readable content. */
+.mobile-aurora{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
+.interface-arrow{display:inline-block;width:1em;height:1em;flex:none;vertical-align:-.12em;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:700px){
+ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+ .site-header{height:68px;padding-inline:20px}
+ .logo{width:126px}
+ .theme-button,.menu-button{min-width:40px;min-height:44px}
+ #mobile-menu{top:68px}
+ .scene{padding-inline:22px}
+ .scene .aurora-field,.scene .theatre-ribbon{background:none;filter:none}
+ .scene .mobile-aurora{opacity:.72}
+ .dark .scene .mobile-aurora{opacity:.65}
+ .entry>.aurora-field,.theatre-closing>.closing-aurora{display:none}
+ .scene .theatre-ribbon{left:-22px;right:-22px;top:-20px;height:540px}
+ .theatre-closing>.theatre-ribbon{height:650px;top:-70px}
+ .hero-track .theatre-stage{position:relative;top:auto}
+ .hero-track>.theatre-distance{display:none}
+ .theatre-hero{padding:8px 0 0}
+ .theatre-hero .opening-title{margin-top:26px;grid-template-columns:50% 50%;row-gap:8px}
+ .theatre-hero .opening-verb{font-size:23px;margin-bottom:8px}
+ .theatre-hero .opening-experiences{font-size:clamp(34px,10.8vw,47px);line-height:1.12;letter-spacing:-.065em}
+ .theatre-hero .opening-web{font-size:clamp(72px,22vw,96px);line-height:1}
+ .theatre-hero .opening-for{font-size:clamp(17px,5vw,22px);padding:0 0 0 12px;line-height:1.2}
+ .theatre-hero .opening-foot{margin-top:26px}
+ .theatre-hero .offer-main{font-size:16px;line-height:1.65}
+ .theatre-hero .offer-detail{font-size:14px;line-height:1.65;margin:12px 0 22px}
+ .theatre-hero .primary-action{font-size:17px;min-height:56px}
+ .theatre-hero .invitation-action{font-size:15px;min-height:48px;margin-top:10px}
+ .theatre-hero .grounding{font-size:10px;line-height:1.7;margin-top:26px}
+ .scene .home-closing h2{font-size:clamp(32px,9vw,40px);line-height:1.14;letter-spacing:-.055em;max-width:12ch;margin:24px auto 28px}
+ .home-closing .contact-layout>p{font-size:16px;line-height:1.75;margin-bottom:28px}
+ .home-closing .contact-layout .primary-action{font-size:17px;margin-top:12px;min-height:56px}
+ .home-closing .contact-alternatives{margin-top:32px;padding-top:24px}
+ .scene.studio-page h1{font-size:clamp(38px,10.5vw,48px);line-height:1.13;letter-spacing:-.06em}
+ .studio-page .studio-desk .frost-surface{display:none}
+ .mobile-route{padding:5px 12px calc(5px + env(safe-area-inset-bottom,0px));gap:6px}
+ .mobile-route a{min-height:44px;font-size:12px}
+ .dark{--muted:#bdcbd5}
+ body.dark[data-scene=bodas]{--muted:#ddd0be}
+}

@@ -39,6 +39,10 @@
  const palette={0:[[.04,.65,.66],[.24,.43,.91],[.62,.3,.85]],1:[[.63,.43,.25],[.9,.75,.53],[.5,.31,.21]],2:[[.45,.34,.9],[.8,.43,.68],[.4,.62,.9]],3:[[.1,.61,.44],[.23,.53,.61],[.3,.42,.7]],4:[[.9,.4,.12],[.53,.28,.68],[.77,.48,.36]],5:[[.13,.6,.4],[.52,.69,.44],[.86,.65,.28]],6:[[.8,.62,.32],[.61,.44,.78],[.91,.78,.5]]};
  let colors=palette[({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0];
  for(const item of chapters){
+  if((small.matches||matchMedia('(pointer:coarse)').matches)&&window.NordraMobileAurora){
+   item.canvas.remove();const light=window.NordraMobileAurora.create(item.ribbon,colors);
+   item.render=()=>{light.setColors(colors);light.render(item.progress);};item.dispose=()=>light.dispose();continue;
+  }
   let gl;
   try{
    gl=item.canvas.getContext('webgl',{alpha:true,antialias:true,premultipliedAlpha:false});if(!gl)throw Error('No WebGL');
@@ -109,7 +113,8 @@
      const q=1-smooth((p-i*.055)/(.7-i*.055));
      const x=[-6,9,-5,mobile?3:12][i]*(mobile?.55:1)*q,y=[-12,-5,0,28][i]*q;
      const z=[-180,-95,mobile?60:180,-200][i]*q*(mobile?.55:1);
-     word.style.transform=`perspective(1000px) translate3d(${x}%,${y}px,${z}px) rotateY(${[28,-24,-32,30][i]*q}deg) rotateX(${[12,-10,8,-14][i]*q}deg)`;
+     const tilt=mobile?.16:1;
+     word.style.transform=`perspective(1000px) translate3d(${x*tilt}%,${y*tilt}px,${z*tilt}px) rotateY(${[28,-24,-32,30][i]*q*tilt}deg) rotateX(${[12,-10,8,-14][i]*q*tilt}deg)`;
     });
    }
    if(item.kind==='paths'){
@@ -123,7 +128,7 @@
     });
    }
    if(item.kind==='contact'){
-    const q=1-smooth(p/.85);item.title?.style.setProperty('--contact-transform',`perspective(1000px) translate3d(0,${q*65}px,${-q*160}px) rotateX(${q*38}deg)`);
+    const q=(1-smooth(p/.85))*(mobile?.2:1);item.title?.style.setProperty('--contact-transform',`perspective(1000px) translate3d(0,${q*65}px,${-q*160}px) rotateX(${q*38}deg)`);
     item.contact?.style.setProperty('--contact-transform',`perspective(1000px) translate3d(0,${q*100}px,${-q*220}px) rotateX(${q*22}deg)`);
    }
    if(y<h*1.5&&y+item.anchor.offsetHeight>-h*.5)item.render();
