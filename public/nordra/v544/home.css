@@ -18,6 +18,9 @@
 .horizon-trust i{font-style:normal}
 .horizon-light{position:absolute;z-index:-1;pointer-events:none;left:-3%;right:-3%;bottom:-15px;height:280px;opacity:.7;transform-origin:50% 100%}
 .horizon-light img{width:100%;height:100%;max-width:none;object-fit:fill}
+.horizon-light.has-flow.is-visible{animation:none;transform:none}
+.horizon-light.has-flow>img{visibility:hidden}
+.horizon-flow{position:absolute;inset:0;width:100%;height:100%}
 .horizon-light.is-visible{animation:horizon-drift 18s ease-in-out infinite alternate}
 @keyframes horizon-drift{from{transform:translate3d(-.8%,3px,0) scaleY(.97)}to{transform:translate3d(.8%,-5px,0) scaleY(1.025)}}
 .horizon-paths{display:grid;grid-template-columns:1fr 1fr;gap:5px;scroll-margin-top:100px}

@@ -1,0 +1,22 @@
+/* Two clear ways to make contact, with light rather than heavy card frames. */
+.scene .contact-channels{grid-template-columns:1fr 1fr;gap:0 42px;padding-top:30px}
+.contact-channels>p{grid-column:1/-1;margin:0 0 24px;font-size:14px;color:var(--muted)}
+.scene .contact-channels .contact-channel{position:relative;display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:20px;min-width:0;min-height:120px;padding:20px 0 26px;border-bottom:1px solid var(--line);isolation:isolate}
+.contact-channel::after{content:"";position:absolute;bottom:-1px;left:0;width:100%;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.contact-channel-icon{flex:0 0 62px;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;color:var(--accent);background:radial-gradient(ellipse at 25% 20%,color-mix(in srgb,var(--accent) 24%,transparent),transparent 72%),color-mix(in srgb,var(--bg) 55%,transparent);border:1px solid color-mix(in srgb,var(--accent) 24%,transparent);transition:transform .4s,background-color .4s}
+.contact-channel-icon svg{width:26px;height:26px}
+.contact-channel-copy{display:flex;flex-direction:column;gap:9px;min-width:0}
+.contact-channel-copy .eyebrow{font-size:10px;letter-spacing:.14em}
+.contact-phone-number{display:flex;align-items:center;gap:10px}
+.contact-phone-number img{width:26px;height:20px;flex:none;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px #102a4015}
+.contact-phone-number>span{white-space:nowrap}
+.scene .contact-channel-copy strong{font-size:clamp(18px,1.75vw,28px);font-weight:500;line-height:1.35;overflow-wrap:anywhere}
+.contact-channel-arrow{margin-left:auto;flex:none;color:var(--accent);font-size:22px;transition:transform .35s}
+.contact-channel:hover,.contact-channel:focus-visible{opacity:1}
+.contact-channel:hover::after,.contact-channel:focus-visible::after{transform:scaleX(1)}
+.contact-channel:hover .contact-channel-icon,.contact-channel:focus-visible .contact-channel-icon{transform:rotate(-8deg) scale(1.06)}
+.contact-channel:hover .contact-channel-arrow,.contact-channel:focus-visible .contact-channel-arrow{transform:translate(3px,-3px)}
+.contact-channel:active .contact-channel-icon{transform:scale(.96)}
+@media(max-width:900px){.scene .contact-channels{grid-template-columns:1fr}.scene .contact-channels .contact-channel{min-height:106px;gap:18px}.scene .contact-channel-copy strong{font-size:clamp(17px,4.4vw,24px)}}
+@media(max-width:400px){.scene .contact-channels .contact-channel{gap:12px}.contact-channel-icon{flex-basis:46px;width:46px;height:46px}.contact-channel-icon svg{width:23px;height:23px}.contact-channel-arrow{font-size:18px}.scene .contact-channel-copy strong{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.contact-channel::after,.contact-channel-icon,.contact-channel-arrow{transition:none}}
