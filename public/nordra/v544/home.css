@@ -39,7 +39,7 @@
 .horizon-studio>p{max-width:680px;margin:0 auto 25px;font-size:16px;line-height:1.75;color:var(--muted)}
 .horizon-studio .horizon-light{height:270px;bottom:-90px;opacity:.3;transform:scaleX(-1)}
 .home-horizon .home-closing{margin:0;padding:66px max(24px,5vw) 30px;border-top:1px solid var(--line)}
-.home-horizon .home-closing h2{font-size:clamp(36px,4.7vw,68px);margin:25px 0 32px;text-align:center}
+.home-horizon .home-closing h2{font-size:clamp(36px,4.7vw,68px);margin:25px auto 32px;text-align:center}
 .home-horizon .home-closing>.eyebrow{text-align:center}
 .home-horizon .contact-layout{max-width:1060px;margin-inline:auto}
 .home-horizon .contact-layout>p{font-size:18px;line-height:1.7}
@@ -87,7 +87,7 @@ body[data-journey-motion=paused] .horizon-path-photo{transform:none;transition:n
  .horizon-studio .horizon-light{height:180px;bottom:-50px}
  .horizon-studio .horizon-button{font-size:13px}
  .home-horizon .home-closing{padding:42px 24px 30px}
- .home-horizon .home-closing h2{font-size:36px;line-height:1.12;margin:22px 0 28px}
+ .home-horizon .home-closing h2{font-size:36px;line-height:1.12;margin:22px auto 28px}
  .home-horizon .contact-layout>p{font-size:16px}
  .home-horizon .contact-alternatives{margin-top:30px}
 }
