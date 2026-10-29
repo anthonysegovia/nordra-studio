@@ -29,14 +29,20 @@
  host.querySelectorAll('.travel-closing').forEach(el=>{el.classList.add('light-gathering');items.push({el,kind:'contact'});});
  const wedding=host.querySelector('.showcase-envelope');
  if(wedding){wedding.classList.add('scroll-envelope');items.push({el:wedding,anchor:wedding.closest('.showcase-stage'),kind:'envelope'});}
- const fields=[...host.querySelectorAll('.aurora-field')];
+ const fields=[...host.querySelectorAll('.aurora-field')].filter(field=>!(host.dataset.view==='entrada'&&field.parentElement===host&&!field.classList.contains('travel-ambient')));
  let frame=0;
  function paint(){
   frame=0;if(document.hidden)return;
   const still=paused(),h=innerHeight;
+  // Read geometry together before writing styles; skip settled offscreen items.
+  const positions=items.map(item=>{const el=item.anchor||item.el;return {y:top(el)-scrollY,height:el.offsetHeight};});
+  const fieldPositions=fields.map(field=>{const anchor=field.closest('.home-continuation,.showcase-stage,.seasonal-chapter');return anchor?{top:top(anchor),height:anchor.offsetHeight}:null;});
   host.classList.toggle('materials-still',still);
+  let itemIndex=0;
   for(const item of items){
-   const y=top(item.anchor||item.el)-scrollY;
+   const {y,height}=positions[itemIndex++];
+   if(!still&&item.painted&&(y>h*1.25||y+height<-h*.25))continue;
+   item.painted=true;
    // A full, legible transformation across most of the viewport, rather than a short reveal.
    const composition=item.anchor?.classList.contains('composition-track');
    const p=still?1:composition?clamp((h*.25-y)/(h*.65)):clamp((h*.98-y)/(h*(small.matches?.72:.78)));
@@ -69,10 +75,11 @@
     style.setProperty('--flap-layer',p<.18?'4':'1');
    }
   }
+  let fieldIndex=0;
   for(const field of fields){
-   const anchor=field.closest('.home-continuation,.showcase-stage,.seasonal-chapter');
+   const anchor=fieldPositions[fieldIndex++];
    const ambient=field.classList.contains('travel-ambient');
-   const p=still?1:ambient?.55+.4*Math.sin(scrollY/h*1.35):anchor?clamp((h-top(anchor)+scrollY)/(h+Math.min(anchor.offsetHeight,h))):clamp(scrollY/(h*1.15));
+   const p=still?1:ambient?.55+.4*Math.sin(scrollY/h*1.35):anchor?clamp((h-anchor.top+scrollY)/(h+Math.min(anchor.height,h))):clamp(scrollY/(h*1.15));
    field.dataset.unfold=p.toFixed(4);
    dispatchEvent(new CustomEvent('nordra-aurora-unfold',{detail:{field,progress:p,still}}));
   }

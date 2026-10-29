@@ -172,6 +172,15 @@ body[data-journey-motion=paused] .package-details summary{transition:none}
 /* 5.42: mobile is a composed page, with light behind readable content. */
 .mobile-aurora{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
 .interface-arrow{display:inline-block;width:1em;height:1em;flex:none;vertical-align:-.12em;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.opening-title,.opening-title>span{transform:none!important;translate:none!important;scale:1!important;opacity:1!important;text-shadow:none!important}
+.mobile-aurora{position:relative;contain:layout style}
+.mobile-aurora>img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:fill;pointer-events:none}
+[data-renderer=texture-mobile]{mask-image:none!important;-webkit-mask-image:none!important;filter:none!important}
+.mobile-aurora-ambient{animation:mobile-light-drift 14s ease-in-out infinite alternate;animation-play-state:paused}
+.mobile-aurora-ambient.aurora-in-view{animation-play-state:running}
+body[data-journey-motion=paused] .mobile-aurora-ambient{animation-play-state:paused}
+@keyframes mobile-light-drift{from{transform:translate3d(-14px,8px,0)}to{transform:translate3d(18px,-10px,0)}}
+@media(prefers-reduced-motion:reduce){.mobile-aurora-ambient{animation:none}}
 @media(max-width:700px){
  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .site-header{height:68px;padding-inline:20px}
@@ -182,7 +191,10 @@ body[data-journey-motion=paused] .package-details summary{transition:none}
  .scene .aurora-field,.scene .theatre-ribbon{background:none;filter:none}
  .scene .mobile-aurora{opacity:.72}
  .dark .scene .mobile-aurora{opacity:.65}
- .entry>.aurora-field,.theatre-closing>.closing-aurora{display:none}
+ .entry>.aurora-field:not(.travel-ambient){display:block;left:-22px;right:-22px;top:0;height:560px}
+ .theatre-closing>.closing-aurora{display:none}
+ .site-header{background:var(--bg);backdrop-filter:none;-webkit-backdrop-filter:none}
+ .frost-surface{backdrop-filter:none;-webkit-backdrop-filter:none}
  .scene .theatre-ribbon{left:-22px;right:-22px;top:-20px;height:540px}
  .theatre-closing>.theatre-ribbon{height:650px;top:-70px}
  .hero-track .theatre-stage{position:relative;top:auto}

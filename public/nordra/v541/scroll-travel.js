@@ -18,7 +18,7 @@
  });
  const media=[...host.querySelectorAll('.studio-desk,.occasion-hero-photo,.occasion-hero-poster,.feature-stage,.seasonal-cover,.showcase-stage,.living-envelope')].filter(el=>!el.parentElement.closest('.feature-stage,.showcase-stage'));
  const images=media.map(el=>{el.classList.add('travel-media','scroll-scrub');return {el,kind:'media',value:0,target:0};});
- const headingElements=[...new Set([...host.querySelectorAll('.travel-heading,.business-head h1,.opening-title,.occasion-hero h1,.seasonal-hero h1')])];
+ const headingElements=[...new Set([...host.querySelectorAll('.travel-heading,.business-head h1,.occasion-hero h1,.seasonal-hero h1')])];
  const headings=headingElements.map(el=>{el.classList.add('scroll-scrub');return {el,kind:'heading',value:0,target:0};});
  const blockElements=[...host.querySelectorAll('.service-path,.story-body,.studio-principles>div,.process-list>li,.options-intro,.case-intention,.case-decision,.case-try-heading,.contact-layout,.contact-alternatives,.studio-credit,.feature-context>div,.atelier-copy,.occasion-sample-copy,.faq-item,.web-option,.package-details details,.plan-comparison tbody tr,.decision-actions,.case-index,.response-stage,.seasonal-chapter-heading,.seasonal-demo,.footer-layout>*,.studio-heading-copy,.studio-notes,.options-intro>p,.plan-comparison thead,.plan-comparison caption,.decision-guide>.eyebrow,.decision-note,.section-signoff,.footer-legal')].filter(el=>!el.closest('.travel-media')&&!el.querySelector('.scroll-scrub'));
  const blocks=blockElements.filter(el=>!blockElements.some(other=>other!==el&&other.contains(el))).map(el=>{el.classList.add('scroll-scrub');return {el,kind:'block',value:0,target:0};});

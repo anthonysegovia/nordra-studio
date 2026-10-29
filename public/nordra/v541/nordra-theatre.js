@@ -17,10 +17,9 @@
  if(heading){
   host.classList.add('has-theatre');
   const track=document.createElement('div');track.className='theatre-track hero-track';
-  const stage=document.createElement('div');stage.className='theatre-stage theatre-hero';
+  const stage=document.createElement('div');stage.className='theatre-hero';
   const nodes=[...host.children].filter(el=>el.matches('.location,.opening-title,.opening-foot,.grounding'));
-  nodes[0].before(track);track.append(stage);nodes.forEach(el=>stage.append(el));spacer(track);
-  const item=chapter(track,stage,'hero',true);item.words=[...heading.children];
+  nodes[0].before(track);track.append(stage);nodes.forEach(el=>stage.append(el));
  }
  const paths=host.querySelector('.home-paths');
  if(paths){
@@ -40,8 +39,8 @@
  let colors=palette[({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0];
  for(const item of chapters){
   if((small.matches||matchMedia('(pointer:coarse)').matches)&&window.NordraMobileAurora){
-   item.canvas.remove();const light=window.NordraMobileAurora.create(item.ribbon,colors);
-   item.render=()=>{light.setColors(colors);light.render(item.progress);};item.dispose=()=>light.dispose();continue;
+   item.canvas.remove();const light=window.NordraMobileAurora.create(item.ribbon,({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0);
+   item.mobileLight=light;item.render=()=>light.render(item.progress);item.dispose=()=>light.dispose();continue;
   }
   let gl;
   try{
@@ -136,7 +135,7 @@
  }
  function queue(){if(!frame&&!document.hidden)frame=requestAnimationFrame(paint);}
  addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue,{passive:true});
- addEventListener('nordra-seasonal-palette',e=>{const a=palette[e.detail.from]||palette[6],b=palette[e.detail.to]||a;colors=a.map((c,i)=>c.map((v,j)=>v+(b[i][j]-v)*e.detail.blend));queue();});
+ addEventListener('nordra-seasonal-palette',e=>{const a=palette[e.detail.from]||palette[6],b=palette[e.detail.to]||a;colors=a.map((c,i)=>c.map((v,j)=>v+(b[i][j]-v)*e.detail.blend));chapters.forEach(item=>item.mobileLight?.setPalette(e.detail.from,e.detail.to,e.detail.blend));queue();});
  document.addEventListener('visibilitychange',queue);reduce.addEventListener('change',queue);small.addEventListener('change',queue);short.addEventListener('change',queue);
  const state=new MutationObserver(queue);state.observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
  const size=new ResizeObserver(queue);size.observe(host);document.fonts.ready.then(queue);queue();
