@@ -1,0 +1,1186 @@
+{
+  "base": "a65199d",
+  "sdk": "@vercel/analytics@2.0.1",
+  "browser": [
+    {
+      "case": "direct",
+      "page": "index",
+      "links": 1,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "index",
+              "button": "closing"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "index",
+              "button": "closing"
+            }
+          }
+        }
+      ],
+      "scripts": [
+        {
+          "url": "http://127.0.0.1:5589/_vercel/insights/script.js"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "direct",
+      "page": "estudio",
+      "links": 1,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/estudio.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/estudio.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/estudio.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/estudio.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "estudio",
+              "button": "closing"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/estudio.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/estudio.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "estudio",
+              "button": "closing"
+            }
+          }
+        }
+      ],
+      "scripts": [
+        {
+          "url": "http://127.0.0.1:5589/_vercel/insights/script.js"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "direct",
+      "page": "negocios",
+      "links": 2,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "negocios",
+              "button": "hero_quote"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "negocios",
+              "button": "closing"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "negocios",
+              "button": "closing"
+            }
+          }
+        }
+      ],
+      "scripts": [
+        {
+          "url": "http://127.0.0.1:5589/_vercel/insights/script.js"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "direct",
+      "page": "invitaciones",
+      "links": 1,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/invitaciones.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/invitaciones.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/invitaciones.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/invitaciones.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "invitaciones",
+              "button": "closing"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/invitaciones.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/invitaciones.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "invitaciones",
+              "button": "closing"
+            }
+          }
+        }
+      ],
+      "scripts": [
+        {
+          "url": "http://127.0.0.1:5589/_vercel/insights/script.js"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "direct",
+      "page": "bodas",
+      "links": 1,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/bodas.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/bodas.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/bodas.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/bodas.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "bodas",
+              "button": "closing"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/bodas.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/bodas.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "bodas",
+              "button": "closing"
+            }
+          }
+        }
+      ],
+      "scripts": [
+        {
+          "url": "http://127.0.0.1:5589/_vercel/insights/script.js"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "direct",
+      "page": "cumpleanos",
+      "links": 1,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/cumpleanos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/cumpleanos.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/cumpleanos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/cumpleanos.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "cumpleanos",
+              "button": "closing"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/cumpleanos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/cumpleanos.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "cumpleanos",
+              "button": "closing"
+            }
+          }
+        }
+      ],
+      "scripts": [
+        {
+          "url": "http://127.0.0.1:5589/_vercel/insights/script.js"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "direct",
+      "page": "eventos",
+      "links": 1,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/eventos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/eventos.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/eventos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/eventos.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "eventos",
+              "button": "closing"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/eventos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/eventos.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "eventos",
+              "button": "closing"
+            }
+          }
+        }
+      ],
+      "scripts": [
+        {
+          "url": "http://127.0.0.1:5589/_vercel/insights/script.js"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "direct",
+      "page": "temporada",
+      "links": 5,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/temporada.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/temporada.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/temporada.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/temporada.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "temporada",
+              "button": "hero_quote"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/temporada.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/temporada.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "temporada",
+              "button": "seasonal_design"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/temporada.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/temporada.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "temporada",
+              "button": "seasonal_design"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/temporada.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/temporada.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "temporada",
+              "button": "seasonal_design"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/temporada.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/temporada.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "temporada",
+              "button": "closing"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/temporada.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/temporada.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "temporada",
+              "button": "closing"
+            }
+          }
+        }
+      ],
+      "scripts": [
+        {
+          "url": "http://127.0.0.1:5589/_vercel/insights/script.js"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "hidden preload, navigation, back and forward",
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/",
+            "r": ""
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "expanded plans",
+      "page": "negocios",
+      "events": 5,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "negocios",
+              "button": "web_option"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "negocios",
+              "button": "web_option"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "negocios",
+              "button": "web_option"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "negocios",
+              "button": "web_option"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/negocios.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/negocios.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "negocios",
+              "button": "web_option"
+            }
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "expanded plans",
+      "page": "bodas",
+      "events": 2,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/bodas.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/bodas.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/bodas.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/bodas.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "bodas",
+              "button": "plan_aurora"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/bodas.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/bodas.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "bodas",
+              "button": "plan_boreal"
+            }
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "expanded plans",
+      "page": "cumpleanos",
+      "events": 2,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/cumpleanos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/cumpleanos.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/cumpleanos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/cumpleanos.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "cumpleanos",
+              "button": "plan_aurora"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/cumpleanos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/cumpleanos.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "cumpleanos",
+              "button": "plan_boreal"
+            }
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "expanded plans",
+      "page": "eventos",
+      "events": 2,
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/eventos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/eventos.html",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/eventos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/eventos.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "eventos",
+              "button": "plan_aurora"
+            }
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/eventos.html",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/eventos.html",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "eventos",
+              "button": "plan_boreal"
+            }
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "excluded",
+      "path": "/gestion.html?panel=demo",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/gestion.html?panel=posada",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/gestion.html?panel=pagos",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/gestion.html?pago=fixture",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/panel-boda.html",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/mi-boda.html",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/pase-boda.html",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/recepcion-boda.html",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/invitacion-boda.html",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/invitaciones/valentina-y-sebastian/",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/invitaciones/posada-confirmados/",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/demos/bruma/",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/demos/posada-luz/",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "excluded",
+      "path": "/aviso-de-privacidad.html",
+      "requests": 0,
+      "scripts": 0
+    },
+    {
+      "case": "privacy opt-out and re-enable",
+      "errors": []
+    },
+    {
+      "case": "opt-out updates already open tab",
+      "requests": [
+        {
+          "endpoint": "/_vercel/insights/view",
+          "payload": {
+            "o": "https://nordrastudio.mx/",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/",
+            "r": ""
+          }
+        },
+        {
+          "endpoint": "/_vercel/insights/event",
+          "payload": {
+            "o": "https://nordrastudio.mx/",
+            "sv": "0.1.3",
+            "sdkn": "@vercel/analytics",
+            "sdkv": "2.0.1",
+            "dp": "/",
+            "r": "",
+            "en": "whatsapp_click",
+            "ed": {
+              "page": "index",
+              "button": "closing"
+            }
+          }
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "lcp": [
+    {
+      "page": "index",
+      "variant": "before",
+      "round": 1,
+      "lcp": {
+        "time": 620,
+        "renderTime": 620,
+        "loadTime": 565.8999999910593,
+        "size": 85171,
+        "url": "http://127.0.0.1:5588/nordra/v544/assets/negocios-720.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "horizon-path-photo",
+        "text": "",
+        "html": "<img class=\"horizon-path-photo\" src=\"/nordra/v544/assets/negocios-1440.webp\" srcset=\"/nordra/v544/assets/negocios-720.webp 720w, /nordra/v544/assets/negocios-1440.webp 1440w\" sizes=\"(max-width:700px) 100vw, 50vw\" width=\"1440\" height=\"1080\" alt=\"BRUMA, un concepto web de Nordra, en una computadora portÃ¡til\" decoding=\"async\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "index",
+      "variant": "after",
+      "round": 1,
+      "lcp": {
+        "time": 540,
+        "renderTime": 540,
+        "loadTime": 491.1000000089407,
+        "size": 85171,
+        "url": "http://127.0.0.1:5589/nordra/v544/assets/negocios-720.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "horizon-path-photo",
+        "text": "",
+        "html": "<img class=\"horizon-path-photo\" src=\"/nordra/v544/assets/negocios-1440.webp\" srcset=\"/nordra/v544/assets/negocios-720.webp 720w, /nordra/v544/assets/negocios-1440.webp 1440w\" sizes=\"(max-width:700px) 100vw, 50vw\" width=\"1440\" height=\"1080\" alt=\"BRUMA, un concepto web de Nordra, en una computadora portÃ¡til\" decoding=\"async\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "negocios",
+      "variant": "before",
+      "round": 1,
+      "lcp": {
+        "time": 1176,
+        "renderTime": 1176,
+        "loadTime": 1123.7999999970198,
+        "size": 210000,
+        "url": "http://127.0.0.1:5588/nordra/v541/assets/aurora-mobile-0.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "",
+        "text": "",
+        "html": "<img alt=\"\" decoding=\"async\" width=\"840\" height=\"546\" src=\"/nordra/v541/assets/aurora-mobile-0.webp\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "negocios",
+      "variant": "after",
+      "round": 1,
+      "lcp": {
+        "time": 1096,
+        "renderTime": 1096,
+        "loadTime": 1048.2999999970198,
+        "size": 210000,
+        "url": "http://127.0.0.1:5589/nordra/v541/assets/aurora-mobile-0.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "",
+        "text": "",
+        "html": "<img alt=\"\" decoding=\"async\" width=\"840\" height=\"546\" src=\"/nordra/v541/assets/aurora-mobile-0.webp\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "index",
+      "variant": "after",
+      "round": 2,
+      "lcp": {
+        "time": 552,
+        "renderTime": 552,
+        "loadTime": 507.5,
+        "size": 85171,
+        "url": "http://127.0.0.1:5589/nordra/v544/assets/negocios-720.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "horizon-path-photo",
+        "text": "",
+        "html": "<img class=\"horizon-path-photo\" src=\"/nordra/v544/assets/negocios-1440.webp\" srcset=\"/nordra/v544/assets/negocios-720.webp 720w, /nordra/v544/assets/negocios-1440.webp 1440w\" sizes=\"(max-width:700px) 100vw, 50vw\" width=\"1440\" height=\"1080\" alt=\"BRUMA, un concepto web de Nordra, en una computadora portÃ¡til\" decoding=\"async\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "index",
+      "variant": "before",
+      "round": 2,
+      "lcp": {
+        "time": 592,
+        "renderTime": 592,
+        "loadTime": 560.3999999910593,
+        "size": 85171,
+        "url": "http://127.0.0.1:5588/nordra/v544/assets/negocios-720.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "horizon-path-photo",
+        "text": "",
+        "html": "<img class=\"horizon-path-photo\" src=\"/nordra/v544/assets/negocios-1440.webp\" srcset=\"/nordra/v544/assets/negocios-720.webp 720w, /nordra/v544/assets/negocios-1440.webp 1440w\" sizes=\"(max-width:700px) 100vw, 50vw\" width=\"1440\" height=\"1080\" alt=\"BRUMA, un concepto web de Nordra, en una computadora portÃ¡til\" decoding=\"async\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "negocios",
+      "variant": "after",
+      "round": 2,
+      "lcp": {
+        "time": 1108,
+        "renderTime": 1108,
+        "loadTime": 1057.0999999940395,
+        "size": 208650,
+        "url": "http://127.0.0.1:5589/nordra/v541/assets/aurora-mobile-0.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "",
+        "text": "",
+        "html": "<img alt=\"\" decoding=\"async\" width=\"840\" height=\"546\" src=\"/nordra/v541/assets/aurora-mobile-0.webp\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "negocios",
+      "variant": "before",
+      "round": 2,
+      "lcp": {
+        "time": 1188,
+        "renderTime": 1188,
+        "loadTime": 1132.7999999970198,
+        "size": 210000,
+        "url": "http://127.0.0.1:5588/nordra/v541/assets/aurora-mobile-0.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "",
+        "text": "",
+        "html": "<img alt=\"\" decoding=\"async\" width=\"840\" height=\"546\" src=\"/nordra/v541/assets/aurora-mobile-0.webp\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "index",
+      "variant": "before",
+      "round": 3,
+      "lcp": {
+        "time": 588,
+        "renderTime": 588,
+        "loadTime": 549.3999999910593,
+        "size": 85171,
+        "url": "http://127.0.0.1:5588/nordra/v544/assets/negocios-720.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "horizon-path-photo",
+        "text": "",
+        "html": "<img class=\"horizon-path-photo\" src=\"/nordra/v544/assets/negocios-1440.webp\" srcset=\"/nordra/v544/assets/negocios-720.webp 720w, /nordra/v544/assets/negocios-1440.webp 1440w\" sizes=\"(max-width:700px) 100vw, 50vw\" width=\"1440\" height=\"1080\" alt=\"BRUMA, un concepto web de Nordra, en una computadora portÃ¡til\" decoding=\"async\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "index",
+      "variant": "after",
+      "round": 3,
+      "lcp": {
+        "time": 560,
+        "renderTime": 560,
+        "loadTime": 529.2999999970198,
+        "size": 85171,
+        "url": "http://127.0.0.1:5589/nordra/v544/assets/negocios-720.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "horizon-path-photo",
+        "text": "",
+        "html": "<img class=\"horizon-path-photo\" src=\"/nordra/v544/assets/negocios-1440.webp\" srcset=\"/nordra/v544/assets/negocios-720.webp 720w, /nordra/v544/assets/negocios-1440.webp 1440w\" sizes=\"(max-width:700px) 100vw, 50vw\" width=\"1440\" height=\"1080\" alt=\"BRUMA, un concepto web de Nordra, en una computadora portÃ¡til\" decoding=\"async\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "negocios",
+      "variant": "before",
+      "round": 3,
+      "lcp": {
+        "time": 1120,
+        "renderTime": 1120,
+        "loadTime": 1079.3999999910593,
+        "size": 210000,
+        "url": "http://127.0.0.1:5588/nordra/v541/assets/aurora-mobile-0.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "",
+        "text": "",
+        "html": "<img alt=\"\" decoding=\"async\" width=\"840\" height=\"546\" src=\"/nordra/v541/assets/aurora-mobile-0.webp\">"
+      },
+      "errors": []
+    },
+    {
+      "page": "negocios",
+      "variant": "after",
+      "round": 3,
+      "lcp": {
+        "time": 1076,
+        "renderTime": 1076,
+        "loadTime": 1031.5,
+        "size": 210000,
+        "url": "http://127.0.0.1:5589/nordra/v541/assets/aurora-mobile-0.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "",
+        "text": "",
+        "html": "<img alt=\"\" decoding=\"async\" width=\"840\" height=\"546\" src=\"/nordra/v541/assets/aurora-mobile-0.webp\">"
+      },
+      "errors": []
+    }
+  ]
+}
