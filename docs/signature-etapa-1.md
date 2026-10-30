@@ -99,3 +99,9 @@ proporciona la imagen diferida. No compiten con el LCP de la entrada normal.
 La imagen cambia suavemente su escala con el scroll, reutilizando el controlador de
 Inicio. Pausa global y movimiento reducido eliminan transformaciones; no se toca
 horizon-flow.js ni el movimiento aprobado de la aurora. Pendiente de aprobación visual.
+
+## T6 · Cotización al principio de Negocios
+
+El hero mantiene «Comparar paquetes» y añade justo después «Cotizar mi página»,
+con el mismo mensaje contextual de T3 para Negocios. Conserva el estilo de acción
+existente y el control de movimiento. No se elimina contenido ni se añaden precios.

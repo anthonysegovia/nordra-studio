@@ -20,3 +20,6 @@ body[data-scene] .business-head h1,
 body[data-scene] h1 .business-title-line:first-child {
   letter-spacing: -.045em;
 }
+
+/* Keep comparison and contextual contact together, without removing the existing path. */
+.business-hero-actions{display:grid;gap:10px;min-width:0}
