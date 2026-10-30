@@ -1,0 +1,122 @@
+/* Roles existentes de scene.css, en su orden relativo original.
+   No son una escala nueva: conservar selectores, valores e inherit. */
+
+/* Nordra general · claro (predeterminado). Negocios y Estudio heredan estos roles. */
+body {
+  --bg: #f6f9fc;
+  --ink: #142a36;
+  --muted: #586f7a;
+  --line: #25465c25;
+  --accent: #22616f;
+}
+
+/* Nordra general · oscuro. Negocios y Estudio heredan estos roles. */
+.dark {
+  --bg: #081420;
+  --ink: #f1f5fc;
+  --muted: #a5bac9;
+  --line: #d8e8fc25;
+  --accent: #a3d8e4;
+}
+
+/* Invitaciones · acento de la sección en claro; los demás roles se heredan. */
+.invitations {
+  --accent: #6a587d;
+}
+
+/* Invitaciones · acento de la sección en oscuro. */
+.dark .invitations {
+  --accent: #cebee7;
+}
+
+/* Bodas · claro: marfil y neutros cálidos. */
+body[data-scene=bodas] {
+  --bg: #fcfaf6;
+  --ink: #655040;
+  --muted: #756456;
+  --line: #ded2c2;
+  --accent: #795e49;
+}
+
+/* Bodas · oscuro: neutros cálidos. */
+body[data-scene=bodas].dark {
+  --bg: #302820;
+  --ink: #fff7eb;
+  --muted: #dfd0bd;
+  --line: #8c786466;
+  --accent: #ead4b8;
+}
+
+/* Cumpleaños · claro. */
+body[data-scene=cumpleanos] {
+  --bg: #f6f5ff;
+  --ink: #222951;
+  --muted: #67677c;
+  --accent: #4845bb;
+  --line: #4845bb25;
+}
+
+/* Cumpleaños · oscuro. */
+body[data-scene=cumpleanos].dark {
+  --bg: #141326;
+  --ink: #f1eeff;
+  --muted: #c5bddb;
+  --accent: #bdb2ff;
+  --line: #c5bddb44;
+}
+
+/* Eventos · claro. */
+body[data-scene=eventos] {
+  --bg: #f4f8f6;
+  --ink: #193e3d;
+  --muted: #58716d;
+  --accent: #337b6c;
+  --line: #337b6c33;
+}
+
+/* Eventos · oscuro. */
+body[data-scene=eventos].dark {
+  --bg: #0e2424;
+  --ink: #e6f4ed;
+  --muted: #b5cfc7;
+  --accent: #a6e4cf;
+  --line: #a6e4cf44;
+}
+
+/* Invitaciones de ocasión · heredar el acento de su identidad. Conservar este orden. */
+.occasion-page.invitations {
+  --accent: inherit;
+}
+
+/* Temporada · claro: conservar los valores dinámicos y sus respaldos. */
+body[data-scene=temporada] {
+  --bg: var(--seasonal-bg,#faf7f3);
+  --ink: #34313f;
+  --muted: #716877;
+  --line: #71687730;
+  --accent: var(--seasonal-accent,#785587);
+}
+
+/* Temporada · oscuro: conservar los valores dinámicos y sus respaldos. */
+body[data-scene=temporada].dark {
+  --bg: var(--seasonal-bg,#24202c);
+  --ink: #f6f1e9;
+  --muted: #d1c8d2;
+  --line: #d1c8d240;
+  --accent: var(--seasonal-accent,#dec1ec);
+}
+
+/* Bodas · acento oscuro de las secciones de identidad. */
+.dark .theme-wedding {
+  --accent: #ead4b8;
+}
+
+/* Cumpleaños · acento oscuro de las secciones de identidad. */
+.dark .theme-birthday {
+  --accent: #bdb2ff;
+}
+
+/* Eventos · acento oscuro de las secciones de identidad. */
+.dark .theme-gathering {
+  --accent: #a6e4cf;
+}
