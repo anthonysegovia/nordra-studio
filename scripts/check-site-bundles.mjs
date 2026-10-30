@@ -3,6 +3,16 @@ import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+export function assertNoLegacySiteAssets(html, label) {
+  for (const tag of html.matchAll(/<(?:script|link)\b[^>]*>/gi)) {
+    for (const attribute of tag[0].matchAll(/\b(?:src|href)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi)) {
+      const value = attribute[1] ?? attribute[2] ?? attribute[3];
+      const url = new URL(value, 'https://example.invalid/');
+      assert.ok(!/^\/nordra\/.*\.(?:js|css)$/i.test(url.pathname), `${label}: retired public script or style: ${value}`);
+    }
+  }
+}
+
 // Follow emitted static imports in ES-module evaluation order. Initialization
 // error labels are retained by minification and identify each isolated script.
 export function bundledOrder(entryFiles, read) {
@@ -22,6 +32,8 @@ export function checkSiteBundles(root) {
   const pages = { index: 'home', estudio: 'estudio', negocios: 'business', invitaciones: 'invitations', bodas: 'weddings', cumpleanos: 'birthdays', eventos: 'events', temporada: 'seasonal' };
   return Object.entries(pages).map(([page, entry]) => {
     const html = readFileSync(resolve(root, `dist/${page}.html`), 'utf8');
+    assertNoLegacySiteAssets(readFileSync(resolve(root, `${page}.html`), 'utf8'), `${page} source`);
+    assertNoLegacySiteAssets(html, `${page} build`);
     const entrySource = readFileSync(resolve(root, `src/site/entries/${entry}.js`), 'utf8');
     const expected = [...entrySource.matchAll(/import '\.\.\/scripts\/([a-z-]+)\.js(?:\?entry=[a-z]+)?';/g)].map(match => match[1]);
     const modules = [...html.matchAll(/<script\b[^>]*src="(\/assets\/[^"?]+\.js)"[^>]*>/g)].map(match => resolve(root, 'dist' + match[1]));
@@ -30,7 +42,6 @@ export function checkSiteBundles(root) {
     const actual = bundledOrder(modules, file => readFileSync(file, 'utf8'));
     assert.deepEqual(actual, expected, `${page}: emitted initialization order differs from the entry`);
     assert.doesNotMatch(html, /(?:src|href)="\/assets\/[^"<>]*\?/);
-    assert.doesNotMatch(html, /<(?:script|link)\b[^>]*(?:src|href)="\/nordra\/[^"?]*\.(?:js|css)(?:[?"])/);
     return { page, order: actual, hashedAssets: true };
   });
 }

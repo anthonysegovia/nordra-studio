@@ -6,9 +6,18 @@ import { resolve } from 'node:path';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
 import { isolateSiteScript, siteScripts } from '../build/site-scripts.mjs';
-import { bundledOrder } from './check-site-bundles.mjs';
+import { bundledOrder, assertNoLegacySiteAssets } from './check-site-bundles.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+test('legacy asset guard rejects old JS/CSS URLs but permits retained resources', () => {
+  for (const html of [
+    '<script src="/nordra/v541/journey.js?v=552"></script>',
+    "<link href='/nordra/v544/home.css' rel='stylesheet'>",
+    '<SCRIPT defer SRC=nordra/v544/horizon-flow.js></SCRIPT>',
+    '<link rel="preload" as="script" href="https://example.invalid/nordra/v541/motion.js">',
+  ]) assert.throws(() => assertNoLegacySiteAssets(html, 'fixture'), /retired public script or style/);
+  assert.doesNotThrow(() => assertNoLegacySiteAssets('<script src="/assets/home-hash.js"></script><link href="/assets/home-hash.css"><link rel="preload" href="/nordra/v541/assets/manrope-latin.woff2"><img src="/nordra/v544/assets/horizon-light.webp"><iframe src="/nordra/v541/bruma-motion.html"></iframe>', 'fixture'));
+});
 test('bundle inspection detects initialization reordered by a shared chunk', () => {
   const files = new Map([
     [resolve(root, 'entry.js'), 'import "./shared.js"; console.error("[Nordra site] middle.js failed to initialize");'],
@@ -217,7 +226,7 @@ for (const [page, expected] of Object.entries(pages)) test(`${page}: original sc
   assert.deepEqual([...head.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m => m[1]), expected.styles.map(name => `/src/site/styles/${name}.css${page === "index" ? "?entry=home" : ""}`));
   assert.equal((html.match(/<script>([\s\S]*?)<\/script>/g) || []).length, expected.inline);
   assert.ok(html.includes(`<script type="module" src="/src/site/entries/${expected.entry}.js"></script>`));
-  assert.doesNotMatch(html, /<(?:script|link)\b[^>]*(?:src|href)="\/nordra\/[^"?]*\.(?:js|css)(?:[?"])/);
+  assertNoLegacySiteAssets(html, page);
 });
 
 test('a synchronous failure is logged once and does not stop the following module', () => {
