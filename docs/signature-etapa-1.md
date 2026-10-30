@@ -24,3 +24,28 @@ Propuesta local para revisión visual, basada en b547640. No incluye publicació
   tamaño, interlineado ni color. Los demás espaciados se conservan.
 - Capturas de referencia y validaciones completas en la carpeta externa de revisión.
   La medición comparada de LCP se documenta en T7.
+
+## T2 · Navegación
+
+El mismo header de las ocho páginas incorpora «El estudio», entre Inicio y Negocios,
+con navegación interna `data-go="estudio"`. No se agregan otros enlaces.
+
+Criterio móvil propuesto: tres accesos al contenido de la propia página, en orden
+**explorar → decidir / conocer el proceso → contactar**. Etiquetas según el contenido;
+Contacto siempre ocupa el último lugar. No se mezcla un salto a otra página en la
+barra fija. El menú desplegable conserva la navegación general.
+
+| Página | Antes | Propuesta |
+|---|---|---|
+| Inicio | El estudio · Servicios · Contacto | Servicios · El estudio · Contacto |
+| Estudio | Inicio · Proceso · Contacto | El estudio · Proceso · Contacto |
+| Negocios | Casos · Paquetes · Contacto | Casos · Opciones · Contacto |
+| Invitaciones | Celebraciones · Probar · Contacto | Celebraciones · Proceso · Contacto |
+| Bodas | Muestra · Paquetes · Contacto | Muestra · Opciones · Contacto |
+| Cumpleaños | Muestra · Paquetes · Contacto | Muestra · Opciones · Contacto |
+| Eventos | Muestra · Paquetes · Contacto | Muestra · Opciones · Contacto |
+| Temporada | Colección · Cómo empezar · Contacto | Colección · Proceso · Contacto |
+
+En Inicio, El estudio lleva ahora al resumen del estudio dentro de Inicio; en
+Estudio, el primer acceso vuelve a su presentación. «Opciones» sirve tanto para
+cotizaciones web como para los paquetes de invitaciones, sin prometer un precio web.
