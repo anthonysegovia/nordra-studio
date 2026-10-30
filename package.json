@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test scripts/*.test.mjs server/*.test.js && node --test scripts/check-guest-panel.mjs scripts/check-whatsapp-rsvp.mjs scripts/check-wedding-dashboard.mjs scripts/check-wedding-guests.mjs scripts/check-wedding-import.mjs scripts/check-wedding-invitations.mjs scripts/check-wedding-rsvp.mjs scripts/check-wedding-text.mjs scripts/check-wedding.mjs && node scripts/check-posada.mjs --demo",
+    "check:build": "npm run build && node scripts/check-site-bundles.mjs && node scripts/check-vercel-build-inputs.mjs",
+    "typecheck": "tsc -p . --noEmit"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.3",
