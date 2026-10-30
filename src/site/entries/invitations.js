@@ -13,3 +13,4 @@ import '../scripts/nordra-materials.js?entry=invitations';
 import '../scripts/nordra-theatre.js?entry=invitations';
 import '../scripts/interface-icons.js?entry=invitations';
 import '../scripts/page-navigation.js?entry=invitations';
+import '../analytics/entry.js';

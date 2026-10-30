@@ -12,3 +12,4 @@ import '../scripts/nordra-materials.js?entry=business';
 import '../scripts/nordra-theatre.js?entry=business';
 import '../scripts/interface-icons.js?entry=business';
 import '../scripts/page-navigation.js?entry=business';
+import '../analytics/entry.js';

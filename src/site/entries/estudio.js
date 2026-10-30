@@ -10,3 +10,4 @@ import '../scripts/nordra-materials.js';
 import '../scripts/nordra-theatre.js';
 import '../scripts/interface-icons.js';
 import '../scripts/page-navigation.js';
+import '../analytics/entry.js';
