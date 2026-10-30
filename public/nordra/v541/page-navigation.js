@@ -33,6 +33,14 @@
   catch{history[method](state,'','#pagina='+current+(currentAnchor?'&seccion='+encodeURIComponent(currentAnchor):''));}
  }
  function cancelPending(){if(!pending)return;clearTimeout(pending.timer);pending.frame.remove();pending=null;root.removeAttribute('aria-busy');}
+ function navigateNormally(request){
+  if(pending!==request)return;
+  cancelPending();
+  // A popstate already selected its history entry; do not add a duplicate.
+  if(request.historyMode==='push')location.assign(request.url.href);
+  else location.replace(request.url.href);
+ }
+ document.addEventListener('visibilitychange',()=>{if(document.hidden&&pending)navigateNormally(pending);});
  function restartPending(){if(pending){const {next,anchor,historyMode}=pending;go(next,anchor,historyMode);}}
  function go(next,anchor='',historyMode='push'){
   if(!Object.hasOwn(pages,next))return;
@@ -47,8 +55,9 @@
   frame.className='page-navigation-frame';frame.title='Nordra Studio';frame.setAttribute('aria-hidden','true');frame.tabIndex=-1;
   const request={frame,next,anchor,historyMode,url:targetURL(next,anchor)};
   pending=request;root.setAttribute('aria-busy','true');
-  request.timer=setTimeout(()=>{if(pending!==request)return;cancelPending();status.textContent='No se pudo abrir la página. Vuelve a seleccionar el enlace.';},12000);
+  request.timer=setTimeout(()=>navigateNormally(request),12000);
   frame.addEventListener('error',()=>{if(pending===request){cancelPending();status.textContent='No se pudo abrir la página. Vuelve a seleccionar el enlace.';}});
+  if(document.hidden){navigateNormally(request);return;}
   frame.src=request.url.href;document.body.append(frame);
  }
  document.addEventListener('click',event=>{
