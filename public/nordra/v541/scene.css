@@ -459,8 +459,8 @@ body[data-scene=temporada].dark{--bg:var(--seasonal-bg,#24202c);--ink:#f6f1e9;--
 .seasonal-route{padding:28px 0 0;border-top:1px solid var(--line)}
 .seasonal-route>p{font-size:12px;color:var(--muted);margin:0 0 23px}
 .seasonal-route>div{display:grid;grid-template-columns:1fr 1fr 1fr;gap:36px}
-.seasonal-route a{display:grid;grid-template-columns:28px 1fr 20px;align-items:center;gap:10px;padding:15px 0 22px;border-bottom:1px solid var(--line);font-size:18px;min-height:60px}
-.seasonal-route-number{font-size:10px;letter-spacing:.1em;color:var(--muted)}
+.seasonal-route a{display:grid;grid-template-columns:1fr 20px;align-items:center;gap:10px;padding:15px 0 22px;border-bottom:1px solid var(--line);font-size:18px;min-height:60px}
+
 .seasonal-route a[aria-current]{border-bottom-color:var(--accent);color:var(--accent)}
 .seasonal-chapter{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:70px;align-items:start;padding-top:110px;padding-bottom:110px;border-bottom:1px solid var(--line)}
 .seasonal-number{font-size:11px;letter-spacing:.14em;margin:0 0 50px;color:var(--muted)}
@@ -640,7 +640,7 @@ html[data-journey-motion=paused]::view-transition-group(root),html[data-journey-
 .response-steps{display:grid;grid-template-columns:1fr 1fr 1fr;list-style:none;padding:0;margin:0 0 28px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .response-steps li{font-size:12px;padding:19px 8px;color:var(--muted);transition:color .25s,background-color .25s}
 .response-steps li[aria-current]{color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,transparent)}
-.response-steps span{font-size:10px;letter-spacing:.1em;margin-right:14px}
+
 .response-stage{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:42px;align-items:stretch}
 .guest-preview{background:color-mix(in srgb,var(--bg) 95%,var(--accent));border:1px solid var(--line);padding:28px 34px;min-width:0;display:flex;flex-direction:column}
 .guest-preview>.eyebrow{font-size:10px;margin:0 0 25px}
@@ -729,7 +729,7 @@ html[data-journey-motion=paused]::view-transition-group(root),html[data-journey-
  .experience-heading small{font-size:10px}
  .response-steps{gap:0;margin-bottom:22px}
  .response-steps li{font-size:10px;line-height:1.6;padding:13px 7px}
- .response-steps span{display:block;font-size:9px;margin:0 0 7px}
+
  .response-stage{grid-template-columns:1fr;gap:24px}
  .guest-preview{padding:24px}.demo-cover,.demo-response,.demo-receipt{min-height:310px}
  .guest-preview h3{font-size:32px}.demo-action{font-size:13px}
