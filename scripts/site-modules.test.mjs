@@ -222,7 +222,7 @@ for (const [page, expected] of Object.entries(pages)) test(`${page}: original sc
   if(page !== 'estudio') assert.equal([...entry.matchAll(/\?entry=([a-z]+)/g)].filter(m => m[1] === expected.entry).length, expected.scripts.length);
   assert.doesNotMatch(entry, /import.*\.css/);
   const html = read(`${page}.html`), head = html.split('</head>')[0];
-  assert.deepEqual([...head.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m => m[1]), expected.styles.map(name => `/src/site/styles/${name}.css`));
+  assert.deepEqual([...head.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m => m[1]), expected.styles.map(name => `/src/site/styles/${name}.css${page === "index" ? "?entry=home" : ""}`));
   assert.equal((html.match(/<script>([\s\S]*?)<\/script>/g) || []).length, expected.inline);
   assert.ok(html.includes(`<script type="module" src="/src/site/entries/${expected.entry}.js"></script>`));
   assert.doesNotMatch(html, /<(?:script|link)\b[^>]*(?:src|href)="\/nordra\/[^"?]*\.(?:js|css)(?:[?"])/);

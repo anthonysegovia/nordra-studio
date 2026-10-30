@@ -26,6 +26,7 @@ export function checkSiteBundles(root) {
     const expected = [...entrySource.matchAll(/import '\.\.\/scripts\/([a-z-]+)\.js(?:\?entry=[a-z]+)?';/g)].map(match => match[1]);
     const modules = [...html.matchAll(/<script\b[^>]*src="(\/assets\/[^"?]+\.js)"[^>]*>/g)].map(match => resolve(root, 'dist' + match[1]));
     assert.ok(modules.length, `${page}: no emitted module`);
+    assert.equal([...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*>/g)].length, 1, `${page}: styles must stay in one ordered blocking sheet`);
     const actual = bundledOrder(modules, file => readFileSync(file, 'utf8'));
     assert.deepEqual(actual, expected, `${page}: emitted initialization order differs from the entry`);
     assert.doesNotMatch(html, /(?:src|href)="\/assets\/[^"<>]*\?/);
