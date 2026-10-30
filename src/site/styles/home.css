@@ -1,0 +1,104 @@
+/* The approved Horizon + Two paths homepage. Shared pages retain their own styles. */
+.home-horizon.scene{padding:0;min-height:0;overflow:clip;color:var(--ink)}
+.horizon-hero{position:relative;isolation:isolate;text-align:center;padding:80px 24px 170px;overflow:hidden}
+.horizon-location{font-size:10px;letter-spacing:.18em}
+.horizon-title{max-width:1120px;margin:26px auto 22px;font-size:clamp(42px,4.9vw,76px);font-weight:650;line-height:1.1;letter-spacing:-.055em;text-wrap:balance}
+.horizon-accent{color:#3494bc;white-space:nowrap}
+.horizon-ending{display:block}
+.horizon-offer{font-size:clamp(16px,1.45vw,20px);margin:0 auto 7px;line-height:1.6;letter-spacing:-.025em}
+.horizon-detail{font-size:15px;color:var(--muted);margin:0 auto;line-height:1.65}
+.horizon-actions{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:30px}
+.horizon-button{display:inline-flex;justify-content:center;align-items:center;gap:18px;min-height:48px;padding:12px 27px;border:1px solid #102a40;border-radius:999px;background:#102a40;color:#fff;font-size:14px;font-weight:500;line-height:1.4;text-align:center;transition:background-color .25s,color .25s,transform .3s,border-color .25s}
+.horizon-button-outline{background:transparent;color:var(--ink);border-color:currentColor}
+.horizon-button .interface-arrow{width:17px;height:17px;transition:transform .25s}
+.horizon-button:hover,.horizon-button:focus-visible{opacity:1;background:#24485d;border-color:#24485d;color:white}
+.horizon-button:hover .interface-arrow,.horizon-button:focus-visible .interface-arrow{transform:translateX(3px)}
+.horizon-button:active{transform:translateY(1px)}
+.horizon-trust{display:flex;justify-content:center;align-items:center;gap:15px;margin:26px auto 0;font-size:11px;color:var(--muted);letter-spacing:.025em}
+.horizon-trust i{font-style:normal}
+.horizon-light{position:absolute;z-index:-1;pointer-events:none;left:-3%;right:-3%;bottom:-15px;height:280px;opacity:.7;transform-origin:50% 100%}
+.horizon-light img{width:100%;height:100%;max-width:none;object-fit:fill}
+.horizon-light.has-flow.is-visible{animation:none;transform:none}
+.horizon-light.has-flow>img{visibility:hidden}
+.horizon-hero .horizon-light.has-flow{opacity:1}
+.horizon-flow{position:absolute;inset:0;width:100%;height:100%}
+.horizon-light.is-visible{animation:horizon-drift 18s ease-in-out infinite alternate}
+@keyframes horizon-drift{from{transform:translate3d(-.8%,3px,0) scaleY(.97)}to{transform:translate3d(.8%,-5px,0) scaleY(1.025)}}
+.horizon-paths{display:grid;grid-template-columns:1fr 1fr;gap:5px;scroll-margin-top:100px}
+.horizon-path{position:relative;display:block;isolation:isolate;overflow:hidden;aspect-ratio:1.22;background:#e8edf2;color:#102a40}
+.horizon-path:hover{opacity:1}
+.horizon-path-photo{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 25%;transform:scale(var(--image-scale,1.035));transition:transform .15s linear}
+.horizon-path::after{content:"";position:absolute;z-index:0;inset:40% 0 0;background:linear-gradient(transparent,#f4f8fc99 55%,#f4f8fced)}
+.horizon-invitations::after{background:linear-gradient(transparent,#fff8ef77 55%,#fff8efe8)}
+.horizon-path-caption{position:absolute;z-index:1;bottom:0;left:0;right:0;padding:clamp(24px,3.4vw,52px)}
+.horizon-path-caption::before{content:"";display:block;width:32px;height:1px;background:currentColor;margin-bottom:15px}
+.horizon-path h2{font-size:clamp(30px,3vw,46px);font-weight:600;letter-spacing:-.05em;line-height:1.15;margin:0 0 10px}
+.horizon-path p{font-size:14px;line-height:1.6;max-width:380px;margin:0 0 21px;color:#344a59}
+.horizon-path .horizon-button{min-height:44px;font-size:13px;padding:11px 23px}
+.horizon-path .horizon-button-outline{color:#102a40}
+.horizon-path:hover .horizon-button,.horizon-path:focus-visible .horizon-button{background:#24485d;border-color:#24485d;color:white}
+.horizon-path:focus-visible{outline:3px solid #6379df;outline-offset:-6px}
+.horizon-studio{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:66px 24px 72px;scroll-margin-top:100px}
+.horizon-studio h2{font-size:clamp(28px,3.2vw,43px);font-weight:600;letter-spacing:-.045em;line-height:1.2;margin:0 auto 18px}
+.horizon-studio>p{max-width:680px;margin:0 auto 25px;font-size:16px;line-height:1.75;color:var(--muted)}
+.horizon-studio .horizon-light{height:270px;bottom:-90px;opacity:.3;transform:scaleX(-1)}
+.home-horizon .home-closing{margin:0;padding:66px max(24px,5vw) 30px;border-top:1px solid var(--line)}
+.home-horizon .home-closing h2{font-size:clamp(36px,4.7vw,68px);margin:25px auto 32px;text-align:center}
+.home-horizon .home-closing>.eyebrow{text-align:center}
+.home-horizon .contact-layout{max-width:1060px;margin-inline:auto}
+.home-horizon .contact-layout>p{font-size:18px;line-height:1.7}
+.home-horizon .contact-alternatives{max-width:1060px;margin:42px auto 0}
+.home-horizon .home-footer-links{margin-top:50px}
+.dark .horizon-accent{color:#82c5e7}
+.dark .horizon-light{opacity:.5}
+.dark .horizon-hero .horizon-light{opacity:.85}
+.dark .horizon-hero .horizon-light.has-flow{opacity:1}
+.dark .horizon-studio .horizon-light{opacity:.16}
+.dark .horizon-hero .horizon-button:not(.horizon-button-outline){background:#a9daf1;border-color:#a9daf1;color:#081420}
+.dark .horizon-hero .horizon-button:not(.horizon-button-outline):hover{background:#d7edf7}
+.dark .horizon-path{border:1px solid #b8d1e826}
+body[data-journey-motion=paused] .horizon-light,.horizon-window-hidden .horizon-light{animation-play-state:paused}
+body[data-journey-motion=paused] .horizon-path-photo{transform:none;transition:none}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.horizon-path:hover .horizon-path-photo{transform:scale(1.06);transition:transform .7s cubic-bezier(.2,.65,.25,1)}}
+@media(max-width:1050px){
+ .horizon-hero{padding-top:60px;padding-bottom:150px}
+ .horizon-title{font-size:clamp(40px,5.2vw,58px)}
+ .horizon-path{aspect-ratio:1/1.05}
+ .horizon-path-caption{padding:28px}
+}
+@media(max-width:700px){
+ .horizon-hero{padding:40px 22px 100px}
+ .horizon-location{max-width:300px;margin:auto;font-size:8px;letter-spacing:.13em}
+ .horizon-title{font-size:clamp(28px,8.5vw,42px);line-height:1.14;margin:24px auto 20px;max-width:450px;letter-spacing:-.055em}
+ .horizon-intro{display:block}
+ .horizon-ending{max-width:17ch;margin:auto}
+ .horizon-offer{font-size:15px;line-height:1.6;max-width:360px}
+ .horizon-offer span{display:block}
+ .horizon-detail{font-size:13px;max-width:280px;margin-top:8px}
+ .horizon-actions{flex-direction:column;gap:11px;margin-top:25px}
+ .horizon-actions .horizon-button{width:min(100%,330px);min-height:46px;font-size:13px;padding:11px 19px}
+ .horizon-trust{gap:8px;flex-wrap:wrap;font-size:9px;letter-spacing:0;margin-top:22px}
+ .horizon-light{height:135px;left:-16%;right:-16%;bottom:-4px;opacity:.65}
+ .horizon-paths{grid-template-columns:1fr;gap:5px;scroll-margin-top:80px}
+ .horizon-path{aspect-ratio:auto;height:clamp(340px,100vw,480px)}
+ .horizon-path-photo{object-position:50% 28%}
+ .horizon-path-caption{padding:24px}
+ .horizon-path-caption::before{margin-bottom:10px;width:26px}
+ .horizon-path h2{font-size:32px;margin-bottom:7px}
+ .horizon-path p{font-size:13px;max-width:300px;margin-bottom:16px}
+ .horizon-path .horizon-button{font-size:12px;min-height:44px}
+ .horizon-studio{padding:42px 24px 50px;scroll-margin-top:80px}
+ .horizon-studio h2{font-size:29px;max-width:340px}
+ .horizon-studio>p{font-size:14px;line-height:1.75}
+ .horizon-studio .horizon-light{height:180px;bottom:-50px}
+ .horizon-studio .horizon-button{font-size:13px}
+ .home-horizon .home-closing{padding:42px 24px 30px}
+ .home-horizon .home-closing h2{font-size:36px;line-height:1.12;margin:22px auto 28px}
+ .home-horizon .contact-layout>p{font-size:16px}
+ .home-horizon .contact-alternatives{margin-top:30px}
+}
+@media(prefers-reduced-motion:reduce){
+ .horizon-light.is-visible{animation:none}
+ .horizon-path-photo{transform:none;transition:none}
+ .horizon-button,.horizon-button .interface-arrow{transition:none}
+}
