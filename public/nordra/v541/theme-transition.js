@@ -27,6 +27,7 @@
    // Keep the old frame underneath the new one: no blank frame or bright flash.
    root.classList.add('theme-changing');
    active=document.startViewTransition(update);
+   active.ready.catch(()=>{});
    active.finished.then(finish,finish);
   }else{
    root.classList.add('theme-color-fade');
