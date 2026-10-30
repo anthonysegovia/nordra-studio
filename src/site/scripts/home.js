@@ -4,6 +4,43 @@
  const reduced=matchMedia('(prefers-reduced-motion:reduce)');
  const lights=[...root.querySelectorAll('.horizon-light')];
  const cards=[...root.querySelectorAll('.horizon-path, .signature-work')];
+ const glowMedia=matchMedia('(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference)');
+ const paths=[...root.querySelectorAll('.horizon-path')];
+ let glowController,glowFrame=0,glowTarget,glowRect,glowX=0,glowY=0;
+ function measureGlow(){
+  if(!glowTarget)return;
+  const rect=glowTarget.getBoundingClientRect();
+  // Document coordinates keep this cache valid when the page scrolls.
+  glowRect={left:rect.left+scrollX,top:rect.top+scrollY};
+ }
+ function paintGlow(){
+  glowFrame=0;if(!glowTarget)return;
+  glowTarget.style.setProperty('--glow-x',`${glowX-glowRect.left}px`);
+  glowTarget.style.setProperty('--glow-y',`${glowY-glowRect.top}px`);
+ }
+ function moveGlow(event){
+  glowX=event.pageX;glowY=event.pageY;
+  if(glowTarget&&!glowFrame)glowFrame=requestAnimationFrame(paintGlow);
+ }
+ function leaveGlow(){cancelAnimationFrame(glowFrame);glowFrame=0;glowTarget=null;}
+ function enterGlow(event){glowTarget=event.currentTarget;measureGlow();moveGlow(event);}
+ function syncGlow(){
+  const enabled=glowMedia.matches&&!stopped();
+  if(enabled===!!glowController)return;
+  if(!enabled){
+   glowController.abort();glowController=null;leaveGlow();
+   paths.forEach(path=>{path.style.removeProperty('--glow-x');path.style.removeProperty('--glow-y');});
+   return;
+  }
+  glowController=new AbortController();
+  const options={passive:true,signal:glowController.signal};
+  paths.forEach(path=>{
+   path.addEventListener('pointerenter',enterGlow,options);
+   path.addEventListener('pointermove',moveGlow,options);
+   path.addEventListener('pointerleave',leaveGlow,options);
+  });
+  addEventListener('resize',measureGlow,options);
+ }
  const visible=new Set();let frame=0;
  const stopped=()=>reduced.matches||document.body.dataset.journeyMotion==='paused';
  const observer=new IntersectionObserver(entries=>{
@@ -26,8 +63,9 @@
  function queue(){if(!frame&&!document.hidden)frame=requestAnimationFrame(paint);}
  addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue,{passive:true});
  addEventListener('nordra-local-motion',queue);reduced.addEventListener('change',queue);
- const state=new MutationObserver(queue);state.observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
+ const state=new MutationObserver(()=>{queue();syncGlow();});state.observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
+ glowMedia.addEventListener('change',syncGlow);syncGlow();
  document.addEventListener('visibilitychange',()=>{document.body.classList.toggle('horizon-window-hidden',document.hidden);queue();});
- addEventListener('pagehide',()=>{cancelAnimationFrame(frame);observer.disconnect();state.disconnect();},{once:true});
+ addEventListener('pagehide',()=>{cancelAnimationFrame(frame);observer.disconnect();state.disconnect();glowController?.abort();leaveGlow();glowMedia.removeEventListener('change',syncGlow);},{once:true});
  queue();
 })();
