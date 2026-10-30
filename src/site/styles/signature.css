@@ -1,0 +1,22 @@
+/* Signature typography: commercial pages only; embedded documents keep their identity. */
+@font-face {
+  font-family: Sora;
+  src: url('/fonts/sora/Sora-latin.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+body[data-scene] :is(h1, h2, h3, .feature-heading strong) {
+  font-family: Sora, Manrope, Arial, sans-serif;
+}
+
+body[data-scene] :is(h1, h2, h3) :is(span, em, strong) {
+  font-family: inherit;
+}
+
+/* Display lines need more breathing room than the previous Manrope tracking. */
+body[data-scene] .business-head h1,
+body[data-scene] h1 .business-title-line:first-child {
+  letter-spacing: -.045em;
+}
