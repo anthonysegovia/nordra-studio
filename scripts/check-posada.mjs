@@ -6,7 +6,7 @@ import { Script } from 'node:vm';
 
 const project = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const demo = process.argv.includes('--demo');
-const venue = demo ? 'Jardín Aurora' : 'La Covadonga, NL 20 2002, Cieneguilla, 67308 Santiago, N.L., México';
+const venue = demo ? 'Jardín Aurora · Lugar de ejemplo' : 'La Covadonga, NL 20 2002, Cieneguilla, 67308 Santiago, N.L., México';
 const summary = demo ? 'Se viene la posada · Demo' : 'Se viene la posada';
 const cardName = demo ? 'invitacion-posada-demo.jpg' : 'invitacion-posada-covadonga.jpg';
 const folder = resolve(project, `public/demos/${demo ? 'posada-pinata' : 'posada-luz'}`);
@@ -25,7 +25,9 @@ for (const [, href] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
   else if (href.startsWith('/') && !href.includes('.html')) await access(resolve(project, 'public', href.slice(1)));
 }
 
-assert.ok(!/(?<!\r)\n/.test(ics), 'Calendar must use CRLF line endings');
+// Keep this strict: the tracked/published demo currently has LF endings.
+// Windows core.autocrlf can hide that defect; CI must still report it.
+assert.ok(!/(?<!\r)\n/.test(ics), 'Calendar must use CRLF line endings (check the tracked file, not only a Windows autocrlf checkout)');
 const lines = ics.trimEnd().split('\r\n');
 assert.equal(lines[0], 'BEGIN:VCALENDAR');
 assert.equal(lines.at(-1), 'END:VCALENDAR');
@@ -41,8 +43,71 @@ assert.equal(local, 'Saturday, 19/12/2026, 18:00');
 assert.equal(Date.parse(iso), Date.parse(html.match(/datetime="([^"]+)"/)[1]), 'Calendar and visible date must describe the same instant');
 assert.ok(js.includes(html.match(/datetime="([^"]+)"/)[1]), 'Countdown must target the invitation time');
 assert.ok(!lines.some(line => /^(DTEND|DURATION|ATTENDEE|ORGANIZER):/.test(line)), 'Do not invent an end time or RSVP contacts');
-if (demo) assert.ok(!/<form\b/.test(html));
-else {
+if (demo) {
+  assert.match(html, /<form id="rsvp-form"[^>]+action="#confirmar"/);
+  assert.ok(html.includes('name="attendance"'));
+  assert.ok(html.includes('Tu respuesta se guarda solo en este navegador y no se envía a ningún organizador.'));
+  assert.match(html, /<script src="\.\/event-details\.js" defer><\/script>/);
+  const responseScript = new Script(await readFile(resolve(folder, 'event-details.js'), 'utf8'), { filename: 'event-details.js' });
+  const storageKey = 'nordra-demo-posada-pinata-rsvp-2026';
+  function responseFixture(storage = new Map(), storageBlocked = false) {
+    const nodes = new Map();
+    const get = selector => {
+      if (!nodes.has(selector)) {
+        const handlers = new Map();
+        nodes.set(selector, {
+          hidden: selector === '.rsvp-receipt', disabled: true, value: '', textContent: '', dataset: {},
+          addEventListener: (name, fn) => handlers.set(name, fn),
+          fire: async name => handlers.get(name)?.({ preventDefault() {} }),
+          querySelector: get, setAttribute() {}, removeAttribute() {}, focus() {},
+          getBoundingClientRect: () => ({ height: 240 }),
+        });
+      }
+      return nodes.get(selector);
+    };
+    const form = get('#rsvp-form'); form.elements = { name: get('#fixture-name') }; form.attendance = '';
+    let writes = 0, networkCalls = 0;
+    const noNetwork = () => { networkCalls++; assert.fail('Demo RSVP must stay local'); };
+    responseScript.runInNewContext({
+      document: { querySelector: get }, window: {},
+      FormData: class { constructor(form) { this.form = form; } get(key) { return this.form[key]; } },
+      localStorage: {
+        getItem(key) { assert.equal(key, storageKey); if (storageBlocked) throw new Error('Fixture: storage unavailable'); return storage.get(key) ?? null; },
+        setItem(key, value) { assert.equal(key, storageKey); if (storageBlocked) throw new Error('Fixture: storage unavailable'); writes++; storage.set(key, value); },
+      },
+      fetch: noNetwork, XMLHttpRequest: noNetwork, navigator: { sendBeacon: noNetwork },
+    });
+    return { get, form, storage, writes: () => writes, networkCalls: () => networkCalls };
+  }
+  const response = responseFixture();
+  assert.equal(response.get('.rsvp-submit').disabled, false);
+  response.form.elements.name.value = 'X'; response.form.attendance = 'yes';
+  await response.form.fire('submit'); assert.equal(response.writes(), 0, 'Reject invalid names');
+  response.form.elements.name.value = '  Alex   Prueba  '; response.form.attendance = '';
+  await response.form.fire('submit'); assert.equal(response.writes(), 0, 'Require an attendance choice');
+  response.form.attendance = 'yes';
+  await Promise.all([response.form.fire('submit'), response.form.fire('submit')]);
+  assert.equal(response.writes(), 1, 'Repeated submission must not create duplicate responses');
+  assert.deepEqual(JSON.parse(response.storage.get(storageKey)), { version: 1, name: 'Alex Prueba', attendance: 'yes' });
+  assert.ok(response.form.hidden && !response.get('.rsvp-receipt').hidden);
+  assert.equal(response.get('#receipt-title').textContent, 'Así se confirma');
+  await response.get('.rsvp-edit').fire('click');
+  assert.ok(!response.form.hidden && response.get('.rsvp-receipt').hidden);
+  response.form.attendance = 'no'; await response.form.fire('submit');
+  assert.equal(response.storage.size, 1, 'Editing replaces the existing local reply');
+  assert.equal(JSON.parse(response.storage.get(storageKey)).attendance, 'no');
+  assert.equal(response.get('#receipt-title').textContent, 'Gracias por avisar');
+  const restored = responseFixture(response.storage);
+  assert.ok(restored.form.hidden && !restored.get('.rsvp-receipt').hidden);
+  assert.equal(restored.form.elements.name.value, 'Alex Prueba');
+  assert.equal(restored.get('input[name=attendance][value=no]').checked, true);
+  const blocked = responseFixture(new Map(), true);
+  blocked.form.elements.name.value = 'Alex Prueba'; blocked.form.attendance = 'yes'; await blocked.form.fire('submit');
+  assert.ok(blocked.form.hidden && !blocked.get('.rsvp-receipt').hidden, 'Demo works without storage');
+  assert.match(blocked.get('#receipt-copy').textContent, /el navegador no permite guardarla/);
+  for (const fixture of [response, restored, blocked]) assert.equal(fixture.networkCalls(), 0);
+  console.log('Posada demo RSVP: validation, local save/edit/restore, repeated submit and unavailable storage checked; no network.');
+} else {
   assert.ok(html.includes('id="rsvp-form"'));
   assert.ok(html.includes('name="attendance"'));
   new Script(await readFile(resolve(folder, 'event-details.js'), 'utf8'));
@@ -77,7 +142,9 @@ if (demo) {
   assert.ok(!/covadonga|BYOB|juegos|posada-luz/i.test(html + ics + keepsake), 'The demo must not retain the original event data');
   assert.ok(html.includes('Demo de posada · Datos de ejemplo'));
   assert.ok(html.includes('https://nordrastudio.mx/demos/posada-pinata/assets/posada-demo-social-v1.jpg'));
-  assert.ok(google.searchParams.get('details').includes('Cena, piñata e intercambio'));
+  const description = 'Demo de invitación de Nordra Studio. Datos de ejemplo. Sábado 19 de diciembre de 2026, desde las 6:00 p. m. en Jardín Aurora. Horarios aproximados: bienvenida 6:00 p. m.; cena 7:30 p. m.; intercambio 8:30 p. m.; piñata 10:00 p. m. Sin hora de fin definida.';
+  assert.equal(google.searchParams.get('details'), description);
+  assert.equal(ics.replace(/\r\n /g, '').split('\r\n').find(line => line.startsWith('DESCRIPTION:')).slice(12).replace(/\\([,;])/g, '$1'), description, 'Apple and Google must carry the same sample agenda');
   assert.ok(lines.includes('UID:demo-posada-pinata-20261219@nordrastudio.mx'));
 }
 console.log(`Posada${demo ? ' demo' : ''}: assets, anchors, JavaScript, JPEG and both calendar paths checked. Saturday 19 December 2026, 18:00 Monterrey.`);
