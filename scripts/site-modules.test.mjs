@@ -6,8 +6,18 @@ import { resolve } from 'node:path';
 import { runInNewContext } from 'node:vm';
 import ts from 'typescript';
 import { isolateSiteScript, siteScripts } from '../build/site-scripts.mjs';
+import { bundledOrder } from './check-site-bundles.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+test('bundle inspection detects initialization reordered by a shared chunk', () => {
+  const files = new Map([
+    [resolve(root, 'entry.js'), 'import "./shared.js"; console.error("[Nordra site] middle.js failed to initialize");'],
+    [resolve(root, 'shared.js'), 'console.error("[Nordra site] first.js failed to initialize"); console.error("[Nordra site] last.js failed to initialize");'],
+  ]);
+  const order = bundledOrder([resolve(root, 'entry.js')], file => files.get(file));
+  assert.deepEqual(order, ['first', 'last', 'middle']);
+  assert.notDeepEqual(order, ['first', 'middle', 'last']);
+});
 const pages = {
   "cumpleanos": {
     "entry": "birthdays",
@@ -208,7 +218,8 @@ test('site copies stay byte-identical to the public sources during the migration
 
 for (const [page, expected] of Object.entries(pages)) test(`${page}: original script/style order and only compiled dependencies`, () => {
   const entry = read(`src/site/entries/${expected.entry}.js`);
-  assert.deepEqual([...entry.matchAll(/import '\.\.\/scripts\/(.+)\.js';/g)].map(m => m[1]), expected.scripts);
+  assert.deepEqual([...entry.matchAll(/import '\.\.\/scripts\/(.+)\.js(?:\?entry=([a-z]+))?';/g)].map(m => m[1]), expected.scripts);
+  if(page !== 'estudio') assert.equal([...entry.matchAll(/\?entry=([a-z]+)/g)].filter(m => m[1] === expected.entry).length, expected.scripts.length);
   assert.doesNotMatch(entry, /import.*\.css/);
   const html = read(`${page}.html`), head = html.split('</head>')[0];
   assert.deepEqual([...head.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m => m[1]), expected.styles.map(name => `/src/site/styles/${name}.css`));

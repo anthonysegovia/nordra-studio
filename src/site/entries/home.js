@@ -1,8 +1,9 @@
-// Keep the original classic-script order; blocking styles remain in the HTML head.
-import '../scripts/journey.js';
-import '../scripts/scroll-motion.js';
-import '../scripts/theme-transition.js';
-import '../scripts/interface-icons.js';
-import '../scripts/home.js';
-import '../scripts/horizon-flow.js';
-import '../scripts/page-navigation.js';
+// Scope side effects to this entry so shared chunks cannot reorder initialization.
+// Vite consumes this module ID query; emitted asset URLs use content hashes only.
+import '../scripts/journey.js?entry=home';
+import '../scripts/scroll-motion.js?entry=home';
+import '../scripts/theme-transition.js?entry=home';
+import '../scripts/interface-icons.js?entry=home';
+import '../scripts/home.js?entry=home';
+import '../scripts/horizon-flow.js?entry=home';
+import '../scripts/page-navigation.js?entry=home';

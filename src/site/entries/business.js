@@ -1,13 +1,14 @@
-// Keep the original classic-script order; blocking styles remain in the HTML head.
-import '../scripts/journey.js';
-import '../scripts/scroll-travel.js';
-import '../scripts/mobile-aurora.js';
-import '../scripts/motion.js';
-import '../scripts/scroll-motion.js';
-import '../scripts/business-motion.js';
-import '../scripts/theme-transition.js';
-import '../scripts/living-images.js';
-import '../scripts/nordra-materials.js';
-import '../scripts/nordra-theatre.js';
-import '../scripts/interface-icons.js';
-import '../scripts/page-navigation.js';
+// Scope side effects to this entry so shared chunks cannot reorder initialization.
+// Vite consumes this module ID query; emitted asset URLs use content hashes only.
+import '../scripts/journey.js?entry=business';
+import '../scripts/scroll-travel.js?entry=business';
+import '../scripts/mobile-aurora.js?entry=business';
+import '../scripts/motion.js?entry=business';
+import '../scripts/scroll-motion.js?entry=business';
+import '../scripts/business-motion.js?entry=business';
+import '../scripts/theme-transition.js?entry=business';
+import '../scripts/living-images.js?entry=business';
+import '../scripts/nordra-materials.js?entry=business';
+import '../scripts/nordra-theatre.js?entry=business';
+import '../scripts/interface-icons.js?entry=business';
+import '../scripts/page-navigation.js?entry=business';

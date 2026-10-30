@@ -1,14 +1,15 @@
-// Keep the original classic-script order; blocking styles remain in the HTML head.
-import '../scripts/journey.js';
-import '../scripts/scroll-travel.js';
-import '../scripts/mobile-aurora.js';
-import '../scripts/motion.js';
-import '../scripts/scroll-motion.js';
-import '../scripts/business-motion.js';
-import '../scripts/theme-transition.js';
-import '../scripts/organic-images.js';
-import '../scripts/invitation-showcase.js';
-import '../scripts/nordra-materials.js';
-import '../scripts/nordra-theatre.js';
-import '../scripts/interface-icons.js';
-import '../scripts/page-navigation.js';
+// Scope side effects to this entry so shared chunks cannot reorder initialization.
+// Vite consumes this module ID query; emitted asset URLs use content hashes only.
+import '../scripts/journey.js?entry=invitations';
+import '../scripts/scroll-travel.js?entry=invitations';
+import '../scripts/mobile-aurora.js?entry=invitations';
+import '../scripts/motion.js?entry=invitations';
+import '../scripts/scroll-motion.js?entry=invitations';
+import '../scripts/business-motion.js?entry=invitations';
+import '../scripts/theme-transition.js?entry=invitations';
+import '../scripts/organic-images.js?entry=invitations';
+import '../scripts/invitation-showcase.js?entry=invitations';
+import '../scripts/nordra-materials.js?entry=invitations';
+import '../scripts/nordra-theatre.js?entry=invitations';
+import '../scripts/interface-icons.js?entry=invitations';
+import '../scripts/page-navigation.js?entry=invitations';
