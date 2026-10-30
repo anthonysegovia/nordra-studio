@@ -29,11 +29,19 @@ const trigger=element('#rsvp'), close=element('#close');
 dialog.showModal=()=>{dialog.open=true};dialog.close=()=>{dialog.open=false;dialog.fire('close')};
 form.reset=()=>{attendance.value='yes';guests.value='1'};
 const context={
+  URLSearchParams, location:{hash:''},
   document:{querySelector:selector=>elements.get(selector),addEventListener:(event,handler)=>listeners.set(event,handler)},
   window:{},weddingMotionAllowed:()=>motion,
   getComputedStyle:()=>({height:'260px',opacity:'.5',transform:'none'}),
 };
-new Script(readFileSync(new URL('../public/demos/boda-jardin/rsvp-motion.js',import.meta.url),'utf8')).runInNewContext(context);
+const script = new Script(readFileSync(new URL('../public/demos/boda-jardin/rsvp-motion.js',import.meta.url),'utf8'));
+script.runInNewContext(context);
+// Personal invitation links are handled separately; the sample must not bind
+// its local form or override the personal response flow.
+script.runInNewContext({
+  URLSearchParams, location:{hash:'#invitacion=fixture-only'},
+  document:{querySelector(){assert.fail('Sample RSVP must not initialize for a personal link');}},
+});
 const flush=async()=>{for(let i=0;i<5;i++)await Promise.resolve()};
 
 trigger.fire('click');assert(dialog.open);assert(!form.hidden);assert(confirmation.hidden);
@@ -48,7 +56,7 @@ assert.equal(attendance.value,'yes');assert.equal(guests.value,'1');assert(!gues
 
 guests.value='3';guests.fire('change');form.fire('submit');
 assert.equal(result.textContent,'¡Qué alegría!');
-assert.equal(detail.textContent,'3 lugares de muestra.');
+assert.equal(detail.textContent,'3 personas.');
 motion=false;listeners.get('wedding:motionchange')();await flush();
 assert(form.hidden && !confirmation.hidden,'Pausing settles to the submitted response');
 assert.equal(panels.style.height,'');assert(!panels.classList.contains('is-changing'));
@@ -56,7 +64,7 @@ assert(animations.every(a=>a.cancelled),'No field or panel effect remains active
 
 close.fire('click');trigger.fire('click');const pausedCount=animations.length;
 form.fire('submit');assert.equal(animations.length,pausedCount,'Paused confirmation remains usable without motion');
-assert.equal(result.textContent,'¡Qué alegría!');assert.equal(detail.textContent,'1 lugar de muestra.');
+assert.equal(result.textContent,'¡Qué alegría!');assert.equal(detail.textContent,'1 persona.');
 motion=true;close.fire('click');trigger.fire('click');form.fire('submit');
 animations.filter(a=>!a.cancelled).forEach(a=>a.finish());await flush();
 assert(form.hidden && !confirmation.hidden);assert.equal(panels.style.height,'');
