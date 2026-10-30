@@ -12,15 +12,6 @@
  const menuButton=document.querySelector('.menu-button');
  const menuPanel=document.getElementById('mobile-menu');
  function save(){try{sessionStorage.setItem(key,JSON.stringify({dark,paused}));localStorage.setItem('nordra-theme',dark?'dark':'light');}catch{}}
- function links(){
-  document.querySelectorAll('a[data-go]').forEach(link=>{
-   // Carry preferences between portable file:// pages, where storage may be unavailable.
-   const url=new URL(link.getAttribute('href'),document.baseURI);
-   url.searchParams.set('theme',dark?'dark':'light');
-   url.searchParams.set('motion',paused?'paused':'playing');
-   link.href=url.href;
-  });
- }
  function paint(){
   document.body.classList.toggle('dark',dark);
   document.body.dataset.journeyMotion=paused?'paused':'playing';
@@ -28,7 +19,8 @@
   document.documentElement.style.backgroundColor=getComputedStyle(document.body).getPropertyValue('--bg');
   document.documentElement.style.colorScheme=dark?'dark':'light';
   themeButton.setAttribute('aria-label',dark?'Activar tema claro':'Activar tema oscuro');
-  links();save();
+  // Same-origin pages share the theme and this tab's motion preference via storage.
+  save();
  }
  // A return from an occasion lands on the choice, not at the top of the hub.
  const occasion=['bodas','cumpleanos','eventos','temporada'].includes(document.body.dataset.scene);

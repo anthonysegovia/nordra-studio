@@ -23,8 +23,7 @@
  document.body.append(status);
  function targetURL(next,anchor=''){
   const url=new URL(next==='entrada'?'/':'/'+pages[next]+'.html',initialURL);
-  url.searchParams.set('theme',prefs.dark?'dark':'light');
-  url.searchParams.set('motion',prefs.paused?'paused':'playing');
+  // journey.js restores preferences from shared storage before the page is shown.
   url.hash=anchor;return url;
  }
  function address(mode){
