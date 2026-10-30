@@ -30,7 +30,7 @@
   addEventListener('pagehide',()=>{stop();inView.disconnect();light.dispose();},{once:true});return;
  }
  try{
- const gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:false,preserveDrawingBuffer:true});if(!gl)throw Error('WebGL');
+ const gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:true,preserveDrawingBuffer:true});if(!gl)throw Error('WebGL');
  const vs='attribute vec2 a;varying vec2 uv;void main(){uv=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0.,1.);}';
  const fs=`precision highp float;varying vec2 uv;uniform float t;uniform float strength;uniform float dark;uniform float palette;uniform float paletteNext;uniform float paletteBlend;uniform float unfold;
  float hash(float n){return fract(sin(n*127.1)*43758.5453);}
@@ -83,7 +83,7 @@
    float light=(a+b+c)*mix(.85,1.3,strength/1.2);
    vec3 color=mix(auroraColor(palette,p.x),auroraColor(paletteNext,p.x),paletteBlend);
    color=mix(color,vec3(.20,.91,.80),dark*(palette>.5?0.:.22));
-   gl_FragColor=vec4(color,clamp(light*mix(1.35,1.9,dark),0.,.82));
+   float alpha=clamp(light*mix(1.35,1.9,dark),0.,.82);gl_FragColor=vec4(color*alpha,alpha);
  }`;
  function shader(type,text){const s=gl.createShader(type);gl.shaderSource(s,text);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error('shader');return s;}
  const program=gl.createProgram(),v=shader(gl.VERTEX_SHADER,vs),f=shader(gl.FRAGMENT_SHADER,fs);gl.attachShader(program,v);gl.attachShader(program,f);gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error('link');gl.useProgram(program);gl.deleteShader(v);gl.deleteShader(f);
