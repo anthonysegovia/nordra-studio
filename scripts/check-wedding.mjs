@@ -35,8 +35,9 @@ const ics = await icsBlob.text();
 assert(ics.includes('\r\n'), 'Calendar must use CRLF');
 assert(ics.includes('DTSTART:20270619T220000Z\r\n'));
 assert(ics.includes('DTEND:20270620T070000Z\r\n'));
-assert(ics.includes('SUMMARY:DEMO'));
-assert.equal(fileName, 'boda-demo-valentina-sebastian.ics');
+assert(ics.includes('SUMMARY:VISTA PREVIA - Boda Valentina y Sebastián\r\n'));
+assert(ics.includes('DESCRIPTION:Invitacion de muestra. No es un evento real.\r\n'));
+assert.equal(fileName, 'boda-valentina-sebastian.ics');
 assert.equal(new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Cancun', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date('2027-06-19T22:00:00Z')), '17:00');
 console.log('Wedding checks passed: inline/external syntax, unique IDs, local assets/srcset, progressive access, copy and actual ICS handler/time zone.');
 
