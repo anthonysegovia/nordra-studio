@@ -1,0 +1,324 @@
+{
+  "base": "a65199d",
+  "prototype": "af9ab90",
+  "lcp": [
+    {
+      "variant": "before",
+      "round": 1,
+      "lcp": {
+        "time": 648,
+        "renderTime": 648,
+        "loadTime": 543.0999999940395,
+        "size": 85171,
+        "url": "http://127.0.0.1:5488/nordra/v544/assets/negocios-720.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "horizon-path-photo",
+        "text": "",
+        "html": "<img class=\"horizon-path-photo\" src=\"/nordra/v544/assets/negocios-1440.webp\" srcset=\"/nordra/v544/assets/negocios-720.webp 720w, /nordra/v544/assets/negocios-1440.webp 1440w\" sizes=\"(max-width:700px) 100vw, 50vw\" width=\"1440\" height=\"1080\" alt=\"BRUMA, un concepto web de Nordra, en una computadora portÃ¡til\" decoding=\"async\">"
+      },
+      "loadEventEnd": 708.5,
+      "deferred": [],
+      "errors": []
+    },
+    {
+      "variant": "after",
+      "round": 1,
+      "lcp": {
+        "time": 628,
+        "renderTime": 628,
+        "loadTime": 532.7000000029802,
+        "size": 49078,
+        "url": "http://127.0.0.1:5489/nordra/v544/assets/horizon-900.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "",
+        "text": "",
+        "html": "<img src=\"/nordra/v544/assets/horizon-1920.webp\" srcset=\"/nordra/v544/assets/horizon-900.webp 900w, /nordra/v544/assets/horizon-1920.webp 1920w\" sizes=\"100vw\" width=\"1920\" height=\"640\" alt=\"\" fetchpriority=\"high\">"
+      },
+      "loadEventEnd": 649.2000000029802,
+      "deferred": [
+        {
+          "url": "landscape-scene-CrHhxHQy.js",
+          "startTime": 706.4000000059605
+        },
+        {
+          "url": "three-DSGNQW7u.js",
+          "startTime": 707
+        }
+      ],
+      "errors": []
+    },
+    {
+      "variant": "after",
+      "round": 2,
+      "lcp": {
+        "time": 632,
+        "renderTime": 632,
+        "loadTime": 535.7000000029802,
+        "size": 49078,
+        "url": "http://127.0.0.1:5489/nordra/v544/assets/horizon-900.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "",
+        "text": "",
+        "html": "<img src=\"/nordra/v544/assets/horizon-1920.webp\" srcset=\"/nordra/v544/assets/horizon-900.webp 900w, /nordra/v544/assets/horizon-1920.webp 1920w\" sizes=\"100vw\" width=\"1920\" height=\"640\" alt=\"\" fetchpriority=\"high\">"
+      },
+      "loadEventEnd": 649.7000000029802,
+      "deferred": [
+        {
+          "url": "landscape-scene-CrHhxHQy.js",
+          "startTime": 686.2000000029802
+        },
+        {
+          "url": "three-DSGNQW7u.js",
+          "startTime": 687
+        }
+      ],
+      "errors": []
+    },
+    {
+      "variant": "before",
+      "round": 2,
+      "lcp": {
+        "time": 636,
+        "renderTime": 636,
+        "loadTime": 546.9000000059605,
+        "size": 85171,
+        "url": "http://127.0.0.1:5488/nordra/v544/assets/negocios-720.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "horizon-path-photo",
+        "text": "",
+        "html": "<img class=\"horizon-path-photo\" src=\"/nordra/v544/assets/negocios-1440.webp\" srcset=\"/nordra/v544/assets/negocios-720.webp 720w, /nordra/v544/assets/negocios-1440.webp 1440w\" sizes=\"(max-width:700px) 100vw, 50vw\" width=\"1440\" height=\"1080\" alt=\"BRUMA, un concepto web de Nordra, en una computadora portÃ¡til\" decoding=\"async\">"
+      },
+      "loadEventEnd": 667.5,
+      "deferred": [],
+      "errors": []
+    },
+    {
+      "variant": "before",
+      "round": 3,
+      "lcp": {
+        "time": 628,
+        "renderTime": 628,
+        "loadTime": 541.0999999940395,
+        "size": 85171,
+        "url": "http://127.0.0.1:5488/nordra/v544/assets/negocios-720.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "horizon-path-photo",
+        "text": "",
+        "html": "<img class=\"horizon-path-photo\" src=\"/nordra/v544/assets/negocios-1440.webp\" srcset=\"/nordra/v544/assets/negocios-720.webp 720w, /nordra/v544/assets/negocios-1440.webp 1440w\" sizes=\"(max-width:700px) 100vw, 50vw\" width=\"1440\" height=\"1080\" alt=\"BRUMA, un concepto web de Nordra, en una computadora portÃ¡til\" decoding=\"async\">"
+      },
+      "loadEventEnd": 657.0999999940395,
+      "deferred": [],
+      "errors": []
+    },
+    {
+      "variant": "after",
+      "round": 3,
+      "lcp": {
+        "time": 616,
+        "renderTime": 616,
+        "loadTime": 520.7000000029802,
+        "size": 49078,
+        "url": "http://127.0.0.1:5489/nordra/v544/assets/horizon-900.webp",
+        "tag": "IMG",
+        "id": "",
+        "classes": "",
+        "text": "",
+        "html": "<img src=\"/nordra/v544/assets/horizon-1920.webp\" srcset=\"/nordra/v544/assets/horizon-900.webp 900w, /nordra/v544/assets/horizon-1920.webp 1920w\" sizes=\"100vw\" width=\"1920\" height=\"640\" alt=\"\" fetchpriority=\"high\">"
+      },
+      "loadEventEnd": 638.2000000029802,
+      "deferred": [
+        {
+          "url": "landscape-scene-CrHhxHQy.js",
+          "startTime": 674
+        },
+        {
+          "url": "three-DSGNQW7u.js",
+          "startTime": 674.6000000089407
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "frames": {
+    "count": 242,
+    "intervalMedian": 33.30000000000018,
+    "intervalP95": 33.400000000000546,
+    "cpuMedian": 1.4000000059604645,
+    "cpuP95": 2.9000000059604645,
+    "canvas": {
+      "width": 562,
+      "height": 1243
+    },
+    "errors": []
+  },
+  "lighthouse": [
+    {
+      "name": "before",
+      "score": 0.95,
+      "metrics": {
+        "first-contentful-paint": 2305.807,
+        "largest-contentful-paint": 2305.807,
+        "total-blocking-time": 0,
+        "speed-index": 2426,
+        "cumulative-layout-shift": 0,
+        "interactive": 2320.955
+      },
+      "warnings": []
+    },
+    {
+      "name": "after-yield",
+      "score": 0.79,
+      "metrics": {
+        "first-contentful-paint": 2278.667,
+        "largest-contentful-paint": 2278.667,
+        "total-blocking-time": 563.3559999999998,
+        "speed-index": 3999,
+        "cumulative-layout-shift": 0,
+        "interactive": 3989.509
+      },
+      "warnings": []
+    }
+  ],
+  "bundles": {
+    "initial": [
+      {
+        "phase": "before",
+        "files": [
+          {
+            "name": "/assets/home-CGYpTsme.js",
+            "bytes": 22017,
+            "gzip": 7920
+          },
+          {
+            "name": "/assets/modulepreload-polyfill-B5Qt9EMX.js",
+            "bytes": 711,
+            "gzip": 401
+          }
+        ]
+      },
+      {
+        "phase": "after",
+        "files": [
+          {
+            "name": "/assets/home-C2CkXhuc.js",
+            "bytes": 25427,
+            "gzip": 9080
+          },
+          {
+            "name": "/assets/modulepreload-polyfill-B5Qt9EMX.js",
+            "bytes": 711,
+            "gzip": 401
+          },
+          {
+            "name": "/assets/preload-helper-BXl3LOEh.js",
+            "bytes": 1110,
+            "gzip": 651
+          }
+        ]
+      }
+    ],
+    "deferred": [
+      {
+        "name": "three-DSGNQW7u.js",
+        "bytes": 548066,
+        "gzip": 144967
+      },
+      {
+        "name": "landscape-scene-CrHhxHQy.js",
+        "bytes": 32974,
+        "gzip": 13334
+      }
+    ]
+  },
+  "browser": [
+    {
+      "case": "pause, resume, live themes, offscreen and context recovery",
+      "errors": []
+    },
+    {
+      "case": "reduced",
+      "errors": []
+    },
+    {
+      "case": "noWebgl",
+      "errors": []
+    },
+    {
+      "case": "shaderFailure",
+      "errors": []
+    },
+    {
+      "case": "navigation disposal and visible iframe only",
+      "contexts": [
+        {
+          "hidden": false,
+          "at": 133.09999999403954
+        },
+        {
+          "hidden": false,
+          "at": 140.29999999701977
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "interactions": {
+    "ignored": [
+      "heading",
+      "button",
+      "header",
+      "sky"
+    ],
+    "lakeRipple": true,
+    "hiddenStops": true,
+    "resume": true,
+    "errors": []
+  },
+  "navigationDark": {
+    "theme": "dark",
+    "route": "Invitaciones â†’ Inicio â†’ Invitaciones",
+    "errors": []
+  },
+  "unchangedPages": [
+    {
+      "page": "estudio",
+      "htmlIdentical": true,
+      "initialAssetsIdentical": true
+    },
+    {
+      "page": "negocios",
+      "htmlIdentical": true,
+      "initialAssetsIdentical": true
+    },
+    {
+      "page": "invitaciones",
+      "htmlIdentical": true,
+      "initialAssetsIdentical": true
+    },
+    {
+      "page": "bodas",
+      "htmlIdentical": true,
+      "initialAssetsIdentical": true
+    },
+    {
+      "page": "cumpleanos",
+      "htmlIdentical": true,
+      "initialAssetsIdentical": true
+    },
+    {
+      "page": "eventos",
+      "htmlIdentical": true,
+      "initialAssetsIdentical": true
+    },
+    {
+      "page": "temporada",
+      "htmlIdentical": true,
+      "initialAssetsIdentical": true
+    }
+  ]
+}
