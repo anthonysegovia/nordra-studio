@@ -113,3 +113,41 @@ Comparación de dos opciones verificadas y propuesta completa en
 Se propone Vercel Web Analytics con `whatsapp_click` y exactamente dos propiedades
 (`page`, `button`), sin datos personales. Plausible Business es la alternativa evaluada.
 La elección, instrumentación y actualización del aviso requieren una etapa posterior.
+
+## T7 · Diagnóstico de LCP
+
+Datos de 48 navegaciones, medianas y propuestas sin aplicar en
+[signature-lcp.md](signature-lcp.md). La comprobación estricta de no empeorar LCP
+queda pendiente: Inicio +52 ms, Estudio +44 ms, Invitaciones +16 ms y Bodas +36 ms;
+Negocios −224 ms, Cumpleaños −40 ms, Eventos −72 ms y Temporada −112 ms.
+No se presentan estas pequeñas diferencias de laboratorio como garantías de campo.
+
+## Verificación y entrega
+
+- `npm run typecheck`: sin errores.
+- `npm test`: 116 pruebas principales + 34 checks de Node, todas correctas; check
+  de Posada correcto. Incluye la protección de tokens y las 7 pruebas de horizon-flow.
+- `npm run check:build`: compilación y los dos verificadores correctos, 15 entradas.
+- 64 capturas completas: ocho páginas × claro/oscuro × 375/1440 px × antes/después.
+  Cambios intencionales: Sora y sus saltos de línea, enlace El estudio, barra móvil,
+  texto de Invitaciones, franja de trabajos y CTA de Negocios. Sin cambios de paleta.
+- 34 casos adicionales en navegador: fuentes y pesos 400–700, navegación / botones
+  en Manrope, header coherente, destinos móviles existentes, WhatsApp contextual,
+  imágenes diferidas, pausa y movimiento reducido; sin desbordamiento horizontal,
+  errores de ejecución ni respuestas HTTP fallidas.
+- 20 casos de tema / navegación: 12 transiciones animadas en Inicio, Bodas y
+  Cumpleaños, más 14 recorridos oscuros en iframe con atrás y adelante. Sin errores.
+- Una sola hoja CSS compilada por página. Cabecera revisada también a 701, 768,
+  820, 900 y 1024 px, sin desbordamiento horizontal.
+- Sin cambios en AGENTS.md, vercel.json, tokens, renderer de aurora, src/styles,
+  public/demos, public/invitaciones ni marcadores de precios. El material no rastreado
+  previo permanece fuera de los commits.
+
+Evidencia externa: `E:/Nordra Studio/Revision Signature/2026-10-30-etapa-1/galeria.html`.
+La galería enlaza los 32 pares y los cuatro recortes de la variante A. Los JSON de
+verificación y logs están en la misma carpeta; no se añaden al sitio publicado.
+
+Pendiente de decisión: criterio móvil T2, mensajes T3, variante A de T5, revisión
+visual de la tipografía y el pequeño aumento medido de LCP en cuatro páginas.
+T8 permanece como propuesta. Rama `codex/signature-etapa-1`, estado local,
+**sin push ni despliegue**.
