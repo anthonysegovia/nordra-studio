@@ -82,3 +82,20 @@ Observaciones fuera del cambio solicitado:
   esos destinos del HTML no equivalen al comportamiento con JavaScript deshabilitado.
 - Inicio ya mostraba dos tarjetas de servicios con imágenes, aunque no enlazaba
   directamente los tres trabajos pedidos. T5 agrega esa evidencia sin quitarlas.
+
+## T5 · Franja de trabajos · Variante A
+
+Propuesta única para aprobar: tres piezas en una fila en escritorio y una columna
+compacta en móvil, después de las dos tarjetas de servicios y antes del estudio.
+BRUMA y Lúmina dicen «Concepto de diseño»; Valentina y Sebastián, «Diseño de invitación».
+Enlaces a sus experiencias existentes, sin atribución a clientes reales.
+
+Reutiliza bruma-real.webp, lumina-real.webp y wedding-cover.webp. No hay vídeos,
+iframes, bibliotecas ni recursos nuevos. `data-src` se activa al entrar la tarjeta
+en pantalla (IntersectionObserver existente); `loading="lazy"`, `decoding="async"`,
+medidas explícitas y proporción reservada. Con JavaScript deshabilitado, `noscript`
+proporciona la imagen diferida. No compiten con el LCP de la entrada normal.
+
+La imagen cambia suavemente su escala con el scroll, reutilizando el controlador de
+Inicio. Pausa global y movimiento reducido eliminan transformaciones; no se toca
+horizon-flow.js ni el movimiento aprobado de la aurora. Pendiente de aprobación visual.

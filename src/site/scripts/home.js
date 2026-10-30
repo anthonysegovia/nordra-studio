@@ -3,12 +3,13 @@
  const root=document.querySelector('.home-horizon');if(!root)return;
  const reduced=matchMedia('(prefers-reduced-motion:reduce)');
  const lights=[...root.querySelectorAll('.horizon-light')];
- const cards=[...root.querySelectorAll('.horizon-path')];
+ const cards=[...root.querySelectorAll('.horizon-path, .signature-work')];
  const visible=new Set();let frame=0;
  const stopped=()=>reduced.matches||document.body.dataset.journeyMotion==='paused';
  const observer=new IntersectionObserver(entries=>{
   entries.forEach(({target,isIntersecting})=>{
    target.classList.toggle('is-visible',isIntersecting);
+   if(isIntersecting)target.querySelectorAll('.signature-work-image img[data-src]').forEach(img=>{img.src=img.dataset.src;delete img.dataset.src;});
    if(cards.includes(target)){if(isIntersecting)visible.add(target);else visible.delete(target);}
   });queue();
  },{threshold:0});
