@@ -49,3 +49,20 @@ barra fija. El menú desplegable conserva la navegación general.
 En Inicio, El estudio lleva ahora al resumen del estudio dentro de Inicio; en
 Estudio, el primer acceso vuelve a su presentación. «Opciones» sirve tanto para
 cotizaciones web como para los paquetes de invitaciones, sin prometer un precio web.
+
+## T3 · WhatsApp al cierre
+
+Solo cambia el destino del botón principal final. Se conservan las etiquetas,
+los mensajes de paquetes y los demás enlaces. Son propuestas de texto para revisión;
+no se ha enviado ningún mensaje.
+
+| Página | Mensaje propuesto |
+|---|---|
+| index | Hola, Nordra. Me gustaría platicar sobre una idea que tengo. |
+| estudio | Hola, Nordra. Me gustaría conocer cómo podemos trabajar juntos. |
+| negocios | Hola, Nordra. Me gustaría cotizar una página web para mi negocio. |
+| invitaciones | Hola, Nordra. Me gustaría una invitación digital para mi celebración. |
+| bodas | Hola, Nordra. Nos gustaría una invitación digital para nuestra boda. |
+| cumpleanos | Hola, Nordra. Me gustaría una invitación digital para un cumpleaños. |
+| eventos | Hola, Nordra. Me gustaría una invitación digital para mi evento. |
+| temporada | Hola, Nordra. Me gustaría una invitación digital para una celebración de temporada. |
