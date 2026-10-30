@@ -23,3 +23,37 @@ body[data-scene] h1 .business-title-line:first-child {
 
 /* Keep comparison and contextual contact together, without removing the existing path. */
 .business-hero-actions{display:grid;gap:10px;min-width:0}
+
+/* Bodas uses the existing marfil font, under a title-only alias. The 20% optical
+   enlargement compensates for Cormorant's smaller x-height. Metrics retain the
+   previous line boxes (0.97em ascent / 0.29em descent), including the hero photo's
+   position: 1.2 × 80.833333% = 97%; 1.2 × 24.166667% = 29%. */
+@font-face {
+  font-family: 'Cormorant Wedding';
+  src: url('/fonts/wedding/cormorant-latin-roman.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+  size-adjust: 120%;
+  ascent-override: 80.833333%;
+  descent-override: 24.166667%;
+  line-gap-override: 0%;
+}
+
+body[data-scene="bodas"] .scene :is(h1, h2, h3):not(.host-preview *) {
+  font-family: 'Cormorant Wedding', Georgia, serif;
+  font-weight: 450;
+  letter-spacing: -.035em;
+}
+
+body[data-scene="bodas"] .scene h1 .business-title-line {
+  letter-spacing: -.045em;
+}
+
+/* Preserve the existing mobile break: “Hagamos / algo muy suyo”. */
+body[data-scene="bodas"] .wedding-title-phrase { white-space: nowrap; }
+
+/* Interface headings belong to the organizer panel, not the editorial titles. */
+body[data-scene="bodas"] .host-preview :is(h1, h2, h3) {
+  font-family: Manrope, Arial, Helvetica, sans-serif;
+}
