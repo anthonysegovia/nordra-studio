@@ -21,8 +21,9 @@ npm run preview
 ## Arquitectura
 
 - **Sitio comercial:** ocho HTML por ruta: `index.html`, `estudio.html`, `negocios.html`, `invitaciones.html`, `bodas.html`, `cumpleanos.html`, `eventos.html` y `temporada.html`.
-- **Recursos del sitio:** CSS y JavaScript en `public/nordra/v541/` y `public/nordra/v544/`, servidos directamente, sin transformarse en módulos del bundle de Vite. Los nombres de esas carpetas son rutas de recursos, no la versión actual del producto. Sus parámetros de caché se actualizan manualmente al cambiar un recurso compartido.
-- **Portada:** `public/nordra/v544/home.css`, `home.js` y `horizon-flow.js`. La aurora WebGL tiene calidad adaptativa, modo claro/oscuro, pausa y movimiento reducido. Su diseño y movimiento están aprobados.
+- **Scripts y estilos comerciales:** fuentes en `src/site/scripts/` y `src/site/styles/`, compiladas y minificadas por Vite con hashes de contenido, sin versiones de caché manuales. Cada página tiene una entrada en `src/site/entries/`; las hojas permanecen como enlaces bloqueantes en el `<head>`. El alcance `?entry=` de los imports conserva el orden de inicialización y la cascada al compilar; no aparece en las URL emitidas. `build/site-scripts.mjs` aísla los errores de inicialización por script.
+- **Recursos públicos:** `public/nordra/v541/assets/` y `public/nordra/v544/assets/` conservan fuentes, imágenes y texturas en sus URL originales. `public/nordra/v541/bruma-motion.html` sigue sirviendo el recorrido de BRUMA. Los nombres de esas carpetas son rutas de recursos, no la versión actual del producto.
+- **Portada:** entrada `src/site/entries/home.js`, estilos en `src/site/styles/home.css`, comportamiento en `src/site/scripts/home.js` y renderer de la aurora en `src/site/scripts/horizon-flow.js`. La aurora WebGL tiene calidad adaptativa, modo claro/oscuro, pausa y movimiento reducido. Su diseño y movimiento están aprobados.
 - **Aplicaciones:** React 19, TypeScript y Tailwind 4. `vite.config.ts` define 15 entradas HTML para las páginas comerciales y los módulos de gestión, boda, invitación marfil, pases y recepción.
 - **Backend:** funciones de Vercel en `api/`, lógica y pruebas en `server/`, migraciones de Supabase en `supabase/` e integración de pagos con Mercado Pago.
 
