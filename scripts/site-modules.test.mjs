@@ -208,14 +208,6 @@ const pages = {
 const scripts = [...new Set(Object.values(pages).flatMap(page => page.scripts))];
 const read = file => readFileSync(resolve(root, file), 'utf8');
 
-test('site copies stay byte-identical to the public sources during the migration', () => {
-  for (const name of scripts) {
-    const version = ['home', 'horizon-flow'].includes(name) ? 'v544' : 'v541';
-    assert.deepEqual(readFileSync(resolve(root, `src/site/scripts/${name}.js`)), readFileSync(resolve(root, `public/nordra/${version}/${name}.js`)), name);
-  }
-  for (const [name, version] of [['scene', 'v541'], ['nordra-theatre', 'v541'], ['home', 'v544'], ['contact', 'v544']]) assert.deepEqual(readFileSync(resolve(root, `src/site/styles/${name}.css`)), readFileSync(resolve(root, `public/nordra/${version}/${name}.css`)), name);
-});
-
 for (const [page, expected] of Object.entries(pages)) test(`${page}: original script/style order and only compiled dependencies`, () => {
   const entry = read(`src/site/entries/${expected.entry}.js`);
   assert.deepEqual([...entry.matchAll(/import '\.\.\/scripts\/(.+)\.js(?:\?entry=([a-z]+))?';/g)].map(m => m[1]), expected.scripts);
@@ -265,7 +257,7 @@ function analyze(files) {
     .map(d => `${d.file?.fileName}:${d.start} TS${d.code} ${ts.flattenDiagnosticMessageText(d.messageText, ' ')}`);
 }
 
-test('copied scripts resolve all identifiers and contain no strict-mode-sensitive this/with/eval', () => {
+test('site scripts resolve all identifiers and contain no strict-mode-sensitive this/with/eval', () => {
   const files = scripts.map(name => [`src/site/scripts/${name}.js`, read(`src/site/scripts/${name}.js`)]);
   assert.deepEqual(analyze(files), []);
   for (const [file, source] of files) {
