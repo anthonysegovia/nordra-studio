@@ -42,11 +42,12 @@
 /* A masked, two-pixel rim above the photo wash and below the caption. */
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
  .horizon-path{--glow-core:#a4e9ee;--glow-edge:#508dc9;--glow-halo:#63bfd555;--glow-opacity:.9}
- .horizon-invitations{--glow-core:#f4d9ae;--glow-edge:#d3a09a;--glow-halo:#e7bb9755}
+ .horizon-invitations{--glow-core:#e9bb8c;--glow-edge:#b9846a;--glow-halo:#b9846a66;--glow-opacity:1}
  .horizon-path::before{content:"";position:absolute;z-index:1;inset:0;padding:2px;pointer-events:none;background:radial-gradient(220px circle at var(--glow-x,50%) var(--glow-y,0%),var(--glow-core),var(--glow-edge) 35%,transparent 75%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;filter:drop-shadow(0 0 3px var(--glow-halo));opacity:0;transition:opacity .25s ease}
  .horizon-path:hover::before,.horizon-path:focus-visible::before{opacity:var(--glow-opacity)}
  .horizon-path:focus-visible::before{--glow-x:50%;--glow-y:0%}
  .dark .horizon-path{--glow-opacity:.65}
+ .dark .horizon-invitations{--glow-opacity:.85}
  body[data-journey-motion=paused] .horizon-path::before{opacity:0;transition:none}
 }
 .horizon-studio{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:66px 24px 72px;scroll-margin-top:100px}
