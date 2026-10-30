@@ -1,0 +1,16 @@
+User-agent: *
+# Private management, payments, guest passes and reception.
+Disallow: /gestion
+Disallow: /panel-boda
+Disallow: /mi-boda
+Disallow: /pase-boda
+Disallow: /recepcion-boda
+Disallow: /invitacion-boda
+Disallow: /*?*panel=
+Disallow: /*?*pago=
+Disallow: /api/
+# Examples remain accessible through the commercial pages, outside the index.
+Disallow: /demos/
+
+# No rules block / or the invitation assets used by the client subdomains.
+Sitemap: https://nordrastudio.mx/sitemap.xml
