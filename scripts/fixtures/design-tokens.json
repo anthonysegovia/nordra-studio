@@ -1,0 +1,424 @@
+{
+  "sourceRef": "e1867419c10e505ac6cec4683f26fc2773e5063c",
+  "roles": [
+    "--bg",
+    "--ink",
+    "--muted",
+    "--line",
+    "--accent"
+  ],
+  "blocks": [
+    {
+      "selector": "body",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--bg",
+          "value": "#f6f9fc",
+          "important": false
+        },
+        {
+          "property": "--ink",
+          "value": "#142a36",
+          "important": false
+        },
+        {
+          "property": "--muted",
+          "value": "#586f7a",
+          "important": false
+        },
+        {
+          "property": "--line",
+          "value": "#25465c25",
+          "important": false
+        },
+        {
+          "property": "--accent",
+          "value": "#22616f",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": ".dark",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--bg",
+          "value": "#081420",
+          "important": false
+        },
+        {
+          "property": "--ink",
+          "value": "#f1f5fc",
+          "important": false
+        },
+        {
+          "property": "--muted",
+          "value": "#a5bac9",
+          "important": false
+        },
+        {
+          "property": "--line",
+          "value": "#d8e8fc25",
+          "important": false
+        },
+        {
+          "property": "--accent",
+          "value": "#a3d8e4",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": ".invitations",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--accent",
+          "value": "#6a587d",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": ".dark .invitations",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--accent",
+          "value": "#cebee7",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": "body[data-scene=bodas]",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--bg",
+          "value": "#fcfaf6",
+          "important": false
+        },
+        {
+          "property": "--ink",
+          "value": "#655040",
+          "important": false
+        },
+        {
+          "property": "--muted",
+          "value": "#756456",
+          "important": false
+        },
+        {
+          "property": "--line",
+          "value": "#ded2c2",
+          "important": false
+        },
+        {
+          "property": "--accent",
+          "value": "#795e49",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": "body[data-scene=bodas].dark",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--bg",
+          "value": "#302820",
+          "important": false
+        },
+        {
+          "property": "--ink",
+          "value": "#fff7eb",
+          "important": false
+        },
+        {
+          "property": "--muted",
+          "value": "#dfd0bd",
+          "important": false
+        },
+        {
+          "property": "--line",
+          "value": "#8c786466",
+          "important": false
+        },
+        {
+          "property": "--accent",
+          "value": "#ead4b8",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": "body[data-scene=cumpleanos]",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--bg",
+          "value": "#f6f5ff",
+          "important": false
+        },
+        {
+          "property": "--ink",
+          "value": "#222951",
+          "important": false
+        },
+        {
+          "property": "--muted",
+          "value": "#67677c",
+          "important": false
+        },
+        {
+          "property": "--accent",
+          "value": "#4845bb",
+          "important": false
+        },
+        {
+          "property": "--line",
+          "value": "#4845bb25",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": "body[data-scene=cumpleanos].dark",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--bg",
+          "value": "#141326",
+          "important": false
+        },
+        {
+          "property": "--ink",
+          "value": "#f1eeff",
+          "important": false
+        },
+        {
+          "property": "--muted",
+          "value": "#c5bddb",
+          "important": false
+        },
+        {
+          "property": "--accent",
+          "value": "#bdb2ff",
+          "important": false
+        },
+        {
+          "property": "--line",
+          "value": "#c5bddb44",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": "body[data-scene=eventos]",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--bg",
+          "value": "#f4f8f6",
+          "important": false
+        },
+        {
+          "property": "--ink",
+          "value": "#193e3d",
+          "important": false
+        },
+        {
+          "property": "--muted",
+          "value": "#58716d",
+          "important": false
+        },
+        {
+          "property": "--accent",
+          "value": "#337b6c",
+          "important": false
+        },
+        {
+          "property": "--line",
+          "value": "#337b6c33",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": "body[data-scene=eventos].dark",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--bg",
+          "value": "#0e2424",
+          "important": false
+        },
+        {
+          "property": "--ink",
+          "value": "#e6f4ed",
+          "important": false
+        },
+        {
+          "property": "--muted",
+          "value": "#b5cfc7",
+          "important": false
+        },
+        {
+          "property": "--accent",
+          "value": "#a6e4cf",
+          "important": false
+        },
+        {
+          "property": "--line",
+          "value": "#a6e4cf44",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": ".occasion-page.invitations",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--accent",
+          "value": "inherit",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": "body[data-scene=temporada]",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--bg",
+          "value": "var(--seasonal-bg,#faf7f3)",
+          "important": false
+        },
+        {
+          "property": "--ink",
+          "value": "#34313f",
+          "important": false
+        },
+        {
+          "property": "--muted",
+          "value": "#716877",
+          "important": false
+        },
+        {
+          "property": "--line",
+          "value": "#71687730",
+          "important": false
+        },
+        {
+          "property": "--accent",
+          "value": "var(--seasonal-accent,#785587)",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": "body[data-scene=temporada].dark",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--bg",
+          "value": "var(--seasonal-bg,#24202c)",
+          "important": false
+        },
+        {
+          "property": "--ink",
+          "value": "#f6f1e9",
+          "important": false
+        },
+        {
+          "property": "--muted",
+          "value": "#d1c8d2",
+          "important": false
+        },
+        {
+          "property": "--line",
+          "value": "#d1c8d240",
+          "important": false
+        },
+        {
+          "property": "--accent",
+          "value": "var(--seasonal-accent,#dec1ec)",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": ".dark .theme-wedding",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--accent",
+          "value": "#ead4b8",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": ".dark .theme-birthday",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--accent",
+          "value": "#bdb2ff",
+          "important": false
+        }
+      ]
+    },
+    {
+      "selector": ".dark .theme-gathering",
+      "ancestors": [],
+      "declarations": [
+        {
+          "property": "--accent",
+          "value": "#a6e4cf",
+          "important": false
+        }
+      ]
+    }
+  ],
+  "retained": [
+    {
+      "file": "nordra-theatre.css",
+      "selector": ".dark",
+      "ancestors": [
+        {
+          "name": "media",
+          "params": "(max-width:700px)"
+        }
+      ],
+      "declarations": [
+        {
+          "property": "--muted",
+          "value": "#bdcbd5",
+          "important": false
+        }
+      ]
+    },
+    {
+      "file": "nordra-theatre.css",
+      "selector": "body.dark[data-scene=bodas]",
+      "ancestors": [
+        {
+          "name": "media",
+          "params": "(max-width:700px)"
+        }
+      ],
+      "declarations": [
+        {
+          "property": "--muted",
+          "value": "#ddd0be",
+          "important": false
+        }
+      ]
+    }
+  ]
+}
