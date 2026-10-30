@@ -1,0 +1,10 @@
+/* Shared ivory phone frame. Each placement owns its size and interaction. */
+.nordra-phone{position:absolute;aspect-ratio:402/856;padding:3px;border:1px solid #84776a;border-radius:clamp(12px,1.5vw,20px);background:#3d3731;box-shadow:0 8px 18px #54453226,0 1px 3px #54453233}
+.nordra-phone::after{content:"";position:absolute;z-index:1;top:6px;left:50%;width:22%;height:4px;transform:translateX(-50%);border-radius:5px;background:#3d3731;pointer-events:none}
+.nordra-phone>img,.nordra-phone>noscript img{display:block;width:100%;height:100%;object-fit:contain;border-radius:inherit;transform:none;transition:none;background:#f8f5ee}
+.nordra-phone>img:not([src]){visibility:hidden}
+.nordra-phone>noscript img{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px)}
+/* A separate foreground object; the envelope and its controller are untouched.
+   The existing panel transition handles arrival, including reduced motion/pause. */
+.invitation-showcase .showcase-phone{z-index:5;height:68%;right:1%;bottom:2%;pointer-events:none}
+@media(max-width:700px){.invitation-showcase .showcase-phone{height:66%;bottom:1%}}

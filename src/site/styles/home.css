@@ -126,15 +126,12 @@ body[data-journey-motion=paused] .horizon-path-photo{transform:none;transition:n
 .signature-work-image img{width:100%;height:100%;object-fit:cover;object-position:center top;transform:scale(var(--image-scale,1));transition:transform .15s linear}
 .signature-work-image>img:not([src]){position:absolute;visibility:hidden}
 .signature-phone-stage{display:grid;place-items:center;background:#f7f3ec}
-.signature-phone{position:absolute;height:89%;aspect-ratio:402/856;padding:3px;border:1px solid #84776a;border-radius:clamp(12px,1.5vw,20px);background:#3d3731;box-shadow:0 8px 18px #54453226,0 1px 3px #54453233}
-.signature-phone::after{content:"";position:absolute;z-index:1;top:6px;left:50%;width:22%;height:4px;transform:translateX(-50%);border-radius:5px;background:#3d3731;pointer-events:none}
-.signature-work-image .signature-phone img{display:block;width:100%;height:100%;object-fit:contain;border-radius:inherit;transform:none;transition:none;background:#f8f5ee}
-.signature-phone>img:not([src]){visibility:hidden}
-.signature-phone>noscript img{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px)}
+.signature-phone-stage .nordra-phone{height:89%}
+.signature-work-image .nordra-phone img{object-fit:contain;transform:none;transition:none}
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
- .signature-phone{transition:transform .25s ease}
- .signature-work:hover .signature-phone,.signature-work:focus-visible .signature-phone{transform:translateY(-3px)}
- body[data-journey-motion=paused] .signature-work .signature-phone{transform:none;transition:none}
+ .signature-work .nordra-phone{transition:transform .25s ease}
+ .signature-work:hover .nordra-phone,.signature-work:focus-visible .nordra-phone{transform:translateY(-3px)}
+ body[data-journey-motion=paused] .signature-work .nordra-phone{transform:none;transition:none}
 }
 .signature-work>p{font-size:11px;color:var(--muted);margin:18px 0 8px}
 .signature-work h3{font-size:clamp(20px,1.7vw,25px);font-weight:500;line-height:1.3;letter-spacing:-.035em;margin:0 0 15px}
