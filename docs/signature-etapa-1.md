@@ -105,3 +105,11 @@ horizon-flow.js ni el movimiento aprobado de la aurora. Pendiente de aprobación
 El hero mantiene «Comparar paquetes» y añade justo después «Cotizar mi página»,
 con el mismo mensaje contextual de T3 para Negocios. Conserva el estilo de acción
 existente y el control de movimiento. No se elimina contenido ni se añaden precios.
+
+## T8 · Analítica, sin implementar
+
+Comparación de dos opciones verificadas y propuesta completa en
+[signature-analitica.md](signature-analitica.md). El responsable confirmó Vercel Pro.
+Se propone Vercel Web Analytics con `whatsapp_click` y exactamente dos propiedades
+(`page`, `button`), sin datos personales. Plausible Business es la alternativa evaluada.
+La elección, instrumentación y actualización del aviso requieren una etapa posterior.
