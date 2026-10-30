@@ -10,5 +10,5 @@ review/
 documentacion/
 documentos-legales/
 PLAN_BODA_PREMIUM.md
-scripts/
+/scripts/
 **/*.test.js
