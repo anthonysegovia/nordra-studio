@@ -2,11 +2,13 @@
 import {
   WebGLRenderer, Scene, PerspectiveCamera, Mesh, Group, PlaneGeometry, SphereGeometry, ExtrudeGeometry,
   ShaderMaterial, Vector3, Vector2, BackSide, Raycaster, Plane, CustomBlending, AddEquation, OneFactor, OneMinusSrcAlphaFactor,
+  WebGLRenderTarget, OrthographicCamera, RedFormat, LinearFilter, RepeatWrapping,
 } from 'three';
 import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import isotypeSource from '../assets/isotipo.svg?raw';
 import { landscapePolicy, advanceClock } from './state.js';
+import { preparePrograms } from './prepare-programs.js';
 
 const ISOTYPE = { width: 937, height: 358 };
 const MOUNTAIN = { width: 40, z: -36, depth: 7, sink: 0.8 };
@@ -14,13 +16,30 @@ const MOUNTAIN = { width: 40, z: -36, depth: 7, sink: 0.8 };
 const TIMELINE = { aurora: [0, 2400], light: [500, 2600], glacier: [1700, 3100], dolly: [0, 3200] };
 const SETTLED = 60000;
 
+// Cache the original lattice, not an approximation of the finished clouds/relief.
+// A 1024² R8 target covers signed coordinates used by the visible mountain and
+// shore (1 MiB, no download). A smaller repeating lattice changes their pattern.
+const NOISE_SIZE = 1024;
+const noiseBakeFragment = /* glsl */`
+  void main() {
+    vec2 p = floor(gl_FragCoord.xy) - 512.0;
+    float h = fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+    gl_FragColor = vec4(h, 0.0, 0.0, 1.0);
+  }
+`;
+
 const noise = /* glsl */`
-  float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+  uniform sampler2D noiseMap;
   float vnoise(vec2 p) {
     vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
-    return mix(mix(hash(i), hash(i + vec2(1, 0)), u.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), u.x), u.y);
+    return texture2D(noiseMap, (i + u + 512.5) / 1024.0).r;
   }
-  float fbm(vec2 p) { float v = 0.0, a = 0.5; for (int i = 0; i < 4; i++) { v += a * vnoise(p); p *= 2.03; a *= 0.5; } return v; }
+  float fbm(vec2 p) {
+    float v = 0.5 * vnoise(p); p *= 2.03;
+    v += 0.25 * vnoise(p); p *= 2.03;
+    v += 0.125 * vnoise(p); p *= 2.03;
+    return v + 0.0625 * vnoise(p);
+  }
   // Aurora colour by altitude, kept within the Nordra palette: turquoise base, cyan, blue, violet tips.
   vec3 altitude(float v, float dark) {
     vec3 base = mix(vec3(0.10, 0.72, 0.62), vec3(0.22, 0.98, 0.72), dark);
@@ -313,15 +332,29 @@ function profile() {
 const ease = t => (t <= 0 ? 0 : t >= 1 ? 1 : t * t * t * (t * (t * 6 - 15) + 10));
 const phase = (elapsed, [from, to]) => ease((elapsed - from) / (to - from));
 
-export async function createLandscapeScene(stage, { reduced = false, paused = false, dark: initialDark = false, getState, onFallback, onReady } = {}) {
+export async function createLandscapeScene(stage, { reduced = false, paused = false, dark: initialDark = false, context, getState, onFallback, onReady } = {}) {
   const quality = profile();
-  const renderer = new WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
+  const renderer = new WebGLRenderer({ canvas: context?.canvas, context, antialias: true, alpha: false, powerPreference: 'high-performance' });
   const canvas = renderer.domElement;
   canvas.setAttribute('aria-hidden', 'true');
   stage.append(canvas);
 
   const scene = new Scene();
-  let cleanup = () => { scene.traverse(object => { object.geometry?.dispose(); object.material?.dispose(); }); renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); };
+  const noiseTarget = new WebGLRenderTarget(NOISE_SIZE, NOISE_SIZE, { format: RedFormat, minFilter: LinearFilter, magFilter: LinearFilter, wrapS: RepeatWrapping, wrapT: RepeatWrapping, depthBuffer: false });
+  const noiseMap = { value: noiseTarget.texture };
+  async function bakeNoise(cancelled) {
+    const quad = new Mesh(new PlaneGeometry(2, 2), new ShaderMaterial({
+      vertexShader: 'void main() { gl_Position = vec4(position, 1.0); }', fragmentShader: noiseBakeFragment,
+    }));
+    quad.frustumCulled = false;
+    const camera = new OrthographicCamera();
+    try {
+      await renderer.compileAsync(quad, camera);
+      if (cancelled()) return;
+      renderer.setRenderTarget(noiseTarget); renderer.render(quad, camera);
+    } finally { renderer.setRenderTarget(null); quad.geometry.dispose(); quad.material.dispose(); }
+  }
+  let cleanup = () => { scene.traverse(object => { object.geometry?.dispose(); object.material?.dispose(); }); noiseTarget.dispose(); renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); };
   async function yieldSetup() {
     // Let input/paint run between construction and individual shader programs.
     if (globalThis.scheduler?.yield) await globalThis.scheduler.yield();
@@ -414,9 +447,12 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   water.rotation.x = -Math.PI / 2;
   water.position.set(0, 0, -300);
   scene.add(water);
+  scene.traverse(object => { if (object.material?.uniforms) object.material.uniforms.noiseMap = noiseMap; });
 
 
   let width = 1, height = 1, raf = 0, lastFrame = 0, disposed = false, lost = false, ready = false;
+  let bufferWidth = 0, bufferHeight = 0, bufferRatio = 0;
+  let preparation = 0;
   let shaderFailed = false, targetDark = initialDark ? 1 : 0;
   let current = { visible: true, hidden: document.hidden, paused, reduced, dark: initialDark };
   const clock = { elapsed: reduced || paused ? SETTLED : 0, last: null };
@@ -452,8 +488,10 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     width = Math.max(1, rect.width); height = Math.max(1, rect.height);
     let ratio = Math.min(window.devicePixelRatio || 1, quality.dpr);
     ratio = Math.min(ratio, Math.sqrt(quality.pixels / (width * height)));
-    renderer.setPixelRatio(ratio);
-    renderer.setSize(width, height, false);
+    if (width !== bufferWidth || height !== bufferHeight || ratio !== bufferRatio) {
+      renderer.setDrawingBufferSize(width, height, ratio);
+      bufferWidth = width; bufferHeight = height; bufferRatio = ratio;
+    }
     camera.aspect = width / height;
     const mobile = width <= 700;
     camera.fov = mobile ? 46 : 34;
@@ -574,15 +612,24 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     scrollProgress = Math.max(0, Math.min(1, -stage.getBoundingClientRect().top / Math.max(1, height)));
   }
   function fail() { stop(); onFallback?.(); dispose(); }
-  function onLost(event) { event.preventDefault(); lost = true; stop(); onFallback?.(); }
+  function onLost(event) { event.preventDefault(); lost = true; preparation++; stop(); onFallback?.(); }
   async function prepare() {
+    const generation = ++preparation;
+    const cancelled = () => disposed || lost || generation !== preparation;
     try {
-      for (const object of [sky, ...bands, ...mountain.children, range, water]) {
-        await yieldSetup();
-        if (disposed || lost) return;
-        await renderer.compileAsync(object, camera, scene);
-      }
-      if (disposed || lost) return;
+      await bakeNoise(cancelled);
+      if (cancelled()) return;
+      if (shaderFailed) { fail(); return; }
+      // Reflector renders into a linear target; the canvas uses the renderer's
+      // output colour space. Three keys those as distinct programs, even for
+      // custom shaders. Preparing just the canvas leaves the entire reflected
+      // scene to compile synchronously inside the first render.
+      const completed = await preparePrograms(renderer, camera, scene, [sky, ...bands, ...mountain.children, range, water], {
+        reflection: water.getRenderTarget?.(), water, yieldTask: yieldSetup, cancelled,
+      });
+      if (!completed) return;
+      await yieldSetup();
+      if (cancelled()) return;
       if (shaderFailed) { fail(); return; }
       ready = true;
       if (getState) current = { ...current, ...getState() };
@@ -592,7 +639,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
       if (disposed) return;
       stage.classList.add('has-scene'); stage.dataset.renderer = 'landscape-3d'; stage.dataset.quality = quality.name;
       onReady?.();
-    } catch { fail(); }
+    } catch { if (!cancelled()) fail(); }
   }
   function onRestored() { lost = false; ready = false; shaderFailed = false; prepare(); }
   const resize = new ResizeObserver(frame);
@@ -611,7 +658,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     removeEventListener('pointermove', onPointerMove); removeEventListener('pointerdown', onPointerDown); removeEventListener('scroll', onScroll);
     canvas.removeEventListener('webglcontextlost', onLost); canvas.removeEventListener('webglcontextrestored', onRestored);
     scene.traverse(object => { object.geometry?.dispose(); object.material?.dispose(); });
-    water.getRenderTarget?.().dispose(); renderer.dispose(); renderer.forceContextLoss();
+    water.getRenderTarget?.().dispose(); noiseTarget.dispose(); renderer.dispose(); renderer.forceContextLoss();
     canvas.remove(); stage.classList.remove('has-scene'); stage.dataset.renderer = 'static';
   }
   cleanup = dispose;

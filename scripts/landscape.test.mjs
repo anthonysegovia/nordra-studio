@@ -5,6 +5,51 @@ import { runInNewContext } from 'node:vm';
 import { landscapePolicy, advanceClock } from '../src/site/landscape/state.js';
 import { assertDeferredLandscape } from './check-site-bundles.mjs';
 import { resolve } from 'node:path';
+import { preparePrograms } from '../src/site/landscape/prepare-programs.js';
+
+test('each screen/reflection program finishes in its own task; the lake never reflects itself', async () => {
+  const calls = [], reflection = {}, water = {}, sky = {}, camera = {}, scene = {};
+  let target, release, pending = false;
+  const renderer = {
+    setRenderTarget(value) { target = value; },
+    async compileAsync(object, actualCamera, actualScene) {
+      assert.equal(pending, false); assert.equal(actualCamera, camera); assert.equal(actualScene, scene);
+      calls.push({ object, target }); pending = true;
+      await new Promise(resolve => { release = resolve; }); pending = false;
+    },
+  };
+  let tasks = 0;
+  const done = preparePrograms(renderer, camera, scene, [sky, water], {
+    reflection, water, cancelled: () => false, yieldTask: async () => { assert.equal(pending, false); tasks++; },
+  });
+  for (let i = 1; i <= 3; i++) {
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(calls.length, i); assert.equal(tasks, i); release();
+  }
+  assert.equal(await done, true);
+  assert.deepEqual(calls, [{ object: sky, target: reflection }, { object: sky, target: null }, { object: water, target: null }]);
+  assert.equal(target, null);
+});
+
+test('program preparation stops after cancellation and always restores the screen target', async () => {
+  for (const failure of [false, true]) {
+    let target, cancelled = false, calls = 0;
+    const renderer = { setRenderTarget(value) { target = value; }, async compileAsync() {
+      calls++; cancelled = true; if (failure) throw Error('fixture shader failure');
+    } };
+    const result = preparePrograms(renderer, {}, {}, [{}, {}], { reflection: {}, water: {}, yieldTask: async () => {}, cancelled: () => cancelled });
+    if (failure) await assert.rejects(result, /fixture shader failure/);
+    else assert.equal(await result, false);
+    assert.equal(calls, 1); assert.equal(target, null);
+  }
+});
+
+test('constrained profile prepares only screen programs without a reflection target', async () => {
+  const targets = [], objects = [{}, {}];
+  const renderer = { setRenderTarget(value) { targets.push(value); }, async compileAsync(object) { assert.equal(object, objects.shift()); } };
+  assert.equal(await preparePrograms(renderer, {}, {}, [...objects], { yieldTask: async () => {}, cancelled: () => false }), true);
+  assert.equal(objects.length, 0); assert.deepEqual(targets, [null, null, null]);
+});
 
 test('bundle guard permits deferred scene imports and rejects static Three dependencies', () => {
   const entry = resolve('fixture/home.js'), shared = resolve('fixture/shared.js');
@@ -52,7 +97,7 @@ test('the animation clock excludes paused, offscreen and hidden time, without a 
 });
 
 const loaderSource = readFileSync(new URL('../src/site/landscape/landscape-hero.js', import.meta.url), 'utf8');
-function fixture({ webgl = true, embedded = false } = {}) {
+function fixture({ webgl = true, embedded = false, importFailure = false } = {}) {
   function target(extra = {}) {
     const listeners = new Map(), classes = new Set(), attributes = new Map();
     return { dataset: {}, isConnected: true, ...extra,
@@ -67,8 +112,10 @@ function fixture({ webgl = true, embedded = false } = {}) {
   const frame = embedded ? target({ ownerDocument: { body: parentBody } }) : null;
   frame?.setAttribute('aria-hidden', 'true');
   const page = target({ frameElement: frame, requestIdleCallback: true, cancelIdleCallback: true });
+  let contextReleases = 0;
+  const context = { getExtension: () => ({ loseContext: () => contextReleases++ }) };
   const document = target({ body, hidden: false, readyState: 'loading', querySelector: () => stage,
-    createElement: () => ({ getContext: () => webgl ? { getExtension: () => null } : null }) });
+    createElement: () => ({ getContext: () => webgl ? context : null }) });
   const idle = new Map(), mutations = []; let intersect, imports = 0, releases = 0, id = 0;
   const states = [], signals = [];
   const controller = { setState: state => states.push(state), dispose: () => releases++ };
@@ -79,14 +126,21 @@ function fixture({ webgl = true, embedded = false } = {}) {
     requestIdleCallback: fn => { idle.set(++id, fn); return id; }, cancelIdleCallback: key => idle.delete(key),
     IntersectionObserver: class { constructor(fn) { intersect = fn; } observe() {} disconnect() {} },
     MutationObserver: class { constructor(fn) { mutations.push(fn); } observe() {} disconnect() {} },
-    loadScene: async () => { imports++; return { createLandscapeScene: async (_, options) => { states.push(options); options.onReady(); return controller; } }; },
+    loadScene: async () => { imports++; if (importFailure) throw Error('fixture import failure'); return { createLandscapeScene: async (_, options) => { states.push(options); options.onReady(); return controller; } }; },
   });
   return { stage, body, frame, document, page, media, idle, states, signals,
-    imports: () => imports, releases: () => releases,
+    imports: () => imports, releases: () => releases, context, contextReleases: () => contextReleases,
     visible: value => intersect([{ isIntersecting: value }]), mutate: () => mutations.forEach(fn => fn()),
     async runIdle() { for (const [key, fn] of [...idle]) { idle.delete(key); await fn(); } },
   };
 }
+
+test('loader transfers its tested context to the scene and releases it if the import fails', async () => {
+  const a = fixture(); a.visible(true); a.page.emit('load'); await a.runIdle();
+  assert.equal(a.states[0].context, a.context); assert.equal(a.contextReleases(), 0);
+  const b = fixture({ importFailure: true }); b.visible(true); b.page.emit('load'); await b.runIdle();
+  assert.equal(b.contextReleases(), 1); assert.equal(b.stage.dataset.renderer, 'static');
+});
 
 test('loader waits for load AND idle, probes WebGL and never imports it when unavailable', async () => {
   const a = fixture({ webgl: false }); a.visible(true);

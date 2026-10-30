@@ -21,30 +21,35 @@ if (stage) {
   function webglAvailable() {
     try {
       const probe = document.createElement('canvas');
-      const gl = probe.getContext('webgl2'); // Three r181 requires WebGL2.
-      gl?.getExtension('WEBGL_lose_context')?.loseContext();
-      return Boolean(gl);
-    } catch { return false; }
+      // Reuse the successfully tested context instead of allocating a second one.
+      return probe.getContext('webgl2', { antialias: true, alpha: false, powerPreference: 'high-performance' });
+    } catch { return null; }
   }
   async function start() {
     idle = null;
     if (loading || !landscapePolicy(state()).load) return;
-    if (!webglAvailable()) { failed = true; fallback(); return; }
+    const context = webglAvailable();
+    if (!context) { failed = true; fallback(); return; }
+    let transferred = false;
     loading = true;
     try {
       const { createLandscapeScene } = await import('./landscape-scene.js');
       if (!landscapePolicy(state()).load) return;
       const next = await createLandscapeScene(stage, {
-        ...state(),
+        ...state(), context,
         getState: state,
         onFallback: fallback,
         onReady: () => { if (!disposed) signal(true); },
       });
+      transferred = true;
       if (disposed) next.dispose();
       else { scene = next; sync(); }
     } catch {
       failed = true; fallback();
-    } finally { loading = false; }
+    } finally {
+      if (!transferred) context.getExtension('WEBGL_lose_context')?.loseContext();
+      loading = false;
+    }
   }
   function sync() {
     if (disposed) return;
