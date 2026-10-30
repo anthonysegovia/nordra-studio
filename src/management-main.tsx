@@ -24,4 +24,6 @@ if (view) {
   createRoot(document.getElementById("root")!).render(
     <StrictMode><Suspense fallback={null}>{view}</Suspense></StrictMode>,
   );
+} else {
+  window.location.replace("/");
 }
