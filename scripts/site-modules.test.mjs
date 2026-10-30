@@ -8,23 +8,213 @@ import ts from 'typescript';
 import { isolateSiteScript, siteScripts } from '../build/site-scripts.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const scripts = ['journey', 'scroll-travel', 'mobile-aurora', 'motion', 'scroll-motion', 'theme-transition', 'nordra-materials', 'nordra-theatre', 'interface-icons', 'page-navigation'];
+const pages = {
+  "cumpleanos": {
+    "entry": "birthdays",
+    "scripts": [
+      "journey",
+      "scroll-travel",
+      "mobile-aurora",
+      "motion",
+      "scroll-motion",
+      "business-motion",
+      "experience",
+      "theme-transition",
+      "organic-images",
+      "nordra-materials",
+      "nordra-theatre",
+      "interface-icons",
+      "page-navigation"
+    ],
+    "styles": [
+      "scene",
+      "nordra-theatre",
+      "contact"
+    ],
+    "inline": 3
+  },
+  "eventos": {
+    "entry": "events",
+    "scripts": [
+      "journey",
+      "scroll-travel",
+      "mobile-aurora",
+      "motion",
+      "scroll-motion",
+      "business-motion",
+      "experience",
+      "theme-transition",
+      "organic-images",
+      "nordra-materials",
+      "nordra-theatre",
+      "interface-icons",
+      "page-navigation"
+    ],
+    "styles": [
+      "scene",
+      "nordra-theatre",
+      "contact"
+    ],
+    "inline": 3
+  },
+  "bodas": {
+    "entry": "weddings",
+    "scripts": [
+      "journey",
+      "scroll-travel",
+      "mobile-aurora",
+      "motion",
+      "scroll-motion",
+      "business-motion",
+      "invitation-preview",
+      "experience",
+      "theme-transition",
+      "living-images",
+      "nordra-materials",
+      "nordra-theatre",
+      "interface-icons",
+      "page-navigation"
+    ],
+    "styles": [
+      "scene",
+      "nordra-theatre",
+      "contact"
+    ],
+    "inline": 3
+  },
+  "temporada": {
+    "entry": "seasonal",
+    "scripts": [
+      "journey",
+      "scroll-travel",
+      "mobile-aurora",
+      "motion",
+      "scroll-motion",
+      "business-motion",
+      "seasonal-flow",
+      "theme-transition",
+      "living-images",
+      "organic-images",
+      "nordra-materials",
+      "nordra-theatre",
+      "interface-icons",
+      "page-navigation"
+    ],
+    "styles": [
+      "scene",
+      "nordra-theatre",
+      "contact"
+    ],
+    "inline": 3
+  },
+  "invitaciones": {
+    "entry": "invitations",
+    "scripts": [
+      "journey",
+      "scroll-travel",
+      "mobile-aurora",
+      "motion",
+      "scroll-motion",
+      "business-motion",
+      "theme-transition",
+      "organic-images",
+      "invitation-showcase",
+      "nordra-materials",
+      "nordra-theatre",
+      "interface-icons",
+      "page-navigation"
+    ],
+    "styles": [
+      "scene",
+      "nordra-theatre",
+      "contact"
+    ],
+    "inline": 3
+  },
+  "negocios": {
+    "entry": "business",
+    "scripts": [
+      "journey",
+      "scroll-travel",
+      "mobile-aurora",
+      "motion",
+      "scroll-motion",
+      "business-motion",
+      "theme-transition",
+      "living-images",
+      "nordra-materials",
+      "nordra-theatre",
+      "interface-icons",
+      "page-navigation"
+    ],
+    "styles": [
+      "scene",
+      "nordra-theatre",
+      "contact"
+    ],
+    "inline": 3
+  },
+  "index": {
+    "entry": "home",
+    "scripts": [
+      "journey",
+      "scroll-motion",
+      "theme-transition",
+      "interface-icons",
+      "home",
+      "horizon-flow",
+      "page-navigation"
+    ],
+    "styles": [
+      "scene",
+      "nordra-theatre",
+      "home",
+      "contact"
+    ],
+    "inline": 3
+  },
+  "estudio": {
+    "entry": "estudio",
+    "scripts": [
+      "journey",
+      "scroll-travel",
+      "mobile-aurora",
+      "motion",
+      "scroll-motion",
+      "theme-transition",
+      "nordra-materials",
+      "nordra-theatre",
+      "interface-icons",
+      "page-navigation"
+    ],
+    "styles": [
+      "scene",
+      "nordra-theatre",
+      "contact"
+    ],
+    "inline": 3
+  }
+};
+const scripts = [...new Set(Object.values(pages).flatMap(page => page.scripts))];
 const read = file => readFileSync(resolve(root, file), 'utf8');
 
 test('site copies stay byte-identical to the public sources during the migration', () => {
-  for (const name of scripts) assert.deepEqual(readFileSync(resolve(root, `src/site/scripts/${name}.js`)), readFileSync(resolve(root, `public/nordra/v541/${name}.js`)), name);
-  for (const [name, version] of [['scene', 'v541'], ['nordra-theatre', 'v541'], ['contact', 'v544']]) assert.deepEqual(readFileSync(resolve(root, `src/site/styles/${name}.css`)), readFileSync(resolve(root, `public/nordra/${version}/${name}.css`)), name);
+  for (const name of scripts) {
+    const version = ['home', 'horizon-flow'].includes(name) ? 'v544' : 'v541';
+    assert.deepEqual(readFileSync(resolve(root, `src/site/scripts/${name}.js`)), readFileSync(resolve(root, `public/nordra/${version}/${name}.js`)), name);
+  }
+  for (const [name, version] of [['scene', 'v541'], ['nordra-theatre', 'v541'], ['home', 'v544'], ['contact', 'v544']]) assert.deepEqual(readFileSync(resolve(root, `src/site/styles/${name}.css`)), readFileSync(resolve(root, `public/nordra/${version}/${name}.css`)), name);
 });
 
-test('entry preserves script order and the head owns the styles in their original order', () => {
-  const entry = read('src/site/entries/estudio.js');
-  assert.deepEqual([...entry.matchAll(/import '\.\.\/scripts\/(.+)\.js';/g)].map(m => m[1]), scripts);
+for (const [page, expected] of Object.entries(pages)) test(`${page}: original script/style order and only compiled dependencies`, () => {
+  const entry = read(`src/site/entries/${expected.entry}.js`);
+  assert.deepEqual([...entry.matchAll(/import '\.\.\/scripts\/(.+)\.js';/g)].map(m => m[1]), expected.scripts);
   assert.doesNotMatch(entry, /import.*\.css/);
-  const html = read('estudio.html'), head = html.split('</head>')[0];
-  assert.deepEqual([...head.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m => m[1]), ['scene', 'nordra-theatre', 'contact'].map(name => `/src/site/styles/${name}.css`));
-  assert.equal((html.match(/<script>([\s\S]*?)<\/script>/g) || []).length, 3);
-  assert.match(html, /<script type="module" src="\/src\/site\/entries\/estudio.js"><\/script>/);
-  assert.doesNotMatch(html, /<script src="\/nordra\//);
+  const html = read(`${page}.html`), head = html.split('</head>')[0];
+  assert.deepEqual([...head.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m => m[1]), expected.styles.map(name => `/src/site/styles/${name}.css`));
+  assert.equal((html.match(/<script>([\s\S]*?)<\/script>/g) || []).length, expected.inline);
+  assert.ok(html.includes(`<script type="module" src="/src/site/entries/${expected.entry}.js"></script>`));
+  assert.doesNotMatch(html, /<(?:script|link)\b[^>]*(?:src|href)="\/nordra\/[^"?]*\.(?:js|css)(?:[?"])/);
 });
 
 test('a synchronous failure is logged once and does not stop the following module', () => {

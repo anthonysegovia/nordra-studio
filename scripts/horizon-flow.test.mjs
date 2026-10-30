@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { runInNewContext } from 'node:vm';
+import { isolateSiteScript } from '../build/site-scripts.mjs';
 
-const source = readFileSync(new URL('../public/nordra/v544/horizon-flow.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../src/site/scripts/horizon-flow.js', import.meta.url), 'utf8');
 
 // Exercise lifecycle and quality budgets without depending on a GPU in CI.
 // Shader compilation and the visual result are checked in the local browser.
@@ -33,7 +34,7 @@ function setup({ width = 1920, height = 280, dpr = 2, reduced = false, lowPower 
   let nextFrame = 0, intersection, resizing;
   const document = target({ hidden: false, body, documentElement: root,
     querySelector: () => host, createElement: () => canvas });
-  runInNewContext(source, {
+  runInNewContext('"use strict";\n' + isolateSiteScript(source, 'horizon-flow.js'), {
     document, window: page, navigator: { deviceMemory: lowPower ? 4 : 8, hardwareConcurrency: 8 },
     matchMedia: query => query.includes('reduced') ? reduce : mobile,
     requestAnimationFrame: fn => { frames.set(++nextFrame, fn); return nextFrame; },
