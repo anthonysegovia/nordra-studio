@@ -20,6 +20,7 @@
 .horizon-light img{width:100%;height:100%;max-width:none;object-fit:fill}
 .horizon-light.has-flow.is-visible{animation:none;transform:none}
 .horizon-light.has-flow>img{visibility:hidden}
+.horizon-hero .horizon-light.has-flow{opacity:1}
 .horizon-flow{position:absolute;inset:0;width:100%;height:100%}
 .horizon-light.is-visible{animation:horizon-drift 18s ease-in-out infinite alternate}
 @keyframes horizon-drift{from{transform:translate3d(-.8%,3px,0) scaleY(.97)}to{transform:translate3d(.8%,-5px,0) scaleY(1.025)}}
@@ -50,6 +51,8 @@
 .home-horizon .home-footer-links{margin-top:50px}
 .dark .horizon-accent{color:#82c5e7}
 .dark .horizon-light{opacity:.5}
+.dark .horizon-hero .horizon-light{opacity:.85}
+.dark .horizon-hero .horizon-light.has-flow{opacity:1}
 .dark .horizon-studio .horizon-light{opacity:.16}
 .dark .horizon-hero .horizon-button:not(.horizon-button-outline){background:#a9daf1;border-color:#a9daf1;color:#081420}
 .dark .horizon-hero .horizon-button:not(.horizon-button-outline):hover{background:#d7edf7}
