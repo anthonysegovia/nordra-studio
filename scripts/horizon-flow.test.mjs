@@ -26,7 +26,7 @@ function setup({ width = 1920, height = 280, dpr = 2, reduced = false, lowPower 
     uniform1f: (key, value) => { state.uniforms[key] = value; },
     drawElements: () => { state.draws++; }, isContextLost: () => state.lost,
   }, { get: (object, key) => key in object ? object[key] : /^[A-Z_]+$/.test(key) ? 1 : () => ({}) });
-  const canvas = target({ getContext: () => webgl ? gl : null, remove() { state.attached = false; } });
+  const canvas = target({ style: {}, getContext: () => webgl ? gl : null, remove() { state.attached = false; } });
   const host = target({ clientWidth: width, clientHeight: height, append() { state.attached = true; } });
   const body = target(), root = target(), page = target({ devicePixelRatio: dpr });
   const reduce = target({ matches: reduced }), mobile = target({ matches: width <= 700 });
@@ -109,4 +109,15 @@ test('back-forward cache resumes the renderer; final page exit releases the loop
   a.page.emit('pagehide', { persisted: true }); assert.equal(a.frames.size, 0);
   a.page.emit('pageshow'); assert.equal(a.frames.size, 1);
   a.page.emit('pagehide', { persisted: false }); assert.equal(a.frames.size, 0);
+});
+
+test('landscape takes over only while ready; failure restores ribbons and navigation releases them', () => {
+  const a = setup(); a.visible(true);
+  a.page.emit('nordra-landscape', { detail: { active: true } });
+  const draws = a.state.draws; a.frame(100); a.mutate();
+  assert.equal(a.state.draws, draws); assert.equal(a.frames.size, 0); assert.equal(a.canvas.style.visibility, 'hidden');
+  a.page.emit('nordra-landscape', { detail: { active: false } });
+  assert.ok(a.state.draws > draws); assert.equal(a.frames.size, 1); assert.equal(a.canvas.style.visibility, '');
+  a.page.emit('nordra-landscape', { detail: { active: false, release: true } });
+  assert.equal(a.frames.size, 0);
 });

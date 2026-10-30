@@ -11,8 +11,8 @@
   canvas.className = 'horizon-flow'; canvas.setAttribute('aria-hidden', 'true');
   let gl, program, buffer, indices, uniforms, count;
   let raf = 0, last = 0, elapsed = 0, visible = false, ready = false, disposed = false;
-  let pixelRatio = 1, resolutionScale = 1, slowFrames = 0;
-  const paused = () => reduce.matches || document.body.dataset.journeyMotion === 'paused' || document.hidden || !visible;
+  let pixelRatio = 1, resolutionScale = 1, slowFrames = 0, landscapeActive = false;
+  const paused = () => landscapeActive || reduce.matches || document.body.dataset.journeyMotion === 'paused' || document.hidden || !visible;
   const profile = () => constrained ? { dpr: 1.5, pixels: 1500000, fps: 30 } :
     mobile.matches ? { dpr: 2, pixels: 2000000, fps: 30 } : { dpr: 2, pixels: 4200000, fps: 60 };
   const vertex = `precision highp float;
@@ -81,7 +81,7 @@
     }`;
   function stop() { cancelAnimationFrame(raf); raf = 0; last = 0; }
   function draw() {
-    if (!ready || disposed) return;
+    if (!ready || disposed || landscapeActive) return;
     gl.clear(gl.COLOR_BUFFER_BIT); gl.uniform1f(uniforms.time, elapsed);
     const dark = document.body.classList.contains('dark') || document.documentElement.classList.contains('dark');
     gl.uniform1f(uniforms.dark, dark ? 1 : 0);
@@ -181,11 +181,21 @@
   // Reduced motion gets the same shaded geometry, rendered once without a loop.
   initialize();
   addEventListener('pageshow', sync);
-  addEventListener('pagehide', event => {
+  function onLandscape(event) {
+    landscapeActive = event.detail.active;
+    if (event.detail.release) { onPageHide({ persisted: false }); return; }
+    canvas.style.visibility = landscapeActive ? 'hidden' : '';
+    sync();
+  }
+  addEventListener('nordra-landscape', onLandscape);
+  function onPageHide(event) {
     stop(); if (event.persisted) return;
     disposed = true; view.disconnect(); size.disconnect(); state.disconnect(); release();
     document.removeEventListener('visibilitychange', sync);
     reduce.removeEventListener('change', sync); mobile.removeEventListener('change', resize);
     removeEventListener('resize', resize); removeEventListener('nordra-theme', sync); removeEventListener('pageshow', sync);
-  });
+    removeEventListener('nordra-landscape', onLandscape);
+    removeEventListener('pagehide', onPageHide);
+  }
+  addEventListener('pagehide', onPageHide);
 })();

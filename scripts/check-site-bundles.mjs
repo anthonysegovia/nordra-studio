@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { basename, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export function assertNoLegacySiteAssets(html, label) {
@@ -28,6 +28,17 @@ export function bundledOrder(entryFiles, read) {
   return order;
 }
 
+export function assertDeferredLandscape(entryFiles, read) {
+  const visited = new Set();
+  function visit(file) {
+    if (visited.has(file)) return;
+    visited.add(file);
+    assert.ok(!/^(?:three|landscape-scene)-.*\.js$/.test(basename(file)), `3D code in initial bundle: ${file}`);
+    for (const match of read(file).matchAll(/\bimport\s*(?:[^;"']*?\bfrom\s*)?["']([^"']+)["']/g)) visit(resolve(dirname(file), match[1]));
+  }
+  entryFiles.forEach(visit);
+}
+
 export function checkSiteBundles(root) {
   const pages = { index: 'home', estudio: 'estudio', negocios: 'business', invitaciones: 'invitations', bodas: 'weddings', cumpleanos: 'birthdays', eventos: 'events', temporada: 'seasonal' };
   return Object.entries(pages).map(([page, entry]) => {
@@ -38,6 +49,8 @@ export function checkSiteBundles(root) {
     const expected = [...entrySource.matchAll(/import '\.\.\/scripts\/([a-z-]+)\.js(?:\?entry=[a-z]+)?';/g)].map(match => match[1]);
     const modules = [...html.matchAll(/<script\b[^>]*src="(\/assets\/[^"?]+\.js)"[^>]*>/g)].map(match => resolve(root, 'dist' + match[1]));
     assert.ok(modules.length, `${page}: no emitted module`);
+    const preloads = [...html.matchAll(/<link\b[^>]*rel="modulepreload"[^>]*href="([^"]+)"/g)].map(match => resolve(root, 'dist' + match[1]));
+    assertDeferredLandscape([...modules, ...preloads], file => readFileSync(file, 'utf8'));
     assert.equal([...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*>/g)].length, 1, `${page}: styles must stay in one ordered blocking sheet`);
     const actual = bundledOrder(modules, file => readFileSync(file, 'utf8'));
     assert.deepEqual(actual, expected, `${page}: emitted initialization order differs from the entry`);

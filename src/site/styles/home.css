@@ -1,3 +1,4 @@
+@import "./landscape.css";
 /* The approved Horizon + Two paths homepage. Shared pages retain their own styles. */
 .home-horizon.scene{padding:0;min-height:0;overflow:clip;color:var(--ink)}
 .horizon-hero{position:relative;isolation:isolate;text-align:center;padding:80px 24px 170px;overflow:hidden}
