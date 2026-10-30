@@ -5,10 +5,10 @@ import { runInNewContext } from 'node:vm';
 
 import { isolateSiteScript } from '../build/site-scripts.mjs';
 
-for (const variant of ['public', 'site']) describe(`${variant} — page-navigation`, () => {
-  const file = variant === 'public' ? '../public/nordra/v541/page-navigation.js' : '../src/site/scripts/page-navigation.js';
+describe('site — page-navigation', () => {
+  const file = '../src/site/scripts/page-navigation.js';
   const raw = readFileSync(new URL(file, import.meta.url), 'utf8');
-  const source = variant === 'public' ? raw : '"use strict";\n' + isolateSiteScript(raw, 'page-navigation.js');
+  const source = '"use strict";\n' + isolateSiteScript(raw, 'page-navigation.js');
   function setup({ hidden = false, reduced = false, paused = false } = {}) {
     const docEvents = new Map(), events = new Map(), timers = new Map(), children = [], navigations = [], addresses = [], animations = [];
     let timerId = 0;

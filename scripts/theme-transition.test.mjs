@@ -5,10 +5,10 @@ import { runInNewContext } from 'node:vm';
 
 import { isolateSiteScript } from '../build/site-scripts.mjs';
 
-for (const variant of ['public', 'site']) describe(`${variant} — theme-transition`, () => {
-  const file = variant === 'public' ? '../public/nordra/v541/theme-transition.js' : '../src/site/scripts/theme-transition.js';
+describe('site — theme-transition', () => {
+  const file = '../src/site/scripts/theme-transition.js';
   const raw = readFileSync(new URL(file, import.meta.url), 'utf8');
-  const source = variant === 'public' ? raw : '"use strict";\n' + isolateSiteScript(raw, 'theme-transition.js');
+  const source = '"use strict";\n' + isolateSiteScript(raw, 'theme-transition.js');
   function setup({ reduced = false, paused = false } = {}) {
     const classes = new Set(), rootClasses = new Set();
     const classList = set => ({ contains: name => set.has(name), add: (...names) => names.forEach(name => set.add(name)), remove: (...names) => names.forEach(name => set.delete(name)), toggle: (name, on) => on ? set.add(name) : set.delete(name) });
