@@ -66,3 +66,19 @@ no se ha enviado ningún mensaje.
 | cumpleanos | Hola, Nordra. Me gustaría una invitación digital para un cumpleaños. |
 | eventos | Hola, Nordra. Me gustaría una invitación digital para mi evento. |
 | temporada | Hola, Nordra. Me gustaría una invitación digital para una celebración de temporada. |
+
+## T4 · Texto del proceso
+
+Solo Invitaciones contenía «De tu idea / a tu página»: ahora dice «De tu idea /
+a tu invitación». Bodas («Hagamos algo muy suyo»), Cumpleaños («Tú pones el plan /
+Nosotros, el diseño»), Eventos («Tú tienes el motivo / Le damos forma») y Temporada
+(«De tu idea / a sus manos») ya tenían mensajes propios y se conservan.
+
+Observaciones fuera del cambio solicitado:
+
+- El HTML base conserva «Cómo empezar» hacia `/#proceso` y algunos enlaces con
+  `target="_blank"`; al ejecutar, journey/page-navigation los convierten en destinos
+  contextuales y navegación interna. No es un fallo del recorrido normal, aunque
+  esos destinos del HTML no equivalen al comportamiento con JavaScript deshabilitado.
+- Inicio ya mostraba dos tarjetas de servicios con imágenes, aunque no enlazaba
+  directamente los tres trabajos pedidos. T5 agrega esa evidencia sin quitarlas.
