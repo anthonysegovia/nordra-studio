@@ -90,7 +90,7 @@ function initializeLightTable(table){
   if(previewReady)return;
   const paused=reduce.matches||document.body.dataset.businessMotion==='paused'||document.body.dataset.journeyMotion==='paused';
   preview.disabled=paused||previewLoading;preview.setAttribute('aria-pressed','true');
-  preview.textContent=paused?'Movimiento pausado':'Reanudar muestra';
+  preview.textContent=paused?'Movimiento pausado':'Reproducir muestra';
  }
  async function resumePreview(){
   if(previewReady||previewLoading||preview.disabled)return;
