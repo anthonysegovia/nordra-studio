@@ -333,7 +333,7 @@ function profile() {
 const ease = t => (t <= 0 ? 0 : t >= 1 ? 1 : t * t * t * (t * (t * 6 - 15) + 10));
 const phase = (elapsed, [from, to]) => ease((elapsed - from) / (to - from));
 
-export async function createLandscapeScene(stage, { reduced = false, paused = false, dark: initialDark = false, context, getState, onFallback, onReady } = {}) {
+export async function createLandscapeScene(stage, { reduced = false, paused = false, initialElapsed = 0, dark: initialDark = false, context, getState, onFallback, onReady } = {}) {
   const quality = profile();
   const renderer = new WebGLRenderer({ canvas: context?.canvas, context, antialias: true, alpha: false, powerPreference: 'high-performance' });
   const canvas = renderer.domElement;
@@ -456,7 +456,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   let preparation = 0;
   let shaderFailed = false, targetDark = initialDark ? 1 : 0;
   let current = { visible: true, hidden: document.hidden, paused, reduced, dark: initialDark };
-  const clock = { elapsed: reduced || paused ? SETTLED : 0, last: null };
+  const clock = { elapsed: reduced || paused ? SETTLED : Math.max(0, Math.min(SETTLED, initialElapsed)), last: null };
   let scrollProgress = 0, rippleIndex = 0, lastRipple = { x: 1e4, z: 1e4, t: 0 };
   const raycaster = new Raycaster(), lakePlane = new Plane(new Vector3(0, 1, 0), 0), pointer = new Vector2(), hit = new Vector3();
   const rest = { position: new Vector3(), target: new Vector3() };
@@ -608,7 +608,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   function sync() {
     stop();
     if (!policy().render) return;
-    if (current.reduced) { clock.elapsed = SETTLED; time.value = SETTLED / 1000; scrollProgress = 0; setPhases(SETTLED); place(); }
+    if (current.reduced || current.paused || current.finishEntrance) { clock.elapsed = SETTLED; time.value = SETTLED / 1000; scrollProgress = 0; setPhases(SETTLED); place(); current.finishEntrance = false; }
     if (current.reduced || current.paused) dark.value = targetDark;
     render();
     if (policy().animate) raf = requestAnimationFrame(tick);
@@ -664,6 +664,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
       if (getState) current = { ...current, ...getState() };
       if (current.disposed) { dispose(); return; }
       targetDark = landscapePolicy(current).theme;
+      dark.value = targetDark; // A theme change during preparation must match the still on the first frame.
       sync();
       if (disposed) return;
       stage.classList.add('has-scene'); stage.dataset.renderer = 'landscape-3d'; stage.dataset.quality = quality.name;

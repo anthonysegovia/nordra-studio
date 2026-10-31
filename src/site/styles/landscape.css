@@ -11,6 +11,9 @@
 .home-horizon .horizon-hero>.horizon-light.landscape-poster{inset:0;height:auto;opacity:1;animation:none;transform:none;overflow:hidden;background:#d6e8f9}
 .dark .home-horizon .horizon-hero>.horizon-light.landscape-poster{background:#05121e}
 .landscape-poster picture{position:absolute;inset:0;display:block}
+.landscape-poster .landscape-poster-previous{z-index:1;opacity:1;transition:opacity .6s ease;pointer-events:none}
+.landscape-poster::after{z-index:2;pointer-events:none}
 .home-horizon .horizon-hero .landscape-poster img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 100%;transform-origin:50% 0;transform:translateY(var(--poster-shift,0px)) scale(var(--poster-zoom,1))}
 @media(prefers-reduced-motion:reduce){.horizon-landscape,.horizon-landscape.has-scene{opacity:0;transition:none}}
+@media(prefers-reduced-motion:reduce){.landscape-poster .landscape-poster-previous{transition:none}}
 body[data-journey-motion=paused] .horizon-landscape{opacity:0;transition:none}

@@ -148,7 +148,7 @@ test('the animation clock excludes paused, offscreen and hidden time, without a 
 });
 
 const loaderSource = readFileSync(new URL('../src/site/landscape/landscape-hero.js', import.meta.url), 'utf8');
-function fixture({ webgl = true, embedded = false, importFailure = false, paused = false, reduced = false } = {}) {
+function fixture({ webgl = true, embedded = false, importFailure = false, paused = false, reduced = false, saveData = false, repeat = false } = {}) {
   function target(extra = {}) {
     const listeners = new Map(), classes = new Set(), attributes = new Map();
     return { dataset: {}, isConnected: true, ...extra,
@@ -164,26 +164,30 @@ function fixture({ webgl = true, embedded = false, importFailure = false, paused
   const frame = embedded ? target({ ownerDocument: { body: parentBody } }) : null;
   frame?.setAttribute('aria-hidden', 'true');
   const page = target({ frameElement: frame, requestIdleCallback: true, cancelIdleCallback: true });
+  const poster = { phase: paused || reduced || saveData || repeat ? 'final' : 'start', starts: 0, final() { this.phase = 'final'; }, started() { this.starts++; } };
+  page.NordraLandscapePoster = poster;
   let contextReleases = 0;
   const context = { getExtension: () => ({ loseContext: () => contextReleases++ }) };
   const document = target({ body, hidden: false, readyState: 'loading', querySelector: () => stage,
     createElement: () => ({ getContext: () => webgl ? context : null }) });
-  const idle = new Map(), mutations = []; let intersect, imports = 0, releases = 0, id = 0;
+  const idle = new Map(), frames = new Map(), mutations = []; let intersect, imports = 0, releases = 0, id = 0;
   const states = [], signals = [];
   const controller = { setState: state => states.push(state), dispose: () => releases++ };
   runInNewContext(loaderSource.replace(/^import .*;\s*/, '').replace("import('./landscape-scene.js')", 'loadScene()'), {
-    landscapePolicy, document, window: page, matchMedia: () => media,
+    landscapePolicy, document, window: page, navigator: { connection: { saveData } }, matchMedia: () => media,
     addEventListener: page.addEventListener.bind(page), removeEventListener: page.removeEventListener.bind(page),
     dispatchEvent: event => signals.push(event), CustomEvent: class { constructor(type, { detail }) { this.type = type; this.detail = detail; } },
     requestIdleCallback: fn => { idle.set(++id, fn); return id; }, cancelIdleCallback: key => idle.delete(key),
+    requestAnimationFrame: fn => { frames.set(++id, fn); return id; }, cancelAnimationFrame: key => frames.delete(key),
     IntersectionObserver: class { constructor(fn) { intersect = fn; } observe() {} disconnect() {} },
     MutationObserver: class { constructor(fn) { mutations.push(fn); } observe() {} disconnect() {} },
     loadScene: async () => { imports++; if (importFailure) throw Error('fixture import failure'); return { createLandscapeScene: async (_, options) => { states.push(options); states.push(options.getState()); options.onReady(); return controller; } }; },
   });
-  return { stage, body, frame, document, page, media, idle, states, signals,
+  return { stage, body, frame, document, page, media, idle, states, signals, poster,
     imports: () => imports, releases: () => releases, context, contextReleases: () => contextReleases,
     visible: value => intersect([{ isIntersecting: value }]), mutate: () => mutations.forEach(fn => fn()),
-    async runIdle() { for (const [key, fn] of [...idle]) { idle.delete(key); await fn(); } },
+    runFrame() { for (const [key, fn] of [...frames]) { frames.delete(key); fn(); } },
+    async runIdle() { while (frames.size) this.runFrame(); for (const [key, fn] of [...idle]) { idle.delete(key); await fn(); } },
   };
 }
 
@@ -194,11 +198,13 @@ test('loader transfers its tested context to the scene and releases it if the im
   assert.equal(b.contextReleases(), 1); assert.equal(b.stage.dataset.renderer, 'static');
 });
 
-test('loader waits for load AND idle, probes WebGL and never imports it when unavailable', async () => {
+test('loader waits for load, a paint opportunity AND idle; unavailable WebGL stays static', async () => {
   const a = fixture({ webgl: false }); a.visible(true);
   assert.equal(a.idle.size, 0); a.page.emit('load'); assert.equal(a.imports(), 0);
   await a.runIdle(); assert.equal(a.imports(), 0); assert.equal(a.stage.dataset.renderer, 'static');
   const b = fixture(); b.visible(true); b.page.emit('load'); assert.equal(b.imports(), 0);
+  assert.equal(b.idle.size, 0); b.runFrame(); assert.equal(b.idle.size, 0);
+  b.runFrame(); assert.equal(b.idle.size, 1);
   await b.runIdle(); assert.equal(b.imports(), 1);
 });
 
@@ -208,11 +214,32 @@ test('paused and reduced visits keep the poster, and resuming seeds the settled 
     assert.equal(a.idle.size, 0); assert.equal(a.imports(), 0);
     a.body.dataset.journeyMotion = 'playing'; a.media.matches = false; a.mutate();
     await a.runIdle(); assert.equal(a.imports(), 1);
-    assert.equal(a.states[0].paused, true, 'constructor uses the existing settled state');
+    assert.equal(a.states[0].initialElapsed, 60000, 'constructor uses the existing settled state');
     assert.equal(a.states[0].getState().paused, false, 'real preference resumes motion onReady');
     assert.equal(a.states.at(-1).paused, false);
     assert.equal(a.states.length, 2, 'preparation is not followed by a duplicate synchronous draw');
   }
+});
+
+test('first animated visit starts at zero; repeats and data saver use the final landscape', async () => {
+  const first = fixture(); first.visible(true); first.page.emit('load'); await first.runIdle();
+  assert.equal(first.states[0].initialElapsed, 0); assert.equal(first.poster.starts, 1);
+  const repeat = fixture({ repeat: true }); repeat.visible(true); repeat.page.emit('load'); await repeat.runIdle();
+  assert.equal(repeat.states[0].initialElapsed, 60000);
+  const saver = fixture({ saveData: true }); saver.visible(true); saver.page.emit('load'); await saver.runIdle();
+  assert.equal(saver.imports(), 0); assert.equal(saver.poster.phase, 'final');
+});
+
+test('failure, live pause and a bfcache return cannot leave the initial still behind', async () => {
+  for (const options of [{ webgl: false }, { importFailure: true }]) {
+    const a = fixture(options); a.visible(true); a.page.emit('load'); await a.runIdle();
+    assert.equal(a.poster.phase, 'final'); assert.equal(a.poster.starts, 0);
+  }
+  const a = fixture(); a.visible(true); a.page.emit('load'); await a.runIdle();
+  a.body.dataset.journeyMotion = 'paused'; a.mutate(); assert.equal(a.poster.phase, 'final');
+  const b = fixture(); b.visible(true); b.page.emit('load'); await b.runIdle();
+  b.page.emit('pageshow', { persisted: true }); assert.equal(b.poster.phase, 'final');
+  assert.ok(b.states.some(s => s.finishEntrance === true));
 });
 
 test('a pause while waiting for idle cancels the pending WebGL start', async () => {

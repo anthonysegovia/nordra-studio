@@ -3,6 +3,8 @@
 // package.json whose environment already provides Playwright. FFmpeg must be on PATH.
 // Example: node scripts/capture-landscape-posters.mjs --url http://127.0.0.1:5197
 //   --tools "E:/Nordra Studio/Revision saneamiento/2026-10-29/package.json"
+// Add --phase start --elapsed 0 for the entrance; --phase final (default)
+// reproduces the retained settled portraits. Use --evidence to keep each set.
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -18,7 +20,12 @@ const { values } = parseArgs({ options: {
   chrome: { type: 'string', default: 'C:/Program Files/Google/Chrome/Application/chrome.exe' },
   output: { type: 'string', default: 'public/nordra/v544/assets' },
   evidence: { type: 'string', default: 'review/retrato-paisaje' },
+  phase: { type: 'string', default: 'final' },
+  elapsed: { type: 'string', default: '0' },
 } });
+assert.ok(['start', 'final'].includes(values.phase), '--phase must be start or final');
+const initialElapsed = values.phase === 'start' ? Number(values.elapsed) : 60000;
+assert.ok(Number.isFinite(initialElapsed) && initialElapsed >= 0 && initialElapsed <= 60000);
 const require = createRequire(values.tools ? path.resolve(values.tools) : import.meta.url);
 const { chromium } = require('playwright');
 const sceneFile = fs.readdirSync(path.join(values.build, 'assets')).find(file => /^landscape-scene-.*\.js$/.test(file));
@@ -37,8 +44,8 @@ try {
       Object.defineProperty(navigator, 'deviceMemory', { get: () => 8 });
     });
     const page = await context.newPage();
-    // Keep the actual layout and fonts, but invoke the scene alone in its existing
-    // paused/final state. This also works when the normal loader keeps a poster.
+    // Keep the actual layout and fonts, but invoke the scene alone at the chosen
+    // instant. This also works when the normal loader keeps a poster.
     await page.route(url => url.pathname === '/', async route => {
       const response = await route.fetch();
       const body = (await response.text())
@@ -58,10 +65,13 @@ try {
     });
     await page.goto(`${values.url}/?theme=${theme}&motion=paused`);
     await page.evaluate(() => document.fonts.ready);
-    await page.evaluate(async ({ file, dark }) => {
+    await page.evaluate(async ({ file, dark, initialElapsed }) => {
+      // Freeze animation scheduling only in this offline browser. No capture
+      // flag or frozen clock is exposed by the published renderer.
+      window.requestAnimationFrame = () => 0;
       const { createLandscapeScene } = await import(`/assets/${file}`);
-      await createLandscapeScene(document.querySelector('.horizon-landscape'), { paused: true, dark });
-    }, { file: sceneFile, dark: theme === 'dark' });
+      await createLandscapeScene(document.querySelector('.horizon-landscape'), { initialElapsed, dark });
+    }, { file: sceneFile, dark: theme === 'dark', initialElapsed });
     await page.waitForFunction(() => document.querySelector('.horizon-landscape').classList.contains('has-scene'));
     const capture = await page.evaluate(() => {
       const { renderer, scene, camera } = window.posterCapture;
@@ -86,7 +96,7 @@ try {
         horizonY: y(point.set(0, 0, -800)), sunX: (sun.clone().project(camera).x + 1) * rect.width / 2,
         sunY: y(sun), camera: camera.position.toArray() };
     });
-    const name = `landscape-poster-${theme}-${format}`;
+    const name = `landscape-${values.phase === 'start' ? 'start' : 'poster'}-${theme}-${format}`;
     const png = Buffer.from(capture.png.split(',')[1], 'base64'); delete capture.png;
     const rawPath = path.join(values.evidence, `${name}.png`);
     fs.writeFileSync(rawPath, png);
@@ -105,4 +115,4 @@ try {
     await context.close();
   }
 } finally { await browser.close(); }
-fs.writeFileSync(path.join(values.evidence, 'poster-generation.json'), JSON.stringify({ sceneFile, records }, null, 2));
+fs.writeFileSync(path.join(values.evidence, 'poster-generation.json'), JSON.stringify({ sceneFile, phase: values.phase, initialElapsed, records }, null, 2));
