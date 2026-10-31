@@ -21,12 +21,23 @@ test('batch import is atomic, idempotent and initializes RSVP pending',async()=>
   const version=result.data.version;result=await f.call(body);assert.equal(result.data.version,version);assert.equal(result.data.management.history.length,1);
   const failed=await f.call({action:'import',requestId:randomUUID(),invitations:[item('Nueva Persona'),item('Ana Prueba')]});assert.equal(failed.data.code,'duplicate_name');assert.equal(f.rows.get(f.id).invitations.length,2);
 });
-test('imports enforce total places, structural validation and owner authorization',async()=>{
-  const f=fixture(),batch=Array.from({length:300},(_,i)=>item(`Persona ${i}`));
+test('imports enforce owner authorization and accept lists far above 300 people',async()=>{
+  const f=fixture(),batch=Array.from({length:400},(_,i)=>item(`Persona ${i}`,'couple')).map((x,i)=>({...x,people:[x.people[0],{...x.people[1],name:`Pareja ${i}`}]}));
   assert.equal((await f.call({action:'import',requestId:randomUUID(),invitations:batch},{})).status,401);
   assert.equal((await f.call({action:'import',requestId:randomUUID(),invitations:batch},{client:randomUUID()})).status,404);
-  assert.equal((await f.call({action:'import',requestId:randomUUID(),invitations:batch})).status,200);
+  const imported=await f.call({action:'import',requestId:randomUUID(),invitations:batch});
+  assert.equal(imported.status,200);assert.equal(imported.data.invitations.flatMap(i=>i.people).length,800);
+  const added=await f.call({action:'save',mode:'add',invitation:item('Persona Adicional')});
+  assert.equal(added.status,200);assert.equal(f.rows.get(f.id).invitations.flatMap(i=>i.people).length,801);
+});
+test('technical ceilings cap import rows, request size and the 5,000-person event capacity',async()=>{
+  const f=fixture(),rows=(n,prefix)=>Array.from({length:n},(_,i)=>item(`${prefix} ${i}`));
+  assert.equal((await f.call({action:'import',requestId:randomUUID(),invitations:rows(1001,'Fila')})).data.code,'invalid_import');
+  assert.equal((await f.call({action:'import',requestId:randomUUID(),invitations:[item()],padding:'x'.repeat(1048576)})).data.code,'invalid_request');
+  for(const prefix of ['Lote A','Lote B','Lote C','Lote D','Lote E'])assert.equal((await f.call({action:'import',requestId:randomUUID(),invitations:rows(1000,prefix)})).status,200);
+  assert.equal(f.rows.get(f.id).invitations.length,5000);
   assert.equal((await f.call({action:'import',requestId:randomUUID(),invitations:[item('Exceso Persona')]})).data.code,'guest_limit');
+  assert.equal((await f.call({action:'save',mode:'add',invitation:item('Exceso Persona')})).data.code,'guest_limit');
 });
 test('delivery requires explicit action and cannot overwrite another organizer’s update',async()=>{
   const f=fixture();const imported=await f.call({action:'import',requestId:randomUUID(),invitations:[item()]});const id=imported.data.invitations[0].id;

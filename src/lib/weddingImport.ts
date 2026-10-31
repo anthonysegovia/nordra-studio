@@ -1,4 +1,5 @@
 import type { WeddingInvitationKind } from './weddingInvitations';
+import { maxEventPeople, maxImportRows } from './weddingCapacity';
 
 export type ImportRow = { id: string; row: number; name: string; companion: string; kind: string; included: boolean };
 export const importNameKey = (value: string) => value.normalize('NFD').replace(/\p{Diacritic}/gu, '').trim().replace(/\s+/g, ' ').toLowerCase();
@@ -14,10 +15,11 @@ export function readGuestCsv(text: string): string[][] {
     else if (!quoted && char === separator) { row.push(value); value = ''; }
     else if (!quoted && (char === '\n' || char === '\r')) { if (char === '\r' && text[i+1] === '\n') i++; row.push(value); if (row.some(v=>v.trim())) rows.push(row); row=[]; value=''; }
     else value += char;
-    if (rows.length > 301 || row.length > 50 || value.length > 10000) throw new Error('import_too_many');
+    if (rows.length > maxImportRows + 1 || row.length > 50 || value.length > 10000) throw new Error('import_too_many');
   }
   if (quoted) throw new Error('invalid_csv');
   row.push(value); if (row.some(v=>v.trim())) rows.push(row);
+  if (rows.length > maxImportRows + 1) throw new Error('import_too_many');
   return rows;
 }
 export function normalizedKind(value: string, companion: string): WeddingInvitationKind | null {
@@ -44,5 +46,5 @@ export function reviewImport(rows: ImportRow[], existingNames: string[], existin
       names.add(key);
     }
   }
-  return { errors, people, overLimit: existingPeople + people > 300, selected: rows.filter(row=>row.included).length };
+  return { errors, people, overLimit: existingPeople + people > maxEventPeople, selected: rows.filter(row=>row.included).length };
 }

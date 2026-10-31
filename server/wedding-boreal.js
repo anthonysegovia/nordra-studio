@@ -1,5 +1,6 @@
 import { createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 import { WeddingError } from './wedding-errors.js';
+import { maxTables } from './wedding-capacity.js';
 
 const fail = (code, status = 400) => { throw new WeddingError(code, status); };
 const digest = value => createHash('sha256').update(value).digest('hex');
@@ -90,7 +91,7 @@ export function changeBoreal(row, body, { site, mode, now = Date.now(), actor = 
     if (old && (body.previous?.name !== old.name || body.previous?.capacity !== old.capacity)) fail('response_changed', 409);
     if (state.tables.some(item => item.id !== table.id && key(item.name) === key(name))) fail('duplicate_table');
     if (Object.values(state.seats).filter(id => id === table.id).length > table.capacity) fail('table_full', 409);
-    if (!old && state.tables.length >= 50) fail('table_limit');
+    if (!old && state.tables.length >= maxTables) fail('table_limit');
     const next = { id: table.id, name, capacity: table.capacity };
     state.tables = old ? state.tables.map(item => item.id === table.id ? next : item) : [...state.tables, next];
   } else if (action === 'table-delete') {

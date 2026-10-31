@@ -1,4 +1,5 @@
 import { guestNameKey, normalizeGuestName, updateDemoResponse, type GuestResponse } from "./guestResponses";
+import { maxEventPeople } from "./weddingCapacity";
 
 const sampleNames = [
   "Mariana López", "Daniel Moreno", "Isabel García", "Lucía Herrera", "Alejandro Ruiz", "Sofía Martínez",
@@ -11,14 +12,13 @@ export const weddingSampleResponses: GuestResponse[] = sampleNames.map((guest_na
 }));
 export const weddingPreviewKey = "nordra-wedding-preview-v2";
 export const legacyWeddingPreviewKey = "nordra-wedding-preview-v1";
-const maxGuests = 200;
 const previewLifetime = 2 * 60 * 60 * 1000;
 
 export function saveWeddingGuest(rows: GuestResponse[], input: GuestResponse, mode: "add" | "edit") {
   const exists = rows.some(row => row.id === input.id);
   if (mode === "edit" && !exists) throw new Error("guest_missing");
   if (mode === "add" && exists) throw new Error("duplicate_id");
-  if (mode === "add" && rows.length >= maxGuests) throw new Error("guest_limit");
+  if (mode === "add" && rows.length >= maxEventPeople) throw new Error("guest_limit");
   const updated = updateDemoResponse(rows, input);
   // Keep an edited guest in place so the list does not jump around.
   return mode === "edit" ? rows.map(row => row.id === input.id ? updated[0] : row) : updated;
@@ -35,12 +35,12 @@ export function encodeWeddingPreview(rows: GuestResponse[], now = Date.now()) {
 
 // Treat browser storage as untrusted input. Never restore partial or invalid lists.
 export function decodeWeddingPreview(raw: string | null, now = Date.now()): GuestResponse[] | null {
-  if (!raw || raw.length > 150000) return null;
+  if (!raw || raw.length > 1_000_000) return null;
   try {
     const value = JSON.parse(raw);
     if (![1, 2].includes(value.version) || !Number.isFinite(value.expires) || value.expires <= now || value.expires > now + previewLifetime) return null;
     const incoming = value.version === 1 ? [value.reply] : value.rows;
-    if (!Array.isArray(incoming) || incoming.length > maxGuests) return null;
+    if (!Array.isArray(incoming) || incoming.length > maxEventPeople) return null;
     const ids = new Set<string>();
     const names = new Set<string>();
     const rows: GuestResponse[] = incoming.map(row => {

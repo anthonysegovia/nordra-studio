@@ -2,9 +2,10 @@ import { randomUUID } from 'node:crypto';
 import { applyOwnerChange, normalizeInvitation, validateList } from './wedding-links.js';
 import { WeddingError } from './wedding-errors.js';
 import { jsonBody } from './admin-access.js';
+import { maxImportBytes, maxImportRows, maxTrash } from './wedding-capacity.js';
 
 export function weddingBody(req) {
-  const body = jsonBody(req, 262144);
+  const body = jsonBody(req, maxImportBytes);
   if (body.action !== 'import' && Buffer.byteLength(JSON.stringify(body), 'utf8') > 8192) throw new Error('Invalid body');
   return body;
 }
@@ -45,7 +46,7 @@ export function changeManagement(row, body, actor, now = new Date().toISOString(
   if (body.action === 'import') {
     if (typeof body.requestId !== 'string' || !/^[a-f0-9-]{36}$/i.test(body.requestId)) fail('invalid_import');
     if (state.imports.includes(body.requestId)) return { list, management: state, unchanged: true };
-    if (!Array.isArray(body.invitations) || !body.invitations.length || body.invitations.length > 300) fail('invalid_import');
+    if (!Array.isArray(body.invitations) || !body.invitations.length || body.invitations.length > maxImportRows) fail('invalid_import');
     const added = body.invitations.map(input => normalizeInvitation({ ...input, updated_at: now, people: input?.people?.map(p => ({ ...p, attendance: 'pending' })) }));
     list = validateList([...list, ...added]);
     if (added.some(item => state.trash.some(entry => entry.invitation.id === item.id))) fail('duplicate_id', 409);
@@ -70,7 +71,7 @@ export function changeManagement(row, body, actor, now = new Date().toISOString(
   } else if (body.action === 'delete') {
     if (!invitation) fail('guest_missing', 404);
     if (body.updatedAt && body.updatedAt !== invitation.updated_at) fail('response_changed', 409);
-    if (state.trash.length >= 300) fail('trash_limit', 409);
+    if (state.trash.length >= maxTrash) fail('trash_limit', 409);
     list = applyOwnerChange(list, body, now);
     state.trash.push({ invitation: normalizeInvitation(invitation), deletedAt: now, delivery: state.delivery[body.id] });
     delete state.delivery[body.id];

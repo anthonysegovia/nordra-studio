@@ -1,5 +1,6 @@
 import { guestNameKey, normalizeGuestName } from "./guestResponses";
 import { decodeWeddingPreview as decodeLegacy, weddingSampleResponses as legacySamples } from "./weddingGuests";
+import { maxEventPeople } from "./weddingCapacity";
 
 export type WeddingAttendance = "yes" | "no" | "pending";
 export type WeddingInvitationKind = "individual" | "couple" | "plusOne";
@@ -7,7 +8,6 @@ export type WeddingPerson = { id: string; name: string; attendance: WeddingAtten
 export type WeddingInvitation = { id: string; kind: WeddingInvitationKind; people: WeddingPerson[]; updated_at: string; link?: string; passLink?: string };
 export const weddingInvitationKey = "nordra-wedding-preview-v3";
 const lifetime = 2 * 60 * 60 * 1000;
-const maxPeople = 300;
 const sample = (index: number, kind: WeddingInvitationKind, names: string[], statuses: WeddingAttendance[]): WeddingInvitation => ({
   id: `wedding-invitation-${index}`, kind, updated_at: "2026-10-25T18:00:00Z",
   people: names.map((name, person) => ({ id: `wedding-person-${index}-${person}`, name, attendance: statuses[person] })),
@@ -52,9 +52,9 @@ function normalizeInvitation(invitation: WeddingInvitation): WeddingInvitation {
   }) };
 }
 function validateList(invitations: WeddingInvitation[]) {
-  if (!Array.isArray(invitations) || invitations.length > maxPeople) throw new Error("guest_limit");
+  if (!Array.isArray(invitations) || invitations.length > maxEventPeople) throw new Error("guest_limit");
   const normalized = invitations.map(normalizeInvitation);
-  if (summarizeInvitations(normalized).total > maxPeople) throw new Error("guest_limit");
+  if (summarizeInvitations(normalized).total > maxEventPeople) throw new Error("guest_limit");
   const ids = new Set<string>(); const names = new Set<string>();
   for (const invitation of normalized) {
     if (ids.has(invitation.id)) throw new Error("duplicate_id");
@@ -94,7 +94,7 @@ export function encodeInvitations(invitations: WeddingInvitation[], now = Date.n
   return JSON.stringify({ version: 3, expires: now + lifetime, invitations });
 }
 export function decodeInvitations(raw: string | null, now = Date.now()): WeddingInvitation[] | null {
-  if (!raw || raw.length > 250000) return null;
+  if (!raw || raw.length > 2_000_000) return null;
   try {
     const value = JSON.parse(raw);
     if (value.version === 3) {

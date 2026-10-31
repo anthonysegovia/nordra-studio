@@ -4,6 +4,7 @@ import { databaseClient, jsonBody } from './admin-access.js';
 import { WeddingError } from './wedding-errors.js';
 import { changeManagement, logGuestChange, managementActions, managementView, weddingBody } from './wedding-management.js';
 import { authorizeReception, borealActions, borealView, changeBoreal, passInvitation, passLink, passView, publicBorealActions, receptionView, reconcileBoreal, sampleBoreal } from './wedding-boreal.js';
+import { maxEventPeople } from './wedding-capacity.js';
 export { WeddingError } from './wedding-errors.js';
 
 const LIFE = 24 * 60 * 60 * 1000;
@@ -35,7 +36,7 @@ export function normalizeInvitation(input) {
   }) };
 }
 export function validateList(list) {
-  if (!Array.isArray(list) || list.length>300 || list.reduce((n,x)=>n+x.people.length,0)>300) return fail('guest_limit');
+  if (!Array.isArray(list) || list.length>maxEventPeople || list.reduce((n,x)=>n+x.people.length,0)>maxEventPeople) return fail('guest_limit');
   const ids=new Set(),names=new Set();
   for (const item of list) {
     for (const id of [item.id,...item.people.map(p=>p.id)]) { if(ids.has(id)) return fail('duplicate_id'); ids.add(id); }

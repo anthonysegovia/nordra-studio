@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { registerHooks } from 'node:module';
 registerHooks({ resolve(specifier, context, nextResolve) {
-  return nextResolve(['./guestResponses', './weddingGuests'].includes(specifier) && /\/src\/lib\/wedding(Invitations|Guests)\.ts$/.test(context.parentURL ?? '') ? `${specifier}.ts` : specifier, context);
+  return nextResolve(['./guestResponses', './weddingGuests', './weddingCapacity'].includes(specifier) && /\/src\/lib\/wedding(Invitations|Guests)\.ts$/.test(context.parentURL ?? '') ? `${specifier}.ts` : specifier, context);
 } });
 const { weddingInvitationSamples: samples, summarizeInvitations: totals, saveWeddingInvitation: save, removeWeddingInvitation: remove, setWeddingAttendance: attend, filterInvitations: filter, encodeInvitations: encode, decodeInvitations: decode, invitationsCsv: csv } = await import('../src/lib/weddingInvitations.ts');
 const { weddingSampleResponses: legacy, encodeWeddingPreview } = await import('../src/lib/weddingGuests.ts');
@@ -73,4 +73,14 @@ test('legacy untouched samples upgrade; user edits and empty lists are preserved
   assert.equal(migrated.length,24); assert.equal(migrated[0].people[0].name,'Nombre conservado');
   assert.ok(migrated.every(x=>x.kind==='individual'));
   assert.deepEqual(decode(encodeWeddingPreview([],now),now),[]);
+});
+test('adding invitations works above 300 people up to the technical capacity', () => {
+  const invite = (i, kind = 'couple') => ({ id:`wedding-big-${i}`, kind, updated_at:new Date(now).toISOString(), people:[{ id:`wedding-big-${i}-a`, name:`Persona ${i}`, attendance:'pending' }, ...(kind === 'individual' ? [] : [{ id:`wedding-big-${i}-b`, name:`Pareja ${i}`, attendance:'pending' }])] });
+  let list = Array.from({ length:150 }, (_, i) => invite(i));
+  list = save(list, invite(150, 'individual'), 'add');
+  assert.equal(totals(list).total, 301);
+  assert.equal(decode(encode(list, now), now).length, 151);
+  const full = Array.from({ length:2500 }, (_, i) => invite(i));
+  assert.equal(totals(decode(encode(full, now), now)).total, 5000);
+  assert.throws(() => save(full, invite(2500, 'individual'), 'add'), /guest_limit/);
 });

@@ -49,7 +49,7 @@ export function WeddingInvitationEditor({ action, english, realEvent = false, on
   }
   const errorText = error === "duplicate_name" ? (english ? "One of these names is already in the list" : "Uno de estos nombres ya está en la lista")
     : error === "companion_name_required" ? (english ? "Add the companion's name before confirming" : "Agrega el nombre del acompañante antes de confirmar")
-    : error === "guest_limit" ? (english ? "This panel supports up to 300 places" : "Este panel admite hasta 300 lugares")
+    : error === "guest_limit" ? (english ? "This list reached the 5,000-person technical capacity. Contact Nordra to expand it" : "La lista alcanzó la capacidad técnica de 5,000 personas. Contacta a Nordra para ampliarla")
     : error === "response_changed" ? (english ? "A reply changed while you were editing. Close and reopen this invitation to see the latest reply." : "La respuesta cambió mientras editabas. Cierra y vuelve a abrir esta invitación para ver la más reciente.")
     : ["unavailable", "session_unavailable", "limited", "TimeoutError", "Failed to fetch"].includes(error) ? (english ? "We could not save the change. Check your connection and try again." : "No pudimos guardar el cambio. Revisa tu conexión e intenta nuevamente.")
     : error === "guest_missing" ? (english ? "This invitation is no longer in the list" : "Esta invitación ya no está en la lista")

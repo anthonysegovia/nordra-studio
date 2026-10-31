@@ -4,7 +4,7 @@ import { registerHooks } from 'node:module';
 
 // Resolve this bundler-style TS import when running the same source in Node.
 registerHooks({ resolve(specifier, context, nextResolve) {
-  return nextResolve(specifier === './guestResponses' && context.parentURL?.endsWith('/src/lib/weddingGuests.ts') ? './guestResponses.ts' : specifier, context);
+  return nextResolve(['./guestResponses', './weddingCapacity'].includes(specifier) && context.parentURL?.endsWith('/src/lib/weddingGuests.ts') ? `${specifier}.ts` : specifier, context);
 } });
 const { weddingSampleResponses: sample, saveWeddingGuest, removeWeddingGuest, encodeWeddingPreview, decodeWeddingPreview } = await import('../src/lib/weddingGuests.ts');
 const { summarizeResponses, responsesCsv } = await import('../src/lib/guestResponses.ts');
