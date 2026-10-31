@@ -321,10 +321,11 @@ const waterShader = {
 };
 
 function profile() {
-  const constrained = navigator.connection?.saveData === true ||
-    (navigator.deviceMemory > 0 && navigator.deviceMemory <= 4) ||
+  if (navigator.connection?.saveData === true) return { name: 'saver', dpr: 1.25, pixels: 1300000, fps: 30, reflection: 0, bandSegments: 160 };
+  // iOS reports at most 4 cores whatever the phone, so few cores still get a small reflection: the lake is the scene.
+  const constrained = (navigator.deviceMemory > 0 && navigator.deviceMemory <= 4) ||
     (navigator.hardwareConcurrency > 0 && navigator.hardwareConcurrency <= 4);
-  if (constrained) return { name: 'constrained', dpr: 1.25, pixels: 1300000, fps: 30, reflection: 0, bandSegments: 160 };
+  if (constrained) return { name: 'constrained', dpr: 1.25, pixels: 1300000, fps: 30, reflection: 0.25, bandSegments: 160 };
   if (matchMedia('(max-width:700px)').matches) return { name: 'mobile', dpr: 1.5, pixels: 1500000, fps: 30, reflection: 0.35, bandSegments: 200 };
   return { name: 'desktop', dpr: 2, pixels: 4200000, fps: 60, reflection: 0.5, bandSegments: 320 };
 }
@@ -441,7 +442,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     water = new Mesh(waterGeometry, new ShaderMaterial({
       uniforms: { dark },
       vertexShader: 'varying vec3 world; void main(){ world=(modelMatrix*vec4(position,1.0)).xyz; gl_Position=projectionMatrix*viewMatrix*vec4(world,1.0); }',
-      fragmentShader: 'uniform float dark; varying vec3 world; void main(){ float far=smoothstep(-10.0,-120.0,world.z); vec3 near=mix(vec3(0.72,0.80,0.88),vec3(0.01,0.03,0.05),dark); vec3 horizon=mix(vec3(0.93,0.88,0.90),vec3(0.04,0.15,0.17),dark); gl_FragColor=vec4(mix(near,horizon,far),1.0); }',
+      fragmentShader: 'uniform float dark; varying vec3 world; void main(){ float far=smoothstep(-10.0,-120.0,world.z); vec3 near=mix(vec3(0.72,0.80,0.88),vec3(0.03,0.08,0.11),dark); vec3 horizon=mix(vec3(0.93,0.88,0.90),vec3(0.06,0.22,0.24),dark); gl_FragColor=vec4(mix(near,horizon,far),1.0); }',
     }));
   }
   water.rotation.x = -Math.PI / 2;
