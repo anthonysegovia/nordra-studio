@@ -18,7 +18,7 @@ export function initializeBusinessContent(root){
    detail.style.overflow='hidden';const animation=detail.animate([{height:`${from}px`},{height:`${to}px`}],{duration:mobile.matches?220:300,easing:'cubic-bezier(.2,.7,.2,1)'});pending.set(detail,{animation,open});animation.onfinish=()=>settle(detail,open);animation.oncancel=()=>settle(detail,open);
   },options);
  });
- function sync(){if(paused()||document.hidden)finish();}
+ function sync(){if(paused()||document.hidden)finish();const process=root.querySelector('.business-process');if(process)process.dataset.stack=paused()||mobile.matches?'off':'on';}
  const state=new MutationObserver(sync);state.observe(document.body,{attributes:true,attributeFilter:['data-business-motion','data-journey-motion']});reduce.addEventListener('change',sync,options);mobile.addEventListener('change',sync,options);document.addEventListener('visibilitychange',sync,options);sync();root.dataset.businessContentReady='true';
  addEventListener('pagehide',e=>{if(e.persisted){finish();return;}finish();state.disconnect();abort.abort();},{once:true});
 }
