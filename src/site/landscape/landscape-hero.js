@@ -1,4 +1,5 @@
 import { landscapePolicy } from './state.js';
+import { landscapePrototype, comparisonMode } from './prototype-options.js';
 
 const stage = document.querySelector('.horizon-landscape');
 if (stage) {
@@ -7,6 +8,8 @@ if (stage) {
   const staticProfile = navigator.connection?.saveData === true;
   // Observe the parent-owned frame: document.hidden does not reflect aria-hidden.
   const frame = window.frameElement;
+  const variant = landscapePrototype(window.location?.search, comparisonMode(frame));
+  if (variant.comparison) stage.dataset.comparison = 'true';
   const parentDocument = frame?.ownerDocument;
   let scene, loading = false, failed = false, disposed = false, loaded = false;
   let visible = false, idle, paintFrame;
@@ -18,7 +21,7 @@ if (stage) {
   });
   const signal = (active, release = false) => dispatchEvent(new CustomEvent('nordra-landscape', { detail: { active, release } }));
   // A still visit already has its final landscape; do not allocate WebGL for it.
-  const shouldLoad = current => landscapePolicy(current).load && !current.paused && !current.reduced && !staticProfile;
+  const shouldLoad = current => landscapePolicy(current).load && (variant.comparison || (!current.paused && !current.reduced)) && !staticProfile;
   function fallback() {
     failed = true; poster?.final();
     stage.classList.remove('has-scene'); stage.dataset.renderer = 'static'; signal(false);
@@ -41,12 +44,12 @@ if (stage) {
       const { createLandscapeScene } = await import('./landscape-scene.js');
       if (!shouldLoad(state())) return;
       const next = await createLandscapeScene(stage, {
-        ...state(), context,
+        ...state(), context, features: variant.features,
         // The still and the first rendered frame share the same clock/camera.
-        initialElapsed: poster?.phase === 'start' ? 0 : 60000,
-        getState: () => ({ ...state(), finishEntrance: poster?.phase === 'final' }),
+        initialElapsed: variant.comparison ? (variant.entrance ? 0 : 60000) : poster?.phase === 'start' ? 0 : 60000,
+        getState: () => ({ ...state(), finishEntrance: !variant.comparison && poster?.phase === 'final' }),
         onFallback: fallback,
-        onReady: () => { if (!disposed) { poster?.started(); signal(true); } },
+        onReady: () => { if (!disposed) { if (!variant.comparison) poster?.started(); signal(true); } },
       });
       transferred = true;
       if (disposed) next.dispose();

@@ -6,6 +6,7 @@ import { landscapePolicy, advanceClock } from '../src/site/landscape/state.js';
 import { assertDeferredLandscape } from './check-site-bundles.mjs';
 import { resolve } from 'node:path';
 import { preparePrograms } from '../src/site/landscape/prepare-programs.js';
+import { landscapePrototype, comparisonMode } from '../src/site/landscape/prototype-options.js';
 import { PerspectiveCamera, Vector3, Vector2, Raycaster, Plane } from 'three';
 
 test('wide framing keeps water below the projected mountain and restores the approved view on resize', () => {
@@ -173,8 +174,8 @@ function fixture({ webgl = true, embedded = false, importFailure = false, paused
   const idle = new Map(), frames = new Map(), mutations = []; let intersect, imports = 0, releases = 0, id = 0;
   const states = [], signals = [];
   const controller = { setState: state => states.push(state), dispose: () => releases++ };
-  runInNewContext(loaderSource.replace(/^import .*;\s*/, '').replace("import('./landscape-scene.js')", 'loadScene()'), {
-    landscapePolicy, document, window: page, navigator: { connection: { saveData } }, matchMedia: () => media,
+  runInNewContext(loaderSource.replace(/^import .*;\s*/gm, '').replace("import('./landscape-scene.js')", 'loadScene()'), {
+    landscapePolicy, landscapePrototype, comparisonMode, document, window: page, navigator: { connection: { saveData } }, matchMedia: () => media,
     addEventListener: page.addEventListener.bind(page), removeEventListener: page.removeEventListener.bind(page),
     dispatchEvent: event => signals.push(event), CustomEvent: class { constructor(type, { detail }) { this.type = type; this.detail = detail; } },
     requestIdleCallback: fn => { idle.set(++id, fn); return id; }, cancelIdleCallback: key => idle.delete(key),
@@ -269,7 +270,7 @@ test('loader forwards live theme, pause, reduced motion and visibility; root nav
   a.page.emit('pagehide', { persisted: false }); assert.equal(a.releases(), 1);
 });
 
-test('Three version is exact, dynamically loaded; prototype review hooks are absent', () => {
+test('Three stays exact and deferred; capture hooks and the old aurora are absent', () => {
   const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
   assert.equal(JSON.parse(read('package.json')).dependencies.three, '0.181.0');
   assert.match(loaderSource, /await import\('\.\/landscape-scene\.js'\)/);

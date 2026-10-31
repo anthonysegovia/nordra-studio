@@ -51,6 +51,20 @@ const noise = /* glsl */`
     c = mix(c, blue, smoothstep(0.3, 0.62, v));
     return mix(c, violet, smoothstep(0.6, 1.0, v));
   }
+  #if defined(LANDSCAPE_B) || defined(LANDSCAPE_C) || defined(LANDSCAPE_D)
+  float auroraTravel(float x, float t) {
+    return 0.5 + 0.5 * sin(x * 0.035 - t * 0.14 + 0.7 * sin(x * 0.012 + t * 0.055));
+  }
+  // The near ribbon's existing patch/breathing field, sampled in world X.
+  float auroraPulse(float x, float t) {
+    float patches = 0.25 + 0.75 * smoothstep(0.32, 0.72, fbm(vec2((x / 300.0 + 0.5) * 5.0 + 1.3, t * 0.02)));
+    float pulse = patches * (0.86 + 0.14 * sin(t * 0.55 + 1.3));
+    #ifdef LANDSCAPE_C
+      pulse *= 0.80 * (0.88 + 0.12 * auroraTravel(x, t));
+    #endif
+    return pulse;
+  }
+  #endif
 `;
 
 // Sky dome: direction-based, so the lake reflection sees a correct sky.
@@ -115,6 +129,12 @@ const skyFragment = /* glsl */`
     vec3 sunFlat = normalize(vec3(sun.x, 0.0, sun.z) + 1e-5), dirFlat = normalize(vec3(d.x, 0.0, d.z) + 1e-5);
     float azimuth = acos(clamp(dot(sunFlat, dirFlat), -1.0, 1.0));
     float pillar = exp(-azimuth * azimuth / (0.006 * 0.006)) * exp(-abs(e - sun.y) / 0.10) * 0.35;
+    #ifdef LANDSCAPE_F
+      pillar = 0.0;
+      disk = exp(-sa * sa / 0.00030) * 0.42;
+      bloom = exp(-sa * sa / 0.0035) * 0.09 + exp(-sa * 6.0) * 0.025;
+      ring *= 0.22;
+    #endif
     // A low sun is warm: golden disk and pillar, so they read against the pale horizon.
     vec3 sunColour = vec3(1.0, 0.86, 0.62);
     vec3 daylight = sunColour * (bloom + pillar) + ringColour * ring * 0.34;
@@ -131,6 +151,15 @@ const skyFragment = /* glsl */`
     vec2 medium = starLayer(d, 90.0, 0.90, 1.0, 0.25, 0.65);
     vec2 bright = starLayer(d, 30.0, 0.935, 1.35, 0.7, 1.35);
     vec2 halo = starLayer(d, 30.0, 0.935, 4.5, 0.05, 0.16);
+    #ifdef LANDSCAPE_E
+      // A minority of medium/bright stars breathe by at most 6%, never flash.
+      medium.x *= 1.0 + step(0.72, medium.y) * 0.045 * sin(time * 0.31 + medium.y * 71.0);
+      float twinkle = 1.0 + step(0.60, bright.y) * 0.06 * sin(time * 0.23 + bright.y * 57.0);
+      bright.x *= twinkle; halo.x *= twinkle;
+      float galaxy = exp(-pow((d.y - d.x * 0.34 - 0.33) / 0.075, 2.0));
+      float dustVeil = vnoise(d.xz * 18.0 + vec2(d.y * 9.0, 4.0));
+      c += vec3(0.014, 0.018, 0.028) * galaxy * (0.35 + 0.65 * dustVeil) * dark * smoothstep(0.05, 0.20, e);
+    #endif
     vec3 stars = starColour(dust.y) * dust.x + starColour(medium.y) * medium.x
       + starColour(bright.y) * (bright.x + halo.x * step(0.001, bright.x + halo.x));
     // Haze swallows stars near the horizon; where the aurora shines, faint stars fade.
@@ -144,7 +173,7 @@ const skyFragment = /* glsl */`
 
 // Aurora band: a tall ribbon that folds in depth; rays rise from a crisp lower edge.
 const bandVertex = /* glsl */`
-  uniform float time, seed, curve, altitudeBase, height, bandLength, bandDistance, wind;
+  uniform float time, seed, curve, altitudeBase, height, bandLength, bandDistance, wind, dark;
   varying vec2 vUv; varying float vV;
   void main() {
     vUv = uv;
@@ -155,11 +184,15 @@ const bandVertex = /* glsl */`
     float z = -bandDistance - curve * sin(3.14159 * u) + 7.0 * sin(u * 9.0 + seed + time * 0.07) + 3.5 * sin(u * 23.0 - time * 0.11 + seed);
     x += wind * 4.0 * sin(u * 6.0 + time * 0.3);
     float y = altitudeBase + 2.2 * sin(u * 17.0 + seed - time * 0.09) + max(v, -0.2) * height;
+    #ifdef LANDSCAPE_C
+      z += dark * 1.8 * sin(u * 75.0 + seed + time * 0.18) * smoothstep(0.0, 0.7, max(v, 0.0));
+      y += dark * 1.2 * sin(u * 9.0 - time * 0.14 + seed);
+    #endif
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(x, y, z, 1.0);
   }
 `;
 const bandFragment = /* glsl */`
-  uniform float time, seed, dark, level, sweep, strength;
+  uniform float time, seed, dark, level, sweep, strength, bandLength;
   varying vec2 vUv; varying float vV;
   ${noise}
   void main() {
@@ -180,6 +213,12 @@ const bandFragment = /* glsl */`
     float upper = 1.0 - 0.65 * smoothstep(0.4, 0.95, v);
     float intensity = (curtain + glow) * ends * patches * on * breathe * strength * upper;
     vec3 c = altitude(reach * 0.95 + 0.04, dark);
+    #ifdef LANDSCAPE_C
+      float travel = auroraTravel((u - 0.5) * bandLength, time);
+      float folds = 0.86 + 0.14 * sin(u * 82.0 + v * 2.0 - time * 0.18 + seed);
+      intensity *= 0.80 * (0.88 + 0.12 * travel) * folds;
+      c = mix(c, vec3(0.52, 0.33, 0.80), smoothstep(0.48, 0.88, reach) * 0.32);
+    #endif
     // Auroras only exist at night: by day the bands are gone.
     float a = clamp(intensity * 0.8 * dark, 0.0, 1.0);
     gl_FragColor = vec4(c * a, a);
@@ -240,7 +279,28 @@ const mountainFragment = /* glsl */`
     vec3 glacierLit = ice * mix(0.62, 0.16, dark) + auroraTint * mix(0.25, 0.62, dark) * iceLight;
     glacierLit *= 0.86 + 0.24 * fbm(world.xy * vec2(1.2, 3.0));
     c = mix(c, mix(rock * 1.2, glacierLit, glacier), glacierBand);
+    #ifdef LANDSCAPE_B
+      float localAurora = auroraPulse(world.x, time) * light;
+      float ridgeLight = pow(1.0 - abs(n.z), 2.0) * 0.65 + pow(h, 3.0) * 0.18;
+      vec3 reflectedAurora = vec3(0.10, 0.55, 0.52) * localAurora;
+      c += reflectedAurora * (ridgeLight + glacierBand * glacier * (0.10 + 0.24 * h)) * dark;
+    #endif
 
+    #ifdef LANDSCAPE_A
+    // Clean snow: broad height/face shading, a restrained warm bevel, no drawn cracks.
+    float sunSide = smoothstep(-15.0, 12.0, world.x * sign(sun.x));
+    float facing = clamp(dot(n, normalize(vec3(sun.x, 0.45, 0.55))) * 0.55 + sunSide * 0.35, 0.0, 1.0);
+    vec3 snow = mix(vec3(0.64, 0.77, 0.90), vec3(0.96, 0.98, 1.0), smoothstep(0.0, 0.95, h));
+    snow *= mix(vec3(0.75, 0.86, 0.98), vec3(1.0), facing);
+    float grain = (vnoise(world.xy * 24.0) - 0.5) * 0.006;
+    float rim = pow(1.0 - abs(n.z), 2.0) * sunSide * smoothstep(0.20, 0.92, h);
+    snow = mix(snow, vec3(1.0, 0.93, 0.81), rim * 0.52);
+    vec3 dayRock = mix(vec3(0.32, 0.41, 0.53), snow + grain, light);
+    vec3 dayIce = mix(vec3(0.72, 0.85, 0.95), vec3(0.96, 0.99, 1.0), smoothstep(0.12, 0.95, h));
+    dayIce += vec3(0.025, 0.035, 0.04) * pow(h, 4.0) * glacier;
+    vec3 dayGlacier = mix(vec3(0.68, 0.77, 0.87), dayIce, glacier);
+    vec3 day = mix(dayRock, dayGlacier, glacierBand);
+    #else
     // Arctic day. Relief: a ridge field drawn from noise gives slopes a fake normal, so the low sun
     // warms the faces that turn towards it and leaves cool blue shadows on the others.
     vec2 rp = world.xy * vec2(0.32, 0.75);
@@ -264,6 +324,7 @@ const mountainFragment = /* glsl */`
     dayIce = mix(dayIce, dayIce * 0.7 + altitude(hue, 0.7) * 0.5, clamp(glint * 0.45 + edge, 0.0, 0.6));
     vec3 dayGlacier = mix(vec3(0.74, 0.80, 0.88), dayIce, glacier);
     vec3 day = mix(dayRock, dayGlacier, glacierBand);
+    #endif
     c = mix(day, c, dark);
 
     // Haze at the foot of the mountain, the colour of the horizon glow.
@@ -284,6 +345,9 @@ const waterShader = {
   `,
   fragmentShader: /* glsl */`
     uniform sampler2D tDiffuse; uniform float time, dark, shoreZ; uniform vec3 ripples[${RIPPLES}];
+    #ifdef LANDSCAPE_D
+    uniform float light; uniform vec3 sun;
+    #endif
     varying vec4 vUv; varying vec3 world;
     ${noise}
     void main() {
@@ -310,6 +374,18 @@ const waterShader = {
       float floe = smoothstep(0.655, 0.675, floeField) * smoothstep(-110.0, -40.0, world.z) * (1.0 - smoothstep(shoreZ - 16.0, shoreZ - 6.0, world.z));
       vec3 floeColour = mix(vec3(0.88, 0.93, 0.98), vec3(0.06, 0.09, 0.14), dark) * (0.9 + 0.15 * fbm(world.xz * 0.6));
       c = mix(c, floeColour, floe);
+      #ifdef LANDSCAPE_D
+        // One lookup in the already baked noise lattice; no extra mesh, pass or texture.
+        float mistNoise = vnoise(world.xz * vec2(0.035, 0.08) + vec2(time * 0.0015, 0.0));
+        float mist = exp(-pow((world.z + 48.0) / 26.0, 2.0)) * (0.045 + 0.025 * mistNoise);
+        c = mix(c, mix(vec3(0.88, 0.94, 0.98), vec3(0.10, 0.23, 0.27), dark), mist * light);
+        float sheen = pow(0.5 + 0.5 * sin(world.z * 1.7 + ripple.x * 3.0), 5.0);
+        float auroraGleam = auroraPulse(world.x, time) * sheen * far * 0.022;
+        c += vec3(0.13, 0.68, 0.65) * auroraGleam * dark * light;
+        vec3 viewRay = normalize(world - cameraPosition);
+        float sunPath = exp(-pow((viewRay.x - sun.x) / 0.065, 2.0)) * far * (0.45 + 0.55 * sheen);
+        c += vec3(0.96, 0.87, 0.70) * sunPath * 0.075 * (1.0 - dark) * light;
+      #endif
       // Snowy shore in the foreground, with an irregular edge.
       float shoreEdge = shoreZ + 3.0 * (fbm(vec2(world.x * 0.07, 2.0)) - 0.5) * 2.0;
       float shore = smoothstep(shoreEdge - 0.6, shoreEdge + 0.6, world.z);
@@ -333,7 +409,7 @@ function profile() {
 const ease = t => (t <= 0 ? 0 : t >= 1 ? 1 : t * t * t * (t * (t * 6 - 15) + 10));
 const phase = (elapsed, [from, to]) => ease((elapsed - from) / (to - from));
 
-export async function createLandscapeScene(stage, { reduced = false, paused = false, initialElapsed = 0, dark: initialDark = false, context, getState, onFallback, onReady } = {}) {
+export async function createLandscapeScene(stage, { reduced = false, paused = false, initialElapsed = 0, dark: initialDark = false, features = [], context, getState, onFallback, onReady } = {}) {
   const quality = profile();
   const renderer = new WebGLRenderer({ canvas: context?.canvas, context, antialias: true, alpha: false, powerPreference: 'high-performance' });
   const canvas = renderer.domElement;
@@ -448,7 +524,13 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   water.rotation.x = -Math.PI / 2;
   water.position.set(0, 0, -300);
   scene.add(water);
-  scene.traverse(object => { if (object.material?.uniforms) object.material.uniforms.noiseMap = noiseMap; });
+  const defines = Object.fromEntries(features.filter(key => /^[a-f]$/.test(key)).map(key => [`LANDSCAPE_${key.toUpperCase()}`, 1]));
+  scene.traverse(object => {
+    if (object.material?.uniforms) { object.material.uniforms.noiseMap = noiseMap; object.material.defines = defines; }
+  });
+  if (features.includes('d') && water.getRenderTarget) {
+    water.material.uniforms.sun = sun; water.material.uniforms.light = light;
+  }
 
 
   let width = 1, height = 1, raf = 0, lastFrame = 0, disposed = false, lost = false, ready = false;

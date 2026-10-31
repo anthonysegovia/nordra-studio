@@ -17,3 +17,5 @@
 @media(prefers-reduced-motion:reduce){.horizon-landscape,.horizon-landscape.has-scene{opacity:0;transition:none}}
 @media(prefers-reduced-motion:reduce){.landscape-poster .landscape-poster-previous{transition:none}}
 body[data-journey-motion=paused] .horizon-landscape{opacity:0;transition:none}
+/* Only the comparison frame shows the new final shader instead of the retained poster. */
+body .horizon-landscape[data-comparison=true].has-scene{opacity:1}
