@@ -13,7 +13,8 @@ export function initializeBusinessOffers(root,guide){
   event.preventDefault();if(step>=3||!steps[step].querySelector('input:checked'))return;
   if(step<2){step++;show(true);return;}
   const answers=steps.map(f=>Number(f.querySelector('input:checked').value)),choice=recommendBusiness(answers),offer=root.querySelector(`[data-offer="${choice.id}"]`),name=offer.dataset.offerName,price=offer.querySelector('.offer-price').textContent.trim(),labels=steps.map(f=>`${f.querySelector('legend').textContent} ${f.querySelector('input:checked').nextElementSibling.textContent}`),url=new URL(offer.href);
-  url.searchParams.set('text',`${url.searchParams.get('text')}\n\n${labels.join('\n')}`);
+  // Encode spaces as %20, like the package links; not every WhatsApp client reads '+' as a space.
+  url.search=`?text=${encodeURIComponent(`${url.searchParams.get('text')}\n\n${labels.join('\n')}`)}`;
   result.querySelector('[data-result-name]').textContent=name;result.querySelector('[data-result-price]').textContent=`${price} MXN · IVA incluido`;result.querySelector('[data-result-reason]').textContent=choice.reason;result.querySelector('[data-result-contact]').href=url.href;result.querySelector('[data-result-package]').href=`#${offer.closest('.offer-card').id}`;result.dataset.recommendation=choice.id;announcement.textContent=`Te sugerimos ${name}, ${price} MXN con IVA incluido. ${choice.reason}`;step=3;show(true);
  });
  back.addEventListener('click',()=>{if(step>0){step--;show(true);}});
