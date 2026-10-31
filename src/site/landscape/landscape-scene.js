@@ -132,7 +132,7 @@ const skyFragment = /* glsl */`
     #ifdef LANDSCAPE_F
       // Preserve the approved sky behind the copy; soften the sun below it.
       float copySky = smoothstep(textElevation - 0.015, textElevation + 0.015, e);
-      pillar *= copySky;
+      pillar = 0.0;
       disk = mix(smoothstep(0.024, 0.008, sa) * 0.92, disk, copySky);
       bloom *= mix(0.65, 1.0, copySky);
       // A small round sun dog, not the near-vertical tangent of the old ring.
