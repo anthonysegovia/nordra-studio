@@ -1,5 +1,5 @@
 import { businessOffers, businessHosting, businessMoney } from "./businessOffers";
-import { invitationMoney, invitationOffers } from "./invitationPricing";
+import { invitationMoney, invitationOffers, seasonalOffer, seasons } from "./invitationPricing";
 
 export type ChargeMode = "full" | "deposit" | "balance";
 export type CatalogService = { id: string; label: string; group: string; cents: number | null; note?: string };
@@ -12,9 +12,7 @@ export const paymentCatalog: CatalogService[] = [
     id: `${event.id}-${plan.id}`, group: "Eventos y celebraciones", label: `${event.label} · ${plan.name}`, cents: plan.cents,
     note: `Precio de apertura: ${plan.startingAt ? "desde " : ""}${invitationMoney(plan.cents)} MXN. Precio regular: ${plan.startingAt ? "desde " : ""}${invitationMoney(plan.regularCents)} MXN. IVA incluido.${plan.startingAt ? " Confirma el precio final de la propuesta." : ""}`,
   }))),
-  { id: "halloween", group: "Invitaciones de temporada", label: "Invitación de Halloween", cents: 59900 },
-  { id: "christmas", group: "Invitaciones de temporada", label: "Invitación de Posadas y Navidad", cents: 59900 },
-  { id: "new-year", group: "Invitaciones de temporada", label: "Invitación de Fin de año", cents: 59900 },
+  ...seasons.map(season => ({ id: season.catalogId, group: "Invitaciones de temporada", label: season.label, cents: seasonalOffer.cents })),
   ...businessHosting.flatMap(host => host.terms.map(term => ({ id: `hosting-${host.id}-${term.id}`, group: "Alojamiento y soporte", label: `${host.catalogName} · Alojamiento ${term.label}`, cents: term.cents, note: `${host.startingAt ? "Desde " : ""}${businessMoney(term.cents)} MXN, IVA incluido. Confirma los límites y el importe contratado.` }))),
   ...[
     ["domain", "Dominio propio y configuración"], ["event-extension", "Extensión de alojamiento de evento"],
