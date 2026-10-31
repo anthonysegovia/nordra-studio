@@ -11,3 +11,6 @@ import '../scripts/nordra-theatre.js';
 import '../scripts/interface-icons.js';
 import '../scripts/page-navigation.js';
 import '../analytics/entry.js';
+
+import '../styles/studio-showcase.css';
+import '../scripts/studio-showcase.js';
