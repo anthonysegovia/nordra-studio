@@ -17,3 +17,6 @@ import '../analytics/entry.js';
 
 import '../styles/business-offers.css';
 import '../scripts/business-offers.js';
+
+import '../styles/business-content.css';
+import '../scripts/business-content.js';

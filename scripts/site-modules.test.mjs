@@ -172,7 +172,8 @@ const pages = {
       "light-table",
       "interface-icons",
       "page-navigation",
-      "business-offers"
+      "business-offers",
+      "business-content"
     ],
     "styles": [
       "scene",
@@ -182,11 +183,13 @@ const pages = {
     "inline": 3,
     "entryStyles": [
       "light-table",
-      "business-offers"
+      "business-offers",
+      "business-content"
     ],
     "unscoped": [
       "light-table",
-      "business-offers"
+      "business-offers",
+      "business-content"
     ]
   },
   "index": {
