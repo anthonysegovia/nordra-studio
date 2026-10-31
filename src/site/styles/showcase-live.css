@@ -1,0 +1,19 @@
+/* Invitaciones · Bodas: one large phone holding the real invitation. Visitors open it in place. */
+.showcase-live{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;--live-halo:#f2c58f40}
+body:not(.dark) .showcase-live{--live-halo:#e9a86f40}
+.showcase-live::before{content:"";position:absolute;inset:-4% 8% 10%;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,var(--live-halo),transparent);pointer-events:none}
+.showcase-live .live-phone{position:relative;height:86%;padding:5px;border-radius:clamp(22px,3vw,34px);box-shadow:0 30px 60px -30px #00000080,0 1px 3px #54453233}
+.showcase-live .live-phone::after{top:12px;height:6px;z-index:2}
+/* The invitation scrolls its own elements into view; clip (not hidden) keeps that from sliding this page. */
+.scene[data-view=invitaciones]{overflow:clip}
+.showcase-live .live-screen{position:relative;width:100%;height:100%;overflow:clip;border-radius:calc(clamp(22px,3vw,34px) - 5px);background:#f8f5ee}
+.showcase-live .live-screen>img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;transition:opacity .45s ease}
+.showcase-live .live-screen>iframe{position:absolute;left:0;top:0;width:390px;border:0;transform-origin:0 0;background:#f8f5ee}
+.showcase-live.is-live .live-screen>img{opacity:0;pointer-events:none}
+.showcase-live .live-actions{margin:auto 0 0;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 16px;font-size:13px;color:var(--muted)}
+.showcase-live .live-try{display:inline-flex;gap:10px;align-items:center;min-height:44px;padding:0 22px;border-radius:99px;background:var(--ink);color:var(--bg);font-size:15px;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease}
+.showcase-live .live-try:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px var(--ink)}
+.showcase-live .live-try:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+@media(max-width:700px){.showcase-live .live-phone{height:84%}.showcase-live .live-note{display:none}}
+@media(prefers-reduced-motion:reduce){.showcase-live .live-try,.showcase-live .live-screen>img{transition:none}}
+body[data-journey-motion=paused] .showcase-live .live-try,body[data-journey-motion=paused] .showcase-live .live-screen>img{transition:none}
