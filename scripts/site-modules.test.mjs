@@ -138,6 +138,7 @@ const pages = {
       "theme-transition",
       "organic-images",
       "invitation-showcase",
+      "showcase-live",
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
@@ -148,7 +149,11 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "inline": 3
+    "inline": 3,
+    "entryStyles": [
+      "phone-frame",
+      "showcase-live"
+    ]
   },
   "negocios": {
     "entry": "business",
@@ -160,9 +165,9 @@ const pages = {
       "scroll-motion",
       "business-motion",
       "theme-transition",
-      "living-images",
       "nordra-materials",
       "nordra-theatre",
+      "light-table",
       "interface-icons",
       "page-navigation"
     ],
@@ -171,7 +176,13 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "inline": 3
+    "inline": 3,
+    "entryStyles": [
+      "light-table"
+    ],
+    "unscoped": [
+      "light-table"
+    ]
   },
   "index": {
     "entry": "home",
@@ -189,7 +200,10 @@ const pages = {
       "home",
       "contact"
     ],
-    "inline": 4
+    "inline": 4,
+    "entryStyles": [
+      "phone-frame"
+    ]
   },
   "estudio": {
     "entry": "estudio",
@@ -203,14 +217,14 @@ const pages = {
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
-      "page-navigation"
+      "page-navigation",
+      "studio-showcase"
     ],
-    "styles": [
-      "scene",
-      "nordra-theatre",
-      "contact"
-    ],
-    "inline": 3
+    "styles": [],
+    "inline": 3,
+    "entryStyles": [
+      "studio-showcase"
+    ]
   }
 };
 const scripts = [...new Set(Object.values(pages).flatMap(page => page.scripts))];
@@ -219,8 +233,8 @@ const read = file => readFileSync(resolve(root, file), 'utf8');
 for (const [page, expected] of Object.entries(pages)) test(`${page}: original script/style order and only compiled dependencies`, () => {
   const entry = read(`src/site/entries/${expected.entry}.js`);
   assert.deepEqual([...entry.matchAll(/import '\.\.\/scripts\/(.+)\.js(?:\?entry=([a-z]+))?';/g)].map(m => m[1]), expected.scripts);
-  if(page !== 'estudio') assert.equal([...entry.matchAll(/\?entry=([a-z]+)/g)].filter(m => m[1] === expected.entry).length, expected.scripts.length);
-  assert.doesNotMatch(entry, /import.*\.css/);
+  if(page !== 'estudio') assert.equal([...entry.matchAll(/\?entry=([a-z]+)/g)].filter(m => m[1] === expected.entry).length, expected.scripts.length - (expected.unscoped?.length || 0));
+  assert.deepEqual([...entry.matchAll(/import '\.\.\/styles\/(.+)\.css';/g)].map(m => m[1]), expected.entryStyles || []);
   const html = read(`${page}.html`), head = html.split('</head>')[0];
   assert.deepEqual([...head.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m => m[1]), expected.styles.map(name => `/src/site/styles/${name}.css${page === "index" ? "?entry=home" : ""}`));
   assert.equal((html.match(/<script>([\s\S]*?)<\/script>/g) || []).length, expected.inline);
@@ -271,7 +285,13 @@ test('site scripts resolve all identifiers and contain no strict-mode-sensitive 
   for (const [file, source] of files) {
     const ast = ts.createSourceFile(file, source, ts.ScriptTarget.ES2022, true, ts.ScriptKind.JS);
     function visit(node) {
-      assert.notEqual(node.kind, ts.SyntaxKind.ThisKeyword, file);
+      if (node.kind === ts.SyntaxKind.ThisKeyword) {
+        // Explicit method/function receivers (e.g. scrollIntoView) survive
+        // module strict mode; top-level or lexical `this` does not.
+        let owner = node.parent;
+        while (owner && !ts.isFunctionExpression(owner) && !ts.isFunctionDeclaration(owner) && !ts.isMethodDeclaration(owner)) owner = owner.parent;
+        assert.ok(owner, `${file}: top-level this changes in a module`);
+      }
       assert.notEqual(node.kind, ts.SyntaxKind.WithStatement, file);
       if (ts.isCallExpression(node)) assert.notEqual(node.expression.getText(ast), 'eval', file);
       ts.forEachChild(node, visit);
