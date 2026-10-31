@@ -461,12 +461,14 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   const rest = { position: new Vector3(), target: new Vector3() };
   mountain.updateMatrixWorld(true);
   const summitPoint = new Vector3(0, -Infinity, 0), vertex = new Vector3();
+  const waterlineFront = new Vector3(0, 0, -Infinity);
   mountain.traverse(object => {
     const positions = object.geometry?.attributes.position;
     if (!positions) return;
     for (let i = 0; i < positions.count; i++) {
       vertex.fromBufferAttribute(positions, i).applyMatrix4(object.matrixWorld);
       if (vertex.y > summitPoint.y) summitPoint.copy(vertex);
+      waterlineFront.z = Math.max(waterlineFront.z, vertex.z);
     }
   });
   const summitCandidates = [];
@@ -518,6 +520,32 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
       const wanted = 1 - summitTop * 2; // NDC y
       lift += (summitY - wanted) * distance * Math.tan(camera.fov * Math.PI / 360);
     }
+
+    // The approved 1440 × 900 view (1440 × 820 canvas) leaves 9.085% below
+    // the mountain's waterline. Width alone loses that lake on wider canvases.
+    // Keep the original solve untouched at that aspect and on mobile; only
+    // retreat when a wider view needs room below the projected mountain.
+    if (!mobile && camera.aspect > 1440 / 820) {
+      const visibleHeight = Math.min(height, window.innerHeight - rect.top);
+      const baseLimit = (visibleHeight - height * 0.091) / height;
+      const available = Math.max(0.02, baseLimit - summitTop);
+      if ((1 - waterlineFront.clone().project(camera).y) / 2 > baseLimit) {
+        for (let i = 0; i < 16; i++) {
+          rest.position.set(0, 4.2, MOUNTAIN.z + distance);
+          rest.target.set(0, lift, MOUNTAIN.z);
+          camera.position.copy(rest.position); camera.lookAt(rest.target); camera.updateMatrixWorld();
+          const summitY = Math.max(...summitCandidates.map(point => point.clone().project(camera).y));
+          const baseY = waterlineFront.clone().project(camera).y;
+          distance *= (summitY - baseY) / (2 * available);
+          lift += (summitY - (1 - summitTop * 2)) * distance * Math.tan(camera.fov * Math.PI / 360);
+        }
+      }
+    }
+    // A very short first fold needs a much more distant eye. Keep the sky dome
+    // inside the far plane and the water underneath that eye, including on resize.
+    const far = Math.max(1200, rest.position.length() + 950);
+    if (camera.far !== far) { camera.far = far; camera.updateProjectionMatrix(); }
+    water.scale.setScalar(Math.max(1, (rest.position.z + 300) / 450));
 
     // The low arctic sun sits upper left of the mountain, so its halo and sun dog frame the summit.
     const horizon = new Vector3(0, 0, -800).project(camera).y;

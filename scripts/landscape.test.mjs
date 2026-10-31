@@ -6,6 +6,57 @@ import { landscapePolicy, advanceClock } from '../src/site/landscape/state.js';
 import { assertDeferredLandscape } from './check-site-bundles.mjs';
 import { resolve } from 'node:path';
 import { preparePrograms } from '../src/site/landscape/prepare-programs.js';
+import { PerspectiveCamera, Vector3, Vector2, Raycaster, Plane } from 'three';
+
+test('wide framing keeps water below the projected mountain and restores the approved view on resize', () => {
+  // Exercise the production frame with Three's real projection/raycast math.
+  // The small ridge fixture represents the near and far faces of the massif.
+  const source = readFileSync(new URL('../src/site/landscape/landscape-scene.js', import.meta.url), 'utf8');
+  const frameSource = source.slice(source.indexOf('  function frame() {'), source.indexOf('  // No pointer parallax.'));
+  let rect, buttonBottom;
+  const camera = new PerspectiveCamera(34, 1, 0.5, 1200);
+  const water = { scale: new Vector3(1, 1, 1) };
+  const scope = {
+    Vector3, Vector2, camera, water, window: { devicePixelRatio: 1, innerHeight: 900 },
+    stage: { getBoundingClientRect: () => rect, parentElement: { querySelector: () => ({ getBoundingClientRect: () => ({ bottom: buttonBottom }) }) } },
+    quality: { dpr: 2, pixels: 4200000 }, renderer: { setDrawingBufferSize() {} },
+    width: 1, height: 1, bufferWidth: 0, bufferHeight: 0, bufferRatio: 0,
+    sky: { material: { uniforms: { pixelAngle: {}, parhelion: { value: new Vector3() }, textElevation: {} } } },
+    MOUNTAIN: { width: 40, z: -36 }, rest: { position: new Vector3(), target: new Vector3() },
+    summitCandidates: [new Vector3(0, 14.5, -36), new Vector3(0, 14.5, -43)],
+    waterlineFront: new Vector3(0, 0, -35.23159), sun: { value: new Vector3() }, shoreZ: {},
+    raycaster: new Raycaster(), lakePlane: new Plane(new Vector3(0, 1, 0), 0), hit: new Vector3(),
+    clock: { elapsed: 60000 }, place() {}, render() {},
+  };
+  const frame = runInNewContext(frameSource + '\nframe;', scope);
+  const resize = (width, height, viewportHeight, bottom) => {
+    rect = { width, height, top: 94 }; buttonBottom = bottom; scope.window.innerHeight = viewportHeight;
+    frame();
+  };
+  const projectedY = point => (1 - point.clone().project(camera).y) * rect.height / 2;
+  resize(1440, 820, 900, 535.46875);
+  const original = { position: camera.position.toArray(), rotation: camera.quaternion.toArray(), projection: camera.projectionMatrix.toArray() };
+  const share = () => (new Vector3(20, 0, -36).project(camera).x - new Vector3(-20, 0, -36).project(camera).x) / 2;
+  assert.ok(Math.abs(share() - 0.48) < 0.00001);
+  for (const [width, height, viewportHeight] of [[1905, 820, 900], [1890, 820, 900], [1920, 775.9375, 700], [2560, 1000, 1080]]) {
+    resize(width, height, viewportHeight, 547.4375);
+    const base = projectedY(scope.waterlineFront);
+    assert.ok((Math.min(height, viewportHeight - rect.top) - base) / height >= 0.091 - 0.00001, `${width}: visible lake band`);
+    const summit = Math.min(...scope.summitCandidates.map(projectedY));
+    assert.ok(Math.abs(summit + rect.top - buttonBottom - 56) < 0.02, `${width}: summit stays under buttons`);
+    assert.ok(camera.far > camera.position.length() + 900, 'sky dome is not clipped');
+    assert.ok(-300 + 450 * water.scale.x >= camera.position.z, 'water reaches the eye');
+    assert.ok(scope.shoreZ.value > -36, 'snow shore remains in front of the massif');
+  }
+  resize(1440, 820, 900, 535.46875);
+  assert.deepEqual(camera.position.toArray(), original.position);
+  assert.deepEqual(camera.quaternion.toArray(), original.rotation);
+  assert.deepEqual(camera.projectionMatrix.toArray(), original.projection);
+  assert.equal(water.scale.x, 1);
+  resize(390, 814.578125, 844, 569.25);
+  assert.ok(Math.abs(share() - 0.95) < 0.0001);
+  assert.equal(water.scale.x, 1);
+});
 
 test('each screen/reflection program finishes in its own task; the lake never reflects itself', async () => {
   const calls = [], reflection = {}, water = {}, sky = {}, camera = {}, scene = {};
