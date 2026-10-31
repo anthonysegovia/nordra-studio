@@ -7,7 +7,6 @@ import '../scripts/motion.js?entry=business';
 import '../scripts/scroll-motion.js?entry=business';
 import '../scripts/business-motion.js?entry=business';
 import '../scripts/theme-transition.js?entry=business';
-import '../scripts/living-images.js?entry=business';
 import '../scripts/nordra-materials.js?entry=business';
 import '../scripts/nordra-theatre.js?entry=business';
 import '../styles/light-table.css';

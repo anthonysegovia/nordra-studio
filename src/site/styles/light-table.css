@@ -37,7 +37,7 @@
 [data-view="negocios"] .light-table .feature-context small{font-size:10px;line-height:1.7;color:var(--table-copy)}
 [data-view="negocios"] .light-table .living-toolbar{font-size:10px;gap:12px;padding:8px 0 0;border:0;color:var(--table-copy)}
 [data-view="negocios"] .light-table .living-toolbar button{color:var(--table-ink)}
-[data-view="negocios"] .light-table:not([data-light-state]) .bruma-film,[data-view="negocios"] .light-table[data-light-preview="still"] .bruma-film{opacity:0!important;visibility:hidden}
+[data-view="negocios"] .light-table:not([data-light-state]) .bruma-film,[data-view="negocios"] .light-table[data-light-preview="still"] .bruma-film{display:none;opacity:0!important;visibility:hidden}
 [data-view="negocios"] .light-table[data-light-preview="playing"] .is-loaded>.bruma-film{opacity:1!important}
 [data-view="negocios"] .light-table-case[data-light-active]{--screen-glow:#29b6f6cc}
 [data-view="negocios"] .light-table-case[data-light-active] .light-table-screen-light{box-shadow:inset 0 0 0 2px #e6fbff,inset 0 -2px 8px #71dcff,0 0 26px #38bdf8a6}

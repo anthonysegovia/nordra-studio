@@ -35,6 +35,8 @@ function initializeLightTable(table){
  const cards=[...table.querySelectorAll('[data-light-case]')];
  const links=[...table.querySelectorAll('.case-index a,.project-feature')];
  const lights=[...table.querySelectorAll('.light-table-screen-light')];
+ const preview=table.querySelector('[data-living-toggle="bruma"]');
+ let previewReady=false,previewLoading=false;
  const animations=new Set();let revealed=false,pointers,hovered='',selected='';
  const stopped=()=>reduce.matches||!fine.matches||document.body.dataset.businessMotion==='paused'||document.body.dataset.journeyMotion==='paused';
  const key=link=>link.closest('[data-light-case]')?.dataset.lightCase||(link.hash.includes('lumina')?'lumina':'bruma');
@@ -71,7 +73,7 @@ function initializeLightTable(table){
     });
    }
   }
-  active();
+  active();syncPreview();
  }
  links.forEach(link=>{
   link.addEventListener('focus',active);link.addEventListener('blur',()=>queueMicrotask(active));
@@ -82,12 +84,27 @@ function initializeLightTable(table){
  table.dataset.lightState='waiting';observer.observe(table);
  const state=new MutationObserver(sync);state.observe(document.body,{attributes:true,attributeFilter:['data-business-motion','data-journey-motion']});
  reduce.addEventListener('change',sync);fine.addEventListener('change',sync);sync();
- // Retain the BRUMA tour and its control, but make playback an explicit choice.
- const preview=table.querySelector('[data-living-toggle="bruma"]');
+ // The existing tour controller is needed only when someone starts the tour.
+ // Keeping its iframe idle avoids hidden document layout during the hero's LCP.
+ function syncPreview(){
+  if(previewReady)return;
+  const paused=reduce.matches||document.body.dataset.businessMotion==='paused'||document.body.dataset.journeyMotion==='paused';
+  preview.disabled=paused||previewLoading;preview.setAttribute('aria-pressed','true');
+  preview.textContent=paused?'Movimiento pausado':'Reanudar muestra';
+ }
+ async function resumePreview(){
+  if(previewReady||previewLoading||preview.disabled)return;
+  previewLoading=true;syncPreview();
+  try{
+   await import('./living-images.js?entry=business');
+   previewReady=true;preview.removeEventListener('click',resumePreview);
+  }catch(error){console.error('No se pudo cargar el recorrido de BRUMA',error);}
+  finally{previewLoading=false;syncPreview();}
+ }
  const previewState=new MutationObserver(()=>{table.dataset.lightPreview=preview.getAttribute('aria-pressed')==='true'?'still':'playing';});
  previewState.observe(preview,{attributes:true,attributeFilter:['aria-pressed']});
- preview.dispatchEvent(new Event('click'));
+ preview.addEventListener('click',resumePreview);
  table.dataset.lightPreview='still';
  const visibility=()=>{if(document.hidden)finish();};document.addEventListener('visibilitychange',visibility);
- addEventListener('pagehide',()=>{finish();pointers?.abort();observer.disconnect();state.disconnect();previewState.disconnect();reduce.removeEventListener('change',sync);fine.removeEventListener('change',sync);removeEventListener('hashchange',fromHash);document.removeEventListener('visibilitychange',visibility);},{once:true});
+ addEventListener('pagehide',()=>{finish();pointers?.abort();observer.disconnect();state.disconnect();previewState.disconnect();preview.removeEventListener('click',resumePreview);reduce.removeEventListener('change',sync);fine.removeEventListener('change',sync);removeEventListener('hashchange',fromHash);document.removeEventListener('visibilitychange',visibility);},{once:true});
 }
