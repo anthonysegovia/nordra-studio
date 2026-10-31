@@ -181,7 +181,6 @@ const pages = {
       "theme-transition",
       "interface-icons",
       "home",
-      "horizon-flow",
       "page-navigation"
     ],
     "styles": [
@@ -190,7 +189,7 @@ const pages = {
       "home",
       "contact"
     ],
-    "inline": 3
+    "inline": 4
   },
   "estudio": {
     "entry": "estudio",

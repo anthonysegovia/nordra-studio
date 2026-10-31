@@ -15,6 +15,8 @@ if (stage) {
     dark: document.body.classList.contains('dark'),
   });
   const signal = (active, release = false) => dispatchEvent(new CustomEvent('nordra-landscape', { detail: { active, release } }));
+  // A still visit already has its final landscape; do not allocate WebGL for it.
+  const shouldLoad = current => landscapePolicy(current).load && !current.paused && !current.reduced;
   function fallback() {
     stage.classList.remove('has-scene'); stage.dataset.renderer = 'static'; signal(false);
   }
@@ -27,23 +29,28 @@ if (stage) {
   }
   async function start() {
     idle = null;
-    if (loading || !landscapePolicy(state()).load) return;
+    if (loading || !shouldLoad(state())) return;
     const context = webglAvailable();
     if (!context) { failed = true; fallback(); return; }
     let transferred = false;
     loading = true;
     try {
       const { createLandscapeScene } = await import('./landscape-scene.js');
-      if (!landscapePolicy(state()).load) return;
+      if (!shouldLoad(state())) return;
       const next = await createLandscapeScene(stage, {
         ...state(), context,
+        // The poster has already revealed the place. Seed the existing settled
+        // state, then getState restores live motion when preparation finishes.
+        paused: true,
         getState: state,
         onFallback: fallback,
         onReady: () => { if (!disposed) signal(true); },
       });
       transferred = true;
       if (disposed) next.dispose();
-      else { scene = next; sync(); }
+      // Preparation already reads getState and starts the renderer. A second
+      // synchronous sync here would draw the full settled landscape twice.
+      else scene = next;
     } catch {
       failed = true; fallback();
     } finally {
@@ -57,7 +64,7 @@ if (stage) {
     if (document.body.classList.contains('has-page-frame') || (frame && !frame.isConnected)) { dispose(); return; }
     const current = state();
     scene?.setState(current);
-    if (loaded && !loading && idle == null && landscapePolicy(current).load) {
+    if (loaded && !loading && idle == null && shouldLoad(current)) {
       idle = window.requestIdleCallback ? requestIdleCallback(start, { timeout: 1800 }) : setTimeout(start, 200);
     }
   }

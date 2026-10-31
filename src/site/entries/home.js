@@ -6,7 +6,6 @@ import '../scripts/scroll-motion.js?entry=home';
 import '../scripts/theme-transition.js?entry=home';
 import '../scripts/interface-icons.js?entry=home';
 import '../scripts/home.js?entry=home';
-import '../scripts/horizon-flow.js?entry=home';
 import '../scripts/page-navigation.js?entry=home';
 import '../analytics/entry.js';
 import '../landscape/landscape-hero.js';

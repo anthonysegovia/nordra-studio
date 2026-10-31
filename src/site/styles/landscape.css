@@ -4,10 +4,13 @@
 .dark .horizon-landscape{background:linear-gradient(180deg,#030814 0%,#05121e 52%,#0b2f36 70%,#020509 71%,#040a12 100%)}
 .horizon-landscape.has-scene{opacity:1}
 .horizon-landscape canvas{position:absolute;inset:0;width:100%;height:100%}
-.horizon-landscape::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 62%,transparent) 0%,color-mix(in srgb,var(--bg) 38%,transparent) 34%,transparent 56%)}
-.dark .horizon-landscape::after{background:linear-gradient(180deg,#03081440 0%,#0308141f 36%,transparent 58%)}
+.horizon-landscape::after,.landscape-poster::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 62%,transparent) 0%,color-mix(in srgb,var(--bg) 38%,transparent) 34%,transparent 56%)}
+.dark .horizon-landscape::after,.dark .landscape-poster::after{background:linear-gradient(180deg,#03081440 0%,#0308141f 36%,transparent 58%)}
 .horizon-title{text-shadow:0 1px 18px color-mix(in srgb,var(--bg) 70%,transparent)}
-/* Retain the eagerly loaded LCP image beneath both renderers. */
-.horizon-hero .horizon-light.has-flow>img{visibility:visible}
-@media(prefers-reduced-motion:reduce){.horizon-landscape{transition:none}}
-body[data-journey-motion=paused] .horizon-landscape{transition:none}
+/* The same landscape is present before WebGL, and remains the final still fallback. */
+.home-horizon .horizon-hero>.horizon-light.landscape-poster{inset:0;height:auto;opacity:1;animation:none;transform:none;overflow:hidden;background:#d6e8f9}
+.dark .home-horizon .horizon-hero>.horizon-light.landscape-poster{background:#05121e}
+.landscape-poster picture{position:absolute;inset:0;display:block}
+.home-horizon .horizon-hero .landscape-poster img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 100%;transform-origin:50% 0;transform:translateY(var(--poster-shift,0px)) scale(var(--poster-zoom,1))}
+@media(prefers-reduced-motion:reduce){.horizon-landscape,.horizon-landscape.has-scene{opacity:0;transition:none}}
+body[data-journey-motion=paused] .horizon-landscape{opacity:0;transition:none}

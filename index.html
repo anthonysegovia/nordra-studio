@@ -1,9 +1,20 @@
-<!doctype html><html lang="es"><head><script>if(new URLSearchParams(location.search).has("panel")||new URLSearchParams(location.search).has("pago"))location.replace("/gestion.html"+location.search+location.hash);</script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nordra Studio · Diseño web e invitaciones digitales</title><link rel="stylesheet" href="/src/site/styles/scene.css?entry=home"><link rel="stylesheet" href="/src/site/styles/nordra-theatre.css?entry=home"><link rel="stylesheet" href="/src/site/styles/home.css?entry=home"><meta name="description" content="Desde Monterrey, creamos páginas web e invitaciones digitales para negocios y celebraciones en México. Conoce el estudio y elige tu camino."><link rel="canonical" href="https://nordrastudio.mx/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="Nordra Studio · Diseño web e invitaciones digitales"><meta property="og:description" content="Desde Monterrey, creamos páginas web e invitaciones digitales para negocios y celebraciones en México. Conoce el estudio y elige tu camino."><meta property="og:url" content="https://nordrastudio.mx/"><meta property="og:type" content="website"><meta property="og:locale" content="es_MX"><meta property="og:site_name" content="Nordra Studio"><meta property="og:image" content="https://nordrastudio.mx/nordra-header-approved-light.png"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/src/site/styles/contact.css?entry=home"><script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://nordrastudio.mx/#negocio","name":"Nordra Studio","url":"https://nordrastudio.mx/","telephone":"+52 81 2902 2231","email":"hola@nordrastudio.mx","address":{"@type":"PostalAddress","addressLocality":"Monterrey","addressRegion":"NL","addressCountry":"MX"}}</script><link rel="preload" href="/fonts/sora/Sora-latin.woff2" fetchpriority="low" as="font" type="font/woff2" crossorigin>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>
+(()=>{
+ const q=new URLSearchParams(location.search);
+ if(q.has('panel')||q.has('pago')){location.replace('/gestion.html'+location.search+location.hash);return;}
+ let saved={};try{saved=JSON.parse(sessionStorage.getItem('nordra-journey')||'{}')||{};const theme=localStorage.getItem('nordra-theme');if(theme)saved.dark=theme==='dark';}catch{}
+ const theme=(q.has('theme')?q.get('theme')==='dark':saved.dark===true)?'dark':'light';
+ document.documentElement.dataset.initialTheme=theme;
+ const format=matchMedia('(max-width:700px)').matches?'mobile':matchMedia('(max-width:1600px)').matches?'compact':matchMedia('(min-width:2200px)').matches?'wide':'desktop';
+ const preload=document.createElement('link');preload.rel='preload';preload.as='image';preload.fetchPriority='high';
+ preload.href=`/nordra/v544/assets/landscape-poster-${theme}-${format}.webp`;document.head.append(preload);
+})();
+</script><title>Nordra Studio · Diseño web e invitaciones digitales</title><link rel="stylesheet" href="/src/site/styles/scene.css?entry=home"><link rel="stylesheet" href="/src/site/styles/nordra-theatre.css?entry=home"><link rel="stylesheet" href="/src/site/styles/home.css?entry=home"><meta name="description" content="Desde Monterrey, creamos páginas web e invitaciones digitales para negocios y celebraciones en México. Conoce el estudio y elige tu camino."><link rel="canonical" href="https://nordrastudio.mx/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:title" content="Nordra Studio · Diseño web e invitaciones digitales"><meta property="og:description" content="Desde Monterrey, creamos páginas web e invitaciones digitales para negocios y celebraciones en México. Conoce el estudio y elige tu camino."><meta property="og:url" content="https://nordrastudio.mx/"><meta property="og:type" content="website"><meta property="og:locale" content="es_MX"><meta property="og:site_name" content="Nordra Studio"><meta property="og:image" content="https://nordrastudio.mx/nordra-header-approved-light.png"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/src/site/styles/contact.css?entry=home"><script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://nordrastudio.mx/#negocio","name":"Nordra Studio","url":"https://nordrastudio.mx/","telephone":"+52 81 2902 2231","email":"hola@nordrastudio.mx","address":{"@type":"PostalAddress","addressLocality":"Monterrey","addressRegion":"NL","addressCountry":"MX"}}</script><link rel="preload" href="/fonts/sora/Sora-latin.woff2" fetchpriority="low" as="font" type="font/woff2" crossorigin>
 <meta name="referrer" content="no-referrer"></head><body id="inicio"><script>const allowed=['entrada','negocios','invitaciones','bodas','cumpleanos','eventos','temporada','trabajos','estudio'];const requested='entrada';const scene=allowed.includes(requested)?requested:'entrada';document.body.dataset.scene=scene;
 (()=>{
  let saved={};try{saved=JSON.parse(sessionStorage.getItem('nordra-journey')||'{}')||{};const theme=localStorage.getItem('nordra-theme');if(theme)saved.dark=theme==='dark';}catch{}
  const q=new URLSearchParams(location.search);
- document.body.classList.toggle('dark',q.has('theme')?q.get('theme')==='dark':saved.dark===true);
+ document.body.classList.toggle('dark',document.documentElement.dataset.initialTheme==='dark');
  const paused=matchMedia('(prefers-reduced-motion: reduce)').matches||(q.has('motion')?q.get('motion')==='paused':saved.paused===true);
  document.body.dataset.journeyMotion=paused?'paused':'playing';
  document.documentElement.dataset.journeyMotion=paused?'paused':'playing';
@@ -15,7 +26,15 @@
 <main>
 <section class="scene home-horizon" data-view="entrada" aria-labelledby="entry-title"><nav class="mobile-route" aria-label="Accesos rápidos de esta página"><a href="#elige-tu-camino">Servicios</a><a href="#nosotros">El estudio</a><a href="#contacto">Contacto</a></nav>
  <div class="horizon-hero" aria-labelledby="entry-title">
-  <div class="horizon-light" aria-hidden="true"><img src="/nordra/v544/assets/horizon-1920.webp" srcset="/nordra/v544/assets/horizon-900.webp 900w, /nordra/v544/assets/horizon-1920.webp 1920w" sizes="100vw" width="1920" height="640" alt="" fetchpriority="high"></div>
+  <div class="horizon-light landscape-poster" aria-hidden="true">
+   <picture>
+    <source media="(max-width:700px)" width="780" height="1629" data-light="/nordra/v544/assets/landscape-poster-light-mobile.webp" data-dark="/nordra/v544/assets/landscape-poster-dark-mobile.webp">
+    <source media="(max-width:1600px)" width="1440" height="820" data-light="/nordra/v544/assets/landscape-poster-light-compact.webp" data-dark="/nordra/v544/assets/landscape-poster-dark-compact.webp">
+    <source media="(min-width:2200px)" width="2560" height="1000" data-light="/nordra/v544/assets/landscape-poster-light-wide.webp" data-dark="/nordra/v544/assets/landscape-poster-dark-wide.webp">
+    <img width="1920" height="820" alt="" fetchpriority="high" data-light="/nordra/v544/assets/landscape-poster-light-desktop.webp" data-dark="/nordra/v544/assets/landscape-poster-dark-desktop.webp">
+   </picture>
+   <noscript><picture><source media="(max-width:700px)" srcset="/nordra/v544/assets/landscape-poster-light-mobile.webp" width="780" height="1629"><source media="(max-width:1600px)" srcset="/nordra/v544/assets/landscape-poster-light-compact.webp" width="1440" height="820"><source media="(min-width:2200px)" srcset="/nordra/v544/assets/landscape-poster-light-wide.webp" width="2560" height="1000"><img src="/nordra/v544/assets/landscape-poster-light-desktop.webp" width="1920" height="820" alt="" fetchpriority="high"></picture></noscript>
+  </div>
   <div class="horizon-landscape" aria-hidden="true"></div>
   <p class="eyebrow horizon-location">ESTUDIO DE DISEÑO DIGITAL · MONTERREY, MÉXICO</p>
   <h1 id="entry-title" class="horizon-title"><span class="horizon-intro">Creamos</span> <span class="horizon-accent">experiencias web</span> <span class="horizon-ending">para negocios y eventos</span></h1>
@@ -23,6 +42,55 @@
   <p class="horizon-detail">Diseñadas para sentirse tuyas, hasta el último detalle.</p>
   <div class="horizon-actions"><a class="horizon-button" href="negocios.html" data-go="negocios">Quiero una página web <span aria-hidden="true">→</span></a><a class="horizon-button horizon-button-outline" href="invitaciones.html" data-go="invitaciones">Quiero una invitación <span aria-hidden="true">→</span></a></div>
   <p class="horizon-trust"><span>Diseñado contigo</span><i aria-hidden="true">·</i><span>Hecho a medida</span><i aria-hidden="true">·</i><span>Trato directo</span></p>
+  <script>
+  (()=>{
+   const poster=document.querySelector('.landscape-poster'),hero=poster.parentElement;
+   const picture=poster.querySelector('picture'),image=picture.querySelector('img'),sources=picture.querySelectorAll('source');
+   // No src is exposed to the preload scanner until the early body theme is known.
+   // Assign source first: the picture selects one responsive, high-priority resource.
+   function theme(){
+    const key=document.body.classList.contains('dark')?'dark':'light';
+    if(poster.dataset.theme===key)return;
+    if(poster.dataset.theme)image.fetchPriority='low';
+    sources.forEach(source=>source.srcset=source.dataset[key]);image.src=image.dataset[key];poster.dataset.theme=key;
+   }
+   theme();
+   const prepared=new Map();
+   function prepareTheme(event){
+    const key=event.detail.dark?'dark':'light';
+    const candidate=[...sources].find(source=>matchMedia(source.media).matches)||image,url=candidate.dataset[key];
+    if(image.complete&&image.currentSrc.endsWith(url))return;
+    if(!prepared.has(url)){
+     const next=new Image();next.fetchPriority='low';next.src=url;
+     const ready=next.decode();prepared.set(url,ready);ready.then(()=>prepared.delete(url),()=>prepared.delete(url));
+    }
+    event.detail.waitUntil(prepared.get(url));
+   }
+   addEventListener('nordra-theme-prepare',prepareTheme);
+   function fit(){
+    const rect=hero.getBoundingClientRect(),mobile=rect.width<=700;
+    const summit=hero.querySelector('.horizon-actions').getBoundingClientRect().bottom-rect.top+56;
+    // Landmarks measured by scripts/capture-landscape-posters.mjs, in CSS pixels.
+    // Match the width-limited massif, or the 9.1% lake band on wide canvases.
+    const captured=mobile?{width:390,height:814.5,summit:531.201,massif:134.144}:
+     rect.width<=1600?{width:1440,height:820,summit:497.468912,massif:248.03544}:
+     rect.width>=2200?{width:2560,height:1000,summit:509.4375,massif:399.5625}:
+     {width:1920,height:820,summit:509.4375,massif:235.9425};
+    let massif=rect.width*(mobile?134.157293/390:248.03544/1440);
+    if(!mobile&&rect.width/rect.height>1440/820)massif=Math.min(massif,rect.height*.909-summit);
+    const cover=Math.max(rect.width/captured.width,rect.height/captured.height);
+    const zoom=Math.max(1,massif/captured.massif/cover);
+    const top=rect.height-captured.height*cover;
+    poster.style.setProperty('--poster-zoom',zoom);
+    poster.style.setProperty('--poster-shift',`${summit-(captured.summit*cover+top)*zoom}px`);
+   }
+   fit();document.fonts.ready.then(fit);
+   const size=new ResizeObserver(fit);size.observe(hero);size.observe(hero.querySelector('.horizon-actions'));
+   const changes=new MutationObserver(theme);changes.observe(document.body,{attributes:true,attributeFilter:['class']});
+   addEventListener('nordra-theme',theme);
+   addEventListener('pagehide',event=>{if(!event.persisted){size.disconnect();changes.disconnect();removeEventListener('nordra-theme',theme);removeEventListener('nordra-theme-prepare',prepareTheme);}},{once:true});
+  })();
+  </script>
  </div>
  <section class="horizon-paths" id="elige-tu-camino" aria-label="Negocios e Invitaciones">
   <a class="horizon-path horizon-business" href="negocios.html" data-go="negocios" aria-labelledby="business-path-title">
@@ -43,7 +111,6 @@
 </div>
 </section>
 <section class="horizon-studio" id="nosotros" aria-labelledby="studio-intro-title">
-  <div class="horizon-light" aria-hidden="true"><img src="/nordra/v544/assets/horizon-900.webp" width="900" height="300" alt="" loading="lazy"></div>
   <h2 id="studio-intro-title">Tu idea tiene un lugar aquí</h2>
   <p>Desde Monterrey, Nuevo León, creamos páginas web e invitaciones digitales para negocios y celebraciones en México.</p>
   <a class="horizon-button horizon-button-outline" href="estudio.html" data-go="estudio">Conoce el estudio <span aria-hidden="true">→</span></a>

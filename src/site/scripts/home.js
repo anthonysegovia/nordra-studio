@@ -2,7 +2,7 @@
 (()=>{
  const root=document.querySelector('.home-horizon');if(!root)return;
  const reduced=matchMedia('(prefers-reduced-motion:reduce)');
- const lights=[...root.querySelectorAll('.horizon-light')];
+ const lights=[...root.querySelectorAll('.horizon-light:not(.landscape-poster)')];
  const cards=[...root.querySelectorAll('.horizon-path, .signature-work')];
  const glowMedia=matchMedia('(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference)');
  const paths=[...root.querySelectorAll('.horizon-path')];

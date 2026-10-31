@@ -148,7 +148,7 @@ test('the animation clock excludes paused, offscreen and hidden time, without a 
 });
 
 const loaderSource = readFileSync(new URL('../src/site/landscape/landscape-hero.js', import.meta.url), 'utf8');
-function fixture({ webgl = true, embedded = false, importFailure = false } = {}) {
+function fixture({ webgl = true, embedded = false, importFailure = false, paused = false, reduced = false } = {}) {
   function target(extra = {}) {
     const listeners = new Map(), classes = new Set(), attributes = new Map();
     return { dataset: {}, isConnected: true, ...extra,
@@ -159,7 +159,8 @@ function fixture({ webgl = true, embedded = false, importFailure = false } = {})
       emit(name, event = {}) { for (const fn of [...listeners.get(name) ?? []]) fn(event); },
     };
   }
-  const stage = target(), body = target(), parentBody = target(), media = target({ matches: false });
+  const stage = target(), body = target(), parentBody = target(), media = target({ matches: reduced });
+  body.dataset.journeyMotion = paused ? 'paused' : 'playing';
   const frame = embedded ? target({ ownerDocument: { body: parentBody } }) : null;
   frame?.setAttribute('aria-hidden', 'true');
   const page = target({ frameElement: frame, requestIdleCallback: true, cancelIdleCallback: true });
@@ -177,7 +178,7 @@ function fixture({ webgl = true, embedded = false, importFailure = false } = {})
     requestIdleCallback: fn => { idle.set(++id, fn); return id; }, cancelIdleCallback: key => idle.delete(key),
     IntersectionObserver: class { constructor(fn) { intersect = fn; } observe() {} disconnect() {} },
     MutationObserver: class { constructor(fn) { mutations.push(fn); } observe() {} disconnect() {} },
-    loadScene: async () => { imports++; if (importFailure) throw Error('fixture import failure'); return { createLandscapeScene: async (_, options) => { states.push(options); options.onReady(); return controller; } }; },
+    loadScene: async () => { imports++; if (importFailure) throw Error('fixture import failure'); return { createLandscapeScene: async (_, options) => { states.push(options); states.push(options.getState()); options.onReady(); return controller; } }; },
   });
   return { stage, body, frame, document, page, media, idle, states, signals,
     imports: () => imports, releases: () => releases, context, contextReleases: () => contextReleases,
@@ -199,6 +200,27 @@ test('loader waits for load AND idle, probes WebGL and never imports it when una
   await a.runIdle(); assert.equal(a.imports(), 0); assert.equal(a.stage.dataset.renderer, 'static');
   const b = fixture(); b.visible(true); b.page.emit('load'); assert.equal(b.imports(), 0);
   await b.runIdle(); assert.equal(b.imports(), 1);
+});
+
+test('paused and reduced visits keep the poster, and resuming seeds the settled scene', async () => {
+  for (const preference of [{ paused: true }, { reduced: true }]) {
+    const a = fixture(preference); a.visible(true); a.page.emit('load'); await a.runIdle();
+    assert.equal(a.idle.size, 0); assert.equal(a.imports(), 0);
+    a.body.dataset.journeyMotion = 'playing'; a.media.matches = false; a.mutate();
+    await a.runIdle(); assert.equal(a.imports(), 1);
+    assert.equal(a.states[0].paused, true, 'constructor uses the existing settled state');
+    assert.equal(a.states[0].getState().paused, false, 'real preference resumes motion onReady');
+    assert.equal(a.states.at(-1).paused, false);
+    assert.equal(a.states.length, 2, 'preparation is not followed by a duplicate synchronous draw');
+  }
+});
+
+test('a pause while waiting for idle cancels the pending WebGL start', async () => {
+  const a = fixture(); a.visible(true); a.page.emit('load');
+  a.body.dataset.journeyMotion = 'paused'; a.mutate(); await a.runIdle();
+  assert.equal(a.imports(), 0);
+  a.body.dataset.journeyMotion = 'playing'; a.mutate(); await a.runIdle();
+  assert.equal(a.imports(), 1);
 });
 
 test('hidden navigation iframe waits until revealed and disposes when removed', async () => {
@@ -227,4 +249,6 @@ test('Three version is exact, dynamically loaded; prototype review hooks are abs
   assert.doesNotMatch(loaderSource, /from ['"]three/);
   const scene = read('src/site/landscape/landscape-scene.js');
   assert.doesNotMatch(scene + loaderSource, /__landscape|frozenAt|searchParams|prototype\//);
+  assert.doesNotMatch(read('index.html'), /horizon-(?:900|1920)\.webp/);
+  assert.doesNotMatch(read('src/site/entries/home.js'), /horizon-flow/);
 });

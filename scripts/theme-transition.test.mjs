@@ -22,7 +22,7 @@ describe('site — theme-transition', () => {
         return { ready: Promise.reject(new DOMException('Transition was skipped', 'AbortError')), finished: Promise.resolve(), skipTransition() {} };
       },
     };
-    runInNewContext(source, { document, matchMedia: () => ({ matches: reduced }), clearTimeout, setTimeout, Event, dispatchEvent: () => { changes++; } });
+    runInNewContext(source, { document, matchMedia: () => ({ matches: reduced }), clearTimeout, setTimeout, Event, CustomEvent: class { constructor(type, { detail }) { this.type = type; this.detail = detail; } }, dispatchEvent: event => { if(event.type === "nordra-theme") changes++; } });
     return { click: () => click(), classes, rootClasses, starts: () => starts, changes: () => changes };
   }
   test('a skipped transition handles ready rejection while applying and finishing the theme', async () => {
@@ -41,4 +41,54 @@ describe('site — theme-transition', () => {
     const app = setup(preference); app.click();
     assert.equal(app.starts(), 0); assert.ok(app.classes.has('dark'));
   });
+});
+
+// Portrait preparation must preserve the existing transition behavior above.
+
+const source = readFileSync(new URL('../src/site/scripts/theme-transition.js', import.meta.url), 'utf8');
+function fixture(prepare) {
+  function classes() {
+    const names = new Set();
+    return { contains: name => names.has(name), add: (...items) => items.forEach(name => names.add(name)),
+      remove: (...items) => items.forEach(name => names.delete(name)),
+      toggle: (name, enabled) => enabled ? names.add(name) : names.delete(name) };
+  }
+  let click;
+  const events = [], body = { classList: classes(), dataset: { journeyMotion: 'paused' } };
+  const button = { addEventListener: (_, fn) => { click = fn; }, setAttribute() {} };
+  runInNewContext(source, {
+    document: { body, documentElement: { classList: classes() }, querySelector: () => button },
+    matchMedia: () => ({ matches: false }), clearTimeout() {}, setTimeout() {},
+    CustomEvent: class { constructor(type, { detail }) { this.type = type; this.detail = detail; } },
+    Event: class { constructor(type) { this.type = type; } },
+    dispatchEvent(event) { events.push(event.type); if (event.type === 'nordra-theme-prepare') prepare?.(event.detail); },
+  });
+  return { click: () => click(), dark: () => body.classList.contains('dark'), events };
+}
+
+test('pages without theme assets still change synchronously', async () => {
+  const page = fixture(); const result = page.click();
+  assert.equal(page.dark(), true); await result;
+  assert.deepEqual(page.events, ['nordra-theme-prepare', 'nordra-theme']);
+});
+
+test('the existing theme remains painted until the requested image is decoded', async () => {
+  let ready; const image = new Promise(resolve => { ready = resolve; });
+  const page = fixture(({ waitUntil }) => waitUntil(image));
+  const result = page.click(); assert.equal(page.dark(), false);
+  ready(); await result; assert.equal(page.dark(), true);
+});
+
+test('a second click cancels a pending theme before its image finishes', async () => {
+  let ready; const image = new Promise(resolve => { ready = resolve; });
+  const page = fixture(({ dark, waitUntil }) => { if (dark) waitUntil(image); });
+  const first = page.click(); await page.click();
+  assert.equal(page.dark(), false); ready(); await first;
+  assert.equal(page.dark(), false, 'a stale image must not overwrite the latest choice');
+});
+
+test('an image failure does not trap the theme control', async () => {
+  const page = fixture(({ waitUntil }) => waitUntil(Promise.reject(Error('image unavailable'))));
+  await page.click(); assert.equal(page.dark(), true);
+  await page.click(); assert.equal(page.dark(), false);
 });

@@ -2,13 +2,23 @@
  const button=document.querySelector('.theme-button');
  const root=document.documentElement;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- let desired=document.body.classList.contains('dark'),active=null,revision=0,timer;
- button.addEventListener('click',()=>{
-  desired=active?!desired:!document.body.classList.contains('dark');
+ let desired=document.body.classList.contains('dark'),active=null,preparing=false,revision=0,timer;
+ button.addEventListener('click',async()=>{
+  desired=active||preparing?!desired:!document.body.classList.contains('dark');
   const dark=desired,ticket=++revision;
   active?.skipTransition();
   clearTimeout(timer);
   root.classList.remove('theme-color-fade');
+  // Pages with theme-specific imagery can prepare it before the new snapshot.
+  // With no listener, the existing transition still starts synchronously.
+  const pending=[];
+  dispatchEvent(new CustomEvent('nordra-theme-prepare',{detail:{dark,waitUntil:promise=>pending.push(promise)}}));
+  if(pending.length){
+   preparing=true;
+   await Promise.allSettled(pending);
+   if(ticket!==revision)return;
+  }
+  preparing=false;
   const update=()=>{
    if(ticket!==revision)return;
    document.body.classList.toggle('dark',dark);
