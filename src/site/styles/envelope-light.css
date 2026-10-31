@@ -1,0 +1,14 @@
+/* Signature · Invitaciones: a warm light inside the wedding envelope travels to the phone.
+   Layers exist only once the script adds .envelope-lit; without it the showcase is unchanged. */
+.envelope-lit{--seam:0;--glow:0;--inner:0;--beam:0;--beam-fade:1;--screen:1;--rim:0;--warm:#f2c58f;--warm-core:#ffe7c4;--warm-halo:#f2c58f8c}
+body:not(.dark) .envelope-lit{--warm:#e9a86f;--warm-halo:#e9a86f80}
+.envelope-lit::before{content:"";position:absolute;inset:8% 4% 2% -6%;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,var(--warm-halo),transparent);opacity:var(--glow);pointer-events:none}
+.envelope-lit .envelope-inner{position:absolute;inset:-45% 6% 40%;z-index:1;border-radius:50%;background:radial-gradient(50% 60% at 50% 70%,var(--warm-core) 0%,var(--warm) 35%,transparent 72%);filter:blur(10px);opacity:var(--inner);pointer-events:none}
+.envelope-lit .envelope-seam{position:absolute;inset:0;z-index:6;width:100%;height:100%;overflow:visible;opacity:var(--seam);pointer-events:none}
+.envelope-lit .envelope-seam polyline{fill:none;stroke:var(--warm-core);stroke-width:1.2;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 4px var(--warm)) drop-shadow(0 0 10px var(--warm))}
+.envelope-lit .showcase-letter{box-shadow:0 0 0 1px #8a75572a,0 0 calc(46px*var(--inner)) calc(4px*var(--inner)) var(--warm-halo)}
+.envelope-lit .envelope-beam{position:absolute;inset:0;z-index:6;width:100%;height:100%;overflow:visible;pointer-events:none;opacity:calc(var(--beam-fade)*min(1,var(--beam)*20))}
+/* The showcase is square, so beam units scale evenly; pathLength=1 keeps the draw exact. */
+.envelope-lit .envelope-beam path{fill:none;stroke:var(--warm-core);stroke-width:.4;stroke-linecap:round;stroke-dasharray:1 1;stroke-dashoffset:calc(1 - var(--beam));filter:drop-shadow(0 0 5px var(--warm))}
+.envelope-lit .showcase-phone::before{content:"";position:absolute;inset:3px;z-index:1;border-radius:inherit;background:#17120e;opacity:calc(1 - var(--screen));pointer-events:none}
+.envelope-lit .showcase-phone{box-shadow:0 8px 18px #54453226,0 1px 3px #54453233,0 0 calc(30px*var(--rim)) calc(2px*var(--rim)) var(--warm-halo)}

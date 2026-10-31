@@ -10,6 +10,8 @@ import '../scripts/business-motion.js?entry=invitations';
 import '../scripts/theme-transition.js?entry=invitations';
 import '../scripts/organic-images.js?entry=invitations';
 import '../scripts/invitation-showcase.js?entry=invitations';
+import '../styles/envelope-light.css';
+import '../scripts/envelope-light.js?entry=invitations';
 import '../scripts/nordra-materials.js?entry=invitations';
 import '../scripts/nordra-theatre.js?entry=invitations';
 import '../scripts/interface-icons.js?entry=invitations';
