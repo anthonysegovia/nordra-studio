@@ -41,7 +41,7 @@ test('wide framing keeps water below the projected mountain and restores the app
   for (const [width, height, viewportHeight] of [[1905, 820, 900], [1890, 820, 900], [1920, 775.9375, 700], [2560, 1000, 1080]]) {
     resize(width, height, viewportHeight, 547.4375);
     const base = projectedY(scope.waterlineFront);
-    assert.ok((Math.min(height, viewportHeight - rect.top) - base) / height >= 0.091 - 0.00001, `${width}: visible lake band`);
+    assert.ok((height - base) / height >= 0.091 - 0.00001, `${width}: visible lake band`);
     const summit = Math.min(...scope.summitCandidates.map(projectedY));
     assert.ok(Math.abs(summit + rect.top - buttonBottom - 56) < 0.02, `${width}: summit stays under buttons`);
     assert.ok(camera.far > camera.position.length() + 900, 'sky dome is not clipped');

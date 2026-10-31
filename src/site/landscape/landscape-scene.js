@@ -526,8 +526,8 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     // Keep the original solve untouched at that aspect and on mobile; only
     // retreat when a wider view needs room below the projected mountain.
     if (!mobile && camera.aspect > 1440 / 820) {
-      const visibleHeight = Math.min(height, window.innerHeight - rect.top);
-      const baseLimit = (visibleHeight - height * 0.091) / height;
+      // Measured on the whole scene, not the window: a short window would shrink the massif to a speck.
+      const baseLimit = 1 - 0.091;
       const available = Math.max(0.02, baseLimit - summitTop);
       if ((1 - waterlineFront.clone().project(camera).y) / 2 > baseLimit) {
         for (let i = 0; i < 16; i++) {
