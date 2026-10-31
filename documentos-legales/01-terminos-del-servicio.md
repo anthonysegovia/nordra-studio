@@ -2,7 +2,7 @@
 
 Condiciones comerciales autorizadas para presentación por el responsable. Los acuerdos particulares se completan por proyecto.
 Fecha inicial: 8 de octubre de 2026. Versión: 1.0.
-Actualización: 18 de octubre de 2026.
+Actualización: 31 de octubre de 2026.
 
 ## 1. Prestador y contacto
 
@@ -83,7 +83,7 @@ Si cambia la fecha del evento, las partes acuerdan por escrito las nuevas fechas
 
 ## 8. Eventos y gestión de invitados
 
-Los paquetes de eventos anunciados contemplan hasta 30 fotos optimizadas y 3 rondas de cambios. Aurora incluye invitación de catálogo personalizada, cuenta propia y panel privado de invitados; enlaces personales para individuales, parejas y +1; confirmación por persona, resumen de confirmados y pendientes, búsqueda, filtros y descarga de lista. El límite es de 300 personas, incluidos acompañantes. Boreal incluye lo de Aurora y suma organización de mesas, pases QR personales y registro de entradas por persona, además de mayor personalización visual y atención prioritaria. Las funciones adicionales a medida se cotizan por separado. El precio de Boreal se anuncia «desde» y requiere precio final en la propuesta. Por apertura, Aurora se ofrece en $1,999 MXN (precio regular $2,999 MXN) y Boreal desde $2,999 MXN (precio regular desde $5,999 MXN), IVA incluido y pago único por evento. La cotización confirma el importe final antes de contratar; las cotizaciones ya aceptadas conservan sus condiciones.
+Los paquetes de eventos anunciados contemplan hasta 30 fotos optimizadas y 3 rondas de cambios. Aurora incluye invitación de catálogo personalizada, cuenta propia y panel privado de invitados; enlaces personales para individuales, parejas y +1; confirmación por persona, resumen de confirmados y pendientes, búsqueda, filtros y descarga de lista. Aurora y Boreal no tienen límite de invitados, incluidos acompañantes. Boreal incluye lo de Aurora y suma organización de mesas, pases QR personales y registro de entradas por persona, además de mayor personalización visual y atención prioritaria. Las funciones adicionales a medida se cotizan por separado. El precio de Boreal se anuncia «desde» y requiere precio final en la propuesta. Por apertura, Aurora se ofrece en $1,999 MXN (precio regular $2,999 MXN) y Boreal desde $2,999 MXN (precio regular desde $5,999 MXN), IVA incluido y pago único por evento. La cotización confirma el importe final antes de contratar; las cotizaciones ya aceptadas conservan sus condiciones.
 Cada proyecto define datos solicitados a invitados, permisos del organizador, exportación, proveedores utilizados y fechas de conservación. Se documentarán los roles de Nordra y del organizador en el tratamiento de esos datos. No se usan listas de invitados para publicidad de Nordra sin una base válida independiente.
 
 ### Datos de invitados

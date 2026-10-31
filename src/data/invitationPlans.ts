@@ -14,12 +14,12 @@ export function getInvitationPlans(english: boolean) {
         { Icon: LayoutDashboard, title: english ? "Your private guest panel" : "Tu panel privado de invitados", description: english ? "Confirmed, pending and your list" : "Confirmados, pendientes y tu lista" },
       ],
       highlights: english
-        ? ["Personalized invitation", "Private panel and personal links", "Up to 300 people · couples and +1s"]
-        : ["Invitación personalizada", "Panel privado y enlaces personales", "Hasta 300 personas · parejas y +1"],
+        ? ["Personalized invitation", "Private panel and personal links", "No guest limit · couples and +1s"]
+        : ["Invitación personalizada", "Panel privado y enlaces personales", "Sin límite de invitados · parejas y +1"],
       features: english ? [
         "Personalized design from our collection", "Memory gallery with up to 30 photos",
         "Your own account and private guest panel", "Personal links for individuals, couples and +1s",
-        "RSVP per person, automatically reflected in your panel", "Up to 300 people, including companions",
+        "RSVP per person, automatically reflected in your panel", "No guest limit, companions included",
         "Search, filters, pending replies and list download", "Copy links and share via WhatsApp",
         "Date, locations and directions", "Dress code and schedule", "Your event link on Nordra",
         "3 revision rounds", "Hosting: up to 12 months before + 90 days after the event",
@@ -27,14 +27,14 @@ export function getInvitationPlans(english: boolean) {
       ] : [
         "Diseño de catálogo personalizado", "Galería de recuerdos con hasta 30 fotos",
         "Cuenta propia y panel privado de invitados", "Enlaces personales para individuales, parejas y +1",
-        "Confirmación por persona que se refleja automáticamente en tu panel", "Hasta 300 personas, incluidos acompañantes",
+        "Confirmación por persona que se refleja automáticamente en tu panel", "Sin límite de invitados, incluidos acompañantes",
         "Búsqueda, filtros, pendientes y descarga de lista", "Copiar enlaces y compartir por WhatsApp",
         "Fecha, ubicaciones y cómo llegar", "Código de vestimenta y agenda", "Enlace de tu evento en Nordra",
         "3 rondas de cambios", "Alojamiento: hasta 12 meses antes y 90 días después del evento",
         "Soporte por WhatsApp desde la entrega hasta 30 días después del evento",
       ],
       responseTitle: english ? "Your guests, in one place" : "Tus invitados, en un solo lugar",
-      responseDescription: english ? "Personal links, replies per person and your private panel. Up to 300 people, including companions." : "Enlaces personales, respuestas por persona y tu panel privado. Hasta 300 personas, incluidos acompañantes",
+      responseDescription: english ? "Personal links, replies per person and your private panel. No guest limit, companions included." : "Enlaces personales, respuestas por persona y tu panel privado. Sin límite de invitados, incluidos acompañantes",
     },
     {
       ...invitationOffers[1], Icon: TicketCheck,
