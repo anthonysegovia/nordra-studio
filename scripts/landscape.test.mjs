@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { landscapePolicy, advanceClock } from '../src/site/landscape/state.js';
+import { mountainChoice } from '../src/site/landscape/mountain-options.js';
 import { assertDeferredLandscape } from './check-site-bundles.mjs';
 import { resolve } from 'node:path';
 import { preparePrograms } from '../src/site/landscape/prepare-programs.js';
@@ -148,7 +149,7 @@ test('the animation clock excludes paused, offscreen and hidden time, without a 
 });
 
 const loaderSource = readFileSync(new URL('../src/site/landscape/landscape-hero.js', import.meta.url), 'utf8');
-function fixture({ webgl = true, embedded = false, importFailure = false, paused = false, reduced = false, saveData = false, repeat = false } = {}) {
+function fixture({ webgl = true, embedded = false, comparison = false, importFailure = false, paused = false, reduced = false, saveData = false, repeat = false } = {}) {
   function target(extra = {}) {
     const listeners = new Map(), classes = new Set(), attributes = new Map();
     return { dataset: {}, isConnected: true, ...extra,
@@ -161,8 +162,8 @@ function fixture({ webgl = true, embedded = false, importFailure = false, paused
   }
   const stage = target(), body = target(), parentBody = target(), media = target({ matches: reduced });
   body.dataset.journeyMotion = paused ? 'paused' : 'playing';
-  const frame = embedded ? target({ ownerDocument: { body: parentBody } }) : null;
-  frame?.setAttribute('aria-hidden', 'true');
+  const frame = embedded || comparison ? target({ ownerDocument: { body: parentBody, location: { pathname: comparison ? '/prototipos/montana-claro.html' : '/' } } }) : null;
+  if (embedded) frame.setAttribute('aria-hidden', 'true');
   const page = target({ frameElement: frame, requestIdleCallback: true, cancelIdleCallback: true });
   const poster = { phase: paused || reduced || saveData || repeat ? 'final' : 'start', starts: 0, final() { this.phase = 'final'; }, started() { this.starts++; } };
   page.NordraLandscapePoster = poster;
@@ -174,7 +175,7 @@ function fixture({ webgl = true, embedded = false, importFailure = false, paused
   const states = [], signals = [];
   const controller = { setState: state => states.push(state), dispose: () => releases++ };
   runInNewContext(loaderSource.replace(/^import .*;\s*/gm, '').replace("import('./landscape-scene.js')", 'loadScene()'), {
-    landscapePolicy, document, window: page, navigator: { connection: { saveData } }, matchMedia: () => media,
+    landscapePolicy, mountainChoice, document, window: page, navigator: { connection: { saveData } }, matchMedia: () => media,
     addEventListener: page.addEventListener.bind(page), removeEventListener: page.removeEventListener.bind(page),
     dispatchEvent: event => signals.push(event), CustomEvent: class { constructor(type, { detail }) { this.type = type; this.detail = detail; } },
     requestIdleCallback: fn => { idle.set(++id, fn); return id; }, cancelIdleCallback: key => idle.delete(key),
@@ -196,6 +197,14 @@ test('loader transfers its tested context to the scene and releases it if the im
   assert.equal(a.states[0].context, a.context); assert.equal(a.contextReleases(), 0);
   const b = fixture({ importFailure: true }); b.visible(true); b.page.emit('load'); await b.runIdle();
   assert.equal(b.contextReleases(), 1); assert.equal(b.stage.dataset.renderer, 'static');
+});
+
+test('the mountain comparison renders a still final scene without marking the normal entrance as seen', async () => {
+  for (const preference of [{ paused: true }, { reduced: true }]) {
+    const a = fixture({ comparison: true, ...preference }); a.visible(true); a.page.emit('load'); await a.runIdle();
+    assert.equal(a.imports(), 1); assert.equal(a.states[0].initialElapsed, 60000); assert.equal(a.poster.starts, 0);
+    const b = fixture(preference); b.visible(true); b.page.emit('load'); await b.runIdle(); assert.equal(b.imports(), 0);
+  }
 });
 
 test('loader waits for load, a paint opportunity AND idle; unavailable WebGL stays static', async () => {
