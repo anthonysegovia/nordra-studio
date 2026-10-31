@@ -1,0 +1,134 @@
+/* Invitaciones · plans, guest panel, guest journey and seasons. Warm light for celebrations.
+   Everything reads without JavaScript; scripts only add light, the slider and the fan. */
+.invitations{--warm-a:#e9a86f;--warm-b:#c9785a;--warm-surface:color-mix(in srgb,var(--bg) 93%,#f2c58f 7%)}
+.dark .invitations,.dark.invitations{--warm-a:#f2c58f;--warm-b:#e0957a;--warm-surface:color-mix(in srgb,var(--bg) 90%,#c9785a 10%)}
+
+/* Below the fold: skip layout and paint until the visitor gets close. */
+.invite-offers,.invite-panel,.invite-journey,.invite-seasons{content-visibility:auto;contain-intrinsic-size:auto 900px}
+
+/* Plans · Border Glow in warm light, the border follows the pointer. Boreal orbits slowly. */
+@property --glow-angle{syntax:'<angle>';initial-value:200deg;inherits:false}
+.invite-offers{padding-top:76px}
+.invite-offers-intro{display:flex;justify-content:space-between;gap:40px;align-items:end;margin-bottom:30px}
+.invitations :is(.invite-offers-intro,.invite-panel,.invite-journey,.invite-seasons) h2{font-size:clamp(32px,3.7vw,52px);line-height:1.15;margin:14px 0 0;letter-spacing:-.045em}
+.invite-offers-intro>p{max-width:400px;font-size:13px;line-height:1.75;color:var(--muted);margin:0}
+.invite-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr)) minmax(0,.9fr);gap:20px;align-items:stretch}
+.invite-card{--glow-strength:.35;position:relative;isolation:isolate;display:flex;flex-direction:column;border-radius:22px;padding:24px 22px 22px;background:var(--warm-surface);border:1px solid color-mix(in srgb,var(--warm-b) 22%,var(--line));scroll-margin-top:112px;transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s}
+.invite-card:hover,.invite-card:focus-within{--glow-strength:1;transform:translateY(-3px);box-shadow:0 22px 40px -30px color-mix(in srgb,var(--warm-b) 70%,transparent)}
+.invite-light{position:absolute;inset:-1px;z-index:-1;border-radius:inherit;padding:1.5px;pointer-events:none;background:conic-gradient(from var(--glow-angle),transparent 0deg,var(--warm-a) 40deg,var(--warm-b) 80deg,transparent 140deg,transparent 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:var(--glow-strength);transition:opacity .35s}
+.invite-featured{--glow-strength:.85;border-color:color-mix(in srgb,var(--warm-b) 45%,var(--line))}
+.invite-featured[data-orbit] .invite-light{animation:invite-orbit 14s linear infinite}
+@keyframes invite-orbit{to{--glow-angle:560deg}}
+.invite-card[data-season-plan]{background:color-mix(in srgb,var(--warm-surface) 60%,transparent);border-style:dashed}
+.invite-card-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;min-height:32px}
+.invite-card-head h3{font-size:24px;line-height:1.2;letter-spacing:-.04em;margin:0}
+.invite-badge{font-size:10px;font-weight:600;padding:5px 9px;border-radius:20px;color:var(--ink);background:color-mix(in srgb,var(--warm-a) 22%,transparent);border:1px solid color-mix(in srgb,var(--warm-b) 38%,transparent)}
+.invite-audience{font-size:13px;color:var(--muted);line-height:1.65;margin:10px 0 16px;min-height:44px}
+.invite-price{display:flex;flex-direction:column;gap:4px;margin:0}
+.invite-regular{font-size:12px;color:var(--muted);text-decoration-color:color-mix(in srgb,var(--warm-b) 80%,transparent)}
+.invite-opening small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--warm-b) 75%,var(--ink));margin-bottom:2px}
+.invite-opening>span{font-size:14px;color:var(--muted)}
+.invite-opening strong{font:500 34px/1.15 Sora,Manrope,sans-serif;letter-spacing:-.045em;color:var(--ink);margin:0 2px}
+.invite-delivery{font-size:12px;color:var(--ink);margin:12px 0 0;padding:7px 10px;border-radius:10px;background:color-mix(in srgb,var(--bg) 60%,transparent);border:1px solid var(--line);align-self:flex-start}
+.invite-points{list-style:none;padding:0;margin:16px 0 20px;font-size:13px;line-height:1.6;flex:1}
+.invite-points li{padding-left:16px;position:relative;margin:6px 0}
+.invite-points li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--warm-b);position:absolute;top:.6em;left:0}
+.invite-cta{display:inline-flex;justify-content:center;align-items:center;gap:10px;min-height:46px;border-radius:99px;padding:0 20px;font-size:14px;text-decoration:none;color:var(--ink);border:1px solid color-mix(in srgb,var(--warm-b) 45%,var(--line));background:color-mix(in srgb,var(--bg) 70%,transparent);transition:transform .25s ease,background .25s ease,color .25s ease}
+.invite-featured .invite-cta{background:var(--ink);color:var(--bg);border-color:transparent}
+.invite-cta:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--warm-a) 22%,var(--bg))}
+.invite-featured .invite-cta:hover{background:color-mix(in srgb,var(--ink) 88%,var(--warm-b))}
+.invite-cta:active{transform:scale(.98)}
+.invite-cta:focus-visible{outline:2px solid var(--warm-b);outline-offset:4px}
+
+/* Guest panel · a warm luminous frame around the Aurora and Boreal views of the sample panel. */
+.invite-panel{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px;align-items:center}
+.invite-panel-copy>p:not(.eyebrow){font-size:15px;line-height:1.75;color:var(--muted);max-width:420px;margin:18px 0 0}
+.invite-panel-benefits{list-style:none;padding:0;margin:26px 0 30px;display:grid;gap:14px}
+.invite-panel-benefits li{display:grid;gap:3px;padding-left:18px;position:relative}
+.invite-panel-benefits li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--warm-a),var(--warm-b))}
+.invite-panel-benefits strong{font-size:15px;font-weight:600}
+.invite-panel-benefits span{font-size:13px;line-height:1.6;color:var(--muted)}
+.invite-compare{--split:50%;--lx:70%;--ly:20%;margin:0;position:relative}
+.invite-compare::before{content:"";position:absolute;inset:-8% -6%;z-index:-1;border-radius:40px;background:radial-gradient(40% 50% at var(--lx) var(--ly),color-mix(in srgb,var(--warm-a) 30%,transparent),transparent 70%);pointer-events:none;transition:opacity .4s}
+.invite-compare-frame{position:relative;display:block;aspect-ratio:16/10;border-radius:20px;overflow:clip;padding:0;background:#f8f5ee;border:1px solid color-mix(in srgb,var(--warm-b) 30%,var(--line));box-shadow:0 30px 60px -36px #3b2a1a80,0 0 0 6px color-mix(in srgb,var(--warm-surface) 80%,transparent)}
+.invite-compare-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left;display:block}
+.compare-aurora{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--split)) 0 0)}
+.compare-handle{position:absolute;top:0;bottom:0;left:var(--split);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px #00000014,0 0 18px #ffffffa0;pointer-events:none}
+.compare-handle::after{content:"‹ ›";position:absolute;top:50%;left:50%;width:42px;height:42px;margin:-21px 0 0 -21px;display:grid;place-items:center;border-radius:50%;background:#fff;color:#5a4636;font:600 15px/1 Manrope,sans-serif;letter-spacing:2px;box-shadow:0 8px 20px -8px #00000060;transition:transform .25s ease}
+.compare-label{position:absolute;bottom:12px;padding:6px 11px;border-radius:99px;font-size:11px;font-weight:600;color:#3b2c20;background:#fffaf2e8;box-shadow:0 4px 14px -8px #00000060;pointer-events:none;transition:opacity .25s}
+.compare-label-aurora{left:12px}.compare-label-boreal{right:12px}
+.invite-compare[data-split-low] .compare-label-aurora,.invite-compare[data-split-high] .compare-label-boreal{opacity:0}
+.compare-range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y;-webkit-appearance:none;appearance:none;background:none}
+.compare-range[hidden]{display:none}
+.invite-compare-frame:has(.compare-range:focus-visible){outline:2px solid var(--warm-b);outline-offset:4px}
+.invite-compare-frame:has(.compare-range:active) .compare-handle::after,.invite-compare-frame:has(.compare-range:focus-visible) .compare-handle::after{transform:scale(1.08)}
+.invite-compare figcaption{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.6}
+
+/* Guest journey · Stacked Cards Spread: the four screens start as a pile and fan out in view. */
+.invite-journey-intro{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 40px;align-items:end;margin-bottom:40px}
+.invite-journey-intro>p:not(.eyebrow){grid-column:1;font-size:15px;line-height:1.7;color:var(--muted);margin:0}
+.invite-journey-intro .eyebrow,.invite-journey-intro h2{grid-column:1}
+.invite-journey-intro .options-compare{grid-column:2;grid-row:3}
+.journey-stack{list-style:none;padding:0;margin:0 auto;max-width:1040px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.journey-card{--i:0;position:relative;transition:transform .7s cubic-bezier(.22,.61,.36,1);transition-delay:calc(var(--i) * 60ms)}
+.journey-card:nth-child(2){--i:1}.journey-card:nth-child(3){--i:2}.journey-card:nth-child(4){--i:3}
+.journey-shot{display:block;aspect-ratio:390/844;border-radius:22px;overflow:clip;background:#f8f5ee;border:5px solid #1f1a16;box-shadow:0 26px 50px -32px #2d211780;transition:transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .35s}
+.dark .journey-shot{border-color:#0c0a09}
+.journey-shot img{display:block;width:100%;height:100%;object-fit:cover}
+.journey-caption{display:grid;gap:4px;margin-top:16px;transition:opacity .4s ease .25s}
+.journey-caption strong{font-size:15px}
+.journey-caption span{font-size:13px;line-height:1.55;color:var(--muted)}
+.journey-card:hover .journey-shot{transform:translateY(-8px);box-shadow:0 34px 56px -30px #2d211790}
+.journey-stack[data-stacked] .journey-card{transform:translateX(calc((1.5 - var(--i)) * (100% + 24px) * .88)) rotate(calc((var(--i) - 1.5) * 4deg));z-index:calc(4 - var(--i))}
+.journey-stack[data-stacked] .journey-caption{opacity:0}
+
+/* Seasons · Gallery Fan; the next season to ask for sits raised with its label. */
+.invite-seasons-intro{text-align:center;max-width:560px;margin:0 auto 44px}
+.invite-seasons-intro>p:not(.eyebrow){font-size:15px;line-height:1.7;color:var(--muted);margin:16px 0 0}
+.season-fan{list-style:none;padding:0;margin:0 auto;display:flex;justify-content:center;align-items:flex-end;min-height:520px}
+.season-card{--r:0deg;--y:0px;--x:0px;position:relative;width:min(240px,30vw);margin:0 -26px;transform:translate(var(--x),var(--y)) rotate(var(--r));transform-origin:50% 120%;transition:transform .5s cubic-bezier(.22,.61,.36,1);z-index:1}
+.season-card:first-child{--r:-8deg;--y:18px}.season-card:last-child{--r:8deg;--y:18px}
+.season-card[data-season-current]{--y:-14px;z-index:3}
+.season-fan:hover .season-card:first-child,.season-fan:focus-within .season-card:first-child{--x:-34px;--r:-11deg}
+.season-fan:hover .season-card:last-child,.season-fan:focus-within .season-card:last-child{--x:34px;--r:11deg}
+.season-card:hover,.season-card:focus-within{--y:-26px!important;z-index:4}
+.season-card a{display:block;color:inherit;text-decoration:none;border-radius:22px}
+.season-card a:focus-visible{outline:2px solid var(--warm-b);outline-offset:6px}
+.season-shot{display:block;aspect-ratio:390/700;border-radius:22px;overflow:clip;border:5px solid #1f1a16;background:#1f1a16;box-shadow:0 26px 50px -28px #2d2117a0}
+.season-shot img{display:block;width:100%;height:auto}
+.season-caption{display:grid;justify-items:center;gap:4px;margin-top:14px;text-align:center}
+.season-caption strong{font-size:15px}
+.season-now{display:none;font-size:10px;font-weight:600;padding:4px 9px;border-radius:20px;background:color-mix(in srgb,var(--warm-a) 24%,transparent);border:1px solid color-mix(in srgb,var(--warm-b) 38%,transparent)}
+.season-card[data-season-current] .season-now{display:inline-block}
+.season-open{font-size:12px;color:var(--muted);opacity:0;transform:translateY(-4px);transition:opacity .3s,transform .3s}
+.season-card:hover .season-open,.season-card:focus-within .season-open,.season-card[data-season-current] .season-open{opacity:1;transform:none}
+
+@media(max-width:1000px){
+ .invite-grid{grid-template-columns:1fr 1fr}.invite-card[data-season-plan]{grid-column:1/-1}
+ .invite-panel{grid-template-columns:1fr;gap:36px}
+}
+@media(max-width:700px){
+ .invite-offers{padding-top:52px}
+ .invite-offers-intro,.invite-journey-intro{display:block}
+ .invite-offers-intro>p{margin-top:16px}
+ .invitations :is(.invite-offers-intro,.invite-panel,.invite-journey,.invite-seasons) h2{font-size:36px;margin:16px 0 0}
+ .invite-grid{grid-template-columns:1fr;gap:16px}.invite-card[data-season-plan]{grid-column:auto}
+ .invite-audience{min-height:0}
+ .invite-journey-intro>p:not(.eyebrow){margin-top:14px}
+ .invite-journey-intro .options-compare{margin-top:16px}
+ .journey-stack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;margin:0 -24px;padding:6px 24px 18px;scrollbar-width:none}
+ .journey-stack::-webkit-scrollbar{display:none}
+ .journey-card{flex:0 0 62vw;scroll-snap-align:center}
+ .journey-stack[data-stacked] .journey-card{transform:none}.journey-stack[data-stacked] .journey-caption{opacity:1}
+ .season-fan{display:flex;justify-content:flex-start;align-items:stretch;min-height:0;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;margin:0 -24px;padding:16px 24px 18px;scrollbar-width:none}
+ .season-fan::-webkit-scrollbar{display:none}
+ .season-card,.season-fan .season-card:is(:first-child,:last-child,[data-season-current]){flex:0 0 58vw;width:auto;margin:0;--r:0deg!important;--x:0px!important;--y:0px!important;scroll-snap-align:center}
+ .season-open{opacity:1;transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .invite-offers *,.invite-panel *,.invite-journey *,.invite-seasons *{transition:none!important;animation:none!important}
+ .journey-stack[data-stacked] .journey-card{transform:none}.journey-stack[data-stacked] .journey-caption{opacity:1}
+}
+body[data-journey-motion=paused] :is(.invite-offers,.invite-panel,.invite-journey,.invite-seasons) *{animation:none!important}
+body[data-journey-motion=paused] .journey-stack[data-stacked] .journey-card{transform:none}
+body[data-journey-motion=paused] .journey-stack[data-stacked] .journey-caption{opacity:1}

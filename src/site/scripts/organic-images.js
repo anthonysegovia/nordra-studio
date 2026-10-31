@@ -3,7 +3,7 @@
  const host=document.querySelector('[data-view]:not([hidden])');
  if(!host)return;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- const candidates=[...host.querySelectorAll('.organic-poster,#showcase-temporada .showcase-art,.seasonal-hero-art')];
+ const candidates=[...host.querySelectorAll('.organic-poster,#showcase-temporada .showcase-art:not(.showcase-live),.seasonal-hero-art')];
  if(!candidates.length)return;
  const items=candidates.map(el=>{
   const kind=el.classList.contains('birthday-poster')?'birthday':el.classList.contains('event-poster')?'event':'season';

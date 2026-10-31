@@ -139,6 +139,7 @@ const pages = {
       "organic-images",
       "invitation-showcase",
       "showcase-live",
+      "invitation-offers",
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
@@ -152,7 +153,8 @@ const pages = {
     "inline": 3,
     "entryStyles": [
       "phone-frame",
-      "showcase-live"
+      "showcase-live",
+      "invitation-offers"
     ]
   },
   "negocios": {
