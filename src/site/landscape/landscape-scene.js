@@ -53,14 +53,14 @@ const noise = /* glsl */`
   }
   #if defined(LANDSCAPE_B) || defined(LANDSCAPE_C) || defined(LANDSCAPE_D)
   float auroraTravel(float x, float t) {
-    return 0.5 + 0.5 * sin(x * 0.035 - t * 0.14 + 0.7 * sin(x * 0.012 + t * 0.055));
+    return 0.5 + 0.5 * sin(x * 0.035 - t * 0.32 + 0.7 * sin(x * 0.012 + t * 0.09));
   }
   // The near ribbon's existing patch/breathing field, sampled in world X.
   float auroraPulse(float x, float t) {
     float patches = 0.25 + 0.75 * smoothstep(0.32, 0.72, fbm(vec2((x / 300.0 + 0.5) * 5.0 + 1.3, t * 0.02)));
     float pulse = patches * (0.86 + 0.14 * sin(t * 0.55 + 1.3));
     #ifdef LANDSCAPE_C
-      pulse *= 0.80 * (0.88 + 0.12 * auroraTravel(x, t));
+      pulse *= 0.92 + 0.16 * auroraTravel(x, t);
     #endif
     return pulse;
   }
@@ -130,10 +130,13 @@ const skyFragment = /* glsl */`
     float azimuth = acos(clamp(dot(sunFlat, dirFlat), -1.0, 1.0));
     float pillar = exp(-azimuth * azimuth / (0.006 * 0.006)) * exp(-abs(e - sun.y) / 0.10) * 0.35;
     #ifdef LANDSCAPE_F
-      pillar = 0.0;
-      disk = exp(-sa * sa / 0.00030) * 0.42;
-      bloom = exp(-sa * sa / 0.0035) * 0.09 + exp(-sa * 6.0) * 0.025;
-      ring *= 0.22;
+      // Preserve the approved sky behind the copy; soften the sun below it.
+      float copySky = smoothstep(textElevation - 0.015, textElevation + 0.015, e);
+      pillar *= copySky;
+      disk = mix(smoothstep(0.024, 0.008, sa) * 0.92, disk, copySky);
+      bloom *= mix(0.65, 1.0, copySky);
+      // A small round sun dog, not the near-vertical tangent of the old ring.
+      ring = mix(0.12 * exp(-ap * ap / (0.016 * 0.016)), ring, copySky);
     #endif
     // A low sun is warm: golden disk and pillar, so they read against the pale horizon.
     vec3 sunColour = vec3(1.0, 0.86, 0.62);
@@ -152,13 +155,14 @@ const skyFragment = /* glsl */`
     vec2 bright = starLayer(d, 30.0, 0.935, 1.35, 0.7, 1.35);
     vec2 halo = starLayer(d, 30.0, 0.935, 4.5, 0.05, 0.16);
     #ifdef LANDSCAPE_E
-      // A minority of medium/bright stars breathe by at most 6%, never flash.
-      medium.x *= 1.0 + step(0.72, medium.y) * 0.045 * sin(time * 0.31 + medium.y * 71.0);
-      float twinkle = 1.0 + step(0.60, bright.y) * 0.06 * sin(time * 0.23 + bright.y * 57.0);
+      // Keep the copy's sky unchanged; a few lower stars breathe over 10–14 s.
+      float awayFromCopy = 1.0 - smoothstep(textElevation - 0.03, textElevation + 0.02, e);
+      medium.x *= 1.0 + awayFromCopy * step(0.86, medium.y) * 0.09 * sin(time * 0.46 + medium.y * 71.0);
+      float twinkle = 1.0 + awayFromCopy * step(0.72, bright.y) * 0.20 * sin(time * 0.62 + bright.y * 57.0);
       bright.x *= twinkle; halo.x *= twinkle;
       float galaxy = exp(-pow((d.y - d.x * 0.34 - 0.33) / 0.075, 2.0));
       float dustVeil = vnoise(d.xz * 18.0 + vec2(d.y * 9.0, 4.0));
-      c += vec3(0.014, 0.018, 0.028) * galaxy * (0.35 + 0.65 * dustVeil) * dark * smoothstep(0.05, 0.20, e);
+      c += vec3(0.038, 0.045, 0.075) * galaxy * (0.35 + 0.65 * dustVeil) * dark * smoothstep(0.05, 0.20, e) * awayFromCopy;
     #endif
     vec3 stars = starColour(dust.y) * dust.x + starColour(medium.y) * medium.x
       + starColour(bright.y) * (bright.x + halo.x * step(0.001, bright.x + halo.x));
@@ -175,6 +179,9 @@ const skyFragment = /* glsl */`
 const bandVertex = /* glsl */`
   uniform float time, seed, curve, altitudeBase, height, bandLength, bandDistance, wind, dark;
   varying vec2 vUv; varying float vV;
+  #ifdef LANDSCAPE_C
+  varying float elevation;
+  #endif
   void main() {
     vUv = uv;
     float u = uv.x;
@@ -185,8 +192,10 @@ const bandVertex = /* glsl */`
     x += wind * 4.0 * sin(u * 6.0 + time * 0.3);
     float y = altitudeBase + 2.2 * sin(u * 17.0 + seed - time * 0.09) + max(v, -0.2) * height;
     #ifdef LANDSCAPE_C
-      z += dark * 1.8 * sin(u * 75.0 + seed + time * 0.18) * smoothstep(0.0, 0.7, max(v, 0.0));
-      y += dark * 1.2 * sin(u * 9.0 - time * 0.14 + seed);
+      z += dark * 5.0 * sin(u * 42.0 + v * 3.2 + seed + time * 0.60) * smoothstep(0.0, 0.7, max(v, 0.0));
+      x += dark * 2.4 * sin(u * 14.0 - time * 0.42 + seed) * smoothstep(0.0, 0.8, max(v, 0.0));
+      y += dark * 2.4 * sin(u * 9.0 - time * 0.32 + seed);
+      elevation = normalize((modelMatrix * vec4(x, y, z, 1.0)).xyz - cameraPosition).y;
     #endif
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(x, y, z, 1.0);
   }
@@ -194,9 +203,16 @@ const bandVertex = /* glsl */`
 const bandFragment = /* glsl */`
   uniform float time, seed, dark, level, sweep, strength, bandLength;
   varying vec2 vUv; varying float vV;
+  #ifdef LANDSCAPE_C
+  uniform float textElevation, curtainGain;
+  varying float elevation;
+  #endif
   ${noise}
   void main() {
     float u = vUv.x, v = vV;
+    #ifdef LANDSCAPE_C
+      u += 0.008 * sin(v * 4.5 - time * 0.45 + seed) + 0.005 * sin(u * 19.0 - time * 0.28);
+    #endif
     // Soft rays of different heights drifting slowly along the band.
     float r = fbm(vec2(u * 46.0 + seed + time * 0.035, time * 0.025));
     float rays = smoothstep(0.32, 0.78, r);
@@ -215,9 +231,11 @@ const bandFragment = /* glsl */`
     vec3 c = altitude(reach * 0.95 + 0.04, dark);
     #ifdef LANDSCAPE_C
       float travel = auroraTravel((u - 0.5) * bandLength, time);
-      float folds = 0.86 + 0.14 * sin(u * 82.0 + v * 2.0 - time * 0.18 + seed);
-      intensity *= 0.80 * (0.88 + 0.12 * travel) * folds;
-      c = mix(c, vec3(0.52, 0.33, 0.80), smoothstep(0.48, 0.88, reach) * 0.32);
+      float folds = 0.94 + 0.06 * sin(u * 70.0 + v * 4.0 - time * 0.60 + seed);
+      intensity *= curtainGain * (0.92 + 0.08 * travel) * folds;
+      vec3 violet = mix(c, vec3(0.66, 0.36, 0.94), smoothstep(0.22, 0.60, reach) * 0.78);
+      c = violet * dot(c, vec3(0.2126, 0.7152, 0.0722)) / max(0.01, dot(violet, vec3(0.2126, 0.7152, 0.0722)));
+      intensity *= 1.0 - 0.35 * smoothstep(textElevation - 0.02, textElevation + 0.035, elevation);
     #endif
     // Auroras only exist at night: by day the bands are gone.
     float a = clamp(intensity * 0.8 * dark, 0.0, 1.0);
@@ -281,22 +299,34 @@ const mountainFragment = /* glsl */`
     c = mix(c, mix(rock * 1.2, glacierLit, glacier), glacierBand);
     #ifdef LANDSCAPE_B
       float localAurora = auroraPulse(world.x, time) * light;
-      float ridgeLight = pow(1.0 - abs(n.z), 2.0) * 0.65 + pow(h, 3.0) * 0.18;
-      vec3 reflectedAurora = vec3(0.10, 0.55, 0.52) * localAurora;
-      c += reflectedAurora * (ridgeLight + glacierBand * glacier * (0.10 + 0.24 * h)) * dark;
+      float ridgeLight = pow(1.0 - abs(n.z), 2.0) * 1.25 + pow(h, 3.0) * 0.32;
+      vec3 reflectedAurora = vec3(0.16, 0.72, 0.67) * localAurora;
+      c += reflectedAurora * (ridgeLight + glacierBand * glacier * (0.24 + 0.50 * h)) * dark;
     #endif
 
     #ifdef LANDSCAPE_A
-    // Clean snow: broad height/face shading, a restrained warm bevel, no drawn cracks.
-    float sunSide = smoothstep(-15.0, 12.0, world.x * sign(sun.x));
-    float facing = clamp(dot(n, normalize(vec3(sun.x, 0.45, 0.55))) * 0.55 + sunSide * 0.35, 0.0, 1.0);
-    vec3 snow = mix(vec3(0.64, 0.77, 0.90), vec3(0.96, 0.98, 1.0), smoothstep(0.0, 0.95, h));
-    snow *= mix(vec3(0.75, 0.86, 0.98), vec3(1.0), facing);
+    // Broad snow planes retain volume; the outer bevel stays cooler than the sky.
+    float sunSide = smoothstep(-1.0, 2.0, world.x * sign(sun.x) + (1.0 - h) * 0.8);
+    vec3 shadowSnow = mix(vec3(0.20, 0.34, 0.51), vec3(0.36, 0.51, 0.69), h);
+    vec3 litSnow = mix(vec3(0.83, 0.90, 0.97), vec3(0.99, 0.99, 0.98), h);
+    vec3 snow = mix(shadowSnow, litSnow, sunSide);
+    snow = mix(snow, litSnow, smoothstep(0.90, 0.99, h));
     float grain = (vnoise(world.xy * 24.0) - 0.5) * 0.006;
-    float rim = pow(1.0 - abs(n.z), 2.0) * sunSide * smoothstep(0.20, 0.92, h);
-    snow = mix(snow, vec3(1.0, 0.93, 0.81), rim * 0.52);
+    float bevel = smoothstep(0.40, 0.94, abs(n.z));
+    snow = mix(vec3(0.16, 0.27, 0.42), snow, bevel);
+    float rim = smoothstep(0.90, 0.94, abs(n.z)) * (1.0 - smoothstep(0.98, 0.995, abs(n.z))) * sunSide * smoothstep(0.25, 0.65, h);
+    snow = mix(snow, vec3(0.85, 0.69, 0.40), rim * 0.88);
+    // The isotype's straight sunward ridge: a cool lip and a fine warm seam,
+    // so white snow does not dissolve into the pale sky at small viewports.
+    float ridgeDistance = (world.x + peak * 0.885 - world.y) * 0.7071;
+    float ridgeSpan = smoothstep(-8.8, -7.5, world.x) * (1.0 - smoothstep(-0.8, 0.1, world.x));
+    float ridgeLip = (1.0 - smoothstep(0.45, 0.85, ridgeDistance)) * ridgeSpan;
+    snow = mix(snow, vec3(0.31, 0.44, 0.60), ridgeLip * 0.88);
+    float warmSeam = exp(-pow((ridgeDistance - 0.37) / 0.075, 2.0)) * ridgeSpan;
+    snow = mix(snow, vec3(0.85, 0.69, 0.40), warmSeam);
     vec3 dayRock = mix(vec3(0.32, 0.41, 0.53), snow + grain, light);
-    vec3 dayIce = mix(vec3(0.72, 0.85, 0.95), vec3(0.96, 0.99, 1.0), smoothstep(0.12, 0.95, h));
+    vec3 dayIce = mix(vec3(0.84, 0.93, 0.99), vec3(0.99, 1.0, 1.0), smoothstep(0.12, 0.82, h));
+    dayIce *= mix(0.90, 1.0, smoothstep(0.25, 0.95, abs(n.z)));
     dayIce += vec3(0.025, 0.035, 0.04) * pow(h, 4.0) * glacier;
     vec3 dayGlacier = mix(vec3(0.68, 0.77, 0.87), dayIce, glacier);
     vec3 day = mix(dayRock, dayGlacier, glacierBand);
@@ -377,14 +407,14 @@ const waterShader = {
       #ifdef LANDSCAPE_D
         // One lookup in the already baked noise lattice; no extra mesh, pass or texture.
         float mistNoise = vnoise(world.xz * vec2(0.035, 0.08) + vec2(time * 0.0015, 0.0));
-        float mist = exp(-pow((world.z + 48.0) / 26.0, 2.0)) * (0.045 + 0.025 * mistNoise);
-        c = mix(c, mix(vec3(0.88, 0.94, 0.98), vec3(0.10, 0.23, 0.27), dark), mist * light);
+        float mist = exp(-pow((world.z + 48.0) / 22.0, 2.0)) * (0.14 + 0.05 * mistNoise);
+        c = mix(c, mix(vec3(0.88, 0.94, 0.98), vec3(0.15, 0.29, 0.33), dark), mist * light);
         float sheen = pow(0.5 + 0.5 * sin(world.z * 1.7 + ripple.x * 3.0), 5.0);
-        float auroraGleam = auroraPulse(world.x, time) * sheen * far * 0.022;
+        float auroraGleam = auroraPulse(world.x, time) * sheen * far * 0.095;
         c += vec3(0.13, 0.68, 0.65) * auroraGleam * dark * light;
         vec3 viewRay = normalize(world - cameraPosition);
         float sunPath = exp(-pow((viewRay.x - sun.x) / 0.065, 2.0)) * far * (0.45 + 0.55 * sheen);
-        c += vec3(0.96, 0.87, 0.70) * sunPath * 0.075 * (1.0 - dark) * light;
+        c += vec3(0.96, 0.87, 0.70) * sunPath * 0.18 * (1.0 - dark) * light;
       #endif
       // Snowy shore in the foreground, with an irregular edge.
       float shoreEdge = shoreZ + 3.0 * (fbm(vec2(world.x * 0.07, 2.0)) - 0.5) * 2.0;
@@ -463,6 +493,8 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
         seed: { value: config.seed }, curve: { value: config.curve }, altitudeBase: { value: config.altitudeBase },
         height: { value: config.height }, bandLength: { value: config.length }, bandDistance: { value: config.distance },
         strength: { value: config.strength },
+        textElevation: sky.material.uniforms.textElevation,
+        curtainGain: { value: matchMedia('(max-width:700px)').matches ? 1.25 : 1.18 },
       },
     });
     const mesh = new Mesh(new PlaneGeometry(1, 1, quality.bandSegments, 24), material);
