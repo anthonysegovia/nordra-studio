@@ -4,7 +4,8 @@
 // Example: node scripts/capture-landscape-posters.mjs --url http://127.0.0.1:5197
 //   --tools "E:/Nordra Studio/Revision saneamiento/2026-10-29/package.json"
 // Add --phase start --elapsed 0 for the entrance; --phase final (default)
-// reproduces the retained settled portraits. Use --evidence to keep each set.
+// captures the settled scene. Add --version v3 for the current cache-safe URLs.
+// Use --evidence to keep each phase's PNGs and landmark measurements separately.
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -22,8 +23,10 @@ const { values } = parseArgs({ options: {
   evidence: { type: 'string', default: 'review/retrato-paisaje' },
   phase: { type: 'string', default: 'final' },
   elapsed: { type: 'string', default: '0' },
+  version: { type: 'string', default: '' },
 } });
 assert.ok(['start', 'final'].includes(values.phase), '--phase must be start or final');
+assert.match(values.version, /^[a-zA-Z0-9-]*$/, '--version must be a filename-safe suffix');
 const initialElapsed = values.phase === 'start' ? Number(values.elapsed) : 60000;
 assert.ok(Number.isFinite(initialElapsed) && initialElapsed >= 0 && initialElapsed <= 60000);
 const require = createRequire(values.tools ? path.resolve(values.tools) : import.meta.url);
@@ -96,7 +99,7 @@ try {
         horizonY: y(point.set(0, 0, -800)), sunX: (sun.clone().project(camera).x + 1) * rect.width / 2,
         sunY: y(sun), camera: camera.position.toArray() };
     });
-    const name = `landscape-${values.phase === 'start' ? 'start' : 'poster'}-${theme}-${format}`;
+    const name = `landscape-${values.phase === 'start' ? 'start' : 'poster'}-${theme}-${format}${values.version ? `-${values.version}` : ''}`;
     const png = Buffer.from(capture.png.split(',')[1], 'base64'); delete capture.png;
     const rawPath = path.join(values.evidence, `${name}.png`);
     fs.writeFileSync(rawPath, png);
