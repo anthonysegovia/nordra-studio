@@ -26,8 +26,14 @@ export const businessFAQs = [
  { question: '¿Emiten factura?', answer: 'Sí, emitimos factura (CFDI).' },
 ];
 export const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEntity:businessFAQs.map(({question,answer}) => ({'@type':'Question',name:question,acceptedAnswer:{'@type':'Answer',text:answer}})) };
-export const jsonLD = value => '<script type="application/ld+json">' + JSON.stringify(value).replaceAll('<','\u003c') + '</script>';
+export const jsonLD = value => '<script type="application/ld+json">' + JSON.stringify(value).replaceAll('<','\\u003c') + '</script>';
+export const serviceSchema = { '@context':'https://schema.org', '@graph':businessOffers.map(offer => ({
+ '@type':'Service', '@id':'https://nordrastudio.mx/negocios#service-'+offer.id, name:offer.name, serviceType:'Diseño de páginas web',
+ provider:{'@id':'https://nordrastudio.mx/#negocio'}, areaServed:['Monterrey','México'],
+ offers:{'@type':'Offer',name:offer.name,url:'https://nordrastudio.mx/negocios#offer-'+offer.card,priceCurrency:'MXN',description:'Precio desde; alcance y precio final en la cotización.',
+ priceSpecification:{'@type':'PriceSpecification',minPrice:offer.cents/100,priceCurrency:'MXN',valueAddedTaxIncluded:true}}
+})) };
 export function renderBusinessContent(html) {
- return html.replace('{{business:faq}}', '<section class="home-continuation audience-faq" id="negocios-preguntas" aria-labelledby="negocios-faq-title"><div><p class="eyebrow">ANTES DE EMPEZAR</p><h2 id="negocios-faq-title">Tu web, con las cosas claras</h2><p class="faq-intro">Los detalles que ayudan a elegir con calma.</p></div><div class="faq-list">' + businessFAQs.map(({question,answer,link}) => '<details class="faq-item business-disclosure"><summary><span>' + esc(question) + '</span><span aria-hidden="true">+</span></summary><div class="faq-answer"><p>' + (link ? esc(answer).replace(esc(link.label),'<a href="'+esc(link.href)+'">'+esc(link.label)+'</a>') : esc(answer)) + '</p></div></details>').join('') + '</div></section>' + jsonLD(faqSchema));
+ return html.replace('{{business:services-schema}}',jsonLD(serviceSchema)).replace('{{business:faq}}', '<section class="home-continuation audience-faq" id="negocios-preguntas" aria-labelledby="negocios-faq-title"><div><p class="eyebrow">ANTES DE EMPEZAR</p><h2 id="negocios-faq-title">Tu web, con las cosas claras</h2><p class="faq-intro">Los detalles que ayudan a elegir con calma.</p></div><div class="faq-list">' + businessFAQs.map(({question,answer,link}) => '<details class="faq-item business-disclosure"><summary><span>' + esc(question) + '</span><span aria-hidden="true">+</span></summary><div class="faq-answer"><p>' + (link ? esc(answer).replace(esc(link.label),'<a href="'+esc(link.href)+'">'+esc(link.label)+'</a>') : esc(answer)) + '</p></div></details>').join('') + '</div></section>' + jsonLD(faqSchema));
 }
 export function businessContentPlugin(){return {name:'nordra-business-content',transformIndexHtml:{order:'pre',handler:renderBusinessContent}};}
