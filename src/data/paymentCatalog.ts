@@ -1,3 +1,4 @@
+import { businessOffers, businessHosting, businessMoney } from "./businessOffers";
 import { invitationMoney, invitationOffers } from "./invitationPricing";
 
 export type ChargeMode = "full" | "deposit" | "balance";
@@ -6,11 +7,7 @@ export const chargeModes: { id: ChargeMode; label: string }[] = [
   { id: "full", label: "Pago completo" }, { id: "deposit", label: "Anticipo del 50%" }, { id: "balance", label: "Saldo del 50%" },
 ];
 export const paymentCatalog: CatalogService[] = [
-  { id: "landing-essential", group: "Páginas de negocios", label: "Landing Esencial", cents: 179900, note: "Rango de referencia: $1,799–$2,999. Precargamos el importe inicial; ajusta según la cotización." },
-  { id: "landing-professional", group: "Páginas de negocios", label: "Landing Profesional", cents: 299900, note: "Rango de referencia: $2,999–$5,999. Ajusta según la cotización." },
-  { id: "business-site", group: "Páginas de negocios", label: "Sitio de Negocio", cents: 499900, note: "Rango de referencia: $4,999–$9,999. Ajusta según la cotización." },
-  { id: "custom-web", group: "Páginas de negocios", label: "Web a medida", cents: 799900, note: "Rango de referencia: $7,999–$14,999+. Ajusta según el alcance acordado." },
-  { id: "shop", group: "Páginas de negocios", label: "Tienda en línea", cents: 1199900, note: "Rango de referencia: $11,999–$29,999+. Ajusta según el alcance acordado." },
+  ...businessOffers.map(offer => ({ id: offer.id, group: "Páginas de negocios", label: offer.name, cents: offer.cents, note: `Rango de referencia: ${businessMoney(offer.cents)}–${businessMoney(offer.maxCents)}${offer.openEnded ? "+" : ""}. IVA incluido. Ajusta según la cotización.` })),
   ...[ { id: "wedding", label: "Boda" }, { id: "celebration", label: "Cumpleaños y celebración" }, { id: "gathering", label: "Evento y encuentro" } ].flatMap(event => invitationOffers.map(plan => ({
     id: `${event.id}-${plan.id}`, group: "Eventos y celebraciones", label: `${event.label} · ${plan.name}`, cents: plan.cents,
     note: `Precio de apertura: ${plan.startingAt ? "desde " : ""}${invitationMoney(plan.cents)} MXN. Precio regular: ${plan.startingAt ? "desde " : ""}${invitationMoney(plan.regularCents)} MXN. IVA incluido.${plan.startingAt ? " Confirma el precio final de la propuesta." : ""}`,
@@ -18,12 +15,7 @@ export const paymentCatalog: CatalogService[] = [
   { id: "halloween", group: "Invitaciones de temporada", label: "Invitación de Halloween", cents: 59900 },
   { id: "christmas", group: "Invitaciones de temporada", label: "Invitación de Posadas y Navidad", cents: 59900 },
   { id: "new-year", group: "Invitaciones de temporada", label: "Invitación de Fin de año", cents: 59900 },
-  { id: "hosting-info-month", group: "Alojamiento y soporte", label: "Informativa · Alojamiento mensual", cents: 29900 },
-  { id: "hosting-info-six", group: "Alojamiento y soporte", label: "Informativa · Alojamiento por 6 meses", cents: 149500 },
-  { id: "hosting-info-year", group: "Alojamiento y soporte", label: "Informativa · Alojamiento anual", cents: 299000 },
-  { id: "hosting-panel-month", group: "Alojamiento y soporte", label: "Panel o registros · Alojamiento mensual", cents: 59900, note: "Desde $599. Confirma los límites y el importe contratado." },
-  { id: "hosting-panel-six", group: "Alojamiento y soporte", label: "Panel o registros · Alojamiento por 6 meses", cents: 299500, note: "Desde $2,995. Confirma los límites y el importe contratado." },
-  { id: "hosting-panel-year", group: "Alojamiento y soporte", label: "Panel o registros · Alojamiento anual", cents: 599000, note: "Desde $5,990. Confirma los límites y el importe contratado." },
+  ...businessHosting.flatMap(host => host.terms.map(term => ({ id: `hosting-${host.id}-${term.id}`, group: "Alojamiento y soporte", label: `${host.catalogName} · Alojamiento ${term.label}`, cents: term.cents, note: `${host.startingAt ? "Desde " : ""}${businessMoney(term.cents)} MXN, IVA incluido. Confirma los límites y el importe contratado.` }))),
   ...[
     ["domain", "Dominio propio y configuración"], ["event-extension", "Extensión de alojamiento de evento"],
     ["content", "Cambios de contenido"], ["features", "Funciones e integraciones adicionales"],

@@ -169,7 +169,8 @@ const pages = {
       "nordra-theatre",
       "light-table",
       "interface-icons",
-      "page-navigation"
+      "page-navigation",
+      "business-offers"
     ],
     "styles": [
       "scene",
@@ -178,10 +179,12 @@ const pages = {
     ],
     "inline": 3,
     "entryStyles": [
-      "light-table"
+      "light-table",
+      "business-offers"
     ],
     "unscoped": [
-      "light-table"
+      "light-table",
+      "business-offers"
     ]
   },
   "index": {

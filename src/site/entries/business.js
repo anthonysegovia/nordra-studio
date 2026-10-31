@@ -14,3 +14,6 @@ import '../scripts/light-table.js';
 import '../scripts/interface-icons.js?entry=business';
 import '../scripts/page-navigation.js?entry=business';
 import '../analytics/entry.js';
+
+import '../styles/business-offers.css';
+import '../scripts/business-offers.js';
