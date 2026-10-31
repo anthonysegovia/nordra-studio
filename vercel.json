@@ -71,7 +71,7 @@
       "dest": "/invitaciones/spooky-party/invitacion-original.jpeg"
     },
     {
-      "src": "^/(?:index\\.html|negocios\\.html|invitaciones\\.html|bodas\\.html|cumpleanos\\.html|eventos\\.html|temporada\\.html)?$",
+      "src": "^/(?:index\\.html|(?:estudio|negocios|invitaciones|bodas|cumpleanos|eventos|temporada)(?:\\.html)?)?$",
       "has": [
         {
           "type": "query",
@@ -84,7 +84,7 @@
       }
     },
     {
-      "src": "^/(?:index\\.html|negocios\\.html|invitaciones\\.html|bodas\\.html|cumpleanos\\.html|eventos\\.html|temporada\\.html)?$",
+      "src": "^/(?:index\\.html|(?:estudio|negocios|invitaciones|bodas|cumpleanos|eventos|temporada)(?:\\.html)?)?$",
       "has": [
         {
           "type": "query",
@@ -102,6 +102,17 @@
       "headers": {
         "Location": "/"
       }
+    },
+    {
+      "src": "^/(estudio|negocios|invitaciones|bodas|cumpleanos|eventos|temporada)\\.html$",
+      "status": 308,
+      "headers": {
+        "Location": "/$1"
+      }
+    },
+    {
+      "src": "^/(estudio|negocios|invitaciones|bodas|cumpleanos|eventos|temporada)$",
+      "dest": "/$1.html"
     },
     {
       "handle": "filesystem"

@@ -1,7 +1,7 @@
 export const commercialRoutes = Object.freeze({
-  index: '/', estudio: '/estudio.html', negocios: '/negocios.html',
-  invitaciones: '/invitaciones.html', bodas: '/bodas.html', cumpleanos: '/cumpleanos.html',
-  eventos: '/eventos.html', temporada: '/temporada.html',
+  index: '/', estudio: '/estudio', negocios: '/negocios',
+  invitaciones: '/invitaciones', bodas: '/bodas', cumpleanos: '/cumpleanos',
+  eventos: '/eventos', temporada: '/temporada',
 });
 export const buttonIds = Object.freeze(['hero_quote', 'closing', 'plan_aurora', 'plan_boreal', 'web_option', 'footer', 'seasonal_design']);
 export const preferenceKey = 'nordra-analytics-disabled';
@@ -13,7 +13,7 @@ export function commercialPage(href) {
     if (!hosts.has(url.hostname) || !['http:', 'https:'].includes(url.protocol)) return null;
     if (url.searchParams.has('panel') || url.searchParams.has('pago')) return null;
     if (url.pathname === '/index.html') return 'index';
-    return Object.keys(commercialRoutes).find(page => commercialRoutes[page] === url.pathname) ?? null;
+    return Object.keys(commercialRoutes).find(page => commercialRoutes[page] === url.pathname || (page !== 'index' && commercialRoutes[page] + '.html' === url.pathname)) ?? null;
   } catch { return null; }
 }
 

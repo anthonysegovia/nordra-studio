@@ -3,8 +3,10 @@ import { readFile, access } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Script } from 'node:vm';
+import { resolvePreviewRoute } from '../build/commercial-preview.mjs';
 
 const project = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const routes = JSON.parse(await readFile(resolve(project, 'vercel.json'), 'utf8')).routes;
 const demo = process.argv.includes('--demo');
 const venue = demo ? 'Jardín Aurora · Lugar de ejemplo' : 'La Covadonga, NL 20 2002, Cieneguilla, 67308 Santiago, N.L., México';
 const summary = demo ? 'Se viene la posada · Demo' : 'Se viene la posada';
@@ -22,7 +24,12 @@ assert.equal(ids.length, new Set(ids).size, 'HTML IDs must be unique');
 for (const [, href] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
   if (href.startsWith('#')) assert.ok(ids.includes(href.slice(1)), `Missing anchor ${href}`);
   else if (href.startsWith('./')) await access(resolve(folder, href));
-  else if (href.startsWith('/') && !href.includes('.html')) await access(resolve(project, 'public', href.slice(1)));
+  else if (href.startsWith('/') && !href.includes('.html')) {
+    const pathname = new URL(href, 'https://nordrastudio.mx').pathname;
+    const routed = resolvePreviewRoute(href, 'nordrastudio.mx', routes);
+    if (routed?.url) await access(resolve(project, new URL(routed.url, 'https://nordrastudio.mx').pathname.slice(1)));
+    else await access(resolve(project, 'public', pathname.slice(1)));
+  }
 }
 
 // Keep this strict: the tracked/published demo currently has LF endings.

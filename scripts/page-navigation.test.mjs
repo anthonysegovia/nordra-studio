@@ -15,7 +15,7 @@ describe('site — page-navigation', () => {
     const classList = () => { const names = new Set(); return { add: (...values) => values.forEach(v => names.add(v)), remove: (...values) => values.forEach(v => names.delete(v)), contains: name => names.has(name) }; };
     const element = () => ({ classList: classList(), style: {}, attributes: {}, textContent: '', setAttribute(name, value) { this.attributes[name] = value; }, removeAttribute(name) { delete this.attributes[name]; }, addEventListener() {}, remove() { this.removed = true; }, focus() {} });
     const root = element(), body = { dataset: { scene: 'estudio', journeyMotion: paused ? 'paused' : 'playing' }, classList: classList(), style: {}, append: item => children.push(item) };
-    const location = { href: 'https://example.invalid/estudio.html', pathname: '/estudio.html', hash: '', assign: url => navigations.push({ method: 'assign', url }), replace: url => navigations.push({ method: 'replace', url }) };
+    const location = { href: 'https://example.invalid/estudio', pathname: '/estudio', hash: '', assign: url => navigations.push({ method: 'assign', url }), replace: url => navigations.push({ method: 'replace', url }) };
     const history = { state: null, pushState(state, _, url) { this.state = state; addresses.push({ method: 'push', url }); }, replaceState(state, _, url) { this.state = state; addresses.push({ method: 'replace', url }); } };
     const document = {
       body, documentElement: root, title: 'Estudio', hidden, fonts: { ready: Promise.resolve() },
@@ -45,12 +45,13 @@ describe('site — page-navigation', () => {
     function ready(frame, scene) { events.get('message')({ source: frame.contentWindow, data: { type: 'nordra-page-ready', scene, title: scene, background: '#fff' } }); }
     function visibility(value) { document.hidden = value; docEvents.get('visibilitychange')(); }
     function backTo(next, anchor) { location.pathname = `/${next}.html`; location.hash = `#${anchor}`; history.state = { nordraPage: next, anchor }; events.get('popstate')(); }
-    return { click, ready, visibility, backTo, frames, timers, root, navigations, addresses, animations, status: children[0] };
+    function routeWithoutState(pathname) { location.pathname = pathname; location.hash = ''; history.state = null; events.get('popstate')(); }
+    return { click, ready, visibility, backTo, routeWithoutState, frames, timers, root, navigations, addresses, animations, status: children[0] };
   }
   test('timeout navigates normally with the requested anchor instead of reporting a failed page', () => {
     const app = setup(); app.click('bodas', 'panel-boda');
     const timeout = [...app.timers.values()].find(t => t.ms === 12000); timeout.fn();
-    assert.deepEqual(app.navigations, [{ method: 'assign', url: 'https://example.invalid/bodas.html#panel-boda' }]);
+    assert.deepEqual(app.navigations, [{ method: 'assign', url: 'https://example.invalid/bodas#panel-boda' }]);
     assert.equal(app.status.textContent, ''); assert.equal(app.root.attributes['aria-busy'], undefined);
     assert.ok(app.frames()[0].removed);
   });
@@ -58,24 +59,24 @@ describe('site — page-navigation', () => {
     const app = setup(); app.click('negocios', 'proceso'); const frame = app.frames()[0];
     const timeout = [...app.timers.values()].find(t => t.ms === 12000);
     app.visibility(true); app.ready(frame, 'negocios'); timeout.fn();
-    assert.deepEqual(app.navigations, [{ method: 'assign', url: 'https://example.invalid/negocios.html#proceso' }]);
+    assert.deepEqual(app.navigations, [{ method: 'assign', url: 'https://example.invalid/negocios#proceso' }]);
     assert.equal(app.addresses.length, 0);
   });
   test('a navigation started while already hidden goes directly to its destination', () => {
     const app = setup({ hidden: true }); app.click('eventos', 'planes-eventos');
     assert.equal(app.frames().length, 0);
-    assert.deepEqual(app.navigations, [{ method: 'assign', url: 'https://example.invalid/eventos.html#planes-eventos' }]);
+    assert.deepEqual(app.navigations, [{ method: 'assign', url: 'https://example.invalid/eventos#planes-eventos' }]);
   });
   test('a superseded timeout cannot navigate to an earlier request', () => {
     const app = setup(); app.click('bodas'); const old = [...app.timers.values()].find(t => t.ms === 12000);
     app.click('negocios'); old.fn(); assert.equal(app.navigations.length, 0);
-    app.visibility(true); assert.equal(app.navigations[0].url, 'https://example.invalid/negocios.html');
+    app.visibility(true); assert.equal(app.navigations[0].url, 'https://example.invalid/negocios');
   });
   test('normal readiness preserves iframe navigation, anchor messages and push history', async () => {
     const app = setup(); app.click('bodas', 'panel-boda'); const frame = app.frames()[0];
     app.ready(frame, 'bodas'); await Promise.resolve();
     assert.equal(app.navigations.length, 0); assert.equal(app.animations.length, 1);
-    assert.equal(app.addresses[0].method, 'push'); assert.equal(app.addresses[0].url, 'https://example.invalid/bodas.html#panel-boda');
+    assert.equal(app.addresses[0].method, 'push'); assert.equal(app.addresses[0].url, 'https://example.invalid/bodas#panel-boda');
     assert.ok(frame.messages.some(m => m.type === 'nordra-anchor' && m.id === 'panel-boda'));
   });
   for (const preference of [{ reduced: true }, { paused: true }]) test(`normal navigation respects ${JSON.stringify(preference)}`, () => {
@@ -84,6 +85,16 @@ describe('site — page-navigation', () => {
   });
   test('fallback during back or forward replaces the selected history entry instead of pushing', () => {
     const app = setup(); app.backTo('bodas', 'panel-boda'); app.visibility(true);
-    assert.deepEqual(app.navigations, [{ method: 'replace', url: 'https://example.invalid/bodas.html#panel-boda' }]);
+    assert.deepEqual(app.navigations, [{ method: 'replace', url: 'https://example.invalid/bodas#panel-boda' }]);
+  });
+  for (const pathname of ['/negocios','/negocios.html']) test(`history without state recognizes ${pathname}`, () => {
+    const app = setup(); app.routeWithoutState(pathname); app.visibility(true);
+    assert.deepEqual(app.navigations, [{ method: 'replace', url: 'https://example.invalid/negocios' }]);
+  });
+  test('same-page anchors update the clean address without duplicating frames', () => {
+    const app = setup(); app.click('estudio', 'contacto');
+    assert.equal(app.frames().length, 0);
+    assert.equal(app.addresses[0].url, 'https://example.invalid/estudio#contacto');
+    app.click('estudio', 'contacto'); assert.equal(app.addresses.length, 1);
   });
 });

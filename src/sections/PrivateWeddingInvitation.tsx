@@ -12,7 +12,7 @@ export function PrivateWeddingInvitation() {
   useEffect(()=>{void load();const change=()=>location.reload();window.addEventListener('hashchange',change);return()=>window.removeEventListener('hashchange',change);},[]);
   function update(id:string,patch:Partial<WeddingPerson>){setPeople(current=>current.map(person=>person.id===id?{...person,...patch}:person));setSaved(false);}
   async function submit(event:FormEvent){event.preventDefault();if(!data)return;setBusy(true);setError('');try{const result=await weddingApi<Reply>({action:'guest-reply',...capability,people,updatedAt:data.invitation.updated_at});setData(result);setPeople(result.invitation.people);setSaved(true);}catch(reason){setError(weddingError(reason));if(['response_changed','replies_closed','link_unavailable'].includes((reason as Error).message))setStale(true);}finally{setBusy(false);}}
-  return <div className="wedding-workspace real-wedding-invitation"><header><a className="workspace-brand" href="/bodas.html">NORDRA<span>WEDDINGS</span></a></header>
+  return <div className="wedding-workspace real-wedding-invitation"><header><a className="workspace-brand" href="/bodas">NORDRA<span>WEDDINGS</span></a></header>
     <main>{loading && !data?<p className="personal-loading" role="status">Preparando tu invitación…</p>:data?<>
       <section className={`real-invitation-hero${data.event.coverPath?' has-photo':''}`}>
         {data.event.coverPath && <img src={data.event.coverPath} alt={`La boda de ${data.event.couple}`}/>}

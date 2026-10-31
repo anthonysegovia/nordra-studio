@@ -76,14 +76,14 @@ export function WeddingWorkspace({ wedding, adminView = false, onBack, onSignOut
   return <div className="wedding-workspace">
     <a className="workspace-skip" href="#workspace-main">{english ? "Skip to content" : "Saltar al contenido"}</a>
     <aside className="workspace-sidebar">
-      <a className="workspace-brand" href="/bodas.html" aria-label={english ? "Nordra Studio · Weddings" : "Nordra Studio · Bodas"}>NORDRA<span>WEDDINGS</span></a>
+      <a className="workspace-brand" href="/bodas" aria-label={english ? "Nordra Studio · Weddings" : "Nordra Studio · Bodas"}>NORDRA<span>WEDDINGS</span></a>
       <div className="workspace-couple"><span className="workspace-monogram" aria-hidden="true">{real ? <Heart size={34} strokeWidth={1}/> : <>V<em>&</em>S</>}</span><p>{couple}</p><span>{english ? "OUR WEDDING" : "NUESTRA BODA"}</span></div>
       <nav className="workspace-navigation" aria-label={english ? "Wedding panel" : "Panel de boda"}>
         <button className={activeTab === 'guests' ? 'workspace-nav-current' : ''} aria-current={activeTab === 'guests' ? 'page' : undefined} onClick={() => navigate('guests')}><UsersRound size={18} strokeWidth={1.5} aria-hidden="true" /><span>{english ? "Guests" : "Invitados"}</span></button>
         {hasBoreal && <><button className={activeTab === 'tables' ? 'workspace-nav-current' : ''} aria-current={activeTab === 'tables' ? 'page' : undefined} onClick={() => navigate('tables')}><CircleDot size={18} strokeWidth={1.5} aria-hidden="true"/><span>{english ? 'Tables' : 'Mesas'}</span></button><button className={activeTab === 'reception' ? 'workspace-nav-current' : ''} aria-current={activeTab === 'reception' ? 'page' : undefined} onClick={() => navigate('reception')}><QrCode size={18} strokeWidth={1.5} aria-hidden="true"/><span>{english ? 'Reception' : 'Recepción'}</span></button></>}
         {invitationPath && <a href={invitationPath} target="_blank" rel="noopener noreferrer" title={english ? 'Open your invitation in a new tab' : 'Abrir su invitación en otra pestaña'}><Mail size={18} strokeWidth={1.5} aria-hidden="true" /><span>{english ? "Our invitation" : "Nuestra invitación"}</span><ArrowUpRight className="workspace-nav-external" size={14} aria-hidden="true" /></a>}
       </nav>
-      <div className="workspace-sidebar-bottom"><Heart size={19} strokeWidth={1.2} aria-hidden="true" /><p>{english ? "Made for your story" : "Hecho para su historia"}</p><a href="/bodas.html#panel-boda"><ArrowLeft size={15} aria-hidden="true" />{english ? "Back to Weddings" : "Volver a Bodas"}</a></div>
+      <div className="workspace-sidebar-bottom"><Heart size={19} strokeWidth={1.2} aria-hidden="true" /><p>{english ? "Made for your story" : "Hecho para su historia"}</p><a href="/bodas#panel-boda"><ArrowLeft size={15} aria-hidden="true" />{english ? "Back to Weddings" : "Volver a Bodas"}</a></div>
     </aside>
 
     <div className="workspace-body">

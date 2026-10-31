@@ -25,7 +25,7 @@
  // A return from an occasion lands on the choice, not at the top of the hub.
  const occasion=['bodas','cumpleanos','eventos','temporada'].includes(document.body.dataset.scene);
  if(occasion)document.querySelectorAll('.occasion-path [data-go="invitaciones"],.footer-layout [data-go="invitaciones"]').forEach(link=>{
-  link.href='invitaciones.html#tipos-invitacion';link.dataset.anchor='tipos-invitacion';
+  link.href='/invitaciones#tipos-invitacion';link.dataset.anchor='tipos-invitacion';
  });
  const section=occasion?'invitaciones':document.body.dataset.scene;
  document.querySelectorAll('.desktop-nav [data-go],#mobile-menu [data-go]').forEach(link=>{

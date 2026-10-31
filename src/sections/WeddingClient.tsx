@@ -38,7 +38,7 @@ export function WeddingClient() {
   async function logout(){setBusy(true);setError('');try{await weddingApi({action:'logout'});setSelected(null);setSession({signedIn:false});setEvents([]);}catch(reason){setError(weddingError(reason));}finally{setBusy(false);}}
   if(selected)return <WeddingWorkspace key={selected.id} wedding={selected} adminView={adminView} onBack={adminView?undefined:()=>setSelected(null)} onSignOut={adminView?undefined:logout} />;
   return <div className="wedding-workspace wedding-client-entry">
-    <header><a className="workspace-brand" href="/bodas.html">NORDRA<span>WEDDINGS</span></a>{session?.signedIn && <button className="workspace-button" onClick={()=>void logout()} disabled={busy}><LogOut size={16}/>Salir</button>}</header>
+    <header><a className="workspace-brand" href="/bodas">NORDRA<span>WEDDINGS</span></a>{session?.signedIn && <button className="workspace-button" onClick={()=>void logout()} disabled={busy}><LogOut size={16}/>Salir</button>}</header>
     <main className="client-card"><span className="workspace-monogram"><Heart size={34} strokeWidth={1}/></span><p className="workspace-eyebrow">UN ESPACIO PARA SU HISTORIA</p><h1>{activating?'Bienvenidos a su boda':session?.signedIn?'Sus celebraciones':'Su boda, en sus manos'}</h1>
       {!session?<p role="status">Preparando su espacio…</p>:session.signedIn?<><p>Elige la celebración que deseas organizar</p><div className="client-event-list">{events.map(event=><button key={event.id} onClick={()=>setSelected(event)}><span><strong>{event.couple}</strong><small>{weddingDate(event.eventDate)} · Disponible hasta {lastWeddingDay(event.expiresAt)}</small></span><ArrowRight size={18}/></button>)}</div>{!events.length && <p>No hay bodas activas asignadas a esta cuenta. Contacta a Nordra para revisar tu acceso</p>}</>:<><p>{activating?'Elige tu contraseña para entrar a tu panel privado':'Entra para organizar a sus personas favoritas'}</p><form onSubmit={submit}>
         {!activating && <label>Correo<input name="email" type="email" autoComplete="username" required maxLength={254}/></label>}
@@ -47,6 +47,6 @@ export function WeddingClient() {
         <button className="workspace-button" disabled={busy}>{busy?'Preparando su espacio…':activating?'Activar mi cuenta':'Entrar a mi boda'}<ArrowRight size={17}/></button>
       </form><p className="client-help">¿Necesitas recuperar tu acceso? Solicita a Nordra un nuevo enlace de activación con el correo de tu cuenta</p></>}
       {error && <p role="alert" className="workspace-editor-error">{error}</p>}<p className="client-privacy"><LockKeyhole size={14}/>Acceso privado · Solo sus celebraciones</p>
-    </main><a className="client-back" href={adminView?'/?panel=pagos&seccion=bodas':'/bodas.html'}><ArrowLeft size={15}/>{adminView?'Volver a administración':'Volver a Nordra'}</a>
+    </main><a className="client-back" href={adminView?'/?panel=pagos&seccion=bodas':'/bodas'}><ArrowLeft size={15}/>{adminView?'Volver a administración':'Volver a Nordra'}</a>
   </div>;
 }

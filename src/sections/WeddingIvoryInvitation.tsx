@@ -108,6 +108,6 @@ export function WeddingIvoryInvitation() {
         <div className="iv-rsvp-layout iv-wrap"><div className="iv-rsvp-photo"><WeddingEditorialPhoto shot="portrait" english={false} sizes="(max-width:700px) 90vw, 43vw" /><p>El día será nuestro<br /><em>El recuerdo, de todos</em></p></div><IvoryRsvp key={hash} hash={hash} /></div>
       </section>
     </main>
-    <footer className="iv-footer"><p className="iv-footer-names">Valentina <em>&</em> Sebastián</p><p className="iv-kicker">19 JUNIO 2027 · CIUDAD DE MÉXICO</p><div><a href="/bodas.html">Diseñado con intención por <strong>Nordra</strong><ArrowUpRight size={13} aria-hidden="true" /></a><button onClick={() => { document.getElementById("iv-cover")?.scrollIntoView({ behavior: "instant" }); setEntrance(true); }}>Ver la apertura</button><button onClick={() => goTo("iv-cover")}>Volver al inicio ↑</button></div></footer>
+    <footer className="iv-footer"><p className="iv-footer-names">Valentina <em>&</em> Sebastián</p><p className="iv-kicker">19 JUNIO 2027 · CIUDAD DE MÉXICO</p><div><a href="/bodas">Diseñado con intención por <strong>Nordra</strong><ArrowUpRight size={13} aria-hidden="true" /></a><button onClick={() => { document.getElementById("iv-cover")?.scrollIntoView({ behavior: "instant" }); setEntrance(true); }}>Ver la apertura</button><button onClick={() => goTo("iv-cover")}>Volver al inicio ↑</button></div></footer>
   </div>{entrance && <IvoryEntrance onEnter={enter} />}</>;
 }

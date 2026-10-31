@@ -22,7 +22,7 @@
  status.className='page-navigation-status';status.setAttribute('role','status');
  document.body.append(status);
  function targetURL(next,anchor=''){
-  const url=new URL(next==='entrada'?'/':'/'+pages[next]+'.html',initialURL);
+  const url=new URL(next==='entrada'?'/':'/'+pages[next],initialURL);
   // journey.js restores preferences from shared storage before the page is shown.
   url.hash=anchor;return url;
  }
@@ -48,6 +48,7 @@
   if(next===current&&!pending){
    if(active){active.contentWindow.postMessage({type:'nordra-anchor',id:anchor||'inicio'},'*');}
    else document.getElementById(anchor||'inicio')?.scrollIntoView({behavior:'instant'});
+   if(anchor!==currentAnchor){currentAnchor=anchor;if(historyMode!=='none')address(historyMode);}
    return;
   }
   cancelPending();status.textContent='';
@@ -78,7 +79,7 @@
    request.frame.removeAttribute('aria-hidden');request.frame.removeAttribute('tabindex');
    request.frame.title=data.title||'Nordra Studio';request.frame.classList.add('is-ready');
    const previous=active;active=request.frame;current=request.next;currentAnchor=request.anchor;
-   document.title=data.title||document.title;document.querySelector('link[rel=canonical]')?.setAttribute('href','https://nordrastudio.mx'+(current==='entrada'?'/':'/'+pages[current]+'.html'));root.removeAttribute('aria-busy');
+   document.title=data.title||document.title;document.querySelector('link[rel=canonical]')?.setAttribute('href','https://nordrastudio.mx'+(current==='entrada'?'/':'/'+pages[current]));root.removeAttribute('aria-busy');
    address(request.historyMode);
    // Fade only the prepared destination in. Keep the previous page fully painted below it.
    const frame=request.frame;
@@ -113,7 +114,7 @@
  });
  const route=()=>{
   const hash=new URLSearchParams(location.hash.slice(1));
-  const fromFile=location.pathname==='/'?'entrada':Object.keys(pages).find(key=>location.pathname.endsWith('/'+pages[key]+'.html'));
+  const fromFile=location.pathname==='/'?'entrada':Object.keys(pages).find(key=>location.pathname==='/'+pages[key]||location.pathname==='/'+pages[key]+'.html');
   return {next:hash.get('pagina')||history.state?.nordraPage||fromFile||scene,anchor:hash.get('seccion')||history.state?.anchor||(!hash.has('pagina')?location.hash.slice(1):'')};
  };
  addEventListener('popstate',()=>{const r=route();go(r.next,r.anchor,'none');});
