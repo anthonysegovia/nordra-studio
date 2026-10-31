@@ -4,7 +4,8 @@
 // Example: node scripts/capture-landscape-posters.mjs --url http://127.0.0.1:5197
 //   --tools "E:/Nordra Studio/Revision saneamiento/2026-10-29/package.json"
 // Add --phase start --elapsed 0 for the entrance; --phase final (default)
-// captures the settled scene. Add --version v3 for the current cache-safe URLs.
+// captures the settled scene. Use --theme light --version v4 for current daylight
+// portraits; dark v3 portraits are retained without being regenerated.
 // Use --evidence to keep each phase's PNGs and landmark measurements separately.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -24,8 +25,10 @@ const { values } = parseArgs({ options: {
   phase: { type: 'string', default: 'final' },
   elapsed: { type: 'string', default: '0' },
   version: { type: 'string', default: '' },
+  theme: { type: 'string', default: 'both' },
 } });
 assert.ok(['start', 'final'].includes(values.phase), '--phase must be start or final');
+assert.ok(['light', 'dark', 'both'].includes(values.theme), '--theme must be light, dark or both');
 assert.match(values.version, /^[a-zA-Z0-9-]*$/, '--version must be a filename-safe suffix');
 const initialElapsed = values.phase === 'start' ? Number(values.elapsed) : 60000;
 assert.ok(Number.isFinite(initialElapsed) && initialElapsed >= 0 && initialElapsed <= 60000);
@@ -39,7 +42,7 @@ const browser = await chromium.launch({ executablePath: values.chrome, headless:
 const records = [];
 try {
   const viewports = { compact: { width: 1440, height: 900 }, desktop: { width: 1920, height: 900 }, wide: { width: 2560, height: 1080 }, mobile: { width: 390, height: 844 } };
-  for (const format of Object.keys(viewports)) for (const theme of ['light', 'dark']) {
+  for (const format of Object.keys(viewports)) for (const theme of (values.theme === 'both' ? ['light', 'dark'] : [values.theme])) {
     const mobile = format === 'mobile';
     const context = await browser.newContext({ viewport: viewports[format], deviceScaleFactor: mobile ? 2 : 1 });
     await context.addInitScript(() => {
