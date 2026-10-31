@@ -284,74 +284,20 @@ const mountainFragment = /* glsl */`
       vec3 reflectedAurora = vec3(0.16, 0.72, 0.67) * localAurora;
       c += reflectedAurora * (ridgeLight + glacierBand * glacier * (0.24 + 0.50 * h)) * dark;
 
-    #ifdef MOUNTAIN_STYLE
-    // Daylight studies: actual normals, no left/right face split or specular term.
+    // Matte daylight rock: the approved companion to the night mountain.
+    // Lambert on the actual normals, without a face split or specular term.
     vec3 rockBase = vec3(111.0, 134.0, 163.0) / 255.0;
     vec3 rockShade = vec3(130.0, 153.0, 182.0) / 255.0;
     vec3 rockSun = vec3(201.0, 213.0, 227.0) / 255.0;
     float diffuse = max(0.0, dot(n, normalize(vec3(sun.x, 0.55, 0.12))));
     float edgeFacing = smoothstep(0.20, 0.95, abs(n.z));
     vec3 dayRock;
-    #if MOUNTAIN_STYLE == 1
-      dayRock = mix(rockShade, rockSun, diffuse * 0.65);
-      dayRock = mix(rockBase, dayRock, 0.65 + 0.35 * h);
-    #elif MOUNTAIN_STYLE == 2
-      // Snow cover and gentle ambient occlusion; the exposed edge remains rock.
-      float softLight = 0.5 + 0.25 * dot(n, normalize(vec3(sun.x, 0.55, 0.55)));
-      dayRock = mix(vec3(185.0, 200.0, 218.0), vec3(233.0, 239.0, 246.0), softLight) / 255.0;
-      dayRock *= 0.97 + 0.03 * h;
-      dayRock += (vnoise(world.xy * 15.0) - 0.5) * 0.015;
-      dayRock = mix(rockShade, dayRock, edgeFacing);
-      // Snow retreats gently from the rounded central crest, exposing cool
-      // matte rock. A smooth minimum joins both slopes without an apex seam.
-      float leftCrest = world.x + peak * 0.885;
-      float rightCrest = -1.13 * world.x + 15.75;
-      float rounding = max(2.4 - abs(leftCrest - rightCrest), 0.0);
-      float crest = min(leftCrest, rightCrest) - rounding * rounding / 9.6;
-      float snowCover = smoothstep(-0.10, 0.45, (crest - world.y) * 0.68);
-      float central = smoothstep(-10.0, -8.0, world.x) * (1.0 - smoothstep(9.0, 11.0, world.x));
-      dayRock = mix(rockShade, dayRock, mix(1.0, snowCover, central));
-    #else
-      dayRock = vec3(159.0, 179.0, 203.0) / 255.0 * (0.91 + 0.09 * h);
-    #endif
-    // The optional rim adds warm light to the exterior bevel. It never mixes
-    // yellow pigment into blue rock and cannot draw an inset parallel stripe.
-    float outerRim = (1.0 - smoothstep(0.18, 0.32, abs(n.z)))
-      * max(0.0, dot(n.xy, normalize(vec2(sun.x, 0.55)))) * smoothstep(0.25, 0.65, h);
-    #if MOUNTAIN_STYLE == 3
-      dayRock += vec3(255.0, 230.0, 200.0) / 255.0 * outerRim * 0.08;
-    #endif
+    dayRock = mix(rockShade, rockSun, diffuse * 0.65);
+    dayRock = mix(rockBase, dayRock, 0.65 + 0.35 * h);
     vec3 dayIce = mix(vec3(219.0, 231.0, 243.0), vec3(244.0, 248.0, 252.0), edgeFacing) / 255.0;
     dayRock = mix(rockBase, dayRock, light);
     vec3 dayGlacier = mix(rockShade, dayIce, glacier);
     vec3 day = mix(dayRock, dayGlacier, glacierBand);
-    #else
-    // Matte snow: diffuse planes, shallow height variation and low-contrast grain.
-    float sunSide = smoothstep(-0.15, 0.45, world.x * sign(sun.x) + (1.0 - h) * 0.25);
-    vec3 shadowSnow = mix(vec3(0.25, 0.38, 0.54), vec3(0.33, 0.46, 0.62), h);
-    vec3 litSnow = mix(vec3(0.91, 0.93, 0.94), vec3(0.97, 0.97, 0.95), h);
-    vec3 snow = mix(shadowSnow, litSnow, sunSide);
-    snow = mix(snow, litSnow, smoothstep(0.90, 0.99, h));
-    float grain = (vnoise(world.xy * 18.0) - 0.5) * 0.024
-      + (vnoise(world.xy * 1.8) - 0.5) * 0.008;
-    float bevel = smoothstep(0.30, 0.72, abs(n.z));
-    snow = mix(vec3(0.29, 0.41, 0.55), snow, bevel);
-    // Warm diffuse light only at the grazing silhouette, never an inset seam.
-    float rim = (1.0 - smoothstep(0.20, 0.38, abs(n.z))) * sunSide * smoothstep(0.25, 0.65, h);
-    snow = mix(snow, vec3(0.69, 0.64, 0.53), rim * 0.55);
-    // The straight sunward silhouette has a diffuse warm edge, fading inward
-    // monotonically. There is no separate bright stripe inside the face.
-    float ridgeDistance = (world.x + peak * 0.885 - world.y) * 0.7071;
-    float ridgeSpan = smoothstep(-8.8, -7.5, world.x) * (1.0 - smoothstep(-0.8, 0.1, world.x));
-    float edgeLight = (1.0 - smoothstep(0.0, 0.65, ridgeDistance)) * ridgeSpan;
-    snow = mix(snow, vec3(0.60, 0.59, 0.53), edgeLight * 0.9);
-    vec3 dayRock = mix(vec3(0.32, 0.41, 0.53), snow + grain, light);
-    vec3 dayIce = mix(vec3(0.84, 0.93, 0.99), vec3(0.99, 1.0, 1.0), smoothstep(0.12, 0.82, h));
-    dayIce *= mix(0.96, 1.0, smoothstep(0.20, 0.75, abs(n.z)));
-    dayIce += grain * 0.45;
-    vec3 dayGlacier = mix(vec3(0.68, 0.77, 0.87), dayIce, glacier);
-    vec3 day = mix(dayRock, dayGlacier, glacierBand);
-    #endif
     c = mix(day, c, dark);
 
     // Haze at the foot of the mountain, the colour of the horizon glow.
@@ -432,7 +378,7 @@ function profile() {
 const ease = t => (t <= 0 ? 0 : t >= 1 ? 1 : t * t * t * (t * (t * 6 - 15) + 10));
 const phase = (elapsed, [from, to]) => ease((elapsed - from) / (to - from));
 
-export async function createLandscapeScene(stage, { reduced = false, paused = false, initialElapsed = 0, dark: initialDark = false, mountainStyle = 0, context, getState, onFallback, onReady } = {}) {
+export async function createLandscapeScene(stage, { reduced = false, paused = false, initialElapsed = 0, dark: initialDark = false, context, getState, onFallback, onReady } = {}) {
   const quality = profile();
   const renderer = new WebGLRenderer({ canvas: context?.canvas, context, antialias: true, alpha: false, powerPreference: 'high-performance' });
   const canvas = renderer.domElement;
@@ -510,7 +456,6 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
       bevelThickness: 18, bevelSize: 10, bevelSegments: 3, curveSegments: quality.name === 'desktop' ? 28 : 14,
     });
     const mesh = new Mesh(geometry, new ShaderMaterial({
-      defines: [1, 2, 3].includes(mountainStyle) ? { MOUNTAIN_STYLE: mountainStyle } : {},
       vertexShader: mountainVertex, fragmentShader: mountainFragment,
       uniforms: { time, dark, light, glacier, sun, peak: { value: peakHeight }, glacierBand: { value: isGlacier ? 1 : 0 } },
     }));
