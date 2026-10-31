@@ -37,11 +37,22 @@ export function whatsappProperties(page, button) {
   return { page, button };
 }
 
+export const businessPackageIds = Object.freeze(['not_selected', 'landing-essential', 'landing-professional', 'business-site', 'custom-web', 'shop']);
+export function businessContactProperties(page, channel, packageId) {
+  if (page !== 'negocios' || !['whatsapp', 'email'].includes(channel) || !businessPackageIds.includes(packageId)) return null;
+  return { page, channel, package: packageId };
+}
+
 export function sanitizeEvent(event, page) {
   if (!Object.hasOwn(commercialRoutes, page)) return null;
   const url = 'https://nordrastudio.mx' + commercialRoutes[page];
   if (event?.type === 'pageview') return { type: 'pageview', url };
   const payload = event?.payload, data = payload?.data;
+  if (event?.type === 'event' && payload?.name === 'business_contact_click') {
+    if (!data || Object.keys(data).length !== 3 || data.page !== page) return null;
+    const allowed = businessContactProperties(data.page, data.channel, data.package);
+    return allowed ? { type: 'event', url, payload: { name: 'business_contact_click', data: allowed } } : null;
+  }
   if (event?.type !== 'event' || payload?.name !== 'whatsapp_click' || !data ||
       Object.keys(data).length !== 2 || data.page !== page) return null;
   const allowed = whatsappProperties(data.page, data.button);
@@ -59,4 +70,20 @@ export function activationProperties(event, page) {
   } catch { return null; }
   // Neither href nor visible text leaves this boundary.
   return whatsappProperties(page, link.dataset.analyticsWhatsapp);
+}
+
+export function activationEvent(event, page) {
+  const link = event.target?.closest?.('a[data-business-contact]');
+  if (!link?.dataset.businessContact) {
+    const data = activationProperties(event, page);
+    return data ? { name: 'whatsapp_click', data } : null;
+  }
+  if (!event.isTrusted || event.defaultPrevented || !((event.type === 'click' && event.button === 0) || (event.type === 'auxclick' && event.button === 1))) return null;
+  const channel = link.dataset.businessContact;
+  try {
+    const url = new URL(link.href);
+    if (channel === 'email' ? url.protocol !== 'mailto:' || url.pathname !== 'hola@nordrastudio.mx' : url.protocol !== 'https:' || url.hostname !== 'wa.me') return null;
+  } catch { return null; }
+  const data = businessContactProperties(page, channel, link.dataset.businessPackage);
+  return data ? { name: 'business_contact_click', data } : null;
 }

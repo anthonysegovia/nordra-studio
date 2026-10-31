@@ -1,4 +1,4 @@
-import { activationProperties, commercialPage, commercialRoutes, measurementDisabled, safeReferrer, sanitizeEvent } from './policy.js';
+import { activationEvent, commercialPage, commercialRoutes, measurementDisabled, safeReferrer, sanitizeEvent } from './policy.js';
 
 export function installCommercialAnalytics(win, loadSdk) {
   const doc = win.document, page = commercialPage(win.location.href);
@@ -43,7 +43,7 @@ export function installCommercialAnalytics(win, loadSdk) {
       // No automatic history/popstate listeners: only the visible document owns a view.
       sdk.inject({ mode: 'production', disableAutoTrack: true, beforeSend });
       view();
-      for (const data of clicks.splice(0)) sdk.track('whatsapp_click', data);
+      for (const item of clicks.splice(0)) sdk.track(item.name, item.data);
     } catch { clicks.length = 0; /* Measurement must never interrupt a contact link. */ }
     finally { loading = false; }
   }
@@ -59,10 +59,10 @@ export function installCommercialAnalytics(win, loadSdk) {
   }
   function activate(event) {
     if (!active()) return;
-    const data = activationProperties(event, page);
-    if (!data) return;
-    if (sdk) sdk.track('whatsapp_click', data);
-    else { clicks.push(data); boot(); }
+    const item = activationEvent(event, page);
+    if (!item) return;
+    if (sdk) sdk.track(item.name, item.data);
+    else { clicks.push(item); boot(); }
   }
   function onLoad() { loaded = true; sync(); }
   function onHide(event) { if (!event.persisted) dispose(); }

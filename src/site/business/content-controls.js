@@ -18,7 +18,21 @@ export function initializeBusinessContent(root){
    detail.style.overflow='hidden';const animation=detail.animate([{height:`${from}px`},{height:`${to}px`}],{duration:mobile.matches?220:300,easing:'cubic-bezier(.2,.7,.2,1)'});pending.set(detail,{animation,open});animation.onfinish=()=>settle(detail,open);animation.oncancel=()=>settle(detail,open);
   },options);
  });
- function sync(){if(paused()||document.hidden)finish();const process=root.querySelector('.business-process');if(process)process.dataset.stack=paused()||mobile.matches?'off':'on';}
+
+ const contactLinks=[...root.querySelectorAll('[data-business-contact]')],guide=root.querySelector('.guide-result'),halo=root.querySelector('.business-halo'),defaultWhatsApp=halo?.href;
+ let haloFrame=0;
+ function resetHalo(){cancelAnimationFrame(haloFrame);haloFrame=0;halo?.style.removeProperty('--contact-x');halo?.style.removeProperty('--contact-y');}
+ function contact(){
+  const offer=guide&&!guide.hidden?[...root.querySelectorAll('[data-offer]')].find(item=>item.dataset.offer===guide.dataset.recommendation):null;
+  const name=offer?.dataset.offerName,packageId=offer?.dataset.offer||'not_selected';
+  const subject=name?'Mi proyecto web · '+name:'Mi proyecto web · Nordra Studio';
+  const body=name?'Hola, me interesa el paquete '+name+'.\nMi negocio es…':'Hola, me gustaría platicar de una página web para mi negocio.\nMi negocio es…';
+  for(const link of contactLinks){link.dataset.businessPackage=packageId;link.href=link.dataset.businessContact==='email'?'mailto:hola@nordrastudio.mx?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body):offer?.href||defaultWhatsApp;}
+ }
+ const recommendation=new MutationObserver(contact);if(guide)recommendation.observe(guide,{attributes:true,attributeFilter:['data-recommendation','hidden']});contact();
+ halo?.addEventListener('pointermove',event=>{if(paused()||event.pointerType==='touch')return;cancelAnimationFrame(haloFrame);const {clientX,clientY}=event;haloFrame=requestAnimationFrame(()=>{const box=halo.getBoundingClientRect();halo.style.setProperty('--contact-x',(clientX-box.left)+'px');halo.style.setProperty('--contact-y',(clientY-box.top)+'px');haloFrame=0;});},options);
+ halo?.addEventListener('pointerleave',resetHalo,options);halo?.addEventListener('blur',resetHalo,options);
+ function sync(){if(paused()||document.hidden){finish();resetHalo();}const process=root.querySelector('.business-process');if(process)process.dataset.stack=paused()||mobile.matches?'off':'on';}
  const state=new MutationObserver(sync);state.observe(document.body,{attributes:true,attributeFilter:['data-business-motion','data-journey-motion']});reduce.addEventListener('change',sync,options);mobile.addEventListener('change',sync,options);document.addEventListener('visibilitychange',sync,options);sync();root.dataset.businessContentReady='true';
- addEventListener('pagehide',e=>{if(e.persisted){finish();return;}finish();state.disconnect();abort.abort();},{once:true});
+ addEventListener('pagehide',e=>{if(e.persisted){finish();return;}finish();state.disconnect();recommendation.disconnect();resetHalo();abort.abort();},{once:true});
 }

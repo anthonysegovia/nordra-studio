@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { activationProperties, commercialPage, commercialRoutes, measurementDisabled, preferenceKey, safeReferrer, sanitizeEvent, buttonIds } from '../src/site/analytics/policy.js';
+import { activationEvent, businessPackageIds, activationProperties, commercialPage, commercialRoutes, measurementDisabled, preferenceKey, safeReferrer, sanitizeEvent, buttonIds } from '../src/site/analytics/policy.js';
 import { installCommercialAnalytics } from '../src/site/analytics/runtime.js';
 
 test('only eight exact commercial routes and approved hosts participate', () => {
@@ -129,8 +129,27 @@ test('all commercial WhatsApp links are annotated with closed identifiers and no
     assert.match(html, /<meta name="referrer" content="no-referrer">/);
     const links = [...html.matchAll(/<a\b[^>]*href="https:\/\/wa\.me\/[^\"]*"[^>]*>/g)];
     assert.ok(links.length);
-    for (const [tag] of links) assert.ok(buttonIds.includes(tag.match(/data-analytics-whatsapp="([^"]+)"/)?.[1]), page);
+    for (const [tag] of links) assert.ok(buttonIds.includes(tag.match(/data-analytics-whatsapp="([^"]+)"/)?.[1]) || (page === 'negocios' && tag.includes('data-business-contact="whatsapp"') && tag.includes('data-business-package="not_selected"')), page);
   }
   const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
   assert.equal(pkg.dependencies['@vercel/analytics'], '2.0.1');
+});
+
+const businessClick = (channel, packageId = 'business-site', extra = {}) => click({ target: { closest: () => ({ href: channel === 'email' ? 'mailto:hola@nordrastudio.mx?body=PRIVATE_FIXTURE' : 'https://wa.me/528129022231?text=PRIVATE_FIXTURE', dataset: { businessContact: channel, businessPackage: packageId } }) }, ...extra });
+test('business contact only sends a closed channel and package, never message or URL', async () => {
+ const { businessOffers } = await import('../src/data/businessOffers.ts');
+ assert.deepEqual(businessPackageIds, ['not_selected', ...businessOffers.map(o => o.id)]);
+ for (const channel of ['whatsapp','email']) for (const packageId of businessPackageIds) {
+  const event = activationEvent(businessClick(channel, packageId), 'negocios');
+  const sent = sanitizeEvent({type:'event',payload:event}, 'negocios');
+  assert.deepEqual(sent.payload.data,{page:'negocios',channel,package:packageId});
+  assert.doesNotMatch(JSON.stringify(sent),/PRIVATE|mailto|wa.me|text=|body=/);
+  assert.equal(sanitizeEvent({type:'event',payload:{...event,data:{...event.data,email:'PRIVATE_FIXTURE'}}},'negocios'),null);
+ }
+ for (const event of [businessClick('email','unknown'), businessClick('phone'), businessClick('email','shop',{isTrusted:false}), businessClick('email','shop',{defaultPrevented:true})]) assert.equal(activationEvent(event,'negocios'),null);
+ assert.equal(activationEvent(businessClick('email'),'bodas'),null);
+ const a=fixture({page:'negocios'}); a.doc.emit('click',businessClick('email'));await a.flush();
+ assert.equal(a.sent.filter(e=>e.type==='event').length,1);
+ a.doc.emit('click',businessClick('whatsapp'));assert.equal(a.sent.filter(e=>e.type==='event').length,2);
+ a.optOut(true);a.doc.emit('click',businessClick('email'));assert.equal(a.sent.filter(e=>e.type==='event').length,2);
 });
