@@ -305,29 +305,29 @@ const mountainFragment = /* glsl */`
     #endif
 
     #ifdef LANDSCAPE_A
-    // Broad snow planes retain volume; the outer bevel stays cooler than the sky.
-    float sunSide = smoothstep(-1.0, 2.0, world.x * sign(sun.x) + (1.0 - h) * 0.8);
-    vec3 shadowSnow = mix(vec3(0.20, 0.34, 0.51), vec3(0.36, 0.51, 0.69), h);
-    vec3 litSnow = mix(vec3(0.83, 0.90, 0.97), vec3(0.99, 0.99, 0.98), h);
+    // Matte snow: diffuse planes, shallow height variation and low-contrast grain.
+    float sunSide = smoothstep(-0.15, 0.45, world.x * sign(sun.x) + (1.0 - h) * 0.25);
+    vec3 shadowSnow = mix(vec3(0.25, 0.38, 0.54), vec3(0.33, 0.46, 0.62), h);
+    vec3 litSnow = mix(vec3(0.91, 0.93, 0.94), vec3(0.97, 0.97, 0.95), h);
     vec3 snow = mix(shadowSnow, litSnow, sunSide);
     snow = mix(snow, litSnow, smoothstep(0.90, 0.99, h));
-    float grain = (vnoise(world.xy * 24.0) - 0.5) * 0.006;
-    float bevel = smoothstep(0.40, 0.94, abs(n.z));
-    snow = mix(vec3(0.16, 0.27, 0.42), snow, bevel);
-    float rim = smoothstep(0.90, 0.94, abs(n.z)) * (1.0 - smoothstep(0.98, 0.995, abs(n.z))) * sunSide * smoothstep(0.25, 0.65, h);
-    snow = mix(snow, vec3(0.85, 0.69, 0.40), rim * 0.88);
-    // The isotype's straight sunward ridge: a cool lip and a fine warm seam,
-    // so white snow does not dissolve into the pale sky at small viewports.
+    float grain = (vnoise(world.xy * 18.0) - 0.5) * 0.024
+      + (vnoise(world.xy * 1.8) - 0.5) * 0.008;
+    float bevel = smoothstep(0.30, 0.72, abs(n.z));
+    snow = mix(vec3(0.29, 0.41, 0.55), snow, bevel);
+    // Warm diffuse light only at the grazing silhouette, never an inset seam.
+    float rim = (1.0 - smoothstep(0.20, 0.38, abs(n.z))) * sunSide * smoothstep(0.25, 0.65, h);
+    snow = mix(snow, vec3(0.69, 0.64, 0.53), rim * 0.55);
+    // The straight sunward silhouette has a diffuse warm edge, fading inward
+    // monotonically. There is no separate bright stripe inside the face.
     float ridgeDistance = (world.x + peak * 0.885 - world.y) * 0.7071;
     float ridgeSpan = smoothstep(-8.8, -7.5, world.x) * (1.0 - smoothstep(-0.8, 0.1, world.x));
-    float ridgeLip = (1.0 - smoothstep(0.45, 0.85, ridgeDistance)) * ridgeSpan;
-    snow = mix(snow, vec3(0.31, 0.44, 0.60), ridgeLip * 0.88);
-    float warmSeam = exp(-pow((ridgeDistance - 0.37) / 0.075, 2.0)) * ridgeSpan;
-    snow = mix(snow, vec3(0.85, 0.69, 0.40), warmSeam);
+    float edgeLight = (1.0 - smoothstep(0.0, 0.65, ridgeDistance)) * ridgeSpan;
+    snow = mix(snow, vec3(0.60, 0.59, 0.53), edgeLight * 0.9);
     vec3 dayRock = mix(vec3(0.32, 0.41, 0.53), snow + grain, light);
     vec3 dayIce = mix(vec3(0.84, 0.93, 0.99), vec3(0.99, 1.0, 1.0), smoothstep(0.12, 0.82, h));
-    dayIce *= mix(0.90, 1.0, smoothstep(0.25, 0.95, abs(n.z)));
-    dayIce += vec3(0.025, 0.035, 0.04) * pow(h, 4.0) * glacier;
+    dayIce *= mix(0.96, 1.0, smoothstep(0.20, 0.75, abs(n.z)));
+    dayIce += grain * 0.45;
     vec3 dayGlacier = mix(vec3(0.68, 0.77, 0.87), dayIce, glacier);
     vec3 day = mix(dayRock, dayGlacier, glacierBand);
     #else
