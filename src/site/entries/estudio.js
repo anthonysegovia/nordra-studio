@@ -14,3 +14,15 @@ import '../analytics/entry.js';
 
 import '../styles/studio-showcase.css';
 import '../scripts/studio-showcase.js';
+
+// Native lazy loading may fetch the portrait several screens before the profile.
+const portrait = document.querySelector('.studio-person .person-photo');
+if (portrait) {
+  const proximity = new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) {
+      portrait.dataset.photoReady = 'true';
+      proximity.disconnect();
+    }
+  }, { rootMargin: '400px' });
+  proximity.observe(portrait);
+}
