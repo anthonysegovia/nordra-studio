@@ -137,3 +137,5 @@ body[data-journey-motion=paused] .horizon-path-photo{transform:none;transition:n
 body[data-journey-motion=paused] .signature-work-image img{transform:none;transition:none}
 @media(max-width:700px){.signature-works{padding-block:44px}.signature-works-grid{grid-template-columns:1fr;gap:30px}.signature-works-heading{margin-bottom:24px}}
 @media(prefers-reduced-motion:reduce){.signature-work-image img,.signature-work-link>span{transform:none!important;transition:none}}
+.landscape-play{display:none;position:relative;margin:8px auto 0;padding:8px 16px;min-height:44px;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:24px}
+[data-offer-landscape-motion] .landscape-play{display:inline-block}

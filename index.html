@@ -6,6 +6,7 @@
  const theme=(q.has('theme')?q.get('theme')==='dark':saved.dark===true)?'dark':'light';
  document.documentElement.dataset.initialTheme=theme;
  const paused=matchMedia('(prefers-reduced-motion: reduce)').matches||(q.has('motion')?q.get('motion')==='paused':saved.paused===true);
+ if(matchMedia('(max-width:700px)').matches&&!paused&&navigator.connection?.saveData!==true)document.documentElement.dataset.offerLandscapeMotion='';
  let entered=false;try{entered=sessionStorage.getItem('nordra-landscape-entered')==='true';}catch{}
  const phase=!paused&&!entered&&navigator.connection?.saveData!==true?'start':'final';
  document.documentElement.dataset.landscapePoster=phase;
@@ -45,7 +46,7 @@
   <p class="horizon-offer">Páginas web para lo que haces. <span>Invitaciones para lo que celebras.</span></p>
   <p class="horizon-detail">Diseñadas para sentirse tuyas, hasta el último detalle.</p>
   <div class="horizon-actions"><a class="horizon-button" href="/negocios" data-go="negocios">Quiero una página web <span aria-hidden="true">→</span></a><a class="horizon-button horizon-button-outline" href="/invitaciones" data-go="invitaciones">Quiero una invitación <span aria-hidden="true">→</span></a></div>
-  <p class="horizon-trust"><span>Diseñado contigo</span><i aria-hidden="true">·</i><span>Hecho a medida</span><i aria-hidden="true">·</i><span>Trato directo</span></p>
+  <button class="landscape-play" data-landscape-play type="button">Ver en movimiento</button><p class="horizon-trust"><span>Diseñado contigo</span><i aria-hidden="true">·</i><span>Hecho a medida</span><i aria-hidden="true">·</i><span>Trato directo</span></p>
   <script>
   (()=>{
    const poster=document.querySelector('.landscape-poster'),hero=poster.parentElement;

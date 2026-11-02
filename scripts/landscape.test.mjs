@@ -148,7 +148,7 @@ test('the animation clock excludes paused, offscreen and hidden time, without a 
 });
 
 const loaderSource = readFileSync(new URL('../src/site/landscape/landscape-hero.js', import.meta.url), 'utf8');
-function fixture({ webgl = true, embedded = false, importFailure = false, paused = false, reduced = false, saveData = false, repeat = false } = {}) {
+function fixture({ mobile = false, webgl = true, embedded = false, importFailure = false, paused = false, reduced = false, saveData = false, repeat = false } = {}) {
   function target(extra = {}) {
     const listeners = new Map(), classes = new Set(), attributes = new Map();
     return { dataset: {}, isConnected: true, ...extra,
@@ -168,13 +168,14 @@ function fixture({ webgl = true, embedded = false, importFailure = false, paused
   page.NordraLandscapePoster = poster;
   let contextReleases = 0;
   const context = { getExtension: () => ({ loseContext: () => contextReleases++ }) };
-  const document = target({ body, hidden: false, readyState: 'loading', querySelector: () => stage,
+  const phone = target({ matches: mobile }), play = target();
+  const document = target({ body, documentElement: { toggleAttribute() {} }, hidden: false, readyState: 'loading', querySelector: selector => selector === '[data-landscape-play]' ? play : stage,
     createElement: () => ({ getContext: () => webgl ? context : null }) });
   const idle = new Map(), frames = new Map(), mutations = []; let intersect, imports = 0, releases = 0, id = 0;
   const states = [], signals = [];
   const controller = { setState: state => states.push(state), dispose: () => releases++ };
   runInNewContext(loaderSource.replace(/^import .*;\s*/gm, '').replace("import('./landscape-scene.js')", 'loadScene()'), {
-    landscapePolicy, document, window: page, navigator: { connection: { saveData } }, matchMedia: () => media,
+    landscapePolicy, document, window: page, navigator: { connection: { saveData } }, matchMedia: query => query.includes('max-width') ? phone : media,
     addEventListener: page.addEventListener.bind(page), removeEventListener: page.removeEventListener.bind(page),
     dispatchEvent: event => signals.push(event), CustomEvent: class { constructor(type, { detail }) { this.type = type; this.detail = detail; } },
     requestIdleCallback: fn => { idle.set(++id, fn); return id; }, cancelIdleCallback: key => idle.delete(key),
@@ -183,7 +184,7 @@ function fixture({ webgl = true, embedded = false, importFailure = false, paused
     MutationObserver: class { constructor(fn) { mutations.push(fn); } observe() {} disconnect() {} },
     loadScene: async () => { imports++; if (importFailure) throw Error('fixture import failure'); return { createLandscapeScene: async (_, options) => { states.push(options); states.push(options.getState()); options.onReady(); return controller; } }; },
   });
-  return { stage, body, frame, document, page, media, idle, states, signals, poster,
+  return { stage, body, play, frame, document, page, media, idle, states, signals, poster,
     imports: () => imports, releases: () => releases, context, contextReleases: () => contextReleases,
     visible: value => intersect([{ isIntersecting: value }]), mutate: () => mutations.forEach(fn => fn()),
     runFrame() { for (const [key, fn] of [...frames]) { frames.delete(key); fn(); } },
@@ -278,4 +279,12 @@ test('Three stays exact and deferred; capture hooks and the old aurora are absen
   assert.doesNotMatch(scene + loaderSource, /__landscape|frozenAt|searchParams|prototype\//);
   assert.doesNotMatch(read('index.html'), /horizon-(?:900|1920)\.webp/);
   assert.doesNotMatch(read('src/site/entries/home.js'), /horizon-flow/);
+});
+
+test('mobile requires an explicit tap before importing the landscape scene', async () => {
+  const a = fixture({ mobile: true });
+  a.visible(true); a.page.emit('load'); await a.runIdle();
+  assert.equal(a.imports(), 0);
+  a.play.emit('click'); await a.runIdle();
+  assert.equal(a.imports(), 1);
 });

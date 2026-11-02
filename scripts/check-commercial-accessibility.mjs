@@ -18,6 +18,18 @@ const base = values.url || server.resolvedUrls.local[0];
 const browser = await chromium.launch({ headless: true, ...(values.chrome ? { executablePath: values.chrome } : {}) });
 const rows = [];
 try {
+  const phone = await browser.newContext({ viewport: { width: 375, height: 812 }, reducedMotion: 'no-preference' });
+  const home = await phone.newPage();
+  const sceneRequests = [];
+  home.on('request', request => {
+    if (/landscape-scene|three(?:\.module|\.js|-)/.test(request.url())) sceneRequests.push(request.url());
+  });
+  await home.goto(base, { waitUntil: 'networkidle' });
+  await home.getByRole('button', { name: 'Ver en movimiento' }).waitFor();
+  await home.waitForTimeout(2000);
+  assert.deepEqual(sceneRequests, [], 'Mobile hero must remain static before activation');
+  await home.getByRole('button', { name: 'Ver en movimiento' }).click();
+  await phone.close();
   for (const theme of ['light', 'dark']) for (const route of ['', 'estudio', 'negocios', 'invitaciones', 'bodas', 'cumpleanos', 'eventos', 'temporada']) {
     const context = await browser.newContext({ viewport: { width: 375, height: 812 }, reducedMotion: 'reduce' });
     await context.addInitScript(theme => localStorage.setItem('nordra-theme', theme), theme);
