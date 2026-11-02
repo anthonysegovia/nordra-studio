@@ -1,7 +1,7 @@
 /* Signature Nordra · Paisaje: the isotype as a real massif under an aurora, mirrored by a still lake. */
 import {
   WebGLRenderer, Scene, PerspectiveCamera, Mesh, Group, PlaneGeometry, SphereGeometry, ExtrudeGeometry,
-  DoubleSide, ShaderMaterial, Vector3, Vector2, BackSide, Raycaster, Plane, CustomBlending, AddEquation, OneFactor, OneMinusSrcAlphaFactor,
+  DoubleSide, ShaderMaterial, Vector3, Vector4, Vector2, BackSide, Raycaster, Plane, CustomBlending, AddEquation, OneFactor, OneMinusSrcAlphaFactor,
   WebGLRenderTarget, OrthographicCamera, RedFormat, LinearFilter, RepeatWrapping,
 } from 'three';
 import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
@@ -278,7 +278,7 @@ const waterShader = {
     }
   `,
   fragmentShader: /* glsl */`
-    uniform sampler2D tDiffuse; uniform float time, dark, shoreZ, horizonUV; uniform vec3 ripples[${RIPPLES}];
+    uniform sampler2D tDiffuse; uniform float time, dark, shoreZ, horizonUV, winterIce; uniform vec4 ripples[${RIPPLES}];
     uniform float light; uniform vec3 sun;
     varying vec4 vUv; varying vec3 world;
     ${noise}
@@ -296,6 +296,7 @@ const waterShader = {
         float age = time - ripples[k].z;
         float front = length(rel) - age * 4.0;
         float wave = sin(front * 2.2) * exp(-front * front * 0.06) * exp(-age * 1.1) * step(0.0, age);
+        if (ripples[k].w < 1.0) wave *= ripples[k].w*(1.0-dark);
         rings += normalize(rel + 1e-4) * wave;
         crest += max(wave, 0.0);
       }
@@ -306,10 +307,16 @@ const waterShader = {
       float front = world.z + 155.0 - mod(time, 20.0) * 13.0 + 2.3 * sin(world.x * 0.09);
       float swell = exp(-front * front / 42.0) * sin(front * 0.58);
       float detail = sin(world.z * 2.25 + world.x * 0.32 - time * 0.77 + ripple.x * 5.0);
-      vec2 uv = vUv.xy / vUv.w;
+      vec2 mirrorUV = vUv.xy / vUv.w;
+      vec2 uv = mirrorUV;
       uv.y = mix(uv.y, horizonUV, 0.065);
       uv += ripple * vec2(0.017, 0.009) + rings * 0.018;
       uv.y += 0.0018 * detail + 0.005 * swell;
+      if (dark < 1.0) {
+        vec2 calm = mirrorUV + ripple*vec2(0.005,0.0025) + rings*0.018;
+        calm.y += 0.0008*detail + 0.0025*swell;
+        uv = mix(calm,uv,dark);
+      }
       vec3 reflection = texture2D(tDiffuse, clamp(uv, 0.001, 0.999)).rgb;
       if (dark > 0.0) {
         vec2 blur = vec2(0.002 + abs(ripple.x)*0.006,0.004);
@@ -320,6 +327,11 @@ const waterShader = {
       vec3 lakebed = mix(vec3(0.56, 0.69, 0.78), vec3(0.016, 0.047, 0.070), dark);
       lakebed *= 0.96 + 0.08 * ripple.y;
       vec3 c = mix(lakebed, reflection * mix(1.0, 0.86, dark), 0.28 + 0.69 * fresnel);
+      if (dark < 1.0) {
+        vec3 bed = mix(vec3(0.40,0.57,0.64),vec3(0.63,0.73,0.78),far);
+        vec3 day = mix(bed,reflection,0.52+0.45*fresnel);
+        c = mix(day,c,dark);
+      }
       c += vec3(0.64, 0.80, 0.88) * (0.025 * max(swell, 0.0) + 0.012 * max(detail, 0.0)) * (1.0 - far);
       c += mix(vec3(0.95, 0.98, 1.0), altitude(0.1, dark), dark) * min(crest, 1.0) * mix(0.05, 0.08, dark);
       // Ice floes drifting in the middle distance: they do not reflect.
@@ -338,12 +350,29 @@ const waterShader = {
         float auroraGleam = auroraPulse(world.x, time) * sheen * far * 0.095;
         c += vec3(0.13, 0.68, 0.65) * auroraGleam * dark * light;
 
-        float sunPath = exp(-pow((viewRay.x - sun.x) / 0.065, 2.0)) * far * (0.45 + 0.55 * sheen);
-        c += vec3(0.96, 0.87, 0.70) * sunPath * 0.18 * (1.0 - dark) * light;
+      if (dark < 1.0) {
+        // Angular distance from the sun's mirrored azimuth. Ripples break the
+        // column into short horizontal glints that widen towards the viewer.
+        vec2 az = normalize(viewRay.xz), solar = normalize(sun.xz);
+        float offset = az.x*solar.y-az.y*solar.x;
+        float rough = ripple.x*0.018 + 0.008*detail + swell*0.008;
+        float spread = mix(0.045,0.016,far);
+        float beam = exp(-pow((offset+rough)/spread,2.0));
+        float flakes = smoothstep(0.18,0.90,0.5+0.5*sin(world.z*3.5+ripple.y*8.0-time*0.58));
+        float gleam = beam*(0.20+0.77*flakes)*(0.82+0.18*detail);
+        c = mix(c,vec3(1.0,0.91,0.69),clamp(gleam,0.0,1.0)*light*(1.0-dark));
+      }
       // Snowy shore in the foreground, with an irregular edge.
       float shoreEdge = shoreZ + 3.0 * (fbm(vec2(world.x * 0.07, 2.0)) - 0.5) * 2.0;
       float shore = smoothstep(shoreEdge - 0.6, shoreEdge + 0.6, world.z);
       vec3 snow = mix(vec3(0.92, 0.95, 0.99), vec3(0.05, 0.08, 0.13), dark) * (0.88 + 0.16 * fbm(world.xz * vec2(0.3, 0.9)));
+      if (dark < 1.0 && winterIce > 0.0) {
+        float lip = shoreEdge-world.z;
+        float width = 1.3 + 2.4*vnoise(vec2(world.x*0.31,4.7));
+        float skin = (1.0-smoothstep(width-0.28,width+0.28,lip))*smoothstep(-0.5,0.3,lip);
+        float rim = exp(-abs(lip-width)*6.0);
+        c = mix(c,vec3(0.81,0.90,0.92),skin*(0.55+0.32*rim)*(1.0-dark));
+      }
       c = mix(c, snow, shore);
       gl_FragColor = vec4(c, 1.0);
     }
@@ -466,7 +495,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
 
   // Lake: a real reflection where the device can afford it; otherwise a calm gradient.
   let water;
-  const ripples = { value: Array.from({ length: RIPPLES }, () => new Vector3(0, -1e4, -100)) };
+  const ripples = { value: Array.from({ length: RIPPLES }, () => new Vector4(0, -1e4, -100, 1)) };
   const shoreZ = { value: 10 };
   const mobileMist = quality.name === 'mobile';
   const waterGeometry = new PlaneGeometry(900, 900, mobileMist ? 12 : 1, mobileMist ? 144 : 1);
@@ -491,6 +520,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     if (object.material?.uniforms) { object.material.uniforms.noiseMap = noiseMap; }
   });
   if (water.getRenderTarget) {
+    water.material.uniforms.winterIce = {value: 0};
     water.material.uniforms.sun = sun; water.material.uniforms.light = light;
   }
 
@@ -637,6 +667,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   function render() {
     if (!policy().render) return;
     try {
+      if (water.getRenderTarget) water.material.uniforms.winterIce.value = Number(stage.parentElement.winterIce === true);
       renderer.render(scene, camera);
       if (shaderFailed) throw Error('Shader compilation failed');
     } catch { fail(); }
@@ -723,9 +754,18 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     if (!force && Math.hypot(hit.x - lastRipple.x, hit.z - lastRipple.z) < 3 && now - lastRipple.t < 140) return;
     if (!force && now - lastRipple.t < 90) return;
     lastRipple = { x: hit.x, z: hit.z, t: now };
-    ripples.value[rippleIndex].set(hit.x, hit.z, time.value);
+    ripples.value[rippleIndex].set(hit.x, hit.z, time.value, 1);
     rippleIndex = (rippleIndex + 1) % RIPPLES;
   }
+  stage.snowContact = (x,y) => {
+    if (!policy().animate || dark.value > 0.01 || !water.getRenderTarget) return;
+    pointer.set(2*x/width-1,1-2*y/height);
+    raycaster.setFromCamera(pointer,camera);
+    if (raycaster.ray.intersectPlane(lakePlane,hit) && hit.z < shoreZ.value) {
+      ripples.value[rippleIndex].set(hit.x,hit.z,time.value,0.20);
+      rippleIndex = (rippleIndex+1)%RIPPLES;
+    }
+  };
   function onPointerMove(event) {
     if (event.pointerType === 'mouse' && finePointer.matches && policy().animate) {
       mouse.target = Math.max(-1, Math.min(1, 2 * event.clientX / window.innerWidth - 1));
@@ -789,7 +829,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     canvas.removeEventListener('webglcontextlost', onLost); canvas.removeEventListener('webglcontextrestored', onRestored);
     scene.traverse(object => { object.geometry?.dispose(); object.material?.dispose(); });
     water.getRenderTarget?.().dispose(); noiseTarget.dispose(); renderer.dispose(); renderer.forceContextLoss();
-    delete stage.measureLake;
+    delete stage.measureLake; delete stage.snowContact;
     canvas.remove(); stage.classList.remove('has-scene'); stage.dataset.renderer = 'static';
   }
   cleanup = dispose;

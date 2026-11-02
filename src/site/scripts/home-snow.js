@@ -4,6 +4,10 @@ function snowSeason(date) {
   return month >= 10 || (month === 0 && date.getDate() <= 6);
 }
 
+function winterSeason(date, override) {
+  return override === '1' || (override !== '0' && snowSeason(date));
+}
+
 // x and y are fractions of the hero. The two fronts cross from opposite
 // sides at different intervals, so even neighbouring flakes don't turn together.
 function snowWind(x, y, time, out) {
@@ -19,9 +23,17 @@ function snowWind(x, y, time, out) {
   const canvas = document.querySelector('.horizon-hero > .home-snow');
   if (!canvas) return;
   const override = new URLSearchParams(location.search).get('nieve');
-  if (override === '0') return;
-
   const hero = canvas.parentElement;
+  function updateSeason() {
+    const enabled = winterSeason(new Date(), override);
+    if (hero.winterIce !== enabled) {
+      hero.winterIce = enabled;
+      hero.dispatchEvent?.(new Event('nordra-winter-season'));
+    }
+    return enabled;
+  }
+  updateSeason();
+  if (override === '0') return;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   let inView = false, pageActive = true, frame = 0, midnight = 0;
   let width = 0, height = 0, ratio = 0, last = null, time = 0;
@@ -145,6 +157,7 @@ function snowWind(x, y, time, out) {
       if (f.y >= stop) {
         if (!far && previousY < stop && stop < height - 3 && f.x >= 0 && f.x < width && rings.length < 10) {
           rings.push({ x: f.x, z, age: 0 });
+          stage?.snowContact?.(f.x,stop);
         }
         f.y = -f.size;
         f.x = Math.random() * width;
@@ -175,10 +188,11 @@ function snowWind(x, y, time, out) {
   }
 
   function sync() {
+    const seasonal = updateSeason();
     const active = pageActive && inView && !document.hidden && !reduce.matches &&
       !document.body.classList.contains('dark') && !document.body.classList.contains('has-page-frame') &&
       document.body.dataset.journeyMotion !== 'paused' &&
-      (override === '1' || snowSeason(new Date()));
+      seasonal;
     canvas.classList.toggle('is-snowing', active);
     if (!active) {
       cancelAnimationFrame(frame); frame = 0; last = null;
