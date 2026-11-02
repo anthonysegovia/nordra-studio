@@ -11,8 +11,8 @@ function preload({width=390,theme='light',paused=false,reduced=false,entered=fal
  assert.equal(links.length,1);assert.equal(links[0].fetchPriority,'high');return links[0].href;
 }
 test('one early portrait selects the entrance on desktop and settled landscape on phones',()=>{
- for(const cores of [8,4,2])assert.equal(preload({cores}),'/nordra/v544/assets/landscape-poster-light-mobile-v4.webp');
- for(const [width,format]of [[390,'mobile'],[1440,'compact'],[1905,'desktop'],[2560,'wide']])for(const theme of ['light','dark'])assert.ok(preload({width,theme}).endsWith(`landscape-${width<=700?'poster':'start'}-${theme}-${format}-${theme==='light'?'v4':'v3'}.webp`));
+ for(const cores of [8,4,2])assert.equal(preload({cores}),'/nordra/v548/assets/landscape-poster-light-mobile-v5.webp');
+ for(const [width,format]of [[390,'mobile'],[1440,'compact'],[1905,'desktop'],[2560,'wide']])for(const theme of ['light','dark'])assert.ok(preload({width,theme}).endsWith(`landscape-${width<=700?'poster':'start'}-${theme}-${format}-v5.webp`));
  assert.ok(preload({width:1440,storageError:true}).includes('landscape-start-light-'));
 });
 test('still preferences, data saver and repeat visits preload only the final portrait',()=>{

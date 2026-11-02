@@ -33,3 +33,20 @@ test('pulse envelopes and shooting star intervals on the visible clock', () => {
     assert.ok(starts.slice(1).every((s, i) => s - starts[i] >= 25.85 - 0.05));
   }
 });
+
+test('each pulse keeps a fixed centre and a quiet interval before the next knot', () => {
+  const tick = skyEvents(() => 0.5);
+  let previous = 0, lastEnd = 0, centre, count = 0;
+  for (let i = 0; i < 1800; i++) {
+    const event = tick(0.05, true, true);
+    if (event.pulse && !previous) {
+      assert.ok(i * 0.05 - lastEnd >= 4.9);
+      centre = event.center;
+      count++;
+    }
+    if (event.pulse) assert.equal(event.center, centre);
+    if (previous && !event.pulse) lastEnd = i * 0.05;
+    previous = event.pulse;
+  }
+  assert.ok(count >= 10);
+});
