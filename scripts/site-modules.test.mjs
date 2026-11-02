@@ -115,7 +115,7 @@ const pages = {
       "seasonal-flow",
       "theme-transition",
       "living-images",
-      "organic-images",
+      "showcase-live",
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
@@ -126,7 +126,8 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "inline": 3
+    "entryStyles": ["phone-frame", "showcase-live", "seasonal-page"],
+    "inline": 5
   },
   "invitaciones": {
     "entry": "invitations",

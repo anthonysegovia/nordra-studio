@@ -16,12 +16,13 @@
   chapters.forEach((chapter,i)=>{if(chapter.getBoundingClientRect().top<innerHeight*.55)active=i;});
   links.forEach((link,i)=>{if(i===active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});
   if(paused&&!reduced.matches)return;
-  let from=6,to=6,blend=0;
+  const palette={'temporada-halloween':4,'temporada-navidad':5,'temporada-fin-de-ano':6};
+  let from=palette[chapters[0]?.id]||6,to=from,blend=0;
   if(!reduced.matches){
    for(let i=0;i<chapters.length;i++){
     const top=chapters[i].getBoundingClientRect().top;
     if(top>=innerHeight*.85)break;
-    from=to;to=i+4;
+    from=to;to=palette[chapters[i].id];
     const fraction=Math.min(1,Math.max(0,(innerHeight*.85-top)/(innerHeight*.7)));
     blend=fraction*fraction*(3-2*fraction);
     if(fraction<1)break;
