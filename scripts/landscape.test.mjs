@@ -21,7 +21,7 @@ test('wide framing keeps water below the projected mountain and restores the app
     stage: { getBoundingClientRect: () => rect, parentElement: { querySelector: () => ({ getBoundingClientRect: () => ({ bottom: buttonBottom }) }) } },
     quality: { dpr: 2, pixels: 4200000 }, renderer: { setDrawingBufferSize() {} },
     width: 1, height: 1, bufferWidth: 0, bufferHeight: 0, bufferRatio: 0,
-    sky: { material: { uniforms: { pixelAngle: {}, parhelion: { value: new Vector3() }, textElevation: {} } } },
+    sky: { material: { uniforms: { pixelAngle: {}, textElevation: {} } } },
     MOUNTAIN: { width: 40, z: -36 }, rest: { position: new Vector3(), target: new Vector3() },
     summitCandidates: [new Vector3(0, 14.5, -36), new Vector3(0, 14.5, -43)],
     waterlineFront: new Vector3(0, 0, -35.23159), sun: { value: new Vector3() }, shoreZ: {},

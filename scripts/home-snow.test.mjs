@@ -57,3 +57,13 @@ test('la ráfaga viaja por el hero y cambia con la altura', () => {
   assert.notEqual(wind(0.4, 0.1, 4).x, wind(0.4, 0.9, 4).x);
   assert.ok(Math.abs(wind(0.4, 0.5, 4).x - wind(0.4, 0.5, 4.01).x) < 4);
 });
+
+test('el hielo usa los mismos límites y anulaciones que la nieve, incluso con la escena fija', () => {
+  const enabled = runInNewContext(raw + '\nwinterSeason', {document:{querySelector:()=>null}});
+  for (const [month,day,expected] of [[10,31,false],[11,1,true],[12,25,true],[1,6,true],[1,7,false]]) {
+    const date = new Date(2026,month-1,day);
+    assert.equal(enabled(date,null),expected);
+    assert.equal(enabled(date,'0'),false);
+    assert.equal(enabled(date,'1'),true);
+  }
+});
