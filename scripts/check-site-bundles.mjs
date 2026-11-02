@@ -39,6 +39,22 @@ export function assertDeferredLandscape(entryFiles, read) {
   entryFiles.forEach(visit);
 }
 
+// Include dynamic chunks and Vite's preload dependency tables. A CSS asset
+// already contained in the blocking sheet must not be requested under its old URL.
+export function assertNoMergedStyleDependencies(entryFiles, sheet, root, read) {
+  const visited = new Set(), css = read(sheet);
+  function visit(file) {
+    if (visited.has(file)) return;
+    visited.add(file);
+    for (const [, dependency] of read(file).matchAll(/["']((?:\.\/|\.\.\/|\/?assets\/)[^"']+\.(?:js|css))["']/g)) {
+      const target = dependency.startsWith('.') ? resolve(dirname(file), dependency) : resolve(root, dependency.replace(/^\//, ''));
+      if (dependency.endsWith('.js')) visit(target);
+      else if (target !== sheet) assert.ok(!css.includes(read(target).trim()), `${file}: preload requests CSS already merged into ${sheet}: ${dependency}`);
+    }
+  }
+  entryFiles.forEach(visit);
+}
+
 export function checkSiteBundles(root) {
   const pages = { index: 'home', estudio: 'estudio', negocios: 'business', invitaciones: 'invitations', bodas: 'weddings', cumpleanos: 'birthdays', eventos: 'events', temporada: 'seasonal' };
   return Object.entries(pages).map(([page, entry]) => {
@@ -52,6 +68,8 @@ export function checkSiteBundles(root) {
     const preloads = [...html.matchAll(/<link\b[^>]*rel="modulepreload"[^>]*href="([^"]+)"/g)].map(match => resolve(root, 'dist' + match[1]));
     assertDeferredLandscape([...modules, ...preloads], file => readFileSync(file, 'utf8'));
     assert.equal([...html.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*>/g)].length, 1, `${page}: styles must stay in one ordered blocking sheet`);
+    const sheet = /<link\b[^>]*rel="stylesheet"[^>]*href="([^"]+)"/.exec(html)[1];
+    assertNoMergedStyleDependencies(modules, resolve(root, 'dist' + sheet), resolve(root, 'dist'), file => readFileSync(file, 'utf8'));
     const actual = bundledOrder(modules, file => readFileSync(file, 'utf8'));
     assert.deepEqual(actual, expected, `${page}: emitted initialization order differs from the entry`);
     assert.doesNotMatch(html, /(?:src|href)="\/assets\/[^"<>]*\?/);
