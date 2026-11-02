@@ -29,23 +29,25 @@ export function clientReviews(cases = clientCases) {
   }));
 }
 
-function renderRating(item) {
-  return item.rating ? '<p class="client-case-rating" role="img" aria-label="Calificación: 5 de 5"><span aria-hidden="true">★★★★★ <span>5/5</span></span></p>' : '';
+function renderRating(item, en = false) {
+  return item.rating ? `<p class="client-case-rating" role="img" aria-label="${en ? 'Rating: 5 out of 5' : 'Calificación: 5 de 5'}"><span aria-hidden="true">★★★★★ <span>5/5</span></span></p>` : '';
 }
 
 export function renderHomeClientHighlights(html, cases = clientCases) {
   if (!html.includes('{{clients:home}}')) return html;
   validateClientCases(cases);
+  const en = html.includes('<html lang="en"');
+  const occasion = { Posada: 'Christmas gathering', 'Fiesta de Halloween': 'Halloween party' };
   const quotes = cases.filter(item => item.highlight).map(item => `
     <figure class="client-case client-highlight">
-      ${renderRating(item)}
-      <blockquote><p>${esc(item.highlight)}</p></blockquote>
-      <figcaption><strong>${esc(item.displayName)}</strong> · ${esc(item.occasion)}</figcaption>
+      ${renderRating(item, en)}
+      <blockquote${en ? ' lang="es-MX"' : ''}><p>${esc(item.highlight)}</p></blockquote>
+      <figcaption><strong>${esc(item.displayName)}</strong> · ${esc(en ? occasion[item.occasion] ?? item.occasion : item.occasion)}</figcaption>
     </figure>`);
   const section = `<section class="home-client-highlights" aria-labelledby="client-highlights-title">
-    <h2 id="client-highlights-title">Lo que dicen nuestros clientes</h2>
+    <h2 id="client-highlights-title">${en ? 'In our clients’ words' : 'Lo que dicen nuestros clientes'}</h2>
     <div class="client-case-grid">${quotes.join('')}</div>
-    <a class="options-compare" data-anchor="clientes-reales" href="/invitaciones#clientes-reales">Ver sus invitaciones <span aria-hidden="true">↗</span></a>
+    <a class="options-compare" data-anchor="clientes-reales" href="${en ? '/en' : ''}/invitaciones#clientes-reales">${en ? 'See their invitations' : 'Ver sus invitaciones'} <span aria-hidden="true">↗</span></a>
   </section>`;
   return html.replace('{{clients:home}}', () => quotes.length ? section : '');
 }

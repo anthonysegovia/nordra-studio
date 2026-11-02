@@ -1,4 +1,5 @@
 (()=>{
+ const en=document.documentElement?.lang==='en';
  const key='nordra-journey';
  // Keep the mobile studio notes optional; all original content stays in place.
  if(matchMedia('(max-width:700px)').matches)document.querySelector('.studio-notes')?.removeAttribute('open');
@@ -18,7 +19,7 @@
   document.documentElement.dataset.journeyMotion=document.body.dataset.journeyMotion;
   document.documentElement.style.backgroundColor=getComputedStyle(document.body).getPropertyValue('--bg');
   document.documentElement.style.colorScheme=dark?'dark':'light';
-  themeButton.setAttribute('aria-label',dark?'Activar tema claro':'Activar tema oscuro');
+  themeButton.setAttribute('aria-label',dark?(en?'Switch to light mode':'Activar tema claro'):(en?'Switch to dark mode':'Activar tema oscuro'));
   // Same-origin pages share the theme and this tab's motion preference via storage.
   save();
  }
@@ -45,7 +46,7 @@
   }
  });
  reduced.addEventListener('change',event=>{paused=event.matches;paint();});
- function closeMenu(){menuPanel.hidden=true;menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label','Abrir menú');}
+ function closeMenu(){menuPanel.hidden=true;menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label',en?'Open menu':'Abrir menú');}
  document.addEventListener('click',event=>{
   if(!menuPanel.hidden&&!menuPanel.contains(event.target)&&!menuButton.contains(event.target))closeMenu();
  });

@@ -9,6 +9,10 @@ test('only eight exact commercial routes and approved hosts participate', () => 
     assert.equal(commercialPage('https://nordrastudio.mx' + path + '?token=fixture#private'), page);
     if (page !== 'index') assert.equal(commercialPage('https://nordrastudio.mx' + path + '.html'), page);
   }
+  assert.equal(commercialPage('https://nordrastudio.mx/en/'), 'index');
+  assert.equal(commercialPage('https://nordrastudio.mx/en/negocios'), 'negocios');
+  assert.equal(commercialPage('https://nordrastudio.mx/en/demos/example'), null);
+  assert.equal(sanitizeEvent({type:'pageview'},'index',true).url, 'https://nordrastudio.mx/en/');
   assert.equal(commercialPage('https://nordrastudio.mx/estudio'), 'estudio');
   assert.equal(commercialPage('https://nordrastudio.mx/estudio.html'), 'estudio');
   assert.equal(commercialPage('https://nordrastudio.mx/negocios?panel=1'), null);

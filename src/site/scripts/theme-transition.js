@@ -1,4 +1,5 @@
 (()=>{
+ const en=document.documentElement?.lang==='en';
  const button=document.querySelector('.theme-button');
  const root=document.documentElement;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
@@ -22,7 +23,7 @@
   const update=()=>{
    if(ticket!==revision)return;
    document.body.classList.toggle('dark',dark);
-   button.setAttribute('aria-label',dark?'Activar tema claro':'Activar tema oscuro');
+   button.setAttribute('aria-label',dark?(en?'Switch to light mode':'Activar tema claro'):(en?'Switch to dark mode':'Activar tema oscuro'));
    dispatchEvent(new Event('nordra-theme'));
   };
   const finish=()=>{

@@ -10,7 +10,7 @@ export function returnTarget(from, origin) {
   try {
     const url = new URL(from, origin);
     if (url.origin !== origin) return null;
-    const path = url.pathname.replace(/\.html$/, '').replace(/(.)\/$/, '$1');
+    const path = url.pathname.replace(/^\/en(?=\/)/,'').replace(/\.html$/, '').replace(/(.)\/$/, '$1');
     return sitePages.has(path) ? url.origin + url.pathname + url.hash : null;
   } catch { return null; }
 }
@@ -27,7 +27,9 @@ export function showReturnToSite(doc = document, win = window) {
   link.className = 'nordra-return';
   link.href = href;
   link.textContent = '← Nordra';
-  link.setAttribute('aria-label', 'Volver a Nordra Studio');
+  const en = new URL(href).pathname.startsWith('/en/');
+  link.lang = en ? 'en' : 'es-MX';
+  link.setAttribute('aria-label', en ? 'Back to Nordra Studio' : 'Volver a Nordra Studio');
   doc.head.append(style);
   doc.body.append(link);
 }

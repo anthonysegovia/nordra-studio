@@ -19,6 +19,8 @@ describe('site — return from sample invitations', () => {
   });
   test('accepts the path a site page noted for this tab', () => {
     assert.equal(returnTarget('/bodas#bodas-event-experience', origin), 'https://nordrastudio.mx/bodas#bodas-event-experience');
+    assert.equal(returnTarget('/en/#trabajos', origin), origin+'/en/#trabajos');
+    assert.equal(returnTarget('/en/invitaciones/sofia-25/', origin), null);
     assert.equal(returnTarget('//otro.mx/bodas', origin), null);
   });
   test('drops query parameters from the way back', () => {

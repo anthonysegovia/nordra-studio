@@ -1,6 +1,6 @@
 import { posix } from 'node:path';
 
-const pages = new Set(['index.html', 'estudio.html', 'negocios.html', 'invitaciones.html', 'bodas.html', 'cumpleanos.html', 'eventos.html', 'temporada.html']);
+const pages = new Set(['index.html', 'en/index.html', 'estudio.html', 'negocios.html', 'invitaciones.html', 'bodas.html', 'cumpleanos.html', 'eventos.html', 'temporada.html']);
 
 // Consolidate the final links, not source imports: shared chunks can change
 // where Vite puts a rule in the cascade. Keep their emitted order byte for byte.

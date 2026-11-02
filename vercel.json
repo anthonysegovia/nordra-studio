@@ -140,6 +140,10 @@
       "dest": "/invitaciones/$1/index.html"
     },
     {
+      "src": "^/en/$",
+      "dest": "/en/index.html"
+    },
+    {
       "handle": "filesystem"
     }
   ]

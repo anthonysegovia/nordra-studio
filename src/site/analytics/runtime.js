@@ -2,6 +2,8 @@ import { activationEvent, commercialPage, commercialRoutes, measurementDisabled,
 
 export function installCommercialAnalytics(win, loadSdk, loadInsights) {
   const doc = win.document, page = commercialPage(win.location.href);
+  const english = new URL(win.location.href).pathname.startsWith('/en/');
+  const route = (english ? '/en' : '') + commercialRoutes[page];
   const scene = page === 'index' ? 'entrada' : page;
   if (!page || doc.body.dataset.scene !== scene) return () => {};
   // Only the site's own navigation frames may participate. Demos/review embeds cannot.
@@ -25,12 +27,12 @@ export function installCommercialAnalytics(win, loadSdk, loadInsights) {
   }
   function beforeSend(event) {
     if (!permitted() || (event?.type === 'pageview' && !active())) return null;
-    return sanitizeEvent(event, page);
+    return sanitizeEvent(event, page, english);
   }
   function view() {
     if (!sdk || viewed || !active()) return;
     viewed = true;
-    sdk.pageview({ path: commercialRoutes[page], route: commercialRoutes[page] });
+    sdk.pageview({ path: route, route });
   }
   async function boot() {
     idle = null;
@@ -47,7 +49,6 @@ export function installCommercialAnalytics(win, loadSdk, loadInsights) {
           if (!active()) return;
           loadInsights().then(({ injectSpeedInsights }) => {
             if (!active()) return;
-            const route = commercialRoutes[page];
             injectSpeedInsights({
               route,
               beforeSend: event => active(true) ? { ...event, url: 'https://nordrastudio.mx' + route, route } : null,

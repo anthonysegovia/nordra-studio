@@ -1,4 +1,5 @@
 (()=>{
+ const en=document.documentElement?.lang==='en';
  const host=document.querySelector('[data-view]:not([hidden])');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  let paused=parent!==window||reduced.matches||document.body.dataset.journeyMotion==='paused';
@@ -12,7 +13,7 @@
  }
  function finish(){for(const animation of animations)animation.finish();animations.clear();}
  const toggle=document.getElementById('local-motion-toggle');
- function paintToggle(){if(toggle)toggle.textContent=paused?'Reproducir movimiento':'Pausar movimiento';}
+ function paintToggle(){if(toggle)toggle.textContent=paused?(en?'Resume motion':'Reproducir movimiento'):(en?'Pause motion':'Pausar movimiento');}
  paintToggle();
  toggle?.addEventListener('click',()=>{paused=!paused;paintToggle();dispatchEvent(new CustomEvent('nordra-local-motion',{detail:{paused}}));if(parent!==window)parent.postMessage({type:'nordra-motion-request',paused},'*');});
  const targets=host.classList.contains('business')?[]:host.querySelectorAll('.studio-heading-copy,.studio-desk,.studio-credit,.project-feature,.home-continuation h2,.service-path,.web-option,.story-body,.studio-principles>div,.process-list li,.contact-layout,.contact-alternatives,.story-horizon,.process-orbit');

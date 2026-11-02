@@ -12,8 +12,9 @@ export function commercialPage(href) {
     const url = new URL(href);
     if (!hosts.has(url.hostname) || !['http:', 'https:'].includes(url.protocol)) return null;
     if (url.searchParams.has('panel') || url.searchParams.has('pago')) return null;
-    if (url.pathname === '/index.html') return 'index';
-    return Object.keys(commercialRoutes).find(page => commercialRoutes[page] === url.pathname || (page !== 'index' && commercialRoutes[page] + '.html' === url.pathname)) ?? null;
+    const path = url.pathname.startsWith('/en/') ? url.pathname.slice(3) : url.pathname;
+    if (path === '/index.html') return 'index';
+    return Object.keys(commercialRoutes).find(page => commercialRoutes[page] === path || (page !== 'index' && commercialRoutes[page] + '.html' === path)) ?? null;
   } catch { return null; }
 }
 
@@ -43,9 +44,9 @@ export function businessContactProperties(page, channel, packageId) {
   return { page, channel, package: packageId };
 }
 
-export function sanitizeEvent(event, page) {
+export function sanitizeEvent(event, page, english = false) {
   if (!Object.hasOwn(commercialRoutes, page)) return null;
-  const url = 'https://nordrastudio.mx' + commercialRoutes[page];
+  const url = 'https://nordrastudio.mx' + (english ? '/en' : '') + commercialRoutes[page];
   if (event?.type === 'pageview') return { type: 'pageview', url };
   const payload = event?.payload, data = payload?.data;
   if (event?.type === 'event' && payload?.name === 'business_contact_click') {

@@ -1,6 +1,7 @@
 /* Phones: the header steps aside while reading down and returns on the first move up.
    The bottom route bar stays, so navigation is always one tap away. */
 (()=>{
+ const en=document.documentElement?.lang==='en';
  const header=document.querySelector('.site-header');if(!header)return;
  const small=matchMedia('(max-width:700px)');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
@@ -13,7 +14,7 @@
  // Back to top: a quiet control once the reader is about two screens down.
  const topButton=document.createElement('button');
  topButton.type='button';topButton.className='back-to-top';topButton.hidden=true;
- topButton.setAttribute('aria-label','Volver arriba');topButton.textContent='↑';
+ topButton.setAttribute('aria-label',en?'Back to top':'Volver arriba');topButton.textContent='↑';
  topButton.addEventListener('click',()=>{
   scrollTo({top:0,behavior:reduced.matches?'auto':'smooth'});
   header.querySelector('a')?.focus({preventScroll:true});
@@ -52,7 +53,7 @@
   backdrop.className='mobile-menu-backdrop';backdrop.hidden=true;
   menu.before(backdrop);
   let byLink=false;
-  const close=()=>{menu.hidden=true;menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label','Abrir menú');};
+  const close=()=>{menu.hidden=true;menuButton.setAttribute('aria-expanded','false');menuButton.setAttribute('aria-label',en?'Open menu':'Abrir menú');};
   backdrop.addEventListener('click',close);
   menu.addEventListener('click',event=>{if(event.target.closest('a')){byLink=true;close();}});
   new MutationObserver(()=>{

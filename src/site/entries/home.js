@@ -7,6 +7,7 @@ import '../scripts/theme-transition.js?entry=home';
 import '../scripts/interface-icons.js?entry=home';
 import '../styles/mobile-chrome.css';
 import '../scripts/mobile-chrome.js?entry=home';
+import '../scripts/language-switch.js?entry=home';
 import '../scripts/home.js?entry=home';
 import '../scripts/home-snow.js?entry=home';
 import '../scripts/page-navigation.js?entry=home';

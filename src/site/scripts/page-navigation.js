@@ -3,6 +3,8 @@
  const scene=document.body.dataset.scene;
  const initialURL=new URL(location.href);
  const root=document.documentElement;
+ const prefix=root.lang==='en'?'/en':'';
+ const pagePath=next=>prefix+(next==='entrada'?'/':'/'+pages[next]);
  const readState=()=>({dark:document.body.classList.contains('dark'),paused:document.body.dataset.journeyMotion==='paused'});
  const timeout=ms=>new Promise(resolve=>setTimeout(resolve,ms));
  async function ready(){
@@ -22,7 +24,7 @@
  if(matchMedia('(max-width:700px),(pointer:coarse)').matches){
   const legacy=new URLSearchParams(location.hash.slice(1)),page=legacy.get('pagina');
   if(page&&Object.hasOwn(pages,page)){
-   const url=new URL(page==='entrada'?'/':'/'+pages[page],initialURL);url.hash=legacy.get('seccion')||'';
+   const url=new URL(pagePath(page),initialURL);url.hash=legacy.get('seccion')||'';
    location.replace(url.href);
   }
   return;
@@ -32,7 +34,7 @@
  status.className='page-navigation-status';status.setAttribute('role','status');
  document.body.append(status);
  function targetURL(next,anchor=''){
-  const url=new URL(next==='entrada'?'/':'/'+pages[next],initialURL);
+  const url=new URL(pagePath(next),initialURL);
   // journey.js restores preferences from shared storage before the page is shown.
   url.hash=anchor;return url;
  }
@@ -67,7 +69,7 @@
   const request={frame,next,anchor,historyMode,url:targetURL(next,anchor)};
   pending=request;root.setAttribute('aria-busy','true');
   request.timer=setTimeout(()=>navigateNormally(request),12000);
-  frame.addEventListener('error',()=>{if(pending===request){cancelPending();status.textContent='No se pudo abrir la página. Vuelve a seleccionar el enlace.';}});
+  frame.addEventListener('error',()=>{if(pending===request){cancelPending();status.textContent=prefix?'This page couldn’t be opened. Try the link again.':'No se pudo abrir la página. Vuelve a seleccionar el enlace.';}});
   if(document.hidden){navigateNormally(request);return;}
   frame.src=request.url.href;document.body.append(frame);
  }
@@ -89,7 +91,7 @@
    request.frame.removeAttribute('aria-hidden');request.frame.removeAttribute('tabindex');
    request.frame.title=data.title||'Nordra Studio';request.frame.classList.add('is-ready');
    const previous=active;active=request.frame;current=request.next;currentAnchor=request.anchor;
-   document.title=data.title||document.title;document.querySelector('link[rel=canonical]')?.setAttribute('href','https://nordrastudio.mx'+(current==='entrada'?'/':'/'+pages[current]));root.removeAttribute('aria-busy');
+   document.title=data.title||document.title;document.querySelector('link[rel=canonical]')?.setAttribute('href','https://nordrastudio.mx'+pagePath(current));root.removeAttribute('aria-busy');
    address(request.historyMode);
    // Fade only the prepared destination in. Keep the previous page fully painted below it.
    const frame=request.frame;
@@ -124,7 +126,7 @@
  });
  const route=()=>{
   const hash=new URLSearchParams(location.hash.slice(1));
-  const fromFile=location.pathname==='/'?'entrada':Object.keys(pages).find(key=>location.pathname==='/'+pages[key]||location.pathname==='/'+pages[key]+'.html');
+  const fromFile=location.pathname===prefix+'/'?'entrada':Object.keys(pages).find(key=>location.pathname===pagePath(key)||location.pathname===pagePath(key)+'.html');
   return {next:hash.get('pagina')||history.state?.nordraPage||fromFile||scene,anchor:hash.get('seccion')||history.state?.anchor||(!hash.has('pagina')?location.hash.slice(1):'')};
  };
  addEventListener('popstate',()=>{const r=route();go(r.next,r.anchor,'none');});

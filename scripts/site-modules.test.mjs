@@ -165,6 +165,7 @@ const pages = {
       "theme-transition",
       "interface-icons",
       "mobile-chrome",
+      "language-switch",
       "home",
       "home-snow",
       "page-navigation"
