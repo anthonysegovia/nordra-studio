@@ -52,6 +52,7 @@
    const poster=document.querySelector('.landscape-poster'),hero=poster.parentElement;
    const picture=poster.querySelector('picture'),image=picture.querySelector('img'),sources=picture.querySelectorAll('source');
    let phase=document.documentElement.dataset.landscapePoster,revision=0;
+   let iceImage;
    const prepared=new Map();
    const resource=(node,key)=>phase==='start'?node.dataset[key].replace('landscape-poster-','landscape-start-'):node.dataset[key];
    const selected=key=>resource([...sources].find(source=>matchMedia(source.media).matches)||image,key);
@@ -93,6 +94,18 @@
     final(){if(phase==='final')return;phase='final';document.documentElement.dataset.landscapePoster=phase;return theme();},
     started(){try{sessionStorage.setItem('nordra-landscape-entered','true');}catch{}},
    };
+   function seasonalShore(){
+    if(!hero.winterIce || poster.dataset.theme!=='light'){
+     iceImage?.remove();iceImage=null;return;
+    }
+    const url=selected('light').replace('landscape-','landscape-ice-');
+    if(!iceImage){
+     iceImage=new Image();iceImage.alt='';iceImage.decoding='async';iceImage.className='winter-shore';
+     poster.append(iceImage);
+    }
+    if(iceImage.getAttribute('src')!==url)iceImage.src=url;
+   }
+   hero.addEventListener('nordra-winter-season',seasonalShore);
    function fit(){
     // Initial captures already include the dolly camera. Cover/crop matches the
     // four capture formats; final stills retain their existing calibrated fit.
@@ -104,18 +117,22 @@
      rect.width<=1600?{width:1440,height:820,summit:497.468912,massif:248.03544,start:[637.52,715.00],horizon:677.78}:
      rect.width>=2200?{width:2560,height:1000,summit:509.4375,massif:399.5625,start:[736.01,860.53],horizon:796.52}:
      {width:1920,height:820,summit:509.4375,massif:235.9425,start:[642.70,716.32],horizon:681.35};
+    seasonalShore();
+    // Projected solar landmarks from the four offline captures (start and settled).
+    const solar=mobile?[86.17,520.06,85.8,544.08]:rect.width<=1600?[246.42,540.16,244.8,581.43]:
+     rect.width>=2200?[438.06,617.29,435.2,679.02]:[328.54,545.33,326.4,585.0];
     const cover=Math.max(rect.width/captured.width,rect.height/captured.height);
     const top=rect.height-captured.height*cover;
     if(poster.dataset.phase==='start'){
      poster.style.setProperty('--poster-zoom',1);poster.style.setProperty('--poster-shift','0px');
-     poster.lakeBounds={horizon:top+captured.start[0]*cover,shore:top+captured.start[1]*cover};
+     poster.lakeBounds={horizon:top+captured.start[0]*cover,shore:top+captured.start[1]*cover,sunX:rect.width/2+(solar[0]-captured.width/2)*cover,sunY:top+solar[1]*cover};
      return;
     }
     let massif=rect.width*(mobile?134.157293/390:248.03544/1440);
     if(!mobile&&rect.width/rect.height>1440/820)massif=Math.min(massif,rect.height*.909-summit);
     const zoom=Math.max(1,massif/captured.massif/cover);
     const shift=summit-(captured.summit*cover+top)*zoom;
-    poster.lakeBounds={horizon:(top+captured.horizon*cover)*zoom+shift,shore:summit+captured.massif*cover*zoom};
+    poster.lakeBounds={horizon:(top+captured.horizon*cover)*zoom+shift,shore:summit+captured.massif*cover*zoom,sunX:rect.width/2+(solar[2]-captured.width/2)*cover*zoom,sunY:(top+solar[3]*cover)*zoom+shift};
     poster.style.setProperty('--poster-zoom',zoom);
     poster.style.setProperty('--poster-shift',`${shift}px`);
    }

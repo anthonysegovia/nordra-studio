@@ -66,10 +66,10 @@ try {
       body = body.replace(match[0], `${match[1]}=${match[2]}.domElement;{const original=${match[2]}.render;${match[2]}.render=function(scene,camera){if(scene.isScene&&camera.isPerspectiveCamera&&camera.position.y>0)window.posterCapture={scene,camera,renderer:this};return original.call(this,scene,camera)}};${match[1]}.setAttribute("aria-hidden","true")`);
       // Capture at the requested 2× resolution; only this intercepted response
       // lifts the mobile DPR cap. The production source/build remain untouched.
-      if (mobile) { assert.match(body, /name:"mobile",dpr:1\.5/); body = body.replace(/name:"mobile",dpr:1\.5/, 'name:"mobile",dpr:2'); }
+      if (mobile) { assert.match(body, /name:"mobile",dpr:1\.5/); body = body.replace(/name:"mobile",dpr:1\.5,pixels:\d+(?:e[+-]?\d+)?/i, 'name:"mobile",dpr:2,pixels:2000000'); }
       await route.fulfill({ response, body });
     });
-    await page.goto(`${values.url}/?theme=${theme}&motion=paused`);
+    await page.goto(`${values.url}/?theme=${theme}&motion=paused&nieve=0`);
     await page.evaluate(() => document.fonts.ready);
     await page.evaluate(async ({ file, dark, initialElapsed }) => {
       // Freeze animation scheduling only in this offline browser. No capture
@@ -79,7 +79,7 @@ try {
       await createLandscapeScene(document.querySelector('.horizon-landscape'), { initialElapsed, dark });
     }, { file: sceneFile, dark: theme === 'dark', initialElapsed });
     await page.waitForFunction(() => document.querySelector('.horizon-landscape').classList.contains('has-scene'));
-    const capture = await page.evaluate(({holdPeak,portrait,portraitSeconds}) => {
+    const capture = await page.evaluate(({holdPeak,portrait,portraitSeconds,daylight}) => {
       const { renderer, scene, camera } = window.posterCapture;
       // The settled night portrait holds the crest of a pulse; the entrance stays unlit.
       if (holdPeak) scene.traverse(object => {
@@ -89,8 +89,39 @@ try {
         if (uniforms?.pulse) uniforms.pulse.value = 1;
         if (uniforms?.pulseCenter) uniforms.pulseCenter.value = 0;
       });
+      const lake = daylight && scene.children.find(o=>o.material?.uniforms.winterIce);
+      if (lake) lake.material.uniforms.winterIce.value = 0;
       renderer.render(scene, camera);
       const png = renderer.domElement.toDataURL('image/png');
+      // A transparent seasonal patch reuses the static poster without duplicating its sky.
+      let icePng;
+      if (daylight) {
+        const source = renderer.domElement;
+        const tile = document.createElement('canvas');
+        tile.width = source.width; tile.height = source.height;
+        const g = tile.getContext('2d',{willReadFrequently:true});
+        const gl = renderer.getContext();
+        const pixels = () => {
+          const data = new Uint8Array(tile.width*tile.height*4);
+          gl.readPixels(0,0,tile.width,tile.height,gl.RGBA,gl.UNSIGNED_BYTE,data);
+          return data;
+        };
+        const before = pixels();
+        lake.material.uniforms.winterIce.value = 1;
+        lake.material.uniformsNeedUpdate = true;
+        renderer.render(scene,camera);
+        const lit = pixels();
+        const after = g.createImageData(tile.width,tile.height);
+        for (let y=0; y<tile.height; y++) for(let x=0; x<tile.width; x++) {
+          const i=(y*tile.width+x)*4;
+          if (before[i]!==lit[i] || before[i+1]!==lit[i+1] || before[i+2]!==lit[i+2]) {
+            after.data.set(lit.subarray(i,i+4),((tile.height-1-y)*tile.width+x)*4);
+          }
+        }
+        g.putImageData(after,0,0);
+        if (!after.data.some((value,i)=>i%4===3 && value>0)) throw Error('Empty ice patch, shoreZ='+lake.material.uniforms.shoreZ.value);
+        icePng = tile.toDataURL('image/png');
+      }
       const rect = renderer.domElement.getBoundingClientRect();
       const point = camera.position.clone();
       const y = v => (1 - v.clone().project(camera).y) * rect.height / 2;
@@ -106,12 +137,18 @@ try {
       });
       const sun = scene.children.find(object => object.material?.uniforms.pixelAngle).material.uniforms.sun.value.clone().multiplyScalar(800).add(camera.position);
       const baseY = y(point.set(0, 0, frontZ));
-      return { png, canvas: { width: rect.width, height: rect.height }, summitY, baseY, massifHeight: baseY - summitY,
+      return { png, icePng, canvas: { width: rect.width, height: rect.height }, summitY, baseY, massifHeight: baseY - summitY,
         horizonY: y(point.set(0, 0, -800)), sunX: (sun.clone().project(camera).x + 1) * rect.width / 2,
         sunY: y(sun), camera: camera.position.toArray() };
-    }, {holdPeak: theme === 'dark' && values.phase === 'final', portrait: mobile, portraitSeconds: NIGHT_PORTRAIT_MS / 1000});
+    }, {holdPeak: theme === 'dark' && values.phase === 'final', portrait: mobile, portraitSeconds: NIGHT_PORTRAIT_MS / 1000, daylight: theme === 'light'});
     const name = `landscape-${values.phase === 'start' ? 'start' : 'poster'}-${theme}-${format}${values.version ? `-${values.version}` : ''}`;
     const png = Buffer.from(capture.png.split(',')[1], 'base64'); delete capture.png;
+    if (capture.icePng) {
+      const patch = spawnSync('ffmpeg',['-y','-loglevel','error','-i','pipe:0','-frames:v','1','-c:v','libwebp','-q:v','88',
+        path.join(values.output,name.replace('landscape-','landscape-ice-')+'.webp')],{input:Buffer.from(capture.icePng.split(',')[1],'base64')});
+      assert.equal(patch.status,0,String(patch.stderr));
+    }
+    delete capture.icePng;
     const rawPath = path.join(values.evidence, `${name}.png`);
     fs.writeFileSync(rawPath, png);
     const webpPath = path.join(values.output, `${name}.webp`);
