@@ -1,4 +1,4 @@
-/* Invitaciones · Bodas and Temporada: «Pruébala aquí» loads the real invitation inside the phone, only on request.
+/* Invitaciones · Bodas, Cumpleaños, Eventos and Temporada: «Pruébala aquí» loads the real invitation inside the phone, only on request.
    Without JavaScript the same link simply opens the invitation. */
 const small=matchMedia('(max-width:700px)');
 document.querySelectorAll('[data-view="invitaciones"]:not([hidden]) .showcase-live').forEach(art=>{
