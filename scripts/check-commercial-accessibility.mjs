@@ -25,10 +25,9 @@ try {
     if (/landscape-scene|three(?:\.module|\.js|-)/.test(request.url())) sceneRequests.push(request.url());
   });
   await home.goto(base, { waitUntil: 'networkidle' });
-  await home.getByRole('button', { name: 'Ver en movimiento' }).waitFor();
+  assert.equal(await home.locator('.horizon-landscape canvas').count(), 0);
   await home.waitForTimeout(2000);
-  assert.deepEqual(sceneRequests, [], 'Mobile hero must remain static before activation');
-  await home.getByRole('button', { name: 'Ver en movimiento' }).click();
+  assert.deepEqual(sceneRequests, [], 'Mobile hero must remain static on phones');
   await phone.close();
   for (const theme of ['light', 'dark']) for (const route of ['', 'estudio', 'negocios', 'invitaciones', 'bodas', 'cumpleanos', 'eventos', 'temporada']) {
     const context = await browser.newContext({ viewport: { width: 375, height: 812 }, reducedMotion: 'reduce' });

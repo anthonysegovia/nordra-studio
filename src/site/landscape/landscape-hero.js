@@ -6,8 +6,6 @@ if (stage) {
   const poster = window.NordraLandscapePoster;
   const staticProfile = navigator.connection?.saveData === true;
   const phone = matchMedia('(max-width:700px)');
-  const play = document.querySelector('[data-landscape-play]');
-  let optedIn = false;
   // Observe the parent-owned frame: document.hidden does not reflect aria-hidden.
   const frame = window.frameElement;
   const parentDocument = frame?.ownerDocument;
@@ -21,7 +19,7 @@ if (stage) {
   });
   const signal = (active, release = false) => dispatchEvent(new CustomEvent('nordra-landscape', { detail: { active, release } }));
   // A still visit already has its final landscape; do not allocate WebGL for it.
-  const shouldLoad = current => landscapePolicy(current).load && !current.paused && !current.reduced && !staticProfile && (!phone.matches || optedIn);
+  const shouldLoad = current => landscapePolicy(current).load && !current.paused && !current.reduced && !staticProfile && !phone.matches;
   function fallback() {
     failed = true; poster?.final();
     stage.classList.remove('has-scene'); stage.dataset.renderer = 'static'; signal(false);
@@ -52,7 +50,7 @@ if (stage) {
         onReady: () => { if (!disposed) { poster?.started(); signal(true); } },
       });
       transferred = true;
-      if (disposed || (phone.matches && !optedIn)) next.dispose();
+      if (disposed || phone.matches) next.dispose();
       // Preparation already reads getState and starts the renderer. A second
       // synchronous sync here would draw the landscape twice.
       else scene = next;
@@ -68,10 +66,8 @@ if (stage) {
     // The original document remains under navigation iframes; release its GPU too.
     if (document.body.classList.contains('has-page-frame') || (frame && !frame.isConnected)) { dispose(); return; }
     const current = state();
-    const offerMotion = phone.matches && !optedIn && !current.reduced && !current.paused && !staticProfile;
-    document.documentElement.toggleAttribute('data-offer-landscape-motion', offerMotion);
-    if (phone.matches && loaded && visible && !optedIn) poster?.started();
-    if (scene && phone.matches && !optedIn) {
+    if (phone.matches) poster?.final();
+    if (scene && phone.matches) {
       scene.dispose(); scene = null; signal(false, true);
     }
     if (current.paused || current.reduced || staticProfile) poster?.final();
@@ -105,7 +101,6 @@ if (stage) {
     scene?.dispose(); scene = null; signal(false, true);
   }
   const view = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
-  play?.addEventListener('click', () => { optedIn = true; sync(); }, { once: true });
   phone.addEventListener('change', sync);
   view.observe(stage);
   const changes = new MutationObserver(sync);

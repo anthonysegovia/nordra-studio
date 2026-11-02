@@ -16,7 +16,7 @@ export const homeCopy = {
   'Diseñadas para sentirse tuyas, hasta el último detalle.': 'Made to feel like you, down to the last detail.',
   'Quiero una página web': 'I need a website', 'Quiero una invitación': 'I need an invitation',
   'Diseñado contigo': 'Designed with you', 'Hecho a medida': 'Made to fit', 'Trato directo': 'Direct contact',
-  'Ver en movimiento': 'See it in motion', 'Negocios e Invitaciones': 'Websites and invitations',
+  'Negocios e Invitaciones': 'Websites and invitations',
   'Una laptop muestra la botella de Sobremesa sobre la flor blanca del cafeto': 'A laptop showing the Sobremesa bottle nestled in a white coffee blossom',
   'Tu visión, convertida en una web que se siente tuya.': 'A website that feels like your business from the first visit.',
   'Explorar negocios': 'Explore websites', 'Sobre marfil y tarjeta botánica sobre seda, con flores delicadas': 'An ivory envelope and a botanical invitation on silk, with delicate flowers',

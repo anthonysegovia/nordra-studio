@@ -8,6 +8,6 @@ En un Android de gama media, activa las opciones de desarrollador y la depuraci�
 
 1. Inicio → Negocios → precios → WhatsApp. Desplázate con el pulgar, elige un paquete y abre WhatsApp desde la barra. Comprueba el mensaje sin enviarlo y vuelve al sitio. Revisa el pie y el área segura en vertical y horizontal.
 2. Inicio → Invitaciones → vitrina → «Pruébala aquí» → clientes. Vuelve de la invitación, desliza las tarjetas y toca sus puntos. Comprueba que la posición anunciada coincide con la tarjeta visible.
-3. Recarga el inicio. Comprueba en Red que Three se descarga solo tras «Ver en movimiento». Repite con movimiento reducido y, si el navegador expone ahorro de datos, con esa opción activada.
+3. Recarga el inicio. Comprueba en Red que el teléfono muestra el póster y no descarga Three. Repite con movimiento reducido y, si el navegador expone ahorro de datos, con esa opción activada.
 
 En cada recorrido registra el control, el retraso entre toque y respuesta visible, el tramo donde el scroll pierde fluidez y qué elemento cambia de posición al cargar. Graba una traza de rendimiento y repite sin el inspector para distinguir el coste de la depuración. Guarda tiempos y capturas sin contenido de conversaciones ni datos personales. Las métricas de campo estarán disponibles cuando el responsable habilite Speed Insights en Vercel.
