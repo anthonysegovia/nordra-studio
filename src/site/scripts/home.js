@@ -42,7 +42,10 @@
   addEventListener('resize',measureGlow,options);
  }
  const visible=new Set();let frame=0;
+ const small=matchMedia('(max-width:700px)');
  const stopped=()=>reduced.matches||document.body.dataset.journeyMotion==='paused';
+ // Phones keep the cards at rest: the image zoom does not follow the finger.
+ const scrollStill=()=>stopped()||small.matches;
  const observer=new IntersectionObserver(entries=>{
   entries.forEach(({target,isIntersecting})=>{
    target.classList.toggle('is-visible',isIntersecting);
@@ -53,7 +56,7 @@
  [...lights,...cards].forEach(el=>observer.observe(el));
  function paint(){
   frame=0;if(document.hidden)return;
-  if(stopped()){cards.forEach(card=>card.style.removeProperty('--image-scale'));return;}
+  if(scrollStill()){cards.forEach(card=>card.style.removeProperty('--image-scale'));return;}
   const positions=[...visible].map(card=>({card,rect:card.getBoundingClientRect()}));
   positions.forEach(({card,rect})=>{
    const progress=Math.max(0,Math.min(1,(innerHeight-rect.top)/(innerHeight+rect.height)));
@@ -61,7 +64,7 @@
   });
  }
  function queue(){if(!frame&&!document.hidden)frame=requestAnimationFrame(paint);}
- addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue,{passive:true});
+ addEventListener('scroll',()=>{if(!small.matches)queue();},{passive:true});addEventListener('resize',queue,{passive:true});small.addEventListener('change',queue);
  addEventListener('nordra-local-motion',queue);reduced.addEventListener('change',queue);
  const state=new MutationObserver(()=>{queue();syncGlow();});state.observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
  glowMedia.addEventListener('change',syncGlow);syncGlow();

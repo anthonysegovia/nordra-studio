@@ -3,7 +3,8 @@
  const host=document.querySelector('[data-view]:not([hidden])');if(!host)return;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const small=matchMedia('(max-width:700px)');
- const paused=()=>reduced.matches||document.body.dataset.journeyMotion==='paused';
+ // Phones show each composition already assembled; scroll does not rebuild it frame by frame.
+ const paused=()=>reduced.matches||document.body.dataset.journeyMotion==='paused'||small.matches;
  const clamp=x=>Math.max(0,Math.min(1,x));
  const smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
  const top=el=>{let y=0;for(let n=el;n;n=n.offsetParent)y+=n.offsetTop;return y;};
@@ -88,12 +89,13 @@
   }
  }
  function queue(){if(!frame&&!document.hidden)frame=requestAnimationFrame(paint);}
- addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue,{passive:true});
+ const onScroll=()=>{if(!small.matches)queue();};
+ addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',queue,{passive:true});small.addEventListener('change',queue);
  addEventListener('nordra-showcase-select',queue);reduced.addEventListener('change',queue);
  document.addEventListener('visibilitychange',queue);
  const state=new MutationObserver(queue);state.observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
  const sizes=new ResizeObserver(queue);sizes.observe(host);
  host.querySelectorAll('img').forEach(img=>{if(!img.complete)img.addEventListener('load',queue,{once:true});});
  document.fonts.ready.then(queue);queue();
- addEventListener('pagehide',()=>{cancelAnimationFrame(frame);state.disconnect();sizes.disconnect();removeEventListener('scroll',queue);removeEventListener('resize',queue);},{once:true});
+ addEventListener('pagehide',()=>{cancelAnimationFrame(frame);state.disconnect();sizes.disconnect();removeEventListener('scroll',onScroll);removeEventListener('resize',queue);},{once:true});
 })();

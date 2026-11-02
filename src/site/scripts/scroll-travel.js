@@ -2,7 +2,9 @@
 (()=>{
  const host=document.querySelector('[data-view]:not([hidden])');if(!host)return;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)'),mobile=matchMedia('(max-width:700px)');
- const paused=()=>reduced.matches||document.body.dataset.journeyMotion==='paused';
+ const motionOff=()=>reduced.matches||document.body.dataset.journeyMotion==='paused';
+ // Phones keep the settled layout: scroll no longer drives these properties frame by frame.
+ const paused=()=>motionOff()||mobile.matches;
  const seasonal=host.dataset.view==='temporada';
  let field=host.querySelector('.seasonal-flow-field');
  if(!field){field=document.createElement('div');field.className='aurora-field';field.setAttribute('aria-hidden','true');host.append(field);}
@@ -97,9 +99,19 @@
  const sizes=new ResizeObserver(dimensions);sizes.observe(host);
  const state=new MutationObserver(sync);state.observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
  addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',dimensions,{passive:true});
- document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync);mobile.addEventListener('change',dimensions);
+ document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync);mobile.addEventListener('change',()=>{sync();dimensions();});
  document.fonts.ready.then(dimensions);sync();
- addEventListener('pagehide',()=>{cancelAnimationFrame(frame);observer.disconnect();sizes.disconnect();state.disconnect();removeEventListener('scroll',onScroll);removeEventListener('resize',dimensions);},{once:true});
+ // On phones each block settles once as it arrives, on the compositor, instead of following the finger.
+ const arrive=new IntersectionObserver(entries=>{
+  for(const entry of entries){
+   if(!entry.isIntersecting)continue;
+   arrive.unobserve(entry.target);
+   if(!mobile.matches||motionOff()||!entry.target.animate)continue;
+   entry.target.animate([{opacity:.6,transform:'translateY(12px)'},{opacity:1,transform:'none'}],{duration:360,easing:'cubic-bezier(.22,.7,.2,1)'});
+  }
+ },{threshold:.12});
+ if(mobile.matches)items.filter(item=>['media','heading','block'].includes(item.kind)&&item.el.getBoundingClientRect().top>innerHeight).forEach(item=>arrive.observe(item.el));
+ addEventListener('pagehide',()=>{cancelAnimationFrame(frame);observer.disconnect();arrive.disconnect();sizes.disconnect();state.disconnect();removeEventListener('scroll',onScroll);removeEventListener('resize',dimensions);},{once:true});
 })();
 /* 5.41 — Reversible disclosure motion, including keyboard activation. */
 (()=>{

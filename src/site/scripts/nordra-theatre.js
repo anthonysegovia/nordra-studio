@@ -3,7 +3,8 @@
 (()=>{
  const host=document.querySelector('[data-view]:not([hidden])');if(!host)return;
  const reduce=matchMedia('(prefers-reduced-motion: reduce)'),small=matchMedia('(max-width:700px)'),short=matchMedia('(max-height:650px)');
- const stopped=()=>reduce.matches||document.body.dataset.journeyMotion==='paused';
+ // Phones show the settled light; scroll does not replay it frame by frame.
+ const stopped=()=>reduce.matches||document.body.dataset.journeyMotion==='paused'||small.matches;
  const clamp=x=>Math.max(0,Math.min(1,x)),smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
  const layoutTop=el=>{let y=0;for(let n=el;n;n=n.offsetParent)y+=n.offsetTop;return y;};
  const chapters=[];
@@ -134,10 +135,11 @@
   }
  }
  function queue(){if(!frame&&!document.hidden)frame=requestAnimationFrame(paint);}
- addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue,{passive:true});
+ const onScroll=()=>{if(!small.matches)queue();};
+ addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',queue,{passive:true});
  addEventListener('nordra-seasonal-palette',e=>{const a=palette[e.detail.from]||palette[6],b=palette[e.detail.to]||a;colors=a.map((c,i)=>c.map((v,j)=>v+(b[i][j]-v)*e.detail.blend));chapters.forEach(item=>item.mobileLight?.setPalette(e.detail.from,e.detail.to,e.detail.blend));queue();});
  document.addEventListener('visibilitychange',queue);reduce.addEventListener('change',queue);small.addEventListener('change',queue);short.addEventListener('change',queue);
  const state=new MutationObserver(queue);state.observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
  const size=new ResizeObserver(queue);size.observe(host);document.fonts.ready.then(queue);queue();
- addEventListener('pagehide',()=>{cancelAnimationFrame(frame);state.disconnect();size.disconnect();chapters.forEach(i=>i.dispose());removeEventListener('scroll',queue);removeEventListener('resize',queue);},{once:true});
+ addEventListener('pagehide',()=>{cancelAnimationFrame(frame);state.disconnect();size.disconnect();chapters.forEach(i=>i.dispose());removeEventListener('scroll',onScroll);removeEventListener('resize',queue);},{once:true});
 })();

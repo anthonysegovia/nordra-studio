@@ -3,7 +3,8 @@
  if(!host)return;
  const chapters=[...host.querySelectorAll('.seasonal-chapter')];
  const links=[...host.querySelectorAll('.seasonal-route a')];
- const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)'),small=matchMedia('(max-width:700px)');
+ let written='';
  const colors={
   4:{light:[252,245,241],dark:[37,27,43],accent:[149,83,52],bright:[239,183,139]},
   5:{light:[241,247,242],dark:[19,41,35],accent:[48,110,83],bright:[164,215,188]},
@@ -28,7 +29,12 @@
     if(fraction<1)break;
    }
   }
+  // Phones switch palette per chapter instead of recolouring the whole page on every frame.
+  if(small.matches)blend=blend<.5?0:1;
   const dark=document.body.classList.contains('dark');
+  const key=`${from}|${to}|${blend.toFixed(3)}|${dark}`;
+  if(key===written)return;
+  written=key;
   function mix(key){return colors[from][key].map((n,i)=>Math.round(n+(colors[to][key][i]-n)*blend)).join(' ');}
   document.body.style.setProperty('--seasonal-bg',`rgb(${mix(dark?'dark':'light')})`);
   document.body.style.setProperty('--seasonal-accent',`rgb(${mix(dark?'bright':'accent')})`);
@@ -37,7 +43,7 @@
  }
  function queue(){if(!queued)queued=requestAnimationFrame(update);}
  addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);
- addEventListener('nordra-theme',()=>{const was=paused;paused=false;update();paused=was;});
+ addEventListener('nordra-theme',()=>{const was=paused;paused=false;written='';update();paused=was;});
  addEventListener('nordra-local-motion',e=>{paused=!!e.detail.paused;queue();});
  addEventListener('message',e=>{if(e.source===parent&&e.data?.type==='nordra-motion'){paused=!!e.data.paused;queue();}});
  reduced.addEventListener('change',()=>{paused=reduced.matches;queue();});
