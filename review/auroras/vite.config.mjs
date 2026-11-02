@@ -8,8 +8,8 @@ export default defineConfig({ cacheDir: 'review/auroras/.cache', plugins: [{
     if (!id.endsWith('/site/landscape/landscape-scene.js')) return;
     const begin = code.indexOf('const bandVertex'), end = code.indexOf('// Distant range:', begin);
     if (begin < 0 || end < 0) throw Error('Landscape shader anchors changed');
-    return (code.slice(0,begin) + 'const bandVertex = ' + JSON.stringify(shader('ribbon.vert')) +
-      '; const bandFragment = ' + JSON.stringify(shader('ribbon.frag')) + ';\n' + code.slice(end))
+    return (code.slice(0,begin) + 'const bandVertex = ' + JSON.stringify(shader('original-ribbon.vert').replace('void main()', 'void originalPose()')+'\n'+shader('ribbon.vert').split('void main()')[1].replace(/^\s*\{/, 'void main(){ if(variant < 2.5){ originalPose(); return; }').replace('step(1.5,variant)','0.0')) +
+      '; const bandFragment = ' + JSON.stringify(shader('original-ribbon.frag').replace('void main()', 'void originalLight()')+'\n'+shader('ribbon.frag').split('void main()')[1].replace(/^\s*\{/, 'void main(){ if(variant < 2.5){ originalLight(); return; }').replace('variant>0.5 && variant<1.5','true')) + ';\n' + code.slice(end))
       .replace('renderer.debug.onShaderError = () => { shaderFailed = true; };', 'renderer.debug.onShaderError = (gl, program, vs, fs) => { console.error(gl.getShaderInfoLog(vs), gl.getShaderInfoLog(fs)); shaderFailed = true; };').replace('vertexShader: bandVertex,', 'side: 2, forceSinglePass: true, vertexShader: bandVertex,')
       .replace('time, dark, pulse, pulseCenter, wind:', 'variant: window.curtainMode, time, dark, pulse, pulseCenter, wind:')
       .replace('vec3 stars = starColour', 'float polarGlow = exp(-pow((d.y - 0.26 - 0.04*sin(5.0*d.x+time*0.075))/0.11,2.0)); c += vec3(0.008,0.032,0.029)*polarGlow*aurora*dark; vec3 stars = starColour')

@@ -12,9 +12,10 @@ try {
  await page.waitForSelector('#scene.has-scene');
  const cdp=await page.context().newCDPSession(page);
  const results=[];
- for(const [index,name] of ['serena','activa','corona'].entries()){
+ for(const [index,name] of ['serena','activa','corona','activa-suavizada'].entries()){
+  if(process.argv[2] && name!==process.argv[2]) continue;
   await page.keyboard.press(String(index+1)); await page.waitForTimeout(400);
-  if(name === 'activa') await page.waitForFunction(() => window.reviewPulse > 0.94);
+  if(name.startsWith('activa')) await page.waitForFunction(() => window.reviewPulse > 0.94);
   await page.screenshot({path:out+'/'+name+'.png'});
   const timings=await page.evaluate(()=>new Promise(resolve=>{
     const samples=[],pixel=new Uint8Array(4);
@@ -27,7 +28,7 @@ try {
     };
   }));
   results.push({name,samples:timings.length,medianMs:timings[60],p95Ms:timings[114]});
-  await fs.writeFile(out+'/coste.json',JSON.stringify(results,null,2));
+  await fs.writeFile(out+'/'+(process.argv[2]||'coste')+'.json',JSON.stringify(results,null,2));
   const dir=out+'/frames-'+name;await fs.mkdir(dir,{recursive:true});
   const frames=[],writes=[];
   const capture=({data,metadata,sessionId})=>{
