@@ -12,6 +12,8 @@
 .business-offers .offers-intro h2{font-size:clamp(32px,3.7vw,52px);line-height:1.15;margin:14px 0 0;letter-spacing:-.045em}
 .offers-intro>p{max-width:380px;font-size:13px;line-height:1.75;color:var(--muted);margin:0}
 .offers-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
+/* The immersive package spans the row below: its story on the left, its price and details on the right. */
+@media(min-width:701px){#offer-immersive{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:40px;align-items:start}#offer-immersive>:is(.offer-heading,.offer-audience,.offer-points){grid-column:1}#offer-immersive>:is(.offer-levels,.offer-details){grid-column:2}#offer-immersive>.offer-levels{grid-row:1/span 2;align-self:start;min-height:0;margin-top:6px}#offer-immersive>.offer-details{grid-row:3;align-self:end}}
 .offer-card{--lamp-x:30%;--lamp-y:0px;--lamp-strength:0;--offer-surface:color-mix(in srgb,var(--bg) 94%,#92d8ed 6%);position:relative;isolation:isolate;border-radius:22px;padding:24px 22px 10px;background:var(--offer-surface);border:1px solid color-mix(in srgb,var(--accent) 24%,var(--line));scroll-margin-top:112px}
 .dark .offer-card{--offer-surface:color-mix(in srgb,var(--bg) 91%,#2e8aa6 9%)}
 .offer-recommended{border-color:color-mix(in srgb,var(--accent) 65%,var(--line));--lamp-strength:.5}

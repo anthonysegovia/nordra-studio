@@ -37,7 +37,7 @@ export function whatsappProperties(page, button) {
   return { page, button };
 }
 
-export const businessPackageIds = Object.freeze(['not_selected', 'landing-essential', 'landing-professional', 'business-site', 'custom-web', 'shop']);
+export const businessPackageIds = Object.freeze(['not_selected', 'landing-essential', 'landing-professional', 'business-site', 'custom-web', 'shop', 'immersive']);
 export function businessContactProperties(page, channel, packageId) {
   if (page !== 'negocios' || !['whatsapp', 'email'].includes(channel) || !businessPackageIds.includes(packageId)) return null;
   return { page, channel, package: packageId };
