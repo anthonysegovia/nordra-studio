@@ -30,7 +30,7 @@ test('the light table integrates approved case details, key points, demo links a
       assert.ok(source.includes(article));
       assert.ok(source.includes(approved.introductions[i]));
       assert.equal((article.match(/class="case-decision"/g)||[]).length,3);
-      assert.equal((article.match(/class="case-test-link" href="\/demos\/sobremesa\/\?p=3"/g)||[]).length,3);
+      assert.equal((article.match(/class="case-test-link" href="\/demos\/sobremesa\/#bodega"/g)||[]).length,3);
       assert.match(article,/href="#offer-immersive"/);
       continue;
     }
