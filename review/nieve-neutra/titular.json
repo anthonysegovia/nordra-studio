@@ -1,0 +1,50 @@
+[
+  {
+    "idioma": "es",
+    "ancho": 1440,
+    "antes": {
+      ".horizon-intro": 12.41883244296033,
+      ".horizon-ending": 4.817560509657595
+    },
+    "ajuste": {
+      ".horizon-intro": 12.41883244296033,
+      ".horizon-ending": 4.817560509657595
+    }
+  },
+  {
+    "idioma": "es",
+    "ancho": 375,
+    "antes": {
+      ".horizon-intro": 12.086172785488301,
+      ".horizon-ending": 4.813286020255941
+    },
+    "ajuste": {
+      ".horizon-intro": 12.086172785488301,
+      ".horizon-ending": 4.813286020255941
+    }
+  },
+  {
+    "idioma": "en",
+    "ancho": 1440,
+    "antes": {
+      ".horizon-intro": 12.396035158236346,
+      ".horizon-ending": 4.810839124130867
+    },
+    "ajuste": {
+      ".horizon-intro": 12.396035158236346,
+      ".horizon-ending": 4.810839124130867
+    }
+  },
+  {
+    "idioma": "en",
+    "ancho": 375,
+    "antes": {
+      ".horizon-intro": 12.077510814480796,
+      ".horizon-ending": 4.807821676809362
+    },
+    "ajuste": {
+      ".horizon-intro": 12.077510814480796,
+      ".horizon-ending": 4.807821676809362
+    }
+  }
+]

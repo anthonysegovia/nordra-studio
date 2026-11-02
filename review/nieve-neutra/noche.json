@@ -1,0 +1,26 @@
+[
+  {
+    "size": "compact",
+    "changed": 0,
+    "count": 1180800,
+    "maximum": 0
+  },
+  {
+    "size": "desktop",
+    "changed": 0,
+    "count": 1574400,
+    "maximum": 0
+  },
+  {
+    "size": "wide",
+    "changed": 0,
+    "count": 2560000,
+    "maximum": 0
+  },
+  {
+    "size": "mobile",
+    "changed": 0,
+    "count": 1255800,
+    "maximum": 0
+  }
+]

@@ -243,12 +243,23 @@ const mountainFragment = /* glsl */`
     vec3 facet = normalize(mix(n,slope,0.90*smoothstep(0.55,0.94,abs(n.z))));
     float facing = dot(facet,sun);
     float direct = smoothstep(-0.10,0.26,facing);
-    vec3 shadow = mix(vec3(0.31,0.43,0.58),vec3(0.54,0.66,0.77),h);
-    vec3 white = mix(vec3(0.72,0.72,0.66),vec3(0.98,0.94,0.82),h);
-    vec3 day = mix(shadow,white,direct*light)*(0.95+0.05*strata);
-    day = mix(day,mix(vec3(0.68,0.80,0.86),vec3(1.0,0.97,0.87),direct),glacierBand*glacier*0.84);
-    float rim = smoothstep(0.12,0.76,n.y)*smoothstep(0.48,0.88,h)*direct;
-    day = mix(day,vec3(1.0,0.86,0.60),rim*light*0.64);
+    vec3 day;
+    if (dark < 1.0) {
+      vec3 shadow = mix(vec3(0.30,0.44,0.57),vec3(0.53,0.68,0.78),h);
+      vec3 white = mix(vec3(0.84,0.88,0.92),vec3(0.96,0.97,0.98),h);
+      day = mix(shadow,white,direct*light)*(0.95+0.05*strata);
+      day = mix(day,mix(vec3(0.68,0.81,0.87),vec3(0.95,0.96,0.97),direct),glacierBand*glacier*0.84);
+      float rim = smoothstep(0.78,0.98,n.y)*smoothstep(0.78,0.96,h)*direct;
+      day = mix(day,vec3(0.98,0.95,0.92),rim*light*0.22);
+    } else {
+      // Keep the original operands for the final mix: rounding is visible at 8-bit precision.
+      vec3 shadow = mix(vec3(0.31,0.43,0.58),vec3(0.54,0.66,0.77),h);
+      vec3 white = mix(vec3(0.72,0.72,0.66),vec3(0.98,0.94,0.82),h);
+      day = mix(shadow,white,direct*light)*(0.95+0.05*strata);
+      day = mix(day,mix(vec3(0.68,0.80,0.86),vec3(1.0,0.97,0.87),direct),glacierBand*glacier*0.84);
+      float rim = smoothstep(0.12,0.76,n.y)*smoothstep(0.48,0.88,h)*direct;
+      day = mix(day,vec3(1.0,0.86,0.60),rim*light*0.64);
+    }
     c = mix(day, c, dark);
 
     // Haze at the foot of the mountain, the colour of the horizon glow.
