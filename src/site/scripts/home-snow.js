@@ -139,6 +139,8 @@ function snowWind(x, y, time, out) {
     context.clearRect(0, 0, width, height);
     const lake = stage?.classList.contains('has-scene') ? stage.measureLake?.() : poster?.lakeBounds;
     if (!lake || !width || !height) return;
+    snowWind(0.5,0.7,time,wind);
+    hero.snowDrift = (hero.snowDrift || 0) + wind.x*dt*0.00035;
     paintRings(dt, lake.shore);
     for (const f of flakes) {
       const { z, layer } = f;
@@ -173,8 +175,11 @@ function snowWind(x, y, time, out) {
         const distance = Math.max(0, titleTop - f.y, f.y - titleBottom);
         opacity *= 0.34 + 0.66 * Math.min(1, distance / f.size);
       }
-      context.globalAlpha = mist * shimmer * opacity;
-      const size = f.size;
+      const dx = (f.x-lake.sunX)/(height*0.13), dy = (f.y-lake.sunY)/(height*0.11);
+      const lit = Math.max(0,1-dx*dx-dy*dy);
+      const flash = lit > 0 ? lit * Math.max(0,Math.cos(spin*2.7))**8 : 0;
+      context.globalAlpha = Math.min(1,mist*opacity*(shimmer+flash));
+      const size = f.size*(1+flash*0.45);
       if (layer >= 2) {
         const angle = 0.55 * Math.sin(spin) + f.vx * 0.003;
         const cos = Math.cos(angle) * ratio, sin = Math.sin(angle) * ratio;
@@ -183,6 +188,11 @@ function snowWind(x, y, time, out) {
         context.setTransform(ratio, 0, 0, ratio, 0, 0);
       } else {
         context.drawImage(sprites[layer], f.x - size / 2, f.y - size / 2, size, size);
+      }
+      if (flash > 0.18 && layer > 0) {
+        context.globalAlpha = flash*mist*0.85;
+        context.fillStyle = '#fff1ce';
+        context.fillRect(f.x-size*0.12,f.y-0.6,size*0.24,1.2);
       }
     }
   }

@@ -73,7 +73,7 @@ const skyVertex = /* glsl */`
   void main() { vec4 p = modelMatrix * vec4(position, 1.0); dir = normalize(p.xyz - cameraPosition); gl_Position = projectionMatrix * viewMatrix * p; }
 `;
 const skyFragment = /* glsl */`
-  uniform float dark, aurora, time, pixelAngle, textElevation, meteor, meteorSide;
+  uniform float dark, aurora, time, pixelAngle, textElevation, meteor, meteorSide, windTravel;
   uniform vec3 sun;
   varying vec3 dir;
   ${noise}
@@ -103,7 +103,9 @@ const skyFragment = /* glsl */`
     float e = d.y;
     // Night: deep navy with a teal glow on the horizon. Arctic day: clear blue, paling towards the horizon.
     vec3 nightTop = vec3(0.009, 0.022, 0.068), nightMid = vec3(0.02, 0.07, 0.12), nightGlow = vec3(0.095, 0.105, 0.24);
-    vec3 dayTop = vec3(0.60, 0.76, 0.94), dayMid = vec3(0.84, 0.91, 0.98), dayGlow = vec3(1.0, 0.90, 0.92);
+    vec3 dayTop = vec3(0.45,0.65,0.87), dayMid = vec3(0.76,0.86,0.95);
+    float towardsSun = smoothstep(0.75,0.995,dot(normalize(d.xz),normalize(sun.xz)));
+    vec3 dayGlow = mix(vec3(0.78,0.87,0.94),vec3(1.0,0.87,0.77),towardsSun);
     vec3 top = mix(dayTop, nightTop, dark), mid = mix(dayMid, nightMid, dark), glow = mix(dayGlow, nightGlow, dark);
     vec3 c = mix(mid, top, smoothstep(0.05, 0.55, e));
     c = mix(c, glow, (1.0 - smoothstep(-0.02, 0.16, e)) * mix(0.6, 0.75 + 0.25 * aurora, dark));
@@ -114,6 +116,12 @@ const skyFragment = /* glsl */`
       float disk = 1.0-smoothstep(0.009,0.009+1.4*pixelAngle,angle);
       float halo = exp(-angle/0.058)*0.42 + exp(-angle*angle/0.00055)*0.21;
       float dayOn = aurora*(1.0-dark);
+      vec2 cloud = d.xz/max(e,0.055);
+      float wisps = fbm(cloud*vec2(0.36,1.9)+vec2(time*0.002+windTravel,0.0));
+      float cirrus = smoothstep(0.48,0.78,wisps)*smoothstep(0.025,0.18,e);
+      c = mix(c,vec3(0.97,0.97,0.97),cirrus*0.19*(1.0-dark));
+      float veil = exp(-pow((e-0.26-0.035*sin(d.x*7.0))/0.048,2.0));
+      c += vec3(0.0,0.012,0.010)*veil*(1.0-towardsSun)*dayOn;
       vec2 offset = d.xy-sun.xy;
       float shaft = exp(-abs(offset.x+0.62*offset.y)*40.0)
         * smoothstep(0.0,0.045,-offset.y) * exp(-abs(offset.y)*11.0);
@@ -194,7 +202,7 @@ const mountainVertex = /* glsl */`
   void main() { vec4 p = modelMatrix * vec4(position, 1.0); world = p.xyz; vNormal = normalize(mat3(modelMatrix) * normal); gl_Position = projectionMatrix * viewMatrix * p; }
 `;
 const mountainFragment = /* glsl */`
-  uniform float dark, light, glacier, time, peak, glacierBand, pulse, pulseCenter;
+  uniform float dark, light, glacier, time, peak, glacierBand, pulse, pulseCenter, windTravel;
   uniform vec3 sun;
   varying vec3 world; varying vec3 vNormal;
   ${noise}
@@ -243,6 +251,10 @@ const mountainFragment = /* glsl */`
     vec3 haze = mix(vec3(0.90, 0.94, 0.97), vec3(0.05, 0.18, 0.21), dark);
     float bank = vnoise(vec2(world.x * 0.085 - time * 0.035, world.z * 0.06));
     float fog = 1.0 - smoothstep(-0.7, 1.8 + bank * 3.1, world.y);
+    if (dark < 1.0) {
+      float drift = vnoise(vec2(world.x*0.11+windTravel,world.z*0.09+time*0.003));
+      fog = mix((1.0-smoothstep(0.0,2.0+drift*3.2,world.y))*(0.72+0.28*drift),fog,dark);
+    }
     c = mix(c, haze, fog * (0.35 + 0.35 * bank));
     gl_FragColor = vec4(c, 1.0);
   }
@@ -429,13 +441,14 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   const camera = new PerspectiveCamera(36, 1, 0.5, 1200);
   const time = { value: 0 }, dark = { value: 0 }, sun = { value: new Vector3(0.3, 0.06, -1).normalize() };
 
+  const windTravel = {value: 0};
   const pulse = { value: fromPortrait ? 1 : 0 }, pulseCenter = { value: 0 };
   const nextSky = skyEvents();
   const mouse = { target: 0, eased: 0 };
   const finePointer = matchMedia('(hover:hover) and (pointer:fine)');
   const sky = new Mesh(new SphereGeometry(900, 48, 24), new ShaderMaterial({
     vertexShader: skyVertex, fragmentShader: skyFragment, side: BackSide, depthWrite: false,
-    uniforms: { time, dark, meteor: { value: -1 }, meteorSide: { value: 1 }, aurora: { value: 0 }, pixelAngle: { value: 0.001 }, sun, textElevation: { value: 0.3 } },
+    uniforms: { time, dark, windTravel, meteor: { value: -1 }, meteorSide: { value: 1 }, aurora: { value: 0 }, pixelAngle: { value: 0.001 }, sun, textElevation: { value: 0.3 } },
   }));
   sky.renderOrder = -10;
   scene.add(sky);
@@ -473,7 +486,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     });
     const mesh = new Mesh(geometry, new ShaderMaterial({
       vertexShader: mountainVertex, fragmentShader: mountainFragment,
-      uniforms: { time, dark, light, glacier, sun, pulse, pulseCenter, peak: { value: peakHeight }, glacierBand: { value: isGlacier ? 1 : 0 } },
+      uniforms: { time, dark, light, glacier, sun, pulse, pulseCenter, windTravel, peak: { value: peakHeight }, glacierBand: { value: isGlacier ? 1 : 0 } },
     }));
     mountain.add(mesh);
     // Keep cleanup ownership even if navigation cancels the next task.
@@ -553,6 +566,9 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   stage.measureLake = () => {
     lakeBounds.horizon = (1 - lakePoint.set(0, 0, -800).project(camera).y) * height / 2;
     lakeBounds.shore = (1 - lakePoint.copy(waterlineFront).project(camera).y) * height / 2;
+    lakePoint.copy(sun.value).multiplyScalar(900).add(camera.position).project(camera);
+    lakeBounds.sunX = (1+lakePoint.x)*width/2;
+    lakeBounds.sunY = (1-lakePoint.y)*height/2;
     return lakeBounds;
   };
   const summitCandidates = [];
@@ -667,6 +683,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   function render() {
     if (!policy().render) return;
     try {
+      windTravel.value = stage.parentElement.snowDrift || 0;
       if (water.getRenderTarget) water.material.uniforms.winterIce.value = Number(stage.parentElement.winterIce === true);
       renderer.render(scene, camera);
       if (shaderFailed) throw Error('Shader compilation failed');
