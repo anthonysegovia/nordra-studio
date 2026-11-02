@@ -27,7 +27,7 @@ export function upcomingSeason(date = new Date()) {
 
 // Keep in step with the system limit (server/wedding-links.js, server/wedding-management.js) and the plan pages.
 export const invitationFacts = {
-  guests: "Hasta 300 personas, incluidos acompañantes, en Aurora y Boreal.",
+  guests: "Sin límite de invitados, incluidos acompañantes, en Aurora y Boreal.",
   afterEvent: "La invitación y el panel siguen en línea hasta 90 días después del evento, y el soporte por WhatsApp hasta 30 días después.",
 } as const;
 
