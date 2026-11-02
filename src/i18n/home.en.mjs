@@ -10,7 +10,7 @@ export const homeCopy = {
   'Eventos': 'Events', 'Temporada': 'Seasonal', 'Pausar movimiento': 'Pause motion',
   'Accesos rápidos de esta página': 'Page shortcuts', 'Servicios': 'Services',
   'ESTUDIO DE DISEÑO DIGITAL · MONTERREY, MÉXICO': 'DIGITAL DESIGN STUDIO · MONTERREY, MEXICO',
-  'Tu página y tu invitación': 'Your idea,', 'hechas contigo': 'made into a website or invitation',
+  'Tu página y tu invitación': 'Your website or invitation,', 'hechas contigo': 'designed with you',
   'Páginas web para lo que haces.': 'Websites for the work you do.',
   'Invitaciones para lo que celebras.': 'Invitations for the moments you celebrate.',
   'Diseñadas para sentirse tuyas, hasta el último detalle.': 'Made to feel like you, down to the last detail.',

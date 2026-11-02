@@ -40,5 +40,5 @@ test('English home localizes commercial links and WhatsApp, keeps sample URLs an
   }
   const prose=html.replace(/<blockquote[^>]*>[\s\S]*?<\/blockquote>/g,'').replace(/<[^>]+>/g,' ');
   assert.doesNotMatch(prose,/\b(?:páginas|negocios|invitaciones|contigo|clínica|contacto|platiquemos|conoce)\b/i);
-  assert.match(prose,/Your idea,\s+made into a website or invitation/);
+  assert.match(prose,/Your website or invitation,\s+designed with you/);
 });

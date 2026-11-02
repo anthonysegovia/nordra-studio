@@ -41,7 +41,7 @@ export function renderLocaleHome(html, en) {
     const description = 'Websites for your business and digital invitations for your celebrations, designed with you in Monterrey, Mexico. Explore the work of Nordra Studio.';
     html = html.replace(/(<meta name="description" content=")[^"]+/, '$1'+description)
       .replace(/(<meta property="og:description" content=")[^"]+/, '$1'+description)
-      .replace(/(<meta property="og:title" content=")[^"]+/, '$1Your idea, made into a website or invitation · Nordra Studio')
+      .replace(/(<meta property="og:title" content=")[^"]+/, '$1Your website or invitation, designed with you · Nordra Studio')
       .replace('content="es_MX"', 'content="en_US"')
       .replace(/(<meta property="og:url" content=")[^"]+/, '$1'+origin+'/en/')
       .replace(/"url":"https:\/\/nordrastudio.mx\/"/, '"url":"'+origin+'/en/"')
