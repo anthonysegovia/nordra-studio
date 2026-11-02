@@ -174,6 +174,7 @@ const pages = {
       "theme-transition",
       "nordra-materials",
       "nordra-theatre",
+      "light-table",
       "interface-icons",
       "page-navigation",
       "business-offers",
@@ -186,10 +187,12 @@ const pages = {
     ],
     "inline": 3,
     "entryStyles": [
+      "light-table",
       "business-offers",
       "business-content"
     ],
     "unscoped": [
+      "light-table",
       "business-offers",
       "business-content"
     ]

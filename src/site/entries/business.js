@@ -9,6 +9,8 @@ import '../scripts/business-motion.js?entry=business';
 import '../scripts/theme-transition.js?entry=business';
 import '../scripts/nordra-materials.js?entry=business';
 import '../scripts/nordra-theatre.js?entry=business';
+import '../styles/light-table.css';
+import '../scripts/light-table.js';
 import '../scripts/interface-icons.js?entry=business';
 import '../scripts/page-navigation.js?entry=business';
 import '../analytics/entry.js';

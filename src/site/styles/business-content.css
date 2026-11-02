@@ -1,17 +1,5 @@
 .person-photo{aspect-ratio:1;width:100%}.person-card>.person-photo>img{display:none}.person-card>.person-photo[data-photo-ready]>img{display:block}
-/* Business-only editorial content and the approved benefits-first sequence. */
-.business-cases{margin-block:80px;scroll-margin-top:110px}
-.business-case-intro{padding:30px 0;border-bottom:1px solid var(--line)}
-.business .business-case-intro h2{font-size:clamp(28px,3.3vw,44px);line-height:1.2;letter-spacing:-.04em;margin:0 0 18px}
-.business-case-intro p{max-width:760px;color:var(--muted)}
-.business-case-intro ul{display:flex;flex-wrap:wrap;gap:12px 28px;list-style:none;padding:0;font-size:14px}
-.business-case-intro .business-case-notice{font-size:13px}
-@media(max-width:700px){.business-cases{margin-block:50px}}
-.business .case-story.case-brief{padding:38px 0 22px}
-.case-brief-heading h2{font-size:clamp(28px,3.3vw,44px);line-height:1.2;letter-spacing:-.04em;margin:12px 0}
-.case-brief-heading>p:not(.eyebrow){font-size:16px;line-height:1.7;color:var(--muted);margin:0;max-width:780px}
-.case-brief-decisions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;padding:0;list-style:none;margin:24px 0;font-size:14px}
-.case-brief-decisions li{border-top:1px solid var(--line);padding-top:15px;line-height:1.55}
+/* Business-only editorial content. Case details now live in the light table. */
 .case-brief-demo{display:inline-flex;gap:40px;align-items:center;font-size:14px;min-height:48px;padding:10px 0;border-bottom:1px solid var(--accent)}
 .business-disclosure{border-top:1px solid var(--line);margin-top:22px}
 .business-disclosure>summary{min-height:52px;padding:15px 0;display:flex;justify-content:space-between;align-items:center;gap:18px;list-style:none;cursor:pointer;font-size:13px}
@@ -23,9 +11,6 @@
 body[data-business-motion=paused] .business-disclosure *,body[data-journey-motion=paused] .business-disclosure *{transition:none!important}
 @media(prefers-reduced-motion:reduce){.business-disclosure *{transition:none!important}}
 @media(max-width:700px){
- .business .case-story.case-brief{padding:24px 0 12px}.business .design-case{margin-bottom:22px}
- .case-brief-heading h2{font-size:28px;margin:12px 0}.case-brief-heading .eyebrow{font-size:9px;line-height:1.6}
- .case-brief-heading>p:not(.eyebrow){font-size:14px;line-height:1.7}.case-brief-decisions{gap:12px;margin:18px 0;font-size:11px}.case-brief-decisions li{padding-top:12px}
  .case-brief-demo{font-size:13px}.business-disclosure{margin-top:18px}.business-disclosure-body{padding:18px 0}
 }
 .business-person{padding:40px 0 32px;scroll-margin-top:110px}

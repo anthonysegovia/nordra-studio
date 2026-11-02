@@ -109,6 +109,9 @@
  addEventListener('nordra-scroll-moment',event=>{
   const {element,progress,moved}=event.detail;
   if(element!==bruma&&element!==envelope)return;
+  // The light table has explicit play/pause controls and its own tour clock.
+  // Shared scroll effects must not pin that opted-in tour to a still frame.
+  if(element===bruma&&element.closest('.light-table'))return;
   scrollPositions.set(element,progress);
   if(element===envelope&&moved)manualEnvelope=false;
   update();

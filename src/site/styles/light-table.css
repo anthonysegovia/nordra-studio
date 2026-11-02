@@ -57,5 +57,15 @@
  [data-view="negocios"] .light-table .feature-context{padding-top:20px;gap:14px}
 }
 /* Still visits display the completed illumination immediately. */
+[data-view="negocios"] .light-table-key-points{display:grid;gap:8px;list-style:none;padding:20px 0 0;margin:16px 0;border-top:1px solid var(--table-edge);font-size:13px;color:var(--table-copy)}
+[data-view="negocios"] .light-table .case-brief-demo{color:var(--table-ink);border-color:var(--table-edge);gap:16px}
+[data-view="negocios"] .light-table .case-full{color:var(--table-copy);border-color:var(--table-edge);scroll-margin-top:110px}
+[data-view="negocios"] .light-table .case-full .case-story-grid,[data-view="negocios"] .light-table .case-full .case-tests{grid-template-columns:1fr;gap:24px}
+[data-view="negocios"] .light-table .case-full .case-intention h2{font-size:28px;line-height:1.2;letter-spacing:-.035em;color:var(--table-ink)}
+[data-view="negocios"] .light-table .case-full :is(p,.case-label){color:var(--table-copy)}
+[data-view="negocios"] .light-table .case-full .case-closing{display:flex;flex-wrap:wrap;gap:18px}
+[data-view="negocios"] .light-table .case-full :is(a,h3,h4){color:var(--table-ink)}
+[data-view="negocios"] .light-table .case-bruma{--case-one:#e7e0ce;--case-two:#9f8766;--case-three:#4f4837}
+[data-view="negocios"] .light-table .case-lumina{--case-one:#eef4ef;--case-two:#a3c7bf;--case-three:#305d61}
 body[data-business-motion="paused"] [data-view="negocios"] .light-table *,body[data-journey-motion="paused"] [data-view="negocios"] .light-table *{transition:none!important}
 @media(prefers-reduced-motion:reduce){[data-view="negocios"] .light-table *{transition:none!important}}

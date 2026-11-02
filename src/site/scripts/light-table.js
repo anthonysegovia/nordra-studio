@@ -2,28 +2,25 @@
 // before the below-fold table installs any controls or changes attributes.
 (()=>{
  const table=document.querySelector('[data-view="negocios"] .light-table');if(!table)return;
- let initialized=false,loaded=document.readyState==='complete',near=false,frame=0,idle=0,timer=0;
+ let initialized=false,loaded=document.readyState==='complete',near=false,frame=0;
  const proximity=new IntersectionObserver(entries=>{
   if(entries.some(entry=>entry.isIntersecting)){near=true;if(loaded)schedule();}
  },{rootMargin:'600px 0px'});
  function start(){
-  if(initialized)return;initialized=true;cancelAnimationFrame(frame);clearTimeout(timer);
-  if(idle&&window.cancelIdleCallback)cancelIdleCallback(idle);
+  if(initialized)return;initialized=true;cancelAnimationFrame(frame);
   proximity.disconnect();removeEventListener('load',onLoad);removeEventListener('pagehide',cancel);
   initializeLightTable(table);
  }
  function schedule(){
-  if(initialized||frame)return;
+  if(initialized||frame||!near||!loaded)return;
   // Two frames leave a paint opportunity before the component work.
   frame=requestAnimationFrame(()=>{frame=requestAnimationFrame(()=>{
    frame=0;
-   if(near)start();
-   else if('requestIdleCallback' in window)idle=requestIdleCallback(start,{timeout:2500});
-   else timer=setTimeout(start,250);
+   start();
   });});
  }
  function onLoad(){loaded=true;schedule();}
- function cancel(){cancelAnimationFrame(frame);clearTimeout(timer);if(idle&&window.cancelIdleCallback)cancelIdleCallback(idle);proximity.disconnect();removeEventListener('load',onLoad);}
+ function cancel(event){if(event?.persisted)return;cancelAnimationFrame(frame);proximity.disconnect();removeEventListener('load',onLoad);}
  proximity.observe(table);
  if(loaded)schedule();else addEventListener('load',onLoad,{once:true});
  addEventListener('pagehide',cancel,{once:true});
@@ -77,7 +74,11 @@ function initializeLightTable(table){
  }
  links.forEach(link=>{
   link.addEventListener('focus',active);link.addEventListener('blur',()=>queueMicrotask(active));
-  link.addEventListener('click',()=>{selected=key(link);active();});
+  link.addEventListener('click',()=>{
+   selected=key(link);active();
+   const detail=table.querySelector(link.hash);
+   if(detail?.matches('details'))detail.open=true;
+  });
  });
  function fromHash(){selected=location.hash.includes('bruma')?'bruma':location.hash.includes('lumina')?'lumina':'';active();}
  addEventListener('hashchange',fromHash);fromHash();
