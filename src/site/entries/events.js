@@ -15,5 +15,7 @@ import '../scripts/showcase-live.js?entry=events';
 import '../scripts/nordra-materials.js?entry=events';
 import '../scripts/nordra-theatre.js?entry=events';
 import '../scripts/interface-icons.js?entry=events';
+import '../styles/mobile-chrome.css';
+import '../scripts/mobile-chrome.js?entry=events';
 import '../scripts/page-navigation.js?entry=events';
 import '../analytics/entry.js';

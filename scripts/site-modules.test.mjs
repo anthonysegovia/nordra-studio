@@ -43,6 +43,7 @@ const pages = {
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
+      "mobile-chrome",
       "page-navigation"
     ],
     "styles": [
@@ -50,7 +51,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "occasion-live"],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome"],
     "inline": 3
   },
   "eventos": {
@@ -68,6 +69,7 @@ const pages = {
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
+      "mobile-chrome",
       "page-navigation"
     ],
     "styles": [
@@ -75,7 +77,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "occasion-live"],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome"],
     "inline": 3
   },
   "bodas": {
@@ -94,6 +96,7 @@ const pages = {
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
+      "mobile-chrome",
       "page-navigation"
     ],
     "styles": [
@@ -101,6 +104,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
+    "entryStyles": ["mobile-chrome"],
     "inline": 3
   },
   "temporada": {
@@ -119,6 +123,7 @@ const pages = {
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
+      "mobile-chrome",
       "page-navigation"
     ],
     "styles": [
@@ -126,7 +131,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "seasonal-page"],
+    "entryStyles": ["phone-frame", "showcase-live", "seasonal-page", "mobile-chrome"],
     "inline": 5
   },
   "invitaciones": {
@@ -147,6 +152,7 @@ const pages = {
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
+      "mobile-chrome",
       "page-navigation"
     ],
     "styles": [
@@ -155,12 +161,7 @@ const pages = {
       "contact"
     ],
     "inline": 5,
-    "entryStyles": [
-      "phone-frame",
-      "showcase-live",
-      "invitation-offers",
-      "client-cases"
-    ]
+    "entryStyles": ["phone-frame", "showcase-live", "invitation-offers", "client-cases", "mobile-chrome"]
   },
   "negocios": {
     "entry": "business",
@@ -176,6 +177,7 @@ const pages = {
       "nordra-theatre",
       "light-table",
       "interface-icons",
+      "mobile-chrome",
       "page-navigation",
       "business-offers",
       "business-content"
@@ -186,11 +188,7 @@ const pages = {
       "contact"
     ],
     "inline": 3,
-    "entryStyles": [
-      "light-table",
-      "business-offers",
-      "business-content"
-    ],
+    "entryStyles": ["light-table", "mobile-chrome", "business-offers", "business-content"],
     "unscoped": [
       "light-table",
       "business-offers",
@@ -204,6 +202,7 @@ const pages = {
       "scroll-motion",
       "theme-transition",
       "interface-icons",
+      "mobile-chrome",
       "home",
       "page-navigation"
     ],
@@ -214,9 +213,7 @@ const pages = {
       "contact"
     ],
     "inline": 4,
-    "entryStyles": [
-      "phone-frame"
-    ]
+    "entryStyles": ["phone-frame", "mobile-chrome"]
   },
   "estudio": {
     "entry": "estudio",
@@ -230,14 +227,13 @@ const pages = {
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
+      "mobile-chrome",
       "page-navigation",
       "studio-showcase"
     ],
     "styles": [],
     "inline": 3,
-    "entryStyles": [
-      "studio-showcase"
-    ]
+    "entryStyles": ["mobile-chrome", "studio-showcase"]
   }
 };
 const scripts = [...new Set(Object.values(pages).flatMap(page => page.scripts))];

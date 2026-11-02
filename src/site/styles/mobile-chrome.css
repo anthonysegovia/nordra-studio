@@ -1,0 +1,18 @@
+/* Phones: native page loads with a short cross-document fade. The header and the
+   route bar keep their place, so moving between pages feels continuous. */
+@media(max-width:700px),(pointer:coarse){
+ @view-transition{navigation:auto}
+ .site-header{view-transition-name:site-header}
+ .mobile-route{view-transition-name:mobile-route}
+ ::view-transition-old(root),::view-transition-new(root){animation-duration:.24s;animation-timing-function:cubic-bezier(.22,.7,.2,1)}
+}
+@media(prefers-reduced-motion:reduce){
+ ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}
+
+/* Header that tucks away while reading down (mobile-chrome.js). */
+@media(max-width:700px){
+ .site-header{transition:translate .22s cubic-bezier(.22,.7,.2,1)}
+ .site-header.header-tucked{translate:0 -100%}
+}
+@media(max-width:700px) and (prefers-reduced-motion:reduce){.site-header{transition:none}}

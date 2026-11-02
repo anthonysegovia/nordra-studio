@@ -12,6 +12,8 @@ import '../scripts/nordra-theatre.js?entry=business';
 import '../styles/light-table.css';
 import '../scripts/light-table.js';
 import '../scripts/interface-icons.js?entry=business';
+import '../styles/mobile-chrome.css';
+import '../scripts/mobile-chrome.js?entry=business';
 import '../scripts/page-navigation.js?entry=business';
 import '../analytics/entry.js';
 

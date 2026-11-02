@@ -9,13 +9,13 @@ describe('site — page-navigation', () => {
   const file = '../src/site/scripts/page-navigation.js';
   const raw = readFileSync(new URL(file, import.meta.url), 'utf8');
   const source = '"use strict";\n' + isolateSiteScript(raw, 'page-navigation.js');
-  function setup({ hidden = false, reduced = false, paused = false } = {}) {
+  function setup({ hidden = false, reduced = false, paused = false, phone = false, hash = '' } = {}) {
     const docEvents = new Map(), events = new Map(), timers = new Map(), children = [], navigations = [], addresses = [], animations = [];
     let timerId = 0;
     const classList = () => { const names = new Set(); return { add: (...values) => values.forEach(v => names.add(v)), remove: (...values) => values.forEach(v => names.delete(v)), contains: name => names.has(name) }; };
     const element = () => ({ classList: classList(), style: {}, attributes: {}, textContent: '', setAttribute(name, value) { this.attributes[name] = value; }, removeAttribute(name) { delete this.attributes[name]; }, addEventListener() {}, remove() { this.removed = true; }, focus() {} });
     const root = element(), body = { dataset: { scene: 'estudio', journeyMotion: paused ? 'paused' : 'playing' }, classList: classList(), style: {}, append: item => children.push(item) };
-    const location = { href: 'https://example.invalid/estudio', pathname: '/estudio', hash: '', assign: url => navigations.push({ method: 'assign', url }), replace: url => navigations.push({ method: 'replace', url }) };
+    const location = { href: 'https://example.invalid/estudio' + hash, pathname: '/estudio', hash, assign: url => navigations.push({ method: 'assign', url }), replace: url => navigations.push({ method: 'replace', url }) };
     const history = { state: null, pushState(state, _, url) { this.state = state; addresses.push({ method: 'push', url }); }, replaceState(state, _, url) { this.state = state; addresses.push({ method: 'replace', url }); } };
     const document = {
       body, documentElement: root, title: 'Estudio', hidden, fonts: { ready: Promise.resolve() },
@@ -31,7 +31,7 @@ describe('site — page-navigation', () => {
       },
     };
     const context = { document, location, history, URL, URLSearchParams, innerHeight: 900, Event,
-      matchMedia: () => ({ matches: reduced }), getComputedStyle: () => ({ backgroundColor: '#fff' }),
+      matchMedia: query => ({ matches: query.includes('reduced-motion') ? reduced : query.includes('max-width:700px') || query.includes('pointer:coarse') ? phone : false }), getComputedStyle: () => ({ backgroundColor: '#fff' }),
       setTimeout: (fn, ms) => { const id = ++timerId; timers.set(id, { fn, ms }); return id; }, clearTimeout: id => timers.delete(id),
       requestAnimationFrame: fn => fn(), dispatchEvent() {}, addEventListener: (name, fn) => events.set(name, fn),
     };
@@ -39,7 +39,9 @@ describe('site — page-navigation', () => {
     runInNewContext(source, context);
     function click(next, anchor = '') {
       const link = { dataset: { go: next, anchor }, href: `https://example.invalid/${next}.html#${anchor}`, hasAttribute: () => false };
-      docEvents.get('click')({ target: { closest: () => link }, button: 0, preventDefault() {}, stopImmediatePropagation() {} });
+      const event = { target: { closest: () => link }, button: 0, preventDefault() { this.defaultPrevented = true; }, stopImmediatePropagation() {} };
+      docEvents.get('click')?.(event);
+      return event;
     }
     const frames = () => children.filter(c => c.tagName === 'iframe');
     function ready(frame, scene) { events.get('message')({ source: frame.contentWindow, data: { type: 'nordra-page-ready', scene, title: scene, background: '#fff' } }); }
@@ -96,5 +98,14 @@ describe('site — page-navigation', () => {
     assert.equal(app.frames().length, 0);
     assert.equal(app.addresses[0].url, 'https://example.invalid/estudio#contacto');
     app.click('estudio', 'contacto'); assert.equal(app.addresses.length, 1);
+  });
+  test('phones and touch screens follow links natively, without frames or history rewrites', () => {
+    const app = setup({ phone: true }); const event = app.click('negocios', 'proceso');
+    assert.equal(event.defaultPrevented, undefined);
+    assert.equal(app.frames().length, 0); assert.equal(app.addresses.length, 0); assert.equal(app.navigations.length, 0);
+  });
+  test('phones translate a legacy #pagina address into the clean page URL', () => {
+    const app = setup({ phone: true, hash: '#pagina=bodas&seccion=panel-boda' });
+    assert.deepEqual(app.navigations, [{ method: 'replace', url: 'https://example.invalid/bodas#panel-boda' }]);
   });
 });

@@ -17,6 +17,16 @@
  ready();
  // The review viewer already owns its embedded navigation.
  if(parent!==window||!pages[scene])return;
+ // Phones and touch screens navigate natively: the tap responds at once, scroll and the back
+ // gesture stay with the browser, and mobile-chrome.css adds a short cross-document fade.
+ if(matchMedia('(max-width:700px),(pointer:coarse)').matches){
+  const legacy=new URLSearchParams(location.hash.slice(1)),page=legacy.get('pagina');
+  if(page&&Object.hasOwn(pages,page)){
+   const url=new URL(page==='entrada'?'/':'/'+pages[page],initialURL);url.hash=legacy.get('seccion')||'';
+   location.replace(url.href);
+  }
+  return;
+ }
  let current=scene,currentAnchor=initialURL.hash.slice(1),prefs=readState(),active=null,pending=null,finishFade=null;
  const status=document.createElement('div');
  status.className='page-navigation-status';status.setAttribute('role','status');
