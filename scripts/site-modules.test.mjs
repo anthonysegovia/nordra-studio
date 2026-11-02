@@ -153,7 +153,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "inline": 3,
+    "inline": 5,
     "entryStyles": [
       "phone-frame",
       "showcase-live",

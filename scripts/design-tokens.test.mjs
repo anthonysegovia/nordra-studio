@@ -48,7 +48,7 @@ function checkTokens(css, expected = reference.blocks) {
   assertWarmWedding(blocks);
 }
 
-test('color roles match the palettes extracted from e186741, including order and inheritance', () => {
+test('color roles preserve the reviewed palettes and AA contrast adjustments, including order and inheritance', () => {
   assert.deepEqual(reference.roles, roles);
   checkTokens(read('tokens.css'));
   const root = postcss.parse(read('tokens.css'));

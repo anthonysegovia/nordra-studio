@@ -24,7 +24,7 @@
         },
         {
           "property": "--muted",
-          "value": "#586f7a",
+          "value": "#506570",
           "important": false
         },
         {
@@ -232,12 +232,12 @@
         },
         {
           "property": "--muted",
-          "value": "#58716d",
+          "value": "#45615b",
           "important": false
         },
         {
           "property": "--accent",
-          "value": "#337b6c",
+          "value": "#286657",
           "important": false
         },
         {
@@ -305,7 +305,7 @@
         },
         {
           "property": "--muted",
-          "value": "#716877",
+          "value": "#625768",
           "important": false
         },
         {
