@@ -65,4 +65,7 @@ body[data-business-motion=paused] .person-card,body[data-journey-motion=paused] 
 
 
 .studio-person .person-photo{width:100%;aspect-ratio:1}
+/* Stacked layout: keep the portrait compact so the heading stays in view when arriving from /negocios. */
+@media(max-width:700px){.studio-person .person-photo{max-width:260px}}
+.studio-person>.person-card{flex:1;min-width:0}
 @media(scripting:enabled){.studio-person .person-photo:not([data-photo-ready])>img{display:none}}

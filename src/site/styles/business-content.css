@@ -17,6 +17,7 @@ body[data-business-motion=paused] .business-disclosure *,body[data-journey-motio
 .business-trust a{padding:10px 0;text-decoration:underline;text-underline-offset:4px}
 .business-guarantees{list-style:none;margin:16px 0}
 .business-guarantees li{display:flex;align-items:center;gap:8px}
+.guarantee-check{width:16px;height:16px;flex:none;fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:700px){.business-trust{display:grid;grid-template-columns:44px 1fr}.business-trust a{grid-column:2}}
 .offer-delivery{display:block;margin-top:7px;font-size:11px;font-weight:400;line-height:1.5;color:var(--muted)}
 .business-delivery{border-top:1px solid var(--line);padding:26px 0 0;margin-top:40px}.business-delivery h3{font-size:20px;letter-spacing:-.03em;margin:0 0 12px}.business-delivery>p{font-size:13px;color:var(--muted);line-height:1.7}.business-delivery dl{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:24px 0 0}.business-delivery dt{font-size:13px}.business-delivery dd{font-size:13px;color:var(--muted);margin:7px 0 0;line-height:1.5}
