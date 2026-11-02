@@ -232,27 +232,29 @@ const bandFragment = /* glsl */`
 
 // Distant range: a pale, low silhouette far behind the lake, softened by atmospheric haze.
 const rangeVertex = /* glsl */`
-  uniform float time;
+  uniform float distanceLayer;
   varying float vH; varying float vU;
   ${noise}
   void main() {
     float u = uv.x;
+    u += distanceLayer * 0.137;
     float ridge = 0.55 * fbm(vec2(u * 9.0, 3.1)) + 0.45 * abs(sin(u * 23.0 + 1.3)) * fbm(vec2(u * 30.0, 7.7));
-    float height = 3.0 + 13.0 * ridge;
+    float height = mix(4.0, 8.0, distanceLayer) + mix(16.0, 32.0, distanceLayer) * ridge;
     vH = uv.y; vU = u;
-    vec3 p = vec3((u - 0.5) * 1500.0, uv.y * height - 1.5, -340.0 - 40.0 * sin(u * 3.1));
+    vec3 p = vec3((uv.x - 0.5) * 1500.0, uv.y * height - 1.5, -230.0 - 210.0 * distanceLayer - 40.0 * sin(u * 3.1));
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(p, 1.0);
   }
 `;
 const rangeFragment = /* glsl */`
-  uniform float dark;
+  uniform float dark, distanceLayer;
   varying float vH; varying float vU;
   ${noise}
   void main() {
     vec3 day = mix(vec3(0.70, 0.78, 0.88), vec3(0.86, 0.91, 0.97), smoothstep(0.0, 1.0, vH));
     day = mix(day, vec3(0.93, 0.95, 0.98), smoothstep(0.7, 0.95, vH) * smoothstep(0.4, 0.7, fbm(vec2(vU * 60.0, vH * 3.0))));
     vec3 night = mix(vec3(0.018, 0.04, 0.07), vec3(0.03, 0.075, 0.10), vH);
-    gl_FragColor = vec4(mix(day, night, dark), 1.0);
+    vec3 air = mix(vec3(0.83, 0.87, 0.94), vec3(0.10, 0.14, 0.24), dark);
+    gl_FragColor = vec4(mix(mix(day, night, dark), air, 0.08 + 0.56 * distanceLayer), 1.0);
   }
 `;
 
@@ -261,7 +263,7 @@ const mountainVertex = /* glsl */`
   void main() { vec4 p = modelMatrix * vec4(position, 1.0); world = p.xyz; vNormal = normalize(mat3(modelMatrix) * normal); gl_Position = projectionMatrix * viewMatrix * p; }
 `;
 const mountainFragment = /* glsl */`
-  uniform float dark, light, glacier, time, peak, glacierBand;
+  uniform float dark, light, glacier, time, peak, glacierBand, pulse, pulseCenter;
   uniform vec3 sun;
   varying vec3 world; varying vec3 vNormal;
   ${noise}
@@ -286,7 +288,9 @@ const mountainFragment = /* glsl */`
     c = mix(c, mix(rock * 1.2, glacierLit, glacier), glacierBand);
       float localAurora = auroraPulse(world.x, time) * light;
       float ridgeLight = pow(1.0 - abs(n.z), 2.0) * 1.25 + pow(h, 3.0) * 0.32;
-      vec3 reflectedAurora = vec3(0.16, 0.72, 0.67) * localAurora;
+      float knot = exp(-pow((world.x - pulseCenter) / 21.0, 2.0)) * pulse;
+      vec3 reflectedAurora = altitude(0.12 + 0.27 * h, dark) * localAurora * 0.78;
+      c += altitude(0.36 + 0.18 * h, dark) * knot * skyward * glacierBand * glacier * h * 0.29 * dark;
       c += reflectedAurora * (ridgeLight + glacierBand * glacier * (0.24 + 0.50 * h)) * dark;
 
     // Matte daylight rock: the approved companion to the night mountain.
@@ -307,7 +311,9 @@ const mountainFragment = /* glsl */`
 
     // Haze at the foot of the mountain, the colour of the horizon glow.
     vec3 haze = mix(vec3(0.90, 0.94, 0.97), vec3(0.05, 0.18, 0.21), dark);
-    c = mix(c, haze, (1.0 - smoothstep(-0.6, 4.0, world.y)) * mix(0.55, 0.65, dark));
+    float bank = vnoise(vec2(world.x * 0.085 - time * 0.035, world.z * 0.06));
+    float fog = 1.0 - smoothstep(-0.7, 1.8 + bank * 3.1, world.y);
+    c = mix(c, haze, fog * (0.35 + 0.35 * bank));
     gl_FragColor = vec4(c, 1.0);
   }
 `;
@@ -477,7 +483,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     });
     const mesh = new Mesh(geometry, new ShaderMaterial({
       vertexShader: mountainVertex, fragmentShader: mountainFragment,
-      uniforms: { time, dark, light, glacier, sun, peak: { value: peakHeight }, glacierBand: { value: isGlacier ? 1 : 0 } },
+      uniforms: { time, dark, light, glacier, sun, pulse, pulseCenter, peak: { value: peakHeight }, glacierBand: { value: isGlacier ? 1 : 0 } },
     }));
     mountain.add(mesh);
     // Keep cleanup ownership even if navigation cancels the next task.
@@ -488,11 +494,14 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   mountain.position.set(-MOUNTAIN.width / 2, peakHeight - MOUNTAIN.sink, MOUNTAIN.z - MOUNTAIN.depth);
   scene.add(mountain);
 
-  const range = new Mesh(new PlaneGeometry(1, 1, 240, 1), new ShaderMaterial({
-    vertexShader: rangeVertex, fragmentShader: rangeFragment, uniforms: { time, dark },
-  }));
-  range.frustumCulled = false;
-  scene.add(range);
+  const ridges = [0, 1].map(distanceLayer => {
+    const ridge = new Mesh(new PlaneGeometry(1, 1, 240, 1), new ShaderMaterial({
+      vertexShader: rangeVertex, fragmentShader: rangeFragment, uniforms: { dark, distanceLayer: { value: distanceLayer } },
+    }));
+    ridge.frustumCulled = false;
+    scene.add(ridge);
+    return ridge;
+  });
 
   // Lake: a real reflection where the device can afford it; otherwise a calm gradient.
   let water;
@@ -649,6 +658,8 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   // No pointer parallax. A small scroll flight only while motion is enabled.
   function place(elapsed = SETTLED) {
     const dolly = current.reduced ? 0 : 1 - phase(elapsed, TIMELINE.dolly);
+    ridges[0].position.x = scrollProgress * 1.6;
+    ridges[1].position.x = scrollProgress * 0.55;
     camera.position.copy(rest.position);
     camera.position.z += dolly * 8 - scrollProgress * 3;
     camera.position.y += dolly * 1.2 + scrollProgress * 0.35;
@@ -754,7 +765,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
       // output colour space. Three keys those as distinct programs, even for
       // custom shaders. Preparing just the canvas leaves the entire reflected
       // scene to compile synchronously inside the first render.
-      const completed = await preparePrograms(renderer, camera, scene, [sky, ...bands, ...mountain.children, range, water], {
+      const completed = await preparePrograms(renderer, camera, scene, [sky, ...bands, ...mountain.children, ridges[0], water], {
         reflection: water.getRenderTarget?.(), water, yieldTask: yieldSetup, cancelled,
       });
       if (!completed) return;
