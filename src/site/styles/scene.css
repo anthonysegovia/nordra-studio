@@ -25,9 +25,6 @@
 @media(max-width:1050px) and (min-width:701px){.entry .opening-offer{grid-template-columns:1fr 330px;gap:35px}.feature-stage{padding:40px 40px 0}}
 @media(max-width:700px){.entry .opening-foot{margin-top:35px}.entry .opening-offer{display:block}.entry .offer-detail{margin-bottom:22px}.entry .grounding{margin-top:28px}.project-feature{margin-top:52px;padding-top:19px}.feature-heading{gap:12px;flex-wrap:wrap;margin-bottom:20px}.feature-heading strong{font-size:32px}.feature-heading>span:not(.feature-arrow){font-size:7px;max-width:140px;line-height:1.8}.feature-arrow{width:32px;height:32px;font-size:21px}.feature-stage{margin:0 -24px;padding:26px 16px 0;border-radius:0}.feature-screen{border-radius:3px 3px 0 0}}
 
-.feature-lumina .feature-stage{background:#e3eceb}
-.feature-lumina .feature-screen{border-color:#46777725;box-shadow:0 16px 55px #2c65671c}
-.dark .feature-lumina .feature-stage{background:#1b3238}
 
 .home-continuation{position:relative;padding-top:110px;margin-top:110px;border-top:1px solid var(--line);scroll-margin-top:30px}
 .home-continuation h2{font-size:clamp(50px,6.2vw,90px);font-weight:500;line-height:1.04;letter-spacing:-.065em;margin:30px 0 50px}
@@ -724,9 +721,7 @@ html[data-journey-motion=paused]::view-transition-group(root),html[data-journey-
 .case-index small{font-size:11px;color:var(--muted);margin-left:auto}
 .case-index a>span:last-child{font-size:16px}
 .design-case{--case-accent:#775b40;--case-tint:#ebe5d933;--case-one:#e7e0ce;--case-two:#9f8766;--case-three:#4f4837;margin-bottom:95px}
-.design-case.case-lumina{--case-accent:#397876;--case-tint:#d5e8e433;--case-one:#eef4ef;--case-two:#a3c7bf;--case-three:#305d61}
 .dark .case-sobremesa{--case-accent:#d9be96;--case-tint:#87745a12}
-.dark .case-lumina{--case-accent:#a3d6ce;--case-tint:#77a8a812}
 .design-case>.project-feature{margin-top:36px}
 .feature-heading>.case-preview-label{margin-left:auto;font-size:11px!important;letter-spacing:0!important;color:var(--ink)!important}
 .case-story{padding:42px 45px 32px;border:1px solid var(--line);background:var(--case-tint);margin-top:30px;position:relative}

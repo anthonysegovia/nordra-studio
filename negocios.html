@@ -78,7 +78,22 @@
   </div>
 </div>
 <a class="case-brief-demo" href="/demos/nitida/" target="_blank" rel="noopener">Recorrer Nítida <span aria-hidden="true">↗</span></a>
-<details class="business-disclosure case-full" id="nitida-diseno"><summary>Ver el caso completo <span aria-hidden="true">+</span></summary><div class="business-disclosure-body"><p>La página reúne los tratamientos, el recorrido de la primera visita y una agenda de muestra.</p></div></details>
+<details class="business-disclosure case-full" id="nitida-diseno"><summary>Ver el caso completo <span aria-hidden="true">+</span></summary><div class="business-disclosure-body">
+  <div class="case-story-grid">
+    <div class="case-intention"><h2>Qué esperar de la primera visita</h2><p class="case-label">La intención</p><p>Alguien que busca una clínica de la vista suele llegar con preguntas concretas: cuánto cuesta el estudio, qué pasa en el consultorio y cuándo puede ir. Esas preguntas le dieron orden a Nítida.</p><div class="case-palette" aria-hidden="true"><i></i><i></i><i></i></div></div>
+    <div class="case-decisions"><h3 class="case-label">Decisiones de diseño</h3>
+      <div class="case-decision"><div><h4>Dejar espacio para mirar</h4><p>Un titular ligero comparte la portada con un solo retrato. Más abajo, un iris y un lente en la punta de un dedo ayudan a distinguir los tratamientos. El fondo blanco une las imágenes con la página.</p></div></div>
+      <div class="case-decision"><div><h4>Mostrar el precio antes del horario</h4><p>Cada servicio tiene un precio de ejemplo en pesos y su propio enlace «Agendar». Al abrir la agenda, el servicio ya está elegido.</p></div></div>
+      <div class="case-decision"><div><h4>Contar la visita en orden</h4><p>«Llegas», «Te medimos», «Platicamos» y «Decides» explican qué ocurriría en el consultorio. Puedes leer de principio a fin antes de probar un horario.</p></div></div>
+    </div>
+  </div>
+  <div class="case-try"><div class="case-try-heading"><h3>Lo que puedes probar</h3><p>Cada enlace abre esa parte de la clínica ficticia en otra pestaña.</p></div><div class="case-tests">
+    <a class="case-test-link" href="/demos/nitida/#visita" target="_blank" rel="noopener"><h4>Recorre la primera visita</h4><p>Sigue los cuatro pasos desde la llegada hasta la plática sobre los resultados.</p><span class="case-test-arrow" aria-hidden="true">↗</span></a>
+    <a class="case-test-link" href="/demos/nitida/#precios" target="_blank" rel="noopener"><h4>Elige un estudio desde su precio</h4><p>Compara los tres precios de ejemplo en MXN y toca «Agendar» en el servicio que quieras probar.</p><span class="case-test-arrow" aria-hidden="true">↗</span></a>
+    <a class="case-test-link" href="/demos/nitida/#agenda" target="_blank" rel="noopener"><h4>Prueba un horario</h4><p>Elige una hora y toca «Apartar mi estudio» para ver la confirmación de muestra. No se envía ni se guarda nada.</p><span class="case-test-arrow" aria-hidden="true">↗</span></a>
+  </div></div>
+  <div class="case-closing"><a class="primary-action" href="/demos/nitida/" target="_blank" rel="noopener">Recorrer Nítida <span aria-hidden="true">↗</span></a><a class="case-contact" href="#offer-business">Ver el paquete Sitio de Negocio <span aria-hidden="true">↓</span></a></div>
+</div></details>
 </div>
 </div></div><div class="business-trust"><img src="/nordra/v545/assets/anthony-segovia-480.webp" width="44" height="44" loading="lazy" decoding="async" alt=""><span>Hablas directo con Anthony, quien diseña y programa tu página</span><a href="/estudio#quien-esta-detras">Conoce el estudio <span aria-hidden="true">↗</span></a></div>
 {{business:faq}}<section class="home-continuation studio-process process-roadmap business-process" id="proceso" aria-labelledby="process-title">
@@ -115,9 +130,6 @@ document.querySelectorAll('.footer-layout a[href="/negocios#opciones-negocio"]')
 document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',event=>{if(parent!==window&&a.dataset.go&&event.button===0&&!event.metaKey&&!event.ctrlKey&&!event.shiftKey&&!event.altKey&&a.target!=='_blank'){event.preventDefault();parent.postMessage({type:'nordra-scene',scene:a.dataset.go,project:a.dataset.selectedProject||'sobremesa',anchor:a.dataset.anchor||''},'*');}}));
 
 const menu=document.querySelector('.menu-button'),panel=document.getElementById('mobile-menu');menu.addEventListener('click',()=>{panel.hidden=!panel.hidden;menu.setAttribute('aria-expanded',String(!panel.hidden));menu.setAttribute('aria-label',panel.hidden?'Abrir menú':'Cerrar menú');});document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!panel.hidden){panel.hidden=true;menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Abrir menú');menu.focus();}});
-const requestedProject=new URLSearchParams(location.search).get('project');
-if(requestedProject==='lumina'){document.querySelectorAll('[data-project]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.project==='lumina')));document.querySelectorAll('[data-case]').forEach(c=>c.hidden=c.dataset.case!=='lumina');}
-document.querySelectorAll('[data-project]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-project]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));document.querySelectorAll('[data-case]').forEach(c=>c.hidden=c.dataset.case!==button.dataset.project);}));
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',event=>{const target=document.getElementById(a.getAttribute('href').slice(1));if(target){event.preventDefault();if(target.matches('details.case-full'))target.open=true;target.scrollIntoView({behavior:!matchMedia('(prefers-reduced-motion: reduce)').matches&&document.body.dataset.journeyMotion!=='paused'?'smooth':'instant',block:'start'});target.setAttribute('tabindex','-1');target.focus({preventScroll:true});panel.hidden=true;menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Abrir menú');}}));
 const measurePreview=()=>{if(parent!==window)parent.postMessage({type:'nordra-height',height:Math.ceil(document.querySelector('main').getBoundingClientRect().height+document.querySelector('.site-header').getBoundingClientRect().height)},'*');};
 new ResizeObserver(measurePreview).observe(document.querySelector('main'));
