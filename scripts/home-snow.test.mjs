@@ -15,8 +15,8 @@ test('la temporada incluye noviembre, diciembre y los primeros seis días de ene
 
 function setup({ dark=false, paused=false, reduced=false, summer=false, search='' }={}) {
   const gradient = {addColorStop() {}};
-  const brush = {createRadialGradient:()=>gradient, fillRect() {}, setTransform() {}};
-  const canvas = {parentElement:{clientWidth:375,clientHeight:750}, classList:{toggle() {}},getContext:()=>brush};
+  const brush = {createRadialGradient:()=>gradient, fillRect() {}, setTransform() {},save() {},restore() {},translate() {},rotate() {},scale() {}};
+  const canvas = {parentElement:{clientWidth:375,clientHeight:750,querySelector:()=>null}, classList:{toggle() {}},getContext:()=>brush};
   let intersect, pending=0;
   const body = {classList:{contains:()=>dark},dataset:{journeyMotion:paused?'paused':'playing'}};
   const document = {body,hidden:false,querySelector:()=>canvas,createElement:()=>({getContext:()=>brush}),addEventListener(){}};
@@ -47,4 +47,13 @@ test('forzar nieve fuera de temporada sigue respetando las preferencias',()=>{
   for(const setting of [{dark:true},{paused:true},{reduced:true}]){
     assert.equal(setup({...setting,summer:true,search:'?nieve=1'})(true),0);
   }
+});
+
+test('la ráfaga viaja por el hero y cambia con la altura', () => {
+  const field = runInNewContext(raw + '\nsnowWind', { document: { querySelector: () => null } });
+  const wind = (x, y, t) => field(x, y, t, {});
+  assert.ok(wind(0, 0.5, 3).x > wind(1, 0.5, 3).x + 60);
+  assert.ok(wind(1, 0.5, 7).x > wind(0, 0.5, 7).x + 60);
+  assert.notEqual(wind(0.4, 0.1, 4).x, wind(0.4, 0.9, 4).x);
+  assert.ok(Math.abs(wind(0.4, 0.5, 4).x - wind(0.4, 0.5, 4.01).x) < 4);
 });

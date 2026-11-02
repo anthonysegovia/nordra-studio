@@ -524,6 +524,14 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
       waterlineFront.z = Math.max(waterlineFront.z, vertex.z);
     }
   });
+  // The 2D weather overlay samples the current camera only when it draws.
+  const lakePoint = new Vector3();
+  const lakeBounds = { horizon: 0, shore: 0 };
+  stage.measureLake = () => {
+    lakeBounds.horizon = (1 - lakePoint.set(0, 0, -800).project(camera).y) * height / 2;
+    lakeBounds.shore = (1 - lakePoint.copy(waterlineFront).project(camera).y) * height / 2;
+    return lakeBounds;
+  };
   const summitCandidates = [];
   mountain.traverse(object => {
     const positions = object.geometry?.attributes.position;
@@ -741,6 +749,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     canvas.removeEventListener('webglcontextlost', onLost); canvas.removeEventListener('webglcontextrestored', onRestored);
     scene.traverse(object => { object.geometry?.dispose(); object.material?.dispose(); });
     water.getRenderTarget?.().dispose(); noiseTarget.dispose(); renderer.dispose(); renderer.forceContextLoss();
+    delete stage.measureLake;
     canvas.remove(); stage.classList.remove('has-scene'); stage.dataset.renderer = 'static';
   }
   cleanup = dispose;

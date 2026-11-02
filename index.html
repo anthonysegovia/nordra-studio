@@ -97,22 +97,28 @@
    function fit(){
     // Initial captures already include the dolly camera. Cover/crop matches the
     // four capture formats; final stills retain their existing calibrated fit.
-    if(poster.dataset.phase==='start'){poster.style.setProperty('--poster-zoom',1);poster.style.setProperty('--poster-shift','0px');return;}
     const rect=hero.getBoundingClientRect(),mobile=rect.width<=700;
     const summit=hero.querySelector('.horizon-actions').getBoundingClientRect().bottom-rect.top+56;
-    // Landmarks measured by scripts/capture-landscape-posters.mjs, in CSS pixels.
-    // Match the width-limited massif, or the 9.1% lake band on wide canvases.
-    const captured=mobile?{width:390,height:814.5,summit:531.201,massif:134.144}:
-     rect.width<=1600?{width:1440,height:820,summit:497.468912,massif:248.03544}:
-     rect.width>=2200?{width:2560,height:1000,summit:509.4375,massif:399.5625}:
-     {width:1920,height:820,summit:509.4375,massif:235.9425};
+    // Projected lake horizon and front foot of the massif, in each source
+    // image's CSS pixels (capture-landscape-posters.mjs, start / settled cameras).
+    const captured=mobile?{width:390,height:814.5,summit:531.201,massif:134.144,start:[606.23,647.66],horizon:630.09}:
+     rect.width<=1600?{width:1440,height:820,summit:497.468912,massif:248.03544,start:[637.52,715.00],horizon:677.78}:
+     rect.width>=2200?{width:2560,height:1000,summit:509.4375,massif:399.5625,start:[736.01,860.53],horizon:796.52}:
+     {width:1920,height:820,summit:509.4375,massif:235.9425,start:[642.70,716.32],horizon:681.35};
+    const cover=Math.max(rect.width/captured.width,rect.height/captured.height);
+    const top=rect.height-captured.height*cover;
+    if(poster.dataset.phase==='start'){
+     poster.style.setProperty('--poster-zoom',1);poster.style.setProperty('--poster-shift','0px');
+     poster.lakeBounds={horizon:top+captured.start[0]*cover,shore:top+captured.start[1]*cover};
+     return;
+    }
     let massif=rect.width*(mobile?134.157293/390:248.03544/1440);
     if(!mobile&&rect.width/rect.height>1440/820)massif=Math.min(massif,rect.height*.909-summit);
-    const cover=Math.max(rect.width/captured.width,rect.height/captured.height);
     const zoom=Math.max(1,massif/captured.massif/cover);
-    const top=rect.height-captured.height*cover;
+    const shift=summit-(captured.summit*cover+top)*zoom;
+    poster.lakeBounds={horizon:(top+captured.horizon*cover)*zoom+shift,shore:summit+captured.massif*cover*zoom};
     poster.style.setProperty('--poster-zoom',zoom);
-    poster.style.setProperty('--poster-shift',`${summit-(captured.summit*cover+top)*zoom}px`);
+    poster.style.setProperty('--poster-shift',`${shift}px`);
    }
    fit();document.fonts.ready.then(fit);
    const size=new ResizeObserver(fit);size.observe(hero);size.observe(hero.querySelector('.horizon-actions'));

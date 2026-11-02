@@ -4,6 +4,17 @@ function snowSeason(date) {
   return month >= 10 || (month === 0 && date.getDate() <= 6);
 }
 
+// x and y are fractions of the hero. The two fronts cross from opposite
+// sides at different intervals, so even neighbouring flakes don't turn together.
+function snowWind(x, y, time, out) {
+  const right = Math.max(0, Math.cos(time * 0.62 - x * 2.6 - 1.9)) ** 4;
+  const left = Math.max(0, Math.cos(time * 0.45 + x * 2.2 + 2.7)) ** 5;
+  const eddy = Math.sin(5 * x + 3 * y - time * 0.85);
+  out.x = 18 + 31 * Math.sin(time * 0.32 + y * 1.9) + 19 * eddy + 116 * right - 104 * left;
+  out.lift = (right + left) * Math.max(0, eddy);
+  return out;
+}
+
 (() => {
   const canvas = document.querySelector('.horizon-hero > .home-snow');
   if (!canvas) return;
@@ -14,21 +25,38 @@ function snowSeason(date) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   let inView = false, pageActive = true, frame = 0, midnight = 0;
   let width = 0, height = 0, ratio = 0, last = null, time = 0;
-  let context, sprite;
-  const flakes = [];
+  let context, sprites;
+  const flakes = [], rings = [];
+  const wind = { x: 0, lift: 0 };
+  const poster = hero.querySelector('.landscape-poster');
+  const stage = hero.querySelector('.horizon-landscape');
 
-  function makeSprite() {
+  // Overlapping, off-centre soft lobes. The blue-grey light is a shadow
+  // underneath the crystal, not a contrasting ring around a white disc.
+  function makeSprite(layer) {
     const tile = document.createElement('canvas');
-    tile.width = tile.height = 32;
+    tile.width = tile.height = 64;
     const brush = tile.getContext('2d');
-    const glow = brush.createRadialGradient(16, 16, 0, 16, 16, 16);
-    glow.addColorStop(0, '#fff');
-    glow.addColorStop(0.30, 'rgba(255,255,255,.97)');
-    glow.addColorStop(0.55, 'rgba(214,230,243,.76)');
-    glow.addColorStop(0.72, 'rgba(108,139,166,.30)');
-    glow.addColorStop(1, 'rgba(108,139,166,0)');
-    brush.fillStyle = glow;
-    brush.fillRect(0, 0, 32, 32);
+    function lobe(x, y, rx, ry, angle, color, strength) {
+      brush.save();
+      brush.translate(x, y);
+      brush.rotate(angle);
+      brush.scale(rx, ry);
+      const glow = brush.createRadialGradient(0, 0, 0, 0, 0, 1);
+      glow.addColorStop(0, `rgba(${color},${strength})`);
+      glow.addColorStop(0.45, `rgba(${color},${strength * 0.55})`);
+      glow.addColorStop(1, `rgba(${color},0)`);
+      brush.fillStyle = glow;
+      brush.fillRect(-1, -1, 2, 2);
+      brush.restore();
+    }
+    lobe(30, 35, 25, 18, -0.55, '102,139,162', layer === 3 ? 0.22 : 0.43);
+    lobe(33, 29, 24, 15, -0.65, '255,255,255', layer === 0 ? 0.70 : 1);
+    if (layer === 1 || layer === 2) {
+      lobe(31, 31, 22, 6, 0.75, '255,255,255', 1);
+      lobe(34, 30, 18, 5, -0.48, '255,255,255', 0.96);
+      lobe(36, 27, 10, 4, 1.32, '246,253,255', 0.92);
+    }
     return tile;
   }
 
@@ -42,14 +70,43 @@ function snowSeason(date) {
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
     const phone = w <= 700;
     const count = Math.min(phone ? 50 : 110, Math.max(phone ? 35 : 80, Math.round(w * h / (phone ? 6200 : 11000))));
-    flakes.length = Math.min(flakes.length, count);
-    while (flakes.length < count) {
-      const depth = Math.random();
+    flakes.length = 0;
+    rings.length = 0;
+    // Paint back to front. Nearly half the particles are in the distant mist.
+    const farEnd = Math.round(count * 0.49), midEnd = Math.round(count * 0.79);
+    const nearEnd = count - Math.max(1, Math.round(count * 0.024));
+    for (let i = 0; i < count; i++) {
+      const layer = i < farEnd ? 0 : i < midEnd ? 1 : i < nearEnd ? 2 : 3;
+      const z = (layer + Math.random()) / 4;
       flakes.push({
-        x: Math.random(), y: Math.random(), size: 3 + 6 * depth,
-        speed: 15 + 36 * depth, drift: 0.65 + depth * 0.55,
-        opacity: 0.48 + depth * 0.42, phase: Math.random() * 2 * Math.PI
+        layer, z, x: Math.random() * w, y: Math.random() * h,
+        vx: 0, vy: 20 + 90 * z, phase: Math.random() * 2 * Math.PI,
+        frequency: 1.0 + Math.random(), size: 5 + 28 * z * z + (layer === 3 ? 16 : 0)
       });
+    }
+  }
+
+  // Keep ripples attached to the lake as the camera advances or the poster changes.
+  function waterContact(shore, z) {
+    return shore + 6 + (height - shore) * z ** 1.8;
+  }
+
+  function paintRings(dt, shore) {
+    context.lineWidth = 1;
+    for (let i = rings.length - 1; i >= 0; i--) {
+      const ring = rings[i];
+      ring.age += dt;
+      const t = ring.age / 1.35;
+      if (t >= 1) { rings.splice(i, 1); continue; }
+      const radius = 1.5 + (9 + 19 * ring.z) * (1 - (1 - t) ** 2);
+      context.globalAlpha = Math.min(1, t * 9) * (1 - t) ** 1.4;
+      for (let band = 0; band < 2; band++) {
+        const r = radius * (band ? 0.81 : 1);
+        context.strokeStyle = band ? 'rgba(255,255,255,.53)' : 'rgba(75,117,145,.34)';
+        context.beginPath();
+        context.ellipse(ring.x, waterContact(shore, ring.z), r, r * (0.12 + 0.08 * ring.z), 0, 0, 2 * Math.PI);
+        context.stroke();
+      }
     }
   }
 
@@ -59,15 +116,47 @@ function snowSeason(date) {
     const dt = last === null ? 0 : Math.min((now - last) / 1000, 0.08);
     last = now;
     time += dt;
-    const gust = Math.max(0, Math.sin(time * 0.44)) ** 4;
-    const wind = 8 + 32 * Math.sin(time * 0.30) + 23 * gust;
     context.clearRect(0, 0, width, height);
-    for (const flake of flakes) {
-      // Wrap beyond the edge so a whole sprite leaves before it reappears.
-      flake.x = (1 + flake.x + dt * (wind * flake.drift + 7 * Math.sin(time + flake.phase)) / (width + 12)) % 1;
-      flake.y = (flake.y + dt * flake.speed / (height + 12)) % 1;
-      context.globalAlpha = flake.opacity;
-      context.drawImage(sprite, flake.x * (width + 12) - 10, flake.y * (height + 12) - 10, flake.size, flake.size);
+    const lake = stage?.classList.contains('has-scene') ? stage.measureLake?.() : poster?.lakeBounds;
+    if (!lake || !width || !height) return;
+    paintRings(dt, lake.shore);
+    for (const f of flakes) {
+      const { z, layer } = f;
+      const far = layer === 0;
+      // Keep water contacts in front of the entire massif. z moves the
+      // contact nearer to the viewer; the closest bokeh can exit below frame.
+      const stop = far ? lake.horizon : waterContact(lake.shore, z);
+      const spin = time * f.frequency + f.phase;
+      snowWind(f.x / width, f.y / height, time, wind);
+      const gain = dt * (1.2 + z);
+      f.vx += ((wind.x + 13 * Math.sin(spin)) * (0.18 + 1.24 * z) - f.vx) * gain;
+      f.vy += (19 + 96 * z + 8 * Math.cos(spin) - 178 * z * wind.lift - f.vy) * gain;
+      const previousY = f.y;
+      f.x += f.vx * dt;
+      f.y += f.vy * dt;
+      if (f.y >= stop) {
+        if (!far && previousY < stop && stop < height - 3 && f.x >= 0 && f.x < width && rings.length < 10) {
+          rings.push({ x: f.x, z, age: 0 });
+        }
+        f.y = -f.size;
+        f.x = Math.random() * width;
+        continue;
+      }
+      if (f.x > width + f.size && f.vx > 0) f.x = -f.size;
+      if (f.x < -f.size && f.vx < 0) f.x = width + f.size;
+      const mist = far ? Math.min(1, Math.max(0, (stop - f.y) / (height * 0.15))) : 1;
+      const shimmer = 0.88 + 0.12 * Math.cos(spin);
+      context.globalAlpha = mist * shimmer * (layer === 3 ? 0.80 : 0.54 + z * 0.45);
+      const size = f.size;
+      if (layer >= 2) {
+        const angle = 0.55 * Math.sin(spin) + f.vx * 0.003;
+        const cos = Math.cos(angle) * ratio, sin = Math.sin(angle) * ratio;
+        context.setTransform(cos, sin, -sin, cos, f.x * ratio, f.y * ratio);
+        context.drawImage(sprites[layer], -size / 2, -size / 2, size, size);
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      } else {
+        context.drawImage(sprites[layer], f.x - size / 2, f.y - size / 2, size, size);
+      }
     }
   }
 
@@ -84,7 +173,7 @@ function snowSeason(date) {
     if (!frame) {
       context ??= canvas.getContext('2d');
       if (!context) return;
-      sprite ??= makeSprite();
+      sprites ??= [0, 1, 2, 3].map(makeSprite);
       resize();
       frame = requestAnimationFrame(draw);
     }
