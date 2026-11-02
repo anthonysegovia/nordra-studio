@@ -18,4 +18,3 @@ export default defineConfig({ cacheDir: 'review/auroras/.cache', plugins: [{
       .replace('renderer.render(scene, camera);', 'if (window.measureLandscape) window.measureLandscape(renderer, () => renderer.render(scene, camera)); else renderer.render(scene, camera);');
   }
 }] });
-
