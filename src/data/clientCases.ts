@@ -9,6 +9,7 @@ export type ClientCase = {
   authorizedOn: string;
   capture: { src: string; alt: string; width: number; height: number };
   opinion: { text: string; authorizedOn: string };
+  highlight?: string;
   rating: { value: 5; documentedOn: string } | null;
 };
 
@@ -17,6 +18,7 @@ export type ClientCase = {
 export const clientCases: ClientCase[] = [
   {
     id: 'la-covadonga', client: 'La Covadonga', displayName: 'La Covadonga', authorType: 'Organization',
+    highlight: 'La verdad nos encantó cómo quedó la invitación, el diseño estuvo muy bonito y fue muy fácil compartirla con todos.',
     occasion: 'Posada', invitationUrl: 'https://posadacovadonga.nordrastudio.mx/',
     description: 'Invitación de posada con confirmación de asistencia y una página para consultar quiénes confirmaron.',
     authorizedOn: '2026-11-01',
@@ -29,6 +31,7 @@ export const clientCases: ClientCase[] = [
   },
   {
     id: 'sonia-alarcon', client: 'Sonia Alarcón', displayName: 'Sonia Alarcón', authorType: 'Person',
+    highlight: 'A mis invitados también les gustó muchísimo; varios me preguntaron dónde la había hecho porque nunca habían visto una invitación así.',
     occasion: 'Fiesta de Halloween', invitationUrl: '/invitaciones/spooky-party/',
     description: 'Apertura animada, pase personalizado con el nombre que escribe cada persona y opción de guardar la invitación.',
     authorizedOn: '2026-11-01',

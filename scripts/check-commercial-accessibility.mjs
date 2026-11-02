@@ -40,6 +40,16 @@ try {
     const sampledFailures = sampled.filter(s => s.ratio < s.required);
     rows.push({ route: route || 'index', theme, small, contrast, uncertain, sampled, sampledFailures });
     console.log(`${route || 'index'} ${theme}: ${small.length} small text, ${contrast.length} axe contrast violations, ${sampledFailures.length} sampled contrast violations`);
+    if (!route && !values.audit) {
+      await page.getByRole('link', { name: 'Ver sus invitaciones' }).click();
+      await page.waitForURL('**/invitaciones#clientes-reales');
+      await page.waitForFunction(() => {
+        const heading = document.querySelector('#clientes-reales h2');
+        if (!heading) return false;
+        const { top, bottom } = heading.getBoundingClientRect();
+        return top < innerHeight && bottom > 0;
+      });
+    }
     await context.close();
   }
   if (values.report) { fs.mkdirSync(path.dirname(values.report), { recursive: true }); fs.writeFileSync(values.report, JSON.stringify(rows, null, 2)); }

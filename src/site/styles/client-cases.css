@@ -20,3 +20,12 @@ body.dark .client-case-art{background:linear-gradient(140deg,#153236,#29223d)}
 .client-case>.options-compare:is(:hover,:focus-visible){transform:translateX(3px)}
 @media(max-width:700px){.client-case-grid{grid-template-columns:1fr;gap:45px}.client-case-art{padding:28px}.client-case h3{font-size:29px}}
 @media(prefers-reduced-motion:reduce){.client-case>.options-compare{transition:none;transform:none}}
+
+.home-client-highlights{padding:clamp(32px,4vw,56px) max(24px,5vw);border-bottom:1px solid var(--line)}
+.home-client-highlights h2{margin:0;font-size:clamp(26px,3vw,36px);line-height:1.2;letter-spacing:-.035em}
+.home-client-highlights .client-case-grid{margin-top:24px;gap:clamp(24px,4vw,56px)}
+.client-highlight{margin:0;padding-top:18px}
+.client-highlight figcaption{margin-top:12px;color:var(--muted);font-size:14px;line-height:1.5}
+.client-highlight figcaption strong{color:var(--ink)}
+.home-client-highlights>.options-compare{display:inline-flex;align-items:center;gap:12px;min-height:44px;margin-top:18px;font-size:14px}
+@media(max-width:700px){.client-highlight blockquote{font-size:16px}}

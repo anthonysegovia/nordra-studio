@@ -7,6 +7,13 @@ export function validateClientCases(cases) {
     if (!date(item.authorizedOn)) throw Error(`Client authorization missing: ${item.id}`);
     if (item.opinion.text.includes('[Opinión del cliente pendiente]')) throw Error(`Placeholder opinion: ${item.id}`);
     if (item.opinion.text && !date(item.opinion.authorizedOn)) throw Error(`Opinion authorization missing: ${item.id}`);
+    if (item.highlight) {
+      if (!date(item.opinion.authorizedOn)) throw Error(`Highlight authorization missing: ${item.id}`);
+      const sentences = new Intl.Segmenter('es', { granularity: 'sentence' }).segment(item.opinion.text);
+      if (![...sentences].some(({ segment }) => segment.trim() === item.highlight)) {
+        throw Error(`Highlight must match a complete approved sentence: ${item.id}`);
+      }
+    }
     if (item.rating && (!date(item.rating.documentedOn) || item.rating.value !== 5)) throw Error(`Rating documentation missing: ${item.id}`);
   }
 }
@@ -22,11 +29,32 @@ export function clientReviews(cases = clientCases) {
   }));
 }
 
+function renderRating(item) {
+  return item.rating ? '<p class="client-case-rating" role="img" aria-label="Calificación: 5 de 5"><span aria-hidden="true">★★★★★ <span>5/5</span></span></p>' : '';
+}
+
+export function renderHomeClientHighlights(html, cases = clientCases) {
+  if (!html.includes('{{clients:home}}')) return html;
+  validateClientCases(cases);
+  const quotes = cases.filter(item => item.highlight).map(item => `
+    <figure class="client-case client-highlight">
+      ${renderRating(item)}
+      <blockquote><p>${esc(item.highlight)}</p></blockquote>
+      <figcaption><strong>${esc(item.displayName)}</strong> · ${esc(item.occasion)}</figcaption>
+    </figure>`);
+  const section = `<section class="home-client-highlights" aria-labelledby="client-highlights-title">
+    <h2 id="client-highlights-title">Lo que dicen nuestros clientes</h2>
+    <div class="client-case-grid">${quotes.join('')}</div>
+    <a class="options-compare" href="/invitaciones#clientes-reales">Ver sus invitaciones <span aria-hidden="true">↗</span></a>
+  </section>`;
+  return html.replace('{{clients:home}}', () => quotes.length ? section : '');
+}
+
 export function renderClientCases(cases = clientCases) {
   validateClientCases(cases);
   if (!cases.length) return '';
   return `<section class="home-continuation client-cases" id="clientes-reales" aria-labelledby="client-cases-title"><div class="client-cases-intro"><p class="eyebrow">INVITACIONES QUE YA SE COMPARTEN</p><h2 id="client-cases-title">Lo que hemos hecho para nuestros clientes</h2><p>Dos celebraciones, cada una con su propia forma de invitar.</p></div><div class="client-case-grid">${cases.map(item => {
-    const opinion = item.opinion.text ? `<div class="client-case-opinion">${item.rating ? '<p class="client-case-rating" role="img" aria-label="Calificación: 5 de 5"><span aria-hidden="true">★★★★★ <span>5/5</span></span></p>' : ''}<blockquote><p>${esc(item.opinion.text)}</p><footer>${esc(item.displayName)}</footer></blockquote></div>` : '';
+    const opinion = item.opinion.text ? `<div class="client-case-opinion">${renderRating(item)}<blockquote><p>${esc(item.opinion.text)}</p><footer>${esc(item.displayName)}</footer></blockquote></div>` : '';
     return `<article class="client-case" aria-labelledby="client-${item.id}"><div class="client-case-art"><div class="client-case-cover"><template data-client-cover><img src="${esc(item.capture.src)}" alt="${esc(item.capture.alt)}" width="${item.capture.width}" height="${item.capture.height}" loading="lazy" decoding="async"></template><noscript><img src="${esc(item.capture.src)}" alt="${esc(item.capture.alt)}" width="${item.capture.width}" height="${item.capture.height}" loading="lazy" decoding="async"></noscript></div></div><p class="eyebrow">${esc(item.occasion)} · Invitación digital</p><h3 id="client-${item.id}">${esc(item.client)}</h3><p class="client-case-description">${esc(item.description)}</p>${opinion}<a class="options-compare" href="${esc(item.invitationUrl)}" target="_blank" rel="noopener">Ver la invitación <span aria-hidden="true">↗</span></a></article>`;
   }).join('')}</div></section>`;
 }

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import { clientCases } from '../src/data/clientCases.ts';
-import { clientReviews, renderClientCases } from '../build/client-cases.mjs';
+import { clientReviews, renderClientCases, renderHomeClientHighlights, validateClientCases } from '../build/client-cases.mjs';
 import { renderInvitationPage } from '../build/invitation-offers.mjs';
 
 const source = fs.readFileSync(new URL('../invitaciones.html', import.meta.url), 'utf8');
@@ -39,9 +39,48 @@ test('missing authorization and placeholder opinions fail closed; empty opinions
     const rating = changed(); rating[0].rating.documentedOn = '';
     assert.throws(() => render(rating), /Rating documentation missing/);
   }
-  const empty = changed(); empty.forEach(c => { c.opinion.text = ''; c.opinion.authorizedOn = ''; });
+  const empty = changed(); empty.forEach(c => { c.opinion.text = ''; c.opinion.authorizedOn = ''; c.highlight = ''; });
   assert.deepEqual(clientReviews(empty), []);
   assert.doesNotMatch(renderClientCases(empty), /blockquote|Calificación|★★★★★|pendiente/);
+});
+
+test('home highlights are complete literal sentences covered by the opinion authorization', () => {
+  const expected = [
+    'La verdad nos encantó cómo quedó la invitación, el diseño estuvo muy bonito y fue muy fácil compartirla con todos.',
+    'A mis invitados también les gustó muchísimo; varios me preguntaron dónde la había hecho porque nunca habían visto una invitación así.',
+  ];
+  assert.deepEqual(clientCases.map(item => item.highlight), expected);
+  for (const item of clientCases) assert.ok(item.opinion.text.includes(item.highlight));
+  const changed = structuredClone(clientCases);
+  changed[0].highlight = 'Nos encantó la invitación.';
+  assert.throws(() => validateClientCases(changed), /complete approved sentence/);
+  changed[0].highlight = 'La verdad nos encantó cómo quedó la invitación';
+  assert.throws(() => validateClientCases(changed), /complete approved sentence/);
+  changed[0].highlight = expected[0];
+  changed[0].opinion.authorizedOn = '';
+  assert.throws(() => validateClientCases(changed), /authorization missing/);
+});
+
+test('home renders two attributed highlights between projects and studio, with a real destination and no Review schema', () => {
+  const source = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const html = renderHomeClientHighlights(source);
+  const strip = html.match(/<section class="home-client-highlights"[\s\S]*?<\/section>/)[0];
+  for (const item of clientCases) {
+    assert.ok(!source.includes(item.highlight));
+    assert.ok(strip.includes(`<blockquote><p>${item.highlight}</p></blockquote>`));
+    assert.ok(strip.includes(`<strong>${item.displayName}</strong> · ${item.occasion}`));
+  }
+  assert.match(html, /<\/section>\s*<section class="home-client-highlights"/);
+  assert.ok(html.indexOf('id="trabajos"') < html.indexOf(strip));
+  assert.ok(html.indexOf(strip) < html.indexOf('id="nosotros"'));
+  assert.equal((strip.match(/aria-label="Calificación: 5 de 5"/g) || []).length, 2);
+  assert.equal((strip.match(/★★★★★ <span>5\/5<\/span>/g) || []).length, 2);
+  assert.doesNotMatch(strip, /<img|<iframe|<script/);
+  assert.match(strip, /href="\/invitaciones#clientes-reales">Ver sus invitaciones/);
+  assert.match(page(), /<section[^>]*id="clientes-reales"/);
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+  assert.ok(schemas.some(schema => schema['@type'] === 'LocalBusiness'));
+  assert.doesNotMatch(JSON.stringify(schemas), /"Review"/);
 });
 
 test('client images stay exactly the inspected guest-free covers, not RSVP lists or personalized passes', () => {
