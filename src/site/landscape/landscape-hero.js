@@ -83,12 +83,18 @@ if (stage) {
       idle = window.requestIdleCallback ? requestIdleCallback(start, { timeout: 1800 }) : setTimeout(start, 200);
     }
   }
-  function onLoad() {
-    // An idle slot after load can precede the poster's first paint. Give the
-    // browser a paint opportunity before probing WebGL or importing Three.
+  function afterPosterDecode() {
+    if (disposed) return;
     paintFrame = requestAnimationFrame(() => {
       paintFrame = requestAnimationFrame(() => { loaded = true; sync(); });
     });
+  }
+  function onLoad() {
+    // Load can finish before the mobile portrait is decoded. Give its decoded
+    // pixels a paint opportunity before probing a GPU or importing Three.
+    const image = portable.matches && stage.parentElement?.querySelector('.landscape-poster img');
+    if (image?.decode) image.decode().then(afterPosterDecode, afterPosterDecode);
+    else afterPosterDecode();
   }
   function onShow(event) {
     if (event.persisted) { poster?.final(); scene?.setState({ ...state(), finishEntrance: true }); }

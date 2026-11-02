@@ -148,7 +148,7 @@ test('the animation clock excludes paused, offscreen and hidden time, without a 
 });
 
 const loaderSource = readFileSync(new URL('../src/site/landscape/landscape-hero.js', import.meta.url), 'utf8');
-function fixture({ mobile = false, memory, cores, webgl = true, embedded = false, importFailure = false, paused = false, reduced = false, saveData = false, repeat = false } = {}) {
+function fixture({ mobile = false, memory, cores, decode, webgl = true, embedded = false, importFailure = false, paused = false, reduced = false, saveData = false, repeat = false } = {}) {
   function target(extra = {}) {
     const listeners = new Map(), classes = new Set(), attributes = new Map();
     return { dataset: {}, isConnected: true, ...extra,
@@ -159,7 +159,7 @@ function fixture({ mobile = false, memory, cores, webgl = true, embedded = false
       emit(name, event = {}) { for (const fn of [...listeners.get(name) ?? []]) fn(event); },
     };
   }
-  const stage = target(), body = target(), parentBody = target(), media = target({ matches: reduced });
+  const stage = target({ parentElement: { querySelector: () => ({decode}) } }), body = target(), parentBody = target(), media = target({ matches: reduced });
   body.dataset.journeyMotion = paused ? 'paused' : 'playing';
   const frame = embedded ? target({ ownerDocument: { body: parentBody } }) : null;
   frame?.setAttribute('aria-hidden', 'true');
@@ -308,4 +308,15 @@ test('live data saver releases a capable phone scene and allows a new idle start
   assert.equal(a.releases(), 1); assert.equal(a.poster.phase, 'final');
   a.connection.saveData = false; a.connection.emit('change'); await a.runIdle();
   assert.equal(a.imports(), 2);
+});
+
+test('mobile waits for poster decoding, paint and idle before probing WebGL', async () => {
+  let finish;
+  const a = fixture({mobile: true, decode: () => new Promise(resolve => { finish = resolve; })});
+  a.visible(true); a.page.emit('load'); await a.runIdle();
+  assert.equal(a.imports(), 0);
+  finish(); await Promise.resolve();
+  a.runFrame(); assert.equal(a.idle.size, 0);
+  a.runFrame(); assert.equal(a.idle.size, 1);
+  await a.runIdle(); assert.equal(a.imports(), 1);
 });
