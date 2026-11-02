@@ -26,6 +26,7 @@
 .offer-points li{padding-left:15px;position:relative;margin:5px 0}
 .offer-points li:before{content:'';width:4px;height:4px;border-radius:50%;background:var(--accent);position:absolute;top:.65em;left:0}
 .offer-levels{display:grid;gap:8px;min-height:148px;align-content:start}
+.offer-example{display:flex;align-items:center;min-height:44px;padding:0 4px;font-size:13px;color:var(--accent);text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
 .offer-quote{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 65%,transparent);transition:background .2s,border-color .2s}
 .offer-level-name{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}
 .offer-price{display:block;font:500 23px/1.2 Sora,Manrope,sans-serif;letter-spacing:-.04em;color:var(--ink);white-space:nowrap}
