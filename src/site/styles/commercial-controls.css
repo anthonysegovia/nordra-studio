@@ -9,7 +9,6 @@
 .theme-wedding .horizon-button{background:var(--accent);border-color:var(--accent);color:var(--bg)}
 .theme-wedding .horizon-button:hover{background:var(--ink);border-color:var(--ink)}
 .scene :is(.business-lead,.occasion-lead,.seasonal-hero-lead) .horizon-button{justify-self:start;max-width:100%;margin-block:12px}
-.horizon-actions .options-compare{font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:48px;margin-top:0;color:var(--ink)}
 .scene :is(.business-lead,.occasion-lead,.seasonal-hero-lead) .options-compare{font-size:14px;min-height:44px;display:inline-flex;align-items:center;gap:16px}
 .scene .business-head .business-lead>p{color:var(--ink)}
 @media(prefers-reduced-motion:reduce){.horizon-button,.horizon-button .interface-arrow{transition:none}.horizon-button:active,.horizon-button:hover .interface-arrow{transform:none}}

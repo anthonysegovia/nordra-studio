@@ -27,7 +27,16 @@ test('seasonal showcase uses the shared calendar, with its original no-JS fallba
   assert.match(readFileSync('src/seasonal/showcase-copy.mjs', 'utf8'), /import.*seasonOrder.*order\.mjs/);
 });
 
-test('each commercial occasion hero has a single existing filled button', () => {
+test('home keeps two equivalent doors, with filled and outlined buttons in the same action group', () => {
+  const source = readFileSync('index.html', 'utf8');
+  const actions = source.match(/<div class="horizon-actions">([\s\S]*?)<\/div>/)[1];
+  assert.equal((actions.match(/<a /g) || []).length, 2);
+  assert.match(actions, /class="horizon-button" href="\/negocios"[^>]*>Quiero una página web/);
+  assert.match(actions, /class="horizon-button horizon-button-outline" href="\/invitaciones"[^>]*>Quiero una invitación/);
+  assert.doesNotMatch(actions, /options-compare/);
+});
+
+test('other commercial occasion heroes keep a single existing filled button', () => {
   for (const page of ['negocios', 'invitaciones', 'bodas', 'cumpleanos', 'eventos', 'temporada']) {
     const source = readFileSync(`${page}.html`, 'utf8');
     assert.equal((source.match(/class="horizon-button(?: business-quote)?"/g) || []).length, 1, page);
