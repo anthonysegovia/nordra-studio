@@ -70,7 +70,7 @@ const skyVertex = /* glsl */`
   void main() { vec4 p = modelMatrix * vec4(position, 1.0); dir = normalize(p.xyz - cameraPosition); gl_Position = projectionMatrix * viewMatrix * p; }
 `;
 const skyFragment = /* glsl */`
-  uniform float dark, aurora, time, pixelAngle, textElevation;
+  uniform float dark, aurora, time, pixelAngle, textElevation, meteor, meteorSide;
   uniform vec3 sun, parhelion;
   varying vec3 dir;
   ${noise}
@@ -92,15 +92,15 @@ const skyFragment = /* glsl */`
     return vec2(core * b, hash3(cell + 7.7));
   }
   vec3 starColour(float seed) {
-    // Mostly blue-white; a few pale amber stars.
-    return mix(vec3(0.78, 0.87, 1.0), vec3(1.0, 0.85, 0.66), smoothstep(0.86, 1.0, seed));
+    // White, cool blue and a small population of pale amber stars.
+    return mix(mix(vec3(0.98), vec3(0.68, 0.81, 1.0), smoothstep(0.36, 0.58, seed)), vec3(1.0, 0.85, 0.66), smoothstep(0.86, 1.0, seed));
   }
   void main() {
     vec3 d = normalize(dir);
     float e = d.y;
     // Night: deep navy with a teal glow on the horizon. Arctic day: clear blue, paling towards the horizon.
-    vec3 nightTop = vec3(0.012, 0.03, 0.07), nightMid = vec3(0.02, 0.07, 0.12), nightGlow = vec3(0.04, 0.20, 0.22);
-    vec3 dayTop = vec3(0.60, 0.76, 0.94), dayMid = vec3(0.84, 0.91, 0.98), dayGlow = vec3(0.95, 0.96, 0.95);
+    vec3 nightTop = vec3(0.009, 0.022, 0.068), nightMid = vec3(0.02, 0.07, 0.12), nightGlow = vec3(0.095, 0.105, 0.24);
+    vec3 dayTop = vec3(0.60, 0.76, 0.94), dayMid = vec3(0.84, 0.91, 0.98), dayGlow = vec3(1.0, 0.90, 0.92);
     vec3 top = mix(dayTop, nightTop, dark), mid = mix(dayMid, nightMid, dark), glow = mix(dayGlow, nightGlow, dark);
     vec3 c = mix(mid, top, smoothstep(0.05, 0.55, e));
     c = mix(c, glow, (1.0 - smoothstep(-0.02, 0.16, e)) * mix(0.6, 0.75 + 0.25 * aurora, dark));
@@ -150,7 +150,7 @@ const skyFragment = /* glsl */`
     vec2 bright = starLayer(d, 30.0, 0.935, 1.35, 0.7, 1.35);
     vec2 halo = starLayer(d, 30.0, 0.935, 4.5, 0.05, 0.16);
       // Keep the copy's sky unchanged; a few lower stars breathe over 10–14 s.
-      float awayFromCopy = 1.0 - smoothstep(textElevation - 0.03, textElevation + 0.02, e);
+      float awayFromCopy = max(smoothstep(0.22, 0.46, abs(d.x)), 1.0 - smoothstep(textElevation - 0.03, textElevation + 0.02, e));
       medium.x *= 1.0 + awayFromCopy * step(0.86, medium.y) * 0.09 * sin(time * 0.46 + medium.y * 71.0);
       float twinkle = 1.0 + awayFromCopy * step(0.72, bright.y) * 0.20 * sin(time * 0.62 + bright.y * 57.0);
       bright.x *= twinkle; halo.x *= twinkle;
@@ -164,6 +164,15 @@ const skyFragment = /* glsl */`
     float auroraVeil = 1.0 - 0.6 * aurora * smoothstep(0.06, 0.18, e) * (1.0 - smoothstep(0.42, 0.7, e));
     c += stars * extinction * auroraVeil * dark;
 
+    if (meteor >= 0.0 && d.z < -0.4 && dark > 0.0) {
+      vec2 path = vec2(-meteorSide * 0.20, -0.085);
+      vec2 head = vec2(meteorSide * 0.30, 0.26) + meteor * path;
+      vec2 delta = head - d.xy / -d.z;
+      float along = dot(delta, normalize(path));
+      vec2 residual = delta - normalize(path) * clamp(along, 0.0, 0.065);
+      float streak = exp(-dot(residual, residual) / 0.000002) * exp(-max(along, 0.0) * 48.0);
+      c += vec3(0.66, 0.80, 1.0) * streak * dark * smoothstep(0.0, 0.16, meteor) * (1.0 - smoothstep(0.63, 1.0, meteor));
+    }
     gl_FragColor = vec4(c, 1.0);
   }
 `;
@@ -440,7 +449,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   const finePointer = matchMedia('(hover:hover) and (pointer:fine)');
   const sky = new Mesh(new SphereGeometry(900, 48, 24), new ShaderMaterial({
     vertexShader: skyVertex, fragmentShader: skyFragment, side: BackSide, depthWrite: false,
-    uniforms: { time, dark, aurora: { value: 0 }, pixelAngle: { value: 0.001 }, sun, parhelion: { value: new Vector3(0, 0.1, -1) }, textElevation: { value: 0.3 } },
+    uniforms: { time, dark, meteor: { value: -1 }, meteorSide: { value: 1 }, aurora: { value: 0 }, pixelAngle: { value: 0.001 }, sun, parhelion: { value: new Vector3(0, 0.1, -1) }, textElevation: { value: 0.3 } },
   }));
   sky.renderOrder = -10;
   scene.add(sky);
@@ -695,6 +704,8 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     dark.value += (targetDark - dark.value) * (1 - Math.exp(-delta / 180));
     if (Math.abs(targetDark - dark.value) < .001) dark.value = targetDark;
     const activity = nextSky(delta / 1000, elapsed >= TIMELINE.dolly[1], true);
+    sky.material.uniforms.meteor.value = activity.meteor;
+    sky.material.uniforms.meteorSide.value = activity.side;
     pulse.value = activity.pulse;
     pulseCenter.value = activity.center;
     mouse.eased += ((finePointer.matches ? mouse.target : 0) - mouse.eased) * (1 - Math.exp(-delta / 420));
@@ -712,6 +723,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     if (current.reduced || current.paused || current.finishEntrance) { clock.elapsed = SETTLED; time.value = SETTLED / 1000; scrollProgress = 0; setPhases(SETTLED); place(); current.finishEntrance = false; }
     if (current.reduced || current.paused) {
       dark.value = targetDark;
+      sky.material.uniforms.meteor.value = -1;
       pulse.value = 0;
       mouse.target = mouse.eased = 0;
       for (const band of bands) band.position.x = 0;
