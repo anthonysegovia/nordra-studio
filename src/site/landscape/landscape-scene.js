@@ -159,6 +159,8 @@ const skyFragment = /* glsl */`
       float galaxy = exp(-pow((d.y - d.x * 0.34 - 0.33) / 0.075, 2.0));
       float dustVeil = vnoise(d.xz * 18.0 + vec2(d.y * 9.0, 4.0));
       c += vec3(0.038, 0.045, 0.075) * galaxy * (0.35 + 0.65 * dustVeil) * dark * smoothstep(0.05, 0.20, e) * awayFromCopy;
+    float polarGlow = exp(-pow((d.y - 0.26 - 0.04*sin(5.0*d.x+time*0.075))/0.11,2.0));
+    c += vec3(0.008,0.032,0.029)*polarGlow*aurora*dark;
     vec3 stars = starColour(dust.y) * dust.x + starColour(medium.y) * medium.x
       + starColour(bright.y) * (bright.x + halo.x * step(0.001, bright.x + halo.x));
     // Haze swallows stars near the horizon; where the aurora shines, faint stars fade.
@@ -309,6 +311,11 @@ const waterShader = {
       uv += ripple * vec2(0.017, 0.009) + rings * 0.018;
       uv.y += 0.0018 * detail + 0.005 * swell;
       vec3 reflection = texture2D(tDiffuse, clamp(uv, 0.001, 0.999)).rgb;
+      if (dark > 0.0) {
+        vec2 blur = vec2(0.002 + abs(ripple.x)*0.006,0.004);
+        vec3 spread = texture2D(tDiffuse,uv+blur).rgb + texture2D(tDiffuse,uv-blur).rgb;
+        reflection = mix(reflection, 0.8*(0.5*reflection + 0.25*spread),dark);
+      }
       float far = 1.0 - smoothstep(-100.0, -12.0, world.z);
       vec3 lakebed = mix(vec3(0.56, 0.69, 0.78), vec3(0.016, 0.047, 0.070), dark);
       lakebed *= 0.96 + 0.08 * ripple.y;
