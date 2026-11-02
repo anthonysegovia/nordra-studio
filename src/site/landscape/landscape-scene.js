@@ -181,8 +181,8 @@ const rangeFragment = /* glsl */`
   varying float vH; varying float vU;
   ${noise}
   void main() {
-    vec3 day = mix(vec3(0.70, 0.78, 0.88), vec3(0.86, 0.91, 0.97), smoothstep(0.0, 1.0, vH));
-    day = mix(day, vec3(0.93, 0.95, 0.98), smoothstep(0.7, 0.95, vH) * smoothstep(0.4, 0.7, fbm(vec2(vU * 60.0, vH * 3.0))));
+    vec3 day = mix(vec3(0.74,0.82,0.88),vec3(0.52,0.65,0.77),smoothstep(0.0,1.0,vH));
+    day = mix(day, vec3(0.76,0.83,0.89), smoothstep(0.7, 0.95, vH) * smoothstep(0.4, 0.7, fbm(vec2(vU * 60.0, vH * 3.0))));
     vec3 night = mix(vec3(0.018, 0.04, 0.07), vec3(0.03, 0.075, 0.10), vH);
     vec3 air = mix(vec3(0.83, 0.87, 0.94), vec3(0.10, 0.14, 0.24), dark);
     gl_FragColor = vec4(mix(mix(day, night, dark), air, 0.08 + 0.56 * distanceLayer), 1.0);
@@ -224,20 +224,19 @@ const mountainFragment = /* glsl */`
       c += altitude(0.36 + 0.18 * h, dark) * knot * skyward * glacierBand * glacier * h * 0.29 * dark;
       c += reflectedAurora * (ridgeLight + glacierBand * glacier * (0.24 + 0.50 * h)) * dark;
 
-    // Matte daylight rock: the approved companion to the night mountain.
-    // Lambert on the actual normals, without a face split or specular term.
-    vec3 rockBase = vec3(111.0, 134.0, 163.0) / 255.0;
-    vec3 rockShade = vec3(130.0, 153.0, 182.0) / 255.0;
-    vec3 rockSun = vec3(201.0, 213.0, 227.0) / 255.0;
-    float diffuse = max(0.0, dot(n, normalize(vec3(sun.x, 0.55, 0.12))));
-    float edgeFacing = smoothstep(0.20, 0.95, abs(n.z));
-    vec3 dayRock;
-    dayRock = mix(rockShade, rockSun, diffuse * 0.65);
-    dayRock = mix(rockBase, dayRock, 0.65 + 0.35 * h);
-    vec3 dayIce = mix(vec3(219.0, 231.0, 243.0), vec3(244.0, 248.0, 252.0), edgeFacing) / 255.0;
-    dayRock = mix(rockBase, dayRock, light);
-    vec3 dayGlacier = mix(rockShade, dayIce, glacier);
-    vec3 day = mix(dayRock, dayGlacier, glacierBand);
+    // The planar front of the extruded mark represents two snowy slopes.
+    // Only the shading normal folds; the exact vertices and outline are preserved.
+    float face = tanh(world.x * 0.70 + 0.12 * sin(world.y*0.8));
+    vec3 slope = normalize(vec3(face*0.86,0.68,-0.17));
+    vec3 facet = normalize(mix(n,slope,0.90*smoothstep(0.55,0.94,abs(n.z))));
+    float facing = dot(facet,sun);
+    float direct = smoothstep(-0.10,0.26,facing);
+    vec3 shadow = mix(vec3(0.31,0.43,0.58),vec3(0.54,0.66,0.77),h);
+    vec3 white = mix(vec3(0.72,0.72,0.66),vec3(0.98,0.94,0.82),h);
+    vec3 day = mix(shadow,white,direct*light)*(0.95+0.05*strata);
+    day = mix(day,mix(vec3(0.68,0.80,0.86),vec3(1.0,0.97,0.87),direct),glacierBand*glacier*0.84);
+    float rim = smoothstep(0.12,0.76,n.y)*smoothstep(0.48,0.88,h)*direct;
+    day = mix(day,vec3(1.0,0.86,0.60),rim*light*0.64);
     c = mix(day, c, dark);
 
     // Haze at the foot of the mountain, the colour of the horizon glow.
