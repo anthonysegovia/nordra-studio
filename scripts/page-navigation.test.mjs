@@ -19,6 +19,7 @@ describe('site — page-navigation', () => {
     const history = { state: null, pushState(state, _, url) { this.state = state; addresses.push({ method: 'push', url }); }, replaceState(state, _, url) { this.state = state; addresses.push({ method: 'replace', url }); } };
     const document = {
       body, documentElement: root, title: 'Estudio', hidden, fonts: { ready: Promise.resolve() },
+      querySelectorAll: () => [],
       querySelector: selector => selector.startsWith('[data-view]') ? { querySelectorAll: () => [] } : null,
       getElementById: () => ({ scrollIntoView() {} }), addEventListener: (name, fn) => docEvents.set(name, fn),
       createElement(tag) {

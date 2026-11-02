@@ -140,6 +140,14 @@
       "dest": "/invitaciones/$1/index.html"
     },
     {
+      "src": "^/en/(estudio|negocios|invitaciones|bodas|cumpleanos|eventos|temporada|aviso-de-privacidad)$",
+      "dest": "/en/$1.html"
+    },
+    {
+      "src": "^/aviso-de-privacidad(?:\\.html)?$",
+      "dest": "/aviso-de-privacidad/index.html"
+    },
+    {
       "src": "^/en/$",
       "dest": "/en/index.html"
     },

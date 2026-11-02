@@ -148,14 +148,3 @@ body[data-journey-motion=paused] .signature-work-image img{transform:none;transi
 body.dark .home-snow{opacity:0}
 body[data-journey-motion="paused"] .home-snow{opacity:0;transition:none}
 @media(prefers-reduced-motion:reduce){.home-snow{display:none}}
-
-.locale-switch{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:12px;letter-spacing:.04em}
-.locale-switch a{display:inline-grid;place-items:center;min-width:29px;min-height:42px;transition:color .18s,transform .18s}
-.locale-switch a[aria-current]{color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:4px}
-.locale-switch a:hover,.locale-switch a:focus-visible{color:var(--accent);transform:translateY(-1px)}
-.locale-suggestion{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--bg);border-bottom:1px solid var(--line);font-size:14px}
-.locale-suggestion a{text-decoration:underline;text-underline-offset:3px}
-.locale-suggestion button{min-width:44px;min-height:44px;color:var(--ink);background:none;border:0}
-.demo-language{display:block;color:var(--muted);font-size:12px}
-@media(max-width:700px){.header-actions>.locale-switch{display:none}#mobile-menu .locale-switch{margin:4px 12px}#mobile-menu .locale-switch a{padding:0 9px}}
-@media(prefers-reduced-motion:reduce){.locale-switch a{transition:none;transform:none!important}}

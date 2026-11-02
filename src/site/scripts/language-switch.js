@@ -14,7 +14,13 @@
   syncAnchors();
   addEventListener('hashchange',syncAnchors);
   addEventListener('pageshow',syncAnchors);
-  document.addEventListener('click',syncAnchors);
+  document.addEventListener('click',event=>{
+    const local=event.target.closest?.('a[href^="#"]');
+    if(local?.hash && event.defaultPrevented && document.getElementById(local.hash.slice(1))){
+      history.replaceState(history.state,'',local.hash);
+    }
+    syncAnchors();
+  });
   for (const link of links) {
     link.addEventListener('focus',syncAnchors);
     link.addEventListener('pointerdown',syncAnchors);

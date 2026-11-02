@@ -2,6 +2,10 @@ import { posix } from 'node:path';
 
 const pages = new Set(['index.html', 'en/index.html', 'estudio.html', 'negocios.html', 'invitaciones.html', 'bodas.html', 'cumpleanos.html', 'eventos.html', 'temporada.html']);
 
+for (const page of [...pages].filter(p=>p!=='index.html'&&!p.startsWith('en/'))) pages.add('en/'+page);
+pages.add('aviso-de-privacidad/index.html');
+pages.add('en/aviso-de-privacidad.html');
+
 // Consolidate the final links, not source imports: shared chunks can change
 // where Vite puts a rule in the cascade. Keep their emitted order byte for byte.
 /** @returns {import('vite').Plugin} */

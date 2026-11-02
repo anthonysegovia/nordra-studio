@@ -44,6 +44,7 @@ const pages = {
       "nordra-theatre",
       "interface-icons",
       "mobile-chrome",
+      "language-switch",
       "page-navigation"
     ],
     "styles": [
@@ -51,7 +52,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome"],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch"],
     "inline": 3
   },
   "eventos": {
@@ -70,6 +71,7 @@ const pages = {
       "nordra-theatre",
       "interface-icons",
       "mobile-chrome",
+      "language-switch",
       "page-navigation"
     ],
     "styles": [
@@ -77,7 +79,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome"],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch"],
     "inline": 3
   },
   "bodas": {
@@ -97,6 +99,7 @@ const pages = {
       "nordra-theatre",
       "interface-icons",
       "mobile-chrome",
+      "language-switch",
       "page-navigation"
     ],
     "styles": [
@@ -104,7 +107,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["mobile-chrome"],
+    "entryStyles": ["mobile-chrome","language-switch"],
     "inline": 3
   },
   "temporada": {
@@ -124,6 +127,7 @@ const pages = {
       "nordra-theatre",
       "interface-icons",
       "mobile-chrome",
+      "language-switch",
       "page-navigation"
     ],
     "styles": [
@@ -131,30 +135,30 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "seasonal-page", "mobile-chrome"],
+    "entryStyles": ["phone-frame", "showcase-live", "seasonal-page", "mobile-chrome","language-switch"],
     "inline": 5
   },
   "invitaciones": {
     "entry": "invitations",
-    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "organic-images", "invitation-showcase", "showcase-live", "carousel-positions", "invitation-offers", "client-cases", "nordra-materials", "nordra-theatre", "interface-icons", "mobile-chrome", "page-navigation"],
+    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "organic-images", "invitation-showcase", "showcase-live", "carousel-positions", "invitation-offers", "client-cases", "nordra-materials", "nordra-theatre", "interface-icons", "mobile-chrome", "language-switch", "page-navigation"],
     "styles": [
       "scene",
       "nordra-theatre",
       "contact"
     ],
     "inline": 5,
-    "entryStyles": ["phone-frame", "showcase-live", "invitation-offers", "client-cases", "carousel-positions", "mobile-chrome"]
+    "entryStyles": ["phone-frame", "showcase-live", "invitation-offers", "client-cases", "carousel-positions", "mobile-chrome","language-switch"]
   },
   "negocios": {
     "entry": "business",
-    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "nordra-materials", "nordra-theatre", "light-table", "interface-icons", "mobile-chrome", "page-navigation", "carousel-positions", "business-offers", "business-content"],
+    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "nordra-materials", "nordra-theatre", "light-table", "interface-icons", "mobile-chrome", "language-switch", "page-navigation", "carousel-positions", "business-offers", "business-content"],
     "styles": [
       "scene",
       "nordra-theatre",
       "contact"
     ],
     "inline": 3,
-    "entryStyles": ["light-table", "mobile-chrome", "business-offers", "carousel-positions", "business-content"],
+    "entryStyles": ["light-table", "mobile-chrome", "language-switch", "business-offers", "carousel-positions", "business-content"],
     "unscoped": ["light-table", "carousel-positions", "business-offers", "business-content"]
   },
   "index": {
@@ -177,7 +181,7 @@ const pages = {
       "contact"
     ],
     "inline": 4,
-    "entryStyles": ["phone-frame", "mobile-chrome"]
+    "entryStyles": ["phone-frame", "mobile-chrome","language-switch"]
   },
   "estudio": {
     "entry": "estudio",
@@ -192,12 +196,13 @@ const pages = {
       "nordra-theatre",
       "interface-icons",
       "mobile-chrome",
+      "language-switch",
       "page-navigation",
       "studio-showcase"
     ],
     "styles": [],
     "inline": 3,
-    "entryStyles": ["mobile-chrome", "studio-showcase"]
+    "entryStyles": ["mobile-chrome", "language-switch", "studio-showcase"]
   }
 };
 const scripts = [...new Set(Object.values(pages).flatMap(page => page.scripts))];

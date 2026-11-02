@@ -21,7 +21,7 @@ function card(offer, featured) {
     + `<div class="invite-card-head"><h3 id="plan-title-${offer.id}">${esc(offer.name)}</h3>${featured ? '<span class="invite-badge">La más completa</span>' : ''}</div>`
     + `<p class="invite-audience">${esc(offer.audience)}</p>${price(offer)}<p class="invite-delivery">Lista en ${esc(offer.delivery)}</p>`
     + `<ul class="invite-points">${offer.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>`
-    + `<a class="invite-cta" href="${esc(whatsapp(message))}" target="_blank" rel="noopener" data-invitation-offer="${offer.id}" data-analytics-whatsapp="plan-${offer.id}">Quiero ${offer.id === 'temporada' ? 'una de temporada' : esc(offer.name)} <span aria-hidden="true">↗</span></a></article>`;
+    + `<a class="invite-cta" href="${esc(whatsapp(message))}" target="_blank" rel="noopener" data-invitation-offer="${offer.id}" data-analytics-whatsapp="${offer.id === 'temporada' ? 'seasonal_design' : 'plan_' + offer.id}">Quiero ${offer.id === 'temporada' ? 'una de temporada' : esc(offer.name)} <span aria-hidden="true">↗</span></a></article>`;
 }
 
 export function renderInvitationOffers() {

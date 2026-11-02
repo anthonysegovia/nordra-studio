@@ -92,6 +92,12 @@
    request.frame.title=data.title||'Nordra Studio';request.frame.classList.add('is-ready');
    const previous=active;active=request.frame;current=request.next;currentAnchor=request.anchor;
    document.title=data.title||document.title;document.querySelector('link[rel=canonical]')?.setAttribute('href','https://nordrastudio.mx'+pagePath(current));root.removeAttribute('aria-busy');
+   // The address bar now represents the child document. Keep its language
+   // alternates in sync with the canonical link in the outer document.
+   const slug=current==='entrada'?'/':'/'+pages[current];
+   document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(link=>{
+    link.href='https://nordrastudio.mx'+(link.hreflang==='en'?'/en':'')+slug;
+   });
    address(request.historyMode);
    // Fade only the prepared destination in. Keep the previous page fully painted below it.
    const frame=request.frame;

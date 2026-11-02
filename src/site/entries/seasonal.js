@@ -17,6 +17,8 @@ import '../scripts/nordra-materials.js?entry=seasonal';
 import '../scripts/nordra-theatre.js?entry=seasonal';
 import '../scripts/interface-icons.js?entry=seasonal';
 import '../styles/mobile-chrome.css';
+import '../styles/language-switch.css';
 import '../scripts/mobile-chrome.js?entry=seasonal';
+import '../scripts/language-switch.js?entry=seasonal';
 import '../scripts/page-navigation.js?entry=seasonal';
 import '../analytics/entry.js';

@@ -6,6 +6,7 @@ import '../scripts/scroll-motion.js?entry=home';
 import '../scripts/theme-transition.js?entry=home';
 import '../scripts/interface-icons.js?entry=home';
 import '../styles/mobile-chrome.css';
+import '../styles/language-switch.css';
 import '../scripts/mobile-chrome.js?entry=home';
 import '../scripts/language-switch.js?entry=home';
 import '../scripts/home.js?entry=home';

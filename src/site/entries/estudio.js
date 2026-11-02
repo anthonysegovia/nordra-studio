@@ -10,7 +10,9 @@ import '../scripts/nordra-materials.js';
 import '../scripts/nordra-theatre.js';
 import '../scripts/interface-icons.js';
 import '../styles/mobile-chrome.css';
+import '../styles/language-switch.css';
 import '../scripts/mobile-chrome.js';
+import '../scripts/language-switch.js';
 import '../scripts/page-navigation.js';
 import '../analytics/entry.js';
 

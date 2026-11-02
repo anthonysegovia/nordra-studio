@@ -14,6 +14,8 @@ import '../scripts/nordra-materials.js?entry=weddings';
 import '../scripts/nordra-theatre.js?entry=weddings';
 import '../scripts/interface-icons.js?entry=weddings';
 import '../styles/mobile-chrome.css';
+import '../styles/language-switch.css';
 import '../scripts/mobile-chrome.js?entry=weddings';
+import '../scripts/language-switch.js?entry=weddings';
 import '../scripts/page-navigation.js?entry=weddings';
 import '../analytics/entry.js';

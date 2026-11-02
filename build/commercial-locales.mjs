@@ -48,20 +48,25 @@ export function renderLocaleHome(html, en) {
       .replace(/(href="https:\/\/wa.me\/\d+\?text=)[^"]+"/g, (_,base)=>base+encodeURIComponent("Hi, Nordra. I'd like to talk about an idea I have.")+'"')
       .replace(/(<a class="signature-work"[^>]*>[\s\S]*?<\/h3>)/g, '$1<small class="demo-language">Demo in Spanish</small>');
   }
+  return localeChrome(html,en,'/');
+}
+
+export function localeChrome(html,en,path){
   const lang = en ? 'en' : 'es-MX';
-  const links = languageLinks(en,'/');
+  const links = languageLinks(en,path);
+  const canonical=origin+(en?'/en':'')+path;
   const pageSchema = JSON.stringify({
     '@context':'https://schema.org','@type':'WebPage',inLanguage:lang,
-    url:origin+(en?'/en/':'/'),name:en?homeCopy['Nordra Studio · Diseño web e invitaciones digitales']:'Nordra Studio · Diseño web e invitaciones digitales',
+    url:canonical,name:html.match(/<title>([^<]+)<\/title>/)?.[1],
     about:{'@id':origin+'/#negocio'}
   });
   html = html.replace('</head>',`<script type="application/ld+json">${pageSchema}</script></head>`);
-  html = html.replace(/<html lang="[^"]+"/, '<html lang="'+lang+'"')
-    .replace(/<link rel="canonical"[^>]*>/,
-      `<link rel="canonical" href="${origin}${en?'/en/':'/'}"><link rel="alternate" hreflang="es-MX" href="${origin}/"><link rel="alternate" hreflang="en" href="${origin}/en/"><link rel="alternate" hreflang="x-default" href="${origin}/">`)
+  const seo = `<link rel="canonical" href="${canonical}"><link rel="alternate" hreflang="es-MX" href="${origin}${path}"><link rel="alternate" hreflang="en" href="${origin}/en${path}"><link rel="alternate" hreflang="x-default" href="${origin}${path}">`;
+  html = html.replace(/<html lang="[^"]+"/, '<html lang="'+lang+'"').replace(/<link rel="canonical"[^>]*>/,'')
+    .replace('</head>',seo+'</head>')
     .replace('<div class="header-actions">','<div class="header-actions">'+links)
     .replace('<button id="local-motion-toggle"',links+'<button id="local-motion-toggle"');
-  if (!en) html = html.replace('</header>', '</header><aside class="locale-suggestion" lang="en" aria-label="Language suggestion" hidden><a href="/en/" hreflang="en" data-language="en" target="_top">View this page in English?</a><button type="button" aria-label="Dismiss language suggestion">×</button></aside>');
+  if (!en) html = html.replace('</header>', '</header><aside class="locale-suggestion" lang="en" aria-label="Language suggestion" hidden><a href="/en'+path+'" hreflang="en" data-language="en" target="_top">View this page in English?</a><button type="button" aria-label="Dismiss language suggestion">×</button></aside>');
   return html;
 }
 

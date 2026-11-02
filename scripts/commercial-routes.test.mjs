@@ -26,7 +26,8 @@ export const routeCases = [
   { path: '/invitacion-original.jpeg', host: 'spooky.nordrastudio.mx', expected: { url: '/invitaciones/spooky-party/invitacion-original.jpeg', headers: {} } },
   { path: '/portada.html', expected: { status: 308, headers: { Location: '/' } } },
   { path: '/demos/ano-nuevo', expected: { status: 308, headers: { Location: '/demos/celebra-2027/' } } },
-  ...['/gestion.html','/panel-boda.html','/mi-boda.html','/pase-boda.html','/recepcion-boda.html','/invitacion-boda.html','/terminos-del-servicio.html','/aviso-de-privacidad.html','/demos/posada/','/invitaciones/valentina-y-sebastian/','/invitaciones/personal/?token=fixture','/estudio/extra','/index.html','/'].map(path => ({ path, expected: null })),
+  ...['/aviso-de-privacidad','/aviso-de-privacidad.html'].map(path=>({path,expected:{url:'/aviso-de-privacidad/index.html',headers:{}}})),
+  ...['/gestion.html','/panel-boda.html','/mi-boda.html','/pase-boda.html','/recepcion-boda.html','/invitacion-boda.html','/terminos-del-servicio.html','/demos/posada/','/invitaciones/valentina-y-sebastian/','/invitaciones/personal/?token=fixture','/estudio/extra','/index.html','/'].map(path => ({ path, expected: null })),
 ];
 
 test('ordered legacy routes keep exceptions, redirect seven pages and leave private URLs alone', () => {

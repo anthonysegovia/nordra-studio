@@ -57,6 +57,11 @@ export function assertNoMergedStyleDependencies(entryFiles, sheet, root, read) {
 
 export function checkSiteBundles(root) {
   const pages = { index: 'home', 'en/index': 'home', estudio: 'estudio', negocios: 'business', invitaciones: 'invitations', bodas: 'weddings', cumpleanos: 'birthdays', eventos: 'events', temporada: 'seasonal' };
+  for(const [page,entry] of Object.entries(pages)){
+    if(page!=='index'&&!page.startsWith('en/'))pages['en/'+page]=entry;
+  }
+  pages['aviso-de-privacidad/index']='privacy';
+  pages['en/aviso-de-privacidad']='privacy';
   return Object.entries(pages).map(([page, entry]) => {
     const html = readFileSync(resolve(root, `dist/${page}.html`), 'utf8');
     assertNoLegacySiteAssets(readFileSync(resolve(root, `${page}.html`), 'utf8'), `${page} source`);

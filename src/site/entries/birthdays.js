@@ -16,6 +16,8 @@ import '../scripts/nordra-materials.js?entry=birthdays';
 import '../scripts/nordra-theatre.js?entry=birthdays';
 import '../scripts/interface-icons.js?entry=birthdays';
 import '../styles/mobile-chrome.css';
+import '../styles/language-switch.css';
 import '../scripts/mobile-chrome.js?entry=birthdays';
+import '../scripts/language-switch.js?entry=birthdays';
 import '../scripts/page-navigation.js?entry=birthdays';
 import '../analytics/entry.js';
