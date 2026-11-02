@@ -1,4 +1,5 @@
 import { entranceVisibility, initialTheme } from './entrance.mjs';
+import { showReturnToSite } from '../site/return-to-site.js';
 
 const entrance = document.querySelector('.celebration-entrance');
 const menu = document.querySelector('.celebration-header');
@@ -93,3 +94,4 @@ addEventListener('pagehide', () => clearTimeout(timer), { once: true });
 
 // A restored page must not remain in a transition whose timer was cancelled.
 addEventListener('pageshow', () => { if (phase === 'opening') finishOpening(); });
+showReturnToSite();
