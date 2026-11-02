@@ -4,7 +4,7 @@
 .horizon-hero{position:relative;isolation:isolate;text-align:center;padding:80px 24px 170px;overflow:hidden}
 .horizon-location{font-size:10px;letter-spacing:.18em}
 .horizon-title{max-width:1120px;margin:26px auto 22px;font-size:clamp(42px,4.9vw,76px);font-weight:650;line-height:1.1;letter-spacing:-.055em;text-wrap:balance}
-.horizon-accent{color:#216d90;white-space:nowrap}
+.horizon-accent{color:#216d90;white-space:normal}
 .horizon-ending{display:block}
 .horizon-offer{font-size:clamp(16px,1.45vw,20px);margin:0 auto 7px;line-height:1.6;letter-spacing:-.025em}
 .horizon-detail{font-size:15px;color:var(--muted);margin:0 auto;line-height:1.65}

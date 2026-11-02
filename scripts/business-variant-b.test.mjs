@@ -26,4 +26,3 @@ test('unified cases preserve every approved introduction, complete case, demo di
   assert.match(source, /id="bruma-diseno"/);
   assert.match(source, /id="lumina-diseno"/);
 });
-

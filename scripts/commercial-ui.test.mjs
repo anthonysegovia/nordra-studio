@@ -43,3 +43,13 @@ test('other commercial occasion heroes keep a single existing filled button', ()
   }
   assert.match(readFileSync('negocios.html', 'utf8'), /class="options-compare" href="#opciones-web"/);
 });
+
+test('homepage uses approved headline C and consistent title metadata without a trailing point', () => {
+  const html = readFileSync('index.html', 'utf8');
+  const heading = html.match(/<h1 id="entry-title"[\s\S]*?<\/h1>/)[0].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  assert.equal(heading, 'Tu página y tu invitación hechas contigo en Monterrey');
+  const title = html.match(/<title>(.*?)<\/title>/)[1];
+  const og = html.match(/property="og:title" content="([^"]*)"/)[1];
+  assert.equal(title, 'Tu página y tu invitación en Monterrey · Nordra Studio');
+  assert.equal(og, title);
+});
