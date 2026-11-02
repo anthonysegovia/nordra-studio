@@ -1,11 +1,6 @@
 export function initializeBusinessContent(root){
  const reduce=matchMedia('(prefers-reduced-motion:reduce)'),mobile=matchMedia('(max-width:700px)'),pending=new Map(),abort=new AbortController(),options={signal:abort.signal};
  const paused=()=>reduce.matches||document.body.dataset.businessMotion==='paused'||document.body.dataset.journeyMotion==='paused';
- // Native lazy loading reaches several screens ahead on slow networks. Keep this
- // below-fold portrait out of the hero's bandwidth, with a square reserved slot.
- const photo=root.querySelector('.person-photo');
- const photoObserver=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){photo.dataset.photoReady='true';photoObserver.disconnect();}},{rootMargin:'600px'});
- if(photo)photoObserver.observe(photo);addEventListener('pageshow',()=>{if(photo&&!photo.dataset.photoReady)photoObserver.observe(photo);},{signal:abort.signal});addEventListener('pagehide',()=>photoObserver.disconnect(),{signal:abort.signal});
  function settle(detail,open){detail.open=open;detail.style.height='';detail.style.overflow='';pending.delete(detail);}
  function finish(){for(const[detail,{animation,open}]of pending){animation.oncancel=null;animation.onfinish=null;animation.cancel();settle(detail,open);}}
  root.querySelectorAll('.business-disclosure').forEach(detail=>{

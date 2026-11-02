@@ -10,7 +10,7 @@ const approved = JSON.parse(readFileSync('scripts/fixtures/business-variant-b.js
 
 test('business variant B puts benefits and source-driven prices before the single Signature light table', () => {
   const html = renderBusinessOffers(renderBusinessContent(source));
-  const order = ['class="business-head"', 'class="business-benefits"', 'id="opciones-web"', 'class="offer-guide', 'id="proyectos"', 'id="quien-esta-detras"', 'id="negocios-preguntas"', 'id="proceso"', 'id="contacto-negocios"'];
+  const order = ['class="business-head"', 'class="business-benefits"', 'id="opciones-web"', 'class="business-guarantees"', 'class="offer-guide', 'id="proyectos"', 'class="business-trust"', 'id="negocios-preguntas"', 'id="proceso"', 'id="contacto-negocios"'];
   const positions = order.map(marker => html.indexOf(marker));
   assert.ok(positions.every(i => i >= 0), JSON.stringify(order.filter((_, i) => positions[i] < 0)));
   assert.deepEqual(positions, [...positions].sort((a,b) => a-b));
@@ -23,7 +23,7 @@ test('business variant B puts benefits and source-driven prices before the singl
 });
 
 test('the light table integrates approved case details, key points, demo links and disclaimers without duplicating the stories', () => {
-  for (const fragment of [approved.person, approved.benefits]) assert.ok(source.includes(fragment));
+  for (const fragment of [approved.benefits]) assert.ok(source.includes(fragment));
   for (const [i,name] of ['bruma','lumina'].entries()) {
     const article=approved.articles[i];
     const points=article.match(/<ul class="case-brief-decisions">([\s\S]*?)<\/ul>/)[1];
@@ -41,4 +41,15 @@ test('the light table integrates approved case details, key points, demo links a
   assert.match(source, /data-living-toggle="bruma"[^>]*disabled>Reproducir muestra/);
   assert.match(source, /<iframe class="bruma-film"[^>]*><\/iframe>/);
   assert.doesNotMatch(source.match(/<iframe class="bruma-film"[^>]*>/)[0], /\ssrc=/);
+});
+
+test('the studio owns the profile and business links there after the light table', () => {
+  const studio = readFileSync('estudio.html', 'utf8');
+  assert.match(studio, /id="quien-esta-detras"[^>]*>[\s\S]*?Quién está detrás[\s\S]*?Hablas con quien diseña y programa tu proyecto/);
+  assert.doesNotMatch(source, /id="quien-esta-detras"|>Quién está detrás</);
+  assert.match(source, /href="\/estudio#quien-esta-detras"/);
+  for(const text of ['Tu web, preparada para celular desde el diseño','Precios publicados y cotización por escrito','Factura (CFDI)']){
+    assert.ok(renderBusinessOffers(source).includes(text));
+    assert.ok(!studio.includes(text));
+  }
 });
