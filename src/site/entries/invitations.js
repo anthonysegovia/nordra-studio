@@ -15,6 +15,7 @@ import '../scripts/showcase-live.js?entry=invitations';
 import '../styles/invitation-offers.css';
 import '../styles/client-cases.css';
 import '../scripts/invitation-offers.js?entry=invitations';
+import '../scripts/client-cases.js?entry=invitations';
 import '../scripts/nordra-materials.js?entry=invitations';
 import '../scripts/nordra-theatre.js?entry=invitations';
 import '../scripts/interface-icons.js?entry=invitations';

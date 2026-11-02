@@ -143,6 +143,7 @@ const pages = {
       "invitation-showcase",
       "showcase-live",
       "invitation-offers",
+      "client-cases",
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
