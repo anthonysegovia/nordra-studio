@@ -1,8 +1,8 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync,existsSync} from 'node:fs';import {stripTypeScriptTypes} from 'node:module';import {invitationOffers,seasonalOffer,seasons,upcomingSeason,invitationMoney,invitationFacts} from '../src/data/invitationPricing.ts';import {renderInvitationPage,invitationFaq,invitationSchema,closingMessage} from '../build/invitation-offers.mjs';
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {stripTypeScriptTypes} from 'node:module';import {invitationOffers,seasonalOffer,seasons,upcomingSeason,invitationMoney,invitationFacts} from '../src/data/invitationPricing.ts';import {renderInvitationPage,invitationFaq,invitationSchema,closingMessage} from '../build/invitation-offers.mjs';
 const dataURL=source=>'data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(source)).toString('base64');
 const catalogSource=readFileSync('src/data/paymentCatalog.ts','utf8').replace('"./businessOffers"',JSON.stringify(dataURL(readFileSync('src/data/businessOffers.ts','utf8')))).replace('"./invitationPricing"',JSON.stringify(dataURL(readFileSync('src/data/invitationPricing.ts','utf8'))));
 const {paymentCatalog}=await import(dataURL(catalogSource));
-const page=existsSync('dist/invitaciones.html')?readFileSync('dist/invitaciones.html','utf8'):renderInvitationPage(readFileSync('invitaciones.html','utf8'));
+const page=renderInvitationPage(readFileSync('invitaciones.html','utf8'));
 test('plan cards, WhatsApp messages and the billing catalogue share every invitation price',()=>{
  assert.ok(!page.includes('{{invitations:'));assert.equal((page.match(/<article class="invite-card/g)||[]).length,3);
  for(const offer of [...invitationOffers,seasonalOffer]){
