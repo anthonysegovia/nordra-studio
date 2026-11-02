@@ -1,11 +1,19 @@
 import {recommendBusiness,borderPoint,orbitPoint} from './offer-model.js';
 
 export function initializeBusinessOffers(root,guide){
+ const en=document.documentElement.lang==='en';
+ const reasons={
+  shop:'You want to take payments or sell online. Start with a store and we’ll work out the catalog, payments and shipping together.',
+  'custom-web':'You need booking, a larger catalog or specific features. Your proposal will set out the integrations and scope.',
+  'business-site':'You want room to explain your services. Four to six content areas help visitors find their way.',
+  'landing-professional':'Up to three sections and a form give you room to introduce your services and receive inquiries. Integrated booking is quoted separately.',
+  'landing-essential':'For a simple presence and direct contact on WhatsApp, a custom page is a good place to start.'
+ };
  const form=guide.querySelector('form'),steps=[...form.querySelectorAll('fieldset')],progress=[...form.querySelectorAll('[data-progress]')],result=form.querySelector('.guide-result'),next=form.querySelector('[data-next]'),back=form.querySelector('[data-back]'),restart=form.querySelector('[data-restart]'),announcement=form.querySelector('[role=status]');
  let step=0;
  function show(focus=false){
   steps.forEach((field,i)=>{field.hidden=i!==step;field.disabled=i!==step;});progress.forEach((dot,i)=>{dot.toggleAttribute('data-current',i===step);dot.toggleAttribute('data-complete',i<step);if(i===step)dot.setAttribute('aria-current','step');else dot.removeAttribute('aria-current');});
-  result.hidden=step<3;next.hidden=step===3;back.hidden=step===3;restart.hidden=step!==3;back.disabled=step===0;next.disabled=step<3&&!steps[step].querySelector('input:checked');next.innerHTML=step===2?'Ver mi recomendación <span aria-hidden="true">→</span>':'Continuar <span aria-hidden="true">→</span>';
+  result.hidden=step<3;next.hidden=step===3;back.hidden=step===3;restart.hidden=step!==3;back.disabled=step===0;next.disabled=step<3&&!steps[step].querySelector('input:checked');next.innerHTML=(step===2?(en?'See my recommendation':'Ver mi recomendación'):(en?'Continue':'Continuar'))+' <span aria-hidden="true">→</span>';
   if(focus)(step===3?result:steps[step].querySelector('legend')).focus({preventScroll:true});
  }
  form.addEventListener('change',()=>{next.disabled=!steps[step].querySelector('input:checked');});
@@ -15,7 +23,8 @@ export function initializeBusinessOffers(root,guide){
   const answers=steps.map(f=>Number(f.querySelector('input:checked').value)),choice=recommendBusiness(answers),offer=root.querySelector(`[data-offer="${choice.id}"]`),name=offer.dataset.offerName,price=offer.querySelector('.offer-price').textContent.trim(),labels=steps.map(f=>`${f.querySelector('legend').textContent} ${f.querySelector('input:checked').nextElementSibling.textContent}`),url=new URL(offer.href);
   // Encode spaces as %20, like the package links; not every WhatsApp client reads '+' as a space.
   url.search=`?text=${encodeURIComponent(`${url.searchParams.get('text')}\n\n${labels.join('\n')}`)}`;
-  result.querySelector('[data-result-name]').textContent=name;result.querySelector('[data-result-price]').textContent=`${price} MXN · IVA incluido`;result.querySelector('[data-result-reason]').textContent=choice.reason;result.querySelector('[data-result-contact]').href=url.href;result.querySelector('[data-result-package]').href=`#${offer.closest('.offer-card').id}`;result.dataset.recommendation=choice.id;announcement.textContent=`Te sugerimos ${name}, ${price} MXN con IVA incluido. ${choice.reason}`;step=3;show(true);
+  const reason=en?reasons[choice.id]:choice.reason;
+  result.querySelector('[data-result-name]').textContent=name;result.querySelector('[data-result-price]').textContent=`${price} MXN · ${en?'VAT included':'IVA incluido'}`;result.querySelector('[data-result-reason]').textContent=reason;result.querySelector('[data-result-contact]').href=url.href;result.querySelector('[data-result-package]').href=`#${offer.closest('.offer-card').id}`;result.dataset.recommendation=choice.id;announcement.textContent=en?`We suggest ${name}, ${price} MXN, VAT included. ${reason}`:`Te sugerimos ${name}, ${price} MXN con IVA incluido. ${choice.reason}`;step=3;show(true);
  });
  back.addEventListener('click',()=>{if(step>0){step--;show(true);}});
  restart.addEventListener('click',()=>{step=0;form.reset();announcement.textContent='';show(true);});

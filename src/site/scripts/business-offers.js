@@ -11,4 +11,4 @@
 })();
 
 // Phones: the three package groups slide side by side; carousel-positions.js adds the dots.
-(()=>{const grid=document.querySelector('.business .offers-grid');if(grid)window.NordraCarousel?.positions(grid,'Posición en los paquetes',card=>card.querySelector('h3').textContent.trim());})();
+(()=>{const grid=document.querySelector('.business .offers-grid');if(grid)window.NordraCarousel?.positions(grid,(document.documentElement.lang==='en'?'Package position':'Posición en los paquetes'),card=>card.querySelector('h3').textContent.trim());})();

@@ -20,8 +20,9 @@ export function initializeBusinessContent(root){
  function contact(){
   const offer=guide&&!guide.hidden?[...root.querySelectorAll('[data-offer]')].find(item=>item.dataset.offer===guide.dataset.recommendation):null;
   const name=offer?.dataset.offerName,packageId=offer?.dataset.offer||'not_selected';
-  const subject=name?'Mi proyecto web · '+name:'Mi proyecto web · Nordra Studio';
-  const body=name?'Hola, me interesa el paquete '+name+'.\nMi negocio es…':'Hola, me gustaría platicar de una página web para mi negocio.\nMi negocio es…';
+  const en=document.documentElement.lang==='en';
+  const subject=en?'My website project · '+(name||'Nordra Studio'):name?'Mi proyecto web · '+name:'Mi proyecto web · Nordra Studio';
+  const body=en?(name?'Hi, I’m interested in the '+name+' package.\nMy business is…':'Hi, I’d like to talk about a website for my business.\nMy business is…'):name?'Hola, me interesa el paquete '+name+'.\nMi negocio es…':'Hola, me gustaría platicar de una página web para mi negocio.\nMi negocio es…';
   const mobileContact = root.querySelector('.mobile-route [data-analytics-whatsapp="mobile_bar"]');
   if (mobileContact) mobileContact.href = offer?.href || defaultWhatsApp;
   for(const link of contactLinks){link.dataset.businessPackage=packageId;link.href=link.dataset.businessContact==='email'?'mailto:hola@nordrastudio.mx?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body):offer?.href||defaultWhatsApp;}

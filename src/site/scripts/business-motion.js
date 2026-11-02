@@ -18,7 +18,7 @@
  }
  function paint(){
   document.body.dataset.businessMotion=paused||reduced.matches?'paused':'playing';
-  toggle.textContent=paused?'Reproducir movimiento':'Pausar movimiento';
+  toggle.textContent=document.documentElement.lang==='en'?(paused?'Resume motion':'Pause motion'):(paused?'Reproducir movimiento':'Pausar movimiento');
   toggle.setAttribute('aria-pressed',String(paused));
  }
  function finish(){for(const a of [...animations]){try{a.finish();}catch{a.cancel();}}}
