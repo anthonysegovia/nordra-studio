@@ -7,10 +7,10 @@ function snowSeason(date) {
 // x and y are fractions of the hero. The two fronts cross from opposite
 // sides at different intervals, so even neighbouring flakes don't turn together.
 function snowWind(x, y, time, out) {
-  const right = Math.max(0, Math.cos(time * 0.62 - x * 2.6 - 1.9)) ** 4;
-  const left = Math.max(0, Math.cos(time * 0.45 + x * 2.2 + 2.7)) ** 5;
+  const right = Math.max(0, Math.cos(time * 0.77 - x * 2.6 - 2.25)) ** 4;
+  const left = Math.max(0, Math.cos(time * 0.60 + x * 2.2 - 1.1)) ** 5;
   const eddy = Math.sin(5 * x + 3 * y - time * 0.85);
-  out.x = 18 + 31 * Math.sin(time * 0.32 + y * 1.9) + 19 * eddy + 116 * right - 104 * left;
+  out.x = 18 + 31 * Math.sin(time * 0.32 + y * 1.9) + 19 * eddy + 150 * right - 140 * left;
   out.lift = (right + left) * Math.max(0, eddy);
   return out;
 }
@@ -25,7 +25,7 @@ function snowWind(x, y, time, out) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   let inView = false, pageActive = true, frame = 0, midnight = 0;
   let width = 0, height = 0, ratio = 0, last = null, time = 0;
-  let context, sprites;
+  let context, sprites, titleTop = 0, titleBottom = 0;
   const flakes = [], rings = [];
   const wind = { x: 0, lift: 0 };
   const poster = hero.querySelector('.landscape-poster');
@@ -53,7 +53,9 @@ function snowWind(x, y, time, out) {
     lobe(30, 35, 25, 18, -0.55, '102,139,162', layer === 3 ? 0.22 : 0.43);
     lobe(33, 29, 24, 15, -0.65, '255,255,255', layer === 0 ? 0.70 : 1);
     if (layer === 1 || layer === 2) {
-      lobe(31, 31, 22, 6, 0.75, '255,255,255', 1);
+      lobe(33, 30, 29, 21, -0.55, '250,253,255', 0.76);
+      lobe(33, 29, 12, 8, -0.50, '255,255,255', 1);
+      lobe(31, 31, 24, 7, 0.75, '255,255,255', 1);
       lobe(34, 30, 18, 5, -0.48, '255,255,255', 0.96);
       lobe(36, 27, 10, 4, 1.32, '246,253,255', 0.92);
     }
@@ -65,23 +67,29 @@ function snowWind(x, y, time, out) {
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     if (w === width && h === height && dpr === ratio) return;
     width = w; height = h; ratio = dpr;
+    const title = hero.querySelector('.horizon-title');
+    if (title) {
+      titleTop = title.getBoundingClientRect().top - hero.getBoundingClientRect().top;
+      titleBottom = titleTop + title.offsetHeight;
+    }
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
     const phone = w <= 700;
-    const count = Math.min(phone ? 50 : 110, Math.max(phone ? 35 : 80, Math.round(w * h / (phone ? 6200 : 11000))));
+    const count = Math.min(phone ? 65 : 140, Math.max(phone ? 35 : 80, Math.round(w * h / (phone ? 5500 : 9600))));
     flakes.length = 0;
     rings.length = 0;
     // Paint back to front. Nearly half the particles are in the distant mist.
-    const farEnd = Math.round(count * 0.49), midEnd = Math.round(count * 0.79);
-    const nearEnd = count - Math.max(1, Math.round(count * 0.024));
+    const farEnd = Math.round(count * 0.46), midEnd = Math.round(count * 0.78);
+    const nearEnd = count - (phone ? 2 : 4);
     for (let i = 0; i < count; i++) {
       const layer = i < farEnd ? 0 : i < midEnd ? 1 : i < nearEnd ? 2 : 3;
       const z = (layer + Math.random()) / 4;
+      const size = 5 + 28 * z * z;
       flakes.push({
         layer, z, x: Math.random() * w, y: Math.random() * h,
         vx: 0, vy: 20 + 90 * z, phase: Math.random() * 2 * Math.PI,
-        frequency: 1.0 + Math.random(), size: 5 + 28 * z * z + (layer === 3 ? 16 : 0)
+        frequency: 1.0 + Math.random(), size: layer === 3 ? size + 24 : layer === 0 ? size : size * 1.43
       });
     }
   }
@@ -92,17 +100,17 @@ function snowWind(x, y, time, out) {
   }
 
   function paintRings(dt, shore) {
-    context.lineWidth = 1;
+    context.lineWidth = 1.2;
     for (let i = rings.length - 1; i >= 0; i--) {
       const ring = rings[i];
       ring.age += dt;
       const t = ring.age / 1.35;
       if (t >= 1) { rings.splice(i, 1); continue; }
-      const radius = 1.5 + (9 + 19 * ring.z) * (1 - (1 - t) ** 2);
-      context.globalAlpha = Math.min(1, t * 9) * (1 - t) ** 1.4;
+      const radius = 2 + (12 + 24 * ring.z) * (1 - (1 - t) ** 2);
+      context.globalAlpha = Math.min(1, t * 9) * (1 - t) ** 1.2;
       for (let band = 0; band < 2; band++) {
         const r = radius * (band ? 0.81 : 1);
-        context.strokeStyle = band ? 'rgba(255,255,255,.53)' : 'rgba(75,117,145,.34)';
+        context.strokeStyle = band ? 'rgba(255,255,255,.72)' : 'rgba(64,104,132,.46)';
         context.beginPath();
         context.ellipse(ring.x, waterContact(shore, ring.z), r, r * (0.12 + 0.08 * ring.z), 0, 0, 2 * Math.PI);
         context.stroke();
@@ -146,7 +154,13 @@ function snowWind(x, y, time, out) {
       if (f.x < -f.size && f.vx < 0) f.x = width + f.size;
       const mist = far ? Math.min(1, Math.max(0, (stop - f.y) / (height * 0.15))) : 1;
       const shimmer = 0.88 + 0.12 * Math.cos(spin);
-      context.globalAlpha = mist * shimmer * (layer === 3 ? 0.80 : 0.54 + z * 0.45);
+      let opacity = layer === 0 ? 0.54 + z * 0.45 : Math.min(1, 0.83 + z * 0.24);
+      if (layer === 3) {
+        // Let the foreground drift past the headline without flashing behind the letters.
+        const distance = Math.max(0, titleTop - f.y, f.y - titleBottom);
+        opacity *= 0.34 + 0.66 * Math.min(1, distance / f.size);
+      }
+      context.globalAlpha = mist * shimmer * opacity;
       const size = f.size;
       if (layer >= 2) {
         const angle = 0.55 * Math.sin(spin) + f.vx * 0.003;
