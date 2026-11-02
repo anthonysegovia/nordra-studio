@@ -26,6 +26,7 @@ const { values } = parseArgs({ options: {
   elapsed: { type: 'string', default: '0' },
   version: { type: 'string', default: 'v5' },
   theme: { type: 'string', default: 'both' },
+  software: { type: 'boolean', default: false },
 } });
 assert.ok(['start', 'final'].includes(values.phase), '--phase must be start or final');
 assert.ok(['light', 'dark', 'both'].includes(values.theme), '--theme must be light, dark or both');
@@ -38,7 +39,7 @@ const sceneFile = fs.readdirSync(path.join(values.build, 'assets')).find(file =>
 assert.ok(sceneFile, 'Build the site first');
 fs.mkdirSync(values.output, { recursive: true }); fs.mkdirSync(values.evidence, { recursive: true });
 const browser = await chromium.launch({ executablePath: values.chrome, headless: true,
-  args: ['--enable-webgl', '--enable-unsafe-swiftshader'] });
+  args: ['--enable-webgl', '--enable-unsafe-swiftshader', ...(values.software ? ['--use-angle=swiftshader'] : [])] });
 const records = [];
 try {
   const viewports = { compact: { width: 1440, height: 900 }, desktop: { width: 1920, height: 900 }, wide: { width: 2560, height: 1080 }, mobile: { width: 390, height: 844 } };
