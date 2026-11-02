@@ -320,3 +320,28 @@ test('mobile waits for poster decoding, paint and idle before probing WebGL', as
   a.runFrame(); assert.equal(a.idle.size, 1);
   await a.runIdle(); assert.equal(a.imports(), 1);
 });
+
+test('daylight submits independent compiles but waits before changing render target', async () => {
+  const reflection = {}, ridge = {}, sky = {}, water = {};
+  let target, unblock, submitted;
+  const gate = new Promise(resolve => { unblock = resolve; });
+  const both = new Promise(resolve => { submitted = resolve; });
+  const calls = [];
+  const renderer = {
+    setRenderTarget(value) { target = value; },
+    compileAsync(object) {
+      calls.push({object,target});
+      if (calls.length === 2) submitted();
+      return target ? gate : Promise.resolve();
+    },
+  };
+  const done = preparePrograms(renderer, {}, {}, [sky,ridge,water], {
+    reflection, water, overlap:true, yieldTask:()=>Promise.resolve(), cancelled:()=>false,
+  });
+  await both;
+  assert.equal(calls.length,2);
+  assert.ok(calls.every(call=>call.target===reflection));
+  unblock(); assert.equal(await done,true);
+  assert.deepEqual(calls.slice(2).map(call=>call.object),[sky,ridge,water]);
+  assert.equal(target,null);
+});

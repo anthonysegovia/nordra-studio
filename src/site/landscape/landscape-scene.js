@@ -133,6 +133,7 @@ const skyFragment = /* glsl */`
     }
     c = min(c, vec3(1.0));
 
+    if (dark <= 0.0) { gl_FragColor = vec4(c,1.0); return; }
     // Night stars: faint dust, scattered medium stars and a few bright ones with a halo.
     vec2 dust = starLayer(d, 260.0, 0.88, 0.75, 0.05, 0.22);
     vec2 medium = starLayer(d, 90.0, 0.90, 1.0, 0.25, 0.65);
@@ -811,8 +812,12 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
       // output colour space. Three keys those as distinct programs, even for
       // custom shaders. Preparing just the canvas leaves the entire reflected
       // scene to compile synchronously inside the first render.
-      const completed = await preparePrograms(renderer, camera, scene, [sky, ...bands, ...mountain.children, ridges[0], water], {
-        reflection: water.getRenderTarget?.(), water, yieldTask: yieldSetup, cancelled,
+      // The two sunlit slopes share one program, as do both ribbons. Warm
+      // each variant once while retaining the night preparation order.
+      const objects = initialDark ? [sky,...bands,...mountain.children,ridges[0],water] :
+        [sky,bands[0],mountain.children[0],ridges[0],water];
+      const completed = await preparePrograms(renderer, camera, scene, objects, {
+        reflection: water.getRenderTarget?.(), water, yieldTask: yieldSetup, cancelled, overlap: !initialDark,
       });
       if (!completed) return;
       await yieldSetup();
