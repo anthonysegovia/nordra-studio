@@ -1,0 +1,142 @@
+[
+  {
+    "version": "invierno",
+    "lang": "es",
+    "width": 1440,
+    "theme": "light",
+    "values": {
+      ".horizon-intro": 12.41883244296033,
+      ".horizon-ending": 4.817560509657595,
+      ".horizon-offer": 12.404743891950991,
+      ".horizon-detail": 5.104781393985891,
+      ".horizon-button": 12.404743891950991
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-ending": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-offer": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-detail": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-button": {
+        "t": 24,
+        "x": 0
+      }
+    }
+  },
+  {
+    "version": "invierno",
+    "lang": "es",
+    "width": 375,
+    "theme": "light",
+    "values": {
+      ".horizon-intro": 12.086172785488301,
+      ".horizon-ending": 4.813286020255941,
+      ".horizon-offer": 12.041772866907566,
+      ".horizon-detail": 5.006728986648186,
+      ".horizon-button": 12.427541176674975
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-ending": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-offer": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-detail": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-button": {
+        "t": 24,
+        "x": 0
+      }
+    }
+  },
+  {
+    "version": "invierno",
+    "lang": "en",
+    "width": 1440,
+    "theme": "light",
+    "values": {
+      ".horizon-intro": 12.396035158236346,
+      ".horizon-ending": 4.810839124130867,
+      ".horizon-offer": 12.404743891950991,
+      ".horizon-detail": 5.104781393985891,
+      ".horizon-button": 12.404743891950991
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-ending": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-offer": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-detail": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-button": {
+        "t": 24,
+        "x": 0
+      }
+    }
+  },
+  {
+    "version": "invierno",
+    "lang": "en",
+    "width": 375,
+    "theme": "light",
+    "values": {
+      ".horizon-intro": 12.077510814480796,
+      ".horizon-ending": 4.807821676809362,
+      ".horizon-offer": 12.063906705829384,
+      ".horizon-detail": 5.006728986648186,
+      ".horizon-button": 12.751862191628204
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-ending": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-offer": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-detail": {
+        "t": 24,
+        "x": 0
+      },
+      ".horizon-button": {
+        "t": 24,
+        "x": 0
+      }
+    }
+  }
+]
