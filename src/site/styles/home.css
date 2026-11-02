@@ -137,5 +137,7 @@ body[data-journey-motion=paused] .horizon-path-photo{transform:none;transition:n
 body[data-journey-motion=paused] .signature-work-image img{transform:none;transition:none}
 @media(max-width:700px){.signature-works{padding-block:44px}.signature-works-grid{grid-template-columns:1fr;gap:30px}.signature-works-heading{margin-bottom:24px}}
 @media(prefers-reduced-motion:reduce){.signature-work-image img,.signature-work-link>span{transform:none!important;transition:none}}
-.landscape-play{display:none;position:relative;margin:8px auto 0;padding:8px 16px;min-height:44px;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:24px}
-[data-offer-landscape-motion] .landscape-play{display:inline-block}
+/* A quiet text control under the trust line: it must not compete with the two primary paths. */
+.landscape-play{display:none;position:relative;z-index:2;align-items:center;gap:8px;min-height:44px;margin:6px auto 0;padding:0 12px;font-size:13px;color:var(--muted);background:none;border:0;border-radius:999px}
+.landscape-play:before{content:"";width:0;height:0;border-left:7px solid currentColor;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent}
+[data-offer-landscape-motion] .landscape-play{display:inline-flex}
