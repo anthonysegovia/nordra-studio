@@ -3,17 +3,18 @@
   const button = document.getElementById('analytics-preference');
   const status = document.getElementById('analytics-preference-status');
   if (!button || !status) return;
+  const en=document.documentElement.lang==='en';
   const key = 'nordra-analytics-disabled';
   function sync() {
     try {
       const disabled = localStorage.getItem(key) === 'true';
       button.disabled = false;
       button.setAttribute('aria-pressed', String(disabled));
-      button.textContent = disabled ? 'Activar medición en este navegador' : 'Desactivar medición en este navegador';
-      status.textContent = disabled ? 'La medición está desactivada en este navegador.' : 'La medición está permitida en este navegador.';
+      button.textContent = en ? (disabled?'Enable measurement in this browser':'Disable measurement in this browser') : disabled ? 'Activar medición en este navegador' : 'Desactivar medición en este navegador';
+      status.textContent = en ? (disabled?'Measurement is disabled in this browser.':'Measurement is permitted in this browser.') : disabled ? 'La medición está desactivada en este navegador.' : 'La medición está permitida en este navegador.';
     } catch {
       button.disabled = true;
-      status.textContent = 'El almacenamiento no está disponible. La medición no se activa en este navegador.';
+      status.textContent = en ? 'Storage is unavailable. Measurement is not enabled in this browser.' : 'El almacenamiento no está disponible. La medición no se activa en este navegador.';
     }
   }
   button.addEventListener('click', () => {
@@ -21,7 +22,7 @@
       if (localStorage.getItem(key) === 'true') localStorage.removeItem(key);
       else localStorage.setItem(key, 'true');
       sync();
-    } catch { status.textContent = 'No se pudo guardar la preferencia. Puedes escribir a hola@nordrastudio.mx para solicitar ayuda.'; }
+    } catch { status.textContent = en ? 'Your preference could not be saved. Email hola@nordrastudio.mx for help.' : 'No se pudo guardar la preferencia. Puedes escribir a hola@nordrastudio.mx para solicitar ayuda.'; }
   });
   window.addEventListener('storage', event => { if (event.key === key || event.key === null) sync(); });
   sync();
