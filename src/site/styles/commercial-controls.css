@@ -1,0 +1,25 @@
+/* The existing homepage button, shared by all commercial hero sections. */
+.horizon-button{display:inline-flex;justify-content:center;align-items:center;gap:18px;min-height:48px;padding:12px 27px;border:1px solid #102a40;border-radius:999px;background:#102a40;color:#fff;font-size:14px;font-weight:500;line-height:1.4;text-align:center;transition:background-color .25s,color .25s,transform .3s,border-color .25s}
+.horizon-button-outline{background:transparent;color:var(--ink);border-color:currentColor}
+.horizon-button .interface-arrow{width:17px;height:17px;transition:transform .25s}
+.horizon-button:hover,.horizon-button:focus-visible{opacity:1;background:#24485d;border-color:#24485d;color:white}
+.horizon-button:hover .interface-arrow,.horizon-button:focus-visible .interface-arrow{transform:translateX(3px)}
+.horizon-button:active{transform:translateY(1px)}
+.dark .scene .horizon-button:not(.horizon-button-outline){background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.theme-wedding .horizon-button{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.theme-wedding .horizon-button:hover{background:var(--ink);border-color:var(--ink)}
+.scene :is(.business-lead,.occasion-lead,.seasonal-hero-lead) .horizon-button{justify-self:start;max-width:100%;margin-block:12px}
+.horizon-actions .options-compare{font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:48px;color:var(--ink)}
+.scene :is(.business-lead,.occasion-lead,.seasonal-hero-lead) .options-compare{font-size:14px;min-height:44px;display:inline-flex;align-items:center;gap:16px}
+.scene .business-head .business-lead>p{color:var(--ink)}
+@media(prefers-reduced-motion:reduce){.horizon-button,.horizon-button .interface-arrow{transition:none}.horizon-button:active,.horizon-button:hover .interface-arrow{transform:none}}
+body[data-journey-motion=paused] .horizon-button,body[data-journey-motion=paused] .horizon-button .interface-arrow{transition:none}
+
+/* These tokens are consumed by commercial-type.mjs for every commercial sheet,
+   including font shorthands. No runtime resizing or per-page overrides. */
+@media(max-width:700px){
+ body[data-scene]{--commercial-min-text:13px}
+ body[data-scene] :is(.eyebrow,.location,.business-section-label){--commercial-min-text:12px;letter-spacing:.08em}
+ body[data-scene] :is(.nordra-phone,.nordra-phone *,.invitation-art,.invitation-art *){--commercial-min-text:0px}
+ .horizon-trust{flex-wrap:wrap;row-gap:4px}
+}

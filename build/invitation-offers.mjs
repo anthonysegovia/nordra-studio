@@ -1,3 +1,5 @@
+import { buildSync } from 'esbuild';
+import { fileURLToPath } from 'node:url';
 import { invitationOfferSchema } from './invitation-schema.mjs';
 import { invitationOffers, invitationMoney, invitationFacts, seasonalOffer, seasons, upcomingSeason } from '../src/data/invitationPricing.ts';
 const esc = s => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
@@ -58,9 +60,14 @@ export function invitationSchema() {
   ];
 }
 
+let seasonHead;
+function renderSeasonHead() {
+  return seasonHead ??= buildSync({entryPoints:[fileURLToPath(new URL('../src/seasonal/showcase-prepaint.js',import.meta.url))],bundle:true,write:false,minify:true,format:'iife',platform:'browser',target:'es2020'}).outputFiles[0].text;
+}
 export function renderInvitationPage(html, date = new Date()) {
   if (!html.includes('{{invitations:')) return html;
   return html
+    .replace('{{invitations:season-head}}', html.includes('{{invitations:season-head}}') ? renderSeasonHead() : '')
     .replaceAll('{{invitations:minimum}}', minPrice)
     .replace('{{invitations:guests}}', esc(invitationFacts.guests))
     .replace('{{invitations:closing}}', encodeURIComponent(closingMessage))

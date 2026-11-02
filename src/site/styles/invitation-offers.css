@@ -26,7 +26,7 @@
 .invite-audience{font-size:13px;color:var(--muted);line-height:1.65;margin:10px 0 16px;min-height:44px}
 .invite-price{display:flex;flex-direction:column;gap:4px;margin:0}
 .invite-regular{font-size:12px;color:var(--muted);text-decoration-color:color-mix(in srgb,var(--warm-b) 80%,transparent)}
-.invite-opening small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--warm-b) 75%,var(--ink));margin-bottom:2px}
+.invite-opening small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:2px}
 .invite-opening>span{font-size:14px;color:var(--muted)}
 .invite-opening strong{font:500 34px/1.15 Sora,Manrope,sans-serif;letter-spacing:-.045em;color:var(--ink);margin:0 2px}
 .invite-delivery{font-size:12px;color:var(--ink);margin:12px 0 0;padding:7px 10px;border-radius:10px;background:color-mix(in srgb,var(--bg) 60%,transparent);border:1px solid var(--line);align-self:flex-start}

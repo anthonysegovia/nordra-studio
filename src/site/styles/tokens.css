@@ -5,7 +5,7 @@
 body {
   --bg: #f6f9fc;
   --ink: #142a36;
-  --muted: #586f7a;
+  --muted: #506570;
   --line: #25465c25;
   --accent: #22616f;
 }
@@ -69,8 +69,8 @@ body[data-scene=cumpleanos].dark {
 body[data-scene=eventos] {
   --bg: #f4f8f6;
   --ink: #193e3d;
-  --muted: #58716d;
-  --accent: #337b6c;
+  --muted: #45615b;
+  --accent: #286657;
   --line: #337b6c33;
 }
 
@@ -92,7 +92,7 @@ body[data-scene=eventos].dark {
 body[data-scene=temporada] {
   --bg: var(--seasonal-bg,#faf7f3);
   --ink: #34313f;
-  --muted: #716877;
+  --muted: #625768;
   --line: #71687730;
   --accent: var(--seasonal-accent,#785587);
 }

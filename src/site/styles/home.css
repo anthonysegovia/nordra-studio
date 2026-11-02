@@ -4,17 +4,11 @@
 .horizon-hero{position:relative;isolation:isolate;text-align:center;padding:80px 24px 170px;overflow:hidden}
 .horizon-location{font-size:10px;letter-spacing:.18em}
 .horizon-title{max-width:1120px;margin:26px auto 22px;font-size:clamp(42px,4.9vw,76px);font-weight:650;line-height:1.1;letter-spacing:-.055em;text-wrap:balance}
-.horizon-accent{color:#3494bc;white-space:nowrap}
+.horizon-accent{color:#216d90;white-space:nowrap}
 .horizon-ending{display:block}
 .horizon-offer{font-size:clamp(16px,1.45vw,20px);margin:0 auto 7px;line-height:1.6;letter-spacing:-.025em}
 .horizon-detail{font-size:15px;color:var(--muted);margin:0 auto;line-height:1.65}
 .horizon-actions{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:30px}
-.horizon-button{display:inline-flex;justify-content:center;align-items:center;gap:18px;min-height:48px;padding:12px 27px;border:1px solid #102a40;border-radius:999px;background:#102a40;color:#fff;font-size:14px;font-weight:500;line-height:1.4;text-align:center;transition:background-color .25s,color .25s,transform .3s,border-color .25s}
-.horizon-button-outline{background:transparent;color:var(--ink);border-color:currentColor}
-.horizon-button .interface-arrow{width:17px;height:17px;transition:transform .25s}
-.horizon-button:hover,.horizon-button:focus-visible{opacity:1;background:#24485d;border-color:#24485d;color:white}
-.horizon-button:hover .interface-arrow,.horizon-button:focus-visible .interface-arrow{transform:translateX(3px)}
-.horizon-button:active{transform:translateY(1px)}
 .horizon-trust{display:flex;justify-content:center;align-items:center;gap:15px;margin:26px auto 0;font-size:11px;color:var(--muted);letter-spacing:.025em}
 .horizon-trust i{font-style:normal}
 .horizon-light{position:absolute;z-index:-1;pointer-events:none;left:-3%;right:-3%;bottom:-15px;height:280px;opacity:.7;transform-origin:50% 100%}
@@ -33,7 +27,7 @@
 .horizon-invitations::after{background:linear-gradient(transparent,#fff8ef77 55%,#fff8efe8)}
 .horizon-path-caption{position:absolute;z-index:2;bottom:0;left:0;right:0;padding:clamp(24px,3.4vw,52px)}
 .horizon-path-caption::before{content:"";display:block;width:32px;height:1px;background:currentColor;margin-bottom:15px}
-.horizon-path h2{font-size:clamp(30px,3vw,46px);font-weight:600;letter-spacing:-.05em;line-height:1.15;margin:0 0 10px}
+.horizon-path h2{color:#071928;font-size:clamp(30px,3vw,46px);font-weight:600;letter-spacing:-.05em;line-height:1.15;margin:0 0 10px}
 .horizon-path p{font-size:14px;line-height:1.6;max-width:380px;margin:0 0 21px;color:#344a59}
 .horizon-path .horizon-button{min-height:44px;font-size:13px;padding:11px 23px}
 .horizon-path .horizon-button-outline{color:#102a40}
