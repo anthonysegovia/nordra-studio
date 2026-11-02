@@ -1,0 +1,18 @@
+/* Placement only. Frame, image/iframe and interaction are shared with the showcase.
+   Explicit geometry reserves the same space before image decoding and after click. */
+.occasion-hero-live{position:relative;isolation:isolate;grid-column:2;grid-row:2/4;min-width:0;margin:30px 0 0;align-self:start}
+.scene .occasion-hero .occasion-hero-live{--live-halo:color-mix(in srgb,var(--accent) 16%,transparent)}
+.occasion-hero-live.showcase-live .live-phone{height:560px;width:auto;flex:none}
+.occasion-hero-live.showcase-live .live-actions{margin:24px 0 0;min-height:70px;flex-direction:column;flex-wrap:nowrap;gap:8px}
+.occasion-hero-live.showcase-live .live-note{display:inline}
+@media(min-width:901px){
+ .birthday-hero .occasion-hero-live{grid-column:2;grid-row:3;margin:0}
+ .gathering-hero .occasion-hero-live{grid-column:1;grid-row:2/4;margin:40px 0 20px}
+}
+@media(min-width:701px) and (max-width:900px){.birthday-hero h1,.gathering-hero h1{grid-column:1;grid-row:2}}
+@media(max-width:900px){.occasion-hero-live.showcase-live .live-phone{height:500px}}
+@media(max-width:700px){
+ .occasion-hero-live{order:3;margin:28px 0 0;align-self:center;width:100%}
+ .birthday-hero .occasion-hero-live{order:2;margin:12px 0 35px}
+ .occasion-hero-live.showcase-live .live-phone{height:500px}
+}

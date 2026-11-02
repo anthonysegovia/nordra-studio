@@ -371,7 +371,7 @@ body[data-business-motion=paused] .business .feature-screen img{transform:none!i
 .occasion-hero h1 .business-title-line:last-child{color:var(--accent)}
 .occasion-lead{grid-column:1;grid-row:3;align-self:start;max-width:420px}
 .occasion-lead>p{font-size:18px;line-height:1.85;margin:0 0 26px;color:var(--muted)}
-.occasion-hero-photo,.occasion-hero-poster{grid-column:2;grid-row:2/4;margin:30px 0 0;min-width:0;align-self:start}
+.occasion-hero-photo{grid-column:2;grid-row:2/4;margin:30px 0 0;min-width:0;align-self:start}
 .occasion-hero-photo img{width:100%;height:560px;object-fit:cover;object-position:63% 50%;border-radius:46% 3px 40% 3px}
 .occasion-hero-photo figcaption{font-size:16px;text-align:right;padding:18px 16px;color:var(--muted)}
 .wedding-hero h1{grid-column:1/-1;grid-row:2;width:max-content;max-width:100%;font-size:clamp(56px,7.8vw,112px);margin-top:50px;pointer-events:none}
@@ -400,28 +400,19 @@ body[data-business-motion=paused] .business .feature-screen img{transform:none!i
 .occasion-sample{display:grid;grid-template-columns:.8fr 1.2fr;gap:90px;align-items:start}
 .occasion-sample h2{font-size:clamp(36px,4.7vw,68px);font-weight:500;line-height:1.1;letter-spacing:-.055em;margin:25px 0}
 .occasion-sample-copy>p{color:var(--muted);line-height:1.85}.occasion-sample-copy small{font-size:11px;color:var(--muted)}
-.occasion-poster{position:relative;isolation:isolate;overflow:hidden;aspect-ratio:4/5;background:#ebeaff;color:#363ddb;padding:30px;display:flex;flex-direction:column;justify-content:space-between}
-.poster-meta{display:flex;justify-content:space-between;gap:16px;font-size:9px;letter-spacing:.08em;margin:0;z-index:2}
-.occasion-poster>strong{display:block;font-size:clamp(65px,8vw,130px);font-weight:650;letter-spacing:-.085em;line-height:.93;margin-top:15px;z-index:2}
-.birthday-poster>strong span{display:block;text-align:right;font-size:1.5em;margin-top:-.05em}
-.occasion-poster>img{position:absolute;inset:18% 3% 12%;width:94%;height:70%;object-fit:contain;z-index:1}
-.birthday-poster>img{top:26%;transform:rotate(-12deg)}
-.poster-foot{font-size:12px;font-weight:600;z-index:2;margin:0;line-height:1.8}.poster-foot small{font-size:10px;font-weight:400}
-.event-poster{background:#dcebe6;color:#234e4a}.event-poster>strong{margin-top:auto;font-size:clamp(64px,7vw,102px);line-height:.9}.event-poster>strong span{font-size:.36em;letter-spacing:-.05em}.event-poster>img{top:4%;height:66%;width:94%;opacity:.9}.event-poster .poster-foot{margin-top:25px;font-size:10px}
 .occasion-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px 48px}
-.occasion-choice{display:block;min-width:0}.occasion-choice:hover{opacity:1}.choice-copy h3{display:flex;justify-content:space-between;align-items:center;font-weight:450;font-size:38px;letter-spacing:-.045em;margin:0 0 12px}.choice-copy h3 span{font-size:24px}.choice-copy p{font-size:15px;color:var(--muted);margin:0 0 30px}.choice-art{overflow:hidden;aspect-ratio:1/1}.choice-art>img{width:100%;height:100%;object-fit:cover}.choice-art .occasion-poster{aspect-ratio:1/1;height:100%;padding:26px}.choice-art .occasion-poster>strong{font-size:clamp(64px,7vw,105px)}.choice-art .birthday-poster>img{top:25%;height:70%}.choice-art .event-poster>img{top:0;height:70%}
-@media(prefers-reduced-motion:no-preference){.occasion-choice .choice-art>img,.occasion-hero-poster .occasion-poster>img{transition:transform 1.1s cubic-bezier(.22,.7,.2,1)}.occasion-choice:hover .choice-art>img{transform:scale(1.035)}.occasion-hero-poster:hover .occasion-poster>img{transform:translateY(-8px) rotate(3deg)}.occasion-path a{transition:border-color .3s}}
+.occasion-choice{display:block;min-width:0}.occasion-choice:hover{opacity:1}.choice-copy h3{display:flex;justify-content:space-between;align-items:center;font-weight:450;font-size:38px;letter-spacing:-.045em;margin:0 0 12px}.choice-copy h3 span{font-size:24px}.choice-copy p{font-size:15px;color:var(--muted);margin:0 0 30px}.choice-art{overflow:hidden;aspect-ratio:1/1}.choice-art>img{width:100%;height:100%;object-fit:cover}
+@media(prefers-reduced-motion:no-preference){.occasion-choice .choice-art>img{transition:transform 1.1s cubic-bezier(.22,.7,.2,1)}.occasion-choice:hover .choice-art>img{transform:scale(1.035)}.occasion-path a{transition:border-color .3s}}
 @media(max-width:1050px){.occasion-hero{gap:0 30px}.occasion-hero-photo img{height:480px}.atelier-layout,.occasion-sample{gap:40px}.occasion-grid{gap:50px 30px}}
 @media(max-width:700px){
  .occasion-path{gap:6px 19px;margin:0 0 20px;font-size:11px}.occasion-path a{min-height:40px}
  .occasion-hero{display:flex;flex-direction:column;gap:0}.occasion-kicker{gap:10px}.occasion-kicker .eyebrow{font-size:8px;max-width:180px}.occasion-kicker .business-motion-control{font-size:10px;flex-shrink:0}
  .occasion-hero h1,.wedding-hero h1{font-size:clamp(38px,11vw,68px);margin:30px 0 24px;width:100%}.wedding-hero h1 .business-title-line:last-child{padding-left:6%}
  .occasion-hero-photo,.wedding-hero .occasion-hero-photo{margin:0 0 25px}.occasion-hero-photo img{height:auto;aspect-ratio:1/1;border-radius:40% 2px 35% 2px}.occasion-hero-photo figcaption{font-size:12px;padding:14px 0}
- .occasion-lead,.wedding-hero .occasion-lead{max-width:none;width:100%;padding:0;align-self:auto}.occasion-lead>p{font-size:15px;line-height:1.8}.occasion-hero-poster{order:3;margin:28px 0 0}.occasion-hero .occasion-lead{order:2}.wedding-hero .occasion-lead{order:0}.occasion-hero-foot{order:4;font-size:9px;margin-top:26px;line-height:1.8}
+ .occasion-lead,.wedding-hero .occasion-lead{max-width:none;width:100%;padding:0;align-self:auto}.occasion-lead>p{font-size:15px;line-height:1.8}.occasion-hero .occasion-lead{order:2}.wedding-hero .occasion-lead{order:0}.occasion-hero-foot{order:4;font-size:9px;margin-top:26px;line-height:1.8}
  .atelier-heading{margin-bottom:30px}.atelier-heading>p:last-child{font-size:14px}.atelier-layout,.occasion-sample{display:block}.atelier-copy{margin-bottom:35px}.atelier-copy h3{font-size:36px}.wedding-tabs{margin:25px 0}.wedding-tabs button{font-size:15px;justify-content:space-between}.wedding-tabs button span{display:block}
  .atelier-photo{margin:0 -24px}.atelier-dedication strong{font-size:22px}.wedding-times{gap:35px}.wedding-times strong{font-size:26px}.occasion-sample-copy{margin-bottom:30px}.occasion-sample h2{font-size:36px}.occasion-sample-copy>p{font-size:15px}
- .occasion-poster{padding:24px}.occasion-poster>strong{font-size:74px}.event-poster>strong{font-size:74px}.poster-meta{font-size:8px}.poster-foot{font-size:11px}
- .occasion-grid{grid-template-columns:1fr;gap:44px}.choice-copy h3{font-size:32px}.choice-copy p{font-size:14px;margin-bottom:22px}.choice-art .occasion-poster>strong{font-size:78px}.choice-art .poster-meta{font-size:7px}.choice-art .poster-foot{font-size:9px}
+ .occasion-grid{grid-template-columns:1fr;gap:44px}.choice-copy h3{font-size:32px}.choice-copy p{font-size:14px;margin-bottom:22px}
 }
 
 .occasion-hero-photo.feature-screen,.atelier-photo.feature-screen{background:transparent;border:0;box-shadow:none}
@@ -593,14 +584,12 @@ html[data-journey-motion=paused]::view-transition-group(root),html[data-journey-
  .birthday-hero h1{grid-column:1/-1;grid-row:2;text-align:center;font-size:clamp(78px,10.2vw,148px);margin:28px 0 46px;line-height:.95}
  .birthday-hero h1 .business-title-line{display:inline}
  .birthday-hero h1 .business-title-line:last-child:before{content:' '}
- .birthday-hero .occasion-hero-poster{grid-column:2;grid-row:3;margin:0;transform:rotate(-3deg);box-shadow:0 22px 65px #40318014}
  .birthday-hero .occasion-lead{grid-column:1;grid-row:3;align-self:center;padding-bottom:40px}
  .birthday-hero .occasion-lead>p{font-size:16px;line-height:1.8}
  .birthday-hero .primary-action{font-size:17px}
  .birthday-hero .occasion-hero-foot{grid-column:3;grid-row:3;align-self:end;flex-direction:column;font-size:12px;line-height:1.8;margin:0 0 35px;padding-top:24px}
  .gathering-hero{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:0 80px}
  .gathering-hero .occasion-kicker{grid-column:1/-1}
- .gathering-hero .occasion-hero-poster{grid-column:1;grid-row:2/4;margin:40px 0 20px}
  .gathering-hero h1{grid-column:2;grid-row:2;font-size:clamp(60px,6.4vw,94px);align-self:end;margin:50px 0 32px}
  .gathering-hero .occasion-lead{grid-column:2;grid-row:3;align-self:start;padding-bottom:35px}
  .gathering-hero .occasion-hero-foot{grid-row:4;letter-spacing:.025em}
@@ -612,9 +601,6 @@ html[data-journey-motion=paused]::view-transition-group(root),html[data-journey-
  .wedding-atelier .atelier-photo figcaption{padding:0 8px}
  .theme-seasonal .seasonal-number{font-size:56px;font-weight:350;letter-spacing:-.065em;color:var(--accent);opacity:.65;line-height:1;margin-bottom:38px}
 }
-.theme-gathering .occasion-hero-poster{border:1px solid var(--line);padding:12px}
-.theme-gathering .occasion-hero-poster .occasion-poster{border:0;box-shadow:none}
-.theme-birthday .birthday-hero .occasion-poster{border:1px solid color-mix(in srgb,var(--accent) 20%,transparent)}
 .seasonal-route a{position:relative}
 .seasonal-route a:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .35s}
 .seasonal-route a[aria-current]:after,.seasonal-route a:hover:after{transform:scaleX(1)}
@@ -703,10 +689,8 @@ html[data-journey-motion=paused]::view-transition-group(root),html[data-journey-
  .gathering-hero{gap:0 30px}
 }
 @media(max-width:700px){
- .birthday-hero .occasion-hero-poster{order:2;margin:12px 10px 35px;transform:rotate(-2deg)}
  .birthday-hero .occasion-lead{order:3}
  .birthday-hero h1{font-size:clamp(46px,12.2vw,76px);margin:27px 0 20px}
- .gathering-hero .occasion-hero-poster{padding:8px;margin-top:30px}
  .wedding-atelier .atelier-photo{margin:0;padding:8px;border:1px solid var(--line)}
  .wedding-atelier .atelier-photo figcaption{padding:0 4px;font-size:11px}
  .wedding-atelier .atelier-layout>div:last-child{border-top:1px solid var(--line);padding-top:26px}
@@ -1128,9 +1112,6 @@ body{--navigation-height:94px}
 .showcase-panel{position:relative}
 .showcase-art{position:relative;aspect-ratio:1/1;max-width:540px;margin:0 auto;isolation:isolate}
 .showcase-art>img{width:100%;height:100%;object-fit:cover;display:block}
-.showcase-art .occasion-poster{height:100%;aspect-ratio:auto;padding:28px;box-shadow:0 18px 45px -24px #10222e50}
-.showcase-art .occasion-poster>strong{font-size:clamp(64px,7vw,100px)}
-.showcase-art .poster-meta{position:relative;z-index:2}
 .showcase-explore{max-width:540px;margin:24px auto 0;font-size:18px;min-height:54px}
 /* A real photo emerges from a paper envelope, without cropping the surrounding stage. */
 .showcase-envelope{position:absolute;left:9%;right:9%;height:44%;bottom:10%;perspective:1200px}
@@ -1139,8 +1120,6 @@ body{--navigation-height:94px}
 .showcase-letter img{width:100%;aspect-ratio:1.16;object-fit:cover;display:block}
 .showcase-envelope-front{position:absolute;inset:0;z-index:3;clip-path:polygon(0 0,50% 54%,100% 0,100% 100%,0 100%);background:linear-gradient(145deg,#e0d2bf 49.8%,#c6b298 50%,#dbc9b1 50.4%)}
 .showcase-flap{position:absolute;inset:0 0 auto;height:76%;background:linear-gradient(#e8dbc8,#cab59a);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;z-index:1;transform:rotateX(-180deg);animation:showcase-flap 4s both}
-.showcase-art .birthday-poster>img{animation:showcase-ribbon 8s ease-in-out infinite}
-.showcase-art .event-poster>img{animation:showcase-rings 16s ease-in-out infinite}
 .showcase-snow{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .showcase-snow i{position:absolute;left:var(--x);top:-10px;width:var(--size);height:var(--size);background:#fff;border-radius:50%;opacity:.8;animation:showcase-snowfall var(--duration) var(--delay) linear infinite}
 .invitation-showcase .showcase-art *{animation-play-state:paused}
@@ -1149,8 +1128,6 @@ body{--navigation-height:94px}
 .showcase-still .showcase-snow{display:none}
 @keyframes showcase-letter{0%,25%{transform:translateY(0);clip-path:inset(40% 0 0)}85%,100%{transform:translateY(-32%);clip-path:inset(0)}}
 @keyframes showcase-flap{0%,10%{transform:rotateX(0);z-index:4}30%,100%{transform:rotateX(-180deg);z-index:1}}
-@keyframes showcase-ribbon{0%,100%{transform:translateY(0) rotate(-12deg)}50%{transform:translateY(-12px) rotate(-4deg)}}
-@keyframes showcase-rings{0%,100%{transform:rotate(-8deg) scale(.96)}50%{transform:rotate(10deg) scale(1.03)}}
 @keyframes showcase-snowfall{to{transform:translate(24px,560px)}}
 @media(max-width:700px){
  .showcase-layout{display:block}
@@ -1163,31 +1140,11 @@ body{--navigation-height:94px}
  .showcase-tab[aria-selected=true] .showcase-tab-title{transform:none}
  .showcase-tab[aria-selected=true] .showcase-tab-title>span{transform:none}
  .showcase-art{max-width:440px}
- .showcase-art .occasion-poster{padding:19px}
- .showcase-art .occasion-poster>strong{font-size:clamp(62px,19vw,90px)}
- .showcase-art .poster-meta{font-size:7px}
- .showcase-art .poster-foot{font-size:9px}
  .showcase-explore{font-size:16px;margin-top:14px;min-height:52px}
  .scene .showcase-stage .showcase-aurora{left:-55%;right:-55%;height:140%;top:-20%}
 }
 @media(prefers-reduced-motion:reduce){.invitation-showcase *{animation:none!important;transition:none!important}.showcase-snow{display:none}}
 .showcase-letter img{height:auto;aspect-ratio:1.16}
-
-/* 5.33 — Tactile photographic invitations replace the chrome illustrations. */
-.scene .organic-poster{color:#fff8ed;background:#332822}
-.scene .organic-poster>img{inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center;opacity:1;z-index:0;transform:scale(1.015);animation:organic-camera 18s ease-in-out infinite alternate;animation-play-state:paused}
-.scene .organic-poster::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,#1e1222a6,transparent 45%,#160e2280)}
-.scene .event-poster.organic-poster::after{background:linear-gradient(180deg,#10251a80,transparent 32%,#10251ad9 100%)}
-.scene .organic-poster .poster-meta,.scene .organic-poster .poster-foot,.scene .organic-poster>strong{position:relative;z-index:2;color:#fff8ed;text-shadow:0 1px 14px #0003}
-.scene .birthday-poster.organic-poster>strong{font-size:clamp(46px,5.8vw,78px);margin:20px 0 auto;line-height:1;letter-spacing:-.055em}
-.scene .birthday-poster.organic-poster>strong span{display:inline;font-size:.66em;margin:0 0 0 .16em;text-align:left;font-weight:400}
-.scene .event-poster.organic-poster>strong{font-size:clamp(52px,6.5vw,88px)}
-.scene .organic-poster.organic-running>img{animation-play-state:running}
-.scene .showcase-art .organic-poster>img{animation-name:organic-camera;animation-duration:18s;animation-timing-function:ease-in-out;animation-direction:alternate}
-.scene .occasion-hero-poster:hover .organic-poster>img{transform:scale(1.015)}
-@keyframes organic-camera{from{transform:scale(1.015) translateY(0)}to{transform:scale(1.07) translateY(-.6%)}}
-@media(max-width:700px){.scene .birthday-poster.organic-poster>strong{font-size:clamp(42px,12vw,64px);margin-top:18px}.scene .event-poster.organic-poster>strong{font-size:clamp(52px,16vw,74px)}}
-@media(prefers-reduced-motion:reduce){.scene .organic-poster>img{animation:none;transform:scale(1.015)}}
 
 /* 5.35 — Three tactile openings, controlled by scroll position. */
 .scroll-invitation{--paper-open:1;--paper-fade:0;position:relative;isolation:isolate;overflow:hidden}
@@ -1202,7 +1159,7 @@ body{--navigation-height:94px}
 /* Season: the two diagonal folds of a paper parcel peel away. */
 [data-paper=season] .paper-left{background:linear-gradient(135deg,#eadac1,#bda487);clip-path:polygon(0 0,100% 0,0 100%);transform:translate(calc(var(--paper-open)*-70%),calc(var(--paper-open)*-70%)) rotate(calc(var(--paper-open)*-15deg));transform-origin:top left}
 [data-paper=season] .paper-right{background:linear-gradient(315deg,#e1cfb2,#b39b7c);clip-path:polygon(100% 0,100% 100%,0 100%);transform:translate(calc(var(--paper-open)*70%),calc(var(--paper-open)*70%)) rotate(calc(var(--paper-open)*15deg));transform-origin:bottom right}
-.scene .scroll-invitation .poster-meta,.scene .scroll-invitation .poster-foot,.scene .scroll-invitation>strong{z-index:3}
+.scene .scroll-invitation>strong{z-index:3}
 .scroll-invitation .showcase-snow{z-index:4}
 .seasonal-hero-art.scroll-invitation{border-radius:50%}
 body[data-journey-motion=paused] .occasion-paper{display:none}

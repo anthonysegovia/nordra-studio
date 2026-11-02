@@ -34,7 +34,7 @@
  document.addEventListener('visibilitychange',()=>{if(document.hidden)finish();});
 
  // A small set of editorial groups: controls and body copy stay immediately readable.
- const selector='.business-title-line,.business-topline,.business-lead>p,h2,.feature-heading,.feature-stage,.feature-context>div,.atelier-heading,.atelier-copy,.atelier-photo,.occasion-hero-photo,.occasion-hero-poster,.occasion-sample-copy,.seasonal-chapter-heading,.seasonal-cover,.options-intro,.decision-guide,.case-intention,.case-decision,.case-try-heading,.case-test-link,.studio-principles>div,.process-intro,.process-list>li,.contact-layout>p,.footer-brand';
+ const selector='.business-title-line,.business-topline,.business-lead>p,h2,.feature-heading,.feature-stage,.feature-context>div,.atelier-heading,.atelier-copy,.atelier-photo,.occasion-hero-photo,.occasion-sample-copy,.seasonal-chapter-heading,.seasonal-cover,.options-intro,.decision-guide,.case-intention,.case-decision,.case-try-heading,.case-test-link,.studio-principles>div,.process-intro,.process-list>li,.contact-layout>p,.footer-brand';
  const candidates=[...host.querySelectorAll(selector)];
  const targets=candidates.filter(el=>{
   if(el.closest('.occasion-path,.response-stage,.scroll-scrub')||el.querySelector('.scroll-scrub'))return false;
@@ -51,7 +51,7 @@
   if(seen.has(el)||!ready)return;
   seen.add(el);el.dataset.businessRevealed='true';host.dataset.revealCount=String(++revealCount);
   const intro=!!el.closest('.business-head,.occasion-hero,.seasonal-hero');
-  const visual=el.matches('.feature-stage,.atelier-photo,.occasion-hero-photo,.occasion-hero-poster,.seasonal-cover');
+  const visual=el.matches('.feature-stage,.atelier-photo,.occasion-hero-photo,.seasonal-cover');
   const heading=el.matches('h2,.feature-heading,.atelier-heading,.case-intention,.process-intro');
   el.dataset.motionRole=intro?'arrival':visual?'image':heading?'heading':'support';
   if(!enabled())return;

@@ -1,7 +1,7 @@
-/* Invitaciones · Bodas, Cumpleaños, Eventos and Temporada: «Pruébala aquí» loads the real invitation inside the phone, only on request.
+/* Invitation showcase and birthday/event heroes: «Pruébala aquí» loads the real invitation inside the phone, only on request.
    Without JavaScript the same link simply opens the invitation. */
 const small=matchMedia('(max-width:700px)');
-document.querySelectorAll('[data-view="invitaciones"]:not([hidden]) .showcase-live').forEach(art=>{
+document.querySelectorAll('[data-view="invitaciones"]:not([hidden]) .showcase-live, [data-view="cumpleanos"]:not([hidden]) .occasion-hero-live, [data-view="eventos"]:not([hidden]) .occasion-hero-live').forEach(art=>{
  const link=art.querySelector('[data-live-try]'),screen=art.querySelector('.live-screen');
  if(!link||!screen)return;
  let frame=null,sizes=null;

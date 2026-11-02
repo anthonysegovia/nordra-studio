@@ -16,7 +16,7 @@
   if(closing){el.classList.add('travel-closing');el.querySelectorAll('.contact-layout .primary-action').forEach(a=>a.classList.add('travel-contact-link'));}
   return {el,kind:'section',value:0,target:0,closing};
  });
- const media=[...host.querySelectorAll('.studio-desk,.occasion-hero-photo,.occasion-hero-poster,.feature-stage,.seasonal-cover,.showcase-stage,.living-envelope')].filter(el=>!el.parentElement.closest('.feature-stage,.showcase-stage'));
+ const media=[...host.querySelectorAll('.studio-desk,.occasion-hero-photo,.feature-stage,.seasonal-cover,.showcase-stage,.living-envelope')].filter(el=>!el.parentElement.closest('.feature-stage,.showcase-stage'));
  const images=media.map(el=>{el.classList.add('travel-media','scroll-scrub');return {el,kind:'media',value:0,target:0};});
  const headingElements=[...new Set([...host.querySelectorAll('.travel-heading,.business-head h1,.occasion-hero h1,.seasonal-hero h1')])];
  const headings=headingElements.map(el=>{el.classList.add('scroll-scrub');return {el,kind:'heading',value:0,target:0};});

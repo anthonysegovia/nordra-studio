@@ -39,7 +39,7 @@ const pages = {
       "business-motion",
       "experience",
       "theme-transition",
-      "organic-images",
+      "showcase-live",
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
@@ -50,6 +50,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live"],
     "inline": 3
   },
   "eventos": {
@@ -63,7 +64,7 @@ const pages = {
       "business-motion",
       "experience",
       "theme-transition",
-      "organic-images",
+      "showcase-live",
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
@@ -74,6 +75,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live"],
     "inline": 3
   },
   "bodas": {
