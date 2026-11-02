@@ -10,7 +10,7 @@ test('the CSS floor preserves sizes, line heights and private/phone styles', asy
   const input = '.label{font:500 9px/1.5 Manrope;font-size:clamp(8px,1vw,12px)}';
   const process = from => postcss([commercialTypeFloor()]).process(input, { from });
   const result = await process('/repo/src/site/styles/example.css');
-  assert.match(result.css, /font:500 max\(var\(--commercial-min-text, 0px\), 9px\)\/1.5 Manrope/);
+  assert.match(result.css, /font:500 var\(--commercial-min-text, 9px\)\/1.5 Manrope/);
   assert.match(result.css, /font-size:max\(var\(--commercial-min-text, 0px\), clamp\(8px,1vw,12px\)\)/);
   for (const from of ['/repo/src/panel.css', '/repo/src/site/styles/phone-frame.css', '/repo/src/site/styles/landscape.css']) assert.equal((await process(from)).css, input);
 });

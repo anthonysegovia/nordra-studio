@@ -822,6 +822,7 @@ body[data-journey-motion=paused] *,body[data-journey-motion=paused] *:before,bod
 .studio-ink{display:flex;gap:8px;margin:18px 0 0}
 .studio-ink span{height:6px;width:42px;background:#38bdbb}.studio-ink span:nth-child(2){background:#5b85ce}.studio-ink span:nth-child(3){background:#9d7bc8}
 .mobile-route{display:none}
+@media(max-width:700px){body .mobile-route:has(>a:nth-child(4)){grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:700px){
  html{scroll-padding-bottom:90px}
  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
