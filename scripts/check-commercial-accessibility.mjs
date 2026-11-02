@@ -44,7 +44,8 @@ try {
       await page.getByRole('link', { name: 'Ver sus invitaciones' }).click();
       await page.waitForURL('**/invitaciones#clientes-reales');
       await page.waitForFunction(() => {
-        const heading = document.querySelector('#clientes-reales h2');
+        const destination = document.querySelector('.page-navigation-frame.is-ready')?.contentDocument ?? document;
+        const heading = destination.querySelector('#clientes-reales h2');
         if (!heading) return false;
         const { top, bottom } = heading.getBoundingClientRect();
         return top < innerHeight && bottom > 0;
