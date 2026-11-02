@@ -1,0 +1,58 @@
+{
+  "bodas": [
+    {
+      "question": "¿Qué detalles puede reunir nuestra invitación?",
+      "answerHtml": "Los planes incluyen fecha, ubicaciones y cómo llegar, código de vestimenta, agenda y una galería de hasta 30 fotografías. El diseño de catálogo se personaliza con su historia y los detalles acordados."
+    },
+    {
+      "question": "¿Podemos organizar mesas y usar pases QR?",
+      "answerHtml": "Boreal suma a Aurora mesas con nombre, capacidad y asignación de invitados, además de pases QR personales y registro de entradas. <a href=\"#bodas-planes-eventos\">Compara lo incluido en cada plan.</a>"
+    },
+    {
+      "question": "¿Cuánto tiempo estará disponible?",
+      "answerHtml": "El alojamiento de Aurora y Boreal incluye hasta 12 meses antes y 90 días después del evento. El soporte por WhatsApp va desde la entrega hasta 30 días después; las extensiones se cotizan aparte."
+    }
+  ],
+  "cumpleanos": [
+    {
+      "question": "¿Qué podemos personalizar para mi cumpleaños?",
+      "answerHtml": "Tu temática y fotografías, junto con la fecha, el lugar, la vestimenta y la agenda. Aurora parte de un diseño de catálogo personalizado; Boreal añade una personalización visual mayor según el alcance acordado."
+    },
+    {
+      "question": "¿Cómo sé quién asistirá con acompañante?",
+      "answerHtml": "Los enlaces personales para individuales, parejas y +1 reúnen la confirmación por persona en tu panel. Aurora y Boreal no tienen límite de invitados ni de acompañantes. <a href=\"#cumpleanos-respuesta\">Prueba una confirmación de muestra.</a>"
+    },
+    {
+      "question": "¿Puedo compartir los enlaces por WhatsApp?",
+      "answerHtml": "Puedes copiar los enlaces y compartirlos manualmente por WhatsApp sin cargo adicional de Nordra. Los mensajes automáticos y otras integraciones se cotizan por separado antes de activarse."
+    }
+  ],
+  "eventos": [
+    {
+      "question": "¿Dónde encuentran los asistentes la agenda y ubicación?",
+      "answerHtml": "La invitación reúne fecha, ubicaciones, cómo llegar, vestimenta y agenda según el contenido acordado. <a href=\"#eventos-event-experience\">Explora la muestra del encuentro.</a>"
+    },
+    {
+      "question": "¿Qué añade Boreal para la recepción?",
+      "answerHtml": "Pases QR personales, registro por persona, detección de duplicados y descarga de entradas. Incluye acceso separado para recepción, revocable y válido por 48 horas."
+    },
+    {
+      "question": "¿La venta de entradas está incluida?",
+      "answerHtml": "La venta de entradas y las integraciones de pago se cotizan aparte. Antes de contratar o activar algo, se explican los costos de configuración y las comisiones del proveedor."
+    }
+  ],
+  "temporada": [
+    {
+      "question": "¿Qué celebraciones hay en la colección?",
+      "answerHtml": "Halloween, Posadas y Navidad, y Fin de año. Cada capítulo reúne dos diseños originales para explorar y elegir el estilo de tu celebración."
+    },
+    {
+      "question": "¿Qué incluye la invitación de temporada?",
+      "answerHtml": "Diseño personalizado con el estilo de tu celebración, fecha, horario y lugar del evento, e invitación digital para compartir. Funciones, cambios y vigencia se confirman en la cotización."
+    },
+    {
+      "question": "¿Incluye el mismo panel que Aurora o Boreal?",
+      "answerHtml": "La oferta de Temporada tiene su propio alcance. El panel, las mesas y los pases QR no se anuncian como incluidos en esta colección. Si los necesitas, consúltalos al cotizar."
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { invitationOfferSchema } from './invitation-schema.mjs';
 import { invitationOffers, invitationMoney, invitationFacts, seasonalOffer, seasons, upcomingSeason } from '../src/data/invitationPricing.ts';
 const esc = s => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 const whatsapp = text => 'https://wa.me/528129022231?text=' + encodeURIComponent(text);
@@ -50,11 +51,7 @@ export function renderFaq() {
 }
 
 export function invitationSchema() {
-  const offers = [...invitationOffers, seasonalOffer].map(o => ({
-    '@type': 'Offer', name: o.name, price: (o.cents / 100).toFixed(2), priceCurrency: 'MXN',
-    priceSpecification: { '@type': 'PriceSpecification', price: (o.cents / 100).toFixed(2), priceCurrency: 'MXN', valueAddedTaxIncluded: true, ...(o.startingAt ? { minPrice: (o.cents / 100).toFixed(2) } : {}) },
-    url: `https://nordrastudio.mx/invitaciones#plan-${o.id}`, availability: 'https://schema.org/InStock',
-  }));
+  const offers = [...invitationOffers, seasonalOffer].map(o => invitationOfferSchema(o, `https://nordrastudio.mx/invitaciones#plan-${o.id}`));
   return [
     { '@context': 'https://schema.org', '@type': 'Service', name: 'Invitaciones digitales', serviceType: 'Invitaciones digitales con confirmación de asistencia', areaServed: 'MX', provider: { '@id': 'https://nordrastudio.mx/#negocio' }, offers },
     { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: invitationFaq.map(item => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
