@@ -61,10 +61,12 @@ if (stage) {
       // synchronous sync here would draw the landscape twice.
       else scene = next;
     } catch {
-      failed = true; fallback();
+      // Leaving or enabling data saver can cancel preparation without a WebGL failure.
+      if (!disposed && !staticProfile()) fallback();
     } finally {
       if (!transferred) context.getExtension('WEBGL_lose_context')?.loseContext();
       loading = false;
+      if (shouldLoad(state())) sync();
     }
   }
   function sync() {

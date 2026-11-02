@@ -168,14 +168,14 @@ function fixture({ mobile = false, memory, cores, webgl = true, embedded = false
   page.NordraLandscapePoster = poster;
   let contextReleases = 0;
   const context = { getExtension: () => ({ loseContext: () => contextReleases++ }) };
-  const phone = target({ matches: mobile }), play = target();
+  const phone = target({ matches: mobile }), play = target(), connection = target({ saveData });
   const document = target({ body, documentElement: { toggleAttribute() {} }, hidden: false, readyState: 'loading', querySelector: selector => selector === '[data-landscape-play]' ? play : stage,
     createElement: () => ({ getContext: () => webgl ? context : null }) });
   const idle = new Map(), frames = new Map(), mutations = []; let intersect, imports = 0, releases = 0, id = 0;
   const states = [], signals = [];
   const controller = { setState: state => states.push(state), dispose: () => releases++ };
   runInNewContext(loaderSource.replace(/^import .*;\s*/gm, '').replace("import('./landscape-scene.js')", 'loadScene()'), {
-    landscapePolicy, NIGHT_PORTRAIT_MS, document, window: page, navigator: { deviceMemory: memory, hardwareConcurrency: cores, connection: { saveData } }, matchMedia: query => query.includes('max-width') ? phone : media,
+    landscapePolicy, NIGHT_PORTRAIT_MS, document, window: page, navigator: { deviceMemory: memory, hardwareConcurrency: cores, connection }, matchMedia: query => query.includes('max-width') ? phone : media,
     addEventListener: page.addEventListener.bind(page), removeEventListener: page.removeEventListener.bind(page),
     dispatchEvent: event => signals.push(event), CustomEvent: class { constructor(type, { detail }) { this.type = type; this.detail = detail; } },
     requestIdleCallback: fn => { idle.set(++id, fn); return id; }, cancelIdleCallback: key => idle.delete(key),
@@ -184,7 +184,7 @@ function fixture({ mobile = false, memory, cores, webgl = true, embedded = false
     MutationObserver: class { constructor(fn) { mutations.push(fn); } observe() {} disconnect() {} },
     loadScene: async () => { imports++; if (importFailure) throw Error('fixture import failure'); return { createLandscapeScene: async (_, options) => { states.push(options); states.push(options.getState()); options.onReady(); return controller; } }; },
   });
-  return { stage, body, play, frame, document, page, media, idle, states, signals, poster,
+  return { stage, body, play, frame, document, page, media, connection, idle, states, signals, poster,
     imports: () => imports, releases: () => releases, context, contextReleases: () => contextReleases,
     visible: value => intersect([{ isIntersecting: value }]), mutate: () => mutations.forEach(fn => fn()),
     runFrame() { for (const [key, fn] of [...frames]) { frames.delete(key); fn(); } },
@@ -300,4 +300,12 @@ test('ineligible phones keep the portrait without importing Three', async () => 
     assert.equal(a.imports(), 0);
     assert.equal(a.poster.phase, 'final');
   }
+});
+
+test('live data saver releases a capable phone scene and allows a new idle start', async () => {
+  const a = fixture({mobile: true}); a.visible(true); a.page.emit('load'); await a.runIdle();
+  a.connection.saveData = true; a.connection.emit('change');
+  assert.equal(a.releases(), 1); assert.equal(a.poster.phase, 'final');
+  a.connection.saveData = false; a.connection.emit('change'); await a.runIdle();
+  assert.equal(a.imports(), 2);
 });
