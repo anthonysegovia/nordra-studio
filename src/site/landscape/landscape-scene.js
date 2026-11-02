@@ -74,7 +74,7 @@ const skyVertex = /* glsl */`
 `;
 const skyFragment = /* glsl */`
   uniform float dark, aurora, time, pixelAngle, textElevation, meteor, meteorSide;
-  uniform vec3 sun, parhelion;
+  uniform vec3 sun;
   varying vec3 dir;
   ${noise}
   float hash3(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }
@@ -108,43 +108,18 @@ const skyFragment = /* glsl */`
     vec3 c = mix(mid, top, smoothstep(0.05, 0.55, e));
     c = mix(c, glow, (1.0 - smoothstep(-0.02, 0.16, e)) * mix(0.6, 0.75 + 0.25 * aurora, dark));
 
-    // Arctic day: a low sun beside the mountain, a 22-degree ice halo with iridescent edges and a light pillar.
-    float sa = acos(clamp(dot(d, sun), -1.0, 1.0));
-    float disk = smoothstep(0.016, 0.011, sa);
-    float bloom = exp(-sa * sa / 0.004) * 0.55 + exp(-sa * 6.0) * 0.2;
-    // Cirrus: a thin, slow veil of high ice cloud. It is what makes a halo possible.
-    vec2 cloud = d.xz / max(e, 0.04);
-    float veil = fbm(vec2(cloud.x * 0.5 + time * 0.012, cloud.y * 2.2));
-    float strands = fbm(vec2(cloud.x * 0.14 + time * 0.007, cloud.y * 6.0) + 4.0);
-    float cirrus = smoothstep(0.48, 0.86, veil * 0.55 + strands * 0.6) * smoothstep(0.02, 0.14, e);
-    float off = sa - 0.384;
-    float ring = exp(-off * off / (0.013 * 0.013));
-    // The halo frames the mountain: it fades where the copy sits and grows where the veil is thicker.
-    ring *= (1.0 - smoothstep(textElevation - 0.04, textElevation + 0.03, e)) * (0.45 + 0.85 * smoothstep(0.35, 0.75, veil));
-    // Parhelion (sun dog): a bright, coloured spot on the halo, level with the sun.
-    float ap = acos(clamp(dot(d, parhelion), -1.0, 1.0));
-    ring *= 1.0 + 2.8 * exp(-ap * ap / (0.03 * 0.03));
-    vec3 ringColour = mix(vec3(1.0, 0.80, 0.60), vec3(0.32, 0.84, 0.95), smoothstep(-0.012, 0.0, off));
-    ringColour = mix(ringColour, vec3(0.60, 0.46, 0.95), smoothstep(0.004, 0.018, off));
-    vec3 sunFlat = normalize(vec3(sun.x, 0.0, sun.z) + 1e-5), dirFlat = normalize(vec3(d.x, 0.0, d.z) + 1e-5);
-    float azimuth = acos(clamp(dot(sunFlat, dirFlat), -1.0, 1.0));
-    float pillar = exp(-azimuth * azimuth / (0.006 * 0.006)) * exp(-abs(e - sun.y) / 0.10) * 0.35;
-      // Preserve the approved sky behind the copy; soften the sun below it.
-      float copySky = smoothstep(textElevation - 0.015, textElevation + 0.015, e);
-      pillar = 0.0;
-      disk = mix(smoothstep(0.024, 0.008, sa) * 0.92, disk, copySky);
-      bloom *= mix(0.65, 1.0, copySky);
-      // A small round sun dog, not the near-vertical tangent of the old ring.
-      ring = mix(0.12 * exp(-ap * ap / (0.016 * 0.016)), ring, copySky);
-    // A low sun is warm: golden disk and pillar, so they read against the pale horizon.
-    vec3 sunColour = vec3(1.0, 0.86, 0.62);
-    vec3 daylight = sunColour * (bloom + pillar) + ringColour * ring * 0.34;
-    float dayOn = (1.0 - dark) * aurora * smoothstep(-0.01, 0.03, e);
-    vec3 cirrusColour = mix(vec3(1.0), vec3(1.0, 0.90, 0.76), exp(-sa * 3.0));
-    c = mix(c, cirrusColour, cirrus * 0.42 * (1.0 - dark));
-    c = mix(c, c * vec3(0.98, 0.93, 0.86), exp(-sa * 3.5) * 0.5 * dayOn);
-    c += daylight * dayOn;
-    c = mix(c, vec3(1.0, 0.95, 0.82), disk * dayOn);
+    if (dark < 1.0) {
+      // All distances are angular distances to the same light direction, in both sky passes.
+      float angle = atan(length(cross(d,sun)), dot(d,sun));
+      float disk = 1.0-smoothstep(0.009,0.009+1.4*pixelAngle,angle);
+      float halo = exp(-angle/0.058)*0.42 + exp(-angle*angle/0.00055)*0.21;
+      float dayOn = aurora*(1.0-dark);
+      vec2 offset = d.xy-sun.xy;
+      float shaft = exp(-abs(offset.x+0.62*offset.y)*40.0)
+        * smoothstep(0.0,0.045,-offset.y) * exp(-abs(offset.y)*11.0);
+      c = mix(c,vec3(1.0,0.87,0.66),min(0.72,halo+0.055*shaft)*dayOn);
+      c = mix(c,vec3(1.0,0.93,0.72),disk*dayOn);
+    }
     c = min(c, vec3(1.0));
 
     // Night stars: faint dust, scattered medium stars and a few bright ones with a halo.
@@ -432,7 +407,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   const finePointer = matchMedia('(hover:hover) and (pointer:fine)');
   const sky = new Mesh(new SphereGeometry(900, 48, 24), new ShaderMaterial({
     vertexShader: skyVertex, fragmentShader: skyFragment, side: BackSide, depthWrite: false,
-    uniforms: { time, dark, meteor: { value: -1 }, meteorSide: { value: 1 }, aurora: { value: 0 }, pixelAngle: { value: 0.001 }, sun, parhelion: { value: new Vector3(0, 0.1, -1) }, textElevation: { value: 0.3 } },
+    uniforms: { time, dark, meteor: { value: -1 }, meteorSide: { value: 1 }, aurora: { value: 0 }, pixelAngle: { value: 0.001 }, sun, textElevation: { value: 0.3 } },
   }));
   sky.renderOrder = -10;
   scene.add(sky);
@@ -630,10 +605,8 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     // The low arctic sun sits upper left of the mountain, so its halo and sun dog frame the summit.
     const horizon = new Vector3(0, 0, -800).project(camera).y;
     const skyDirection = (x, y) => { raycaster.setFromCamera(new Vector2(x, y), camera); return raycaster.ray.direction.clone().normalize(); };
-    sun.value.copy(skyDirection(mobile ? -0.56 : -0.66, horizon + (mobile ? 0.30 : 0.44)));
+    sun.value.copy(skyDirection(mobile ? -0.56 : -0.66, horizon + (mobile ? 0.175 : 0.235)));
     if (water.getRenderTarget) water.material.uniforms.horizonUV.value = 0.5 + horizon * 0.5;
-    // The sun dog sits on the halo, level with the sun, 22 degrees towards the mountain.
-    sky.material.uniforms.parhelion.value.copy(sun.value).applyAxisAngle(new Vector3(0, 1, 0), -0.384);
     // Halo fades above the buttons, so it never crosses the copy.
     const copyBottom = 1 - 2 * (buttons.bottom - rect.top) / height;
     sky.material.uniforms.textElevation.value = skyDirection(0, copyBottom).y;

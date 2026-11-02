@@ -104,7 +104,7 @@ try {
           frontZ = Math.max(frontZ, point.z);
         }
       });
-      const sun = scene.children.find(object => object.material?.uniforms.parhelion).material.uniforms.sun.value.clone().multiplyScalar(800).add(camera.position);
+      const sun = scene.children.find(object => object.material?.uniforms.pixelAngle).material.uniforms.sun.value.clone().multiplyScalar(800).add(camera.position);
       const baseY = y(point.set(0, 0, frontZ));
       return { png, canvas: { width: rect.width, height: rect.height }, summitY, baseY, massifHeight: baseY - summitY,
         horizonY: y(point.set(0, 0, -800)), sunX: (sun.clone().project(camera).x + 1) * rect.width / 2,
