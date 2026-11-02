@@ -132,3 +132,12 @@
 body[data-journey-motion=paused] :is(.invite-offers,.invite-panel,.invite-journey,.invite-seasons) *{animation:none!important}
 body[data-journey-motion=paused] .journey-stack[data-stacked] .journey-card{transform:none}
 body[data-journey-motion=paused] .journey-stack[data-stacked] .journey-caption{opacity:1}
+.carousel-positions{display:none}
+@media(max-width:700px){
+ .journey-stack,.season-fan{scroll-padding-inline:24px}
+ .journey-stack .journey-card,.season-fan .season-card,.season-fan .season-card:is(:first-child,:last-child,[data-season-current]){flex:0 0 calc(86vw - 40px);scroll-snap-align:start}
+ .carousel-positions{display:flex;justify-content:center}
+ .carousel-positions button{display:grid;place-items:center;width:44px;height:44px;border:0;background:transparent;color:var(--muted)}
+ .carousel-positions button::after{content:"";width:8px;height:8px;border:1px solid currentColor;border-radius:50%}
+ .carousel-positions button[aria-current=true]::after{background:currentColor}
+}
