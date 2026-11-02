@@ -19,6 +19,7 @@ test('Git semantics support recursive patterns, exceptions and ignored parents',
 test('Vercel includes the tracked build inputs and their local dependencies', () => {
   const root = fileURLToPath(new URL('../', import.meta.url));
   const inputs = buildInputs(root);
-  for (const file of ['src/site/scripts/horizon-flow.js', 'build/site-scripts.mjs', 'src/data/invitationPricing.ts', 'index.html', 'vite.config.ts', 'package-lock.json', 'tsconfig.json']) assert.ok(inputs.includes(file), file);
+  assert.ok(!inputs.includes('review/auroras/index.html'));
+  for (const file of ['src/site/landscape/curtain.frag', 'src/site/landscape/curtain.vert', 'src/site/scripts/horizon-flow.js', 'build/site-scripts.mjs', 'src/data/invitationPricing.ts', 'index.html', 'vite.config.ts', 'package-lock.json', 'tsconfig.json']) assert.ok(inputs.includes(file), file);
   assert.deepEqual(ignoredInputs(readFileSync(new URL('../.vercelignore', import.meta.url), 'utf8'), inputs), []);
 });

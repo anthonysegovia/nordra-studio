@@ -28,8 +28,9 @@ export function buildInputs(root) {
   const files = execFileSync('git', ['-C', root, 'ls-files', '-z'], { encoding: 'utf8' }).split('\0').filter(Boolean);
   // A conservative superset: all source, build helpers, public resources and
   // HTML, including lazy imports. This does not rely on current tree-shaking.
-  const inputs = new Set(files.filter(file => /^(src\/|build\/|public\/)|(^|\/)(package[^/]*\.json|tsconfig[^/]*\.json|vite\.config\.[^/]+|postcss\.config\.[^/]+|tailwind\.config\.[^/]+)$/.test(file)
-    || (file.endsWith('.html') && !file.startsWith('scripts/'))));
+  // Review servers are independent entries. Production imports are still followed below.
+  const inputs = new Set(files.filter(file => !file.startsWith('review/') && (/^(src\/|build\/|public\/)|(^|\/)(package[^/]*\.json|tsconfig[^/]*\.json|vite\.config\.[^/]+|postcss\.config\.[^/]+|tailwind\.config\.[^/]+)$/.test(file)
+    || (file.endsWith('.html') && !file.startsWith('scripts/')))));
   const extensions = ['', '.ts', '.tsx', '.js', '.jsx', '.mjs', '.json', '.css', '/index.ts', '/index.tsx', '/index.js'];
   for (const file of inputs) {
     if (!/\.(?:[cm]?[jt]sx?|css|html|json)$/.test(file)) continue;
