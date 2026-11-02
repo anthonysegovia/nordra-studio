@@ -23,6 +23,15 @@
   const steps=[...demo.querySelectorAll('[data-demo-step]')];
   const panel=demo.querySelector('[data-demo-panel]');
   let step=0;
+  // Phones: the organizer panel appears with the guest's answer (or on request) instead of a second long card.
+  const reveal=()=>{demo.dataset.demoDone='';};
+  if(matchMedia('(max-width:700px)').matches&&panel){
+   demo.dataset.demoCompact='';
+   const peek=document.createElement('button');peek.type='button';peek.className='options-compare demo-panel-peek';
+   peek.innerHTML='Ver el panel de muestra <span aria-hidden="true">↓</span>';
+   peek.addEventListener('click',()=>{reveal();panel.scrollIntoView({block:'start'});panel.querySelector('h3')?.focus?.({preventScroll:true});});
+   panel.before(peek);
+  }
   function screen(next,focus=true){
    step=next;cover.hidden=step!==0;form.hidden=step!==1;receipt.hidden=step!==2;
    steps.forEach((el,i)=>{if(i===step)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');});
@@ -57,7 +66,7 @@
    });
    demo.querySelector('[data-panel-update]').textContent='Respuesta actualizada en esta muestra';
    status.textContent=`Panel de muestra actualizado: ${count} personas asistirán, ${2-count} no asistirán y ninguna está pendiente.`;
-   screen(2);
+   reveal();screen(2);
    animate(panel,[{opacity:.7},{opacity:1}],{duration:380});
   });
  });

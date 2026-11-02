@@ -36,3 +36,7 @@ body[data-business-motion=paused] .business-halo:before,body[data-journey-motion
 @media(prefers-reduced-motion:reduce){.business-halo:before{background:radial-gradient(90px circle at 50% 50%,#79e0ed65,transparent 85%)}}
 
 #negocios-preguntas .business-disclosure{margin-top:0;border-top:0}#negocios-preguntas .business-disclosure>summary{min-height:76px;padding:22px 0}
+
+/* Delivery times repeat each price card: open on desktop, folded on phones (business-content.js). */
+.business-delivery>summary{display:block;list-style:none;pointer-events:none}.business-delivery>summary::-webkit-details-marker{display:none}.business-delivery>summary>span{display:none}
+@media(max-width:700px){.business-delivery>summary{display:flex;align-items:center;justify-content:space-between;min-height:44px;pointer-events:auto;cursor:pointer}.business-delivery>summary h3{margin:0}.business-delivery>summary>span{display:inline;font-size:20px;color:var(--accent)}.business-delivery[open]>summary>span{transform:rotate(45deg)}.business-delivery:not([open]){padding-bottom:0}}

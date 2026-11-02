@@ -136,64 +136,26 @@ const pages = {
   },
   "invitaciones": {
     "entry": "invitations",
-    "scripts": [
-      "journey",
-      "scroll-travel",
-      "mobile-aurora",
-      "motion",
-      "scroll-motion",
-      "business-motion",
-      "theme-transition",
-      "organic-images",
-      "invitation-showcase",
-      "showcase-live",
-      "invitation-offers",
-      "client-cases",
-      "nordra-materials",
-      "nordra-theatre",
-      "interface-icons",
-      "mobile-chrome",
-      "page-navigation"
-    ],
+    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "organic-images", "invitation-showcase", "showcase-live", "carousel-positions", "invitation-offers", "client-cases", "nordra-materials", "nordra-theatre", "interface-icons", "mobile-chrome", "page-navigation"],
     "styles": [
       "scene",
       "nordra-theatre",
       "contact"
     ],
     "inline": 5,
-    "entryStyles": ["phone-frame", "showcase-live", "invitation-offers", "client-cases", "mobile-chrome"]
+    "entryStyles": ["phone-frame", "showcase-live", "invitation-offers", "client-cases", "carousel-positions", "mobile-chrome"]
   },
   "negocios": {
     "entry": "business",
-    "scripts": [
-      "journey",
-      "scroll-travel",
-      "mobile-aurora",
-      "motion",
-      "scroll-motion",
-      "business-motion",
-      "theme-transition",
-      "nordra-materials",
-      "nordra-theatre",
-      "light-table",
-      "interface-icons",
-      "mobile-chrome",
-      "page-navigation",
-      "business-offers",
-      "business-content"
-    ],
+    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "nordra-materials", "nordra-theatre", "light-table", "interface-icons", "mobile-chrome", "page-navigation", "carousel-positions", "business-offers", "business-content"],
     "styles": [
       "scene",
       "nordra-theatre",
       "contact"
     ],
     "inline": 3,
-    "entryStyles": ["light-table", "mobile-chrome", "business-offers", "business-content"],
-    "unscoped": [
-      "light-table",
-      "business-offers",
-      "business-content"
-    ]
+    "entryStyles": ["light-table", "mobile-chrome", "business-offers", "carousel-positions", "business-content"],
+    "unscoped": ["light-table", "carousel-positions", "business-offers", "business-content"]
   },
   "index": {
     "entry": "home",

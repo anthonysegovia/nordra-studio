@@ -29,3 +29,27 @@ body.dark .client-case-art{background:linear-gradient(140deg,#153236,#29223d)}
 .client-highlight figcaption strong{color:var(--ink)}
 .home-client-highlights>.options-compare{display:inline-flex;align-items:center;gap:12px;min-height:44px;margin-top:18px;font-size:14px}
 @media(max-width:700px){.client-highlight blockquote{font-size:16px}}
+
+/* Full opinion: always visible on desktop; on phones the highlight leads and the rest opens on request. */
+.client-highlight-quote{display:none}
+.client-opinion-full>summary{display:none}
+@media(max-width:700px){
+ .client-case{display:grid;grid-template-columns:96px minmax(0,1fr);column-gap:16px;align-items:center}
+ .client-case>*{grid-column:1/-1}
+ .client-case>.client-case-art{grid-column:1;grid-row:1/3;padding:10px;margin:0;border-radius:18px}
+ .client-case-cover,.client-case-art img{width:76px;border-radius:10px}
+ .client-case>.eyebrow,.client-case>h3{grid-column:2;margin:0}
+ .client-case>.eyebrow{align-self:end}
+ .client-case>h3{align-self:start;font-size:24px}
+ .client-case-description{margin:16px 0 0;font-size:14px}
+ .client-case-opinion{margin:16px 0 4px;padding:16px 0}
+ .client-case-rating{margin-bottom:10px}
+ .client-case blockquote{font-size:16px}
+ .client-highlight-quote{display:block}
+ .client-opinion-full[open]{margin-top:0}
+ .client-case-opinion:has(.client-opinion-full[open]) .client-highlight-quote{display:none}
+ .client-opinion-full>summary{display:flex;align-items:center;justify-content:space-between;min-height:44px;margin-top:10px;font-size:14px;color:var(--muted);cursor:pointer;list-style:none}
+ .client-opinion-full>summary::-webkit-details-marker{display:none}
+ .client-opinion-full[open]>summary{display:none}
+ .client-case-grid{gap:32px;margin-top:28px}
+}

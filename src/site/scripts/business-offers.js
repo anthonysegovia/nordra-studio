@@ -9,3 +9,6 @@
  function cancel(){observer.disconnect();cancelAnimationFrame(raf);clearTimeout(timer);if(idle&&window.cancelIdleCallback)cancelIdleCallback(idle);removeEventListener('load',load);}
  observer.observe(root);observer.observe(guide);if(loaded)schedule();else addEventListener('load',load,{once:true});addEventListener('pagehide',e=>{if(!e.persisted)cancel();},{once:true});
 })();
+
+// Phones: the three package groups slide side by side; carousel-positions.js adds the dots.
+(()=>{const grid=document.querySelector('.business .offers-grid');if(grid)window.NordraCarousel?.positions(grid,'Posición en los paquetes',card=>card.querySelector('h3').textContent.trim());})();

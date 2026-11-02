@@ -105,3 +105,12 @@ test('client images stay exactly the inspected guest-free covers, not RSVP lists
   assert.equal((renderClientCases().match(/<template data-client-cover>/g) || []).length, 2);
   assert.equal((renderClientCases().match(/<noscript><img /g) || []).length, 2);
 });
+
+test('phones lead with the approved highlight; the full opinion stays complete and open by default', () => {
+  const html = renderClientCases();
+  for (const item of clientCases) {
+    assert.ok(html.includes(`<blockquote class="client-highlight-quote"><p>${item.highlight}</p></blockquote>`));
+    assert.ok(html.includes(`<details class="client-opinion-full" open><summary>Leer opinión completa <span aria-hidden="true">+</span></summary><blockquote><p>${item.opinion.text}</p>`));
+  }
+  assert.equal((html.match(/<details class="client-opinion-full" open>/g) || []).length, clientCases.length);
+});

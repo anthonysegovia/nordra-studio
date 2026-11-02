@@ -20,3 +20,4 @@
 @media(max-width:900px){.scene .contact-channels{grid-template-columns:1fr}.scene .contact-channels .contact-channel{min-height:106px;gap:18px}.scene .contact-channel-copy strong{font-size:clamp(17px,4.4vw,24px)}}
 @media(max-width:400px){.scene .contact-channels .contact-channel{gap:12px}.contact-channel-icon{flex-basis:46px;width:46px;height:46px}.contact-channel-icon svg{width:23px;height:23px}.contact-channel-arrow{font-size:18px}.scene .contact-channel-copy strong{font-size:17px}}
 @media(prefers-reduced-motion:reduce){.contact-channel::after,.contact-channel-icon,.contact-channel-arrow{transition:none}}
+@media(max-width:700px){.scene .contact-channels{padding-top:20px}.contact-channels>p{margin-bottom:8px}.scene .contact-channels .contact-channel{min-height:76px;padding:12px 0 14px}.contact-channel-icon{flex-basis:44px;width:44px;height:44px}.contact-channel-icon svg{width:21px;height:21px}}

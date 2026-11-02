@@ -1,0 +1,8 @@
+/* Position dots for phone carousels (carousel-positions.js). */
+.carousel-positions{display:none}
+@media(max-width:700px){
+ .carousel-positions{display:flex;justify-content:center}
+ .carousel-positions button{display:grid;place-items:center;width:44px;height:44px;border:0;background:transparent;color:var(--muted)}
+ .carousel-positions button::after{content:"";width:8px;height:8px;border:1px solid currentColor;border-radius:50%}
+ .carousel-positions button[aria-current=true]::after{background:currentColor}
+}

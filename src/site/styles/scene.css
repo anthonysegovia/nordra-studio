@@ -1232,3 +1232,10 @@ body[data-journey-motion=paused] .occasion-paper{display:none}
 
 /* Case stories keep their text without decorative numbering. */
 .scene .case-decision{display:block}
+
+/* Phones: the sample organizer panel follows the guest answer (experience.js). */
+.demo-panel-peek{display:none}
+@media(max-width:700px){[data-demo-compact]:not([data-demo-done]) .host-preview{display:none}[data-demo-compact]:not([data-demo-done]) .demo-panel-peek{display:inline-flex;align-items:center;gap:10px;min-height:44px;margin-top:14px;font-size:14px}}
+
+/* Phones: a tighter vertical rhythm between sections. Spacing alone added about one screen per page. */
+@media(max-width:700px){.home-continuation{padding-top:36px;margin-top:40px}.home-continuation h2{font-size:clamp(32px,10vw,38px);margin:14px 0 22px}}

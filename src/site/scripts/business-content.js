@@ -9,3 +9,6 @@
  function load(){loaded=true;schedule();}
  root.querySelectorAll('.light-table').forEach(el=>observer.observe(el));if(loaded)schedule();else addEventListener('load',load,{once:true});addEventListener('pagehide',e=>{if(!e.persisted)cancel();},{once:true});
 })();
+
+// Phones: delivery times repeat each price card, so the list starts folded.
+if(matchMedia('(max-width:700px)').matches)document.querySelectorAll('.business-delivery[open]').forEach(details=>{details.open=false;});

@@ -116,3 +116,10 @@ body[data-business-motion=paused] :is(.business-offers,.offer-guide) *,body[data
 /* Stable metrics before/after Manrope and the shared SVG icon enhancement. */
 .business .business-value>span{display:block;margin-top:4px}
 .business .business-hero-actions .primary-action>span{width:28px;flex:0 0 28px;text-align:center}
+
+/* Phones: the three package groups slide side by side instead of stacking. */
+@media(max-width:700px){
+ .offers-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin:0 -24px;padding:8px 24px 14px;scroll-padding-inline:24px;scrollbar-width:none;align-items:stretch}
+ .offers-grid::-webkit-scrollbar{display:none}
+ .offers-grid>.offer-card{flex:0 0 calc(86vw - 40px);scroll-snap-align:start}
+}
