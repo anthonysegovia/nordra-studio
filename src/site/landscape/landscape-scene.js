@@ -8,6 +8,7 @@ import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import isotypeSource from '../assets/isotipo.svg?raw';
 import { landscapePolicy, advanceClock } from './state.js';
+import { skyEvents } from './sky-events.js';
 import { preparePrograms } from './prepare-programs.js';
 
 const ISOTYPE = { width: 937, height: 358 };
@@ -191,7 +192,7 @@ const bandVertex = /* glsl */`
 const bandFragment = /* glsl */`
   uniform float time, seed, dark, level, sweep, strength, bandLength;
   varying vec2 vUv; varying float vV;
-  uniform float textElevation, curtainGain;
+  uniform float textElevation, curtainGain, pulse, pulseCenter;
   varying float elevation;
   ${noise}
   void main() {
@@ -201,8 +202,11 @@ const bandFragment = /* glsl */`
     float r = fbm(vec2(u * 46.0 + seed + time * 0.035, time * 0.025));
     float rays = smoothstep(0.32, 0.78, r);
     float reach = v / mix(0.42, 1.1, rays);
-    float curtain = smoothstep(0.0, 0.035, v) * exp(-max(reach, 0.0) * 2.4) * (0.22 + 0.95 * rays);
-    float glow = exp(-abs(v) * 9.0) * 0.18 + exp(-max(v, 0.0) * 1.2) * 0.04;
+    float drift = u * 220.0 + 2.8 * sin(u * 17.0 + seed - time * 0.13) + time * 0.24;
+    float threads = pow(0.5 + 0.5 * cos(drift * 3.2 + 1.7 * sin(drift * 0.31)), 4.0);
+    float curtain = smoothstep(-0.015, 0.018, v) * exp(-max(reach, 0.0) * 2.7)
+      * (0.25 + rays * (0.53 + 0.82 * threads));
+    float glow = 0.48 * exp(-abs(v) * 38.0) + 0.09 * exp(-abs(v) * 7.0);
     float ends = smoothstep(0.0, 0.12, u) * smoothstep(1.0, 0.88, u);
     // Real bands are patchy: bright knots and quiet stretches drift along the arc.
     float patches = 0.25 + 0.75 * smoothstep(0.32, 0.72, fbm(vec2(u * 5.0 + seed, time * 0.02)));
@@ -212,10 +216,11 @@ const bandFragment = /* glsl */`
     // The tall tips reach the copy area: soften them there, so the sky itself can stay clear and starry.
     float upper = 1.0 - 0.65 * smoothstep(0.4, 0.95, v);
     float intensity = (curtain + glow) * ends * patches * on * breathe * strength * upper;
-    vec3 c = altitude(reach * 0.95 + 0.04, dark);
+    vec3 c = altitude(0.05 + 1.28 * reach, dark);
       float travel = auroraTravel((u - 0.5) * bandLength, time);
       float folds = 0.94 + 0.06 * sin(u * 70.0 + v * 4.0 - time * 0.60 + seed);
-      intensity *= curtainGain * (0.92 + 0.08 * travel) * folds;
+      float knot = exp(-pow(((u - 0.5) * bandLength - pulseCenter) / 21.0, 2.0));
+      intensity *= (1.0 + 1.05 * knot * pulse) * curtainGain * (0.92 + 0.08 * travel) * folds;
       vec3 violet = mix(c, vec3(0.66, 0.36, 0.94), smoothstep(0.22, 0.60, reach) * 0.78);
       c = violet * dot(c, vec3(0.2126, 0.7152, 0.0722)) / max(0.01, dot(violet, vec3(0.2126, 0.7152, 0.0722)));
       intensity *= 1.0 - 0.35 * smoothstep(textElevation - 0.02, textElevation + 0.035, elevation);
@@ -412,6 +417,10 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   const camera = new PerspectiveCamera(36, 1, 0.5, 1200);
   const time = { value: 0 }, dark = { value: 0 }, sun = { value: new Vector3(0.3, 0.06, -1).normalize() };
 
+  const pulse = { value: 0 }, pulseCenter = { value: 0 };
+  const nextSky = skyEvents();
+  const mouse = { target: 0, eased: 0 };
+  const finePointer = matchMedia('(hover:hover) and (pointer:fine)');
   const sky = new Mesh(new SphereGeometry(900, 48, 24), new ShaderMaterial({
     vertexShader: skyVertex, fragmentShader: skyFragment, side: BackSide, depthWrite: false,
     uniforms: { time, dark, aurora: { value: 0 }, pixelAngle: { value: 0.001 }, sun, parhelion: { value: new Vector3(0, 0.1, -1) }, textElevation: { value: 0.3 } },
@@ -428,7 +437,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
       vertexShader: bandVertex, fragmentShader: bandFragment, transparent: true, depthWrite: false,
       blending: CustomBlending, blendEquation: AddEquation, blendSrc: OneFactor, blendDst: OneFactor,
       uniforms: {
-        time, dark, wind: { value: 0 }, level: { value: 0 }, sweep: { value: 0 },
+        time, dark, pulse, pulseCenter, wind: { value: 0 }, level: { value: 0 }, sweep: { value: 0 },
         seed: { value: config.seed }, curve: { value: config.curve }, altitudeBase: { value: config.altitudeBase },
         height: { value: config.height }, bandLength: { value: config.length }, bandDistance: { value: config.distance },
         strength: { value: config.strength },
@@ -662,6 +671,15 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     time.value = elapsed / 1000;
     dark.value += (targetDark - dark.value) * (1 - Math.exp(-delta / 180));
     if (Math.abs(targetDark - dark.value) < .001) dark.value = targetDark;
+    const activity = nextSky(delta / 1000, elapsed >= TIMELINE.dolly[1], true);
+    pulse.value = activity.pulse;
+    pulseCenter.value = activity.center;
+    mouse.eased += ((finePointer.matches ? mouse.target : 0) - mouse.eased) * (1 - Math.exp(-delta / 420));
+    for (const band of bands) {
+      const distance = band.material.uniforms.bandDistance.value + camera.position.z;
+      const span = 2 * distance * Math.tan(camera.fov * Math.PI / 360) * camera.aspect;
+      band.position.x = mouse.eased * span * 0.013;
+    }
     setPhases(elapsed); place(elapsed); render();
     if (!disposed) raf = requestAnimationFrame(tick);
   }
@@ -669,7 +687,12 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     stop();
     if (!policy().render) return;
     if (current.reduced || current.paused || current.finishEntrance) { clock.elapsed = SETTLED; time.value = SETTLED / 1000; scrollProgress = 0; setPhases(SETTLED); place(); current.finishEntrance = false; }
-    if (current.reduced || current.paused) dark.value = targetDark;
+    if (current.reduced || current.paused) {
+      dark.value = targetDark;
+      pulse.value = 0;
+      mouse.target = mouse.eased = 0;
+      for (const band of bands) band.position.x = 0;
+    }
     render();
     if (policy().animate) raf = requestAnimationFrame(tick);
   }
@@ -694,7 +717,13 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     ripples.value[rippleIndex].set(hit.x, hit.z, time.value);
     rippleIndex = (rippleIndex + 1) % RIPPLES;
   }
-  const onPointerMove = event => touchLake(event);
+  function onPointerMove(event) {
+    if (event.pointerType === 'mouse' && finePointer.matches && policy().animate) {
+      mouse.target = Math.max(-1, Math.min(1, 2 * event.clientX / window.innerWidth - 1));
+    }
+    touchLake(event);
+  }
+  const onPointerLeave = () => { mouse.target = 0; };
   const onPointerDown = event => touchLake(event, true);
   function onScroll() {
     if (!policy().animate) return;
@@ -738,6 +767,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   resize.observe(stage.parentElement.querySelector('.horizon-title'));
   resize.observe(stage.parentElement.querySelector('.horizon-actions'));
   addEventListener('pointermove', onPointerMove, { passive: true });
+  document.addEventListener('pointerleave', onPointerLeave);
   addEventListener('pointerdown', onPointerDown, { passive: true });
   addEventListener('scroll', onScroll, { passive: true });
   canvas.addEventListener('webglcontextlost', onLost);
@@ -745,6 +775,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   function dispose() {
     if (disposed) return;
     disposed = true; stop(); resize.disconnect();
+    document.removeEventListener('pointerleave', onPointerLeave);
     removeEventListener('pointermove', onPointerMove); removeEventListener('pointerdown', onPointerDown); removeEventListener('scroll', onScroll);
     canvas.removeEventListener('webglcontextlost', onLost); canvas.removeEventListener('webglcontextrestored', onRestored);
     scene.traverse(object => { object.geometry?.dispose(); object.material?.dispose(); });
