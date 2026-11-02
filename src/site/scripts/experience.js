@@ -1,4 +1,5 @@
 (()=>{
+ const en=document.documentElement.lang==='en';
  const host=document.querySelector('[data-view]:not([hidden])');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const canMove=()=>!reduced.matches&&document.body.dataset.journeyMotion!=='paused'&&!document.hidden;
@@ -28,7 +29,7 @@
   if(matchMedia('(max-width:700px)').matches&&panel){
    demo.dataset.demoCompact='';
    const peek=document.createElement('button');peek.type='button';peek.className='options-compare demo-panel-peek';
-   peek.innerHTML='Ver el panel de muestra <span aria-hidden="true">↓</span>';
+   peek.innerHTML=(en?'View sample dashboard':'Ver el panel de muestra')+' <span aria-hidden="true">↓</span>';
    peek.addEventListener('click',()=>{reveal();panel.scrollIntoView({block:'start'});panel.querySelector('h3')?.focus?.({preventScroll:true});});
    panel.before(peek);
   }
@@ -44,9 +45,9 @@
    demo.querySelector('[data-count-yes]').textContent='0';
    demo.querySelector('[data-count-pending]').textContent='2';
    demo.querySelector('[data-count-no]').textContent='0';
-   demo.querySelectorAll('[data-person-state]').forEach(el=>{el.textContent='Pendiente';el.dataset.state='pending';});
-   demo.querySelector('[data-panel-update]').textContent='En espera de una respuesta';
-   status.textContent='Muestra reiniciada. Dos personas pendientes.';
+   demo.querySelectorAll('[data-person-state]').forEach(el=>{el.textContent=en?'Pending':'Pendiente';el.dataset.state='pending';});
+   demo.querySelector('[data-panel-update]').textContent=en?'Waiting for a reply':'En espera de una respuesta';
+   status.textContent=en?'Preview reset. Two guests are awaiting a reply.':'Muestra reiniciada. Dos personas pendientes.';
    screen(0);
   }
   demo.querySelector('[data-demo-open]').addEventListener('click',()=>screen(1));
@@ -62,10 +63,10 @@
    demo.querySelector('[data-count-pending]').textContent='0';
    demo.querySelector('[data-count-no]').textContent=String(2-count);
    demo.querySelectorAll('[data-person-state]').forEach((el,i)=>{
-    el.textContent=responses[i]?'Asistirá':'No asistirá';el.dataset.state=responses[i]?'yes':'no';
+    el.textContent=responses[i]?(en?'Attending':'Asistirá'):(en?'Not attending':'No asistirá');el.dataset.state=responses[i]?'yes':'no';
    });
-   demo.querySelector('[data-panel-update]').textContent='Respuesta actualizada en esta muestra';
-   status.textContent=`Panel de muestra actualizado: ${count} personas asistirán, ${2-count} no asistirán y ninguna está pendiente.`;
+   demo.querySelector('[data-panel-update]').textContent=en?'Reply updated in this preview':'Respuesta actualizada en esta muestra';
+   status.textContent=en?`Sample dashboard updated: attending ${count}, not attending ${2-count}, pending 0.`:`Panel de muestra actualizado: ${count} personas asistirán, ${2-count} no asistirán y ninguna está pendiente.`;
    reveal();screen(2);
    animate(panel,[{opacity:.7},{opacity:1}],{duration:380});
   });
@@ -83,9 +84,9 @@
   },canMove()?330:0);
  }));
  // Keep the request contextual; the user still sends it themselves in WhatsApp.
- const occasion={bodas:'Boda',cumpleanos:'Cumpleaños',eventos:'Evento'}[document.body.dataset.scene];
+ const occasion={bodas:en?'Wedding':'Boda',cumpleanos:en?'Birthday':'Cumpleaños',eventos:en?'Event':'Evento'}[document.body.dataset.scene];
  if(occasion)host.querySelectorAll('.option-quote').forEach(link=>{
   const url=new URL(link.href);const message=url.searchParams.get('text');
-  if(message){url.searchParams.set('text',message+'\n\nTipo de celebración: '+occasion+'.');link.href=url.href;}
+  if(message){url.searchParams.set('text',message+(en?'\n\nOccasion: ':'\n\nTipo de celebración: ')+occasion+'.');link.href=url.href;}
  });
 })();

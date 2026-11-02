@@ -25,13 +25,15 @@ window.prepareNordraSeason = () => {
     document.querySelector('.mobile-route a[href="#temporada-halloween"]').href = `#${chapterId(selected.id)}`;
     const hero = document.querySelector('.seasonal-hero-live');
     const link = hero.querySelector('[data-live-try]');
-    link.href = selected.demo; link.dataset.liveTry = selected.label;
+    const en = document.documentElement.lang==='en';
+    const englishLabel = {halloween:'Halloween invitation',posadas:'Christmas and posada invitation','fin-de-ano':'New Year’s invitation'}[selected.id];
+    link.href = selected.demo; link.dataset.liveTry = en ? englishLabel : selected.label;
     const img = hero.querySelector('.live-screen > img');
-    img.alt = `${selected.label} de Nordra, portada del diseño real`;
+    img.alt = en ? `${englishLabel} by Nordra` : `${selected.label} de Nordra, portada del diseño real`;
     img.sizes = sizes; img.srcset = srcset; img.src = cover(selected,780);
     const halloween = seasons.find(s => s.id === 'halloween');
     const note = document.querySelector('[data-season-return]');
-    note.textContent = returnMessage(halloween);
+    note.textContent = returnMessage(halloween,en?'en':'es-MX');
     note.hidden = inOrderingWindow(halloween,date);
   } finally {
     delete root.dataset.seasonPreparing;

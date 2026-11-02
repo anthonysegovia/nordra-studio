@@ -28,7 +28,7 @@ document.querySelectorAll('[data-view="invitaciones"]:not([hidden]) .showcase-li
   screen.prepend(frame);fit();
   sizes=new ResizeObserver(fit);sizes.observe(screen);
   // Once open, the same control leads to the full-screen invitation.
-  link.firstChild.textContent='Abrir en pantalla completa ';link.target='_blank';link.rel='noopener';
+  link.firstChild.textContent=document.documentElement.lang==='en'?'Open full screen ':'Abrir en pantalla completa ';link.target='_blank';link.rel='noopener';
  });
  addEventListener('pagehide',()=>sizes?.disconnect(),{once:true});
 });

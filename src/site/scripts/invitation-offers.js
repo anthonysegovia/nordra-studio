@@ -86,9 +86,9 @@ function season() {
 if (root?.querySelector('.invite-offers')) {
   const start = () => {
     glow(); compare(); journey(); season();
-    window.NordraCarousel?.positions(root.querySelector('.journey-stack'), 'Posición en el recorrido');
-    window.NordraCarousel?.positions(root.querySelector('.season-fan'), 'Posición en las temporadas');
-    window.NordraCarousel?.positions(root.querySelector('.invite-grid'), 'Posición en los planes', card => card.querySelector('h3').textContent.trim());
+    window.NordraCarousel?.positions(root.querySelector('.journey-stack'), document.documentElement.lang==='en'?'Guest journey position':'Posición en el recorrido');
+    window.NordraCarousel?.positions(root.querySelector('.season-fan'), document.documentElement.lang==='en'?'Season position':'Posición en las temporadas');
+    window.NordraCarousel?.positions(root.querySelector('.invite-grid'), (document.documentElement.lang==='en'?'Plan position':'Posición en los planes'), card => card.querySelector('h3').textContent.trim());
   };
   'requestIdleCallback' in window ? requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 200);
 }

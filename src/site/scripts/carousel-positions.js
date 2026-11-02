@@ -12,7 +12,7 @@
      const title = titleOf(card);
      const button = document.createElement('button');
      button.type = 'button';
-     button.setAttribute('aria-label', 'Ir a ' + title);
+     button.setAttribute('aria-label', (document.documentElement.lang==='en'?'Go to ':'Ir a ') + title);
      button.addEventListener('click', () => track.scrollBy({
        left: offset(card), behavior: still() ? 'instant' : 'smooth',
      }));

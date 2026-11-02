@@ -51,7 +51,7 @@
    const paused=stopped.has(type)||globallyPaused();
    button.setAttribute('aria-pressed',String(paused));
    button.disabled=globallyPaused();
-   button.textContent=globallyPaused()?'Movimiento pausado':`${paused?'Reanudar':'Pausar'} ${type==='snow'?'nieve':'muestra'}`;
+   button.textContent=document.documentElement.lang==='en'?(globallyPaused()?'Motion paused':`${paused?'Resume':'Pause'} ${type==='snow'?'snow':'preview'}`):globallyPaused()?'Movimiento pausado':`${paused?'Reanudar':'Pausar'} ${type==='snow'?'nieve':'muestra'}`;
   });
 
  }

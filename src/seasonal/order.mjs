@@ -13,7 +13,7 @@ export function inOrderingWindow(season, date) {
   const {from, to} = season.order;
   return day >= from[0] * 100 + from[1] && day <= to[0] * 100 + to[1];
 }
-export function returnMessage(season) {
-  const month = new Intl.DateTimeFormat('es-MX', {month:'long'}).format(new Date(2000, season.order.from[0] - 1, 1));
-  return `Vuelve en ${month}`;
+export function returnMessage(season, language = 'es-MX') {
+  const month = new Intl.DateTimeFormat(language, {month:'long'}).format(new Date(2000, season.order.from[0] - 1, 1));
+  return language==='en'?`Back in ${month}`:`Vuelve en ${month}`;
 }
