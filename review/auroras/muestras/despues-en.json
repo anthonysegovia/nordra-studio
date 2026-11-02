@@ -1,0 +1,66 @@
+[
+  {
+    "width": 1440,
+    "theme": "light",
+    "fps": 60,
+    "sceneFps": 60,
+    "first": 1395,
+    "contrast": {
+      ".horizon-intro": 11.68,
+      ".horizon-ending": 4.52,
+      ".horizon-offer": 11.67,
+      ".horizon-detail": 4.76,
+      ".horizon-button": 11.54,
+      ".desktop-nav a": 5.77
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "fps": 60,
+    "sceneFps": 60,
+    "first": 382,
+    "contrast": {
+      ".horizon-intro": 16.24,
+      ".horizon-ending": 9.32,
+      ".horizon-offer": 17.02,
+      ".horizon-detail": 9.67,
+      ".horizon-button": 12.36,
+      ".desktop-nav a": 9.25
+    },
+    "errors": []
+  },
+  {
+    "width": 375,
+    "theme": "light",
+    "fps": 60,
+    "sceneFps": 0,
+    "first": 0,
+    "contrast": {
+      ".horizon-intro": 11.55,
+      ".horizon-ending": 4.43,
+      ".horizon-offer": 11.65,
+      ".horizon-detail": 4.89,
+      ".horizon-button": 12.29,
+      ".menu-button": 14.05
+    },
+    "errors": []
+  },
+  {
+    "width": 375,
+    "theme": "dark",
+    "fps": 60,
+    "sceneFps": 0,
+    "first": 0,
+    "contrast": {
+      ".horizon-intro": 16.99,
+      ".horizon-ending": 10.35,
+      ".horizon-offer": 18.06,
+      ".horizon-detail": 11.31,
+      ".horizon-button": 12.36,
+      ".menu-button": 16.98
+    },
+    "errors": []
+  }
+]
