@@ -78,8 +78,16 @@ try {
       await createLandscapeScene(document.querySelector('.horizon-landscape'), { initialElapsed, dark });
     }, { file: sceneFile, dark: theme === 'dark', initialElapsed });
     await page.waitForFunction(() => document.querySelector('.horizon-landscape').classList.contains('has-scene'));
-    const capture = await page.evaluate(() => {
+    const capture = await page.evaluate(({holdPeak,portrait}) => {
       const { renderer, scene, camera } = window.posterCapture;
+      // The settled night portrait holds the crest of a pulse; the entrance stays unlit.
+      if (holdPeak) scene.traverse(object => {
+        const uniforms = object.material?.uniforms;
+        // The narrow crop holds the moment the near fold crosses the centre.
+        if (portrait && uniforms?.time) uniforms.time.value = 24;
+        if (uniforms?.pulse) uniforms.pulse.value = 1;
+        if (uniforms?.pulseCenter) uniforms.pulseCenter.value = 0;
+      });
       renderer.render(scene, camera);
       const png = renderer.domElement.toDataURL('image/png');
       const rect = renderer.domElement.getBoundingClientRect();
@@ -100,7 +108,7 @@ try {
       return { png, canvas: { width: rect.width, height: rect.height }, summitY, baseY, massifHeight: baseY - summitY,
         horizonY: y(point.set(0, 0, -800)), sunX: (sun.clone().project(camera).x + 1) * rect.width / 2,
         sunY: y(sun), camera: camera.position.toArray() };
-    });
+    }, {holdPeak: theme === 'dark' && values.phase === 'final', portrait: mobile});
     const name = `landscape-${values.phase === 'start' ? 'start' : 'poster'}-${theme}-${format}${values.version ? `-${values.version}` : ''}`;
     const png = Buffer.from(capture.png.split(',')[1], 'base64'); delete capture.png;
     const rawPath = path.join(values.evidence, `${name}.png`);

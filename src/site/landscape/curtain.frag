@@ -1,5 +1,4 @@
 uniform float time, seed, dark, pulse, pulseCenter, level, sweep;
-varying vec2 screenPoint;
 varying float worldX;
 varying vec2 ribbon;
 varying float nearWeight;
@@ -29,10 +28,7 @@ void main(){
   vec3 rim=mix(green,vec3(1.0,0.22,0.62),smoothstep(0.55,0.93,pulse)*knot);
   vec3 emission=(0.68*foot*rim+color*body)*density*mix(0.36,1.0,nearWeight);
   emission*=smoothstep(0.0,0.085,u)*(1.0-smoothstep(0.92,1.0,u))*level;
-  emission*=1.03*(1.0+0.44*knot*pulse);
-  // Feather light towards the edges of the copy rather than cutting out its silhouette.
-  vec2 distanceFromCopy = (screenPoint-vec2(0.0,0.27))*vec2(1.12,0.86);
-  float clearance = smoothstep(0.38,0.92,length(distanceFromCopy));
-  emission *= mix(0.012,1.0,clearance)*dark*smoothstep(1.0-u,1.24-u,sweep);
+  emission *= (1.42+0.35*smoothstep(0.16,0.50,h))*(1.0+0.44*knot*pulse);
+  emission *= dark*smoothstep(1.0-u,1.24-u,sweep);
   gl_FragColor=vec4(emission,0.0);
 }

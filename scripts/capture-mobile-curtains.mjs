@@ -11,8 +11,8 @@ if (palettes.length !== 7) throw new Error('Expected seven aurora palettes');
 const vertexShader = readFileSync('src/site/landscape/curtain.vert', 'utf8');
 const fragmentShader = readFileSync('src/site/landscape/curtain.frag', 'utf8')
   .replace('uniform float time', 'uniform vec3 lowColor, middleColor, highColor; uniform float time')
-  .replace('mix(0.012,1.0,clearance)', '1.0') // commercial overlays have different copy placement
   .replace('gl_FragColor=vec4(emission,0.0);', `float alpha=clamp(max(max(emission.r,emission.g),emission.b),0.0,0.9);
+    alpha = floor(alpha*100.0+0.5)/100.0;
     vec3 tint=mix(lowColor,middleColor,smoothstep(0.02,0.21,h));
     tint=mix(tint,highColor,smoothstep(0.16,0.48,h));
     gl_FragColor=vec4(tint*alpha,alpha);`);
@@ -36,7 +36,7 @@ try {
     const scene = new T.Scene(), camera = new T.PerspectiveCamera(36,840/546,0.5,1000);
     camera.position.set(0,4.2,44);camera.lookAt(0,41,-104);
     for (const seed of [1.3,4.1]) {
-      const uniforms = Object.fromEntries(Object.entries({seed,time:60,dark:1,level:1,sweep:1.3,pulse:0,
+      const uniforms = Object.fromEntries(Object.entries({seed,time:24,dark:1,level:1,sweep:1.3,pulse:1,
         pulseCenter:0,eye:camera.position,lowColor:new T.Vector3(),middleColor:new T.Vector3(),highColor:new T.Vector3()
       }).map(([key,value])=>[key,{value}]));
       const material = new T.ShaderMaterial({vertexShader,fragmentShader,uniforms,side:T.DoubleSide,forceSinglePass:true,

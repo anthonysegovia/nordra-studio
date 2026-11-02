@@ -1,6 +1,5 @@
 uniform float time, seed;
 uniform vec3 eye;
-varying vec2 screenPoint;
 varying float worldX;
 varying vec2 ribbon;
 varying float nearWeight;
@@ -27,8 +26,11 @@ void main() {
   float reach = mix(0.24, 0.61, nearWeight);
   vec3 point = base + (pole - base) * v * reach;
   point.x += max(v, 0.0) * (2.6 * swell + 2.0 * sin(u * 23.0 + time * 0.33));
+  // Lift the whole sheet by an angular offset; keep the folds and ray widths intact.
+  float aspect = projectionMatrix[1][1] / projectionMatrix[0][0];
+  float lift = mix(0.16,0.085,smoothstep(0.6,1.0,aspect));
+  point.y += lift * (eye.z - point.z);
   worldX = x;
   ribbon = vec2(u,v);
   gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(point,1.0);
-  screenPoint = gl_Position.xy / gl_Position.w;
 }

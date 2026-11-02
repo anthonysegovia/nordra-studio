@@ -1,0 +1,274 @@
+[
+  {
+    "lang": "es",
+    "width": 1440,
+    "theme": "dark",
+    "values": {
+      ".horizon-intro": 5.010705746079373,
+      ".horizon-ending": 4.78359386840665,
+      ".horizon-offer": 10.3617938690375,
+      ".horizon-detail": 9.344565320559065,
+      ".horizon-button": 12.363149821658775
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 65,
+        "x": 55
+      },
+      ".horizon-ending": {
+        "t": 65,
+        "x": -27.5
+      },
+      ".horizon-offer": {
+        "t": 60,
+        "x": -27.5
+      },
+      ".horizon-detail": {
+        "t": 60,
+        "x": -55
+      },
+      ".horizon-button": {
+        "t": 60,
+        "x": -55
+      }
+    }
+  },
+  {
+    "lang": "es",
+    "width": 1440,
+    "theme": "light",
+    "values": {
+      ".horizon-intro": 11.926762205839404,
+      ".horizon-ending": 4.623379712352342,
+      ".horizon-offer": 11.561469774475876,
+      ".horizon-detail": 4.7577585080309435,
+      ".horizon-button": 11.432943587629298
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-ending": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-offer": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-detail": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-button": {
+        "t": 60,
+        "x": 0
+      }
+    }
+  },
+  {
+    "lang": "es",
+    "width": 375,
+    "theme": "dark",
+    "values": {
+      ".horizon-intro": 6.501816080212933,
+      ".horizon-ending": 6.447845029049688,
+      ".horizon-offer": 6.23111653717524,
+      ".horizon-detail": 9.429709119448377,
+      ".horizon-button": 12.363149821658775
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-ending": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-offer": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-detail": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-button": {
+        "t": 60,
+        "x": 0
+      }
+    }
+  },
+  {
+    "lang": "es",
+    "width": 375,
+    "theme": "light",
+    "values": {
+      ".horizon-intro": 11.61640475939322,
+      ".horizon-ending": 4.530157484495708,
+      ".horizon-offer": 11.453767510495423,
+      ".horizon-detail": 4.7013030453637015,
+      ".horizon-button": 12.130782954251513
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-ending": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-offer": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-detail": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-button": {
+        "t": 60,
+        "x": 0
+      }
+    }
+  },
+  {
+    "lang": "en",
+    "width": 1440,
+    "theme": "dark",
+    "values": {
+      ".horizon-intro": 6.218118426582892,
+      ".horizon-ending": 5.655009607093663,
+      ".horizon-offer": 10.052541582999698,
+      ".horizon-detail": 9.0648178794698,
+      ".horizon-button": 12.363149821658775
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 69,
+        "x": -27.5
+      },
+      ".horizon-ending": {
+        "t": 65,
+        "x": -27.5
+      },
+      ".horizon-offer": {
+        "t": 69,
+        "x": -55
+      },
+      ".horizon-detail": {
+        "t": 60,
+        "x": -55
+      },
+      ".horizon-button": {
+        "t": 60,
+        "x": -55
+      }
+    }
+  },
+  {
+    "lang": "en",
+    "width": 1440,
+    "theme": "light",
+    "values": {
+      ".horizon-intro": 11.926762205839404,
+      ".horizon-ending": 4.623379712352342,
+      ".horizon-offer": 11.561469774475876,
+      ".horizon-detail": 4.7577585080309435,
+      ".horizon-button": 11.432943587629298
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-ending": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-offer": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-detail": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-button": {
+        "t": 60,
+        "x": 0
+      }
+    }
+  },
+  {
+    "lang": "en",
+    "width": 375,
+    "theme": "dark",
+    "values": {
+      ".horizon-intro": 9.240937714185165,
+      ".horizon-ending": 5.795283708203054,
+      ".horizon-offer": 6.650136420910479,
+      ".horizon-detail": 11.321828907034098,
+      ".horizon-button": 12.363149821658775
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-ending": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-offer": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-detail": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-button": {
+        "t": 60,
+        "x": 0
+      }
+    }
+  },
+  {
+    "lang": "en",
+    "width": 375,
+    "theme": "light",
+    "values": {
+      ".horizon-intro": 11.725080029697287,
+      ".horizon-ending": 4.536878870022436,
+      ".horizon-offer": 11.60376834576486,
+      ".horizon-detail": 4.922553370828327,
+      ".horizon-button": 12.279503789751141
+    },
+    "where": {
+      ".horizon-intro": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-ending": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-offer": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-detail": {
+        "t": 60,
+        "x": 0
+      },
+      ".horizon-button": {
+        "t": 60,
+        "x": 0
+      }
+    }
+  }
+]
