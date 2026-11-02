@@ -281,10 +281,10 @@ test('Three stays exact and deferred; capture hooks and the old aurora are absen
   assert.doesNotMatch(read('src/site/entries/home.js'), /horizon-flow/);
 });
 
-test('mobile requires an explicit tap before importing the landscape scene', async () => {
+test('mobile keeps the poster even after a tap', async () => {
   const a = fixture({ mobile: true });
   a.visible(true); a.page.emit('load'); await a.runIdle();
   assert.equal(a.imports(), 0);
   a.play.emit('click'); await a.runIdle();
-  assert.equal(a.imports(), 1);
+  assert.equal(a.imports(), 0);
 });
