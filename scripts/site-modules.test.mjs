@@ -157,7 +157,8 @@ const pages = {
     "entryStyles": [
       "phone-frame",
       "showcase-live",
-      "invitation-offers"
+      "invitation-offers",
+      "client-cases"
     ]
   },
   "negocios": {
