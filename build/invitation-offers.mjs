@@ -1,6 +1,7 @@
 import { buildSync } from 'esbuild';
 import { fileURLToPath } from 'node:url';
 import { invitationOfferSchema } from './invitation-schema.mjs';
+import { clientReviews, renderClientCases } from './client-cases.mjs';
 import { invitationOffers, invitationMoney, invitationFacts, seasonalOffer, seasons, upcomingSeason } from '../src/data/invitationPricing.ts';
 const esc = s => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 const whatsapp = text => 'https://wa.me/528129022231?text=' + encodeURIComponent(text);
@@ -55,7 +56,7 @@ export function renderFaq() {
 export function invitationSchema() {
   const offers = [...invitationOffers, seasonalOffer].map(o => invitationOfferSchema(o, `https://nordrastudio.mx/invitaciones#plan-${o.id}`));
   return [
-    { '@context': 'https://schema.org', '@type': 'Service', name: 'Invitaciones digitales', serviceType: 'Invitaciones digitales con confirmación de asistencia', areaServed: 'MX', provider: { '@id': 'https://nordrastudio.mx/#negocio' }, offers },
+    { '@context': 'https://schema.org', '@type': 'Service', name: 'Invitaciones digitales', serviceType: 'Invitaciones digitales con confirmación de asistencia', areaServed: 'MX', provider: { '@id': 'https://nordrastudio.mx/#negocio' }, offers, review: clientReviews() },
     { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: invitationFaq.map(item => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
   ];
 }
@@ -72,6 +73,7 @@ export function renderInvitationPage(html, date = new Date()) {
     .replace('{{invitations:guests}}', esc(invitationFacts.guests))
     .replace('{{invitations:closing}}', encodeURIComponent(closingMessage))
     .replace('{{invitations:offers}}', renderInvitationOffers())
+    .replace('{{invitations:clients}}', renderClientCases())
     .replace('{{invitations:seasons}}', renderSeasons(date))
     .replace('{{invitations:faq}}', renderFaq())
     .replace('{{invitations:schema}}', invitationSchema().map(data => `<script type="application/ld+json">${JSON.stringify(data).replaceAll('<', '\\u003c')}</script>`).join(''));

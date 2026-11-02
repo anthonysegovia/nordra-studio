@@ -1,0 +1,32 @@
+import { clientCases } from '../src/data/clientCases.ts';
+const esc = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+const date = value => /^\d{4}-\d{2}-\d{2}$/.test(value || '') && !Number.isNaN(Date.parse(value));
+
+export function validateClientCases(cases) {
+  for (const item of cases) {
+    if (!date(item.authorizedOn)) throw Error(`Client authorization missing: ${item.id}`);
+    if (item.opinion.text.includes('[Opinión del cliente pendiente]')) throw Error(`Placeholder opinion: ${item.id}`);
+    if (item.opinion.text && !date(item.opinion.authorizedOn)) throw Error(`Opinion authorization missing: ${item.id}`);
+    if (item.rating && (!date(item.rating.documentedOn) || item.rating.value !== 5)) throw Error(`Rating documentation missing: ${item.id}`);
+  }
+}
+
+export function clientReviews(cases = clientCases) {
+  validateClientCases(cases);
+  // Keep the documented rating exclusively in the visible design. Explicit
+  // fields prevent a future data change from leaking ratings into JSON-LD.
+  return cases.filter(item => item.opinion.text).map(item => ({
+    '@type': 'Review',
+    author: { '@type': item.authorType, name: item.displayName },
+    reviewBody: item.opinion.text,
+  }));
+}
+
+export function renderClientCases(cases = clientCases) {
+  validateClientCases(cases);
+  if (!cases.length) return '';
+  return `<section class="home-continuation client-cases" id="clientes-reales" aria-labelledby="client-cases-title"><div class="client-cases-intro"><p class="eyebrow">INVITACIONES QUE YA SE COMPARTEN</p><h2 id="client-cases-title">Lo que hemos hecho para nuestros clientes</h2><p>Dos celebraciones, cada una con su propia forma de invitar.</p></div><div class="client-case-grid">${cases.map(item => {
+    const opinion = item.opinion.text ? `<div class="client-case-opinion">${item.rating ? '<p class="client-case-rating" role="img" aria-label="Calificación: 5 de 5"><span aria-hidden="true">★★★★★ <span>5/5</span></span></p>' : ''}<blockquote><p>${esc(item.opinion.text)}</p><footer>${esc(item.displayName)}</footer></blockquote></div>` : '';
+    return `<article class="client-case" aria-labelledby="client-${item.id}"><div class="client-case-art"><img src="${esc(item.capture.src)}" alt="${esc(item.capture.alt)}" width="${item.capture.width}" height="${item.capture.height}" loading="lazy" decoding="async"></div><p class="eyebrow">${esc(item.occasion)} · Invitación digital</p><h3 id="client-${item.id}">${esc(item.client)}</h3><p class="client-case-description">${esc(item.description)}</p>${opinion}<a class="options-compare" href="${esc(item.invitationUrl)}" target="_blank" rel="noopener">Ver la invitación <span aria-hidden="true">↗</span></a></article>`;
+  }).join('')}</div></section>`;
+}
