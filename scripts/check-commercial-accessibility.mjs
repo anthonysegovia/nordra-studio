@@ -46,6 +46,15 @@ try {
         .filter(el => el.size < 12);
     });
     const result = await new AxeBuilder({ page }).withRules(['color-contrast']).exclude('.nordra-phone').exclude('.invitation-art').analyze();
+    const smallTargets = await page.evaluate(() => {
+      const targets = document.querySelectorAll('a[href],button,summary,select,input,textarea,[role="button"],[role="tab"]');
+      return [...targets].filter(el => !el.matches(':disabled') && !el.closest('[inert]') &&
+        el.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })).filter(el => {
+        const boxes = [el, ...el.labels || []].map(node => node.getBoundingClientRect());
+        return !boxes.some(box => box.width >= 44 && box.height >= 44);
+      }).map(el => [el.tagName,el.className,el.textContent.trim().slice(0,60)]);
+    });
+    if (!values.audit) assert.deepEqual(smallTargets, [], route + ': mobile tap targets must be 44×44');
     const contrast = result.violations.flatMap(v => v.nodes.map(n => ({ target: n.target, html: n.html, summary: n.failureSummary, checks: n.any })));
     const uncertain = result.incomplete.flatMap(v => v.nodes.map(n => ({ target: n.target, html: n.html, checks: n.any })));
     const sampled = await sampleContrast(page, uncertain);

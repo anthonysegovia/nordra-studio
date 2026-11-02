@@ -24,18 +24,27 @@ export async function sampleContrast(page, uncertain) {
     const colorCanvas = document.createElement('canvas'); colorCanvas.width = colorCanvas.height = 1;
     const colorContext = colorCanvas.getContext('2d'); colorContext.fillStyle = style.color; colorContext.fillRect(0, 0, 1, 1);
     const rgba = [...colorContext.getImageData(0, 0, 1, 1).data]; rgba[3] /= 255;
-    return rects.length ? [{ target, color: style.color, rgba, opacity, rects, required: size >= 24 || (size >= 18.66 && Number(style.fontWeight) >= 700) ? 3 : 4.5 }] : [];
+    return rects.length ? [{ target, inBar: Boolean(el.closest('.mobile-route')), color: style.color, rgba, opacity, rects, required: size >= 24 || (size >= 18.66 && Number(style.fontWeight) >= 700) ? 3 : 4.5 }] : [];
   }), targets);
   const hide = await page.addStyleTag({ content: '* { -webkit-text-fill-color: transparent !important; text-shadow: none !important; text-decoration-color: transparent !important; }' });
-  let png;
-  try { png = await page.screenshot({ fullPage: true, animations: 'disabled' }); }
+  let png, barPng;
+  try {
+    if (samples.some(s => s.inBar)) barPng = await page.screenshot({ fullPage: true, animations: 'disabled' });
+    // A fixed bar overlaps unrelated document text in a stitched screenshot.
+    png = await page.screenshot({ fullPage: true, animations: 'disabled', style: '.mobile-route{visibility:hidden!important}' });
+  }
   finally { await hide.evaluate(el => el.remove()); }
-  return page.evaluate(async ({ png, samples }) => {
-    const image = new Image(); image.src = `data:image/png;base64,${png}`; await image.decode();
+  return page.evaluate(async ({ png, barPng, samples }) => {
+    async function pixels(data) {
+    const image = new Image(); image.src = `data:image/png;base64,${data}`; await image.decode();
     const canvas = document.createElement('canvas'); canvas.width = image.width; canvas.height = image.height;
     const ctx = canvas.getContext('2d', { willReadFrequently: true }); ctx.drawImage(image, 0, 0);
+    return ctx;
+    }
+    const pagePixels = await pixels(png), barPixels = barPng && await pixels(barPng);
     const luminance = rgb => rgb.slice(0, 3).map(v => { v /= 255; return v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }).reduce((sum, v, i) => sum + v * [.2126, .7152, .0722][i], 0);
     return samples.map(sample => {
+      const ctx = sample.inBar ? barPixels : pagePixels, canvas = ctx.canvas;
       const rgba = sample.rgba, alpha = rgba[3] * sample.opacity;
       let minimum = Infinity, background;
       for (const rect of sample.rects) for (const fy of [.2, .5, .8]) for (const fx of [.05, .25, .5, .75, .95]) {
@@ -49,5 +58,5 @@ export async function sampleContrast(page, uncertain) {
       }
       return { target: sample.target, required: sample.required, ratio: minimum, color: sample.color, background };
     });
-  }, { png: png.toString('base64'), samples });
+  }, { png: png.toString('base64'), barPng: barPng?.toString('base64'), samples });
 }
