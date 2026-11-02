@@ -103,14 +103,17 @@ const skyFragment = /* glsl */`
     float e = d.y;
     // Night: deep navy with a teal glow on the horizon. Arctic day: clear blue, paling towards the horizon.
     vec3 nightTop = vec3(0.009, 0.022, 0.068), nightMid = vec3(0.02, 0.07, 0.12), nightGlow = vec3(0.095, 0.105, 0.24);
-    vec3 dayTop = vec3(0.45,0.65,0.87), dayMid = vec3(0.76,0.86,0.95);
-    float towardsSun = smoothstep(0.75,0.995,dot(normalize(d.xz),normalize(sun.xz)));
-    vec3 dayGlow = mix(vec3(0.78,0.87,0.94),vec3(1.0,0.87,0.77),towardsSun);
+    vec3 dayTop = vec3(0.60, 0.76, 0.94), dayMid = vec3(0.84, 0.91, 0.98), dayGlow = vec3(1.0, 0.90, 0.92);
     vec3 top = mix(dayTop, nightTop, dark), mid = mix(dayMid, nightMid, dark), glow = mix(dayGlow, nightGlow, dark);
     vec3 c = mix(mid, top, smoothstep(0.05, 0.55, e));
     c = mix(c, glow, (1.0 - smoothstep(-0.02, 0.16, e)) * mix(0.6, 0.75 + 0.25 * aurora, dark));
 
     if (dark < 1.0) {
+      float towardsSun = smoothstep(0.75,0.995,dot(normalize(d.xz),normalize(sun.xz)));
+      vec3 horizonLight = mix(vec3(0.78,0.87,0.94),vec3(1.0,0.87,0.77),towardsSun);
+      vec3 winterSky = mix(vec3(0.76,0.86,0.95),vec3(0.45,0.65,0.87),smoothstep(0.05,0.55,e));
+      winterSky = mix(winterSky,horizonLight,(1.0-smoothstep(-0.02,0.16,e))*0.60);
+      c = mix(winterSky,c,dark);
       // All distances are angular distances to the same light direction, in both sky passes.
       float angle = atan(length(cross(d,sun)), dot(d,sun));
       float disk = 1.0-smoothstep(0.009,0.009+1.4*pixelAngle,angle);
@@ -350,7 +353,7 @@ const waterShader = {
       float floeField = fbm(world.xz * vec2(0.10, 0.30) + vec2(3.0 + time * 0.004, 1.0));
       float floe = smoothstep(0.655, 0.675, floeField) * smoothstep(-110.0, -40.0, world.z) * (1.0 - smoothstep(shoreZ - 16.0, shoreZ - 6.0, world.z));
       vec3 floeColour = mix(vec3(0.88, 0.93, 0.98), vec3(0.06, 0.09, 0.14), dark) * (0.9 + 0.15 * fbm(world.xz * 0.6));
-      c = mix(c, floeColour, floe);
+      c = mix(c, floeColour, floe*dark);
         // One lookup in the already baked noise lattice; no extra mesh, pass or texture.
         #ifdef MOBILE_MIST
           float mist = gridMist;
@@ -652,7 +655,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     const skyDirection = (x, y) => { raycaster.setFromCamera(new Vector2(x, y), camera); return raycaster.ray.direction.clone().normalize(); };
     sun.value.copy(skyDirection(mobile ? -0.56 : -0.66, horizon + (mobile ? 0.175 : 0.235)));
     if (water.getRenderTarget) water.material.uniforms.horizonUV.value = 0.5 + horizon * 0.5;
-    // Halo fades above the buttons, so it never crosses the copy.
+    // The night curtains still use the lower edge of the copy as their elevation reference.
     const copyBottom = 1 - 2 * (buttons.bottom - rect.top) / height;
     sky.material.uniforms.textElevation.value = skyDirection(0, copyBottom).y;
     // Snowy shore along the bottom edge of the view.

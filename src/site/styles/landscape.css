@@ -5,6 +5,7 @@
 .horizon-landscape.has-scene{opacity:1}
 .horizon-landscape canvas{position:absolute;inset:0;width:100%;height:100%}
 .horizon-landscape::after,.landscape-poster::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 69%,transparent) 0%,color-mix(in srgb,var(--bg) 48%,transparent) 34%,transparent 56%)}
+body:not(.dark) :is(.horizon-landscape,.landscape-poster)::after{background:linear-gradient(180deg,#f7fafcd4 0%,#f7fafcbc 42%,#f7fafca8 54%,transparent 70%)}
 .dark .horizon-landscape::after,.dark .landscape-poster::after{background:linear-gradient(180deg,#03081424,transparent 48%)}
 .horizon-title{text-shadow:0 1px 18px color-mix(in srgb,var(--bg) 70%,transparent)}
 /* The same landscape is present before WebGL, and remains the final still fallback. */
@@ -28,6 +29,7 @@
 .dark .horizon-hero .horizon-ending::before{background:#020818a8}
 /* During live drift, bright folds reach positions the static portrait never visits. */
 @media(max-width:700px){
+  body:not(.dark) .horizon-hero .horizon-button-outline:not(:hover):not(:focus-visible){background-color:rgb(249 251 253 / 18%)}
   .dark .horizon-landscape.has-scene ~ .horizon-title .horizon-ending::before{background:#020818d0}
   body:not(.dark) .horizon-landscape.has-scene ~ .horizon-title .horizon-accent{color:#206b8e}
 }
