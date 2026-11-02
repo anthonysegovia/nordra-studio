@@ -1,11 +1,13 @@
 /* Signature Nordra · Paisaje: the isotype as a real massif under an aurora, mirrored by a still lake. */
 import {
   WebGLRenderer, Scene, PerspectiveCamera, Mesh, Group, PlaneGeometry, SphereGeometry, ExtrudeGeometry,
-  ShaderMaterial, Vector3, Vector2, BackSide, Raycaster, Plane, CustomBlending, AddEquation, OneFactor, OneMinusSrcAlphaFactor,
+  DoubleSide, ShaderMaterial, Vector3, Vector2, BackSide, Raycaster, Plane, CustomBlending, AddEquation, OneFactor, OneMinusSrcAlphaFactor,
   WebGLRenderTarget, OrthographicCamera, RedFormat, LinearFilter, RepeatWrapping,
 } from 'three';
 import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
+import curtainVertex from './curtain.vert?raw';
+import curtainFragment from './curtain.frag?raw';
 import isotypeSource from '../assets/isotipo.svg?raw';
 import { landscapePolicy, advanceClock } from './state.js';
 import { skyEvents } from './sky-events.js';
@@ -178,66 +180,8 @@ const skyFragment = /* glsl */`
 `;
 
 // Aurora band: a tall ribbon that folds in depth; rays rise from a crisp lower edge.
-const bandVertex = /* glsl */`
-  uniform float time, seed, curve, altitudeBase, height, bandLength, bandDistance, wind, dark;
-  varying vec2 vUv; varying float vV;
-  varying float elevation;
-  void main() {
-    vUv = uv;
-    float u = uv.x;
-    float v = uv.y * 1.18 - 0.18; // below 0: soft glow under the lower edge
-    vV = v;
-    float x = (u - 0.5) * bandLength;
-    float z = -bandDistance - curve * sin(3.14159 * u) + 7.0 * sin(u * 9.0 + seed + time * 0.07) + 3.5 * sin(u * 23.0 - time * 0.11 + seed);
-    x += wind * 4.0 * sin(u * 6.0 + time * 0.3);
-    float y = altitudeBase + 2.2 * sin(u * 17.0 + seed - time * 0.09) + max(v, -0.2) * height;
-      z += dark * 5.0 * sin(u * 42.0 + v * 3.2 + seed + time * 0.60) * smoothstep(0.0, 0.7, max(v, 0.0));
-      x += dark * 2.4 * sin(u * 14.0 - time * 0.42 + seed) * smoothstep(0.0, 0.8, max(v, 0.0));
-      y += dark * 2.4 * sin(u * 9.0 - time * 0.32 + seed);
-      elevation = normalize((modelMatrix * vec4(x, y, z, 1.0)).xyz - cameraPosition).y;
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(x, y, z, 1.0);
-  }
-`;
-const bandFragment = /* glsl */`
-  uniform float time, seed, dark, level, sweep, strength, bandLength;
-  varying vec2 vUv; varying float vV;
-  uniform float textElevation, curtainGain, pulse, pulseCenter;
-  varying float elevation;
-  ${noise}
-  void main() {
-    float u = vUv.x, v = vV;
-      u += 0.008 * sin(v * 4.5 - time * 0.45 + seed) + 0.005 * sin(u * 19.0 - time * 0.28);
-    // Soft rays of different heights drifting slowly along the band.
-    float r = fbm(vec2(u * 46.0 + seed + time * 0.035, time * 0.025));
-    float rays = smoothstep(0.32, 0.78, r);
-    float reach = v / mix(0.42, 1.1, rays);
-    float drift = u * 220.0 + 2.8 * sin(u * 17.0 + seed - time * 0.13) + time * 0.24;
-    float threads = pow(0.5 + 0.5 * cos(drift * 3.2 + 1.7 * sin(drift * 0.31)), 4.0);
-    float curtain = smoothstep(-0.015, 0.018, v) * exp(-max(reach, 0.0) * 2.7)
-      * (0.25 + rays * (0.53 + 0.82 * threads));
-    float glow = 0.48 * exp(-abs(v) * 38.0) + 0.09 * exp(-abs(v) * 7.0);
-    float ends = smoothstep(0.0, 0.12, u) * smoothstep(1.0, 0.88, u);
-    // Real bands are patchy: bright knots and quiet stretches drift along the arc.
-    float patches = 0.25 + 0.75 * smoothstep(0.32, 0.72, fbm(vec2(u * 5.0 + seed, time * 0.02)));
-    // Intro: the band lights from one end to the other.
-    float on = smoothstep(sweep, sweep - 0.25, 1.0 - u) * level;
-    float breathe = 0.86 + 0.14 * sin(time * 0.55 + seed);
-    // The tall tips reach the copy area: soften them there, so the sky itself can stay clear and starry.
-    float upper = 1.0 - 0.65 * smoothstep(0.4, 0.95, v);
-    float intensity = (curtain + glow) * ends * patches * on * breathe * strength * upper;
-    vec3 c = altitude(0.05 + 1.28 * reach, dark);
-      float travel = auroraTravel((u - 0.5) * bandLength, time);
-      float folds = 0.94 + 0.06 * sin(u * 70.0 + v * 4.0 - time * 0.60 + seed);
-      float knot = exp(-pow(((u - 0.5) * bandLength - pulseCenter) / 21.0, 2.0));
-      intensity *= (1.0 + 1.05 * knot * pulse) * curtainGain * (0.92 + 0.08 * travel) * folds;
-      vec3 violet = mix(c, vec3(0.66, 0.36, 0.94), smoothstep(0.22, 0.60, reach) * 0.78);
-      c = violet * dot(c, vec3(0.2126, 0.7152, 0.0722)) / max(0.01, dot(violet, vec3(0.2126, 0.7152, 0.0722)));
-      intensity *= 1.0 - 0.35 * smoothstep(textElevation - 0.02, textElevation + 0.035, elevation);
-    // Auroras only exist at night: by day the bands are gone.
-    float a = clamp(intensity * 0.8 * dark, 0.0, 1.0);
-    gl_FragColor = vec4(c * a, a);
-  }
-`;
+const bandVertex = curtainVertex;
+const bandFragment = curtainFragment;
 
 // Distant range: a pale, low silhouette far behind the lake, softened by atmospheric haze.
 const rangeVertex = /* glsl */`
@@ -455,23 +399,18 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   scene.add(sky);
 
   // Two aurora bands at different distances; the far one is fainter and higher.
-  const bands = [
-    { seed: 1.3, distance: 120, curve: 30, altitudeBase: 15, height: 60, length: 300, strength: 1.0 },
-    { seed: 4.1, distance: 190, curve: 45, altitudeBase: 26, height: 70, length: 420, strength: 0.55 },
-  ].map(config => {
+  const bands = [{seed: 1.3, distance: 120}, {seed: 4.1, distance: 190}].map(config => {
     const material = new ShaderMaterial({
       vertexShader: bandVertex, fragmentShader: bandFragment, transparent: true, depthWrite: false,
+      side: DoubleSide, forceSinglePass: true,
       blending: CustomBlending, blendEquation: AddEquation, blendSrc: OneFactor, blendDst: OneFactor,
       uniforms: {
-        time, dark, pulse, pulseCenter, wind: { value: 0 }, level: { value: 0 }, sweep: { value: 0 },
-        seed: { value: config.seed }, curve: { value: config.curve }, altitudeBase: { value: config.altitudeBase },
-        height: { value: config.height }, bandLength: { value: config.length }, bandDistance: { value: config.distance },
-        strength: { value: config.strength },
-        textElevation: sky.material.uniforms.textElevation,
-        curtainGain: { value: matchMedia('(max-width:700px)').matches ? 1.25 : 1.18 },
+        time, dark, pulse, pulseCenter, eye: { value: camera.position },
+        seed: { value: config.seed }, level: { value: 0 }, sweep: { value: 0 },
       },
     });
     const mesh = new Mesh(new PlaneGeometry(1, 1, quality.bandSegments, 24), material);
+    mesh.userData.distance = config.distance;
     mesh.frustumCulled = false;
     mesh.renderOrder = -5;
     scene.add(mesh);
@@ -710,7 +649,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     pulseCenter.value = activity.center;
     mouse.eased += ((finePointer.matches ? mouse.target : 0) - mouse.eased) * (1 - Math.exp(-delta / 420));
     for (const band of bands) {
-      const distance = band.material.uniforms.bandDistance.value + camera.position.z;
+      const distance = band.userData.distance + camera.position.z;
       const span = 2 * distance * Math.tan(camera.fov * Math.PI / 360) * camera.aspect;
       band.position.x = mouse.eased * span * 0.013;
     }
