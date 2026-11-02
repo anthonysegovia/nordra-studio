@@ -22,3 +22,4 @@ body[data-journey-motion=paused] .horizon-button,body[data-journey-motion=paused
  body[data-scene] :is(.nordra-phone,.nordra-phone *,.invitation-art,.invitation-art *){--commercial-min-text:initial}
  .horizon-trust{flex-wrap:wrap;row-gap:4px}
 }
+.scene .mobile-route .mobile-whatsapp{background:var(--ink);color:var(--bg);border-radius:8px;font-weight:600}
