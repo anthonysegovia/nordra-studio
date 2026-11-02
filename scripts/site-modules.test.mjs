@@ -166,6 +166,7 @@ const pages = {
       "interface-icons",
       "mobile-chrome",
       "home",
+      "home-snow",
       "page-navigation"
     ],
     "styles": [
