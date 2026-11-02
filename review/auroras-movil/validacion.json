@@ -1,0 +1,14 @@
+[
+  {
+    "route": "/",
+    "quiet": true,
+    "guard": "poster and released context",
+    "errors": []
+  },
+  {
+    "route": "/en/",
+    "quiet": true,
+    "guard": "recovered at mobile-low",
+    "errors": []
+  }
+]

@@ -1,0 +1,298 @@
+[
+  {
+    "run": 0,
+    "port": 5291,
+    "throttle": 1,
+    "lcp": {
+      "ms": 420,
+      "tag": "IMG"
+    },
+    "started": null,
+    "renderer": "poster",
+    "quality": null,
+    "fps": 0,
+    "p95": null,
+    "downloadStart": null,
+    "chunks": [],
+    "errors": []
+  },
+  {
+    "run": 0,
+    "port": 5292,
+    "throttle": 1,
+    "lcp": {
+      "ms": 152,
+      "tag": "IMG"
+    },
+    "started": 1159.5,
+    "renderer": "landscape-3d",
+    "quality": "mobile",
+    "fps": 60.0022967388365,
+    "p95": 16.80000001192093,
+    "downloadStart": 177.60000002384186,
+    "chunks": [
+      "landscape-scene-CjrT9EJt.js",
+      "three-DvcQPxv-.js"
+    ],
+    "errors": []
+  },
+  {
+    "run": 0,
+    "port": 5291,
+    "throttle": 4,
+    "lcp": {
+      "ms": 220,
+      "tag": "IMG"
+    },
+    "started": null,
+    "renderer": "poster",
+    "quality": null,
+    "fps": 0,
+    "p95": null,
+    "downloadStart": null,
+    "chunks": [],
+    "errors": []
+  },
+  {
+    "run": 0,
+    "port": 5292,
+    "throttle": 4,
+    "lcp": {
+      "ms": 216,
+      "tag": "IMG"
+    },
+    "started": 1201.6000000238419,
+    "renderer": "landscape-3d",
+    "quality": "mobile",
+    "fps": 60.0022967388365,
+    "p95": 16.900000035762787,
+    "downloadStart": 438.10000002384186,
+    "chunks": [
+      "landscape-scene-CjrT9EJt.js",
+      "three-DvcQPxv-.js"
+    ],
+    "errors": []
+  },
+  {
+    "run": 1,
+    "port": 5292,
+    "throttle": 1,
+    "lcp": {
+      "ms": 132,
+      "tag": "IMG"
+    },
+    "started": 361.80000001192093,
+    "renderer": "landscape-3d",
+    "quality": "mobile",
+    "fps": 59.714409346603205,
+    "p95": 16.900000035762787,
+    "downloadStart": 138.5,
+    "chunks": [
+      "landscape-scene-CjrT9EJt.js",
+      "three-DvcQPxv-.js"
+    ],
+    "errors": []
+  },
+  {
+    "run": 1,
+    "port": 5291,
+    "throttle": 1,
+    "lcp": {
+      "ms": 108,
+      "tag": "IMG"
+    },
+    "started": null,
+    "renderer": "poster",
+    "quality": null,
+    "fps": 0,
+    "p95": null,
+    "downloadStart": null,
+    "chunks": [],
+    "errors": []
+  },
+  {
+    "run": 1,
+    "port": 5292,
+    "throttle": 4,
+    "lcp": {
+      "ms": 212,
+      "tag": "IMG"
+    },
+    "started": 1179.800000011921,
+    "renderer": "landscape-3d",
+    "quality": "mobile",
+    "fps": 59.995407049767365,
+    "p95": 16.900000035762787,
+    "downloadStart": 432.2000000476837,
+    "chunks": [
+      "landscape-scene-CjrT9EJt.js",
+      "three-DvcQPxv-.js"
+    ],
+    "errors": []
+  },
+  {
+    "run": 1,
+    "port": 5291,
+    "throttle": 4,
+    "lcp": {
+      "ms": 236,
+      "tag": "IMG"
+    },
+    "started": null,
+    "renderer": "poster",
+    "quality": null,
+    "fps": 0,
+    "p95": null,
+    "downloadStart": null,
+    "chunks": [],
+    "errors": []
+  },
+  {
+    "run": 2,
+    "port": 5291,
+    "throttle": 1,
+    "lcp": {
+      "ms": 112,
+      "tag": "IMG"
+    },
+    "started": null,
+    "renderer": "poster",
+    "quality": null,
+    "fps": 0,
+    "p95": null,
+    "downloadStart": null,
+    "chunks": [],
+    "errors": []
+  },
+  {
+    "run": 2,
+    "port": 5292,
+    "throttle": 1,
+    "lcp": {
+      "ms": 116,
+      "tag": "IMG"
+    },
+    "started": 343.30000001192093,
+    "renderer": "landscape-3d",
+    "quality": "mobile",
+    "fps": 60.0022967388365,
+    "p95": 16.80000001192093,
+    "downloadStart": 126.30000001192093,
+    "chunks": [
+      "landscape-scene-CjrT9EJt.js",
+      "three-DvcQPxv-.js"
+    ],
+    "errors": []
+  },
+  {
+    "run": 2,
+    "port": 5291,
+    "throttle": 4,
+    "lcp": {
+      "ms": 220,
+      "tag": "IMG"
+    },
+    "started": null,
+    "renderer": "poster",
+    "quality": null,
+    "fps": 0,
+    "p95": null,
+    "downloadStart": null,
+    "chunks": [],
+    "errors": []
+  },
+  {
+    "run": 2,
+    "port": 5292,
+    "throttle": 4,
+    "lcp": {
+      "ms": 212,
+      "tag": "IMG"
+    },
+    "started": 1281.3999999761581,
+    "renderer": "landscape-3d",
+    "quality": "mobile",
+    "fps": 60.0022967388365,
+    "p95": 17,
+    "downloadStart": 489.39999997615814,
+    "chunks": [
+      "landscape-scene-CjrT9EJt.js",
+      "three-DvcQPxv-.js"
+    ],
+    "errors": []
+  },
+  {
+    "run": 3,
+    "port": 5292,
+    "throttle": 1,
+    "lcp": {
+      "ms": 128,
+      "tag": "IMG"
+    },
+    "started": 347.2999999523163,
+    "renderer": "landscape-3d",
+    "quality": "mobile",
+    "fps": 60.0022967388365,
+    "p95": 16.899999976158142,
+    "downloadStart": 132.29999995231628,
+    "chunks": [
+      "landscape-scene-CjrT9EJt.js",
+      "three-DvcQPxv-.js"
+    ],
+    "errors": []
+  },
+  {
+    "run": 3,
+    "port": 5291,
+    "throttle": 1,
+    "lcp": {
+      "ms": 108,
+      "tag": "IMG"
+    },
+    "started": null,
+    "renderer": "poster",
+    "quality": null,
+    "fps": 0,
+    "p95": null,
+    "downloadStart": null,
+    "chunks": [],
+    "errors": []
+  },
+  {
+    "run": 3,
+    "port": 5292,
+    "throttle": 4,
+    "lcp": {
+      "ms": 224,
+      "tag": "IMG"
+    },
+    "started": 1369.2000000476837,
+    "renderer": "landscape-3d",
+    "quality": "mobile",
+    "fps": 59.99596181067536,
+    "p95": 16.900000035762787,
+    "downloadStart": 443.5,
+    "chunks": [
+      "landscape-scene-CjrT9EJt.js",
+      "three-DvcQPxv-.js"
+    ],
+    "errors": []
+  },
+  {
+    "run": 3,
+    "port": 5291,
+    "throttle": 4,
+    "lcp": {
+      "ms": 232,
+      "tag": "IMG"
+    },
+    "started": null,
+    "renderer": "poster",
+    "quality": null,
+    "fps": 0,
+    "p95": null,
+    "downloadStart": null,
+    "chunks": [],
+    "errors": []
+  }
+]
