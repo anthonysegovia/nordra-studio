@@ -18,7 +18,7 @@ export function commercialPage(href) {
 }
 
 export function measurementDisabled(storage) {
-  try { return storage.getItem(preferenceKey) === 'true'; } catch { return true; }
+  try { return storage.getItem(preferenceKey) === 'true' || storage.getItem('nordra-analitica-disabled') === 'true'; } catch { return true; }
 }
 
 // The provider can include external document.referrer independently of beforeSend.

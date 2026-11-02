@@ -1,6 +1,6 @@
 import { activationEvent, commercialPage, commercialRoutes, measurementDisabled, safeReferrer, sanitizeEvent } from './policy.js';
 
-export function installCommercialAnalytics(win, loadSdk) {
+export function installCommercialAnalytics(win, loadSdk, loadInsights) {
   const doc = win.document, page = commercialPage(win.location.href);
   const scene = page === 'index' ? 'entrada' : page;
   if (!page || doc.body.dataset.scene !== scene) return () => {};
@@ -8,15 +8,15 @@ export function installCommercialAnalytics(win, loadSdk) {
   const frame = win.frameElement;
   if (win.parent !== win && (!frame || !frame.classList.contains('page-navigation-frame'))) return () => {};
   const parentDoc = frame?.ownerDocument;
-  let sdk, loading = false, viewed = false, disposed = false, idle = null;
+  let sdk, loading = false, viewed = false, disposed = false, idle = null, insightsTimer;
   let loaded = doc.readyState === 'complete';
   const clicks = [];
   function permitted() {
     try { return !measurementDisabled(win.localStorage) && safeReferrer(doc.referrer, win.location.origin); }
     catch { return false; }
   }
-  function active() {
-    if (disposed || doc.hidden || doc.prerendering || !permitted()) return false;
+  function active(flushing = false) {
+    if (disposed || (doc.hidden && !flushing) || doc.prerendering || !permitted()) return false;
     if (frame) {
       const ready = [...parentDoc.querySelectorAll('.page-navigation-frame.is-ready')];
       return frame.isConnected && frame.getAttribute('aria-hidden') !== 'true' && ready.at(-1) === frame;
@@ -42,6 +42,22 @@ export function installCommercialAnalytics(win, loadSdk) {
       sdk = module;
       // No automatic history/popstate listeners: only the visible document owns a view.
       sdk.inject({ mode: 'production', disableAutoTrack: true, beforeSend });
+      if (loadInsights) {
+        const startInsights = () => {
+          if (!active()) return;
+          loadInsights().then(({ injectSpeedInsights }) => {
+            if (!active()) return;
+            const route = commercialRoutes[page];
+            injectSpeedInsights({
+              route,
+              beforeSend: event => active(true) ? { ...event, url: 'https://nordrastudio.mx' + route, route } : null,
+            });
+          }).catch(() => {});
+        };
+        const deferInsights = () => { insightsTimer = win.setTimeout(startInsights, 3000); };
+        if (loaded) deferInsights();
+        else win.addEventListener('load', deferInsights, { once: true });
+      }
       view();
       for (const item of clicks.splice(0)) sdk.track(item.name, item.data);
     } catch { clicks.length = 0; /* Measurement must never interrupt a contact link. */ }
@@ -69,6 +85,7 @@ export function installCommercialAnalytics(win, loadSdk) {
   function dispose() {
     if (disposed) return;
     disposed = true;
+    if (insightsTimer !== undefined) win.clearTimeout(insightsTimer);
     if (win.cancelIdleCallback) win.cancelIdleCallback(idle); else win.clearTimeout(idle);
     changes.disconnect(); parentChanges?.disconnect();
     doc.removeEventListener('click', activate); doc.removeEventListener('auxclick', activate);
