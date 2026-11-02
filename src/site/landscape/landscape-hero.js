@@ -1,11 +1,14 @@
-import { landscapePolicy } from './state.js';
+import { landscapePolicy, NIGHT_PORTRAIT_MS } from './state.js';
 
 const stage = document.querySelector('.horizon-landscape');
 if (stage) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const poster = window.NordraLandscapePoster;
-  const staticProfile = navigator.connection?.saveData === true;
+  const staticProfile = () => navigator.connection?.saveData === true ||
+    (navigator.deviceMemory != null && navigator.deviceMemory < 3) ||
+    (navigator.hardwareConcurrency != null && navigator.hardwareConcurrency < 4);
   const phone = matchMedia('(max-width:700px)');
+  const portable = matchMedia('(max-width:700px), (hover:none) and (pointer:coarse)');
   // Observe the parent-owned frame: document.hidden does not reflect aria-hidden.
   const frame = window.frameElement;
   const parentDocument = frame?.ownerDocument;
@@ -19,7 +22,7 @@ if (stage) {
   });
   const signal = (active, release = false) => dispatchEvent(new CustomEvent('nordra-landscape', { detail: { active, release } }));
   // A still visit already has its final landscape; do not allocate WebGL for it.
-  const shouldLoad = current => landscapePolicy(current).load && !current.paused && !current.reduced && !staticProfile && !phone.matches;
+  const shouldLoad = current => landscapePolicy(current).load && !current.paused && !current.reduced && !staticProfile();
   function fallback() {
     failed = true; poster?.final();
     stage.classList.remove('has-scene'); stage.dataset.renderer = 'static'; signal(false);
@@ -28,7 +31,7 @@ if (stage) {
     try {
       const probe = document.createElement('canvas');
       // Reuse the successfully tested context instead of allocating a second one.
-      return probe.getContext('webgl2', { antialias: true, alpha: false, powerPreference: 'high-performance' });
+      return probe.getContext('webgl2', { antialias: true, alpha: false, powerPreference: portable.matches ? 'low-power' : 'high-performance' });
     } catch { return null; }
   }
   async function start() {
@@ -41,16 +44,19 @@ if (stage) {
     try {
       const { createLandscapeScene } = await import('./landscape-scene.js');
       if (!shouldLoad(state())) return;
+      const current = state();
+      const settledTime = phone.matches && current.dark ? NIGHT_PORTRAIT_MS : 60000;
       const next = await createLandscapeScene(stage, {
-        ...state(), context,
+        ...current, context,
         // The still and the first rendered frame share the same clock/camera.
-        initialElapsed: poster?.phase === 'start' ? 0 : 60000,
-        getState: () => ({ ...state(), finishEntrance: poster?.phase === 'final' }),
+        initialElapsed: poster?.phase === 'start' ? 0 : settledTime,
+        mobileStartup: portable.matches,
+        getState: () => ({ ...state(), disposed: disposed || staticProfile(), finishEntrance: poster?.phase === 'final' }),
         onFallback: fallback,
-        onReady: () => { if (!disposed) { poster?.started(); signal(true); } },
+        onReady: () => { if (!disposed && !staticProfile()) { poster?.started(); signal(true); } },
       });
       transferred = true;
-      if (disposed || phone.matches) next.dispose();
+      if (disposed || staticProfile()) next.dispose();
       // Preparation already reads getState and starts the renderer. A second
       // synchronous sync here would draw the landscape twice.
       else scene = next;
@@ -66,11 +72,10 @@ if (stage) {
     // The original document remains under navigation iframes; release its GPU too.
     if (document.body.classList.contains('has-page-frame') || (frame && !frame.isConnected)) { dispose(); return; }
     const current = state();
-    if (phone.matches) poster?.final();
-    if (scene && phone.matches) {
+    if (scene && staticProfile()) {
       scene.dispose(); scene = null; signal(false, true);
     }
-    if (current.paused || current.reduced || staticProfile) poster?.final();
+    if (phone.matches || current.paused || current.reduced || staticProfile()) poster?.final();
     scene?.setState(current);
     if (loaded && !loading && idle == null && shouldLoad(current)) {
       idle = window.requestIdleCallback ? requestIdleCallback(start, { timeout: 1800 }) : setTimeout(start, 200);
@@ -96,12 +101,14 @@ if (stage) {
     view.disconnect(); changes.disconnect(); parentChanges?.disconnect();
     reduced.removeEventListener('change', sync);
     phone.removeEventListener('change', sync);
+    navigator.connection?.removeEventListener?.('change', sync);
     document.removeEventListener('visibilitychange', sync);
     removeEventListener('load', onLoad); removeEventListener('pageshow', onShow); removeEventListener('pagehide', onHide);
     scene?.dispose(); scene = null; signal(false, true);
   }
   const view = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
   phone.addEventListener('change', sync);
+  navigator.connection?.addEventListener?.('change', sync);
   view.observe(stage);
   const changes = new MutationObserver(sync);
   changes.observe(document.body, { attributes: true, attributeFilter: ['class', 'data-journey-motion'] });

@@ -18,7 +18,7 @@ const base = values.url || server.resolvedUrls.local[0];
 const browser = await chromium.launch({ headless: true, ...(values.chrome ? { executablePath: values.chrome } : {}) });
 const rows = [];
 try {
-  const phone = await browser.newContext({ viewport: { width: 375, height: 812 }, reducedMotion: 'no-preference' });
+  const phone = await browser.newContext({ viewport: { width: 375, height: 812 }, reducedMotion: 'reduce' });
   const home = await phone.newPage();
   const sceneRequests = [];
   home.on('request', request => {
@@ -27,7 +27,7 @@ try {
   await home.goto(base, { waitUntil: 'networkidle' });
   assert.equal(await home.locator('.horizon-landscape canvas').count(), 0);
   await home.waitForTimeout(2000);
-  assert.deepEqual(sceneRequests, [], 'Mobile hero must remain static on phones');
+  assert.deepEqual(sceneRequests, [], 'Reduced motion must keep the mobile poster');
   await phone.close();
   for (const theme of ['light', 'dark']) for (const route of ['', 'estudio', 'negocios', 'invitaciones', 'bodas', 'cumpleanos', 'eventos', 'temporada']) {
     const context = await browser.newContext({ viewport: { width: 375, height: 812 }, reducedMotion: 'reduce' });

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
-import { landscapePolicy, advanceClock } from '../src/site/landscape/state.js';
+import { landscapePolicy, advanceClock, NIGHT_PORTRAIT_MS } from '../src/site/landscape/state.js';
 import { assertDeferredLandscape } from './check-site-bundles.mjs';
 import { resolve } from 'node:path';
 import { preparePrograms } from '../src/site/landscape/prepare-programs.js';
@@ -148,7 +148,7 @@ test('the animation clock excludes paused, offscreen and hidden time, without a 
 });
 
 const loaderSource = readFileSync(new URL('../src/site/landscape/landscape-hero.js', import.meta.url), 'utf8');
-function fixture({ mobile = false, webgl = true, embedded = false, importFailure = false, paused = false, reduced = false, saveData = false, repeat = false } = {}) {
+function fixture({ mobile = false, memory, cores, webgl = true, embedded = false, importFailure = false, paused = false, reduced = false, saveData = false, repeat = false } = {}) {
   function target(extra = {}) {
     const listeners = new Map(), classes = new Set(), attributes = new Map();
     return { dataset: {}, isConnected: true, ...extra,
@@ -175,7 +175,7 @@ function fixture({ mobile = false, webgl = true, embedded = false, importFailure
   const states = [], signals = [];
   const controller = { setState: state => states.push(state), dispose: () => releases++ };
   runInNewContext(loaderSource.replace(/^import .*;\s*/gm, '').replace("import('./landscape-scene.js')", 'loadScene()'), {
-    landscapePolicy, document, window: page, navigator: { connection: { saveData } }, matchMedia: query => query.includes('max-width') ? phone : media,
+    landscapePolicy, NIGHT_PORTRAIT_MS, document, window: page, navigator: { deviceMemory: memory, hardwareConcurrency: cores, connection: { saveData } }, matchMedia: query => query.includes('max-width') ? phone : media,
     addEventListener: page.addEventListener.bind(page), removeEventListener: page.removeEventListener.bind(page),
     dispatchEvent: event => signals.push(event), CustomEvent: class { constructor(type, { detail }) { this.type = type; this.detail = detail; } },
     requestIdleCallback: fn => { idle.set(++id, fn); return id; }, cancelIdleCallback: key => idle.delete(key),
@@ -281,10 +281,23 @@ test('Three stays exact and deferred; capture hooks and the old aurora are absen
   assert.doesNotMatch(read('src/site/entries/home.js'), /horizon-flow/);
 });
 
-test('mobile keeps the poster even after a tap', async () => {
-  const a = fixture({ mobile: true });
-  a.visible(true); a.page.emit('load'); await a.runIdle();
-  assert.equal(a.imports(), 0);
-  a.play.emit('click'); await a.runIdle();
-  assert.equal(a.imports(), 0);
+test('capable phones start at idle from the final portrait, including without hardware hints', async () => {
+  for (const hints of [{}, {memory: 3, cores: 4}]) {
+    const a = fixture({mobile: true, ...hints});
+    a.body.classList.add('dark'); a.visible(true); a.page.emit('load');
+    assert.equal(a.imports(), 0);
+    await a.runIdle();
+    assert.equal(a.imports(), 1);
+    assert.equal(a.states[0].initialElapsed, 24000);
+    assert.equal(a.states[0].mobileStartup, true);
+  }
+});
+
+test('ineligible phones keep the portrait without importing Three', async () => {
+  for (const options of [{memory: 2}, {cores: 3}, {saveData: true}, {reduced: true}, {paused: true}, {webgl: false}]) {
+    const a = fixture({mobile: true, ...options});
+    a.visible(true); a.page.emit('load'); await a.runIdle();
+    assert.equal(a.imports(), 0);
+    assert.equal(a.poster.phase, 'final');
+  }
 });

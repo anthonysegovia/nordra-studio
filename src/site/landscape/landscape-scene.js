@@ -9,7 +9,8 @@ import { Reflector } from 'three/addons/objects/Reflector.js';
 import curtainVertex from './curtain.vert?raw';
 import curtainFragment from './curtain.frag?raw';
 import isotypeSource from '../assets/isotipo.svg?raw';
-import { landscapePolicy, advanceClock } from './state.js';
+import { landscapePolicy, advanceClock, NIGHT_PORTRAIT_MS } from './state.js';
+import { mobileFrameBudget } from './frame-budget.js';
 import { skyEvents } from './sky-events.js';
 import { preparePrograms } from './prepare-programs.js';
 
@@ -275,18 +276,43 @@ const mountainFragment = /* glsl */`
 
 // Still lake: reflection with a slow ripple, darker near the shore.
 const RIPPLES = 8;
+// Phones interpolate this low-frequency bank over the lake grid.
+const lakeMist = /* glsl */`
+  float mistAt(vec3 point, float t) {
+    float variation = vnoise(point.xz * vec2(0.035, 0.08) + vec2(t * 0.0015, 0.0));
+    return exp(-pow((point.z + 48.0) / 22.0, 2.0)) * (0.14 + 0.05 * variation);
+  }
+`;
 const waterShader = {
   name: 'NordraLake',
   uniforms: { color: { value: null }, tDiffuse: { value: null }, textureMatrix: { value: null }, time: { value: 0 }, dark: { value: 0 }, ripples: { value: null }, shoreZ: { value: 10 }, horizonUV: { value: 0.12 } },
   vertexShader: /* glsl */`
     uniform mat4 textureMatrix; varying vec4 vUv; varying vec3 world;
-    void main() { vUv = textureMatrix * vec4(position, 1.0); world = (modelMatrix * vec4(position, 1.0)).xyz; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
+    #ifdef MOBILE_MIST
+      uniform float time;
+      varying float gridMist;
+      ${noise}
+      ${lakeMist}
+    #endif
+    void main() {
+      vUv = textureMatrix * vec4(position, 1.0);
+      world = (modelMatrix * vec4(position, 1.0)).xyz;
+      #ifdef MOBILE_MIST
+        gridMist = mistAt(world,time);
+      #endif
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
   `,
   fragmentShader: /* glsl */`
     uniform sampler2D tDiffuse; uniform float time, dark, shoreZ, horizonUV; uniform vec3 ripples[${RIPPLES}];
     uniform float light; uniform vec3 sun;
     varying vec4 vUv; varying vec3 world;
     ${noise}
+    #ifdef MOBILE_MIST
+      varying float gridMist;
+    #else
+      ${lakeMist}
+    #endif
     void main() {
       vec2 ripple = vec2(fbm(world.xz * vec2(0.08, 0.4) + vec2(0.0, time * 0.06)), fbm(world.xz * vec2(0.08, 0.4) + 9.0 - vec2(0.0, time * 0.05))) - 0.5;
       // Touched water: slow concentric rings that bend the reflection and fade in a few seconds.
@@ -328,8 +354,11 @@ const waterShader = {
       vec3 floeColour = mix(vec3(0.88, 0.93, 0.98), vec3(0.06, 0.09, 0.14), dark) * (0.9 + 0.15 * fbm(world.xz * 0.6));
       c = mix(c, floeColour, floe);
         // One lookup in the already baked noise lattice; no extra mesh, pass or texture.
-        float mistNoise = vnoise(world.xz * vec2(0.035, 0.08) + vec2(time * 0.0015, 0.0));
-        float mist = exp(-pow((world.z + 48.0) / 22.0, 2.0)) * (0.14 + 0.05 * mistNoise);
+        #ifdef MOBILE_MIST
+          float mist = gridMist;
+        #else
+          float mist = mistAt(world,time);
+        #endif
         c = mix(c, mix(vec3(0.88, 0.94, 0.98), vec3(0.15, 0.29, 0.33), dark), mist * light);
         float sheen = pow(0.5 + 0.5 * sin(world.z * 1.7 + ripple.x * 3.0), 5.0);
         float auroraGleam = auroraPulse(world.x, time) * sheen * far * 0.095;
@@ -349,20 +378,23 @@ const waterShader = {
 
 function profile() {
   if (navigator.connection?.saveData === true) return { name: 'saver', dpr: 1.25, pixels: 1300000, fps: 30, reflection: 0, bandSegments: 160 };
+  if (matchMedia('(max-width:700px), (hover:none) and (pointer:coarse)').matches) return { name: 'mobile', dpr: 1.5, pixels: 1100000, fps: 60, reflection: 0.30, bandSegments: 200 };
   // iOS reports at most 4 cores whatever the phone, so few cores still get a small reflection: the lake is the scene.
   const constrained = (navigator.deviceMemory > 0 && navigator.deviceMemory <= 4) ||
     (navigator.hardwareConcurrency > 0 && navigator.hardwareConcurrency <= 4);
   if (constrained) return { name: 'constrained', dpr: 1.25, pixels: 1300000, fps: 30, reflection: 0.25, bandSegments: 160 };
-  if (matchMedia('(max-width:700px)').matches) return { name: 'mobile', dpr: 1.5, pixels: 1500000, fps: 30, reflection: 0.35, bandSegments: 200 };
   return { name: 'desktop', dpr: 2, pixels: 4200000, fps: 60, reflection: 0.5, bandSegments: 320 };
 }
 
 const ease = t => (t <= 0 ? 0 : t >= 1 ? 1 : t * t * t * (t * (t * 6 - 15) + 10));
 const phase = (elapsed, [from, to]) => ease((elapsed - from) / (to - from));
 
-export async function createLandscapeScene(stage, { reduced = false, paused = false, initialElapsed = 0, dark: initialDark = false, context, getState, onFallback, onReady } = {}) {
+export async function createLandscapeScene(stage, { reduced = false, paused = false, initialElapsed = 0, dark: initialDark = false, mobileStartup = false, context, getState, onFallback, onReady } = {}) {
   const quality = profile();
-  const renderer = new WebGLRenderer({ canvas: context?.canvas, context, antialias: true, alpha: false, powerPreference: 'high-performance' });
+  let budget = mobileStartup ? mobileFrameBudget() : null;
+  const fromPortrait = mobileStartup && initialDark && initialElapsed === NIGHT_PORTRAIT_MS;
+  const renderer = new WebGLRenderer({ canvas: context?.canvas, context, antialias: true, alpha: false,
+    powerPreference: quality.name === 'mobile' ? 'low-power' : 'high-performance' });
   const canvas = renderer.domElement;
   canvas.setAttribute('aria-hidden', 'true');
   stage.append(canvas);
@@ -394,7 +426,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   const camera = new PerspectiveCamera(36, 1, 0.5, 1200);
   const time = { value: 0 }, dark = { value: 0 }, sun = { value: new Vector3(0.3, 0.06, -1).normalize() };
 
-  const pulse = { value: 0 }, pulseCenter = { value: 0 };
+  const pulse = { value: fromPortrait ? 1 : 0 }, pulseCenter = { value: 0 };
   const nextSky = skyEvents();
   const mouse = { target: 0, eased: 0 };
   const finePointer = matchMedia('(hover:hover) and (pointer:fine)');
@@ -462,9 +494,11 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   let water;
   const ripples = { value: Array.from({ length: RIPPLES }, () => new Vector3(0, -1e4, -100)) };
   const shoreZ = { value: 10 };
-  const waterGeometry = new PlaneGeometry(900, 900);
+  const mobileMist = quality.name === 'mobile';
+  const waterGeometry = new PlaneGeometry(900, 900, mobileMist ? 12 : 1, mobileMist ? 144 : 1);
   if (quality.reflection > 0) {
     water = new Reflector(waterGeometry, { clipBias: 0.003, textureWidth: 512, textureHeight: 512, shader: waterShader, multisample: 0 });
+    if (mobileMist) water.material.defines.MOBILE_MIST = 1;
     water.material.uniforms.time = time;
     water.material.uniforms.ripples = ripples;
     water.material.uniforms.shoreZ = shoreZ;
@@ -489,6 +523,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
 
   let width = 1, height = 1, raf = 0, lastFrame = 0, disposed = false, lost = false, ready = false;
   let bufferWidth = 0, bufferHeight = 0, bufferRatio = 0;
+  let fadeTimer, fading = false;
   let preparation = 0;
   let shaderFailed = false, targetDark = initialDark ? 1 : 0;
   let current = { visible: true, hidden: document.hidden, paused, reduced, dark: initialDark };
@@ -525,7 +560,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
       if (vertex.y >= summitPoint.y - 1) summitCandidates.push(vertex.clone());
     }
   });
-  const policy = () => landscapePolicy({ ...current, ready, disposed, failed: lost || shaderFailed });
+  const policy = () => landscapePolicy({ ...current, ready, disposed, failed: lost || shaderFailed || fading });
   // Three normally logs shader errors; treat them as a recoverable static fallback instead.
   renderer.debug.onShaderError = () => { shaderFailed = true; };
   dark.value = targetDark;
@@ -636,13 +671,28 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   }
   function stop() {
     cancelAnimationFrame(raf); raf = 0; lastFrame = 0;
+    budget?.reset();
     advanceClock(clock, 0, false);
   }
   function tick(now) {
     raf = 0;
     if (!policy().animate) { advanceClock(clock, now, false); return; }
+    const decision = budget?.observe(now);
+    if (decision === 'reduce') {
+      Object.assign(quality, { name: 'mobile-low', dpr: 1, pixels: 640000, reflection: 0.18 });
+      stage.dataset.quality = quality.name;
+      frame();
+    } else if (decision === 'keep') {
+      budget = null;
+    } else if (decision === 'poster') {
+      // Hold the last canvas frame while the existing opacity transition reveals the poster.
+      fading = true;
+      onFallback?.();
+      fadeTimer = setTimeout(dispose, 650);
+      return;
+    }
     const interval = 1000 / quality.fps;
-    if (lastFrame && now - lastFrame < interval - 1) { raf = requestAnimationFrame(tick); return; }
+    if (!budget && lastFrame && now - lastFrame < interval - 1) { raf = requestAnimationFrame(tick); return; }
     const delta = lastFrame ? Math.min(80, now - lastFrame) : interval;
     lastFrame = now;
     const elapsed = advanceClock(clock, now, true);
@@ -652,8 +702,9 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     const activity = nextSky(delta / 1000, elapsed >= TIMELINE.dolly[1], true);
     sky.material.uniforms.meteor.value = activity.meteor;
     sky.material.uniforms.meteorSide.value = activity.side;
-    pulse.value = activity.pulse;
-    pulseCenter.value = activity.center;
+    const portraitPulse = fromPortrait ? Math.max(0, 1 - (elapsed - initialElapsed) / 1600) : 0;
+    pulse.value = Math.max(portraitPulse, activity.pulse);
+    pulseCenter.value = portraitPulse > 0 ? 0 : activity.center;
     mouse.eased += ((finePointer.matches ? mouse.target : 0) - mouse.eased) * (1 - Math.exp(-delta / 420));
     for (const band of bands) {
       const distance = band.userData.distance + camera.position.z;
@@ -666,7 +717,12 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   function sync() {
     stop();
     if (!policy().render) return;
-    if (current.reduced || current.paused || current.finishEntrance) { clock.elapsed = SETTLED; time.value = SETTLED / 1000; scrollProgress = 0; setPhases(SETTLED); place(); current.finishEntrance = false; }
+    if (current.reduced || current.paused || current.finishEntrance) {
+      clock.elapsed = fromPortrait ? initialElapsed : SETTLED;
+      time.value = clock.elapsed / 1000;
+      scrollProgress = 0; setPhases(clock.elapsed); place(clock.elapsed);
+      current.finishEntrance = false;
+    }
     if (current.reduced || current.paused) {
       dark.value = targetDark;
       sky.material.uniforms.meteor.value = -1;
@@ -755,7 +811,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   canvas.addEventListener('webglcontextrestored', onRestored);
   function dispose() {
     if (disposed) return;
-    disposed = true; stop(); resize.disconnect();
+    disposed = true; clearTimeout(fadeTimer); stop(); resize.disconnect();
     document.removeEventListener('pointerleave', onPointerLeave);
     removeEventListener('pointermove', onPointerMove); removeEventListener('pointerdown', onPointerDown); removeEventListener('scroll', onScroll);
     canvas.removeEventListener('webglcontextlost', onLost); canvas.removeEventListener('webglcontextrestored', onRestored);

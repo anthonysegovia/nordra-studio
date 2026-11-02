@@ -1,3 +1,6 @@
+// Shared by the capture tool and the first live phone frame.
+export const NIGHT_PORTRAIT_MS = 24000;
+
 // GPU-free policy shared by the loader, renderer and regression tests.
 export function landscapePolicy({ webgl = true, failed = false, ready = false,
   visible = true, hidden = false, embeddedHidden = false, disposed = false,

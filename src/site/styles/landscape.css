@@ -25,6 +25,11 @@
 }
 .dark .horizon-hero .horizon-intro::before{background:#02081874}
 .dark .horizon-hero .horizon-ending::before{background:#020818a8}
+/* During live drift, bright folds reach positions the static portrait never visits. */
+@media(max-width:700px){
+  .dark .horizon-landscape.has-scene ~ .horizon-title .horizon-ending::before{background:#020818d0}
+  body:not(.dark) .horizon-landscape.has-scene ~ .horizon-title .horizon-accent{color:#206b8e}
+}
 @media(prefers-reduced-motion:reduce){.horizon-landscape,.horizon-landscape.has-scene{opacity:0;transition:none}}
 @media(prefers-reduced-motion:reduce){.landscape-poster .landscape-poster-previous{transition:none}}
 body[data-journey-motion=paused] .horizon-landscape{opacity:0;transition:none}

@@ -7,6 +7,7 @@
 // captures the settled scene. Capture both phases for both themes.
 // Use --evidence to keep each phase's PNGs and landmark measurements separately.
 import fs from 'node:fs';
+import { NIGHT_PORTRAIT_MS } from '../src/site/landscape/state.js';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
@@ -78,13 +79,13 @@ try {
       await createLandscapeScene(document.querySelector('.horizon-landscape'), { initialElapsed, dark });
     }, { file: sceneFile, dark: theme === 'dark', initialElapsed });
     await page.waitForFunction(() => document.querySelector('.horizon-landscape').classList.contains('has-scene'));
-    const capture = await page.evaluate(({holdPeak,portrait}) => {
+    const capture = await page.evaluate(({holdPeak,portrait,portraitSeconds}) => {
       const { renderer, scene, camera } = window.posterCapture;
       // The settled night portrait holds the crest of a pulse; the entrance stays unlit.
       if (holdPeak) scene.traverse(object => {
         const uniforms = object.material?.uniforms;
         // The narrow crop holds the moment the near fold crosses the centre.
-        if (portrait && uniforms?.time) uniforms.time.value = 24;
+        if (portrait && uniforms?.time) uniforms.time.value = portraitSeconds;
         if (uniforms?.pulse) uniforms.pulse.value = 1;
         if (uniforms?.pulseCenter) uniforms.pulseCenter.value = 0;
       });
@@ -108,7 +109,7 @@ try {
       return { png, canvas: { width: rect.width, height: rect.height }, summitY, baseY, massifHeight: baseY - summitY,
         horizonY: y(point.set(0, 0, -800)), sunX: (sun.clone().project(camera).x + 1) * rect.width / 2,
         sunY: y(sun), camera: camera.position.toArray() };
-    }, {holdPeak: theme === 'dark' && values.phase === 'final', portrait: mobile});
+    }, {holdPeak: theme === 'dark' && values.phase === 'final', portrait: mobile, portraitSeconds: NIGHT_PORTRAIT_MS / 1000});
     const name = `landscape-${values.phase === 'start' ? 'start' : 'poster'}-${theme}-${format}${values.version ? `-${values.version}` : ''}`;
     const png = Buffer.from(capture.png.split(',')[1], 'base64'); delete capture.png;
     const rawPath = path.join(values.evidence, `${name}.png`);
