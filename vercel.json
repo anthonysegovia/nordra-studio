@@ -34,6 +34,13 @@
       }
     },
     {
+      "src": "^/demos/cafe-nordra(?:/index\\.html|/)?$",
+      "status": 308,
+      "headers": {
+        "Location": "/demos/sobremesa/"
+      }
+    },
+    {
       "src": "^/demos/ano-nuevo(?:/index\\.html|/)?$",
       "status": 308,
       "headers": {

@@ -30,7 +30,7 @@ function initializeLightTable(table){
  const reduce=matchMedia('(prefers-reduced-motion:reduce)');
  const fine=matchMedia('(min-width:701px) and (hover:hover) and (pointer:fine)');
  const cards=[...table.querySelectorAll('[data-light-case]')];
- const links=[...table.querySelectorAll('.case-index a,a.project-feature')];
+ const links=[...table.querySelectorAll('.case-index a,a.project-feature,a.feature-heading')];
  const lights=[...table.querySelectorAll('.light-table-screen-light')];
  const animations=new Set();let revealed=false,pointers,hovered='',selected='';
  const stopped=()=>reduce.matches||!fine.matches||document.body.dataset.businessMotion==='paused'||document.body.dataset.journeyMotion==='paused';
@@ -74,8 +74,6 @@ function initializeLightTable(table){
   link.addEventListener('focus',active);link.addEventListener('blur',()=>queueMicrotask(active));
   link.addEventListener('click',()=>{
    selected=key(link);active();
-   const detail=table.querySelector(link.hash);
-   if(detail?.matches('details'))detail.open=true;
   });
  });
  function fromHash(){selected=location.hash.includes('sobremesa')?'sobremesa':location.hash.includes('lumina')?'lumina':'';active();}

@@ -725,7 +725,7 @@ html[data-journey-motion=paused]::view-transition-group(root),html[data-journey-
 .case-index a>span:last-child{font-size:16px}
 .design-case{--case-accent:#775b40;--case-tint:#ebe5d933;--case-one:#e7e0ce;--case-two:#9f8766;--case-three:#4f4837;margin-bottom:95px}
 .design-case.case-lumina{--case-accent:#397876;--case-tint:#d5e8e433;--case-one:#eef4ef;--case-two:#a3c7bf;--case-three:#305d61}
-.dark .case-bruma{--case-accent:#d9be96;--case-tint:#87745a12}
+.dark .case-sobremesa{--case-accent:#d9be96;--case-tint:#87745a12}
 .dark .case-lumina{--case-accent:#a3d6ce;--case-tint:#77a8a812}
 .design-case>.project-feature{margin-top:36px}
 .feature-heading>.case-preview-label{margin-left:auto;font-size:11px!important;letter-spacing:0!important;color:var(--ink)!important}
@@ -953,18 +953,12 @@ body.has-page-frame>header,body.has-page-frame>main,body.has-page-frame>#mobile-
  .scene .process-roadmap .process-aurora{left:-70%;right:-30%;top:0;height:530px}
 }
 
-/* 5.27 — Navidad, Bodas y BRUMA: muestras en movimiento */
+/* 5.27 — Navidad y Bodas: muestras en movimiento */
 .living-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;color:var(--muted);font-size:11px;line-height:1.6}
 .living-toolbar>div{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}
 .living-toolbar button{font:inherit;color:var(--ink);border:0;border-bottom:1px solid var(--line);background:none;padding:9px 0;min-height:44px;cursor:pointer}
 .living-toolbar button:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
 .living-toolbar button:disabled{cursor:default;opacity:.6}
-.bruma-toolbar{border-bottom:1px solid var(--line)}
-.living-bruma{position:relative;aspect-ratio:1100/670;background:#193b2d;isolation:isolate}
-.living-bruma .bruma-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.bruma-film{position:absolute;inset:0;border:0;transform-origin:top left;pointer-events:none;opacity:0;transition:opacity .6s}
-.living-bruma.is-loaded .bruma-film{opacity:1}
-.bruma-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:#d8bd8c;transform:scaleX(var(--film-progress,0));transform-origin:left;pointer-events:none}
 .living-snow{position:relative;isolation:isolate;overflow:hidden}
 .snow-layer,.snow-light{position:absolute;inset:0;z-index:2;pointer-events:none}
 .snow-layer{mask-image:linear-gradient(transparent,#000 8%,#000 90%,transparent)}
@@ -987,8 +981,8 @@ body.has-page-frame>header,body.has-page-frame>main,body.has-page-frame>#mobile-
 .envelope-letter .atelier-dedication strong{font-size:clamp(12px,1.5vw,19px);color:#69523f}
 .envelope-seal{position:absolute;top:29%;left:calc(50% - 20px);width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 35% 25%,#ba9567,#967248);box-shadow:0 3px 9px #43301c35,inset 0 0 0 3px #d8be9255;color:#f6e5c9;font-size:16px;z-index:5;pointer-events:none}
 .dark .living-envelope{background:radial-gradient(ellipse at 50% 70%,#d8bb8d12,transparent 65%)}
-@media(max-width:700px){.living-bruma{aspect-ratio:4/5}.living-toolbar{font-size:10px;align-items:flex-start}.living-toolbar>span{max-width:40%}.living-toolbar>div{gap:0 14px}.living-envelope{aspect-ratio:.68}.envelope-body{left:3%;right:3%;bottom:8%;height:42%}.envelope-letter{left:7%;width:86%}.envelope-letter .atelier-dedication{margin-top:12px}.envelope-seal{width:32px;height:32px;left:calc(50% - 16px);font-size:13px}}
-@media(prefers-reduced-motion:reduce){.snow-layer,.snow-light,.bruma-progress{display:none}.envelope-letter{will-change:auto}.bruma-film{transition:none}}
+@media(max-width:700px){.living-toolbar{font-size:10px;align-items:flex-start}.living-toolbar>span{max-width:40%}.living-toolbar>div{gap:0 14px}.living-envelope{aspect-ratio:.68}.envelope-body{left:3%;right:3%;bottom:8%;height:42%}.envelope-letter{left:7%;width:86%}.envelope-letter .atelier-dedication{margin-top:12px}.envelope-seal{width:32px;height:32px;left:calc(50% - 16px);font-size:13px}}
+@media(prefers-reduced-motion:reduce){.snow-layer,.snow-light{display:none}.envelope-letter{will-change:auto}}
 
 /* 5.28 — Encabezados independientes centrados sobre sus muestras. */
 .wedding-atelier .atelier-heading,
@@ -1186,7 +1180,7 @@ body[data-journey-motion=paused] .occasion-paper{display:none}
 .nordra-composition{position:relative;perspective:1400px;--assembly:1;--assembly-gap:0px;--assembly-angle:0deg;--assembly-scale:1;--assembly-original:1}
 .business .nordra-composition.scroll-scrub{translate:none;scale:1;opacity:1}
 .nordra-assembled{position:relative;isolation:isolate;overflow:visible;transform:perspective(1400px) rotateX(var(--assembly-angle)) scale(var(--assembly-scale));transform-origin:50% 75%;transition:none!important}
-.nordra-assembled>img,.nordra-assembled>.bruma-film{opacity:var(--assembly-original)!important}
+.nordra-assembled>img{opacity:var(--assembly-original)!important}
 .composition-layers{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:calc(1 - var(--assembly-original))}
 .composition-piece{position:absolute;inset:0;transform-origin:center;transform:translate(calc(var(--assembly-gap) * -1),calc(var(--assembly-gap) * -.3)) rotate(calc(var(--assembly-angle) * -.35));clip-path:inset(0 0 66.6%)}
 .composition-piece:nth-child(2){clip-path:inset(33.3% 0 33.3%);transform:translate(var(--assembly-gap),calc(var(--assembly-gap) * .16)) rotate(calc(var(--assembly-angle) * .3))}
@@ -1202,10 +1196,10 @@ body[data-journey-motion=paused] .occasion-paper{display:none}
 .theme-gathering .light-gathering:after{background:radial-gradient(ellipse,#92bca166,#719caa33 40%,transparent 70%)}
 .materials-still .composition-layers,.materials-still .frost-surface{display:none}
 .materials-still .nordra-assembled{transform:none}
-.materials-still .nordra-assembled>img,.materials-still .nordra-assembled>.bruma-film{opacity:1!important}
+.materials-still .nordra-assembled>img{opacity:1!important}
 .materials-still .light-path{transform:none}
 @media(max-width:700px){.frost-surface{backdrop-filter:blur(7px) saturate(.6)}.light-gathering:after{height:300px}}
-@media(prefers-reduced-motion:reduce){.composition-layers,.frost-surface{display:none!important}.nordra-assembled,.light-path{transform:none!important}.nordra-assembled>img,.nordra-assembled>.bruma-film{opacity:1!important}}
+@media(prefers-reduced-motion:reduce){.composition-layers,.frost-surface{display:none!important}.nordra-assembled,.light-path{transform:none!important}.nordra-assembled>img{opacity:1!important}}
 /* Compose the page by its header, main visual and closing band. */
 .composition-piece{clip-path:inset(0 0 83%)}
 .composition-piece:nth-child(2){clip-path:inset(17% 0 14%)}
@@ -1227,8 +1221,7 @@ body[data-journey-motion=paused] .occasion-paper{display:none}
 .materials-still .composition-track{height:auto}
 @media(max-width:700px){.composition-track{padding-bottom:0;height:calc(min(46vh,64vw) + 48px + 75vh)}}
 @media(prefers-reduced-motion:reduce){.composition-track{height:auto}}
-.nordra-assembled>img,.nordra-assembled>.bruma-film{transition:none!important}
-.nordra-assembled:not(.is-loaded)>.bruma-film{opacity:0!important}
+.nordra-assembled>img{transition:none!important}
 
 /* Case stories keep their text without decorative numbering. */
 .scene .case-decision{display:block}

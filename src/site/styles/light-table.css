@@ -37,8 +37,6 @@
 [data-view="negocios"] .light-table .feature-context small{font-size:10px;line-height:1.7;color:var(--table-copy)}
 [data-view="negocios"] .light-table .living-toolbar{font-size:10px;gap:12px;padding:8px 0 0;border:0;color:var(--table-copy)}
 [data-view="negocios"] .light-table .living-toolbar button{color:var(--table-ink)}
-[data-view="negocios"] .light-table:not([data-light-state]) .bruma-film,[data-view="negocios"] .light-table[data-light-preview="still"] .bruma-film{display:none;opacity:0!important;visibility:hidden}
-[data-view="negocios"] .light-table[data-light-preview="playing"] .is-loaded>.bruma-film{opacity:1!important}
 [data-view="negocios"] .light-table-case[data-light-active]{--screen-glow:#29b6f6cc}
 [data-view="negocios"] .light-table-case[data-light-active] .light-table-screen-light{box-shadow:inset 0 0 0 2px #e6fbff,inset 0 -2px 8px #71dcff,0 0 26px #38bdf8a6}
 [data-view="negocios"] .light-table[data-light-active] .light-table-case:not([data-light-active]) .feature-stage{opacity:var(--inactive-opacity);filter:saturate(var(--inactive-saturation))}
@@ -53,6 +51,7 @@
  [data-view="negocios"] .light-table .case-index>.eyebrow{grid-column:1/-1}
  [data-view="negocios"] .light-table-deck{grid-template-columns:1fr;gap:38px;padding:24px 14px 34px}
  [data-view="negocios"] .light-table .feature-heading{min-height:0;margin-bottom:16px}
+ [data-view="negocios"] .light-table .feature-heading>span:nth-child(2){min-height:2lh}
  [data-view="negocios"] .light-table .feature-stage{padding:6px}
  [data-view="negocios"] .light-table .feature-context{padding-top:20px;gap:14px}
 }
@@ -65,7 +64,7 @@
 [data-view="negocios"] .light-table .case-full :is(p,.case-label){color:var(--table-copy)}
 [data-view="negocios"] .light-table .case-full .case-closing{display:flex;flex-wrap:wrap;gap:18px}
 [data-view="negocios"] .light-table .case-full :is(a,h3,h4){color:var(--table-ink)}
-[data-view="negocios"] .light-table .case-bruma{--case-one:#e7e0ce;--case-two:#9f8766;--case-three:#4f4837}
+[data-view="negocios"] .light-table .case-sobremesa{--case-one:#f6e7d1;--case-two:#bd884d;--case-three:#57351f}
 [data-view="negocios"] .light-table .case-lumina{--case-one:#eef4ef;--case-two:#a3c7bf;--case-three:#305d61}
 body[data-business-motion="paused"] [data-view="negocios"] .light-table *,body[data-journey-motion="paused"] [data-view="negocios"] .light-table *{transition:none!important}
 @media(prefers-reduced-motion:reduce){[data-view="negocios"] .light-table *{transition:none!important}}

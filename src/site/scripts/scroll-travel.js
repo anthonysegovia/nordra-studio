@@ -24,7 +24,7 @@
  const headings=headingElements.map(el=>{el.classList.add('scroll-scrub');return {el,kind:'heading',value:0,target:0};});
  const blockElements=[...host.querySelectorAll('.service-path,.story-body,.studio-principles>div,.process-list>li,.options-intro,.case-intention,.case-decision,.case-try-heading,.contact-layout,.contact-alternatives,.studio-credit,.feature-context>div,.atelier-copy,.occasion-sample-copy,.faq-item,.web-option,.package-details details,.plan-comparison tbody tr,.decision-actions,.case-index,.response-stage,.seasonal-chapter-heading,.seasonal-demo,.footer-layout>*,.studio-heading-copy,.studio-notes,.options-intro>p,.plan-comparison thead,.plan-comparison caption,.decision-guide>.eyebrow,.decision-note,.section-signoff,.footer-legal')].filter(el=>!el.closest('.travel-media')&&!el.querySelector('.scroll-scrub'));
  const blocks=blockElements.filter(el=>!blockElements.some(other=>other!==el&&other.contains(el))).map(el=>{el.classList.add('scroll-scrub');return {el,kind:'block',value:0,target:0};});
- const moments=[...host.querySelectorAll('[data-living="bruma"],[data-living="envelope"]')].map(el=>({el,kind:'moment',value:0,target:0}));
+ const moments=[...host.querySelectorAll('[data-living="envelope"]')].map(el=>({el,kind:'moment',value:0,target:0}));
  const items=[...sections,...images,...headings,...blocks,...moments],visible=new Set();
  let frame=0,last=0,previousScroll=scrollY,dirty=true,documentHeight=1,ambient=0,ambientTarget=0;
  const clamp=x=>Math.max(0,Math.min(1,x));

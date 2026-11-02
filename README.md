@@ -22,7 +22,7 @@ npm run preview
 
 - **Sitio comercial:** ocho HTML por ruta: `index.html`, `estudio.html`, `negocios.html`, `invitaciones.html`, `bodas.html`, `cumpleanos.html`, `eventos.html` y `temporada.html`.
 - **Scripts y estilos comerciales:** fuentes en `src/site/scripts/` y `src/site/styles/`, compiladas y minificadas por Vite con hashes de contenido, sin versiones de caché manuales. Cada página tiene una entrada en `src/site/entries/`; las hojas permanecen como enlaces bloqueantes en el `<head>`. El alcance `?entry=` de los imports conserva el orden de inicialización y la cascada al compilar; no aparece en las URL emitidas. `build/site-scripts.mjs` aísla los errores de inicialización por script.
-- **Recursos públicos:** `public/nordra/v541/assets/` y `public/nordra/v544/assets/` conservan fuentes, imágenes y texturas en sus URL originales. `public/nordra/v541/bruma-motion.html` sigue sirviendo el recorrido de BRUMA. Los nombres de esas carpetas son rutas de recursos, no la versión actual del producto.
+- **Recursos públicos:** `public/nordra/v541/assets/` y `public/nordra/v544/assets/` conservan fuentes, imágenes y texturas en sus URL originales. La vista previa de Sobremesa usa dos capturas en `public/nordra/v546/assets/`. Los nombres de esas carpetas son rutas de recursos, no la versión actual del producto.
 - **Portada:** entrada `src/site/entries/home.js`, estilos en `src/site/styles/home.css`, comportamiento en `src/site/scripts/home.js` y renderer de la aurora en `src/site/scripts/horizon-flow.js`. La aurora WebGL tiene calidad adaptativa, modo claro/oscuro, pausa y movimiento reducido. Su diseño y movimiento están aprobados.
 - **Aplicaciones:** React 19, TypeScript y Tailwind 4. `vite.config.ts` define 15 entradas HTML para las páginas comerciales y los módulos de gestión, boda, invitación marfil, pases y recepción.
 - **Backend:** funciones de Vercel en `api/`, lógica y pruebas en `server/`, migraciones de Supabase en `supabase/` e integración de pagos con Mercado Pago.
@@ -37,7 +37,7 @@ La demostración RSVP de las páginas comerciales usa datos ficticios y no enví
 
 La invitación marfil pública está en `/invitaciones/valentina-y-sebastian/`. El tema se guarda en `localStorage` (`nordra-theme`) y el estado del recorrido y pausa en `sessionStorage` (`nordra-journey`). Los enlaces internos no incorporan esas preferencias en la URL. Los parámetros explícitos `theme` y `motion` siguen admitidos para revisión.
 
-Manrope se sirve en WOFF2 variable (200–800), con cobertura latina, signos del español y los caracteres usados por el sitio. El TTF original permanece como fuente de referencia para futuras ampliaciones. Las tres imágenes de `bruma-motion.html` se sirven como WebP externos, sin recomprimir. `robots.txt` excluye accesos operativos y permite rastrear las demos y sus recursos; las demos mantienen su meta `noindex`. `sitemap.xml` enumera las ocho páginas comerciales. Esto no sustituye los controles de acceso a datos privados.
+Manrope se sirve en WOFF2 variable (200–800), con cobertura latina, signos del español y los caracteres usados por el sitio. El TTF original permanece como fuente de referencia para futuras ampliaciones. `robots.txt` excluye accesos operativos y permite rastrear las demos y sus recursos; las demos mantienen su meta `noindex`. `sitemap.xml` enumera las ocho páginas comerciales. Esto no sustituye los controles de acceso a datos privados.
 
 ## Publicación
 

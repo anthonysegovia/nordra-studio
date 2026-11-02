@@ -1,4 +1,4 @@
-/* 5.27 — Three local visual studies. No remote requests or analytics. */
+/* 5.27 — Snow and envelope studies. No remote requests or analytics. */
 (()=>{
  const host=document.querySelector('[data-view]:not([hidden])');
  if(!host)return;
@@ -9,9 +9,6 @@
  const visible=new Set();
  const animations=new Map();
  const scrollPositions=new Map();let manualEnvelope=false;
- let frame=0,last=0,elapsed=0,brumaReady=false;
- const bruma=host.querySelector('[data-living="bruma"]');
- const film=bruma?.querySelector('iframe');
  const globallyPaused=()=>reduced.matches||document.body.dataset.journeyMotion==='paused';
  const running=el=>visible.has(el)&&!stopped.has(el.dataset.living)&&!globallyPaused()&&!document.hidden;
 
@@ -39,45 +36,6 @@
   ]);
  }
 
- function sizeFilm(){
-  if(!film)return;
-  const width=bruma.clientWidth;
-  const mobile=matchMedia('(max-width:700px)').matches;
-  const designWidth=mobile?600:1100;
-  film.style.width=`${designWidth}px`;
-  film.style.height=`${bruma.clientHeight*designWidth/Math.max(width,1)}px`;
-  film.style.transform=`scale(${width/designWidth})`;
- }
- if(film){
-  film.addEventListener('load',()=>{brumaReady=true;sizeFilm();bruma.classList.add('is-loaded');update();});
-  film.loading='lazy';film.src='/nordra/v541/bruma-motion.html';
-  new ResizeObserver(sizeFilm).observe(bruma);
- }
-
- function drawFilm(p){
-  const doc=film?.contentDocument;
-  if(doc){const target=doc.getElementById('carta');const max=Math.max(0,doc.documentElement.scrollHeight-film.clientHeight);film.contentWindow.scrollTo(0,Math.min(target?.offsetTop||0,max)*p);}
-  bruma?.style.setProperty('--film-progress',String(p));
- }
- const smooth=x=>x*x*(3-2*x);
- function tick(now){
-  frame=0;
-  if(!bruma||!brumaReady||!running(bruma)){last=0;return;}
-  if(scrollPositions.has(bruma)){drawFilm(scrollPositions.get(bruma));last=0;return;}
-  if(last)elapsed+=Math.min(now-last,80);
-  last=now;
-  const t=(elapsed%24000)/1000;
-  // Dwell on the actual hero, travel to the real menu, dwell, then return.
-  const p=t<3?0:t<9?smooth((t-3)/6):t<17?1:t<23?1-smooth((t-17)/6):0;
-  const doc=film.contentDocument;
-  if(doc){
-   const target=doc.getElementById('carta');
-   const max=Math.max(0,doc.documentElement.scrollHeight-film.clientHeight);
-   film.contentWindow.scrollTo(0,Math.min(target?.offsetTop||0,max)*p);
-  }
-  bruma.style.setProperty('--film-progress',`${t/24}`);
-  frame=requestAnimationFrame(tick);
- }
  function update(){
   samples.forEach(el=>{
    const play=running(el);el.dataset.sampleRunning=String(play);
@@ -95,9 +53,7 @@
    button.disabled=globallyPaused();
    button.textContent=globallyPaused()?'Movimiento pausado':`${paused?'Reanudar':'Pausar'} ${type==='snow'?'nieve':'muestra'}`;
   });
-  if(bruma&&brumaReady&&running(bruma)&&scrollPositions.has(bruma)){cancelAnimationFrame(frame);frame=0;drawFilm(scrollPositions.get(bruma));}
-  else if(bruma&&brumaReady&&running(bruma)&&!frame)frame=requestAnimationFrame(tick);
-  else if(bruma&&!running(bruma)){cancelAnimationFrame(frame);frame=0;last=0;}
+
  }
  host.querySelectorAll('[data-living-toggle]').forEach(button=>button.addEventListener('click',()=>{
   const type=button.dataset.livingToggle;stopped.has(type)?stopped.delete(type):stopped.add(type);update();
@@ -108,10 +64,7 @@
  });
  addEventListener('nordra-scroll-moment',event=>{
   const {element,progress,moved}=event.detail;
-  if(element!==bruma&&element!==envelope)return;
-  // The light table has explicit play/pause controls and its own tour clock.
-  // Shared scroll effects must not pin that opted-in tour to a still frame.
-  if(element===bruma&&element.closest('.light-table'))return;
+  if(element!==envelope)return;
   scrollPositions.set(element,progress);
   if(element===envelope&&moved)manualEnvelope=false;
   update();
@@ -121,7 +74,6 @@
  new MutationObserver(update).observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
  document.addEventListener('visibilitychange',update);
  reduced.addEventListener('change',update);
- addEventListener('pagehide',()=>{cancelAnimationFrame(frame);frame=0;last=0;});
  addEventListener('pageshow',update);
  update();
 })();

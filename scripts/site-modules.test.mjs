@@ -16,7 +16,7 @@ test('legacy asset guard rejects old JS/CSS URLs but permits retained resources'
     '<SCRIPT defer SRC=nordra/v544/horizon-flow.js></SCRIPT>',
     '<link rel="preload" as="script" href="https://example.invalid/nordra/v541/motion.js">',
   ]) assert.throws(() => assertNoLegacySiteAssets(html, 'fixture'), /retired public script or style/);
-  assert.doesNotThrow(() => assertNoLegacySiteAssets('<script src="/assets/home-hash.js"></script><link href="/assets/home-hash.css"><link rel="preload" href="/nordra/v541/assets/manrope-latin.woff2"><img src="/nordra/v544/assets/horizon-light.webp"><iframe src="/nordra/v541/bruma-motion.html"></iframe>', 'fixture'));
+  assert.doesNotThrow(() => assertNoLegacySiteAssets('<script src="/assets/home-hash.js"></script><link href="/assets/home-hash.css"><link rel="preload" href="/nordra/v541/assets/manrope-latin.woff2"><img src="/nordra/v544/assets/horizon-light.webp"><img src="/nordra/v546/assets/sobremesa-flor-1100.webp">', 'fixture'));
 });
 test('bundle inspection detects initialization reordered by a shared chunk', () => {
   const files = new Map([
