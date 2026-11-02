@@ -70,13 +70,18 @@ body[data-business-motion="paused"] [data-view="negocios"] .light-table *,body[d
 @media(prefers-reduced-motion:reduce){[data-view="negocios"] .light-table *{transition:none!important}}
 
 /* Dos tomas reales. Los radios también permiten elegir con las flechas del teclado. */
-.sobremesa-scenes{display:flex;flex-wrap:wrap;align-items:center;gap:0 12px;min-width:0;margin:0;padding:0;border:0}
-.sobremesa-scenes .feature-stage{order:-1;flex-basis:100%;min-width:0;margin-bottom:8px!important}
-.sobremesa-scenes label{position:relative;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 6px;font-size:12px;cursor:pointer;color:var(--table-copy)}
-.sobremesa-scenes input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
-.sobremesa-scenes label:has(:focus-visible){outline:2px solid var(--table-ink);outline-offset:2px}
-.sobremesa-scenes label:has(:checked){color:var(--table-ink);font-weight:700;box-shadow:inset 0 -2px var(--table-ink)}
-[data-view="negocios"] .light-table .sobremesa-scenes:not(:has([value="bodega"]:checked)) .sobremesa-bodega,
-[data-view="negocios"] .light-table .sobremesa-scenes:has([value="bodega"]:checked) .sobremesa-flor{display:none}
+.case-scenes{display:flex;flex-wrap:wrap;align-items:center;gap:0 12px;min-width:0;margin:0;padding:0;border:0}
+.case-scenes .feature-stage{order:-1;flex-basis:100%;min-width:0;margin-bottom:8px!important}
+.case-scenes label{position:relative;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 6px;font-size:12px;cursor:pointer;color:var(--table-copy)}
+.case-scenes input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.case-scenes label:has(:focus-visible){outline:2px solid var(--table-ink);outline-offset:2px}
+.case-scenes label:has(:checked){color:var(--table-ink);font-weight:700;box-shadow:inset 0 -2px var(--table-ink)}
+[data-view="negocios"] .light-table .case-scenes:not(:has([value="bodega"]:checked)) .sobremesa-bodega,
+[data-view="negocios"] .light-table .case-scenes:has([value="bodega"]:checked) .sobremesa-flor{display:none}
 .case-sobremesa:not(:has([value="bodega"]:checked)) .copy-bodega,
 .case-sobremesa:has([value="bodega"]:checked) .copy-flor{display:none}
+
+[data-view="negocios"] .light-table .case-scenes:not(:has([value="tratamientos"]:checked)) .nitida-tratamientos,
+[data-view="negocios"] .light-table .case-scenes:has([value="tratamientos"]:checked) .nitida-inicio,
+.case-nitida:not(:has([value="tratamientos"]:checked)) .copy-tratamientos,
+.case-nitida:has([value="tratamientos"]:checked) .copy-inicio{display:none}
