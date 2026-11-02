@@ -4,8 +4,7 @@
 // Example: node scripts/capture-landscape-posters.mjs --url http://127.0.0.1:5197
 //   --tools "E:/Nordra Studio/Revision saneamiento/2026-10-29/package.json"
 // Add --phase start --elapsed 0 for the entrance; --phase final (default)
-// captures the settled scene. Use --theme light --version v4 for current daylight
-// portraits; dark v3 portraits are retained without being regenerated.
+// captures the settled scene. Capture both phases for both themes.
 // Use --evidence to keep each phase's PNGs and landmark measurements separately.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,11 +19,11 @@ const { values } = parseArgs({ options: {
   build: { type: 'string', default: 'dist' },
   tools: { type: 'string' },
   chrome: { type: 'string', default: 'C:/Program Files/Google/Chrome/Application/chrome.exe' },
-  output: { type: 'string', default: 'public/nordra/v544/assets' },
+  output: { type: 'string', default: 'public/nordra/v548/assets' },
   evidence: { type: 'string', default: 'review/retrato-paisaje' },
   phase: { type: 'string', default: 'final' },
   elapsed: { type: 'string', default: '0' },
-  version: { type: 'string', default: '' },
+  version: { type: 'string', default: 'v5' },
   theme: { type: 'string', default: 'both' },
 } });
 assert.ok(['start', 'final'].includes(values.phase), '--phase must be start or final');

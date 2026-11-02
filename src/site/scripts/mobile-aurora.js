@@ -6,7 +6,7 @@
   container.append(layer);container.dataset.renderer='texture-mobile';
   let previous=-1,keys=[];
   function setPalette(from,to=from,blend=0){
-   [from,to].forEach((key,i)=>{key=Math.max(0,Math.min(6,key));if(keys[i]!==key){images[i].src=`/nordra/v541/assets/aurora-mobile-${key}.webp`;keys[i]=key;}});
+   [from,to].forEach((key,i)=>{key=Math.max(0,Math.min(6,key));if(keys[i]!==key){images[i].src=`/nordra/v548/assets/aurora-mobile-${key}.webp`;keys[i]=key;}});
    images[1].style.opacity=from===to?'0':String(Math.max(0,Math.min(1,blend)));
   }
   setPalette(initial);
