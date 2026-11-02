@@ -316,13 +316,13 @@ const mountainFragment = /* glsl */`
 const RIPPLES = 8;
 const waterShader = {
   name: 'NordraLake',
-  uniforms: { color: { value: null }, tDiffuse: { value: null }, textureMatrix: { value: null }, time: { value: 0 }, dark: { value: 0 }, ripples: { value: null }, shoreZ: { value: 10 } },
+  uniforms: { color: { value: null }, tDiffuse: { value: null }, textureMatrix: { value: null }, time: { value: 0 }, dark: { value: 0 }, ripples: { value: null }, shoreZ: { value: 10 }, horizonUV: { value: 0.12 } },
   vertexShader: /* glsl */`
     uniform mat4 textureMatrix; varying vec4 vUv; varying vec3 world;
     void main() { vUv = textureMatrix * vec4(position, 1.0); world = (modelMatrix * vec4(position, 1.0)).xyz; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
   `,
   fragmentShader: /* glsl */`
-    uniform sampler2D tDiffuse; uniform float time, dark, shoreZ; uniform vec3 ripples[${RIPPLES}];
+    uniform sampler2D tDiffuse; uniform float time, dark, shoreZ, horizonUV; uniform vec3 ripples[${RIPPLES}];
     uniform float light; uniform vec3 sun;
     varying vec4 vUv; varying vec3 world;
     ${noise}
@@ -338,12 +338,23 @@ const waterShader = {
         rings += normalize(rel + 1e-4) * wave;
         crest += max(wave, 0.0);
       }
-      vec4 coords = vUv;
-      coords.xy += (ripple * vec2(0.6, 0.25) * 0.04 + rings * 0.03) * vUv.w;
-      vec3 reflection = texture2DProj(tDiffuse, coords).rgb;
-      vec3 deep = mix(vec3(0.70, 0.78, 0.86), vec3(0.01, 0.025, 0.05), dark);
-      float far = smoothstep(-10.0, -60.0, world.z);
-      vec3 c = mix(deep, reflection, mix(0.62, 0.86, far));
+      vec3 viewRay = normalize(world - cameraPosition);
+      float grazing = 1.0 - clamp(abs(viewRay.y), 0.0, 1.0);
+      float fresnel = 0.06 + 0.94 * pow(grazing, 5.0);
+      // One broad packet crosses the lake every twenty seconds. Its reset is beyond the shore.
+      float front = world.z + 155.0 - mod(time, 20.0) * 13.0 + 2.3 * sin(world.x * 0.09);
+      float swell = exp(-front * front / 42.0) * sin(front * 0.58);
+      float detail = sin(world.z * 2.25 + world.x * 0.32 - time * 0.77 + ripple.x * 5.0);
+      vec2 uv = vUv.xy / vUv.w;
+      uv.y = mix(uv.y, horizonUV, 0.065);
+      uv += ripple * vec2(0.017, 0.009) + rings * 0.018;
+      uv.y += 0.0018 * detail + 0.005 * swell;
+      vec3 reflection = texture2D(tDiffuse, clamp(uv, 0.001, 0.999)).rgb;
+      float far = 1.0 - smoothstep(-100.0, -12.0, world.z);
+      vec3 lakebed = mix(vec3(0.56, 0.69, 0.78), vec3(0.016, 0.047, 0.070), dark);
+      lakebed *= 0.96 + 0.08 * ripple.y;
+      vec3 c = mix(lakebed, reflection * mix(1.0, 0.86, dark), 0.28 + 0.69 * fresnel);
+      c += vec3(0.64, 0.80, 0.88) * (0.025 * max(swell, 0.0) + 0.012 * max(detail, 0.0)) * (1.0 - far);
       c += mix(vec3(0.95, 0.98, 1.0), altitude(0.1, dark), dark) * min(crest, 1.0) * mix(0.05, 0.08, dark);
       // Ice floes drifting in the middle distance: they do not reflect.
       float floeField = fbm(world.xz * vec2(0.10, 0.30) + vec2(3.0 + time * 0.004, 1.0));
@@ -357,7 +368,7 @@ const waterShader = {
         float sheen = pow(0.5 + 0.5 * sin(world.z * 1.7 + ripple.x * 3.0), 5.0);
         float auroraGleam = auroraPulse(world.x, time) * sheen * far * 0.095;
         c += vec3(0.13, 0.68, 0.65) * auroraGleam * dark * light;
-        vec3 viewRay = normalize(world - cameraPosition);
+
         float sunPath = exp(-pow((viewRay.x - sun.x) / 0.065, 2.0)) * far * (0.45 + 0.55 * sheen);
         c += vec3(0.96, 0.87, 0.70) * sunPath * 0.18 * (1.0 - dark) * light;
       // Snowy shore in the foreground, with an irregular edge.
@@ -621,6 +632,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     const horizon = new Vector3(0, 0, -800).project(camera).y;
     const skyDirection = (x, y) => { raycaster.setFromCamera(new Vector2(x, y), camera); return raycaster.ray.direction.clone().normalize(); };
     sun.value.copy(skyDirection(mobile ? -0.56 : -0.66, horizon + (mobile ? 0.30 : 0.44)));
+    if (water.getRenderTarget) water.material.uniforms.horizonUV.value = 0.5 + horizon * 0.5;
     // The sun dog sits on the halo, level with the sun, 22 degrees towards the mountain.
     sky.material.uniforms.parhelion.value.copy(sun.value).applyAxisAngle(new Vector3(0, 1, 0), -0.384);
     // Halo fades above the buttons, so it never crosses the copy.
