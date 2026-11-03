@@ -80,7 +80,7 @@ function renderEnglish(html,page) {
   // Use a separate label; click handlers can update a button's first text node.
   translated=translated.replace(/<a\b([^>]*href="\/(?:demos\/|invitaciones\/|panel-boda\.html)[^"]*"[^>]*)>([\s\S]*?)<\/a>/g,
     (all,attrs,body)=>{
-      const isInvitation = page==='invitaciones' && /href="\/invitaciones\/(?:valentina-y-sebastian|spooky-party)\//.test(attrs);
+      const isInvitation = ['bodas','invitaciones'].includes(page) && /href="\/invitaciones\/(?:valentina-y-sebastian|spooky-party)\//.test(attrs);
       return `<a${attrs}>${body}<small class="demo-language">${isInvitation?'Invitation in Spanish':'Demo in Spanish'}</small></a>`;
     });
   translated=translated.replaceAll('/artwork/wedding-dashboard-preview/dashboard-v3-es-','/artwork/wedding-dashboard-preview/dashboard-v3-en-');

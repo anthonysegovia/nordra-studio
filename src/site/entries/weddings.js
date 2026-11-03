@@ -7,7 +7,7 @@ import '../scripts/motion.js?entry=weddings';
 import '../scripts/scroll-motion.js?entry=weddings';
 import '../scripts/business-motion.js?entry=weddings';
 import '../scripts/invitation-preview.js?entry=weddings';
-import '../scripts/experience.js?entry=weddings';
+import '../scripts/wedding-reply.js';
 import '../scripts/theme-transition.js?entry=weddings';
 import '../scripts/living-images.js?entry=weddings';
 import '../scripts/nordra-materials.js?entry=weddings';
