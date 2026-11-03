@@ -16,6 +16,7 @@
 .business .business-value>span{display:block;margin-top:4px}
 .business .business-hero-actions .primary-action>span{width:28px;flex:0 0 28px;text-align:center}
 /* Objective picker */
+.offer-anchors,.offer-anchors>span{position:absolute;top:0;left:0;pointer-events:none}
 .business-offers{position:relative;display:block;padding-block:64px 36px;--offer-line:color-mix(in srgb,var(--accent) 28%,var(--line))}
 .business-offers #web-options-title{margin:0 0 8px;font-size:clamp(32px,3.8vw,56px);line-height:1.1;letter-spacing:-.05em}
 .goal-question{margin:0 0 20px;color:var(--muted);font-size:18px}
