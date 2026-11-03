@@ -252,3 +252,19 @@ img{height:auto}
  .admission.accepted .stub{transform:none}
  .admission.flash .stub{animation:none}
 }
+/* Small backing shadows keep type readable where bright satin crosses the ink. */
+.count strong { position:relative; isolation:isolate; text-shadow:0 1px 2px #191320; }
+.count strong::before {
+  content:""; position:absolute; z-index:-1; inset:4% -.12em 1%;
+  background:#211a28; border-radius:35%; filter:blur(4px);
+}
+.wax:first-child span { color:#180f16; text-shadow:0 0 2px #eed3a1,0 0 3px #eed3a1; }
+.wax:first-child span::before {
+  content:""; position:absolute; inset:10% -1% 8%; z-index:-1;
+  background:#d1ac73; border-radius:50%; filter:blur(3px);
+}
+.wax span { isolation:isolate }
+@media(prefers-reduced-motion:no-preference){
+ .thread.arrived { animation:appear .4s both; }
+}
+.spoken{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}

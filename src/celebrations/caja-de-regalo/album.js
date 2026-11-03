@@ -14,7 +14,7 @@ function showPhoto() {
     photo.setAttribute('aria-hidden', String(narrow.matches && depth !== 0));
   });
   document.querySelector('.position').textContent = (front + 1) + ' / ' + photos.length;
-  document.querySelector('.position').setAttribute('aria-label', (front+1)+' / '+photos.length+' · '+photos[front].querySelector('figcaption').textContent);
+  const caption=document.createElement('span');caption.className='spoken';caption.textContent=' · '+photos[front].querySelector('figcaption').textContent;document.querySelector('.position').append(caption);
 }
 function turn(step) {
   front = (front + step + photos.length) % photos.length;

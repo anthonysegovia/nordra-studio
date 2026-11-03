@@ -87,7 +87,7 @@ try{
   await live.waitForFunction(()=>document.body.dataset.phase==='open');assert.equal(await menu.evaluate(e=>e.hidden||e.inert),false);assert.equal(await live.evaluate(()=>document.activeElement.id),'confirmacion');
   assert.equal(await live.locator('[data-admission]').innerText(),'Admite a: tu nombre');
   if(width===390){
-    const next=live.locator('.next');await next.click();await next.press('ArrowRight');assert.match(await live.locator('.position').getAttribute('aria-label'),/Los 18/);
+    const next=live.locator('.next');await next.click();await next.press('ArrowRight');assert.match(await live.locator('.position').textContent(),/Los 18/);
   }else{
     for(const cap of await live.locator('figcaption').all()){
       await cap.scrollIntoViewIfNeeded();assert.ok(await cap.evaluate(el=>{
