@@ -5,20 +5,26 @@ const esc = s => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').repl
 const whatsapp = text => 'https://wa.me/528129022231?text=' + encodeURIComponent(text);
 const asset = (name, w) => `/nordra/v545/assets/${name}-${w}.webp`;
 
-function price(offer) {
+function price(offer, wedding) {
   const from = offer.startingAt ? 'desde ' : '';
   const regular = offer.regularCents ? `<s class="invite-regular" aria-label="Precio regular ${from}${invitationMoney(offer.regularCents)}">${from}${invitationMoney(offer.regularCents)}</s>` : '';
-  return `<p class="invite-price" data-invitation-price="${offer.id}">${regular}<span class="invite-opening">${offer.regularCents ? '<small>Precio de apertura</small>' : ''}<span>${from}<strong>${invitationMoney(offer.cents)}</strong> MXN</span></span></p>`;
+  const opening = `<span class="invite-opening">${offer.regularCents ? '<small>Precio de apertura</small>' : ''}<span>${from}<strong>${invitationMoney(offer.cents)}</strong> MXN</span></span>`;
+  const delivery = `Lista en ${esc(offer.delivery)}`;
+  if (wedding) return `<p class="invite-price" data-invitation-price="${offer.id}">${opening}<span class="paper-terms">${regular} · <span>${delivery}</span></span></p>`;
+  return `<p class="invite-price" data-invitation-price="${offer.id}">${regular}${opening}</p><p class="invite-delivery">${delivery}</p>`;
 }
 
 export function invitationCard(offer, idPrefix = '') {
+  const wedding = idPrefix === 'bodas-';
   const featured = offer.id === 'boreal';
   const message = `Hola, me interesa el plan ${offer.name} para mi celebración (${offer.startingAt ? 'desde ' : ''}${invitationMoney(offer.cents)} MXN). Mi celebración es…`;
   const points = featured ? offer.points.slice(1) : offer.points.slice(0, 3);
-  return `<article class="invite-card${featured ? ' invite-featured' : ''}" id="${idPrefix}plan-${offer.id}" aria-labelledby="${idPrefix}plan-title-${offer.id}"><div class="invite-light" aria-hidden="true"></div>
-    <div class="invite-card-head"><h3 id="${idPrefix}plan-title-${offer.id}">${esc(offer.name)}</h3>${featured ? '<span class="invite-badge">La más completa</span>' : ''}</div>
-    <p class="invite-audience">${esc(offer.audience)}</p>${price(offer)}<p class="invite-delivery">Lista en ${esc(offer.delivery)}</p>
-    ${featured ? '<p class="invite-inherits">Todo lo de Aurora, más:</p>' : ''}<ul class="invite-points">${points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
+  const badge = wedding ? '<span class="wedding-seal"><span>La más</span> <span>completa</span></span>' : '<span class="invite-badge">La más completa</span>';
+  const lily = '<img alt="" src="/artwork/wedding-lilies/lily-stem-v1-320.webp" srcset="/artwork/wedding-lilies/lily-stem-v1-320.webp 320w, /artwork/wedding-lilies/lily-stem-v1-640.webp 640w" sizes="(max-width:700px) 78px, 120px" width="320" height="480" loading="lazy">';
+  return `<article class="invite-card${featured ? ' invite-featured' : ''}" id="${idPrefix}plan-${offer.id}" aria-labelledby="${idPrefix}plan-title-${offer.id}"><div class="invite-light" aria-hidden="true"></div>${wedding ? `<div class="paper-lilies" aria-hidden="true">${lily}${featured ? lily : ''}</div><div class="paper-copy">` : ''}
+    <div class="invite-card-head"><h3 id="${idPrefix}plan-title-${offer.id}">${esc(offer.name)}</h3>${featured ? badge : ''}</div>
+    <p class="invite-audience">${esc(offer.audience)}</p>${price(offer, wedding)}
+    ${featured ? '<p class="invite-inherits">Todo lo de Aurora, más:</p>' : ''}<ul class="invite-points">${points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>${wedding ? '</div>' : ''}
     <a class="invite-cta" href="${esc(whatsapp(message))}" target="_blank" rel="noopener" data-invitation-offer="${offer.id}" data-analytics-whatsapp="plan_${offer.id}">Quiero ${esc(offer.name)} <span aria-hidden="true">↗</span></a>
     <details class="invite-details"><summary>Ver todo lo que incluye <span aria-hidden="true">+</span></summary><ul>${invitationPlanFeatures[offer.id].map(text => `<li>${esc(text)}</li>`).join('')}</ul></details></article>`;
 }
