@@ -21,3 +21,10 @@
   .occasion-add-slot{display:block}
   .wedding-workspace .guest-ledger .occasion-add-slot .ledger-add{position:static;box-shadow:0 2px 6px #34291725}
 }
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.guest-ledger,.boreal-section,.seating-plan-grid,.seat-picker){
+  font-variant-numeric:lining-nums tabular-nums;
+}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.ledger-stat-value,.boreal-summary strong,.boreal-table-center>span){
+  font-family:OccasionSora,sans-serif;
+  font-variant-numeric:lining-nums tabular-nums;
+}
