@@ -6,11 +6,11 @@
  const heroLight=host.dataset.view==='entrada'&&field.parentElement===host&&!field.classList.contains('travel-ambient');
  const constrained=navigator.connection?.saveData===true||(navigator.deviceMemory>0&&navigator.deviceMemory<=4)||(navigator.hardwareConcurrency>0&&navigator.hardwareConcurrency<=4);
  const profile=()=>constrained?{fps:24,dpr:1,pixels:700000,name:'light'}:smallScreen.matches?{fps:30,dpr:1.15,pixels:1000000,name:'mobile'}:{fps:60,dpr:index===0?1.5:1.25,pixels:2400000,name:'full'};
- let paused=parent!==window||reduced.matches||document.body.dataset.journeyMotion==='paused',intensity=.85,time=0,last=0,raf=0,ready=false,visible=false,render,preparedMobile=false;
+ let paused=parent!==window||reduced.matches||document.body.dataset.journeyMotion==='paused',intensity=.85,time=0,last=0,raf=0,ready=false,visible=false,render,mobileLight;
  const tell=state=>{if(index===0&&parent!==window)parent.postMessage({type:'nordra-motion-status',state},'*');};
  const stop=()=>{cancelAnimationFrame(raf);raf=0;last=0;};
  function frame(now){if(paused||document.hidden||!ready||!visible)return;if(last&&now-last<1000/profile().fps-.5){raf=requestAnimationFrame(frame);return;}if(last)time+=Math.min((now-last)/1000,.08);last=now;render(time);raf=requestAnimationFrame(frame);}
- function sync(){stop();if(!ready)return;canvas.dataset.motion=paused?'paused':visible?'playing':'offscreen';tell(paused?'paused':'playing');if(preparedMobile){if(visible)render(time);return;}if(!paused&&!document.hidden&&visible)raf=requestAnimationFrame(frame);}
+ function sync(){stop();if(!ready)return;canvas.dataset.motion=paused?'paused':visible?'playing':'offscreen';tell(paused?'paused':'playing');if(mobileLight){mobileLight.setPlaying(!paused && visible);return;}if(!paused&&!document.hidden&&visible)raf=requestAnimationFrame(frame);}
  addEventListener('message',e=>{if(e.source!==parent||e.data?.type!=='nordra-motion')return;paused=!!e.data.paused;intensity=Math.max(.2,Math.min(1.2,Number(e.data.intensity)||.85));sync();if(ready)render(time);});
  addEventListener('nordra-local-motion',e=>{paused=!!e.detail.paused;sync();if(ready)render(time);});
  reduced.addEventListener('change',e=>{paused=e.matches;sync();});document.addEventListener('visibilitychange',sync);addEventListener('nordra-theme',()=>{if(ready)render(time);});
@@ -19,15 +19,15 @@
  if((smallScreen.matches||matchMedia('(pointer:coarse)').matches)&&window.NordraMobileAurora){
   canvas.remove();const mobile=window.NordraMobileAurora;
   const paletteIndex=Number(field.dataset.palette)||({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0;
-  preparedMobile=true;const ambient=heroLight;
-  const light=mobile.create(field,paletteIndex,{ambient});let unfold=Number(field.dataset.unfold)||.65;
-  render=elapsed=>light.render(unfold,elapsed+index*3);
+  const ambient=heroLight;
+  mobileLight=mobile.create(field,paletteIndex,{ambient,fps:constrained?24:30});let unfold=Number(field.dataset.unfold)||.65;
+  render=()=>mobileLight.render(unfold);
   addEventListener('nordra-aurora-unfold',e=>{if(e.detail.field===field){unfold=e.detail.progress;if(visible)render(time);}});
-  const paletteChange=e=>light.setPalette(e.detail.from,e.detail.to,e.detail.blend);
+  const paletteChange=e=>mobileLight.setPalette(e.detail.from,e.detail.to,e.detail.blend);
   if(host.dataset.view==='temporada')addEventListener('nordra-seasonal-palette',paletteChange);
   if(field.classList.contains('showcase-aurora'))addEventListener('nordra-showcase-palette',paletteChange);
   ready=true;render(0);if(parent!==window)tell('ready');else sync();
-  addEventListener('pagehide',()=>{stop();inView.disconnect();light.dispose();},{once:true});return;
+  addEventListener('pagehide',()=>{stop();inView.disconnect();mobileLight.dispose();},{once:true});return;
  }
  try{
  const gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:true,preserveDrawingBuffer:true});if(!gl)throw Error('WebGL');

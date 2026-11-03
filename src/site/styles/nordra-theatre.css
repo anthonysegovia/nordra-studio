@@ -176,11 +176,6 @@ body[data-journey-motion=paused] .package-details summary{transition:none}
 .mobile-aurora{position:relative;contain:layout style}
 .mobile-aurora>img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:fill;pointer-events:none}
 [data-renderer=texture-mobile]{mask-image:none!important;-webkit-mask-image:none!important;filter:none!important}
-.mobile-aurora-ambient{animation:mobile-light-drift 14s ease-in-out infinite alternate;animation-play-state:paused}
-.mobile-aurora-ambient.aurora-in-view{animation-play-state:running}
-body[data-journey-motion=paused] .mobile-aurora-ambient{animation-play-state:paused}
-@keyframes mobile-light-drift{from{transform:translate3d(-14px,8px,0)}to{transform:translate3d(18px,-10px,0)}}
-@media(prefers-reduced-motion:reduce){.mobile-aurora-ambient{animation:none}}
 @media(max-width:700px){
  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .site-header{height:68px;padding-inline:20px}

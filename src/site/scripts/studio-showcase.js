@@ -12,10 +12,12 @@
  function hydrate(element){element.querySelectorAll('img[data-src]').forEach(img=>{img.src=img.dataset.src;delete img.dataset.src;});}
  const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting)pending.add(entry.target);});flush();},{rootMargin:'400px 0px'});
  components.forEach(element=>observer.observe(element));
- // The first mobile frame uses the real texture from HTML; scroll hands it to the renderer.
- const handoff=()=>{if(host.querySelector('.studio-aurora>div.mobile-aurora'))host.querySelector('.studio-aurora-poster')?.remove();removeEventListener('scroll',handoff);};
- const onLoad=()=>{loaded=true;flush();if(scrollY)handoff();else addEventListener('scroll',handoff,{once:true,passive:true});};if(!loaded)addEventListener('load',onLoad,{once:true});else onLoad();
- addEventListener('pagehide',()=>{observer.disconnect();cancelAnimationFrame(frame);if(window.cancelIdleCallback)cancelIdleCallback(idle);else clearTimeout(idle);removeEventListener('load',onLoad);removeEventListener('scroll',handoff);cleanup.forEach(dispose=>dispose());},{once:true});
+ // Keep the first-paint poster until the matching mobile texture is decoded.
+ const onLoad=()=>{loaded=true;flush();
+  const texture=host.querySelector('.studio-aurora>div.mobile-aurora img');
+  texture?.decode().then(()=>host.querySelector('.studio-aurora-poster')?.remove()).catch(()=>{});
+ };if(!loaded)addEventListener('load',onLoad,{once:true});else onLoad();
+ addEventListener('pagehide',()=>{observer.disconnect();cancelAnimationFrame(frame);if(window.cancelIdleCallback)cancelIdleCallback(idle);else clearTimeout(idle);removeEventListener('load',onLoad);cleanup.forEach(dispose=>dispose());},{once:true});
  function gallery(element){
   const links=[...element.querySelectorAll('.studio-work')],fine=matchMedia('(min-width:701px) and (hover:hover) and (pointer:fine)'),controller=new AbortController();
   const options={signal:controller.signal};

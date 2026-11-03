@@ -3,7 +3,7 @@
 (()=>{
  const host=document.querySelector('[data-view]:not([hidden])');if(!host)return;
  const reduce=matchMedia('(prefers-reduced-motion: reduce)'),small=matchMedia('(max-width:700px)'),short=matchMedia('(max-height:650px)');
- // Phones show the settled light; scroll does not replay it frame by frame.
+ // Mobile typography stays settled; the prepared ribbon manages its own visible animation.
  const stopped=()=>reduce.matches||document.body.dataset.journeyMotion==='paused'||small.matches;
  const clamp=x=>Math.max(0,Math.min(1,x)),smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
  const layoutTop=el=>{let y=0;for(let n=el;n;n=n.offsetParent)y+=n.offsetTop;return y;};
