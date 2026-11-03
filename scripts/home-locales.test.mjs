@@ -29,7 +29,7 @@ test('English home localizes commercial links and WhatsApp, keeps sample URLs an
   const html=stripScripts(render(true));
   const hrefs=[...html.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)].map(m=>m[1]);
   for(const href of hrefs.filter(h=>h.startsWith('/'))){
-    assert.ok(href.startsWith('/en/') || ['/', '/demos/nitida/','/demos/sobremesa/','/invitaciones/valentina-y-sebastian/','/terminos-del-servicio.html'].includes(href),href);
+    assert.ok(href.startsWith('/en/') || ['/', '/demos/nitida/','/demos/cantera/','/demos/sobremesa/','/invitaciones/valentina-y-sebastian/','/terminos-del-servicio.html'].includes(href),href);
   }
   const messages=hrefs.filter(h=>h.startsWith('https://wa.me')).map(h=>new URL(h).searchParams.get('text'));
   assert.equal(messages.length,2);assert.ok(messages.every(message=>message.startsWith('Hi, Nordra.')));
