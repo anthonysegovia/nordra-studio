@@ -1,0 +1,45 @@
+.wedding-sample { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.5fr); align-items:center; gap:clamp(24px,4vw,70px); }
+.wedding-direction>p,.wedding-credit { color:var(--muted); }
+.wedding-switch { display:grid; gap:8px; margin:32px 0 20px; }
+.wedding-switch button { position:relative; display:grid; gap:5px; padding:14px 20px; border:1px solid transparent; border-radius:8px; background:transparent; color:var(--ink); text-align:left; font:inherit; cursor:pointer; }
+.wedding-switch button strong { font-size:1.06rem; }
+.wedding-switch button span { font-size:.86rem; color:var(--muted); }
+.wedding-switch button[aria-selected=true] { background:color-mix(in srgb,var(--ink) 7%,var(--bg)); border-color:var(--line); }
+.wedding-switch button[aria-selected=true]::before { content:""; position:absolute; inset:10px auto 10px 0; width:3px; border-radius:3px; background:#cab89a; }
+.wedding-links { display:flex; flex-wrap:wrap; column-gap:20px; }
+.wedding-links a { display:inline-flex; align-items:center; min-height:44px; color:var(--ink); text-decoration:underline; text-underline-offset:5px; font-size:.9rem; }
+.wedding-stage { min-width:0; }
+.wedding-devices { position:relative; height:clamp(500px,49vw,690px); isolation:isolate; }
+.wedding-phone,.wedding-dashboard { position:absolute; top:50%; box-sizing:border-box; border:1px solid #ab957c73; box-shadow:0 14px 38px #32221320; }
+.wedding-phone { width:clamp(208px,22vw,318px); left:7%; padding:6px; border-radius:36px; background:#53483d; transform:translateY(-50%); pointer-events:none; z-index:2; }
+.wedding-phone img { display:block; width:100%; height:auto; border-radius:30px; }
+.wedding-dashboard { right:0; width:88%; padding:5px; border-radius:12px; background:#f5f1e9; transform:translateY(-50%) scale(.8); transform-origin:right center; opacity:.69; }
+.wedding-dashboard img { display:block; width:100%; height:auto; border-radius:8px; }
+.wedding-dashboard .demo-language { display:none; }
+/* The first guest is in the same position in both language versions of the v3 capture. */
+.theme-wedding .wedding-dashboard::after { content:""; position:absolute; inset:67% 5% auto 21%; height:10%; pointer-events:none; opacity:0; background:radial-gradient(ellipse at 28% 50%,#edc07d45,transparent 73%); }
+.wedding-stage[data-step=panel] .wedding-dashboard::after { opacity:1; }
+.wedding-stage[data-step=panel] .wedding-phone { transform:translate(-15%,-50%) scale(.62); opacity:.6; z-index:0; pointer-events:auto; cursor:pointer; }
+.wedding-stage[data-step=panel] .wedding-dashboard { z-index:2; transform:translateY(-50%); opacity:1; }
+.wedding-credit { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin:6px 0 0; font-size:.88rem; }
+@media(prefers-reduced-motion:no-preference) {
+  .wedding-dashboard:is(:hover,:focus-visible) { translate:0 -2px; }
+  .wedding-devices>* { transition:transform .35s cubic-bezier(.22,.68,.23,1),opacity .35s,translate .18s ease; }
+  .wedding-switch button { transition:background-color .2s; }
+  .wedding-dashboard::after { transition:opacity .35s ease; }
+}
+body[data-journey-motion=paused] .wedding-devices>* { transition:none; }
+@media(max-width:700px) {
+  .wedding-sample { grid-template-columns:minmax(0,1fr); gap:12px; }
+  .wedding-direction { display:contents; }
+  .wedding-direction>p { margin:0; }
+  .wedding-switch { display:flex; margin:4px 0; gap:8px; }
+  .wedding-switch button { flex:1; display:block; text-align:center; padding:10px 6px; min-height:44px; border:1px solid var(--line); border-radius:24px; }
+  .wedding-switch button strong { font-size:.88rem; }
+  .wedding-switch button span,.wedding-switch button::before { display:none; }
+  .wedding-links { order:1; gap:0 14px; }
+  .wedding-devices { height:clamp(334px,99vw,480px); }
+  .wedding-phone { width:clamp(144px,43vw,212px); left:5%; padding:4px; border-radius:22px; }
+  .wedding-phone img { border-radius:18px; }
+  .wedding-dashboard { width:100%; }
+}

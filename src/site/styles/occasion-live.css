@@ -16,3 +16,30 @@
  .birthday-hero .occasion-hero-live{order:2;margin:12px 0 35px}
  .occasion-hero-live.showcase-live .live-phone{height:500px}
 }
+
+/* The guest list is the original occasion panel, presented inside the shared stage. */
+.occasion-stage,.occasion-plans { position:relative; padding-block:clamp(32px,5vw,72px); min-height:0; }
+.occasion-anchor { position:absolute; inset:0 auto auto 0; }
+.occasion-stage h2,.occasion-plans h2 { margin:0; font-size:clamp(32px,4vw,64px); line-height:1.08; }
+.occasion-stage .wedding-switch button[aria-selected=true]::before { background:var(--accent); }
+.occasion-stage .wedding-phone { background:var(--ink); border-color:var(--line); }
+.occasion-stage .wedding-dashboard { width:84%; padding:clamp(16px,3vw,40px); border:1px solid var(--line); color:var(--ink); background:color-mix(in srgb,var(--bg) 95%,var(--accent)); border-radius:16px; box-shadow:0 14px 40px #14242a1a; }
+.occasion-stage .wedding-stage[data-step=cover] .wedding-dashboard { cursor:pointer; }
+.occasion-stage .panel-heading h3 { margin:0; font-size:clamp(22px,3vw,38px); }
+.occasion-stage .panel-counts { margin:14px 0 10px; gap:8px; }
+.occasion-stage .panel-counts>div { padding-bottom:6px; }
+.occasion-stage .panel-counts strong { font-size:clamp(23px,3vw,35px); }
+.occasion-stage .guest-table small { display:block; }
+@media(max-width:700px){
+ .occasion-stage .wedding-dashboard { width:91%; padding:12px; }
+ .occasion-stage .wedding-stage[data-step=panel] .wedding-phone { left:2%; }
+ .occasion-stage .panel-heading { gap:4px; }
+ .occasion-stage .panel-heading h3 { font-size:20px; }
+ .occasion-stage .guest-table { font-size:.76rem; }
+ .occasion-stage .guest-table :is(td,th) { padding-block:6px; }
+ .occasion-stage .wedding-devices { height:clamp(305px,90vw,420px); }
+ .occasion-page .occasion-hero-live.showcase-live .live-phone { height:clamp(265px,38svh,330px); }
+ .occasion-page .occasion-hero-live { margin-block:8px 16px; }
+ .occasion-page .occasion-hero-live.showcase-live .live-actions { min-height:0; margin-top:8px; gap:0; }
+}
+

@@ -1,6 +1,6 @@
 const list = document.querySelector('.wedding-switch');
 const tabs = [...list.querySelectorAll('[role=tab]')];
-const stage = document.getElementById('panel-boda');
+const stage = document.getElementById(tabs[0].getAttribute('aria-controls'));
 const mobile = matchMedia('(max-width:700px)');
 function orient() {
   list.setAttribute('aria-orientation', mobile.matches ? 'horizontal' : 'vertical');
@@ -10,7 +10,7 @@ function select(tab) {
     item.tabIndex = item === tab ? 0 : -1;
     item.setAttribute('aria-selected', String(item === tab));
   }
-  stage.dataset.step = tab.id === 'tab-cover' ? 'cover' : 'panel';
+  stage.dataset.step = tab === tabs[0] ? 'cover' : 'panel';
   stage.setAttribute('aria-labelledby', tab.id);
 }
 orient();
@@ -36,4 +36,8 @@ stage.querySelector('.wedding-dashboard').addEventListener('click', event => {
 stage.querySelector('.wedding-phone').addEventListener('click', () => {
   if (stage.dataset.step === 'panel') select(tabs[0]);
 });
-if (['#panel-boda','#bodas-panel-muestra'].includes(location.hash)) select(tabs[1]);
+function followPanelAnchor() {
+  if (location.hash === '#' + stage.id || (stage.id === 'panel-boda' && location.hash === '#bodas-panel-muestra')) select(tabs[1]);
+}
+followPanelAnchor();
+addEventListener('hashchange', followPanelAnchor);
