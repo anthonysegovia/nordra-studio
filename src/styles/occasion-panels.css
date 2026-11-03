@@ -13,3 +13,11 @@
 @media(max-width:760px){
   .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art{width:32vw;right:-4px}
 }
+.occasion-add-slot{display:none}
+@media(max-width:760px){
+  .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .ledger-heading .ledger-add{display:none}
+  .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .ledger-controls{display:grid;grid-template-columns:minmax(0,1fr) auto 56px;align-items:end}
+  .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .ledger-controls>label:first-child{grid-column:auto;min-width:0}
+  .occasion-add-slot{display:block}
+  .wedding-workspace .guest-ledger .occasion-add-slot .ledger-add{position:static;box-shadow:0 2px 6px #34291725}
+}

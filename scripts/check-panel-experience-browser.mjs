@@ -99,5 +99,22 @@ try{
     assert.match(await image.getAttribute('src'),/dashboard-en-/);
     await context.close();
   }
+  for(const width of [375,390])for(const short of ['boda','cumple','evento']){
+    const page=await browser.newPage({viewport:{width,height:width===375?812:844},isMobile:true,reducedMotion:'reduce'});
+    await page.route('**/api/wedding-links',samplePanelFixture(origin));
+    await page.goto(origin+'/panel-'+short+'.html');
+    await page.locator('.ledger-row').first().waitFor();
+    await page.keyboard.press('Escape');await page.evaluate(()=>document.fonts.ready);
+    for(const y of [0,300,900,100000]){
+      await page.evaluate(y=>scrollTo(0,y),y);
+      const add=await page.getByRole('button',{name:'Agregar invitación',exact:true}).boundingBox();
+      for(const selector of ['.panel-filter-trigger','.ledger-search input']){
+        const r=await page.locator(selector).boundingBox();
+        assert(add.x+add.width<=r.x || r.x+r.width<=add.x || add.y+add.height<=r.y || r.y+r.height<=add.y,
+          short+' '+width+' overlaps '+selector);
+      }
+    }
+    await page.close();
+  }
   console.log('Panel experience: three public samples, personal RSVP round trips, private Aurora, archived Boreal, keyboard, capacity and manual reminders passed.');
 }finally{await browser.close();await server.close()}
