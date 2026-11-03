@@ -21,9 +21,9 @@
 .paper-copy,.wedding-plans .invite-details,.wedding-plans .invite-cta { position:relative; }
 .wedding-plans .invite-card-head { min-height:64px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .wedding-plans .invite-card h3 { color:var(--print); font-size:clamp(32px,3.4vw,54px); margin:0; line-height:1; }
-.wedding-seal { flex:none; width:68px; height:68px; display:grid; align-content:center; justify-items:center; border-radius:50%;
+.wedding-seal { flex:none; width:88px; height:88px; display:flex; flex-direction:column; justify-content:center; align-items:center; border-radius:50%;
   border:1px solid #b9a58a; outline:1px solid #c9b89e; outline-offset:-5px;
-  background:#e7dcc7; color:#47382d; font:500 18px/.94 'Cormorant Wedding',Georgia,serif; }
+  background:#e7dcc7; color:#47382d; font:500 16px/1 'Cormorant Wedding',Georgia,serif; }
 .wedding-plans .paper-copy p { margin:10px 0; color:var(--secondary); }
 .wedding-plans .paper-copy .invite-price { display:grid; gap:4px; margin-block:18px; }
 .wedding-plans .invite-opening { display:grid; gap:5px; color:var(--print); }
@@ -69,7 +69,7 @@
   .wedding-plans .invite-featured { --lift:0px; }
   .wedding-plans .invite-card { display:block; padding:25px; }
   .wedding-plans .invite-card-head { min-height:52px; }
-  .wedding-seal { width:55px; height:55px; font-size:15px; }
+  .wedding-seal { width:78px; height:78px; font-size:14px; }
   .paper-lilies { width:76px; }
   .wedding-plans .invite-points { margin-block:10px; }
   .wedding-plan-grid { grid-template-columns:1fr; gap:12px; }
