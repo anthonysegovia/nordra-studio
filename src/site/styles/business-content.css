@@ -13,7 +13,6 @@ body[data-business-motion=paused] .business-disclosure *,body[data-journey-motio
 .business-trust{display:flex;align-items:center;gap:12px;padding:12px 0;border-block:1px solid var(--line)}
 .business-trust img{width:34px;height:34px;object-fit:cover;border-radius:50%}
 .business-trust a{padding:12px 0;text-decoration:underline;text-underline-offset:4px}
-.offer-delivery{display:block;margin-top:7px;font-size:11px;font-weight:400;line-height:1.5;color:var(--muted)}
 .business-benefits{padding:24px 0}
 .business-benefits ul{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;list-style:none;padding:0;margin:0}
 .business-benefits li{display:flex;align-items:center;gap:10px;padding:14px;border-block:1px solid var(--line)}
