@@ -61,4 +61,3 @@ export function initializeObjectives(root) {
   root.classList.add('offers-ready');
   goals.hidden = false;
 }
-

@@ -40,7 +40,7 @@ function card(group){
  const selector=offers.length>1?`<fieldset class="offer-switch"><legend>Nivel</legend>${offers.map((o,i)=>`<label><input type="radio" name="level-${group.id}" value="${o.id}"${i?'':' checked'}> ${o.name}</label>`).join('')}</fieldset>`:'';
  return `<article class="offer-panel" data-group="${group.id}" aria-labelledby="title-${group.id}"${recommended?'':' inert'}>
  <div class="offer-copy">${recommended?badge:''}<h3 id="title-${group.id}" tabindex="-1">${group.name}</h3><ul class="offer-points">${group.points.map(p=>`<li>${p}</li>`).join('')}</ul>
- ${selector}${offers.map(level).join('')}</div>${visual(group,offers)}</article>`;
+ ${selector}<div class="offer-levels">${offers.map(level).join('')}</div></div>${visual(group,offers)}</article>`;
 }
 function row(group){
  const offer=levels(group)[0];
@@ -67,4 +67,3 @@ export function renderBusinessOffers(html) {
  return html.replace('{{business:minimum}}',businessMoney(helpOffer.cents)).replace('{{business:offers}}',section);
 }
 export function businessOffersPlugin(){return {name:'nordra-business-offers',transformIndexHtml:{order:'pre',handler:renderBusinessOffers}};}
-
