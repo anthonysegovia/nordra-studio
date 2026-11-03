@@ -37,7 +37,7 @@ const pages = {
       "motion",
       "scroll-motion",
       "business-motion",
-      "experience",
+      "wedding-stage",
       "theme-transition",
       "showcase-live",
       "nordra-materials",
@@ -52,7 +52,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch"],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch","occasion-stage"],
     "inline": 3
   },
   "eventos": {
@@ -64,7 +64,7 @@ const pages = {
       "motion",
       "scroll-motion",
       "business-motion",
-      "experience",
+      "wedding-stage",
       "theme-transition",
       "showcase-live",
       "nordra-materials",
@@ -79,7 +79,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch"],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch","occasion-stage"],
     "inline": 3
   },
   "bodas": {
@@ -106,7 +106,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["mobile-chrome","language-switch","wedding-page"],
+    "entryStyles": ["mobile-chrome","language-switch","wedding-page","occasion-stage"],
     "inline": 3
   },
   "temporada": {

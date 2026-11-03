@@ -31,7 +31,7 @@ test('Bodas pairs two accessible steps with a permanent phone and a localized da
 });
 
 test('the dashboard hover lift composes with the stage transform instead of replacing it', () => {
-  const css = readFileSync('src/site/styles/wedding-page.css', 'utf8');
+  const css = readFileSync('src/site/styles/occasion-stage.css', 'utf8');
   const hover = [...css.matchAll(/([^{}]*\.wedding-dashboard:is\(:hover[^{]*)\{([^}]*)\}/g)];
   assert.ok(hover.length > 0);
   for (const [, , body] of hover) {
@@ -56,7 +56,7 @@ test('Bodas shows both catalogue prices before each disclosure and keeps the com
     assert.equal(visible.match(/<li>/g).length, 3);
     assert.ok(invitationPlanFeatures[offer.id].every(feature => detail.includes(feature)));
   }
-  assert.match(wedding, /class="faq-answer"><p>[^<]*50% de anticipo; el resto, al aprobar y antes de publicar/);
+  assert.match(wedding, /¿Cómo se paga\?<\/span>[\s\S]*?<div class="faq-answer"><p>[^<]*50% de anticipo; el resto, al aprobar y antes de publicar/);
   assert.match(wedding, /<summary>Servicios adicionales/);
 });
 
@@ -83,9 +83,45 @@ test('general invitation cards retain the approved HTML from c78307f', () => {
     '282f73dba10b43235868f4a3b94d416c0bf0a7fc5415f7cc511ad1c17b2b9a47');
 });
 
-for (const name of ['cumpleanos','eventos']) test(name + ' retains its comparison and original package disclosures', () => {
-  const html = page(name);
-  assert.match(html, /class="plan-comparison"/);
-  assert.equal(html.match(/class="web-option invitation-plan"/g).length, 2);
-  assert.doesNotMatch(html, /class="wedding-plan-grid"/);
+test('Boreal spreads its second real lily away from the first', () => {
+  const css = readFileSync('src/site/styles/wedding-page.css','utf8');
+  assert.match(css, /\.invite-featured \.paper-lilies\s*\{[^}]*width:/);
+  assert.match(css, /\.paper-lilies img\+img\s*\{[^}]*rotate:-29deg/);
 });
+
+for (const [name,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']]) {
+  test(name + ' shows the real details screen, original sample guests and two catalogue plans', async () => {
+    const source = page(name);
+    const { translatedPageOutput } = await import('../build/translated-pages.mjs');
+    const english = translatedPageOutput().transformIndexHtml.handler(mobileWhatsApp(source), {path:'/en/'+name+'.html'});
+    for (const html of [source,english]) {
+      assert.doesNotMatch(html,/data-rsvp-demo|class="demo-response"|plan-comparison|wedding-lilies/);
+      const sample = html.split('id="'+name+'-respuesta"')[1].split('</section>')[0];
+      assert.equal(sample.match(/role="tab"/g).length,2);
+      assert.equal(sample.split('aria-controls="'+name+'-panel-muestra"').length,3);
+      assert.match(sample,/role="tablist"/);
+      assert.match(sample,/aria-selected="true"/);
+      assert.match(sample,/aria-selected="false" tabindex="-1"/);
+      assert.match(sample,/class="panel-counts"/);
+      for(const person of ['Alex Rivera','Sam Rivera']) assert.ok(sample.includes(person));
+      for(const size of [390,780]){
+        const asset='/artwork/invitation-covers/'+slug+'-detalles-'+size+'.webp';
+        assert.ok(sample.includes(asset));
+        assert.equal(readFileSync('public'+asset).subarray(8,12).toString(),'WEBP');
+      }
+      for(const id of ['event-experience',name+'-event-experience',name+'-panel-muestra',name+'-respuesta',name+'-planes-eventos']){
+        assert.equal(html.split('id="'+id+'"').length,2);
+      }
+      for(const offer of invitationOffers){
+        const [visible,details]=html.split('id="'+name+'-plan-'+offer.id+'"')[1].split('</article>')[0].split('<details');
+        assert.ok(visible.includes('<strong>'+invitationMoney(offer.cents)+'</strong>'));
+        assert.ok(visible.match(/<s [^>]*>([^<]+)<\/s>/)[1].includes(invitationMoney(offer.regularCents)));
+        assert.ok(details.includes('<summary>'));
+      }
+    }
+    assert.doesNotMatch(source,/BIRTHDAY INVITES|NORDRA STUDIO \/ EVENTS/);
+    assert.match(english,/NORDRA STUDIO (?:· BIRTHDAYS|\/ EVENTS)/);
+    assert.match(source,/¿Cómo se paga\?<\/span>[\s\S]*?50% de anticipo/);
+    assert.match(english,/How do payments work\?/);
+  });
+}
