@@ -160,27 +160,27 @@
       "declarations": [
         {
           "property": "--bg",
-          "value": "#f6f5ff",
+          "value": "#f4e9d3",
           "important": false
         },
         {
           "property": "--ink",
-          "value": "#222951",
+          "value": "#1d1a2e",
           "important": false
         },
         {
           "property": "--muted",
-          "value": "#67677c",
+          "value": "#5d5164",
           "important": false
         },
         {
           "property": "--accent",
-          "value": "#4845bb",
+          "value": "#74531b",
           "important": false
         },
         {
           "property": "--line",
-          "value": "#4845bb25",
+          "value": "#74531b40",
           "important": false
         }
       ]
@@ -191,27 +191,27 @@
       "declarations": [
         {
           "property": "--bg",
-          "value": "#141326",
+          "value": "#1d1a2e",
           "important": false
         },
         {
           "property": "--ink",
-          "value": "#f1eeff",
+          "value": "#f4e9d3",
           "important": false
         },
         {
           "property": "--muted",
-          "value": "#c5bddb",
+          "value": "#d9c7b0",
           "important": false
         },
         {
           "property": "--accent",
-          "value": "#bdb2ff",
+          "value": "#e6c98e",
           "important": false
         },
         {
           "property": "--line",
-          "value": "#c5bddb44",
+          "value": "#e6c98e40",
           "important": false
         }
       ]
@@ -368,7 +368,7 @@
       "declarations": [
         {
           "property": "--accent",
-          "value": "#bdb2ff",
+          "value": "#e6c98e",
           "important": false
         }
       ]

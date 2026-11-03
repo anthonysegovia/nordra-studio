@@ -8,8 +8,6 @@
   "Puedes copiar los enlaces y compartirlos manualmente por WhatsApp sin cargo adicional de Nordra. Los mensajes automáticos y otras integraciones se cotizan por separado antes de activarse.": "Copy the links and share them manually on WhatsApp with no additional Nordra charge. Automated messages and other integrations are quoted separately before activation.",
   "Invitaciones digitales de cumpleaños · Nordra Studio": "Digital birthday invitations · Nordra Studio",
   "CUMPLEAÑOS, POR NORDRA": "BIRTHDAYS BY NORDRA",
-  "Se viene": "Your birthday",
-  "tu cumple": "is coming up",
   "Encuentra tu estilo": "Find your style",
   "Los enlaces personales para individuales, parejas y +1 reúnen la confirmación por persona en tu panel. Aurora y Boreal no tienen límite de invitados ni de acompañantes.": "Personal links for individuals, couples and plus-ones collect individual RSVPs in your dashboard. Aurora and Boreal have no limit on guests or companions.",
   "Tú pones el plan": "You plan the party",
@@ -20,10 +18,8 @@
   "Ahora sí": "It’s time",
   "arma el plan": "to make plans",
   "Cuéntanos de tu cumple": "Tell us about your birthday",
-  "Portada lavanda de Sofía 25, con su nombre y un listón cromado completo": "Lavender cover of Sofía 25, with her name and a chrome ribbon",
   "Se viene tu cumple. Descubre una invitación con la actitud de tu fiesta, explora su muestra y compara los planes Aurora y Boreal.": "Your birthday is coming up. Explore a sample invitation with your party’s personality and compare Aurora and Boreal.",
   "Hola, Nordra. Me gustaría una invitación digital para un cumpleaños.": "Hi, Nordra. I’d like a digital invitation for a birthday.",
-  "Tu fiesta empieza con una invitación a tu estilo.": "Your party starts with an invitation that feels like you.",
   "Sofía 25 · Un diseño de Nordra": "Sofía 25 · A Nordra design",
   "Fecha y agenda de Sofía 25": "Date and schedule for Sofía 25",
   "Mira el panel de muestra.": "See the sample dashboard.",
@@ -34,5 +30,9 @@
   "Los enlaces personales para individuales, parejas y +1 reúnen la confirmación por persona en tu panel. Aurora y Boreal no tienen límite de invitados ni de acompañantes. Mira el panel de muestra.": "Personal links for individuals, couples and plus-ones collect each person’s RSVP in your dashboard. Aurora and Boreal have no limit on guests or companions. See the sample dashboard.",
   "Hola, me interesa el plan Aurora para mi celebración ({price} MXN). Mi celebración es…\n\nTipo de celebración: Cumpleaños.": "Hi, I’m interested in Aurora for my celebration ({price} MXN). My celebration is…\n\nOccasion: Birthday.",
   "Hola, me interesa el plan Boreal para mi celebración (desde {price} MXN). Mi celebración es…\n\nTipo de celebración: Cumpleaños.": "Hi, I’m interested in Boreal for my celebration (from {price} MXN). My celebration is…\n\nOccasion: Birthday.",
-  "Panel de Sofía 25": "Sofía 25 dashboard"
+  "Panel de Sofía 25": "Sofía 25 dashboard",
+  "Hay mucho": "So much",
+  "que celebrar": "to celebrate",
+  "De los cinco a los cincuenta, tus XV o tu aniversario: la invitación lleva tu estilo.": "From five to fifty, your quinceañera or your anniversary, the invitation feels like you.",
+  "Portada de Sofía 25 con un globo de foil dorado": "Sofía 25 invitation cover with a gold foil balloon"
 }

@@ -49,20 +49,20 @@ body[data-scene=bodas].dark {
 
 /* Cumpleaños · claro. */
 body[data-scene=cumpleanos] {
-  --bg: #f6f5ff;
-  --ink: #222951;
-  --muted: #67677c;
-  --accent: #4845bb;
-  --line: #4845bb25;
+  --bg: #f4e9d3;
+  --ink: #1d1a2e;
+  --muted: #5d5164;
+  --accent: #74531b;
+  --line: #74531b40;
 }
 
 /* Cumpleaños · oscuro. */
 body[data-scene=cumpleanos].dark {
-  --bg: #141326;
-  --ink: #f1eeff;
-  --muted: #c5bddb;
-  --accent: #bdb2ff;
-  --line: #c5bddb44;
+  --bg: #1d1a2e;
+  --ink: #f4e9d3;
+  --muted: #d9c7b0;
+  --accent: #e6c98e;
+  --line: #e6c98e40;
 }
 
 /* Eventos · claro. */
@@ -113,7 +113,7 @@ body[data-scene=temporada].dark {
 
 /* Cumpleaños · acento oscuro de las secciones de identidad. */
 .dark .theme-birthday {
-  --accent: #bdb2ff;
+  --accent: #e6c98e;
 }
 
 /* Eventos · acento oscuro de las secciones de identidad. */
