@@ -1,3 +1,4 @@
+import {showReturnToSite} from '../../site/return-to-site';
 import {sampleGuestAccess} from '../../lib/weddingSampleGuest';
 import {invitation} from './config.mjs';
 import {countdown,eventStamp} from './clock.mjs';
@@ -5,6 +6,7 @@ import {giftOpening} from './opening';
 import {album} from './album';
 
 giftOpening();
+showReturnToSite();
 album();
 const target=new Date(eventStamp(invitation));
 const clock=document.querySelector('[data-clock]');

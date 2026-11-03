@@ -268,3 +268,5 @@ img{height:auto}
  .thread.arrived { animation:appear .4s both; }
 }
 .spoken{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+[data-phase=opening] .entrance:not(.still) .opening{animation:descend .26s 2.24s both}
+@keyframes descend{to{transform:translateY(-2rem);opacity:.35}}

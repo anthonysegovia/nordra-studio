@@ -7,7 +7,7 @@ export function giftOpening() {
   const content=document.querySelector('.celebration-content');
   const menu=document.querySelector('.celebration-header');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
-  let scene, canvas, visible=true, loading=false, animation=0, last=0, elapsed=0, duration=2500;
+  let available, scene, canvas, visible=true, loading=false, animation=0, last=0, elapsed=0, duration=2500;
   const phase=()=>document.body.dataset.phase;
   function finish(){
     cancelAnimationFrame(animation);
@@ -40,21 +40,23 @@ export function giftOpening() {
     if(!document.hidden && visible && phase()==='opening')animation=requestAnimationFrame(step);
   }
   async function prepare(){
-    if(loading||scene||reduce.matches||phase()!=='closed'||document.hidden||!visible)return;
+    if(available===false||loading||scene||reduce.matches||phase()==='open'||document.hidden||!visible)return;
     loading=true;
     const probe=document.createElement('canvas');probe.setAttribute('aria-hidden','true');
     const quality=new URLSearchParams(location.search).get('quality');
     const tier=['low','medium','high'].includes(quality)?quality:(navigator.connection?.saveData||navigator.deviceMemory<=4?'low':innerWidth<700?'medium':'high');
-    const gl=probe.getContext('webgl2',{alpha:true,antialias:tier==='high',powerPreference:'low-power'});
     try{
+      const gl=probe.getContext('webgl2',{alpha:true,antialias:tier==='high',powerPreference:'low-power'});
+      available=Boolean(gl);
       if(!gl)return;
       const {createFloatScene}=await import('../numero-que-flota/scene.js');
-      if(phase()!=='closed'||reduce.matches||document.hidden||!visible){gl.getExtension('WEBGL_lose_context')?.loseContext();return}
+      if(phase()==='open'||reduce.matches||document.hidden||!visible){gl.getExtension('WEBGL_lose_context')?.loseContext();return}
       canvas=probe;scene=createFloatScene(stage,canvas,gl,tier);
       stage.append(canvas);scene.render(0,{x:0,y:0},0);
       stage.dataset.quality=tier;
+      if(phase()==='opening')stage.classList.add('live');
       canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();stage.classList.remove('live');scene?.dispose();scene=null;entrance.classList.add('still');},{once:true});
-    }catch{scene?.dispose();scene=null;canvas?.remove()}finally{loading=false}
+    }catch{available=false;scene?.dispose();scene=null;canvas?.remove();entrance.classList.add('still');stage.classList.remove('live')}finally{loading=false}
   }
   const poster=entrance.querySelector('.gift img');
   poster.decode().then(()=>requestAnimationFrame(()=>setTimeout(prepare,220))).catch(()=>{});
@@ -62,9 +64,10 @@ export function giftOpening() {
   document.addEventListener('visibilitychange',()=>{sync();if(!document.hidden)prepare()});
   open.addEventListener('click',()=>{
     if(phase()!=='closed')return;
-    const live=Boolean(scene)&&!reduce.matches;
+    prepare();
+    const live=available===true&&!reduce.matches;
     duration=live?2500:650;elapsed=0;
-    entrance.classList.toggle('still',!live);stage.classList.toggle('live',live);
+    entrance.classList.toggle('still',!live);stage.classList.toggle('live',live&&Boolean(scene));
     frame.hidden=false;frame.removeAttribute('aria-hidden');open.disabled=true;
     document.body.dataset.phase='opening';
     skip.focus({preventScroll:true});sync();
