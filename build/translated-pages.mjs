@@ -64,7 +64,7 @@ function translateInline(script) {
 function renderEnglish(html,page) {
   const parts=html.split(/(<(?:script|style|blockquote)\b[^>]*>[\s\S]*?<\/(?:script|style|blockquote)>)/gi);
   let translated=parts.map(part=>{
-    if(part.startsWith('<blockquote'))return part.replace('<blockquote>','<blockquote lang="es-MX">');
+    if(part.startsWith('<blockquote'))return page==='invitaciones' ? part.replace('<blockquote','<blockquote lang="es-MX"') : part.replace('<blockquote>','<blockquote lang="es-MX">');
     if(part.startsWith('<style'))return part;
     if(part.startsWith('<script')){
       if(!part.includes('type="application/ld+json"'))return translateInline(part);
