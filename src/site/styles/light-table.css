@@ -92,3 +92,15 @@ body[data-business-motion="paused"] [data-view="negocios"] .light-table *,body[d
 .case-cantera:not(:has([value="obra"]:checked)) .copy-obra,
 .case-cantera:has([value="obra"]:checked) .copy-ciudad{display:none}
 .case-scenes label{transition:color .18s ease,box-shadow .18s ease}
+
+[data-view="negocios"] .light-table .case-index>.eyebrow{grid-column:1/-1}
+@media(min-width:1000px){
+ [data-view="negocios"] .light-table-deck[data-layout="a"]{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,2.5vw,40px)}
+}
+@media(min-width:701px){
+ [data-view="negocios"] .light-table-deck[data-layout="b"] .case-cantera{grid-column:1/-1}
+ [data-view="negocios"] .light-table-deck[data-layout="b"] .case-cantera .project-feature{display:grid;grid-template-columns:1.1fr 1fr;column-gap:clamp(20px,4vw,64px);align-content:start}
+ [data-view="negocios"] .light-table-deck[data-layout="b"] .case-cantera .case-scenes{grid-area:1/1/3/2}
+ [data-view="negocios"] .light-table-deck[data-layout="b"] .case-cantera .feature-heading{grid-column:2;align-self:end;margin-bottom:0}
+ [data-view="negocios"] .light-table-deck[data-layout="b"] .case-cantera .feature-context{grid-column:2;align-self:start}
+}
