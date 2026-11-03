@@ -1,3 +1,8 @@
-@font-face{font-family:NocheSerif;src:url('/fonts/wedding/cormorant-latin-roman.woff2') format('woff2');font-weight:300 700;font-display:swap}
-@font-face{font-family:NocheSerif;src:url('/fonts/wedding/cormorant-latin-italic.woff2') format('woff2');font-weight:300 700;font-style:italic;font-display:swap}
+@font-face{font-family:NocheSerif;font-feature-settings:"liga" 0;src:url('/fonts/wedding/cormorant-latin-roman.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:NocheSerif;font-feature-settings:"liga" 0;src:url('/fonts/wedding/cormorant-latin-italic.woff2') format('woff2');font-weight:300 700;font-style:italic;font-display:swap}
 @font-face{font-family:NocheManrope;src:url('/nordra/v541/assets/manrope-latin.woff2') format('woff2');font-weight:200 800;font-display:swap}
+
+/* Keep the accent on fí when Cormorant shapes birthday headings and names. */
+.theme-birthday, .birthday-invitation, .wedding-workspace[data-occasion=birthday] {
+  font-variant-ligatures: no-common-ligatures;
+}

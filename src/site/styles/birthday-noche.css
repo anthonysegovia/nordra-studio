@@ -1,7 +1,7 @@
 @import '../../styles/noche-fonts.css';
 
 .theme-birthday{font-family:NocheManrope,Manrope,sans-serif}
-body[data-scene=cumpleanos] .scene.theme-birthday :is(h1,h2,h3){font-family:NocheSerif,Georgia,serif;font-weight:550;letter-spacing:-.035em}
+body[data-scene=cumpleanos] .scene.theme-birthday :is(h1,h2,h3){font-family:NocheSerif,Georgia,serif;font-variant-ligatures:no-common-ligatures;font-weight:550;letter-spacing:-.035em}
 .theme-birthday .birthday-hero .business-title-line:last-child{font-style:italic;color:var(--accent)}
 .theme-birthday .occasion-stage .wedding-dashboard::after{top:84.7%}
 html[lang=en] .theme-birthday .occasion-stage .wedding-dashboard::after{top:80.4%}

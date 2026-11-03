@@ -19,3 +19,5 @@ html .wedding-workspace[data-occasion=birthday] :is(.workspace-list-footer,.work
 html:not([data-theme=dark]) .wedding-workspace[data-occasion=birthday] .workspace-topbar,
 html:not([data-theme=dark]) .wedding-workspace[data-occasion=birthday] .workspace-topbar :is(span,button){color:#5d5164}
 html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-footer{color:#d9c7b0}
+
+html .wedding-workspace[data-occasion=birthday] :is(#workspace-title,.workspace-monogram,.workspace-couple p){font-variant-ligatures:no-common-ligatures;letter-spacing:.035em}
