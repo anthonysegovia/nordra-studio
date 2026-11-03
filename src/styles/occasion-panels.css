@@ -7,7 +7,9 @@
 .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(h1,h2,h3,.workspace-monogram,.workspace-couple p,.ledger-stat-value){font-family:var(--occasion-title);color:var(--panel-ink)}
 .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-monogram{font-size:1rem;border-radius:20px;color:var(--panel-accent)}
 .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art{background:var(--occasion-bg)}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art img{object-fit:cover;object-position:center 28%}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art::after{background:linear-gradient(90deg,var(--occasion-bg),transparent 68%),linear-gradient(0deg,var(--occasion-bg),transparent 28%)}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art img{object-fit:contain;object-position:85% center}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art::after{background:linear-gradient(90deg,var(--occasion-bg),transparent 36%)}
 .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.workspace-button,.guest-ledger .ledger-add,.workspace-nav-current){background:var(--panel-accent);border-color:var(--panel-accent);color:white}
-
+@media(max-width:760px){
+  .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art{width:32vw;right:-4px}
+}

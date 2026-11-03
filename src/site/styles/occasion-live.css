@@ -23,20 +23,13 @@
 .occasion-stage h2,.occasion-plans h2 { margin:0; font-size:clamp(32px,4vw,64px); line-height:1.08; }
 .occasion-stage .wedding-switch button[aria-selected=true]::before { background:var(--accent); }
 .occasion-stage .wedding-phone { background:var(--ink); border-color:var(--line); }
-.occasion-stage .wedding-dashboard { width:84%; padding:clamp(16px,3vw,40px); border:1px solid var(--line); color:var(--ink); background:color-mix(in srgb,var(--bg) 95%,var(--accent)); border-radius:16px; box-shadow:0 14px 40px #14242a1a; }
+.occasion-stage .wedding-dashboard { width:84%; padding:5px; border:1px solid var(--line); color:var(--ink); background:color-mix(in srgb,var(--bg) 95%,var(--accent)); border-radius:16px; box-shadow:0 14px 40px #14242a1a; }
 .occasion-stage .wedding-stage[data-step=cover] .wedding-dashboard { cursor:pointer; }
-.occasion-stage .panel-heading h3 { margin:0; font-size:clamp(22px,3vw,38px); }
-.occasion-stage .panel-counts { margin:14px 0 10px; gap:8px; }
-.occasion-stage .panel-counts>div { padding-bottom:6px; }
-.occasion-stage .panel-counts strong { font-size:clamp(23px,3vw,35px); }
-.occasion-stage .guest-table small { display:block; }
+.occasion-stage .wedding-dashboard::after { content:""; position:absolute; inset:80% 4% auto 21%; height:8.5%; pointer-events:none; opacity:0; background:radial-gradient(ellipse at 28% 50%,color-mix(in srgb,var(--accent) 28%,transparent),transparent 73%); }
+html[lang=en] .occasion-stage .wedding-dashboard::after { top:85%; }
 @media(max-width:700px){
- .occasion-stage .wedding-dashboard { width:91%; padding:12px; }
+ .occasion-stage .wedding-dashboard { width:91%; padding:4px; }
  .occasion-stage .wedding-stage[data-step=panel] .wedding-phone { left:2%; }
- .occasion-stage .panel-heading { gap:4px; }
- .occasion-stage .panel-heading h3 { font-size:20px; }
- .occasion-stage .guest-table { font-size:.76rem; }
- .occasion-stage .guest-table :is(td,th) { padding-block:6px; }
  .occasion-stage .wedding-devices { height:clamp(305px,90vw,420px); }
  .occasion-page .occasion-hero-live.showcase-live .live-phone { height:clamp(265px,38svh,330px); }
  .occasion-page .occasion-hero-live { margin-block:8px 16px; }

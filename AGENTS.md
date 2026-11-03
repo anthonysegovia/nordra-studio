@@ -24,6 +24,8 @@ Preferencias explícitas del usuario, aplicables a cambios futuros:
 - La bienvenida del panel de muestra usa la misma fotografía de portada de Bodas (wedding-v2), grande en la esquina derecha y degradada hacia el fondo crema. Conservar ese tratamiento y sus adaptaciones móviles.
 - La sección que presenta el panel en Bodas muestra una captura real del dashboard, dentro de un marco discreto y pulsable. Evitar volver a la tarjeta ornamental de confirmación. Las capturas vigentes en español e inglés están en artwork-source/wedding-dashboard-preview-v4; actualizar ambas si cambia de forma importante la interfaz.
 
+- Cumpleaños y Eventos tienen paneles de muestra propios, copia del panel de Bodas con la identidad de Sofía 25 y Conexión 27. Sus capturas ES/EN viven en las carpetas birthday-dashboard-preview y event-dashboard-preview de artwork-source y public/artwork.
+
 - Oferta vigente de apertura: Aurora $1,999 MXN (regular $2,999); Boreal desde $2,999 MXN (regular desde $5,999). Precios con IVA y pago único. Mostrar el precio de apertura y el regular con claridad, sin inventar fecha de término, cupos ni temporizadores. Compartir la configuración de precios entre las páginas y el catálogo de cobros.
 
 - Aurora incluye el panel de invitados y confirmaciones. Boreal suma organización de mesas, pases QR y registro de llegadas por persona; validar el paquete también en el servidor. Conservar una navegación limpia entre Invitados, Mesas y Recepción. Animar de forma sutil controles y aparición de textos, respetando movimiento reducido y evitando movimiento continuo que dificulte leer.

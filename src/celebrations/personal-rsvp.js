@@ -30,6 +30,7 @@ export async function personalRsvp(form, status, access, occasion) {
     picker.disabled=true;
     try{
       invitation=await sampleGuestRequest(access,AbortSignal.timeout(15000),{people,updatedAt:invitation.updated_at},occasion);
+      picker.options[index].textContent=invitation.people[index].name||'Acompañante';
       display();
       status.textContent='Tu respuesta ya está en el panel de muestra.';
       submit.disabled=false;
