@@ -99,5 +99,5 @@ try{
     assert.match(await image.getAttribute('src'),/dashboard-en-/);
     await context.close();
   }
-  console.log('Panel experience: sample, private Aurora, archived admin Boreal, keyboard, capacity and manual reminders passed.');
+  console.log('Panel experience: three public samples, personal RSVP round trips, private Aurora, archived Boreal, keyboard, capacity and manual reminders passed.');
 }finally{await browser.close();await server.close()}
