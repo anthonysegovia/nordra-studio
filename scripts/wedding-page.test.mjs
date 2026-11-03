@@ -90,7 +90,7 @@ test('Boreal spreads its second real lily away from the first', () => {
 });
 
 for (const [name,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']]) {
-  test(name + ' shows the real details screen, original sample guests and two catalogue plans', async () => {
+  test(name + ' shows the real details screen, localized dashboard and two catalogue plans', async () => {
     const source = page(name);
     const { translatedPageOutput } = await import('../build/translated-pages.mjs');
     const english = translatedPageOutput().transformIndexHtml.handler(mobileWhatsApp(source), {path:'/en/'+name+'.html'});
@@ -102,8 +102,13 @@ for (const [name,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']])
       assert.match(sample,/role="tablist"/);
       assert.match(sample,/aria-selected="true"/);
       assert.match(sample,/aria-selected="false" tabindex="-1"/);
-      assert.match(sample,/class="panel-counts"/);
-      for(const person of ['Alex Rivera','Sam Rivera']) assert.ok(sample.includes(person));
+      assert.doesNotMatch(sample,/panel-counts|host-preview/);
+      const kind=name==='eventos'?'event':'birthday', panel=name==='eventos'?'evento':'cumple';
+      assert.ok(sample.includes('href="/panel-'+panel+'.html'+(html===source?'':'?lang=en')+'"'));
+      for(const w of [760,1280]){
+        const image='/artwork/'+kind+'-dashboard-preview/dashboard-'+(html===source?'es':'en')+'-'+w+'.webp';
+        assert.ok(sample.includes(image));assert.equal(readFileSync('public'+image).subarray(8,12).toString(),'WEBP');
+      }
       for(const size of [390,780]){
         const asset='/artwork/invitation-covers/'+slug+'-detalles-'+size+'.webp';
         assert.ok(sample.includes(asset));

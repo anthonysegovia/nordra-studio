@@ -1,6 +1,7 @@
 // Run after npm run build. The fixture intercepts both APIs and never contacts a client panel.
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { samplePanelFixture } from './sample-panel-fixture.mjs';
 import { preview } from 'vite';
 import { sampleInvitations, invitationLink } from '../server/wedding-links.js';
 import { sampleBoreal } from '../server/wedding-boreal.js';
@@ -67,6 +68,36 @@ try{
     if(options.plan){assert.equal(await page.locator('.guide-trigger,.sample-guide').count(),0);assert.equal(await page.getByRole('button',{name:'Mesas',exact:true}).count(),options.plan==='Boreal'?1:0);if(options.archived)assert.equal(await page.locator('.ledger-add').count(),0)}
     else{await page.locator('.sample-guide').waitFor();await page.keyboard.press('Escape')}
     await page.close();
+  }
+  for (const [kind,slug,back,brand] of [['cumple','sofia-25','cumpleanos','Sofía 25'],['evento','conexion-27','eventos','Conexión 27']]) {
+    const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,reducedMotion:'reduce'});
+    await context.route('**/api/wedding-links',samplePanelFixture(origin));
+    const dashboard=await context.newPage();
+    await dashboard.goto(origin+'/panel-'+kind+'.html');
+    await dashboard.locator('.ledger-row').first().waitFor();
+    assert.equal(await dashboard.locator('h1').innerText(),brand);
+    await dashboard.keyboard.press('Escape');
+    assert.doesNotMatch(await dashboard.locator('body').innerText(),/\bboda[s]?\b|Valentina/i);
+    const personal=await dashboard.locator('.workspace-quick-links a').last().getAttribute('href');
+    assert.equal(new URL(personal).pathname,'/invitaciones/'+slug+'/');
+    const guest=await context.newPage();await guest.goto(personal);
+    await guest.locator('[data-skip]').click();
+    await guest.locator('.celebration-rsvp select').selectOption('1');
+    await guest.locator('#guest').fill('Andrea Local');
+    await guest.locator('[value=yes]').check();
+    await guest.locator('.celebration-rsvp [type=submit]').click();
+    await guest.getByText('Tu respuesta ya está en el panel de muestra.').waitFor();
+    await dashboard.reload();await dashboard.getByText('Andrea Local',{exact:true}).first().waitFor({state:'attached'});
+    await dashboard.locator('.workspace-topbar button').click();
+    assert.match(await dashboard.locator('.workspace-topbar').innerText(),/Your (birthday|event) space/);
+    for(const label of ['Tables','Reception']){
+      await dashboard.getByRole('button',{name:label,exact:true}).first().click();
+      assert.doesNotMatch(await dashboard.locator('body').innerText(),/\bwedding[s]?\b|Valentina/i);
+    }
+    await dashboard.goto(origin+'/en/'+back+'#'+back+'-panel-muestra');
+    const image=dashboard.locator('.wedding-dashboard img');await image.evaluate(i=>i.decode());
+    assert.match(await image.getAttribute('src'),/dashboard-en-/);
+    await context.close();
   }
   console.log('Panel experience: sample, private Aurora, archived admin Boreal, keyboard, capacity and manual reminders passed.');
 }finally{await browser.close();await server.close()}

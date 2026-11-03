@@ -31,8 +31,8 @@ for(const page of translatedPages){
    const links=[...en.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)].map(m=>m[1]);
    for(const href of links){
      if(href.startsWith('https://wa.me/'))assert.match(new URL(href).searchParams.get('text'),/^Hi[,!]/);
-     if(href.startsWith('/')&&!href.startsWith('/en/')&&!['/'+page,'/panel-boda.html','/terminos-del-servicio.html'].includes(href)){
-       assert.match(href,/^\/(?:demos|invitaciones)\/|^\/panel-boda\.html\?/);
+     if(href.startsWith('/')&&!href.startsWith('/en/')&&!['/'+page,'/panel-boda.html','/panel-cumple.html','/panel-evento.html','/terminos-del-servicio.html'].includes(href)){
+       assert.match(href,/^\/(?:demos|invitaciones)\/|^\/panel-(?:boda|cumple|evento)\.html\?/);
      }
    }
    for(const match of en.matchAll(/data-analytics-whatsapp="([^"]+)"/g))assert.ok(buttonIds.includes(match[1]),match[1]);

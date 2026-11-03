@@ -114,3 +114,33 @@ test('links keep capability in the fragment, with no names or owner tokens',()=>
   assert.equal(link.search,''); assert.match(link.hash,/#invitacion=/); assert.equal(link.origin,site);
   assert.notEqual(hash(secret),guestToken(secret,id,'wedding-example'));
 });
+
+test('sample occasions are allowlisted, isolated by cookie, and reset to new personal links', async()=>{
+  const f=fixture(), sessions=[];
+  for(const occasion of ['wedding','birthday','event']){
+    const first=await f.call({action:'load',occasion});
+    assert.equal(first.status,200);
+    const cookie=first.headers['Set-Cookie'].split(';')[0], snapshot=first.data;
+    sessions.push({occasion,cookie,snapshot});
+    assert.match(first.headers['Set-Cookie'],/Max-Age=86400/);
+    const group=snapshot.invitations[0];
+    const slug={wedding:'valentina-y-sebastian',birthday:'sofia-25',event:'conexion-27'}[occasion];
+    assert.equal(new URL(group.link).pathname,'/invitaciones/'+slug+'/');
+    if(occasion==='wedding')continue;
+    assert(snapshot.management.delivery[group.id].sentAt);
+    assert.equal(snapshot.boreal.tables[0].name,occasion==='birthday'?'Confeti':'Foro');
+    const access=guestBody(snapshot,group);
+    assert.equal((await f.call({...access,occasion:'wedding'})).status,404);
+    const reply=await f.call({...access,action:'guest-reply',occasion,people:group.people.map(p=>({...p,attendance:'yes'})),updatedAt:group.updated_at});
+    assert.equal(reply.status,200);
+    assert.equal((await f.call({action:'load',occasion},cookie)).data.invitations[0].people[0].attendance,'yes');
+    const reset=await f.call({action:'reset',occasion},cookie);
+    assert.equal(reset.status,200);assert.equal(reset.data.invitations[0].people[0].name,group.people[0].name);
+    assert.notEqual(reset.data.invitations[0].id,group.id);
+    assert.equal((await f.call({...access,occasion})).status,404);
+  }
+  assert.equal(new Set(sessions.map(s=>s.cookie.split('=')[0])).size,3);
+  const [wedding,birthday]=sessions;
+  assert.equal((await f.call({action:'reset',occasion:'birthday'},wedding.cookie.replace(wedding.cookie.split('=')[0],birthday.cookie.split('=')[0]))).status,401);
+  for(const invalid of ['private','constructor','__proto__',null,{}])assert.equal((await f.call({action:'load',occasion:invalid})).status,400);
+});

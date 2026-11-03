@@ -19,7 +19,7 @@ test('only eight exact commercial routes and approved hosts participate', () => 
   assert.equal(commercialPage('https://nordrastudio.mx/negocios.html?pago=1'), null);
   assert.equal(sanitizeEvent({ type: 'pageview' }, 'estudio').url, 'https://nordrastudio.mx/estudio');
   assert.equal(commercialPage('https://nordrastudio.mx/index.html'), 'index');
-  for (const path of ['/gestion.html', '/panel-boda.html', '/mi-boda.html', '/pase-boda.html', '/recepcion-boda.html', '/invitacion-boda.html', '/invitaciones/valentina-y-sebastian/', '/invitaciones/fixture/', '/demos/fixture/', '/aviso-de-privacidad.html', '/?panel=fixture', '/?pago=fixture', '/negocios/fixture']) {
+  for (const path of ['/gestion.html', '/panel-boda.html','/panel-cumple.html','/panel-evento.html', '/mi-boda.html', '/pase-boda.html', '/recepcion-boda.html', '/invitacion-boda.html', '/invitaciones/valentina-y-sebastian/', '/invitaciones/fixture/', '/demos/fixture/', '/aviso-de-privacidad.html', '/?panel=fixture', '/?pago=fixture', '/negocios/fixture']) {
     assert.equal(commercialPage('https://nordrastudio.mx' + path), null, path);
   }
   for (const host of ['spooky.nordrastudio.mx', 'confirmadoscova.nordrastudio.mx', 'client.example', 'nordrastudio.mx.example']) assert.equal(commercialPage(`https://${host}/`), null);
