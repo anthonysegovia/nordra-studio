@@ -57,12 +57,12 @@ export function createFloatScene(stage, canvas, gl, quality) {
     camera.left=-span/2;camera.right=span/2;camera.top=span/2;camera.bottom=-span/2;camera.position.y=-.16+lift*.30;camera.updateProjectionMatrix();
     tiltX+=(pointer.x-tiltX)*.14;tiltY+=(pointer.y-tiltY)*.14;
     const dt=Math.min(.045,Math.max(0,time-previousTime));previousTime=time;
-    
+
     for(const glyph of glyphs){
       const {group,points,foot,footX,index:i}=glyph;
       const wave=time*.65+i*2.2, rise=-1.9*(1-Math.min(1,Math.max(0,lift*1.25-i*.16)));
       group.position.set((i-(glyphs.length-1)/2)*1.49+.025*Math.sin(wave),.24+.075*Math.sin(wave)+rise*(1+i*.10),0);
-      
+
       group.rotation.set(-.07+.045*Math.cos(wave)+tiltY*.18,(i%2?.18:-.21)+.09*Math.sin(wave*.76)+tiltX*.32,(i%2?-.06:.055)+.028*Math.sin(wave));
       const target=.12*Math.sin(wave+.7)-.18*tiltX;
       glyph.velocity+=((target-glyph.swing)*22-glyph.velocity*6)*dt;
