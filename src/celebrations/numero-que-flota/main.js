@@ -18,7 +18,7 @@ function draw(now){
   if(!scene || document.hidden || !visible || phase()==='open')return;
   if(last && !paused)elapsed+=Math.min(50,now-last)/1000;
   last=now;
-  const lift=phase()==='opening'?Math.min(1,(now-startLift)/invitation.openingMs):0;
+  const lift=phase()==='opening'&&!stage.closest('[data-still]')?Math.min(1,(now-startLift)/invitation.openingMs):0;
   scene.render(elapsed,pointer,lift);
   if(!paused || phase()==='opening')frame=requestAnimationFrame(draw);
 }
@@ -79,5 +79,5 @@ document.querySelector('.celebration-rsvp').addEventListener('attendance-confirm
   if(reduced.matches||paused||skipped)return;
   const burst=document.createElement('span');burst.className='gold-sparks';burst.setAttribute('aria-hidden','true');
   for(let i=0;i<9;i++){const dot=document.createElement('i');dot.style.setProperty('--angle',i*40+'deg');burst.append(dot)}
-  document.querySelector('[data-rsvp-status]').append(burst);setTimeout(()=>burst.remove(),700);
+  document.querySelector('.ticket-stub').append(burst);setTimeout(()=>burst.remove(),700);
 },{once:true});

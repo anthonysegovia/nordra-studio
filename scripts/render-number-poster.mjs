@@ -4,6 +4,7 @@ import {chromium} from 'playwright';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import path from 'node:path';
+import {eventStamp} from '../src/celebrations/numero-que-flota/clock.mjs';
 import {invitation} from '../src/celebrations/numero-que-flota/config.mjs';
 
 if(!/^\/artwork\/[a-z\d/-]+$/i.test(invitation.poster))throw Error('Use a local /artwork/ poster prefix.');
@@ -32,6 +33,6 @@ try{
   // Keep calendar identity stable when changing the invitation's display data.
   const calendar='public/invitaciones/camila-30/fecha.ics';
   const ics=value=>value.replaceAll('\\','\\\\').replaceAll('\n','\\n').replaceAll(',','\\,').replaceAll(';','\\;');
-  const stamp=new Date(invitation.date+'T'+invitation.hour+':00'+invitation.offset).toISOString().replace(/[-:]/g,'').replace('.000','');
+  const stamp=new Date(eventStamp(invitation)).toISOString().replace(/[-:]/g,'').replace('.000','');
   writeFileSync(calendar,['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Nordra Studio//Invitaciones//ES','CALSCALE:GREGORIAN','BEGIN:VEVENT','UID:camila-30@nordrastudio.mx','DTSTAMP:20261102T000000Z','DTSTART:'+stamp,'SUMMARY:'+ics(invitation.name+' '+invitation.balloons),'LOCATION:'+ics(invitation.place),'DESCRIPTION:Invitacion de muestra con datos ficticios','STATUS:TENTATIVE','TRANSP:TRANSPARENT','END:VEVENT','END:VCALENDAR',''].join('\r\n'));
 }finally{await browser.close();await vite.close()}

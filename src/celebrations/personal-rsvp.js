@@ -14,7 +14,7 @@ export async function personalRsvp(form, status, access, occasion) {
   submit.firstChild.textContent=(form.dataset.save||'Guardar mi respuesta')+' ';
   submit.disabled=true;
   form.addEventListener('submit',send);
-  if(access==='invalid'){status.textContent=form.dataset.invalid||'El enlace personal está incompleto.';return}
+  if(access==='invalid'){status.textContent=form.dataset.invalid||'El enlace personal está incompleto.';form.dispatchEvent(new Event('pass-unavailable'));return}
   function display() {
     const index=picker.selectedIndex, person=invitation.people[index];
     name.readOnly=!(invitation.kind==='plusOne'&&index===1);
@@ -37,7 +37,7 @@ export async function personalRsvp(form, status, access, occasion) {
     picker.disabled=true;
     try{
       invitation=await sampleGuestRequest(access,AbortSignal.timeout(15000),{people,updatedAt:invitation.updated_at},occasion);
-      picker.options[index].textContent=invitation.people[index].name||'Acompañante';
+      picker.options[index].textContent=invitation.people[index].name||form.dataset.companion||'Acompañante';
       display();
       status.textContent=form.dataset.saved||'Tu respuesta ya está en el panel de muestra.';
       if(form.dataset.personalNotice){
@@ -64,5 +64,5 @@ export async function personalRsvp(form, status, access, occasion) {
     picker.hidden=invitation.people.length===1;
     picker.addEventListener('change',display);
     display();submit.disabled=false;
-  }catch(error){status.textContent=sampleGuestError(error).text}
+  }catch(error){status.textContent=sampleGuestError(error).text;form.dispatchEvent(new Event('pass-unavailable'))}
 }

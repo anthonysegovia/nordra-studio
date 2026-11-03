@@ -45,7 +45,8 @@ function finishOpening() {
   clearTimeout(timer);
   if (phase === 'open') return;
   phase = 'open'; render();
-  goTo(sections.has(requestedSection) ? requestedSection : firstSection);
+  const target=sections.has(requestedSection)?requestedSection:entrance.hasAttribute('data-reveal-content')&&requestedSection.startsWith('invitacion=')?'confirmacion':firstSection;
+  goTo(target);
 }
 
 openButton.addEventListener('click', () => {

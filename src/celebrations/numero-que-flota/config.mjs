@@ -1,6 +1,6 @@
 export const invitation = {
   name:'Camila', balloons:'30', phrase:'Treinta y con ganas de bailar',
-  date:'2027-07-24', hour:'19:00', offset:'-06:00', zone:'America/Mexico_City', place:'Terraza Aurora',
+  date:'2027-07-24', hour:'19:00', zone:'America/Mexico_City', place:'Terraza Aurora',
   palette:{night:'#1d1a2e',plum:'#30283c',gold:'#dfb66d',ivory:'#f4e9d3',highlight:'#e6c98e',inkGold:'#74531b'},
   poster:'/artwork/numero-que-flota/camila', openingMs:2150,
   photos:[
@@ -17,7 +17,7 @@ export const invitation = {
     {label:'Notas',title:'Antes de salir',detail:'Noche solo para adultos. Habrá valet parking.'}
   ],
   copy:{
-    brand:'NORDRA STUDIO',edition:'INVITACIÓN DE CUMPLEAÑOS',coverTitle:'EL NÚMERO QUE FLOTA',
+    posterAlt:'Globos de foil dorado en forma de',sampleMeta:'Invitación de muestra',unavailable:'Pase no disponible',brand:'NORDRA STUDIO',edition:'INVITACIÓN DE CUMPLEAÑOS',coverTitle:'EL NÚMERO QUE FLOTA',
     open:'Abrir invitación',skip:'Entrar sin animación',pause:'Pausar globos',resume:'Reanudar globos',
     nav:['Inicio','Cuándo','Camila','Detalles','Pase'],navLabel:'Recorrido de la fiesta',
     when:'Nos vemos a las siete',clockLabel:'Falta para la fiesta',units:['Días','Horas','Min','Seg'],

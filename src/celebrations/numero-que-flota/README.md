@@ -1,15 +1,21 @@
 # El número que flota
 
-La portada muestra HTML y un WebP desde el primer render. La escena se importa cuando el póster está listo y visible. La respuesta pública y la personal utilizan el controlador compartido de invitaciones.
+La portada sirve HTML y un póster WebP antes del módulo diferido de three.js. La apertura dura 2.15 s: los globos se tensan y se sustituyen por una sola malla instanciada de tiras que giran y caen. Sin WebGL o con movimiento reducido se usa un fundido corto. Entrar sin animación abre directamente. El menú está oculto e inactivo hasta que termina la entrada; Inicio devuelve a la portada sin modificar el fragmento personal.
 
-## Otra celebración
+## Configurar una fiesta de XV
 
-Edita `config.mjs`. Por ejemplo, usa `name: 'Mar', balloons: 'XV', phrase: 'Mis quince años'`, y cambia la fecha ISO, la hora local, el desfase UTC, el lugar, los textos y la paleta. Se admiten de uno a tres caracteres de `0123456789XVI`. Las curvas son originales de esta plantilla. Sora y Manrope son las fuentes locales del proyecto; sus contornos no se utilizan para la geometría.
+Edita el objeto de `config.mjs`. Para reutilizar la plantilla completa:
 
-Ejecuta `node scripts/render-number-poster.mjs` desde la raíz para renderizar las dos resoluciones del póster y sincronizar el calendario. Requiere Chrome (se puede indicar `CHROME_PATH`), WebGL 2 y FFmpeg. Después, ejecuta `npm run build`. Vite imprime los datos en el HTML de la invitación. Regenera las capturas comerciales cuando cambie el diseño.
+- **Inicio**: cambia `name` a `Mar`, `balloons` a `XV`, `phrase` a «Mis quince empiezan en la pista», además de la paleta y la ruta del póster. Se admiten entre uno y tres caracteres de `0123456789XVI`.
+- **Cuándo**: ajusta `date`, `hour`, `zone` (zona IANA), `place` y `copy.when`. El desfase UTC se calcula para esa fecha con la zona indicada, también para el calendario. La zona decide el cambio de «Hoy celebramos» a «Gracias por venir» al llegar la medianoche local.
+- **La festejada**: cambia `copy.nav[2]` a «Mar» y `copy.album` a «Mis quince en fotos». Cada foto tiene prefijo `src`, texto alternativo, edad y pie. Sirve WebP de 320 y 600 px. Usar `photos: []` quita también la ancla del menú. El identificador estable del álbum en esta URL es `camila`.
+- **Detalles**: configura las tres tarjetas en `cards`, con categoría, título y detalle. La primera admite una lista de colores hexadecimales. Los regalos y las notas son datos ficticios editables, no servicios confirmados de un recinto.
+- **Pase**: ajusta los textos en `copy`. Nombre, edad, fecha y lugar se comparten con el resto de la invitación. En un enlace personal, el nombre, el número de lugares y la respuesta proceden de la invitación de muestra; se actualizan al cambiar de persona.
 
-## Escena y acceso
+Ejecuta `node scripts/render-number-poster.mjs` y `npm run build` para regenerar el póster, sincronizar el calendario y generar el HTML. El render requiere Chrome (puedes indicar `CHROME_PATH`), WebGL 2 y FFmpeg. Se conservan el UID del evento y la URL de Camila. Actualiza las portadas comerciales cuando cambie su aspecto.
 
-`?quality=low`, `medium` o `high` fuerza la calidad para pruebas. El nivel automático tiene en cuenta pantalla, memoria anunciada y ahorro de datos. Cambian la malla, el antialiasing y el límite de resolución. La luz proviene de un panorama procedural filtrado con PMREM. Las sombras propias usan 512 o 256 px; el nivel bajo prescinde de ellas. No hay mapas HDR externos.
+## Interacción
 
-El puntero inclina el foil; un toque sin arrastre inicia la apertura. El control de pausa detiene el vaivén. Con movimiento reducido o sin WebGL queda el póster; Entrar sin animación abre directamente. En el interior se conserva una miniatura en el encabezado, sin un segundo canvas ni un bucle de render. La URL y el fragmento personal se conservan al navegar por las secciones.
+`?quality=low`, `medium` o `high` fuerza un nivel. El modo automático adapta resolución, antialiasing, geometría, sombras y cantidad de foil. No se pide acceso a sensores. Los dígitos son curvas propias; Sora y Manrope son las fuentes locales del proyecto. No se consumen HDR externos.
+
+El álbum abre con el scroll de la página en escritorio y usa scroll horizontal con ajuste por foto en teléfono. Las tarjetas son botones con estado anunciado. El pase se perfora solo al aceptar; en el flujo personal espera la confirmación del servidor. La respuesta pública es una simulación local. Las interacciones están implementadas con CSS, JavaScript y three.js.

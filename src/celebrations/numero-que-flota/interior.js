@@ -1,14 +1,15 @@
 import {invitation as config} from './config.mjs';
-import {countdown} from './clock.mjs';
+import {countdown,eventStamp} from './clock.mjs';
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const quiet=()=>reduced.matches||document.body.hasAttribute('data-float-skipped')||document.body.dataset.floatPaused==='true';
 
 const clock=document.querySelector('.countdown'),message=document.querySelector('.clock-message');
+const target=new Date(eventStamp(config));
 let tick,clockVisible=false;
 function syncClock(){
   clearTimeout(tick);
   if(!clockVisible||document.hidden)return;
-  const value=countdown(config);
+  const value=countdown(config,new Date(),target);
   clock.hidden=!value.digits;message.hidden=!!value.digits;
   if(value.digits)clock.querySelectorAll('b').forEach((digit,i)=>{
     const next=String(value.digits[i]).padStart(2,'0');
@@ -27,7 +28,22 @@ const deck=document.querySelector('.note-deck');
 const reveal=new IntersectionObserver(entries=>{
   for(const e of entries)if(e.isIntersecting){e.target.classList.add('unfolded');reveal.unobserve(e.target)}
 },{threshold:.18});
-if(album)reveal.observe(album);
+if(album){
+  reveal.observe(album);
+  const wide=matchMedia('(min-width:701px)');
+  let frame=0;
+  function updateFan(){
+    frame=0;
+    const progress=quiet()?1:Math.max(0,Math.min(1,(innerHeight-album.getBoundingClientRect().top)/(innerHeight*.42)));
+    album.style.setProperty('--fan-progress',String(progress));
+  }
+  function queue(){if(!frame&&wide.matches)frame=requestAnimationFrame(updateFan)}
+  new IntersectionObserver(([entry])=>{
+    if(entry.isIntersecting){addEventListener('scroll',queue,{passive:true});queue()}
+    else{removeEventListener('scroll',queue);cancelAnimationFrame(frame);frame=0}
+  }).observe(album);
+  wide.addEventListener('change',queue);reduced.addEventListener('change',queue);
+}
 reveal.observe(deck);
 deck.addEventListener('click',event=>{
   const button=event.target.closest('button[aria-controls]');
@@ -35,12 +51,14 @@ deck.addEventListener('click',event=>{
   const next=button.getAttribute('aria-expanded')==='false';
   deck.classList.add('unfolded');
   button.setAttribute('aria-expanded',String(next));
+  if(next)button.setAttribute('aria-describedby',button.getAttribute('aria-controls'));else button.removeAttribute('aria-describedby');
   document.getElementById(button.getAttribute('aria-controls')).hidden=!next;
 });
 const form=document.querySelector('.celebration-rsvp'),ticket=document.querySelector('.foil-ticket');
 const name=ticket.querySelector('[data-pass-name]'),seats=ticket.querySelector('[data-pass-seats]'),state=ticket.querySelector('[data-pass-state]');
 const personal=location.hash.startsWith('#invitacion=');
 if(personal)name.textContent=config.copy.loadingGuest;
+form.addEventListener('pass-unavailable',()=>{name.textContent=config.copy.unavailable;seats.textContent='';state.textContent=''});
 function setAttendance(attendance){
   state.textContent=attendance==='yes'?config.copy.accepted:attendance==='no'?config.copy.declined:config.copy.reserved;
   ticket.dataset.attendance=attendance;

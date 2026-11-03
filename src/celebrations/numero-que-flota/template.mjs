@@ -1,3 +1,4 @@
+import {eventStamp} from './clock.mjs';
 import {invitation} from './config.mjs';
 const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 function album(config){
@@ -11,14 +12,14 @@ function cards(config){
       if(!/^#[a-f0-9]{6}$/i.test(color))throw Error('Use hexadecimal swatch colors.');
       return `<i style="background:${color}"></i>`;
     }).join('');
-    return `<article class="note-card" style="--i:${i}"><button type="button" aria-expanded="false" aria-controls="note-${i}"><small>${escape(card.label)}</small><strong>${escape(card.title)}</strong><span class="card-sign" aria-hidden="true">+</span></button><div class="card-back" id="note-${i}" hidden><p>${escape(card.detail)}</p>${colors?'<span class="swatches" aria-hidden="true">'+colors+'</span>':''}</div></article>`;
+    return `<article class="note-card" style="--i:${i}"><button type="button" aria-expanded="false" aria-controls="note-${i}"><span class="card-front"><small>${escape(card.label)}</small><i class="card-motif" aria-hidden="true">${['✧','◇','✴'][i%3]}</i><strong>${escape(card.title)}</strong><span class="card-sign" aria-hidden="true">+</span></span></button><div class="card-back" id="note-${i}" hidden><small>${escape(card.label)} · −</small><p>${escape(card.detail)}</p>${colors?'<span class="swatches" aria-hidden="true">'+colors+'</span>':''}</div></article>`;
   }).join('');
 }
 export function renderInvitation(html,config=invitation){
   if(!html.includes('{{float:name}}'))return html;
   if(!/^[0-9XVI]{1,3}$/.test(config.balloons))throw Error('Use one to three digits or Roman numerals X, V, I.');
   const [year,month,day]=config.date.split('-');
-  const stamp=config.date+'T'+config.hour+':00'+config.offset;
+  const stamp=eventStamp(config);
   const dateLong=new Intl.DateTimeFormat('es-MX',{timeZone:config.zone,weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(new Date(stamp));
   const values={...config,...config.copy,...config.palette,dateLabel:day+' · '+month+' · '+year,dateLong,stamp};
   const nav=['inicio','cuando','camila','saber','confirmacion'].map((id,i)=>id==='camila'&&!config.photos?.length?'':`<a href="#${id}"${id==='inicio'?' data-cover':''}>${escape(config.copy.nav[i])}</a>`).join('');
