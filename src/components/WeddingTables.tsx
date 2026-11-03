@@ -1,3 +1,5 @@
+import {useContext} from 'react';
+import {PanelExperience} from '../lib/panelExperience';
 import { SeatGuests } from './SeatGuests';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Check, ChevronDown, Download, Pencil, Plus, Search, Trash2, UsersRound, X } from 'lucide-react';
@@ -9,6 +11,7 @@ import { weddingError } from '../lib/weddingClient';
 type Props = { invitations: WeddingInvitation[]; state: BorealState; action: BorealAction; english: boolean; disabled: boolean; readOnly: boolean; couple:string };
 type Edit = { table: WeddingTable; isNew: boolean; deleting?: boolean };
 export function WeddingTables({ invitations, state, action, english, disabled, readOnly, couple }: Props) {
+  const config=useContext(PanelExperience);
   const [adding,setAdding]=useState('');
   const target=state.tables.find(table=>table.id===adding);
   const [moving,setMoving]=useState('');
@@ -34,7 +37,7 @@ export function WeddingTables({ invitations, state, action, english, disabled, r
   }
   function chooseFilter(value: string) { setFilter(value); setPage(1); }
   return <section className="boreal-section boreal-tables" aria-labelledby="tables-title">
-    <div className="boreal-heading"><div><p className="workspace-eyebrow">{english ? 'A PLACE TO CELEBRATE' : 'UN LUGAR PARA CELEBRAR'}</p><h2 id="tables-title" ref={heading} tabIndex={-1}>{english ? 'Around the table' : 'Alrededor de la mesa'}</h2><p>{english ? 'Bring your favorite people together' : 'Junten a sus personas favoritas'}</p></div><div className="boreal-heading-actions"><button className="boreal-quiet" onClick={() => downloadBoreal(invitations, state, english)} disabled={disabled}><Download size={16}/>{english ? 'Download' : 'Descargar'}</button><button className="workspace-button" disabled={locked} onClick={() => setEditing({ isNew: true, table: { id: `table-${crypto.randomUUID()}`, name: '', capacity: 8 } })}><Plus size={17}/>{english ? 'New table' : 'Nueva mesa'}</button></div></div>
+    <div className="boreal-heading"><div><p className="workspace-eyebrow">{english ? 'A PLACE TO CELEBRATE' : 'UN LUGAR PARA CELEBRAR'}</p><h2 id="tables-title" ref={heading} tabIndex={-1}>{english ? 'Around the table' : 'Alrededor de la mesa'}</h2><p>{english ? 'Bring your favorite people together' : config.key==='wedding'?'Junten a sus personas favoritas':'Organiza a tus invitados por mesa'}</p></div><div className="boreal-heading-actions"><button className="boreal-quiet" onClick={() => downloadBoreal(invitations, state, english,config.identity.download)} disabled={disabled}><Download size={16}/>{english ? 'Download' : 'Descargar'}</button><button className="workspace-button" disabled={locked} onClick={() => setEditing({ isNew: true, table: { id: `table-${crypto.randomUUID()}`, name: '', capacity: 8 } })}><Plus size={17}/>{english ? 'New table' : 'Nueva mesa'}</button></div></div>
     <div className="boreal-summary"><div><strong key={state.tables.length}>{state.tables.length}</strong><span>{english ? 'Tables' : 'Mesas'}</span></div><div><strong key={assigned}>{assigned}<small> / {eligible.length}</small></strong><span>{english ? 'Places assigned' : 'Lugares distribuidos'}</span></div><div><strong key={confirmed.filter(person => !state.seats[person.id]).length}>{confirmed.filter(person => !state.seats[person.id]).length}</strong><span>{english ? 'Confirmed without a table' : 'Confirmados sin mesa'}</span></div></div>
     <div className="boreal-plan-entry"><button onClick={()=>setShowPlan(true)}>{english?'View seating arrangement':'Ver distribución de mesas'}</button><span>{english?'Names, capacity and a printable version':'Nombres, capacidad y versión para imprimir'}</span></div>
     <div className="boreal-table-grid">
@@ -48,7 +51,7 @@ export function WeddingTables({ invitations, state, action, english, disabled, r
           <div className="boreal-table-actions"><button className="boreal-quiet" disabled={locked||members.length>=table.capacity} onClick={()=>setAdding(table.id)}>{english?'Add guests':'Agregar invitados'}</button><button className="boreal-quiet" disabled={locked} aria-label={`${english ? 'Edit table' : 'Editar mesa'} ${table.name}`} onClick={() => setEditing({ table, isNew: false })}><Pencil size={14}/>{english ? 'Edit' : 'Editar'}</button><button className="boreal-icon" disabled={locked} aria-label={`${english ? 'Delete table' : 'Eliminar mesa'} ${table.name}`} onClick={() => setEditing({ table, isNew: false, deleting: true })}><Trash2 size={15}/></button></div>
         </article>;
       })}
-      {!state.tables.length && <div className="boreal-empty"><UsersRound size={32} strokeWidth={1}/><h3>{english ? 'Your first table' : 'Su primera mesa'}</h3><p>{english ? 'Give it a name and choose how many places it has' : 'Elijan un nombre y cuántos lugares tendrá'}</p></div>}
+      {!state.tables.length && <div className="boreal-empty"><UsersRound size={32} strokeWidth={1}/><h3>{english ? 'Your first table' : 'Su primera mesa'}</h3><p>{english ? 'Give it a name and choose how many places it has' : config.key==='wedding'?'Elijan un nombre y cuántos lugares tendrá':'Elige un nombre y cuántos lugares tendrá'}</p></div>}
     </div>
     <p className="boreal-legend"><span><i className="is-filled"/>{english ? 'Confirmed' : 'Confirmado'}</span><span><i className="is-reserved"/>{english ? 'Reserved · reply pending' : 'Reservado · por confirmar'}</span></p>
     <div className="boreal-assignment-panel">

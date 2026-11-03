@@ -11,11 +11,12 @@ export const birthdayPanel:typeof base = {
   identity:{
     name:'Sofía 25',title:['Sofía 25'],mark:['Sofía 25'],back:'/cumpleanos',anchor:'cumpleanos-panel-muestra',
     invitation:'/invitaciones/sofia-25/',download:'cumpleanos',photo:'/artwork/invitation-covers/sofia-25.webp',srcSet:'',
-    place:['Terraza Aurora · ubicación general','Terraza Aurora · general location'],brand:'CELEBRACIONES',brandLabel:['Cumpleaños','Birthdays'],
+    place:['Terraza Aurora · ubicación general','Terraza Aurora · general location'],brand:['CELEBRACIONES','CELEBRATIONS'],brandLabel:['Cumpleaños','Birthdays'],
     badge:['MI CUMPLEAÑOS','MY BIRTHDAY'],panel:['Panel de cumpleaños','Birthday dashboard'],space:['Tu espacio de cumpleaños','Your birthday space'],
     backLabel:['Volver a Cumpleaños','Back to Birthdays'],kicker:['LA FIESTA DE SOFÍA','SOFÍA’S PARTY'],note:['Reúne a tus personas favoritas.','Bring your favorite people together.'],
     motto:['Hecho para tu fiesta','Made for your party'],guests:['Tus invitados','Your guests'],nav:['Invitados','Guests'],ours:['Mi invitación','My invitation'],
     footer:['Muestra Boreal · Mesas y entradas a tu fiesta','Boreal sample · Seating and party check-in'],
+    history:'Recupera invitaciones durante la vigencia de esta muestra. Después, vuelve a asignar sus mesas.',
     remove:'Su enlace quedará inactivo. Puedes recuperar la invitación desde Historial durante la vigencia del cumpleaños.',
   },
   guide:{...base.guide,steps:[
@@ -30,11 +31,12 @@ export const eventPanel:typeof base = {
   identity:{
     name:'Conexión 27',title:['Conexión 27'],mark:['C27'],back:'/eventos',anchor:'eventos-panel-muestra',
     invitation:'/invitaciones/conexion-27/',download:'evento',photo:'/artwork/invitation-covers/conexion-27.webp',srcSet:'',
-    place:['Espacio Nodo · Monterrey','Espacio Nodo · Monterrey'],brand:'EVENTOS',brandLabel:['Eventos','Events'],
+    place:['Espacio Nodo · Monterrey','Espacio Nodo · Monterrey'],brand:['EVENTOS','EVENTS'],brandLabel:['Eventos','Events'],
     badge:['MI EVENTO','MY EVENT'],panel:['Panel del evento','Event dashboard'],space:['Tu espacio del evento','Your event space'],
     backLabel:['Volver a Eventos','Back to Events'],kicker:['PUNTO DE ENCUENTRO','MEETING POINT'],note:['Consulta quién viene al encuentro.','See who is coming to the event.'],
     motto:['Hecho para tu encuentro','Made for your gathering'],guests:['Asistentes','Attendees'],nav:['Asistentes','Attendees'],ours:['Mi invitación','My invitation'],
     footer:['Muestra Boreal · Zonas y recepción del evento','Boreal sample · Seating zones and event check-in'],
+    history:'Recupera invitaciones durante la vigencia de esta muestra. Después, vuelve a asignar sus mesas.',
     remove:'Su enlace quedará inactivo. Puedes recuperar la invitación desde Historial durante la vigencia del evento.',
   },
   guide:{...base.guide,steps:[

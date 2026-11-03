@@ -9,11 +9,12 @@ export const defaultPanelExperience = {
     back:'/bodas', anchor:'panel-boda', invitation:'/invitaciones/valentina-y-sebastian/', download:'boda',
     photo:'/artwork/invitation-editorial/wedding-v2-640.webp',
     srcSet:'/artwork/invitation-editorial/wedding-v2-400.webp 400w, /artwork/invitation-editorial/wedding-v2-640.webp 640w, /artwork/invitation-editorial/wedding-v2-1200.webp 1200w',
-    place:['Ciudad de México','Mexico City'], brand:'WEDDINGS', brandLabel:['Bodas','Weddings'], badge:['NUESTRA BODA','OUR WEDDING'],
+    place:['Ciudad de México','Mexico City'], brand:['WEDDINGS','WEDDINGS'], brandLabel:['Bodas','Weddings'], badge:['NUESTRA BODA','OUR WEDDING'],
     panel:['Panel de boda','Wedding panel'], space:['Su espacio de boda','Your wedding space'], backLabel:['Volver a Bodas','Back to Weddings'],
     kicker:['EL COMIENZO DE SU PARA SIEMPRE','THE START OF FOREVER'], note:['Cada respuesta acerca a sus personas favoritas','Every reply brings your favorite people a little closer'],
     motto:['Hecho para su historia','Made for your story'], guests:['Sus invitados','Your guests'], nav:['Invitados','Guests'],
     ours:['Nuestra invitación','Our invitation'], footer:['Muestra Boreal · Mesas y entradas QR','Boreal sample · Tables and QR arrivals'],
+    history:'Recupera invitaciones durante la vigencia de esta boda. Después, vuelve a asignar sus mesas.',
     remove:'Su enlace quedará inactivo. Puedes recuperar la invitación desde Historial durante la vigencia de la boda',
   },
   tasks: {
