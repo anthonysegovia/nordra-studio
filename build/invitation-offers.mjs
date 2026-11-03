@@ -11,11 +11,12 @@ function price(offer) {
   return `<p class="invite-price" data-invitation-price="${offer.id}">${regular}<span class="invite-opening">${offer.regularCents ? '<small>Precio de apertura</small>' : ''}<span>${from}<strong>${invitationMoney(offer.cents)}</strong> MXN</span></span></p>`;
 }
 
-function card(offer, featured) {
+export function invitationCard(offer, idPrefix = '') {
+  const featured = offer.id === 'boreal';
   const message = `Hola, me interesa el plan ${offer.name} para mi celebración (${offer.startingAt ? 'desde ' : ''}${invitationMoney(offer.cents)} MXN). Mi celebración es…`;
   const points = featured ? offer.points.slice(1) : offer.points.slice(0, 3);
-  return `<article class="invite-card${featured ? ' invite-featured' : ''}" id="plan-${offer.id}" aria-labelledby="plan-title-${offer.id}"><div class="invite-light" aria-hidden="true"></div>
-    <div class="invite-card-head"><h3 id="plan-title-${offer.id}">${esc(offer.name)}</h3>${featured ? '<span class="invite-badge">La más completa</span>' : ''}</div>
+  return `<article class="invite-card${featured ? ' invite-featured' : ''}" id="${idPrefix}plan-${offer.id}" aria-labelledby="${idPrefix}plan-title-${offer.id}"><div class="invite-light" aria-hidden="true"></div>
+    <div class="invite-card-head"><h3 id="${idPrefix}plan-title-${offer.id}">${esc(offer.name)}</h3>${featured ? '<span class="invite-badge">La más completa</span>' : ''}</div>
     <p class="invite-audience">${esc(offer.audience)}</p>${price(offer)}<p class="invite-delivery">Lista en ${esc(offer.delivery)}</p>
     ${featured ? '<p class="invite-inherits">Todo lo de Aurora, más:</p>' : ''}<ul class="invite-points">${points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
     <a class="invite-cta" href="${esc(whatsapp(message))}" target="_blank" rel="noopener" data-invitation-offer="${offer.id}" data-analytics-whatsapp="plan_${offer.id}">Quiero ${esc(offer.name)} <span aria-hidden="true">↗</span></a>
@@ -25,7 +26,7 @@ function card(offer, featured) {
 export function renderInvitationOffers() {
   return `<section class="home-continuation invite-offers" id="planes-invitaciones" aria-labelledby="invite-offers-title"><span class="inv-anchor" id="planes-eventos"></span>
     <div class="invite-offers-intro"><h2 id="invite-offers-title">Aurora y Boreal</h2><p>Precios de apertura y regulares en MXN, con IVA incluido. Pago único.</p></div>
-    <div class="invite-grid">${invitationOffers.map(o => card(o, o.id === 'boreal')).join('')}</div>
+    <div class="invite-grid">${invitationOffers.map(o => invitationCard(o)).join('')}</div>
     <a class="season-bridge" href="#temporadas">¿Una posada o una fiesta de fin de año? Diseños de temporada a ${invitationMoney(seasonalOffer.cents)} <span aria-hidden="true">→</span></a></section>`;
 }
 

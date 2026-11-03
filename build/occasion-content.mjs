@@ -2,6 +2,8 @@ import faq from '../src/data/occasionFaq.json' with { type: 'json' };
 import { invitationMoney, invitationOffers, seasonalOffer } from '../src/data/invitationPricing.ts';
 import { invitationOfferSchema } from './invitation-schema.mjs';
 
+import { invitationCard } from './invitation-offers.mjs';
+
 const names = { bodas: 'bodas', cumpleanos: 'cumpleaños', eventos: 'eventos', temporada: 'temporada' };
 // These editorial answers only contain inline links. Decode entities after
 // removing tags so structured answers contain the complete visible link text.
@@ -40,7 +42,8 @@ export function renderOccasionPrices(html) {
 }
 
 export function renderOccasionPage(html) {
-  return renderOccasionPrices(html).replace(/\{\{occasion:(bodas|cumpleanos|eventos|temporada):(faq|schema)\}\}/g, (_, page, kind) =>
+  return renderOccasionPrices(html).replace('{{occasion:bodas:plans}}', () =>
+    invitationOffers.map(offer => invitationCard(offer, 'bodas-')).join('')).replace(/\{\{occasion:(bodas|cumpleanos|eventos|temporada):(faq|schema)\}\}/g, (_, page, kind) =>
     kind === 'faq'
       ? faq[page].map(item => `<details class="faq-item"><summary><span>${item.question}</span><span aria-hidden="true">+</span></summary><div class="faq-answer"><p>${item.answerHtml}</p></div></details>`).join('')
       : occasionSchema(page).map(data => `<script type="application/ld+json">${JSON.stringify(data).replaceAll('<', '\\u003c')}</script>`).join(''));
