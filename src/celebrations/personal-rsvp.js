@@ -4,17 +4,17 @@ export async function personalRsvp(form, status, access, occasion) {
   const submit = form.querySelector('[type=submit]');
   const name = form.elements.guest;
   let invitation;
-  const pass=document.createElement('a');pass.textContent='Ver mi pase QR';pass.hidden=true;
+  const pass=document.createElement('a');pass.textContent=form.dataset.qr||'Ver mi pase QR';pass.hidden=true;
   form.append(pass);
   const picker = document.createElement('select');
-  picker.setAttribute('aria-label','Persona que responde');
+  picker.setAttribute('aria-label',form.dataset.picker||'Persona que responde');
   form.querySelector('label').before(picker);
   form.querySelector('.local-note').textContent='Datos de muestra · Tu respuesta se guarda en el panel durante 24 horas.';
-  form.closest('.confirmation').querySelector('.sample-notice').textContent='Este enlace es personal. Confirma por cada persona invitada.';
-  submit.firstChild.textContent='Guardar mi respuesta ';
+  form.closest('.confirmation').querySelector('.sample-notice').textContent=form.dataset.personalNotice||'Este enlace es personal. Confirma por cada persona invitada.';
+  submit.firstChild.textContent=(form.dataset.save||'Guardar mi respuesta')+' ';
   submit.disabled=true;
   form.addEventListener('submit',send);
-  if(access==='invalid'){status.textContent='El enlace personal está incompleto.';return}
+  if(access==='invalid'){status.textContent=form.dataset.invalid||'El enlace personal está incompleto.';return}
   function display() {
     const index=picker.selectedIndex, person=invitation.people[index];
     name.readOnly=!(invitation.kind==='plusOne'&&index===1);
@@ -24,6 +24,9 @@ export async function personalRsvp(form, status, access, occasion) {
     if(!pass.hidden)pass.href=invitation.passLink;
     for(const radio of form.querySelectorAll('[name=attendance]'))radio.checked=radio.value===person.attendance;
     status.textContent='';
+    if(form.dataset.personalNotice)form.dispatchEvent(new CustomEvent('pass-person',{detail:{
+      name:person.name||form.dataset.companion,seats:invitation.people.length,attendance:person.attendance
+    }}));
   }
   async function send(event) {
     event.preventDefault();
@@ -36,7 +39,12 @@ export async function personalRsvp(form, status, access, occasion) {
       invitation=await sampleGuestRequest(access,AbortSignal.timeout(15000),{people,updatedAt:invitation.updated_at},occasion);
       picker.options[index].textContent=invitation.people[index].name||'Acompañante';
       display();
-      status.textContent='Tu respuesta ya está en el panel de muestra.';
+      status.textContent=form.dataset.saved||'Tu respuesta ya está en el panel de muestra.';
+      if(form.dataset.personalNotice){
+        const attendance=invitation.people[index].attendance;
+        status.textContent+=' '+(attendance==='yes'?form.dataset.yesMessage:form.dataset.noMessage);
+        form.dispatchEvent(new CustomEvent('pass-response',{detail:{name:invitation.people[index].name,attendance}}));
+      }
       if(invitation.people[index].attendance==='yes') form.dispatchEvent(new Event('attendance-confirmed'));
       submit.disabled=false;
     }catch(error){
@@ -50,7 +58,7 @@ export async function personalRsvp(form, status, access, occasion) {
     invitation=await sampleGuestRequest(access,AbortSignal.timeout(15000),undefined,occasion);
     const greeting=document.createElement('p');
     greeting.textContent='Para '+invitation.people.map(p=>p.name||'acompañante').join(' y ');
-    document.querySelector('.cover-bottom').prepend(greeting);
+    if(!form.dataset.personalNotice)document.querySelector('.cover-bottom').prepend(greeting);
     function options(){picker.replaceChildren(...invitation.people.map((p,i)=>new Option(p.name||'Acompañante',String(i))))}
     options();
     picker.hidden=invitation.people.length===1;

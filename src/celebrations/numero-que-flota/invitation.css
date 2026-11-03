@@ -36,7 +36,7 @@
 .birthday-invitation .welcome h2{max-width:760px;margin-bottom:0;font-size:clamp(38px,6vw,82px)}
 .birthday-invitation .content-grid{padding-top:28px}
 .birthday-invitation .agenda li{font-family:NocheSora,sans-serif}
-.birthday-invitation .confirmation{position:relative;background:color-mix(in srgb,var(--bg) 94%,var(--accent))}
+.birthday-invitation .confirmation{position:relative}
 .birthday-invitation [data-rsvp-status]{position:relative}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .birthday-invitation[data-phase=opening] .cover{animation:none}

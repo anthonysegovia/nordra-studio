@@ -10,7 +10,8 @@ const skipButton = document.querySelector('[data-skip]');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
 const openingDuration = Number(entrance.dataset.duration) || 700;
 let phase = 'closed', timer;
-const sections = new Set(['bienvenida', 'detalles', 'agenda', 'vestimenta', 'confirmacion']);
+const sections = new Set([...content.querySelectorAll('section[id]')].map(section=>section.id));
+const firstSection=sections.values().next().value;
 const requestedSection = location.hash.slice(1);
 
 function syncTheme() {
@@ -44,16 +45,18 @@ function finishOpening() {
   clearTimeout(timer);
   if (phase === 'open') return;
   phase = 'open'; render();
-  goTo(sections.has(requestedSection) ? requestedSection : 'bienvenida');
+  goTo(sections.has(requestedSection) ? requestedSection : firstSection);
 }
 
 openButton.addEventListener('click', () => {
   if (phase !== 'closed') return;
-  if (reduce.matches || document.body.hasAttribute('data-float-skipped')) { finishOpening(); return; }
+  if ((reduce.matches && !entrance.hasAttribute('data-reveal-content')) || document.body.hasAttribute('data-float-skipped')) { finishOpening(); return; }
   phase = 'opening'; render();
   // Skip remains reachable by keyboard while the opening runs.
   skipButton.focus({ preventScroll: true });
-  timer = setTimeout(finishOpening, openingDuration);
+  const still=entrance.hasAttribute('data-reveal-content') && (reduce.matches || !entrance.querySelector('.is-live') || document.body.dataset.floatPaused==='true');
+  entrance.toggleAttribute('data-still',still);
+  timer = setTimeout(finishOpening, still?180:openingDuration);
 });
 skipButton.addEventListener('click', finishOpening);
 reduce.addEventListener('change', () => { if (reduce.matches && phase === 'opening') finishOpening(); });
@@ -90,6 +93,10 @@ if (access) {
   if (!name) { form.elements.namedItem('guest').focus(); return; }
   const attending = form.elements.namedItem('attendance').value === 'yes';
   status.textContent = `${name}, ${attending ? 'así se vería tu confirmación' : 'así se vería tu respuesta'}. Es una muestra: no se ha enviado ni guardado ninguna respuesta.`;
+  if(form.dataset.sampleResult){
+    status.textContent=(attending?form.dataset.yesMessage:form.dataset.noMessage)+' '+form.dataset.sampleResult;
+    form.dispatchEvent(new CustomEvent('pass-response',{detail:{name,attendance:attending?'yes':'no'}}));
+  }
   if(attending) form.dispatchEvent(new Event('attendance-confirmed'));
   status.focus({ preventScroll: true });
 });

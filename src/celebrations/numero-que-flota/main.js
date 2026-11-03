@@ -1,4 +1,5 @@
 import '../invitation';
+import './interior';
 import {invitation} from './config.mjs';
 
 const stage=document.querySelector('[data-float-stage]'),poster=stage.querySelector('img');
@@ -60,7 +61,7 @@ document.addEventListener('visibilitychange',sync);reduced.addEventListener('cha
 addEventListener('pagehide',()=>{clearTimeout(timer);stop()});addEventListener('pageshow',sync);
 document.querySelector('[data-skip]').addEventListener('click',()=>{skipped=true;document.body.dataset.floatSkipped='';sync()},{capture:true});
 motion.addEventListener('click',()=>{
-  paused=!paused;motion.setAttribute('aria-pressed',String(paused));motion.textContent=paused?'Reanudar globos':'Pausar globos';refresh();
+  paused=!paused;document.body.dataset.floatPaused=String(paused);motion.setAttribute('aria-pressed',String(paused));motion.textContent=paused?invitation.copy.resume:invitation.copy.pause;refresh();
 });
 let down;
 function aim(event){
@@ -75,7 +76,7 @@ stage.addEventListener('pointercancel',()=>{down=null;pointer.x=pointer.y=0});
 stage.addEventListener('pointerleave',()=>{if(!down)pointer.x=pointer.y=0});
 
 document.querySelector('.celebration-rsvp').addEventListener('attendance-confirmed',()=>{
-  if(reduced.matches||paused)return;
+  if(reduced.matches||paused||skipped)return;
   const burst=document.createElement('span');burst.className='gold-sparks';burst.setAttribute('aria-hidden','true');
   for(let i=0;i<9;i++){const dot=document.createElement('i');dot.style.setProperty('--angle',i*40+'deg');burst.append(dot)}
   document.querySelector('[data-rsvp-status]').append(burst);setTimeout(()=>burst.remove(),700);
