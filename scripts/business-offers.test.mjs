@@ -24,4 +24,10 @@ test('three common journeys and intermediate landing/custom needs recommend the 
 test('border lamp measures reach in pixels, follows corners and closes its orbit',()=>{
  assert.deepEqual(borderPoint(300,400,150,-80),{x:150,y:0,distance:80});const corner=borderPoint(300,400,310,-10);assert.ok(corner.x<300&&corner.y>0);assert.ok(Math.abs(Math.hypot(corner.x-278,corner.y-22)-22)<1e-8);assert.deepEqual(orbitPoint(300,400,0),orbitPoint(300,400,1));for(let i=0;i<100;i++){const p=orbitPoint(300,400,i/100);assert.ok(borderPoint(300,400,p.x,p.y).distance<1e-7);}
 });
-test('delivery times stay open by default and keep every package',()=>{const html=renderBusinessOffers('{{business:delivery}}');assert.match(html,/^<details class="business-delivery" open><summary><h3>Un plazo para cada proyecto<\/h3>/);for(const offer of businessOffers)assert.ok(html.includes(`<dt>${offer.name}</dt><dd>${offer.delivery}</dd>`));});
+test('hosting summary uses the lowest monthly tariff and keeps both plans closed initially',()=>{
+ const html=renderBusinessOffers('{{business:offers}}');
+ const monthly=businessHosting.flatMap(h=>h.terms.filter(t=>t.months===1).map(t=>t.cents));
+ assert.ok(html.includes('Después, desde <strong>'+businessMoney(Math.min(...monthly))+'</strong> al mes.'));
+ assert.ok(html.includes('<details><summary>Ver planes de alojamiento</summary>'));
+ assert.doesNotMatch(html,/class="business-delivery"/);
+});

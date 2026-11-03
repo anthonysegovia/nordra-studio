@@ -151,15 +151,15 @@ const pages = {
   },
   "negocios": {
     "entry": "business",
-    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "nordra-materials", "nordra-theatre", "light-table", "interface-icons", "mobile-chrome", "language-switch", "page-navigation", "carousel-positions", "business-offers", "business-content"],
+    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "nordra-materials", "nordra-theatre", "interface-icons", "mobile-chrome", "language-switch", "page-navigation", "carousel-positions", "business-offers", "business-content"],
     "styles": [
       "scene",
       "nordra-theatre",
       "contact"
     ],
     "inline": 3,
-    "entryStyles": ["light-table", "mobile-chrome", "language-switch", "business-offers", "carousel-positions", "business-content"],
-    "unscoped": ["light-table", "carousel-positions", "business-offers", "business-content"]
+    "entryStyles": ["business-examples", "mobile-chrome", "language-switch", "business-offers", "carousel-positions", "business-content"],
+    "unscoped": [ "carousel-positions", "business-offers", "business-content"]
   },
   "index": {
     "entry": "home",
