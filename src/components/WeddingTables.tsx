@@ -1,3 +1,4 @@
+import { SeatGuests } from './SeatGuests';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Check, ChevronDown, Download, Pencil, Plus, Search, Trash2, UsersRound, X } from 'lucide-react';
 import { invitationLabel, type WeddingInvitation } from '../lib/weddingInvitations';
@@ -8,6 +9,9 @@ import { weddingError } from '../lib/weddingClient';
 type Props = { invitations: WeddingInvitation[]; state: BorealState; action: BorealAction; english: boolean; disabled: boolean; readOnly: boolean; couple:string };
 type Edit = { table: WeddingTable; isNew: boolean; deleting?: boolean };
 export function WeddingTables({ invitations, state, action, english, disabled, readOnly, couple }: Props) {
+  const [adding,setAdding]=useState('');
+  const target=state.tables.find(table=>table.id===adding);
+  const [moving,setMoving]=useState('');
   const [showPlan,setShowPlan]=useState(false);
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all'), [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -41,7 +45,7 @@ export function WeddingTables({ invitations, state, action, english, disabled, r
             <span className="boreal-table-drawing" aria-hidden="true"><span className="boreal-table-center"><UsersRound size={24} strokeWidth={1}/><span>{members.length}<small> / {table.capacity}</small></span></span>{Array.from({ length: table.capacity }, (_, index) => <i key={index} className={index < members.length ? members[index].attendance === 'yes' ? 'is-filled' : 'is-reserved' : ''} style={{ transform: `rotate(${index * 360 / table.capacity}deg) translateY(-67px)` }}/>)}</span>
             <h3>{table.name}</h3><p>{table.capacity - members.length} {english ? 'places available' : 'lugares disponibles'}</p>
           </button>
-          <div className="boreal-table-actions"><button className="boreal-quiet" disabled={locked} aria-label={`${english ? 'Edit table' : 'Editar mesa'} ${table.name}`} onClick={() => setEditing({ table, isNew: false })}><Pencil size={14}/>{english ? 'Edit' : 'Editar'}</button><button className="boreal-icon" disabled={locked} aria-label={`${english ? 'Delete table' : 'Eliminar mesa'} ${table.name}`} onClick={() => setEditing({ table, isNew: false, deleting: true })}><Trash2 size={15}/></button></div>
+          <div className="boreal-table-actions"><button className="boreal-quiet" disabled={locked||members.length>=table.capacity} onClick={()=>setAdding(table.id)}>{english?'Add guests':'Agregar invitados'}</button><button className="boreal-quiet" disabled={locked} aria-label={`${english ? 'Edit table' : 'Editar mesa'} ${table.name}`} onClick={() => setEditing({ table, isNew: false })}><Pencil size={14}/>{english ? 'Edit' : 'Editar'}</button><button className="boreal-icon" disabled={locked} aria-label={`${english ? 'Delete table' : 'Eliminar mesa'} ${table.name}`} onClick={() => setEditing({ table, isNew: false, deleting: true })}><Trash2 size={15}/></button></div>
         </article>;
       })}
       {!state.tables.length && <div className="boreal-empty"><UsersRound size={32} strokeWidth={1}/><h3>{english ? 'Your first table' : 'Su primera mesa'}</h3><p>{english ? 'Give it a name and choose how many places it has' : 'Elijan un nombre y cuántos lugares tendrá'}</p></div>}
@@ -54,13 +58,17 @@ export function WeddingTables({ invitations, state, action, english, disabled, r
       <div className="boreal-list-meta"><p role="status">{visible.length} {english ? 'invitations' : 'invitaciones'}</p><label>{english ? 'Per page' : 'Por página'}<select aria-label={english ? 'Seating invitations per page' : 'Invitaciones por página en mesas'} value={pageSize} onChange={event => { setPageSize(Number(event.target.value)); setPage(1); }}>{[10,25,50].map(size => <option key={size} value={size}>{size}</option>)}</select></label></div>{visible.slice((currentPage - 1) * pageSize, currentPage * pageSize).map(invitation => {
         const group = invitation.people.filter(person => person.attendance !== 'no');
         return <div className="boreal-seating-group" key={invitation.id}>
-          <div className="boreal-group-heading"><span>{invitationLabel(invitation)}</span>{group.length > 1 && <label className="boreal-group-seat"><span>{english ? 'Seat together' : 'Sentar juntos'}</span><select aria-label={`${english ? 'Seat together' : 'Sentar juntos a'} ${invitationLabel(invitation)}`} value="" disabled={locked || !state.tables.length} onChange={event => { if (event.target.value) void assign(group.map(person => person.id), event.target.value); }}><option value="">{english ? 'Choose table' : 'Elegir mesa'}</option>{state.tables.map(table => <option key={table.id} value={table.id} disabled={table.capacity - Object.entries(state.seats).filter(([id, seat]) => seat === table.id && !group.some(person => person.id === id)).length < group.length}>{table.name}</option>)}</select></label>}</div>
-          {group.map(person => <div className="boreal-seating-person" key={person.id}><div><strong>{person.name || (english ? 'Companion to be named' : 'Acompañante por definir')}</strong><small>{person.attendance === 'yes' ? (english ? 'Confirmed' : 'Confirmado') : (english ? 'Reply pending' : 'Por confirmar')}</small></div><label><span className="boreal-sr-only">{english ? 'Table for' : 'Mesa de'} {person.name || invitation.people[0].name + ' +1'}</span><select value={state.seats[person.id] || ''} disabled={locked} onChange={event => void assign([person.id], event.target.value)}><option value="">{english ? 'No table yet' : 'Sin mesa'}</option>{state.tables.map(table => <option key={table.id} value={table.id} disabled={state.seats[person.id] !== table.id && Object.values(state.seats).filter(id => id === table.id).length >= table.capacity}>{table.name}</option>)}</select></label></div>)}
+          {invitation.people.length>1 && <div className="boreal-group-heading"><span>{invitationLabel(invitation)}</span></div>}
+          {group.map(person => <div className="boreal-seating-person" key={person.id}><div><strong>{person.name || (english ? 'Companion to be named' : 'Acompañante por definir')}</strong><small>{person.attendance === 'yes' ? (english ? 'Confirmed' : 'Confirmado') : (english ? 'Reply pending' : 'Por confirmar')}</small></div><div className="seat-move" onBlur={e=>{if(!e.currentTarget.contains(e.relatedTarget))setMoving('')}} onKeyDown={e=>{if(e.key==='Escape'){setMoving('');e.currentTarget.querySelector('button')?.focus()}}}>
+              <button aria-expanded={moving===person.id} disabled={locked} onClick={()=>setMoving(moving===person.id?'':person.id)}>{english?'Table':'Mesa'}: {state.tables.find(t=>t.id===state.seats[person.id])?.name||(english?'Unassigned':'Sin mesa')} ▾</button>
+              {moving===person.id && <div className="seat-options">{[{id:'',name:english?'No table':'Sin mesa',capacity:Infinity},...state.tables].map(t=><button key={t.id} disabled={locked||t.id===(state.seats[person.id]||'')||Object.values(state.seats).filter(id=>id===t.id).length>=t.capacity} onClick={()=>{setMoving('');void assign([person.id],t.id)}}>{t.name}</button>)}</div>}
+            </div></div>)}
         </div>;
       })}
       {!visible.length && <p className="boreal-empty-note">{english ? 'No guests match this view' : 'No hay invitados en esta vista'}</p>}
       {pages > 1 && <div className="boreal-pagination"><button disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>{english ? 'Previous' : 'Anterior'}</button><span>{currentPage} / {pages}</span><button disabled={currentPage === pages} onClick={() => setPage(currentPage + 1)}>{english ? 'Next' : 'Siguiente'}<ChevronDown size={14}/></button></div>}
     </div>
+    {target && <SeatGuests table={target} state={state} invitations={invitations} action={action} english={english} disabled={locked} onClose={()=>setAdding('')}/>}
     {showPlan&&<WeddingSeatingPlan invitations={invitations} state={state} action={action} english={english} couple={couple} disabled={disabled} readOnly={readOnly} onClose={()=>setShowPlan(false)}/>}
     {editing && <TableEditor edit={editing} english={english} disabled={disabled || readOnly} occupied={Object.values(state.seats).filter(id => id === editing.table.id).length} onClose={() => setEditing(null)} onSave={async body => { await action(body); setEditing(null); setNotice(english ? 'Tables updated' : 'Mesas actualizadas'); }} fallback={heading}/>} 
   </section>;

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { invitationProgress, selectDashboardInvitations, receptionSummary, selectReceptionInvitations } from '../src/lib/weddingDashboard.ts';
+import { pendingTasks, invitationProgress, selectDashboardInvitations, receptionSummary, selectReceptionInvitations } from '../src/lib/weddingDashboard.ts';
 const person = (id, name, attendance) => ({ id, name, attendance });
 const group = (id, people, kind = 'couple', updated_at = '2026-10-26T12:00:00Z') => ({ id, people, kind, updated_at });
 const mixed = group('mixed', [person('a','Ana Torres','yes'), person('b','Luis Pérez','no')]);
@@ -43,4 +43,23 @@ test('arrival totals do not turn a declined guest into someone expected to arriv
   const changed=structuredClone(rows); changed[0].people[0].attendance='no';
   assert.deepEqual(receptionSummary(changed,state),{confirmed:2,arrived:1,waiting:2});
   assert.deepEqual(selectReceptionInvitations(changed,'','arrived',state).map(x=>x.id),['mixed']);
+});
+
+test('next steps count pending people only after a recorded send, unsent invitations and Boreal seats', () => {
+  const management={delivery:{partial:{sentAt:'today'},mixed:{sentAt:'today'}},history:[],trash:[]};
+  assert.deepEqual(pendingTasks(rows,management,state),{followup:1,unsent:3,unseated:2});
+  assert.deepEqual(pendingTasks(rows,management),{followup:1,unsent:3,unseated:0});
+  assert.deepEqual(pendingTasks([],management,state),{followup:0,unsent:0,unseated:0});
+});
+
+test('follow-up counts are a subset of all pending people, including mixed-response groups', () => {
+  const invitations = [group('sent', [person('a','Ana','yes'),person('b','Bruno','pending')]),
+    group('unsent', [person('c','Celia','pending'),person('d','Diana','pending')])];
+  const management = {delivery:{sent:{sentAt:'today'}},history:[],trash:[]};
+  const tasks = pendingTasks(invitations,management);
+  const total = invitations.reduce((sum,i)=>sum+invitationProgress(i).pending,0);
+  const unsentPeople = selectDashboardInvitations(invitations,'','unsent','name',undefined,management)
+    .reduce((sum,i)=>sum+invitationProgress(i).pending,0);
+  assert.deepEqual([tasks.followup,tasks.unsent,unsentPeople,total],[1,1,2,3]);
+  assert.equal(tasks.followup+unsentPeople,total);
 });

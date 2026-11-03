@@ -104,10 +104,10 @@
 .boreal-access-link>div { display:flex; align-items:center; gap:15px; }
 .boreal-access-link a { display:flex; align-items:center; gap:5px; font-size:12px; min-height:44px; }
 .boreal-reception-guests { min-width:0; }
-.boreal-list-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:15px 0;font-size:13px;color:#6d5b45}
+.boreal-list-meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:15px 0;font-size:13px;color:#6d5b45}
 .boreal-list-meta p{margin:0}
-.boreal-list-meta label{display:flex;align-items:center;gap:8px;white-space:nowrap}
-.boreal-section .boreal-list-meta select{width:72px;min-height:38px;padding:6px 8px;font-size:14px}
+.boreal-list-meta label{display:grid;grid-template-columns:auto 4.5rem;width:max-content;flex:none;margin-inline-start:auto;align-items:center;gap:8px;white-space:nowrap}
+.boreal-section .boreal-list-meta label select{flex:none;width:4.5rem;min-width:4.5rem;min-height:38px;padding:6px 8px;font-size:14px}
 .boreal-reception-list>button strong{font-size:16px;line-height:1.4}
 .boreal-reception-list>button small{font-size:13px;line-height:1.5;color:#6e5c45}
 .boreal-arrival-result { background:#fffdf9; border:1px solid #dbcdb7; border-radius:9px; padding:22px; margin:3px 0 20px; animation:boreal-enter .3s ease both; }

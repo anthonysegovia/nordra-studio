@@ -175,3 +175,43 @@
 }
 @media(max-width:370px){.wedding-workspace .workspace-welcome h1{font-size:32px}.ledger-mobile-people>span{align-items:flex-start;flex-direction:column;gap:4px}.ledger-controls{grid-template-columns:minmax(0,1fr) minmax(0,.85fr)}.ledger-results label{font-size:11px}.wedding-workspace .guest-ledger .ledger-results select{width:62px}.wedding-workspace .guest-ledger .ledger-add{padding-inline:10px;font-size:13px}}
 @media(prefers-reduced-motion:reduce){.wedding-workspace .guest-ledger *,.wedding-workspace .wedding-record-drawer,.wedding-workspace .wedding-record-drawer *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.panel-more{position:relative}.panel-more>div:not([hidden]){position:absolute;right:0;top:100%;z-index:12;min-width:200px;background:#fffcf6;padding:6px;border:1px solid #d8cdbb;border-radius:10px;box-shadow:0 6px 24px #47372324}.panel-more .ledger-secondary-tools{display:grid;margin:0}.panel-compact-bar{display:none}
+@media(max-width:760px){
+ .panel-compact-bar{position:fixed;inset:0 0 auto;z-index:12;display:flex;align-items:center;justify-content:space-between;gap:10px;height:43px;padding:0 16px;background:#f6f3ed;color:#493d30;border-bottom:1px solid #d7cdbf;font-size:12px}
+ .wedding-workspace .workspace-welcome-editorial{padding:62px 0 12px}.wedding-workspace .workspace-welcome-art{height:155px}.workspace-welcome-note{display:none}
+ .wedding-workspace .guest-ledger .ledger-add{display:grid;place-items:center;width:56px;height:56px;min-height:56px;padding:0;border-radius:50%;position:fixed;bottom:calc(78px + env(safe-area-inset-bottom,0px));right:14px;z-index:6;box-shadow:0 4px 12px #34291725}
+ .wedding-workspace .ledger-tools{top:43px;scroll-margin-top:43px}
+ .wedding-workspace .ledger-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:6px}
+ .wedding-workspace .ledger-heading>div:last-child{margin:0}
+ .wedding-workspace .panel-tasks{gap:0 8px;font-size:13px}.panel-tasks strong{width:100%}
+ .wedding-workspace .ledger-add span{display:none}.wedding-workspace .ledger-add svg{width:23px;height:23px}
+ .wedding-workspace .workspace-confirmations{padding-bottom:calc(140px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:760px){
+ .wedding-workspace .workspace-sidebar{padding-block:9px}.wedding-workspace .workspace-topbar{padding-block:6px}
+ .wedding-workspace .workspace-welcome-editorial{min-height:132px;padding:16px 0 10px}.wedding-workspace .workspace-welcome-editorial>div:first-child{width:76%}
+ .wedding-workspace .workspace-quick-links{gap:0 10px;font-size:12px}.wedding-workspace .workspace-quick-links>a{min-height:32px}
+ .wedding-workspace .ledger-heading .wedding-sync-status{margin:0;gap:4px}.wedding-workspace .ledger-heading .wedding-sync-status button{min-height:32px}
+ .wedding-workspace .guest-ledger .panel-tasks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:6px 0}
+ .panel-tasks strong,.panel-tasks>span{grid-column:1/-1}.wedding-workspace .guest-ledger .panel-tasks button{font-size:12px;padding:3px 4px;text-align:left;color:var(--panel-accent);min-height:42px}
+ .wedding-workspace .guest-ledger .ledger-stat{min-height:70px;padding:7px;gap:4px}.ledger-stat-value{font-size:29px}
+}
+.panel-desktop-filters label,.panel-filter-sheet label{display:flex;align-items:center;gap:8px;font-size:13px}.panel-desktop-filters{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.panel-desktop-filters .ledger-quick-filters{margin:0}.guest-ledger .ledger-controls{display:flex;gap:8px;align-items:end}.ledger-controls label{flex:1}.wedding-workspace .guest-ledger .panel-filter-trigger{display:none}
+@media(max-width:760px){
+ .panel-desktop-filters{display:none}.wedding-workspace .guest-ledger .panel-filter-trigger{display:block;min-height:44px;white-space:nowrap}
+ .workspace-dialog.panel-filter-sheet{position:fixed;inset:auto 0 0;width:100%;max-width:none;max-height:85dvh;margin:0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));border-radius:16px 16px 0 0}
+ .panel-filter-sheet .ledger-quick-filters{flex-wrap:wrap;overflow:visible;margin:14px 0}.wedding-workspace .guest-ledger .panel-filter-sheet .ledger-quick-filters button{white-space:normal;text-align:start;max-width:100%}
+}
+.workspace-dialog.panel-filter-sheet{background:var(--panel-paper);color:var(--panel-ink);border:1px solid #cabca9}.workspace-dialog.panel-filter-sheet h3{margin-top:0}
+.workspace-quick-links .guide-trigger {
+  display:inline-flex; align-items:center; min-height:38px; padding:0; border:0;
+  background:none; color:inherit; font:inherit; cursor:pointer;
+}
+.workspace-quick-links .guide-trigger:hover { text-decoration:underline; }
+@media(min-width:761px) {
+  .ledger-heading .wedding-sync-status { justify-content:flex-start; margin:0 0 6px; }
+  .ledger-tools { display:grid; grid-template-columns:minmax(0,1fr) max-content; gap:8px 16px; }
+  .panel-desktop-filters { display:contents; }
+  .panel-desktop-filters>label { flex-direction:column; align-items:flex-start; gap:5px; white-space:nowrap; }
+  .panel-desktop-filters .ledger-quick-filters { grid-column:1/-1; }
+}

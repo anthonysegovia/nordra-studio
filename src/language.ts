@@ -1,11 +1,12 @@
 import { useSyncExternalStore } from "react";
 
 export type Language = "es" | "en";
-let language: Language = localStorage.getItem("nordra-language") === "en" ? "en" : "es";
+let language: Language = "es";
+try { if(localStorage.getItem("nordra-language")==="en") language="en"; } catch { /* Preferences are optional. */ }
 const listeners = new Set<() => void>();
 export function setLanguage(next: Language) {
   language = next;
-  localStorage.setItem("nordra-language", next);
+  try { localStorage.setItem("nordra-language", next); } catch { /* Keep the in-memory choice. */ }
   document.documentElement.lang = next;
   listeners.forEach(listener => listener());
 }
