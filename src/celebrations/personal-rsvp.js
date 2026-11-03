@@ -37,6 +37,7 @@ export async function personalRsvp(form, status, access, occasion) {
       picker.options[index].textContent=invitation.people[index].name||'Acompañante';
       display();
       status.textContent='Tu respuesta ya está en el panel de muestra.';
+      if(invitation.people[index].attendance==='yes') form.dispatchEvent(new Event('attendance-confirmed'));
       submit.disabled=false;
     }catch(error){
       const issue=sampleGuestError(error);

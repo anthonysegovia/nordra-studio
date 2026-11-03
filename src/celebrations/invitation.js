@@ -8,7 +8,7 @@ const content = document.querySelector('.celebration-content');
 const openButton = document.querySelector('[data-open]');
 const skipButton = document.querySelector('[data-skip]');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-const openingDuration = 700;
+const openingDuration = Number(entrance.dataset.duration) || 700;
 let phase = 'closed', timer;
 const sections = new Set(['bienvenida', 'detalles', 'agenda', 'vestimenta', 'confirmacion']);
 const requestedSection = location.hash.slice(1);
@@ -24,7 +24,7 @@ function render() {
   const visibility = entranceVisibility(phase);
   entrance.hidden = visibility.entranceHidden;
   entrance.inert = visibility.entranceHidden;
-  content.hidden = visibility.contentHidden;
+  content.hidden = visibility.contentHidden && !(phase === 'opening' && entrance.hasAttribute('data-reveal-content'));
   content.inert = visibility.contentHidden;
   menu.hidden = visibility.menuHidden;
   menu.inert = visibility.menuHidden;
@@ -69,7 +69,7 @@ menu.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener('cli
 entrance.addEventListener('keydown', event => {
   if (event.key === 'Escape') { event.preventDefault(); finishOpening(); return; }
   if (event.key !== 'Tab') return;
-  const controls = [openButton, skipButton].filter(button => !button.disabled);
+  const controls = [...entrance.querySelectorAll('button')].filter(button => !button.disabled && !button.hidden);
   const first = controls[0], last = controls.at(-1);
   if (event.shiftKey && (document.activeElement === first || document.activeElement === entrance)) { event.preventDefault(); last.focus(); }
   else if (!event.shiftKey && (document.activeElement === last || document.activeElement === entrance)) { event.preventDefault(); first.focus(); }
@@ -90,6 +90,7 @@ if (access) {
   if (!name) { form.elements.namedItem('guest').focus(); return; }
   const attending = form.elements.namedItem('attendance').value === 'yes';
   status.textContent = `${name}, ${attending ? 'así se vería tu confirmación' : 'así se vería tu respuesta'}. Es una muestra: no se ha enviado ni guardado ninguna respuesta.`;
+  if(attending) form.dispatchEvent(new Event('attendance-confirmed'));
   status.focus({ preventScroll: true });
 });
 form.addEventListener('input', () => { status.textContent = ''; });

@@ -1,0 +1,54 @@
+@import '../../styles/noche-fonts.css';
+
+:root[data-invitation=camila]{--bg:#f4e9d3;--ink:#1d1a2e;--accent:#74531b;--title:NocheSora,Sora,sans-serif;font-family:NocheManrope,Manrope,sans-serif}
+:root[data-invitation=camila][data-theme=dark]{--bg:#1d1a2e;--ink:#f4e9d3;--accent:#e6c98e}
+.birthday-invitation .celebration-entrance{background:radial-gradient(ellipse at 65% 45%,var(--plum),var(--night) 75%);color:var(--ivory)}
+.birthday-invitation .cover{position:relative;width:min(100%,1200px);max-width:none;min-height:610px;height:100svh;max-height:none;padding:24px clamp(22px,5vw,80px);gap:10px;grid-template-rows:auto auto minmax(0,1fr) auto}
+.birthday-invitation .cover-head{border-bottom:1px solid #e6c98e48;padding-bottom:14px;font-size:9px;letter-spacing:.16em;color:#ebd6ac}
+.birthday-invitation .cover-head>span:first-child{font-weight:600;letter-spacing:.24em}
+.birthday-invitation .cover-copy{padding:12px 0 0}
+.birthday-invitation .cover-copy .eyebrow{color:#e6c98e}
+.birthday-invitation .cover-copy h1{font-size:clamp(48px,9vw,110px);letter-spacing:-.065em;line-height:1.08;margin:6px 0}
+.birthday-invitation .cover-subtitle{font:500 clamp(17px,2vw,26px)/1.4 NocheSora,sans-serif;color:#edd5a3;margin:0;letter-spacing:-.035em}
+.birthday-invitation .cover-message{font-size:13px;color:#d6cbd4}
+.birthday-invitation .cover-art{position:relative;align-self:center;justify-self:center;width:min(100%,calc(100svh - 350px),440px);max-height:100%;aspect-ratio:1;touch-action:pan-y;cursor:grab;user-select:none}
+.birthday-invitation .cover-art:active{cursor:grabbing}
+.birthday-invitation .cover-art :is(img,canvas){position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;max-height:none;object-fit:contain;pointer-events:none}
+.birthday-invitation .cover-art.is-live img{visibility:hidden}
+.birthday-invitation .cover-bottom{width:100%;max-width:390px;justify-self:center}
+.birthday-invitation .cover-date{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 12px;padding-top:12px;border-color:#e6c98e48}
+.birthday-invitation .cover-date p+p{margin:0;color:#e1d5d5;opacity:1}
+.birthday-invitation .cover .primary{background:#e6c98e;color:#241e30;min-height:48px}
+.birthday-invitation .cover .text-button{color:#f4e9d3;min-height:44px}
+.float-motion{position:absolute;right:clamp(22px,5vw,80px);bottom:14px;background:transparent;color:#e6c98e;border:0;padding:8px;font-size:11px}
+@media(max-width:700px){.float-motion{bottom:auto;top:58px;right:16px}}
+@media(min-width:900px){
+ .birthday-invitation .cover{grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);grid-template-rows:auto 1fr auto;column-gap:32px;padding-block:38px}
+ .birthday-invitation .cover-copy{align-self:center;grid-row:2}
+ .birthday-invitation .cover-copy h1{margin:12px 0}
+ .birthday-invitation .cover-art{width:min(100%,70svh,620px);height:auto;align-self:center;grid-row:2/4}
+ .birthday-invitation .cover-bottom{justify-self:start;grid-row:3}
+}
+.birthday-invitation .celebration-header [data-cover]{display:flex;align-items:center;gap:9px}
+.number-mark{width:33px;height:33px;border-radius:50%;background:#292233;object-fit:contain}
+.birthday-invitation .welcome{display:block;padding-block:clamp(42px,9vw,120px);border-bottom:1px solid var(--rule)}
+.birthday-invitation .welcome h2{max-width:760px;margin-bottom:0;font-size:clamp(38px,6vw,82px)}
+.birthday-invitation .content-grid{padding-top:28px}
+.birthday-invitation .agenda li{font-family:NocheSora,sans-serif}
+.birthday-invitation .confirmation{position:relative;background:color-mix(in srgb,var(--bg) 94%,var(--accent))}
+.birthday-invitation [data-rsvp-status]{position:relative}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.birthday-invitation[data-phase=opening] .cover{animation:none}
+@media(prefers-reduced-motion:no-preference){
+ .birthday-invitation[data-phase=opening] .cover-copy,.birthday-invitation[data-phase=opening] .cover-head{animation:float-copy-out var(--opening) ease both}
+ .birthday-invitation[data-phase=opening] .cover-art{animation:float-poster-up var(--opening) ease-in both}
+ .birthday-invitation[data-phase=open] .celebration-content{animation:float-arrival .32s ease both}
+ .birthday-invitation[data-phase=opening] .celebration-entrance{animation:float-veil var(--opening) ease both}
+ @keyframes float-veil{0%,65%{opacity:1}to{opacity:0}}
+ @keyframes float-copy-out{to{opacity:.12;transform:translateY(-12px)}}
+ @keyframes float-poster-up{to{transform:translateY(-100vh);opacity:0}}
+ @keyframes float-arrival{from{opacity:.3;transform:translateY(7px)}}
+ .gold-sparks{position:absolute;pointer-events:none;left:50%;top:0}
+ .gold-sparks i{position:absolute;width:4px;height:7px;background:#bd9653;border-radius:50%;animation:gold-toast .65s ease-out forwards}
+ @keyframes gold-toast{from{opacity:1;transform:rotate(var(--angle)) translateY(-4px)}to{opacity:0;transform:rotate(var(--angle)) translateY(-58px)}}
+}
