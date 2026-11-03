@@ -1,3 +1,4 @@
+import { PanelExperience, defaultPanelExperience } from '../lib/panelExperience';
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowUpRight, CalendarDays, Check, CircleDot, Heart, Mail, QrCode, RotateCcw, UsersRound } from "lucide-react";
 import { WeddingInvitationPanel } from "../components/WeddingInvitationPanel";
@@ -17,7 +18,7 @@ import { WeddingImport } from '../components/WeddingImport';
 import { WeddingHistory } from '../components/WeddingHistory';
 import { WeddingSyncStatus } from '../components/WeddingSyncStatus';
 
-export function WeddingWorkspace({ wedding, adminView = false, onBack, onSignOut }: { wedding?: WeddingEvent; adminView?: boolean; onBack?: () => void; onSignOut?: () => void }) {
+export function WeddingWorkspace({ wedding, adminView = false, experience = defaultPanelExperience, onBack, onSignOut }: { experience?: typeof defaultPanelExperience; wedding?: WeddingEvent; adminView?: boolean; onBack?: () => void; onSignOut?: () => void }) {
   const language = useLanguage();
   const english = !wedding && language === "en";
   const { management, managementAction, lastSyncedAt, syncing, changedIds, invitations, saveInvitation, deleteInvitation, reset, resetKey, loading, syncError, refresh, event: latestEvent, errorCode, boreal, borealAction } = useWeddingCloud(wedding?.id, adminView);
@@ -73,7 +74,7 @@ export function WeddingWorkspace({ wedding, adminView = false, onBack, onSignOut
     : notice.kind === "storage" ? (english ? "The change could not be saved. Please try again." : "No se pudo guardar el cambio. Intenta nuevamente.")
     : `${notice.name} · ${notice.kind === "added" ? (english ? "added to the list" : "se agregó a la lista") : notice.kind === "updated" ? (english ? "changes saved" : "cambios guardados") : (english ? "removed from the list" : "se eliminó de la lista")}`;
 
-  return <div className="wedding-workspace">
+  return <PanelExperience.Provider value={experience}><div className="wedding-workspace" style={{ '--panel-accent': experience.accent } as React.CSSProperties}>
     <a className="workspace-skip" href="#workspace-main">{english ? "Skip to content" : "Saltar al contenido"}</a>
     <aside className="workspace-sidebar">
       <a className="workspace-brand" href="/bodas" aria-label={english ? "Nordra Studio · Weddings" : "Nordra Studio · Bodas"}>NORDRA<span>WEDDINGS</span></a>
@@ -103,7 +104,7 @@ export function WeddingWorkspace({ wedding, adminView = false, onBack, onSignOut
           <div className="workspace-confirmations" id="confirmaciones" ref={listFocus} tabIndex={-1}>
             <p className={`workspace-sync${syncError ? " is-offline" : ""}`} role="status">{loading ? (real ? "Preparando su boda…" : english ? "Preparing your sample space…" : "Preparando su espacio de muestra…") : syncError ? (english ? "Unable to sync right now" : "No pudimos sincronizar en este momento") : (english ? "Connected to your invitations · Updates automatically" : "Conectado a sus invitaciones · Actualización automática")}{syncError && <button type="button" onClick={() => void refresh()}>{english ? "Retry" : "Reintentar"}</button>}</p>
             {real && errorCode && <p role="alert">{weddingError(new Error(errorCode))}{errorCode === "signed_out" && <a href="/mi-boda.html"> · Iniciar sesión</a>}</p>}
-            {!loading && <div className="workspace-live-list"><WeddingInvitationPanel management={management} managementAction={managementAction} changedIds={changedIds} onImport={()=>setOperation('import')} onHistory={()=>setOperation('history')} key={resetKey} invitations={invitations} english={english} boreal={hasBoreal ? boreal : undefined} disabled={busy || syncError} readOnly={real?.archived} onAdd={() => setEditor({ mode: "add" })} onEdit={(invitation, personId) => setEditor({ mode: "edit", invitation, personId })} onCorrect={(invitation, personId) => setEditor({ mode: "attendance", invitation, personId })} onDelete={invitation => setEditor({ mode: "delete", invitation })} /></div>}
+            {!loading && <div className="workspace-live-list"><WeddingInvitationPanel onTables={()=>navigate('tables')} management={management} managementAction={managementAction} changedIds={changedIds} onImport={()=>setOperation('import')} onHistory={()=>setOperation('history')} key={resetKey} invitations={invitations} english={english} boreal={hasBoreal ? boreal : undefined} disabled={busy || syncError} readOnly={real?.archived} onAdd={() => setEditor({ mode: "add" })} onEdit={(invitation, personId) => setEditor({ mode: "edit", invitation, personId })} onCorrect={(invitation, personId) => setEditor({ mode: "attendance", invitation, personId })} onDelete={invitation => setEditor({ mode: "delete", invitation })} /></div>}
             <div className="workspace-list-footer"><span><Check size={14} aria-hidden="true" />{english ? "Replies arrive from each personal invitation" : "Las respuestas llegan desde cada invitación personal"}</span>{!real && <button type="button" disabled={loading || busy || syncError} onClick={() => resetDialog.current?.showModal()}><RotateCcw size={14} aria-hidden="true" />{english ? "Reset preview" : "Reiniciar vista"}</button>}</div>
             <p className="workspace-reset-notice" role="status">{noticeText}</p>
           </div>
@@ -118,6 +119,6 @@ export function WeddingWorkspace({ wedding, adminView = false, onBack, onSignOut
     {operation==='history'&&<WeddingHistory management={management} action={managementAction} english={english} readOnly={real?.archived} disabled={syncError} onClose={()=>setOperation(null)}/>}
     {editor && <WeddingInvitationEditor action={editor} english={english} realEvent={!!real} onSave={saveSampleInvitation} onDelete={deleteSampleInvitation} onClose={() => setEditor(null)} fallbackFocus={listFocus} />}
     <dialog ref={resetDialog} className="workspace-dialog workspace-guest-editor" aria-labelledby="reset-title" onCancel={event => { if (busy) event.preventDefault(); }}><div className="workspace-dialog-inner"><h2 id="reset-title">{english ? "Start again" : "Volver a empezar"}</h2><p className="workspace-delete-description">{english ? "Your sample list will be restored. Current personal links and their replies will be replaced." : "Se restaurará la lista de muestra. Los enlaces personales actuales y sus respuestas serán reemplazados."}</p><div className="workspace-editor-actions"><button type="button" className="workspace-editor-cancel" disabled={busy} onClick={() => resetDialog.current?.close()}>{english ? "Cancel" : "Cancelar"}</button><button type="button" className="workspace-button" disabled={busy} onClick={() => void resetPreview()}>{busy ? (english ? "Resetting…" : "Reiniciando…") : (english ? "Reset sample" : "Reiniciar muestra")}</button></div>{notice?.kind === "storage" && <p role="alert">{noticeText}</p>}</div></dialog>
-  </div>;
+  </div></PanelExperience.Provider>;
 }
 

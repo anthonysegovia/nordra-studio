@@ -28,6 +28,20 @@ export function selectDashboardInvitations(invitations: WeddingInvitation[], que
   }).sort((a, b) => (order === 'recent' ? Date.parse(b.updated_at) - Date.parse(a.updated_at) : 0) || a.people[0].name.localeCompare(b.people[0].name, 'es', { sensitivity: 'base' }) || a.id.localeCompare(b.id));
 }
 
+export function pendingTasks(invitations: WeddingInvitation[], management: WeddingManagement, boreal?: BorealState) {
+  const tables = new Set(boreal?.tables.map(table => table.id));
+  let followup = 0, unsent = 0, unseated = 0;
+  for (const invitation of invitations) {
+    const sent = !!management.delivery[invitation.id]?.sentAt;
+    if (!sent) unsent++;
+    for (const person of invitation.people) {
+      if (sent && person.attendance === 'pending') followup++;
+      if (boreal && person.attendance === 'yes' && !tables.has(boreal.seats[person.id])) unseated++;
+    }
+  }
+  return {followup,unsent,unseated};
+}
+
 export function receptionSummary(invitations: WeddingInvitation[], state: BorealState) {
   const people = invitations.flatMap(invitation => invitation.people);
   return { confirmed: people.filter(person => person.attendance === 'yes').length,
