@@ -34,7 +34,11 @@ function initializeLightTable(table){
  const lights=[...table.querySelectorAll('.light-table-screen-light')];
  const animations=new Set();let revealed=false,pointers,hovered='',selected='';
  const stopped=()=>reduce.matches||!fine.matches||document.body.dataset.businessMotion==='paused'||document.body.dataset.journeyMotion==='paused';
- const key=link=>link.closest('[data-light-case]')?.dataset.lightCase||(link.hash.includes('nitida')?'nitida':'sobremesa');
+ const caseAt=hash=>{
+  const target=document.getElementById(hash.slice(1));
+  return cards.find(card=>card.contains(target))?.dataset.lightCase||'';
+ };
+ const key=link=>link.closest('[data-light-case]')?.dataset.lightCase||caseAt(link.hash);
  function active(){
   const focused=links.find(link=>link===document.activeElement);
   const value=fine.matches?(focused?key(focused):hovered||selected):'';
@@ -76,7 +80,7 @@ function initializeLightTable(table){
    selected=key(link);active();
   });
  });
- function fromHash(){selected=location.hash.includes('sobremesa')?'sobremesa':location.hash.includes('nitida')?'nitida':'';active();}
+ function fromHash(){selected=caseAt(location.hash);active();}
  addEventListener('hashchange',fromHash);fromHash();
  table.dataset.lightState='waiting';observer.observe(table);
  const state=new MutationObserver(sync);state.observe(document.body,{attributes:true,attributeFilter:['data-business-motion','data-journey-motion']});

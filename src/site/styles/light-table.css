@@ -85,3 +85,10 @@ body[data-business-motion="paused"] [data-view="negocios"] .light-table *,body[d
 [data-view="negocios"] .light-table .case-scenes:has([value="tratamientos"]:checked) .nitida-inicio,
 .case-nitida:not(:has([value="tratamientos"]:checked)) .copy-tratamientos,
 .case-nitida:has([value="tratamientos"]:checked) .copy-inicio{display:none}
+
+[data-view="negocios"] .light-table .case-cantera{--case-one:#e9e6df;--case-two:#854d36;--case-three:#393632}
+[data-view="negocios"] .light-table .case-scenes:not(:has([value="obra"]:checked)) .cantera-obra,
+[data-view="negocios"] .light-table .case-scenes:has([value="obra"]:checked) .cantera-ciudad,
+.case-cantera:not(:has([value="obra"]:checked)) .copy-obra,
+.case-cantera:has([value="obra"]:checked) .copy-ciudad{display:none}
+.case-scenes label{transition:color .18s ease,box-shadow .18s ease}
