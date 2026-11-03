@@ -8,7 +8,7 @@
 body[data-business-motion=paused] .business-disclosure *,body[data-journey-motion=paused] .business-disclosure *{transition:none!important}
 @media(prefers-reduced-motion:reduce){.business-disclosure *{transition:none!important}}
 @media(max-width:700px){
- .case-brief-demo{font-size:13px}.business-disclosure{margin-top:18px}.business-disclosure-body{padding:18px 0}
+ .business-disclosure{margin-top:18px}.business-disclosure-body{padding:18px 0}
 }
 .business-trust{display:flex;align-items:center;gap:12px;padding:12px 0;border-block:1px solid var(--line)}
 .business-trust img{width:34px;height:34px;object-fit:cover;border-radius:50%}

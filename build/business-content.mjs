@@ -1,29 +1,12 @@
 import { businessOffers, businessHosting, businessMoney, businessDeliveryStart } from '../src/data/businessOffers.ts';
 const esc = value => String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
 export const businessFAQs = [
- ...[
-  {
-    "question": "¿Qué necesito para empezar?",
-    "answer": "Puedes empezar contándonos qué hace tu negocio, a quién quieres llegar y qué debería poder hacer una persona en tu web. Si tienes textos, logotipo o fotografías, compártelos al definir el contenido. El alcance se acuerda en la cotización."
-  },
-  {
-    "question": "¿Cómo elijo entre una landing y un sitio?",
-    "answer": "Compara la estructura y las funciones que necesitas: una página personalizada, una landing de hasta tres secciones, un sitio de cuatro a seis apartados, una web a medida o una tienda. Compara los paquetes.",
-    "link": {
-      "label": "Compara los paquetes.",
-      "href": "#opciones-web"
-    }
-  },
-  {
-    "question": "¿El dominio y el alojamiento están incluidos?",
-    "answer": "Los paquetes de negocio incluyen el primer mes de alojamiento y soporte técnico desde la publicación. La continuidad se paga por separado del desarrollo. Dominio, alojamiento y servicios externos se especifican en la cotización."
-  }
-],
- { question: '¿Cuánto tarda mi página?', answer: businessDeliveryStart + ' ' + businessOffers.map(o => o.name + ': ' + o.delivery.toLowerCase() + '.').join(' ') },
- { question: '¿El dominio y la página son míos?', answer: 'El dominio queda a tu nombre. El sitio vive en el alojamiento de Nordra mientras se paga la continuidad.' },
- { question: '¿Cuánto cuesta mantenerla al mes?', answer: 'El primer mes de alojamiento y soporte está incluido. Después: ' + businessHosting.map(h => h.name + ', ' + (h.startingAt ? 'desde ' : '') + businessMoney(h.terms.find(t => t.months === 1).cents) + ' MXN al mes').join('; ') + '. IVA incluido. El alojamiento se paga por separado del desarrollo.' },
- { question: '¿Qué pasa si quiero cambios después de publicar?', answer: 'Los cambios de contenido después de publicar se cotizan aparte. Cuéntanos qué quieres actualizar y acordamos el alcance y el costo antes de hacerlo.' },
- { question: '¿Cómo pago y facturo?', answer: 'Para empezar se requieren la propuesta aceptada, los materiales y un anticipo del 50%. El otro 50% se paga antes de publicar y entregar los accesos finales. Al confirmar la cotización, te enviamos un enlace de Mercado Pago para pagar con tarjeta de crédito o débito. Emitimos factura (CFDI).' },
+ { question:'¿Cómo empiezo?', answer:'Cuéntanos qué hace tu negocio y a quién quieres llegar. Puedes llamar al 81 2902 2231 o escribir a hola@nordrastudio.mx. Si tienes textos, logotipo o fotos, compártelos para definir el alcance por escrito.' },
+ { question:'¿Qué paquete elijo?', answer:'Una landing reúne tu información en una página. El sitio de negocio ofrece de cuatro a seis apartados. Para reservas, integraciones o ventas, revisa las opciones a medida. Compara los paquetes.', link:{label:'Compara los paquetes.', href:'#opciones-web'} },
+ { question:'¿Cuánto tarda mi página?', answer:businessDeliveryStart + ' ' + businessOffers.map(o => o.name + ': ' + o.delivery.toLowerCase() + '.').join(' ') },
+ { question:'¿Qué incluye el alojamiento?', answer:'El primer mes de alojamiento y soporte técnico está incluido desde la publicación. Después la continuidad se paga aparte: ' + businessHosting.map(h => h.name + ', ' + (h.startingAt ? 'desde ' : '') + businessMoney(h.terms.find(t => t.months === 1).cents) + ' MXN al mes').join('; ') + '. IVA incluido. El dominio queda a tu nombre. El sitio permanece en el alojamiento de Nordra mientras pagas la continuidad. El dominio y los servicios externos se cotizan por separado.' },
+ { question:'¿Cómo pago y facturo?', answer:'Para empezar se requieren la propuesta aceptada, los materiales y un anticipo del 50%. El otro 50% se paga antes de publicar y entregar los accesos finales. Al confirmar la cotización, te enviamos un enlace de Mercado Pago para pagar con tarjeta de crédito o débito. Emitimos factura (CFDI).' },
+ { question:'¿Y si necesito cambios?', answer:'Los cambios de contenido después de publicar se cotizan aparte. Acordamos el alcance y el costo antes de hacerlos.' },
 ];
 export const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEntity:businessFAQs.map(({question,answer}) => ({'@type':'Question',name:question,acceptedAnswer:{'@type':'Answer',text:answer}})) };
 export const jsonLD = value => '<script type="application/ld+json">' + JSON.stringify(value).replaceAll('<','\\u003c') + '</script>';
