@@ -2,7 +2,7 @@
   "bodas": [
     {
       "question": "¿Qué detalles puede reunir nuestra invitación?",
-      "answerHtml": "Los planes incluyen fecha, ubicaciones y cómo llegar, código de vestimenta, agenda y una galería de hasta 30 fotografías. El diseño de catálogo se personaliza con su historia y los detalles acordados. Acordamos detalles y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar."
+      "answerHtml": "Los planes incluyen fecha, ubicaciones y cómo llegar, código de vestimenta, agenda y una galería de hasta 30 fotografías. El diseño de catálogo se personaliza con su historia y los detalles acordados."
     },
     {
       "question": "¿Podemos organizar mesas y usar pases QR?",
@@ -11,6 +11,10 @@
     {
       "question": "¿Cuánto tiempo estará disponible?",
       "answerHtml": "El alojamiento de Aurora y Boreal incluye hasta 12 meses antes y 90 días después del evento. El soporte por WhatsApp va desde la entrega hasta 30 días después; las extensiones se cotizan aparte."
+    },
+    {
+      "question": "¿Cómo se paga?",
+      "answerHtml": "Acordamos detalles y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar."
     }
   ],
   "cumpleanos": [
@@ -20,11 +24,15 @@
     },
     {
       "question": "¿Cómo sé quién asistirá con acompañante?",
-      "answerHtml": "Los enlaces personales para individuales, parejas y +1 reúnen la confirmación por persona en tu panel. Aurora y Boreal no tienen límite de invitados ni de acompañantes. <a href=\"#cumpleanos-respuesta\">Prueba una confirmación de muestra.</a>"
+      "answerHtml": "Los enlaces personales para individuales, parejas y +1 reúnen la confirmación por persona en tu panel. Aurora y Boreal no tienen límite de invitados ni de acompañantes. <a href=\"#cumpleanos-panel-muestra\">Mira el panel de muestra.</a>"
     },
     {
       "question": "¿Puedo compartir los enlaces por WhatsApp?",
       "answerHtml": "Puedes copiar los enlaces y compartirlos manualmente por WhatsApp sin cargo adicional de Nordra. Los mensajes automáticos y otras integraciones se cotizan por separado antes de activarse."
+    },
+    {
+      "question": "¿Cómo se paga?",
+      "answerHtml": "Acordamos detalles y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar. Al confirmar la cotización, te enviamos un enlace de Mercado Pago para pagar con tarjeta de crédito o débito."
     }
   ],
   "eventos": [
@@ -39,6 +47,10 @@
     {
       "question": "¿La venta de entradas está incluida?",
       "answerHtml": "La venta de entradas y las integraciones de pago se cotizan aparte. Antes de contratar o activar algo, se explican los costos de configuración y las comisiones del proveedor."
+    },
+    {
+      "question": "¿Cómo se paga?",
+      "answerHtml": "Acordamos detalles y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar. Al confirmar la cotización, te enviamos un enlace de Mercado Pago para pagar con tarjeta de crédito o débito."
     }
   ],
   "temporada": [

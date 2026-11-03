@@ -34,7 +34,8 @@
 .wedding-plans .invite-points { margin:10px 0 18px; }
 .paper-lilies { position:absolute; inset:auto 19px 18px auto; width:clamp(76px,10vw,120px); pointer-events:none; opacity:.32; }
 .paper-lilies img { display:block; width:100%; height:auto; }
-.paper-lilies img+img { position:absolute; inset:auto 22% 0 auto; width:74%; rotate:-18deg; transform-origin:bottom center; }
+.invite-featured .paper-lilies { width:clamp(98px,12vw,146px); }
+.paper-lilies img+img { position:absolute; inset:auto 39% 0 auto; width:69%; rotate:-29deg; transform-origin:bottom center; }
 .wedding-plans .invite-cta { justify-self:start; align-self:start; display:inline-flex; align-items:center; gap:14px; min-height:44px; padding:0 18px; color:#fffaf2; background:var(--print); border-radius:24px; text-decoration:none; }
 .wedding-plans .invite-featured :is(.invite-cta,.invite-details) { top:calc(0px - var(--lift)); }
 .wedding-plans summary { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; cursor:pointer; list-style:none; }
@@ -70,6 +71,7 @@
   .wedding-plans .invite-card-head { min-height:52px; }
   .wedding-seal { width:78px; height:78px; font-size:14px; }
   .paper-lilies { width:76px; }
+  .invite-featured .paper-lilies { width:87px; }
   .wedding-plans .invite-points { margin-block:10px; }
   .wedding-plan-grid { grid-template-columns:1fr; gap:12px; }
   .theme-wedding .wedding-process .process-list { margin-block:18px; }

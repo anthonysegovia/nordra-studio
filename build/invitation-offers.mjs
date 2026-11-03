@@ -17,7 +17,8 @@ function price(offer, wedding) {
 export function invitationCard(offer, idPrefix = '') {
   const wedding = idPrefix === 'bodas-';
   const featured = offer.id === 'boreal';
-  const message = `Hola, me interesa el plan ${offer.name} para mi celebración (${offer.startingAt ? 'desde ' : ''}${invitationMoney(offer.cents)} MXN). Mi celebración es…`;
+  const occasion = { 'cumpleanos-': 'Cumpleaños', 'eventos-': 'Evento' }[idPrefix];
+  const message = `Hola, me interesa el plan ${offer.name} para mi celebración (${offer.startingAt ? 'desde ' : ''}${invitationMoney(offer.cents)} MXN). Mi celebración es…` + (occasion ? `\n\nTipo de celebración: ${occasion}.` : '');
   const points = featured ? offer.points.slice(1) : offer.points.slice(0, 3);
   const badge = wedding ? '<span class="wedding-seal"><span>La más</span> <span>completa</span></span>' : '<span class="invite-badge">La más completa</span>';
   const lily = '<img alt="" src="/artwork/wedding-lilies/lily-stem-v1-320.webp" srcset="/artwork/wedding-lilies/lily-stem-v1-320.webp 320w, /artwork/wedding-lilies/lily-stem-v1-640.webp 640w" sizes="(max-width:700px) 78px, 120px" width="320" height="480" loading="lazy">';
