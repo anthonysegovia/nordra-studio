@@ -57,7 +57,7 @@ export function initializeObjectives(root) {
     panel.scrollIntoView({block:'nearest',behavior:'instant'});
   });
   root.addEventListener('offeranchor', e => fromAnchor(e.detail));
-  fromAnchor(location.hash.slice(1));
+  fromAnchor(root.dataset.requestedAnchor || location.hash.slice(1));
   root.classList.add('offers-ready');
   goals.hidden = false;
 }
