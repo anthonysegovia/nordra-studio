@@ -1,28 +1,69 @@
 import { businessOffers, businessHosting, businessMoney, businessPriceNote, businessWhatsApp } from '../src/data/businessOffers.ts';
 const esc = s => String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
 const groups = [
- { id:'landing', name:'Landing', audience:'Para presentarte.', points:['Diseño adaptable','WhatsApp y mapa','Redes sociales'] },
- { id:'business', name:'Sitio de Negocio', audience:'Para mostrar servicios.', points:['4 a 6 apartados','Galería y formulario','SEO básico'] },
- { id:'custom', name:'Proyectos a medida', audience:'Para agendar o vender.', points:['Catálogo','Integraciones','Formularios'] },
- { id:'immersive', name:'Experiencia inmersiva', audience:'Para lanzar un producto.', points:['Escena propia','Recorrido por capítulos','Versión para celular'] },
+ { id:'landing', name:'Landing', goal:'Que me encuentren', points:['Diseño adaptable','WhatsApp y mapa','Redes sociales'] },
+ { id:'business', name:'Sitio de Negocio', goal:'Mostrar mis servicios', points:['4 a 6 apartados','Galería y formulario','SEO básico'] },
+ { id:'custom', name:'Proyectos a medida', goal:'Vender o agendar', points:['Catálogo','Integraciones','Formularios'] },
+ { id:'immersive', name:'Experiencia inmersiva', goal:'Lanzar algo memorable', points:['Escena propia','Recorrido por capítulos','Versión para celular'] },
 ];
-function card(group) {
- const offers=businessOffers.filter(offer=>offer.card===group.id);
- return `<article class="offer-card${group.id==='business'?' offer-recommended':''}" id="offer-${group.id}" tabindex="-1" aria-labelledby="offer-title-${group.id}"><div class="offer-light" aria-hidden="true"></div><div class="offer-heading"><h3 id="offer-title-${group.id}">${group.name}</h3>${group.id==='business'?'<span class="offer-badge">Recomendado</span>':''}</div><p class="offer-audience">${group.audience}</p><ul class="offer-points">${group.points.map(p=>`<li>${p}</li>`).join('')}</ul><div class="offer-levels">${offers.map(o=>`<a class="offer-quote" id="service-${o.id}" data-offer="${o.id}" data-offer-name="${o.name}" data-offer-price="${o.cents}" href="${esc(businessWhatsApp(o))}" target="_blank" rel="noopener" data-analytics-whatsapp="web_option"><span>${offers.length>1?`<span class="offer-level-name">${o.name}</span>`:''}<span class="offer-price"><small>desde</small> ${businessMoney(o.cents)}</span><span class="offer-delivery" data-delivery="${o.id}">${o.delivery}</span></span><span class="offer-quote-label">Cotizar <span aria-hidden="true">↗</span></span></a>`).join('')}</div><details class="offer-details"><summary>Ver todo lo que incluye <span aria-hidden="true">+</span></summary>${offers.map(o=>`<div><h4>${o.name}</h4><ul>${o.features.map(f=>`<li>${f}</li>`).join('')}</ul><p>${o.scope}</p></div>`).join('')}${offers.filter(o=>'example' in o).map(o=>`<a class="offer-example" href="${esc(o.example.href)}" target="_blank" rel="noopener">${o.example.label} <span aria-hidden="true">↗</span></a>`).join('')}</details></article>`;
+const work = {
+ business: [['nitida','Nítida','v547/assets/nitida-inicio-1100.webp','Portada de Nítida con el retrato junto al titular']],
+ immersive: [
+  ['sobremesa','Sobremesa','v546/assets/sobremesa-flor-1100.webp','Una botella de café sobre la flor del cafeto'],
+  ['cantera','Cantera','v549/assets/cantera-ciudad-1100.webp','Ciudad de puntos en la portada de Cantera'],
+ ],
+};
+const deliverables={
+ 'landing-essential':'Una página de presentación','landing-professional':'Página con formulario',
+ 'custom-web':'Catálogo a medida','shop':'Tienda en línea',
+};
+const levels = group => businessOffers.filter(offer => offer.card === group.id);
+const minimum = group => businessMoney(Math.min(...levels(group).map(offer => offer.cents)));
+const badge = '<span class="offer-badge">Recomendado</span>';
+function goal(group){
+ const recommended=group.id==='business';
+ return `<label class="goal-choice"><input type="radio" name="web-goal" value="${group.id}"${recommended?' checked':''}><strong>${group.goal}</strong><span>desde ${minimum(group)}</span>${recommended?badge:''}</label>`;
 }
+function visual(group,offers){
+ if(work[group.id])return `<div class="offer-art offer-work">${work[group.id].map(([slug,name,src,alt])=>`<a href="/demos/${slug}/" target="_blank" rel="noopener"><img src="/nordra/${src}" width="1100" height="619" loading="lazy" decoding="async" alt="${alt}"><span>${name} <i aria-hidden="true">↗</i></span></a>`).join('')}</div>`;
+ return `<div class="offer-art offer-print" aria-hidden="true">${offers.map((o,i)=>`<div data-level="${o.id}"${i?' hidden':''}><small>Lo que recibes</small><strong>${deliverables[o.id]}</strong><span>${o.delivery}</span></div>`).join('')}</div>`;
+}
+function level(o,i){
+ return `<div class="offer-level" data-level="${o.id}"${i?' hidden':''}>
+ <p class="offer-price"><small>desde</small> ${businessMoney(o.cents)}</p>
+ <p class="offer-delivery" data-delivery="${o.id}">${o.delivery}</p>
+ <a class="offer-quote" href="${esc(businessWhatsApp(o))}" target="_blank" rel="noopener" data-offer="${o.id}" data-offer-name="${o.name}" data-offer-price="${o.cents}" data-analytics-whatsapp="web_option">Cotizar por WhatsApp <span aria-hidden="true">↗</span></a>
+ <details class="offer-details"><summary>Ver todo lo que incluye <span aria-hidden="true">+</span></summary><ul>${o.features.map(f=>`<li>${f}</li>`).join('')}</ul><p>${o.scope}</p></details></div>`;
+}
+function card(group){
+ const offers=levels(group),recommended=group.id==='business';
+ const selector=offers.length>1?`<fieldset class="offer-switch"><legend>Nivel</legend>${offers.map((o,i)=>`<label><input type="radio" name="level-${group.id}" value="${o.id}"${i?'':' checked'}> ${o.name}</label>`).join('')}</fieldset>`:'';
+ return `<article class="offer-panel" data-group="${group.id}" aria-labelledby="title-${group.id}"${recommended?'':' inert'}>
+ <div class="offer-copy">${recommended?badge:''}<h3 id="title-${group.id}" tabindex="-1">${group.name}</h3><ul class="offer-points">${group.points.map(p=>`<li>${p}</li>`).join('')}</ul>
+ ${selector}${offers.map(level).join('')}</div>${visual(group,offers)}</article>`;
+}
+function row(group){
+ const offer=levels(group)[0];
+ return `<a class="offer-row" data-row="${group.id}" href="${esc(businessWhatsApp(offer))}" target="_blank" rel="noopener" data-analytics-whatsapp="web_option"${group.id==='business'?' hidden':''}><strong>${group.name}</strong><span>${group.goal}</span><small>desde ${minimum(group)}</small><i aria-hidden="true">↗</i></a>`;
+}
+
 function hosting() {
  const minimum = Math.min(...businessHosting.flatMap(plan => plan.terms.filter(term => term.months === 1).map(term => term.cents)));
  return `<div class="offer-hosting"><p>Primer mes de alojamiento incluido. Después, desde <strong>${businessMoney(minimum)}</strong> al mes.</p><details><summary>Ver planes de alojamiento <span aria-hidden="true">+</span></summary><div class="hosting-plans">${businessHosting.map(h=>`<div><h4>${h.name}</h4><p>${h.terms.map(t=>`<span data-hosting="hosting-${h.id}-${t.id}">${h.startingAt?'desde ':''}<strong>${businessMoney(t.cents)}</strong>${t.months===1?'/mes':` por ${t.months} meses`}</span>`).join(' · ')}</p></div>`).join('')}</div></details></div>`;
 }
-export const questions=[
- {name:'need',title:'¿Qué necesitas hoy?',options:['Presencia básica','Mostrar mis servicios','Vender o agendar en línea']},
- {name:'size',title:'¿Cuánta información quieres mostrar?',options:['Una página','Varias secciones','Muchas páginas o catálogo']},
- {name:'special',title:'¿Necesitas algo especial?',options:['No por ahora','Formularios o agenda','Pagos o tienda']},
-];
-function recommender() {
- return `<section class="offer-guide" id="guia-web" aria-labelledby="guide-title"><div class="guide-intro"><h2 id="guide-title">¿Cuál te conviene?</h2><p>Elige en tres preguntas.</p><a class="guide-fallback" href="${esc(businessWhatsApp({name:'una página para mi negocio',cents:businessOffers[0].cents}))}" target="_blank" rel="noopener" data-analytics-whatsapp="web_option">Consultar por WhatsApp ↗</a></div><div class="guide-form-shell"><p class="guide-loading">Elige a tu ritmo o escríbenos para recibir orientación.</p><form class="guide-form" hidden><div class="guide-progress" aria-label="Progreso de las preguntas">${questions.map((q,i)=>`<span data-progress="${i}" aria-label="${q.title}"></span>`).join('')}</div>${questions.map((q,i)=>`<fieldset data-step="${i}"${i?' hidden':''}><legend tabindex="-1">${q.title}</legend><div class="glass-options">${q.options.map((o,j)=>`<label><input type="radio" name="${q.name}" value="${j}"><span>${o}</span></label>`).join('')}<i class="glass-marker" aria-hidden="true"></i></div></fieldset>`).join('')}<div class="guide-result" hidden tabindex="-1"><p class="eyebrow">TU PUNTO DE PARTIDA</p><h3 data-result-name></h3><p class="guide-result-price" data-result-price></p><p data-result-reason></p><a class="guide-contact" data-result-contact target="_blank" rel="noopener" data-analytics-whatsapp="web_option">Platicar de mi proyecto <span aria-hidden="true">↗</span></a><a class="guide-package" data-result-package>Ver el paquete ↓</a></div><div class="guide-controls"><button type="button" data-back disabled>Anterior</button><button type="submit" data-next disabled>Continuar <span aria-hidden="true">→</span></button><button type="button" data-restart hidden>Volver a elegir</button></div><p class="guide-announcement" role="status" aria-live="polite" aria-atomic="true"></p></form></div></section>`;
-}
 export function renderBusinessOffers(html) {
- return html.replace('{{business:minimum}}',businessMoney(businessOffers[0].cents)).replace('{{business:offers}}',`<section class="home-continuation business-offers" id="opciones-web" aria-labelledby="web-options-title"><div class="aurora-field continuation-aurora options-aurora" aria-hidden="true"></div><div class="offers-intro"><div><h2 id="web-options-title" tabindex="-1">Elige cómo empezar</h2></div><p>${businessPriceNote}</p></div><div class="offers-grid">${groups.map(card).join('')}</div>${hosting()}</section>${recommender()}`);
+ const helpOffer={name:'una página para mi negocio',cents:Math.min(...businessOffers.map(o=>o.cents))};
+ const section=`<section class="home-continuation business-offers" id="opciones-web" aria-labelledby="web-options-title">
+ <div class="aurora-field continuation-aurora options-aurora" aria-hidden="true"></div>
+ <h2 id="web-options-title">Elige cómo empezar</h2>
+ <p class="goal-question" id="goal-question">¿Qué quieres lograr con tu página?</p>
+ <fieldset class="offer-goals" aria-labelledby="goal-question" hidden>${groups.map(goal).join('')}</fieldset>
+ <div class="offer-stage">${groups.map(card).join('')}</div>
+ <small class="offer-note">${businessPriceNote}</small>
+ <div class="offer-rows">${groups.map(row).join('')}</div>
+ <a class="offer-help" href="${esc(businessWhatsApp(helpOffer))}" target="_blank" rel="noopener" data-analytics-whatsapp="web_option">¿No sabes cuál? Platícanos tu idea <span aria-hidden="true">↗</span></a>
+ ${hosting()}</section>`;
+ return html.replace('{{business:minimum}}',businessMoney(helpOffer.cents)).replace('{{business:offers}}',section);
 }
 export function businessOffersPlugin(){return {name:'nordra-business-offers',transformIndexHtml:{order:'pre',handler:renderBusinessOffers}};}
+
