@@ -7,8 +7,8 @@
  async function start(){if(started)return;started=true;cancel();try{const{initializeBusinessContent}=await import('../business/content-controls.js');initializeBusinessContent(root);}catch(error){console.error('No se pudieron iniciar los detalles de Negocios',error);}}
  function schedule(){if(raf||started)return;raf=requestAnimationFrame(()=>{raf=requestAnimationFrame(()=>{raf=0;if(near)start();else if('requestIdleCallback'in window)idle=requestIdleCallback(start,{timeout:2500});else timer=setTimeout(start,250);});});}
  function load(){loaded=true;schedule();}
- root.querySelectorAll('.light-table').forEach(el=>observer.observe(el));if(loaded)schedule();else addEventListener('load',load,{once:true});addEventListener('pagehide',e=>{if(!e.persisted)cancel();},{once:true});
+ root.querySelectorAll('.business-examples').forEach(el=>observer.observe(el));if(loaded)schedule();else addEventListener('load',load,{once:true});addEventListener('pagehide',e=>{if(!e.persisted)cancel();},{once:true});
 })();
 
-// Phones: delivery times repeat each price card, so the list starts folded.
-if(matchMedia('(max-width:700px)').matches)document.querySelectorAll('.business-delivery[open]').forEach(details=>{details.open=false;});
+const examples=document.querySelector('.examples-track');
+if(examples)window.NordraCarousel?.positions(examples,document.documentElement.lang==='en'?'Example position':'Posición en los ejemplos',card=>card.querySelector('h3').textContent);

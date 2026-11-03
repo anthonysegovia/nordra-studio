@@ -11,9 +11,6 @@
  const items=[];
  // Keep the original image, link, alt text and film. The extra layers are decorative.
  host.querySelectorAll('.feature-stage').forEach(stage=>{
-  // The Signature light table owns its frame and glow. Do not build hidden
-  // sliced copies here (they would also request its lazy covers before arrival).
-  if(stage.closest('.light-table'))return;
   const screen=stage.querySelector('.feature-screen'),source=screen?.querySelector('img');if(!source)return;
   stage.classList.add('nordra-composition');screen.classList.add('nordra-assembled');
   const track=document.createElement('div');track.className='composition-track';stage.before(track);track.append(stage);
