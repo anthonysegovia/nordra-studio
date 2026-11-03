@@ -30,7 +30,7 @@ export function initializeBusinessContent(root){
  const recommendation=new MutationObserver(contact);if(guide)recommendation.observe(guide,{attributes:true,attributeFilter:['data-recommendation','hidden']});contact();
  halo?.addEventListener('pointermove',event=>{if(paused()||event.pointerType==='touch')return;cancelAnimationFrame(haloFrame);const {clientX,clientY}=event;haloFrame=requestAnimationFrame(()=>{const box=halo.getBoundingClientRect();halo.style.setProperty('--contact-x',(clientX-box.left)+'px');halo.style.setProperty('--contact-y',(clientY-box.top)+'px');haloFrame=0;});},options);
  halo?.addEventListener('pointerleave',resetHalo,options);halo?.addEventListener('blur',resetHalo,options);
- function sync(){if(paused()||document.hidden){finish();resetHalo();}const process=root.querySelector('.business-process');if(process)process.dataset.stack=paused()||mobile.matches?'off':'on';}
+ function sync(){if(paused()||document.hidden){finish();resetHalo();}}
  const state=new MutationObserver(sync);state.observe(document.body,{attributes:true,attributeFilter:['data-business-motion','data-journey-motion']});reduce.addEventListener('change',sync,options);mobile.addEventListener('change',sync,options);document.addEventListener('visibilitychange',sync,options);sync();root.dataset.businessContentReady='true';
  addEventListener('pagehide',e=>{if(e.persisted){finish();return;}finish();state.disconnect();recommendation.disconnect();resetHalo();abort.abort();},{once:true});
 }
