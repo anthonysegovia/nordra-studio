@@ -10,9 +10,11 @@ export function eventStamp({date,hour,zone}){
   if(resolved.filter(p=>p.type==='hour'||p.type==='minute').map(p=>p.value).join(':')!==hour)throw Error('The local event time does not exist in '+zone);
   return stamp;
 }
-export function countdown(config, now=new Date(),target=new Date(eventStamp(config))){
-  const remaining=Math.ceil((target-now)/1000);
-  if(remaining>0)return {digits:[Math.floor(remaining/86400),Math.floor(remaining/3600)%24,Math.floor(remaining/60)%60,remaining%60]};
-  const day=new Intl.DateTimeFormat('en-US',{timeZone:config.zone,year:'numeric',month:'2-digit',day:'2-digit'});
-  return {message:day.format(now)===day.format(target)?config.copy.today:config.copy.past};
+export function countdown(config, now=new Date(), target=new Date(eventStamp(config))) {
+  const date = new Intl.DateTimeFormat('en-CA',{timeZone:config.zone,year:'numeric',month:'2-digit',day:'2-digit'});
+  if (date.format(now)===date.format(target)) return config.copy.today;
+  const minutes=Math.ceil((target-now)/60000);
+  if(minutes<=0) return config.copy.past;
+  if(minutes<1440) return config.copy.hours.replace('{h}',Math.floor(minutes/60)).replace('{m}',minutes%60);
+  return config.copy.days.replace('{n}',Math.ceil(minutes/1440));
 }

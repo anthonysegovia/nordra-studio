@@ -4,9 +4,8 @@ import {
   PMREMGenerator, SphereGeometry, Line, LineBasicMaterial, BufferGeometry, Float32BufferAttribute,
   ACESFilmicToneMapping, PCFSoftShadowMap
 } from 'three';
-import {foilShower} from './confetti';
 import {inflatedGlyph} from './balloons';
-import {invitation} from './config.mjs';
+import {invitation} from '../caja-de-regalo/config.mjs';
 
 function softboxes(renderer){
   // A panoramic studio with two tall silk panels and one narrow rim light.
@@ -48,10 +47,9 @@ export function createFloatScene(stage, canvas, gl, quality) {
     geo.setAttribute('position',points);const string=new Line(geo,thread);string.frustumCulled=false;group.add(string);
     return {group,string,points,foot,footX,index:i,swing:0,velocity:0};
   });
-  const shower=foilShower(quality,glyphs.length);scene.add(shower.mesh);
   const span=Math.max(3.85,glyphs.length*1.55+.36);
   let actualSize=0,tiltX=0,tiltY=0,previousTime=0;
-  function render(time, pointer, lift=0){
+  function render(time, pointer, lift=1){
     const size=Math.max(1,stage.clientWidth);
     const limit={low:256,medium:450,high:780}[quality];
     const buffer=Math.min(limit,Math.round(size*Math.min(devicePixelRatio,1.55)));
@@ -59,12 +57,12 @@ export function createFloatScene(stage, canvas, gl, quality) {
     camera.left=-span/2;camera.right=span/2;camera.top=span/2;camera.bottom=-span/2;camera.position.y=-.16+lift*.30;camera.updateProjectionMatrix();
     tiltX+=(pointer.x-tiltX)*.14;tiltY+=(pointer.y-tiltY)*.14;
     const dt=Math.min(.045,Math.max(0,time-previousTime));previousTime=time;
-    shower.update(lift);ensemble.visible=lift<.31;
+    
     for(const glyph of glyphs){
       const {group,points,foot,footX,index:i}=glyph;
-      const wave=time*.65+i*2.2, rise=Math.min(1,lift/.31)**2*.38;
+      const wave=time*.65+i*2.2, rise=-1.9*(1-Math.min(1,Math.max(0,lift*1.25-i*.16)));
       group.position.set((i-(glyphs.length-1)/2)*1.49+.025*Math.sin(wave),.24+.075*Math.sin(wave)+rise*(1+i*.10),0);
-      const tension=Math.min(1,lift/.31);group.scale.set(1+.065*tension,1+.17*tension,1);
+      
       group.rotation.set(-.07+.045*Math.cos(wave)+tiltY*.18,(i%2?.18:-.21)+.09*Math.sin(wave*.76)+tiltX*.32,(i%2?-.06:.055)+.028*Math.sin(wave));
       const target=.12*Math.sin(wave+.7)-.18*tiltX;
       glyph.velocity+=((target-glyph.swing)*22-glyph.velocity*6)*dt;
@@ -79,7 +77,7 @@ export function createFloatScene(stage, canvas, gl, quality) {
   }
   function dispose(){
     for(const {group} of glyphs)for(const child of group.children)child.geometry.dispose();
-    shower.dispose();key.shadow.dispose();foil.dispose();thread.dispose();environment.dispose();renderer.dispose();
+    key.shadow.dispose();foil.dispose();thread.dispose();environment.dispose();renderer.dispose();
   }
   return {render,dispose};
 }

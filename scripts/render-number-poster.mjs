@@ -4,8 +4,8 @@ import {chromium} from 'playwright';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import path from 'node:path';
-import {eventStamp} from '../src/celebrations/numero-que-flota/clock.mjs';
-import {invitation} from '../src/celebrations/numero-que-flota/config.mjs';
+import {eventStamp} from '../src/celebrations/caja-de-regalo/clock.mjs';
+import {invitation} from '../src/celebrations/caja-de-regalo/config.mjs';
 
 if(!/^\/artwork\/[a-z\d/-]+$/i.test(invitation.poster))throw Error('Use a local /artwork/ poster prefix.');
 const base=path.join('public',invitation.poster);

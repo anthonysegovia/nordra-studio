@@ -8,7 +8,7 @@ import { mobileWhatsApp } from "./build/mobile-whatsapp.mjs";
 import { invitationOffersPlugin } from "./build/invitation-offers.mjs";
 import { renderHomeClientHighlights } from "./build/client-cases.mjs";
 import { seasonalPagePlugin } from "./build/seasonal-page.mjs";
-import { renderInvitation } from './src/celebrations/numero-que-flota/template.mjs';
+import { renderInvitation } from './src/celebrations/caja-de-regalo/template.mjs';
 import { defineConfig } from "vite";
 import { commercialPreview } from "./build/commercial-preview.mjs";
 import react from "@vitejs/plugin-react";
