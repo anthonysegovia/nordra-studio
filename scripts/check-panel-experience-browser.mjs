@@ -80,11 +80,10 @@ try{
     assert.doesNotMatch(await dashboard.locator('body').innerText(),/\bboda[s]?\b|Valentina/i);
     if(kind==='cumple'){
       const title=dashboard.locator('#workspace-title');
-      assert.match(await title.evaluate(el=>getComputedStyle(el).fontFamily),/NocheSerif/);
-      assert.equal(await title.evaluate(el=>getComputedStyle(el).fontVariantLigatures),'no-common-ligatures');
+      assert.match(await title.evaluate(el=>getComputedStyle(el).fontFamily),/NocheSora/);
       const commercial=await context.newPage();
       await commercial.goto(origin+'/cumpleanos');
-      assert.equal(await commercial.locator('.birthday-hero h1').evaluate(el=>getComputedStyle(el).fontVariantLigatures),'no-common-ligatures');
+      assert.equal(await commercial.locator('.birthday-hero h1').evaluate(el=>getComputedStyle(el).fontFamily).includes('NocheSora'),true);
       await commercial.close();
       assert.equal(await title.evaluate(el=>getComputedStyle(el).color),'rgb(244, 233, 211)');
       assert.match(await dashboard.locator('.ledger-stat-value').first().evaluate(el=>getComputedStyle(el).fontVariantNumeric),/tabular-nums/);
@@ -102,8 +101,7 @@ try{
     if(kind==='cumple'){
       const cover=guest.locator('#cover-title');
       assert.match(await cover.textContent(),/Sofía/);
-      assert.ok(await cover.evaluate(el=>parseFloat(getComputedStyle(el).letterSpacing)>0),'leave space for the acute accent');
-      assert.equal(await cover.evaluate(el=>getComputedStyle(el).fontVariantLigatures),'no-common-ligatures');
+      assert.equal(await cover.evaluate(el=>getComputedStyle(el).fontFamily).includes('NocheSora'),true);
     }
     await guest.locator('[data-skip]').click();
     await guest.locator('.celebration-rsvp select').selectOption('1');

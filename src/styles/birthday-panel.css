@@ -1,14 +1,14 @@
 @import './noche-fonts.css';
 
-html .wedding-workspace[data-occasion=birthday]{--occasion-bg:#f4e9d3;--occasion-title:NocheSerif,Georgia,serif;font-family:NocheManrope,sans-serif}
+html .wedding-workspace[data-occasion=birthday]{--occasion-bg:#f4e9d3;--occasion-title:NocheSora,Sora,sans-serif;font-family:NocheManrope,sans-serif}
 html .wedding-workspace[data-occasion=birthday] .workspace-welcome{isolation:isolate;background:#1d1a2e;color:#f4e9d3;border-radius:12px;overflow:hidden;padding:clamp(14px,3vw,38px)}
 html .wedding-workspace[data-occasion=birthday] .workspace-welcome :is(#workspace-title,p,span){color:#f4e9d3}
 html .wedding-workspace[data-occasion=birthday] .workspace-welcome .workspace-eyebrow{color:#e6c98e}
 html .wedding-workspace[data-occasion=birthday] .workspace-welcome-art{background:#1d1a2e}
 html .wedding-workspace[data-occasion=birthday] .workspace-welcome-art img{object-fit:cover}
 html .wedding-workspace[data-occasion=birthday] .workspace-welcome-art::after{background:linear-gradient(90deg,#1d1a2e,transparent 48%)}
-html .wedding-workspace[data-occasion=birthday] .workspace-monogram{font-style:italic}
-html .wedding-workspace[data-occasion=birthday] :is(.ledger-stat-value,.boreal-summary strong,.boreal-table-center>span){font-family:NocheManrope,sans-serif;font-variant-numeric:lining-nums tabular-nums}
+html .wedding-workspace[data-occasion=birthday] .workspace-monogram{font-style:normal}
+html .wedding-workspace[data-occasion=birthday] :is(.ledger-stat-value,.boreal-summary strong,.boreal-table-center>span){font-family:NocheSora,sans-serif;font-variant-numeric:lining-nums tabular-nums}
 html[data-theme=dark] .wedding-workspace[data-occasion=birthday]{--occasion-bg:#1d1a2e}
 html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-section-content{--occasion-bg:#f4e9d3;background:var(--occasion-bg);border-radius:10px;padding:clamp(10px,2vw,24px)}
 html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-quick-links :is(a,button.guide-trigger){color:#e6c98e}
@@ -20,4 +20,4 @@ html:not([data-theme=dark]) .wedding-workspace[data-occasion=birthday] .workspac
 html:not([data-theme=dark]) .wedding-workspace[data-occasion=birthday] .workspace-topbar :is(span,button){color:#5d5164}
 html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-footer{color:#d9c7b0}
 
-html .wedding-workspace[data-occasion=birthday] :is(#workspace-title,.workspace-monogram,.workspace-couple p){font-variant-ligatures:no-common-ligatures;letter-spacing:.035em}
+html .wedding-workspace[data-occasion=birthday] :is(#workspace-title,.workspace-monogram,.workspace-couple p){letter-spacing:-.04em}
