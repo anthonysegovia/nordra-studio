@@ -111,7 +111,7 @@ for (const [name,slug] of [['cumpleanos','camila-30'],['eventos','conexion-27']]
       }
       for(const size of [390,780]){
         const prefix=name==='cumpleanos'?'/artwork/birthday-noche/camila':'/artwork/invitation-covers/'+slug;
-        const asset=prefix+'-detalles-'+size+'.webp';
+        const asset=prefix+(name==='cumpleanos'?'-portada-':'-detalles-')+size+'.webp';
         assert.ok(sample.includes(asset));
         assert.equal(readFileSync('public'+asset).subarray(8,12).toString(),'WEBP');
       }

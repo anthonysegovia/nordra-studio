@@ -1,11 +1,13 @@
 // Browser regression suite and visual evidence for the real built invitations.
 // node scripts/check-celebrations-browser.mjs --tools <package.json with Playwright> --url http://127.0.0.1:5502 --evidence <folder>
-import fs from 'node:fs';
+import {preview} from 'vite';import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {parseArgs} from 'node:util';
-const {values}=parseArgs({options:{url:{type:'string',default:'http://127.0.0.1:5502'},tools:{type:'string'},chrome:{type:'string',default:'C:/Program Files/Google/Chrome/Application/chrome.exe'},evidence:{type:'string',default:'review/celebrations'}}});
+const {values}=parseArgs({options:{url:{type:'string'},tools:{type:'string'},chrome:{type:'string',default:'C:/Program Files/Google/Chrome/Application/chrome.exe'},evidence:{type:'string',default:'review/celebrations'}}});
+const server=values.url?null:await preview({preview:{host:'127.0.0.1',port:5502}});
+values.url??=server.resolvedUrls.local[0].replace(/\/$/,'');
 const require=createRequire(values.tools?path.resolve(values.tools):import.meta.url);const {chromium}=require('playwright');
 fs.mkdirSync(values.evidence,{recursive:true});const records=[];
 const browser=await chromium.launch({executablePath:values.chrome,headless:true,args:['--enable-unsafe-swiftshader']});
@@ -27,7 +29,7 @@ try{
   await page.keyboard.press('Tab');assert.equal(await page.locator('[data-open]').evaluate(x=>x===document.activeElement),true);
   await page.keyboard.press('Enter');assert.equal(await page.locator('body').getAttribute('data-phase'),'opening');assert.equal(await page.locator('.celebration-header').isVisible(),false);
   await page.waitForFunction(()=>document.body.dataset.phase==='open');assert.equal(await page.locator('.celebration-header').isVisible(),true);assert.equal(await page.evaluate(()=>document.activeElement.id),'confirmacion');
-  const artRatio=await page.locator('.welcome img').evaluate(img=>img.clientWidth/img.clientHeight);assert.ok(Math.abs(artRatio-1)<0.01,'interior artwork keeps its square proportions');
+  const artRatio=await page.locator(slug==='camila-30'?'.number-mark':'.welcome img').evaluate(img=>img.clientWidth/img.clientHeight);assert.ok(Math.abs(artRatio-1)<0.01,'interior artwork keeps its square proportions');
   await page.locator('#guest').fill('Persona de muestra');await page.locator('[value=yes]').check();await page.locator('button[type=submit]').click();assert.match(await page.locator('[data-rsvp-status]').innerText(),/no se ha enviado ni guardado/);
   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.screenshot({path:path.join(values.evidence,`${slug}-${theme}-${width}-interior.png`),fullPage:true});
   await page.locator('[data-cover]').click();assert.equal(await page.locator('.celebration-header').isVisible(),false);assert.equal(await page.locator('.celebration-header').evaluate(x=>x.inert),true);
@@ -48,5 +50,37 @@ try{
   assert.equal(await page.locator('.celebration-header').isVisible(),false);await page.locator('[data-skip]').click();assert.equal(await page.locator('.celebration-header').isVisible(),true);
   records.push({category,theme,width,loadsOnlyOnClick:true,mode:'direct'});await context.close();
  }
+ for(const id of ['bienvenida','detalles','agenda','vestimenta','confirmacion']){
+   const page=await browser.newPage({reducedMotion:'reduce',viewport:{width:390,height:844}});
+   const loaded=[];page.on('request',r=>loaded.push(r.url()));
+   await page.goto(values.url+'/invitaciones/camila-30/#'+id);await settled(page);
+   assert.equal(await page.locator('.celebration-header').isVisible(),false);
+   await page.locator('[data-open]').click();
+   assert.equal(await page.evaluate(()=>document.activeElement.id),id);
+   assert.ok(!loaded.some(url=>/\/(?:scene|three)-[^/]+\.js/.test(url)));
+   await page.close();
+ }
+ for(const fallback of ['no-webgl','skip']){
+   const page=await browser.newPage();const loaded=[];page.on('request',r=>loaded.push(r.url()));
+   if(fallback==='no-webgl')await page.addInitScript(()=>{
+     const get=HTMLCanvasElement.prototype.getContext;
+     HTMLCanvasElement.prototype.getContext=function(type,...args){return type==='webgl2'?null:get.call(this,type,...args)};
+   });
+   await page.goto(values.url+'/invitaciones/camila-30/');await settled(page);
+   if(fallback==='no-webgl')await page.waitForTimeout(800);
+   assert.equal(await page.locator('.cover-art img').isVisible(),true);
+   await page.locator('[data-skip]').click();assert.equal(await page.locator('.celebration-header').isVisible(),true);
+   assert.equal(await page.locator('canvas').count(),0);
+   assert.ok(!loaded.some(url=>/\/(?:scene|three)-[^/]+\.js/.test(url)));await page.close();
+ }
+ const live=await browser.newPage();await live.goto(values.url+'/invitaciones/camila-30/?quality=low');
+ await live.locator('.cover-art.is-live canvas').waitFor();assert.equal(await live.locator('.cover-art').getAttribute('data-quality'),'low');
+ await live.locator('[data-float-motion]').click();assert.equal(await live.locator('[data-float-motion]').getAttribute('aria-pressed'),'true');
+ await live.locator('[data-float-motion]').click();await live.locator('.cover-art').click();
+ assert.equal(await live.locator('.celebration-header').isVisible(),false);
+ await live.locator('[data-skip]').click();assert.equal(await live.locator('.celebration-header').isVisible(),true);
+ await live.locator('#guest').fill('Mar');await live.locator('[value=yes]').check();await live.locator('[type=submit]').click();await live.locator('.gold-sparks i').first().waitFor();
+ await live.waitForTimeout(750);await live.locator('[type=submit]').click();assert.equal(await live.locator('.gold-sparks').count(),0);
+ await live.close();records.push({anchors:5,reducedMotion:true,skip:true,noWebGL:true,interactive:true});
  fs.writeFileSync(path.join(values.evidence,'checks.json'),JSON.stringify(records,null,2));console.log(`${records.length} browser cases passed`);
-}finally{await browser.close();}
+}finally{await browser.close();await server?.close();}

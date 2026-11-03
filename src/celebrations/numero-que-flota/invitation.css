@@ -42,7 +42,7 @@
 @media(prefers-reduced-motion:no-preference){
  .birthday-invitation[data-phase=opening] .cover-copy,.birthday-invitation[data-phase=opening] .cover-head{animation:float-copy-out var(--opening) ease both}
  .birthday-invitation[data-phase=opening] .cover-art{animation:float-poster-up var(--opening) ease-in both}
- .birthday-invitation[data-phase=open] .celebration-content{animation:float-arrival .32s ease both}
+ .birthday-invitation[data-phase=open]:not([data-float-skipped]) .celebration-content{animation:float-arrival .32s ease both}
  .birthday-invitation[data-phase=opening] .celebration-entrance{animation:float-veil var(--opening) ease both}
  @keyframes float-veil{0%,65%{opacity:1}to{opacity:0}}
  @keyframes float-copy-out{to{opacity:.12;transform:translateY(-12px)}}

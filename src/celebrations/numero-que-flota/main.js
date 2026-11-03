@@ -49,6 +49,7 @@ async function load(){
 function sync(){
   clearTimeout(timer);
   if(reduced.matches||skipped){staticCover();return}
+  motion.hidden=!scene || phase()!=='closed';
   refresh();
   if(visible&&!document.hidden&&phase()==='closed'&&!scene)timer=setTimeout(load,450);
 }
@@ -57,7 +58,7 @@ new ResizeObserver(refresh).observe(stage);
 new MutationObserver(()=>{if(phase()==='opening')startLift=performance.now();sync()}).observe(document.body,{attributes:true,attributeFilter:['data-phase']});
 document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync);
 addEventListener('pagehide',()=>{clearTimeout(timer);stop()});addEventListener('pageshow',sync);
-document.querySelector('[data-skip]').addEventListener('click',()=>{skipped=true;sync()});
+document.querySelector('[data-skip]').addEventListener('click',()=>{skipped=true;document.body.dataset.floatSkipped='';sync()},{capture:true});
 motion.addEventListener('click',()=>{
   paused=!paused;motion.setAttribute('aria-pressed',String(paused));motion.textContent=paused?'Reanudar globos':'Pausar globos';refresh();
 });

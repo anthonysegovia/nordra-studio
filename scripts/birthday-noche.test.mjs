@@ -1,13 +1,15 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {renderInvitation} from '../src/celebrations/numero-que-flota/template.mjs';
 import {readFileSync,existsSync} from 'node:fs';
 const read=file=>readFileSync(file,'utf8');
 
 test('Camila and the birthday hero use real responsive images with descriptive alternatives',()=>{
-  for(const [path,selector] of [['invitaciones/camila-30/index.html','solo-'],['cumpleanos.html','camila-portada-']]){
-    const images=read(path).match(/<img\b[^>]+>/g).filter(tag=>tag.includes('/birthday-noche/'+selector));
+  for(const [path,selector] of [['invitaciones/camila-30/index.html','/numero-que-flota/camila-'],['cumpleanos.html','/birthday-noche/camila-portada-']]){
+    const images=renderInvitation(read(path)).match(/<img\b[^>]+>/g).filter(tag=>tag.includes(selector));
     assert.ok(images.length);
     for(const image of images){
+      if(image.includes('class="number-mark"')){assert.match(image,/alt=""/);continue}
       assert.match(image,/alt="[^"]*globo[^"]+"/i);
       const set=image.match(/srcset="([^"]+)"/)[1].split(', ');
       assert.ok(set.length>=2);
@@ -41,7 +43,7 @@ test('the birthday identity uses local Sora and every customer-facing birthday e
  const fonts=read('src/styles/noche-fonts.css');
  assert.match(fonts,/Sora-latin\.woff2/);assert.doesNotMatch(fonts,/cormorant|liga/i);
  for(const file of ['cumpleanos.html','invitaciones.html','invitaciones/camila-30/index.html','public/invitaciones/camila-30/fecha.ics','src/i18n/cumpleanos.en.json','src/i18n/invitaciones.en.json','src/lib/occasionPanels.ts','src/data/invitationOccasions.ts','server/sample-occasions.js']){
-   const value=read(file);assert.match(value,/Camila/,file);assert.doesNotMatch(value,/\bsof[ií]a\b/i,file);
+   const value=renderInvitation(read(file));assert.match(value,/Camila/,file);assert.doesNotMatch(value,/\bsof[ií]a\b/i,file);
  }
 });
 test('birthday RSVP states meet AA on their badge backgrounds in both themes',()=>{

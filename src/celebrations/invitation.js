@@ -36,7 +36,7 @@ function render() {
 function goTo(id) {
   if (phase !== 'open' || !sections.has(id)) return;
   const section = document.getElementById(id);
-  section.scrollIntoView({ behavior: reduce.matches ? 'instant' : 'smooth', block: 'start' });
+  section.scrollIntoView({ behavior: reduce.matches || document.body.hasAttribute('data-float-skipped') ? 'instant' : 'smooth', block: 'start' });
   section.focus({ preventScroll: true });
 }
 
