@@ -4,6 +4,8 @@ export async function personalRsvp(form, status, access, occasion) {
   const submit = form.querySelector('[type=submit]');
   const name = form.elements.guest;
   let invitation;
+  const pass=document.createElement('a');pass.textContent='Ver mi pase QR';pass.hidden=true;
+  form.append(pass);
   const picker = document.createElement('select');
   picker.setAttribute('aria-label','Persona que responde');
   form.querySelector('label').before(picker);
@@ -18,6 +20,8 @@ export async function personalRsvp(form, status, access, occasion) {
     name.readOnly=!(invitation.kind==='plusOne'&&index===1);
     name.required=false;
     name.value=person.name;
+    pass.hidden=!(invitation.passLink && invitation.people.some(p=>p.attendance==='yes'));
+    if(!pass.hidden)pass.href=invitation.passLink;
     for(const radio of form.querySelectorAll('[name=attendance]'))radio.checked=radio.value===person.attendance;
     status.textContent='';
   }
@@ -53,4 +57,3 @@ export async function personalRsvp(form, status, access, occasion) {
     display();submit.disabled=false;
   }catch(error){status.textContent=sampleGuestError(error).text}
 }
-

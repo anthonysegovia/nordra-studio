@@ -12,4 +12,3 @@ export const sampleOccasions = {
     guests:[['individual','Alba Ríos','pending'],['couple','Elena Vidal','yes','Luis Soto','pending'],['plusOne','Omar León','yes','','pending'],['individual','Irene Mora','no'],['couple','Mónica Paz','yes','Pablo Rey','yes'],['individual','Julia Vera','pending'],['plusOne','Bruno Lara','pending','','pending'],['individual','Inés Cano','yes']],
   },
 };
-

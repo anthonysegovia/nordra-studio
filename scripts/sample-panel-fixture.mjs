@@ -19,4 +19,3 @@ export function samplePanelFixture(origin) {
     await handler({method:req.method(),headers:{...await req.allHeaders(),origin},body:req.postDataJSON()},res);
   };
 }
-

@@ -43,13 +43,14 @@ export function passView(row, invitation, site, secret, mode) {
     couple: mode === 'sample' ? sampleOccasions[row.management?.sampleOccasion ?? 'wedding'].name : row.couple,
     eventDate: mode === 'sample' ? sampleOccasions[row.management?.sampleOccasion ?? 'wedding'].date : row.event_date,
     city: mode === 'sample' ? sampleOccasions[row.management?.sampleOccasion ?? 'wedding'].location : row.city,
+    ...(mode==='sample' && row.management?.sampleOccasion && row.management.sampleOccasion!=='wedding' ? {occasion:row.management.sampleOccasion}:{}),
     sample: mode === 'sample', expiresAt: row.expires_at,
     invitation: { id: invitation.id, kind: invitation.kind, people: invitation.people.map(person => ({ ...person, table: state.tables.find(table => table.id === state.seats[person.id])?.name || '', enteredAt: state.arrivals[person.id]?.at || null })) },
     link: passLink(row, invitation, site, secret, mode),
   };
 }
 export function receptionView(row, mode) {
-  return { workspaceId: row.id, version: row.version, couple: mode === 'sample' ? sampleOccasions[row.management?.sampleOccasion ?? 'wedding'].name : row.couple, expiresAt: row.expires_at, invitations: row.invitations.map(({ id, kind, people }) => ({ id, kind, people })), boreal: borealView(row) };
+  return { ...(mode==='sample' && row.management?.sampleOccasion && row.management.sampleOccasion!=='wedding' ? {occasion:row.management.sampleOccasion}:{}), workspaceId: row.id, version: row.version, couple: mode === 'sample' ? sampleOccasions[row.management?.sampleOccasion ?? 'wedding'].name : row.couple, expiresAt: row.expires_at, invitations: row.invitations.map(({ id, kind, people }) => ({ id, kind, people })), boreal: borealView(row) };
 }
 export function authorizeReception(row, token, now) {
   const reception = borealState(row).reception;

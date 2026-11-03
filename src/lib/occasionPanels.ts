@@ -45,4 +45,6 @@ export const eventPanel:typeof base = {
   ]},
   reminder(inv,en){return greeting(inv,en)+(en?'We’d appreciate your RSVP for Conexión 27. Here is your personal invitation:':inv.kind==='individual'?'Nos gustaría contar contigo en Conexión 27. ¿Podrías confirmar tu asistencia? Esta es tu invitación:':'Nos gustaría contar con ustedes en Conexión 27. ¿Podrían confirmar su asistencia? Esta es su invitación:')},
 };
-
+export function sampleExperience(key?:string) {
+  return key==='birthday'?birthdayPanel:key==='event'?eventPanel:base;
+}
