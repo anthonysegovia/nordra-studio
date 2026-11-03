@@ -28,6 +28,6 @@ test('hosting summary uses the lowest monthly tariff and keeps both plans closed
  const html=renderBusinessOffers('{{business:offers}}');
  const monthly=businessHosting.flatMap(h=>h.terms.filter(t=>t.months===1).map(t=>t.cents));
  assert.ok(html.includes('Después, desde <strong>'+businessMoney(Math.min(...monthly))+'</strong> al mes.'));
- assert.ok(html.includes('<details><summary>Ver planes de alojamiento</summary>'));
+ assert.ok(html.includes('<details><summary>Ver planes de alojamiento <span aria-hidden="true">+</span></summary>'));
  assert.doesNotMatch(html,/class="business-delivery"/);
 });

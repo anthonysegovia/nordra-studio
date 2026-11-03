@@ -12,7 +12,7 @@ function card(group) {
 }
 function hosting() {
  const minimum = Math.min(...businessHosting.flatMap(plan => plan.terms.filter(term => term.months === 1).map(term => term.cents)));
- return `<div class="offer-hosting"><p>Primer mes de alojamiento incluido. Después, desde <strong>${businessMoney(minimum)}</strong> al mes.</p><details><summary>Ver planes de alojamiento</summary><div class="hosting-plans">${businessHosting.map(h=>`<div><h4>${h.name}</h4><p>${h.terms.map(t=>`<span data-hosting="hosting-${h.id}-${t.id}">${h.startingAt?'desde ':''}<strong>${businessMoney(t.cents)}</strong>${t.months===1?'/mes':` por ${t.months} meses`}</span>`).join(' · ')}</p></div>`).join('')}</div></details></div>`;
+ return `<div class="offer-hosting"><p>Primer mes de alojamiento incluido. Después, desde <strong>${businessMoney(minimum)}</strong> al mes.</p><details><summary>Ver planes de alojamiento <span aria-hidden="true">+</span></summary><div class="hosting-plans">${businessHosting.map(h=>`<div><h4>${h.name}</h4><p>${h.terms.map(t=>`<span data-hosting="hosting-${h.id}-${t.id}">${h.startingAt?'desde ':''}<strong>${businessMoney(t.cents)}</strong>${t.months===1?'/mes':` por ${t.months} meses`}</span>`).join(' · ')}</p></div>`).join('')}</div></details></div>`;
 }
 export const questions=[
  {name:'need',title:'¿Qué necesitas hoy?',options:['Presencia básica','Mostrar mis servicios','Vender o agendar en línea']},

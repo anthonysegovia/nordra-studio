@@ -35,10 +35,10 @@
 .offer-recommended .offer-quote{min-height:96px;border-color:color-mix(in srgb,var(--accent) 42%,transparent);background:color-mix(in srgb,var(--accent) 8%,var(--bg))}
 .offer-quote:hover{background:color-mix(in srgb,var(--accent) 14%,var(--bg));border-color:var(--accent)}
 .offer-details{border-top:1px solid var(--line);margin-top:10px;font-size:12px}
-.offer-details summary{cursor:pointer;min-height:44px;display:flex;justify-content:space-between;align-items:center;list-style:none;gap:8px}
-.offer-details summary::-webkit-details-marker{display:none}
-.offer-details summary>span{font-size:19px;transition:transform .2s}
-.offer-details[open] summary>span{transform:rotate(45deg)}
+:is(.offer-details,.offer-hosting details) summary{cursor:pointer;min-height:44px;display:flex;justify-content:space-between;align-items:center;list-style:none;gap:8px}
+:is(.offer-details,.offer-hosting details) summary::-webkit-details-marker{display:none}
+:is(.offer-details,.offer-hosting details) summary>span{font-size:19px;transition:transform .2s}
+:is(.offer-details,.offer-hosting details)[open] summary>span{transform:rotate(45deg)}
 .offer-details>div{padding:12px 0;border-top:1px solid var(--line)}
 .offer-details h4{margin:0 0 8px;font-size:14px;font-weight:600}
 .offer-details ul{padding-left:16px;line-height:1.8}
