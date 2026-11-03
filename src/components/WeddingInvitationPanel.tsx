@@ -1,5 +1,5 @@
 import { PanelExperience, reminderUrl } from '../lib/panelExperience';
-import { useContext, useMemo, useId, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useId, useRef, useState } from 'react';
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Clock3, Download, Plus, Search, Share2, X } from 'lucide-react';
 import { invitationKindLabel, invitationLabel, invitationsCsv, summarizeInvitations, type WeddingInvitation } from '../lib/weddingInvitations';
 import { invitationProgress, pendingTasks, selectDashboardInvitations, type GuestFilter, type GuestOrder } from '../lib/weddingDashboard';
@@ -22,14 +22,33 @@ export function WeddingInvitationPanel({ invitations, english, syncStatus, onTab
   const toolbar = useRef<HTMLDivElement>(null);
   const config = useContext(PanelExperience), lang = english ? 1 : 0;
   const tasks = useMemo(()=>pendingTasks(invitations,management,boreal),[invitations,management,boreal]);
-  const summary = summarizeInvitations(invitations);
-  const visible = selectDashboardInvitations(invitations, query, filter, order, boreal, management);
+  const summary = useMemo(()=>summarizeInvitations(invitations),[invitations]);
+  const visible = useMemo(()=>selectDashboardInvitations(invitations, query, filter, order, boreal, management),[invitations,query,filter,order,boreal,management]);
   const selected = invitations.find(item => item.id === selection?.id);
   if (selection && !selected) setSelection(null);
   const pages = Math.max(1, Math.ceil(visible.length / pageSize)), currentPage = Math.min(page, pages), start = (currentPage - 1) * pageSize;
-  const partial = invitations.filter(item => invitationProgress(item).partial).length;
-  const unnamed = invitations.filter(item => invitationProgress(item).unnamed).length;
-  const unseated = boreal ? invitations.flatMap(item => item.people).filter(person => person.attendance === 'yes' && !boreal.tables.some(table => table.id === boreal.seats[person.id])).length : 0;
+  const counts = useMemo(()=>{
+    let partial=0, unnamed=0, followup=0;
+    for(const item of invitations){
+      const p=invitationProgress(item);
+      if(p.partial)partial++;
+      if(p.unnamed)unnamed++;
+      if(p.pending && management.delivery[item.id]?.sentAt)followup++;
+    }
+    return {partial,unnamed,followup,unsent:tasks.unsent,unseated:tasks.unseated};
+  },[invitations,management,tasks]);
+  const sheet = useRef<HTMLDialogElement>(null);
+  useEffect(()=>{
+    const desktop=matchMedia('(min-width:761px)');
+    const resize=()=>{if(desktop.matches)sheet.current?.close();};
+    desktop.addEventListener('change',resize);return ()=>desktop.removeEventListener('change',resize);
+  },[]);
+  const labels={unsent:english?'No recorded send':'Sin envío registrado', followup:english?'Sent with pending replies':'Enviadas con pendientes',partial:english?'Partial replies':'Respuestas parciales',unnamed:english?'Unnamed companions':'Acompañantes sin nombre',unseated:english?'Confirmed without a table':'Confirmados sin mesa'};
+  function filters(){
+    return <><label>{english?'Sort by':'Ordenar por'} <select value={order} onChange={event=>{setOrder(event.target.value as GuestOrder);setPage(1);}}><option value="name">{english?'Name A–Z':'Nombre A–Z'}</option><option value="recent">{english?'Recent activity':'Actividad reciente'}</option></select></label>
+      <div className="ledger-quick-filters">{(Object.keys(labels) as (keyof typeof labels)[]).filter(key=>key!=='unseated'||boreal).map(key=><button key={key} aria-pressed={filter===key} onClick={()=>chooseFilter(filter===key?'all':key)}>{labels[key]} <span>{counts[key]}</span></button>)}
+      {(filter!=='all'||query) && <button onClick={()=>{setQuery('');chooseFilter('all');}}>{english?'Clear':'Limpiar'} <X size={13}/></button>}</div></>;
+  }
   function chooseFilter(value: GuestFilter) { setFilter(value); setPage(1); }
   function changePage(value: number) { setPage(value); toolbar.current?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); toolbar.current?.focus({ preventScroll: true }); }
   function download() {
@@ -48,9 +67,10 @@ export function WeddingInvitationPanel({ invitations, english, syncStatus, onTab
     </aside>
     <div className="ledger-stats" aria-label={english ? 'Filter by RSVP' : 'Filtrar por asistencia'}>{(['yes','pending','no'] as const).map(status => <button key={status} className={`ledger-stat is-${status}`} aria-pressed={filter === status} onClick={() => chooseFilter(filter === status ? 'all' : status)}><span className="ledger-stat-value">{summary[status]}</span><span>{status === 'yes' ? (english ? 'Confirmed people' : 'Personas confirmadas') : status === 'pending' ? (english ? 'Pending people' : 'Personas pendientes') : (english ? 'Not attending' : 'No asistirán')}</span><ArrowRight size={16} aria-hidden="true" /></button>)}</div>
     <div className="ledger-tools" ref={toolbar} tabIndex={-1}>
-      <div className="ledger-controls"><label htmlFor={id+'search'}><span>{english ? 'Search by name' : 'Buscar por nombre'}</span><span className="ledger-search"><Search size={17} aria-hidden="true" /><input id={id+'search'} type="search" value={query} placeholder={english ? 'Guest or companion' : 'Invitado o acompañante'} onChange={event => { setQuery(event.target.value); setPage(1); }} /></span></label><label htmlFor={id+'filter'}><span>{english ? 'Show' : 'Mostrar'}</span><select id={id+'filter'} value={filter} onChange={event => chooseFilter(event.target.value as GuestFilter)}><option value="all">{english ? 'All invitations' : 'Todas las invitaciones'}</option><option value="yes">{english ? 'With confirmed guests' : 'Con confirmados'}</option><option value="pending">{english ? 'With pending replies' : 'Con pendientes'}</option><option value="no">{english ? 'With declined replies' : 'Con inasistencias'}</option><option value="unsent">{english?'No recorded send':'Sin envío registrado'}</option><option value="followup">{english?'Sent with pending replies':'Enviadas con pendientes'}</option><option value="partial">{english ? 'Partially answered' : 'Respuestas parciales'}</option><option value="unnamed">{english ? 'Unnamed companions' : 'Acompañantes sin nombre'}</option>{boreal && <option value="unseated">{english ? 'Confirmed without a table' : 'Confirmados sin mesa'}</option>}</select></label><label htmlFor={id+'sort'}><span>{english ? 'Sort by' : 'Ordenar por'}</span><select id={id+'sort'} value={order} onChange={event => { setOrder(event.target.value as GuestOrder); setPage(1); }}><option value="name">{english ? 'Name A–Z' : 'Nombre A–Z'}</option><option value="recent">{english ? 'Recent activity' : 'Actividad reciente'}</option></select></label></div>
-      <div className="ledger-quick-filters"><button aria-pressed={filter === 'partial'} onClick={() => chooseFilter(filter === 'partial' ? 'all' : 'partial')}>{english ? 'Partial replies' : 'Respuestas parciales'}<span>{partial}</span></button><button aria-pressed={filter === 'unnamed'} onClick={() => chooseFilter(filter === 'unnamed' ? 'all' : 'unnamed')}>{english ? 'Unnamed companions' : 'Sin nombre'}<span>{unnamed}</span></button>{boreal && <button aria-pressed={filter === 'unseated'} onClick={() => chooseFilter(filter === 'unseated' ? 'all' : 'unseated')}>{english ? 'Confirmed without a table' : 'Confirmados sin mesa'}<span>{unseated}</span></button>}{(query || filter !== 'all') && <button className="ledger-clear" onClick={() => { setQuery(''); chooseFilter('all'); }}><X size={13} aria-hidden="true" />{english ? 'Clear' : 'Limpiar'}</button>}</div>
+      <div className="ledger-controls"><label htmlFor={id+'search'}><span>{english ? 'Search by name' : 'Buscar por nombre'}</span><span className="ledger-search"><Search size={17} aria-hidden="true" /><input id={id+'search'} type="search" value={query} placeholder={english ? 'Guest or companion' : 'Invitado o acompañante'} onChange={event => { setQuery(event.target.value); setPage(1); }} /></span></label><button className="panel-filter-trigger" aria-haspopup="dialog" onClick={()=>sheet.current?.showModal()}>{english?'Filters':'Filtros'} ({filter==='all'?0:1})</button></div>
+      <div className="panel-desktop-filters">{filters()}</div>
     </div>
+    <dialog ref={sheet} className="workspace-dialog panel-filter-sheet" aria-labelledby={id+'filter-title'}><h3 id={id+'filter-title'}>{english?'Filters':'Filtros'}</h3>{filters()}<button className="workspace-button" onClick={()=>sheet.current?.close()}>{english?'Show results':'Ver resultados'}</button></dialog>
     <div className="ledger-results"><p role="status">{visible.length ? `${start+1}–${Math.min(start+pageSize,visible.length)} ${english ? 'of' : 'de'} ` : ''}{visible.length} {english ? 'invitations' : 'invitaciones'}{filter !== 'all' && <span> · {english ? 'Groups stay together' : 'Se conserva cada grupo'}</span>}</p><label>{english ? 'Per page' : 'Por página'}<select aria-label={english ? 'Invitations per page' : 'Invitaciones por página'} value={pageSize} onChange={event => { setPageSize(Number(event.target.value)); setPage(1); }}>{[10,25,50].map(size => <option key={size} value={size}>{size}</option>)}</select></label></div>
     <div className="ledger-columns" aria-hidden="true"><span>{english ? 'Invitation' : 'Invitación'}</span><span>{english ? 'Replies' : 'Respuestas'}</span><span>{english ? 'Actions' : 'Acciones'}</span></div>
     {visible.length ? <ul className="ledger-list" aria-label={english ? 'Guest invitations' : 'Invitaciones de invitados'}>{visible.slice(start,start+pageSize).map(invitation => <li className={`ledger-row${changedIds.includes(invitation.id)?' is-updated':''}`} key={invitation.id}>
