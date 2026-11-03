@@ -53,3 +53,12 @@ html:not([data-season]) .collection-heading button{display:none}
  .seasonal-tabs button:hover,.design-actions a:hover{background:color-mix(in srgb,var(--accent) 8%,transparent)}
 }
 
+
+.theme-seasonal .seasonal-contact-links{display:flex;gap:24px;margin-top:16px}
+.seasonal-contact-links a{text-decoration:underline;text-underline-offset:4px}
+.theme-seasonal .process-list li{min-height:0;padding-block:16px}
+@media(max-width:700px){
+ .theme-seasonal :is(.audience-faq,.process-roadmap,.home-closing){padding-block:45px}
+ .theme-seasonal .process-heading{margin-bottom:16px}
+ .theme-seasonal .process-list{margin-block:0}
+}

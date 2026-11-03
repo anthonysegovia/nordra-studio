@@ -56,15 +56,19 @@
   "temporada": [
     {
       "question": "¿Qué celebraciones hay en la colección?",
-      "answerHtml": "Halloween, Posadas y Navidad, y Fin de año. Cada capítulo reúne dos diseños originales para explorar y elegir el estilo de tu celebración."
+      "answerHtml": "Posadas y Navidad, Fin de año y Halloween. Cada temporada reúne dos diseños."
     },
     {
       "question": "¿Qué incluye la invitación de temporada?",
-      "answerHtml": "Diseño personalizado con el estilo de tu celebración, fecha, horario y lugar del evento, e invitación digital para compartir. Funciones, cambios y vigencia se confirman en la cotización."
+      "answerHtml": "Diseño de temporada personalizado. Confirmamos funciones, cambios y vigencia en tu cotización. Incluye fecha, hora y lugar del evento, listo para compartir."
     },
     {
       "question": "¿Incluye el mismo panel que Aurora o Boreal?",
       "answerHtml": "La oferta de Temporada tiene su propio alcance. El panel, las mesas y los pases QR no se anuncian como incluidos en esta colección. Si los necesitas, consúltalos al cotizar."
+    },
+    {
+      "question": "¿Cómo se paga?",
+      "answerHtml": "Acordamos alcance y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar."
     }
   ]
 }
