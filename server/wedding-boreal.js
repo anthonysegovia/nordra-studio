@@ -1,3 +1,4 @@
+import { sampleOccasions } from './sample-occasions.js';
 import { createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 import { WeddingError } from './wedding-errors.js';
 import { maxTables } from './wedding-capacity.js';
@@ -39,16 +40,16 @@ export function passInvitation(row, body, site, secret, mode) {
 export function passView(row, invitation, site, secret, mode) {
   const state = borealState(row);
   return {
-    couple: mode === 'sample' ? 'Valentina & Sebastián' : row.couple,
-    eventDate: mode === 'sample' ? '2027-06-19' : row.event_date,
-    city: mode === 'sample' ? 'Ciudad de México' : row.city,
+    couple: mode === 'sample' ? sampleOccasions[row.management?.sampleOccasion ?? 'wedding'].name : row.couple,
+    eventDate: mode === 'sample' ? sampleOccasions[row.management?.sampleOccasion ?? 'wedding'].date : row.event_date,
+    city: mode === 'sample' ? sampleOccasions[row.management?.sampleOccasion ?? 'wedding'].location : row.city,
     sample: mode === 'sample', expiresAt: row.expires_at,
     invitation: { id: invitation.id, kind: invitation.kind, people: invitation.people.map(person => ({ ...person, table: state.tables.find(table => table.id === state.seats[person.id])?.name || '', enteredAt: state.arrivals[person.id]?.at || null })) },
     link: passLink(row, invitation, site, secret, mode),
   };
 }
 export function receptionView(row, mode) {
-  return { workspaceId: row.id, version: row.version, couple: mode === 'sample' ? 'Valentina & Sebastián' : row.couple, expiresAt: row.expires_at, invitations: row.invitations.map(({ id, kind, people }) => ({ id, kind, people })), boreal: borealView(row) };
+  return { workspaceId: row.id, version: row.version, couple: mode === 'sample' ? sampleOccasions[row.management?.sampleOccasion ?? 'wedding'].name : row.couple, expiresAt: row.expires_at, invitations: row.invitations.map(({ id, kind, people }) => ({ id, kind, people })), boreal: borealView(row) };
 }
 export function authorizeReception(row, token, now) {
   const reception = borealState(row).reception;

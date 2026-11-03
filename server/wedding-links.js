@@ -1,3 +1,4 @@
+import { sampleOccasions } from './sample-occasions.js';
 import { createHash, createHmac, randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
 import { isIP } from 'node:net';
 import { databaseClient, jsonBody } from './admin-access.js';
@@ -44,13 +45,13 @@ export function validateList(list) {
   }
   return list;
 }
-export function sampleInvitations() {
-  const entries=[['individual','Mariana López','yes'],['couple','Daniel Moreno','yes','Isabel García','pending'],['plusOne','Lucía Herrera','yes','','pending'],['couple','Alejandro Ruiz','yes','Sofía Martínez','yes'],['individual','Diego Navarro','no'],['plusOne','Valeria Castro','yes','Fernando Ortiz','no'],['individual','Renata Flores','pending'],['couple','Gabriel Santos','yes','Paula Méndez','no'],['plusOne','Emiliano Vega','pending','','pending'],['individual','Regina Salazar','yes'],['couple','Mateo Aguilar','yes','Elena Ríos','yes'],['plusOne','Nicolás Cabrera','yes','Julia Mendoza','yes'],['individual','Sebastián Luna','no'],['individual','Natalia Fuentes','yes'],['individual','Rodrigo Medina','pending'],['individual','Clara Ponce','yes']];
+export function sampleInvitations(occasion = 'wedding') {
+  const entries=sampleOccasions[occasion].guests ?? [['individual','Mariana López','yes'],['couple','Daniel Moreno','yes','Isabel García','pending'],['plusOne','Lucía Herrera','yes','','pending'],['couple','Alejandro Ruiz','yes','Sofía Martínez','yes'],['individual','Diego Navarro','no'],['plusOne','Valeria Castro','yes','Fernando Ortiz','no'],['individual','Renata Flores','pending'],['couple','Gabriel Santos','yes','Paula Méndez','no'],['plusOne','Emiliano Vega','pending','','pending'],['individual','Regina Salazar','yes'],['couple','Mateo Aguilar','yes','Elena Ríos','yes'],['plusOne','Nicolás Cabrera','yes','Julia Mendoza','yes'],['individual','Sebastián Luna','no'],['individual','Natalia Fuentes','yes'],['individual','Rodrigo Medina','pending'],['individual','Clara Ponce','yes']];
   return entries.map(([kind,first,a,second,b])=>({id:`wedding-invitation-${randomUUID()}`,kind,updated_at:new Date().toISOString(),people:[{id:`wedding-person-${randomUUID()}`,name:first,attendance:a},...(kind==='individual'?[]:[{id:`wedding-person-${randomUUID()}`,name:second,attendance:b}])]}));
 }
 export function guestToken(secret,eventId,invitationId) { return createHmac('sha256',secret).update(`wedding-guest:${eventId}:${invitationId}`).digest('hex'); }
-export function invitationLink(site,eventId,invitationId,secret) {
-  const url=new URL('/invitaciones/valentina-y-sebastian/',site);
+export function invitationLink(site,eventId,invitationId,secret,occasion = 'wedding') {
+  const url=new URL(sampleOccasions[occasion].path,site);
   url.hash=`invitacion=${eventId}~${invitationId}~${guestToken(secret,eventId,invitationId)}`;
   return url.href;
 }
@@ -98,8 +99,8 @@ export function supabaseStore(db=databaseClient()) {
     async allow(bucket,limit) { const {data,error}=await db.rpc('nordra_wedding_allow',{p_bucket:bucket,p_limit:limit}); if(error) throw error; return data===true; },
   };
 }
-function ownerCapability(req) {
-  const value=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);
+function ownerCapability(req,cookie) {
+  const value=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookie+'='))?.slice(cookie.length+1);
   if(!value) return null;
   const [id,token]=value.split('.');
   return uuid.test(id) && tokenPattern.test(token) ? {id,token} : null;
@@ -111,6 +112,19 @@ function requestBucket(req,secret,scope) {
   return createHmac('sha256',secret).update(`wedding:${scope}:${Math.floor(Date.now()/3600000)}:${ip}`).digest('hex');
 }
 const defaults={store:supabaseStore,secret:()=>process.env.SUPABASE_SECRET_KEY,site:()=>process.env.NORDRA_SITE_URL,bucket:requestBucket};
+function sampleState(occasion) {
+  const invitations = sampleInvitations(occasion);
+  const boreal = sampleBoreal(invitations);
+  const management = { sampleOccasion:occasion, delivery:{}, history:[], trash:[], imports:[] };
+  if (occasion !== 'wedding') {
+    boreal.tables.forEach((table,index)=>{table.name=sampleOccasions[occasion].tables[index]});
+    // Leave a mix of assigned and unassigned people in the sample.
+    boreal.seats = { [invitations[1].people[0].id]:boreal.tables[0].id };
+    for (const invitation of invitations.slice(0,5)) management.delivery[invitation.id]={sentAt:invitation.updated_at,updatedAt:invitation.updated_at};
+  }
+  return {invitations,boreal,management};
+}
+
 export function weddingHandler(deps=defaults) {
   return async(req,res)=> {
     res.setHeader('Cache-Control','private, no-store'); res.setHeader('X-Robots-Tag','noindex, nofollow');
@@ -123,6 +137,10 @@ export function weddingHandler(deps=defaults) {
       const deployment=process.env.VERCEL_URL?`https://${process.env.VERCEL_URL}`:null;
       if(origin!==new URL(site).origin && origin!==deployment) return fail('invalid_origin',403);
       let body; try { body=weddingBody(req); } catch { return fail('invalid_request'); }
+      const occasion=body.occasion===undefined?'wedding':body.occasion;
+      if(typeof occasion!=='string'||!Object.hasOwn(sampleOccasions,occasion))return fail('invalid_occasion');
+      const cookie=occasion==='wedding'?cookieName:`${cookieName}_${occasion}`;
+      const matchesOccasion=row=>(row.management?.sampleOccasion ?? 'wedding')===occasion;
       const store=deps.store();
       if(!['load','save','delete','attendance','reset','trial','guest-load','guest-reply',...borealActions,...publicBorealActions,...managementActions].includes(body.action)) return fail('invalid_action');
       const guest=body.action.startsWith('guest-');
@@ -145,7 +163,7 @@ export function weddingHandler(deps=defaults) {
         if(!uuid.test(body.eventId||'') || !idPattern.test(body.id||'') || !tokenPattern.test(body.token||'') || !equal(body.token,guestToken(secret,body.eventId,body.id))) return fail('link_unavailable',404);
         for(let retry=0;retry<4;retry++) {
           const row=await store.read(body.eventId),invitation=row?.invitations.find(x=>x.id===body.id);
-          if(!invitation) return fail('link_unavailable',404);
+          if(!invitation || !matchesOccasion(row)) return fail('link_unavailable',404);
           if(body.action==='guest-load') return res.status(200).json({invitation:{...invitation,passLink:passLink(row,invitation,site,secret,mode)},expiresAt:row.expires_at});
           const next=applyGuestReply(invitation,body);
           const list=validateList(row.invitations.map(x=>x.id===invitation.id?next:x));
@@ -153,17 +171,16 @@ export function weddingHandler(deps=defaults) {
         }
         return fail('response_changed',409);
       }
-      let capability=ownerCapability(req),row=capability?await store.read(capability.id):null;
-      if(row && !equal(row.owner_hash,hash(capability.token))) return fail('session_unavailable',401);
+      let capability=ownerCapability(req,cookie),row=capability?await store.read(capability.id):null;
+      if(row && (!matchesOccasion(row)||!equal(row.owner_hash,hash(capability.token)))) return fail('session_unavailable',401);
       if(!row) {
         if(body.action!=='load') return fail('session_unavailable',401);
         if(!await store.allow(deps.bucket(req,secret,'create'),12)) return fail('limited',429);
         capability={id:randomUUID(),token:randomBytes(32).toString('hex')};
-        const invitations=sampleInvitations();
-        row=await store.create({id:capability.id,owner_hash:hash(capability.token),invitations,boreal:sampleBoreal(invitations),version:1,expires_at:new Date(Date.now()+LIFE).toISOString()});
-        res.setHeader('Set-Cookie',`${cookieName}=${capability.id}.${capability.token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${LIFE/1000}`);
+        row=await store.create({id:capability.id,owner_hash:hash(capability.token),...sampleState(occasion),version:1,expires_at:new Date(Date.now()+LIFE).toISOString()});
+        res.setHeader('Set-Cookie',`${cookie}=${capability.id}.${capability.token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${LIFE/1000}`);
       }
-      const payload=value=>({workspaceId:value.id,management:managementView(value),invitations:value.invitations.map(x=>({...x,link:invitationLink(site,value.id,x.id,secret),passLink:passLink(value,x,site,secret,mode)})),boreal:borealView(value),expiresAt:value.expires_at,version:value.version});
+      const payload=value=>({workspaceId:value.id,management:managementView(value),invitations:value.invitations.map(x=>({...x,link:invitationLink(site,value.id,x.id,secret,occasion),passLink:passLink(value,x,site,secret,mode)})),boreal:borealView(value),expiresAt:value.expires_at,version:value.version});
       if(body.action==='load') return res.status(200).json(payload(row));
       for(let retry=0;retry<4;retry++) {
         if(borealActions.includes(body.action)) {
@@ -172,6 +189,13 @@ export function weddingHandler(deps=defaults) {
           if(change.unchanged || await store.swap(row,row.invitations,change.state))return res.status(200).json({...payload({...row,boreal:change.state,version:row.version+(change.unchanged?0:1)}),result:change.result,receptionLink:change.receptionLink});
           row=await store.read(capability.id);
           if(!row || !equal(row.owner_hash,hash(capability.token)))return fail('session_unavailable',401);
+          continue;
+        }
+        if(body.action==='reset' && occasion!=='wedding') {
+          const next=sampleState(occasion);
+          if(await store.swap(row,next.invitations,next.boreal,next.management))return res.status(200).json(payload({...row,...next,version:row.version+1}));
+          row=await store.read(capability.id);
+          if(!row || !matchesOccasion(row) || !equal(row.owner_hash,hash(capability.token)))return fail('session_unavailable',401);
           continue;
         }
         const change=changeManagement(row,body,'sample-owner');
