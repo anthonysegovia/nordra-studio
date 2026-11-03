@@ -70,3 +70,14 @@
  .occasion-page .process-list { margin-block:18px; }
 }
 
+
+@media(max-width:700px){
+ .occasion-page :is(.occasion-stage,.occasion-plans,.audience-faq,.process-roadmap,.home-closing) { margin-top:16px; padding-block:22px; }
+ .occasion-page :is(.birthday-hero,.gathering-hero) { padding-block:14px 20px; min-height:0; }
+ .occasion-page .occasion-hero h1 { margin-block:16px; }
+ .occasion-plans .invite-card p { margin-block:5px; }
+ .occasion-plans .invite-points { margin-block:6px 12px; }
+ .occasion-page .process-roadmap .process-intro { margin-bottom:8px; }
+ .scene.occasion-page .studio-process.process-roadmap .process-list li { padding-block:10px; min-height:44px; }
+ .occasion-page .home-closing .contact-channel { min-height:58px; padding-block:6px; }
+}
