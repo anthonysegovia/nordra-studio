@@ -79,7 +79,10 @@ function renderEnglish(html,page) {
   }).join('');
   // Use a separate label; click handlers can update a button's first text node.
   translated=translated.replace(/<a\b([^>]*href="\/(?:demos\/|invitaciones\/|panel-boda\.html)[^"]*"[^>]*)>([\s\S]*?)<\/a>/g,
-    (all,attrs,body)=>`<a${attrs}>${body}<small class="demo-language">Demo in Spanish</small></a>`);
+    (all,attrs,body)=>{
+      const isInvitation = page==='invitaciones' && /href="\/invitaciones\/(?:valentina-y-sebastian|spooky-party)\//.test(attrs);
+      return `<a${attrs}>${body}<small class="demo-language">${isInvitation?'Invitation in Spanish':'Demo in Spanish'}</small></a>`;
+    });
   translated=translated.replaceAll('/artwork/wedding-dashboard-preview/dashboard-v3-es-','/artwork/wedding-dashboard-preview/dashboard-v3-en-');
   if(page===legal)translated=translated.replace(/(<h1>[^<]+<\/h1>)/,'$1<p class="translation-note">This is a translation for convenience; the Spanish version is the legally binding one.</p>')
     .replace("'Activar tema claro' : 'Activar tema oscuro'","'Switch to light mode' : 'Switch to dark mode'");
