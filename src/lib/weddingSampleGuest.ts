@@ -10,11 +10,11 @@ export function sampleGuestAccess(hash: string): SampleGuestAccess | "invalid" |
   return /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(eventId) && /^wedding-[\w-]{1,120}$/.test(id) && /^[a-f0-9]{64}$/.test(token) ? { eventId, id, token } : "invalid";
 }
 
-export async function sampleGuestRequest(access: SampleGuestAccess, signal: AbortSignal, reply?: { people: WeddingPerson[]; updatedAt: string }): Promise<WeddingInvitation> {
+export async function sampleGuestRequest(access: SampleGuestAccess, signal: AbortSignal, reply?: { people: WeddingPerson[]; updatedAt: string }, occasion = "wedding"): Promise<WeddingInvitation> {
   const response = await fetch("/api/wedding-links", {
     method: "POST", credentials: "omit", referrerPolicy: "no-referrer", signal,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action: reply ? "guest-reply" : "guest-load", ...access, ...reply }),
+    body: JSON.stringify({ action: reply ? "guest-reply" : "guest-load", ...access, ...reply, ...(occasion === "wedding" ? {} : {occasion}) }),
   });
   const data = await response.json();
   if (!response.ok) throw new Error(data.code || "unavailable");

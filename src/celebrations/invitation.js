@@ -1,3 +1,4 @@
+import { sampleGuestAccess } from '../lib/weddingSampleGuest';
 import { entranceVisibility, initialTheme } from './entrance.mjs';
 import { showReturnToSite } from '../site/return-to-site.js';
 
@@ -74,10 +75,15 @@ entrance.addEventListener('keydown', event => {
   else if (!event.shiftKey && (document.activeElement === last || document.activeElement === entrance)) { event.preventDefault(); first.focus(); }
 });
 
-// This is deliberately a browser-only sample: no fetch, API, persistence or analytics.
+// The public preview stays local. Only a personal capability enables cloud replies.
 const form = document.querySelector('.celebration-rsvp');
 const status = document.querySelector('[data-rsvp-status]');
-form.addEventListener('submit', event => {
+const access = sampleGuestAccess(location.hash);
+if (access) {
+  form.querySelector('[type=submit]').disabled=true;
+  import('./personal-rsvp.js').then(({personalRsvp})=>personalRsvp(form,status,access,
+    document.documentElement.dataset.invitation==='conexion'?'event':'birthday'));
+} else form.addEventListener('submit', event => {
   event.preventDefault();
   if (!form.reportValidity()) return;
   const name = form.elements.namedItem('guest').value.trim();

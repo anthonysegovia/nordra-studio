@@ -6,7 +6,7 @@ import { emptyBoreal, type BorealResult, type BorealState } from './weddingBorea
 import { emptyManagement, type WeddingManagement } from './weddingManagement';
 
 type Snapshot = BorealResult & { workspaceId: string; invitations: WeddingInvitation[]; expiresAt: string; version: number; event?: WeddingEvent; boreal?: BorealState; management?: WeddingManagement };
-let loadingRequest: Promise<Snapshot> | null = null;
+const loadingRequests = new Map<string,Promise<Snapshot>>();
 async function request(body: Record<string, unknown>): Promise<Snapshot> {
   const response = await fetch("/api/wedding-links", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body), signal: AbortSignal.timeout(15000) });
   const data = await response.json();
@@ -14,12 +14,14 @@ async function request(body: Record<string, unknown>): Promise<Snapshot> {
   if (!Array.isArray(data.invitations) || !Number.isInteger(data.version)) throw new Error("unavailable");
   return data;
 }
-function load() {
-  if (!loadingRequest) loadingRequest = request({ action: "load" }).finally(() => { loadingRequest = null; });
-  return loadingRequest;
+function load(occasion:string) {
+  const pending=loadingRequests.get(occasion);
+  if(pending)return pending;
+  const next=request({action:'load',occasion}).finally(()=>loadingRequests.delete(occasion));
+  loadingRequests.set(occasion,next);return next;
 }
 
-export function useWeddingCloud(eventId?: string, admin = false) {
+export function useWeddingCloud(eventId?: string, admin = false, occasion = 'wedding') {
   const [management, setManagement] = useState<WeddingManagement>(emptyManagement);
   const [lastSyncedAt, setLastSyncedAt] = useState(0), [syncing,setSyncing] = useState(false), [changedIds,setChangedIds] = useState<string[]>([]);
   const previousInvitations=useRef<WeddingInvitation[] | null>(null);
@@ -41,13 +43,13 @@ export function useWeddingCloud(eventId?: string, admin = false) {
     if (snapshot.version >= version.current) { version.current = snapshot.version; const changed=previousInvitations.current ? snapshot.invitations.filter(item=>{const previous=previousInvitations.current?.find(p=>p.id===item.id);return !previous || previous.updated_at!==item.updated_at;}).map(item=>item.id) : []; if(changed.length)setChangedIds(changed); previousInvitations.current=snapshot.invitations; setLastSyncedAt(Date.now()); setManagement(snapshot.management ?? emptyManagement); setInvitations(snapshot.invitations); setExpiresAt(snapshot.expiresAt); setEvent(snapshot.event); setBoreal(snapshot.boreal ?? emptyBoreal); }
     setLoading(false); setSyncError(false); setErrorCode("");
   }, []);
-  const call = useCallback((body: Record<string,unknown>) => eventId ? weddingApi<Snapshot>({...body,eventId,admin}) : request(body), [eventId,admin]);
+  const call = useCallback((body: Record<string,unknown>) => eventId ? weddingApi<Snapshot>({...body,eventId,admin}) : request({...body,occasion}), [eventId,admin,occasion]);
   const refresh = useCallback(async () => {
     setSyncing(true);
-    try { accept(await (eventId ? call({action:"load"}) : load())); }
+    try { accept(await (eventId ? call({action:"load"}) : load(occasion))); }
     catch (error) { if (active.current) { setLoading(false); setSyncError(true); setErrorCode((error as Error).message); if(eventId) {setInvitations([]);setManagement(emptyManagement);setBoreal(emptyBoreal);} } }
     finally {if(active.current)setSyncing(false);}
-  }, [accept,call,eventId]);
+  }, [accept,call,eventId,occasion]);
   useEffect(() => {
     active.current = true;
     void refresh();
