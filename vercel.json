@@ -41,6 +41,20 @@
       }
     },
     {
+      "src": "^/invitaciones/sofia-25(?:/index\\.html|/)?$",
+      "status": 308,
+      "headers": {
+        "Location": "/invitaciones/camila-30/"
+      }
+    },
+    {
+      "src": "^/invitaciones/sofia-25/fecha\\.ics$",
+      "status": 308,
+      "headers": {
+        "Location": "/invitaciones/camila-30/fecha.ics"
+      }
+    },
+    {
       "src": "^/demos/lumina(?:/index\\.html|/)?$",
       "status": 308,
       "headers": {
@@ -129,14 +143,14 @@
       "dest": "/$1.html"
     },
     {
-      "src": "^/invitaciones/(sofia-25|conexion-27)(?:/index\\.html)?$",
+      "src": "^/invitaciones/(camila-30|conexion-27)(?:/index\\.html)?$",
       "status": 308,
       "headers": {
         "Location": "/invitaciones/$1/"
       }
     },
     {
-      "src": "^/invitaciones/(sofia-25|conexion-27)/$",
+      "src": "^/invitaciones/(camila-30|conexion-27)/$",
       "dest": "/invitaciones/$1/index.html"
     },
     {

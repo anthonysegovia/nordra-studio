@@ -6,21 +6,21 @@ function greeting(invitation:WeddingInvitation, en:boolean) {
   return (en?'Hi':'Hola')+(names.length?', '+new Intl.ListFormat(en?'en':'es-MX').format(names):'')+'. ';
 }
 export const birthdayPanel:typeof base = {
-  ...base,key:'birthday',accent:'#74531b',ink:'#1d1a2e',paper:'#fff9ed',
+  ...base,key:'birthday',accent:'var(--gold)',ink:'var(--text)',paper:'var(--surface)',
   sample:{path:'/panel-cumple.html',date:['24 de julio de 2027','July 24, 2027']},
   identity:{
-    name:'Sofía 25',title:['Sofía 25'],mark:['S','25'],back:'/cumpleanos',anchor:'cumpleanos-panel-muestra',
-    invitation:'/invitaciones/sofia-25/',download:'cumpleanos',photo:'/artwork/birthday-noche/solo-640.webp',srcSet:'/artwork/birthday-noche/solo-640.webp 640w, /artwork/birthday-noche/solo-1024.webp 1024w',
+    name:'Camila 30',title:['Camila 30'],mark:['C','30'],back:'/cumpleanos',anchor:'cumpleanos-panel-muestra',
+    invitation:'/invitaciones/camila-30/',download:'cumpleanos',photo:'/artwork/birthday-noche/solo-640.webp',srcSet:'/artwork/birthday-noche/solo-640.webp 640w, /artwork/birthday-noche/solo-1024.webp 1024w',
     place:['Terraza Aurora · ubicación general','Terraza Aurora · general location'],brand:['NOCHE DE CUMPLE','BIRTHDAY NIGHT'],brandLabel:['Cumpleaños','Birthdays'],
     badge:['MI CUMPLEAÑOS','MY BIRTHDAY'],panel:['Panel de cumpleaños','Birthday dashboard'],space:['Tu espacio de cumpleaños','Your birthday space'],
-    backLabel:['Volver a Cumpleaños','Back to Birthdays'],kicker:['LA FIESTA DE SOFÍA','SOFÍA’S PARTY'],note:['Reúne a tus personas favoritas.','Bring your favorite people together.'],
+    backLabel:['Volver a Cumpleaños','Back to Birthdays'],kicker:['LA FIESTA DE CAMILA','CAMILA’S PARTY'],note:['Reúne a tus personas favoritas.','Bring your favorite people together.'],
     motto:['Hecho para tu fiesta','Made for your party'],guests:['Tus invitados','Your guests'],nav:['Invitados','Guests'],ours:['Mi invitación','My invitation'],
     footer:['Muestra Boreal · Mesas y entradas a tu fiesta','Boreal sample · Seating and party check-in'],
     history:'Recupera invitaciones durante la vigencia de esta muestra. Después, vuelve a asignar sus mesas.',
     remove:'Su enlace quedará inactivo. Puedes recuperar la invitación desde Historial durante la vigencia del cumpleaños.',
   },
   guide:{...base.guide,steps:[
-    {...base.guide.steps[0],detail:['Abre la invitación personal de Sofía 25 en otra pestaña.','Open a personal Sofía 25 invitation in another tab.']},
+    {...base.guide.steps[0],detail:['Abre la invitación personal de Camila 30 en otra pestaña.','Open a personal Camila 30 invitation in another tab.']},
     base.guide.steps[1],{...base.guide.steps[2],detail:['Vuelve a Tus invitados para ver quién viene a la fiesta.','Return to Your guests to see who is coming to the party.']},
   ]},
   reminder(inv,en){return greeting(inv,en)+(en?"I’d love to know if you can come to my birthday party. Here’s your invitation:":inv.kind==='individual'?'Me encantaría saber si podrás venir a mi cumple. Aquí está tu invitación:':'Me encantaría saber si podrán venir a mi cumple. Aquí está su invitación:')},

@@ -23,7 +23,7 @@ export function getOccasions(english: boolean) {
       title: english ? "The party starts with your invitation" : "La fiesta empieza con tu invitación",
       copy: english ? "Your colors, your photographs and your favorite people. Let's set the mood for your celebration." : "Tus colores, tus fotos y tus personas favoritas. Empecemos a darle ambiente a tu celebración.",
       mood: english ? "Colorful · playful · personal" : "Colorida · divertida · muy tú",
-      sampleName: "Sofía · 25", sampleDate: "24 · 07 · 2027", samplePlace: "Terraza Aurora", sampleTime: "19:00",
+      sampleName: "Camila · 30", sampleDate: "24 · 07 · 2027", samplePlace: "Terraza Aurora", sampleTime: "19:00",
       sampleLine: english ? "One more trip around the sun." : "Una vuelta más al sol.",
       features: english ? ["Your theme and photographs", "Time, place and dress code", "Replies in your private panel"] : ["Tu temática y fotografías", "Hora, lugar y vestimenta", "Respuestas en tu panel privado"],
       experienceTitle: english ? "A celebration with your personality" : "Una celebración con tu personalidad",

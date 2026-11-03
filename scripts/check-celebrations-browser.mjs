@@ -16,7 +16,7 @@ async function geometry(page){return page.evaluate(()=>{
 });}
 function checkGeometry(g){assert.ok(g.art.x>=g.cover.x&&g.art.right<=g.cover.right+1,'art within cover');assert.ok(g.art.y>=g.cover.y&&g.art.bottom<=g.cover.bottom+1,'whole artwork inside cover');assert.ok(g.art.x>=g.copy.right||g.art.y>=g.copy.bottom-1,'name/age and artwork do not overlap');assert.ok(g.art.x>=g.footer.right||g.art.bottom<=g.footer.y+1,'art does not overlap footer');assert.ok(g.scrollWidth<=g.width,'no horizontal overflow');}
 try{
- for(const slug of ['sofia-25','conexion-27'])for(const theme of ['light','dark'])for(const width of [375,1440,1920]){
+ for(const slug of ['camila-30','conexion-27'])for(const theme of ['light','dark'])for(const width of [375,1440,1920]){
   const context=await browser.newContext({viewport:{width,height:width===375?844:1000},colorScheme:'dark'});
   // Unset preference with a dark device verifies the required light default.
   if(theme==='dark')await context.addInitScript(()=>localStorage.setItem('nordra-theme','dark'));
@@ -37,9 +37,9 @@ try{
   records.push({slug,theme,width,opening:true,sampleNoNetwork:true,geometry:true});await context.close();
  }
  for(const width of [360,390,430]){
-  const context=await browser.newContext({viewport:{width,height:844}});const page=await context.newPage();await page.goto(`${values.url}/invitaciones/sofia-25/`);await settled(page);const g=await geometry(page);checkGeometry(g);await page.screenshot({path:path.join(values.evidence,`sofia-25-light-${width}-cover.png`)});records.push({slug:'sofia-25',width,geometry:g});await context.close();
+  const context=await browser.newContext({viewport:{width,height:844}});const page=await context.newPage();await page.goto(`${values.url}/invitaciones/camila-30/`);await settled(page);const g=await geometry(page);checkGeometry(g);await page.screenshot({path:path.join(values.evidence,`camila-30-light-${width}-cover.png`)});records.push({slug:'camila-30',width,geometry:g});await context.close();
  }
- for(const theme of ['light','dark'])for(const width of [375,1440,1920])for(const [category,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']]){
+ for(const theme of ['light','dark'])for(const width of [375,1440,1920])for(const [category,slug] of [['cumpleanos','camila-30'],['eventos','conexion-27']]){
   const context=await browser.newContext({viewport:{width,height:width===375?844:1000},reducedMotion:'reduce'});await context.addInitScript(theme=>localStorage.setItem('nordra-theme',theme),theme);
   const page=await context.newPage(),docs=[];page.on('request',r=>{if(r.resourceType()==='document')docs.push(r.url());});await page.goto(`${values.url}/invitaciones`);const link=page.locator(`#tipos-invitacion a[href="/invitaciones/${slug}/"]`);await link.scrollIntoViewIfNeeded();
   assert.equal(docs.some(u=>u.includes(slug)),false,'invitation not loaded before click');

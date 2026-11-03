@@ -3,8 +3,8 @@
 .theme-birthday{font-family:NocheManrope,Manrope,sans-serif}
 body[data-scene=cumpleanos] .scene.theme-birthday :is(h1,h2,h3){font-family:NocheSora,Sora,sans-serif;font-weight:550;letter-spacing:-.035em}
 .theme-birthday .birthday-hero .business-title-line:last-child{font-style:normal;color:var(--accent)}
-.theme-birthday .occasion-stage .wedding-dashboard::after{top:84.7%}
-html[lang=en] .theme-birthday .occasion-stage .wedding-dashboard::after{top:80.4%}
+.theme-birthday .occasion-stage .wedding-dashboard::after{top:85.1%}
+html[lang=en] .theme-birthday .occasion-stage .wedding-dashboard::after{top:80.8%}
 .theme-birthday .invite-card{background:var(--bg);border-color:var(--line)}
 .dark .theme-birthday .invite-card{background:#30263f}
 .theme-birthday .invite-featured{border-color:var(--accent)}

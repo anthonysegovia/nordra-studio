@@ -124,7 +124,7 @@ test('sample occasions are allowlisted, isolated by cookie, and reset to new per
     sessions.push({occasion,cookie,snapshot});
     assert.match(first.headers['Set-Cookie'],/Max-Age=86400/);
     const group=snapshot.invitations[0];
-    const slug={wedding:'valentina-y-sebastian',birthday:'sofia-25',event:'conexion-27'}[occasion];
+    const slug={wedding:'valentina-y-sebastian',birthday:'camila-30',event:'conexion-27'}[occasion];
     assert.equal(new URL(group.link).pathname,'/invitaciones/'+slug+'/');
     if(occasion==='wedding')continue;
     assert(snapshot.management.delivery[group.id].sentAt);

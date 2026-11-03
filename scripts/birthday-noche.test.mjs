@@ -3,8 +3,8 @@ import test from 'node:test';
 import {readFileSync,existsSync} from 'node:fs';
 const read=file=>readFileSync(file,'utf8');
 
-test('Sofía and the birthday hero use real responsive images with descriptive alternatives',()=>{
-  for(const [path,selector] of [['invitaciones/sofia-25/index.html','solo-'],['cumpleanos.html','sofia-portada-']]){
+test('Camila and the birthday hero use real responsive images with descriptive alternatives',()=>{
+  for(const [path,selector] of [['invitaciones/camila-30/index.html','solo-'],['cumpleanos.html','camila-portada-']]){
     const images=read(path).match(/<img\b[^>]+>/g).filter(tag=>tag.includes('/birthday-noche/'+selector));
     assert.ok(images.length);
     for(const image of images){
@@ -16,8 +16,8 @@ test('Sofía and the birthday hero use real responsive images with descriptive a
   }
   const conexion=read('invitaciones/conexion-27/index.html');
   assert.ok(conexion.includes('/src/celebrations/invitation.css'));
-  assert.doesNotMatch(conexion,/sofia\.css|birthday-noche/);
-  assert.doesNotMatch(read('src/celebrations/invitation.css'),/NocheSerif|birthday-noche/);
+  assert.doesNotMatch(conexion,/camila\.css|birthday-noche/);
+  assert.doesNotMatch(read('src/celebrations/invitation.css'),/NocheSora|birthday-noche/);
 });
 
 function luminance(hex){
@@ -33,6 +33,23 @@ test('birthday body, secondary text and interactive accents meet AA in each pale
    for(const role of ['ink','muted','accent']){
      const a=value(role),b=value('bg');
      assert.ok((Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5,suffix+' '+role);
+   }
+ }
+});
+
+test('the birthday identity uses local Sora and every customer-facing birthday entry names Camila',()=>{
+ const fonts=read('src/styles/noche-fonts.css');
+ assert.match(fonts,/Sora-latin\.woff2/);assert.doesNotMatch(fonts,/cormorant|liga/i);
+ for(const file of ['cumpleanos.html','invitaciones.html','invitaciones/camila-30/index.html','public/invitaciones/camila-30/fecha.ics','src/i18n/cumpleanos.en.json','src/i18n/invitaciones.en.json','src/lib/occasionPanels.ts','src/data/invitationOccasions.ts','server/sample-occasions.js']){
+   const value=read(file);assert.match(value,/Camila/,file);assert.doesNotMatch(value,/\bsof[ií]a\b/i,file);
+ }
+});
+test('birthday RSVP states meet AA on their badge backgrounds in both themes',()=>{
+ const css=read('src/styles/birthday-panel.css');
+ for(const section of css.split('html[data-theme=dark] .wedding-workspace[data-occasion=birthday] ').slice(0,2)){
+   const value=name=>luminance(section.match(new RegExp('--'+name+':#([0-9a-f]{6})'))[1]);
+   for(const [text,bg] of [['yes','yes-bg'],['gold','pending-bg'],['no','no-bg']]){
+     const a=value(text),b=value(bg);assert.ok((Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5,text);
    }
  }
 });

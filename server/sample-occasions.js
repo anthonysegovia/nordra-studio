@@ -2,7 +2,7 @@
 export const sampleOccasions = {
   wedding: { path:'/invitaciones/valentina-y-sebastian/', name:'Valentina & Sebastián', date:'2027-06-19', location:'Ciudad de México' },
   birthday: {
-    path:'/invitaciones/sofia-25/', name:'Sofía 25', date:'2027-07-24', location:'Terraza Aurora',
+    path:'/invitaciones/camila-30/', name:'Camila 30', date:'2027-07-24', location:'Terraza Aurora',
     tables:['Confeti','Brindis','Estrellas'],
     guests:[['individual','Clara Luna','pending'],['couple','Daniel Vega','yes','Isabel Torres','pending'],['plusOne','Renata Sol','yes','','pending'],['individual','Mateo Díaz','no'],['couple','Sara Gil','yes','Ana Gil','yes'],['individual','Leo Cruz','pending'],['plusOne','Paula Luna','pending','','pending'],['individual','Eva Sol','yes']],
   },

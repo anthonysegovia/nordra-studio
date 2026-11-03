@@ -3,10 +3,21 @@ import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { samplePanelFixture } from './sample-panel-fixture.mjs';
 import { preview } from 'vite';
+import vercel from '../vercel.json' with { type:'json' };
 import { sampleInvitations, invitationLink } from '../server/wedding-links.js';
 import { sampleBoreal } from '../server/wedding-boreal.js';
 
-const server=await preview({preview:{host:'127.0.0.1',port:5478,strictPort:true}});
+// Exercise the actual Vercel redirect in a local HTTP navigation, including fragment inheritance.
+const legacyPath='/invitaciones/sofia-25/';
+const redirect=vercel.routes.find(route=>new RegExp(route.src).test(legacyPath) && route.status===308);
+assert.equal(redirect?.headers.Location,'/invitaciones/camila-30/');
+const redirects={name:'test-birthday-redirect',configurePreviewServer({middlewares}){
+  middlewares.use((req,res,next)=>{
+    if(!new RegExp(redirect.src).test(new URL(req.url,'http://localhost').pathname))return next();
+    res.writeHead(redirect.status,redirect.headers);res.end();
+  });
+}};
+const server=await preview({plugins:[redirects],preview:{host:'127.0.0.1',port:5478,strictPort:true}});
 const origin='http://127.0.0.1:5478';
 const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe'});
 async function panel({plan,admin=false,archived=false,width=390,english=false,noStorage=false}={}){
@@ -69,7 +80,7 @@ try{
     else{await page.locator('.sample-guide').waitFor();await page.keyboard.press('Escape')}
     await page.close();
   }
-  for (const [kind,slug,back,brand] of [['cumple','sofia-25','cumpleanos','Sofía 25'],['evento','conexion-27','eventos','Conexión 27']]) {
+  for (const [kind,slug,back,brand] of [['cumple','camila-30','cumpleanos','Camila 30'],['evento','conexion-27','eventos','Conexión 27']]) {
     const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,reducedMotion:'reduce',colorScheme:'dark'});
     await context.route('**/api/wedding-links',samplePanelFixture(origin));
     const dashboard=await context.newPage();
@@ -93,7 +104,7 @@ try{
       await wedding.close();await toggle.click();
       const commercial=await context.newPage();
       await commercial.goto(origin+'/cumpleanos');
-      assert.equal(await commercial.locator('.birthday-hero h1').evaluate(el=>getComputedStyle(el).fontFamily).includes('NocheSora'),true);
+      assert.match(await commercial.locator('.birthday-hero h1').evaluate(el=>getComputedStyle(el).fontFamily),/NocheSora/);
       await commercial.close();
       assert.equal(await title.evaluate(el=>getComputedStyle(el).color),'rgb(244, 233, 211)');
       assert.match(await dashboard.locator('.ledger-stat-value').first().evaluate(el=>getComputedStyle(el).fontVariantNumeric),/tabular-nums/);
@@ -108,11 +119,18 @@ try{
     }
     const personal=await dashboard.locator('.workspace-quick-links a').last().getAttribute('href');
     assert.equal(new URL(personal).pathname,'/invitaciones/'+slug+'/');
-    const guest=await context.newPage();await guest.goto(personal);
+    const guest=await context.newPage();
+    if(kind==='cumple'){
+      const old=new URL(personal);assert.ok(old.hash);old.pathname=legacyPath;
+      const redirected=guest.waitForResponse(response=>response.status()===308);
+      await guest.goto(old.href);await redirected;
+      assert.equal(new URL(guest.url()).hash,old.hash);
+      assert.equal(new URL(guest.url()).pathname,new URL(personal).pathname);
+    }else await guest.goto(personal);
     if(kind==='cumple'){
       const cover=guest.locator('#cover-title');
-      assert.match(await cover.textContent(),/Sofía/);
-      assert.equal(await cover.evaluate(el=>getComputedStyle(el).fontFamily).includes('NocheSora'),true);
+      assert.match(await cover.textContent(),/Camila/);
+      assert.match(await cover.evaluate(el=>getComputedStyle(el).fontFamily),/NocheSora/);
     }
     await guest.locator('[data-skip]').click();
     await guest.locator('.celebration-rsvp select').selectOption('1');
@@ -121,7 +139,7 @@ try{
     await guest.locator('.celebration-rsvp [type=submit]').click();
     await guest.getByText('Tu respuesta ya está en el panel de muestra.').waitFor();
     await dashboard.reload();await dashboard.getByText('Andrea Local',{exact:true}).first().waitFor({state:'attached'});
-    await dashboard.locator('.workspace-topbar button').click();
+    await dashboard.locator('.workspace-language').click();
     assert.match(await dashboard.locator('.workspace-topbar').innerText(),/Your (birthday|event) space/);
     for(const label of ['Tables','Reception']){
       await dashboard.getByRole('button',{name:label,exact:true}).first().click();

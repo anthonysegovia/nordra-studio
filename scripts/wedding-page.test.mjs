@@ -89,7 +89,7 @@ test('Boreal spreads its second real lily away from the first', () => {
   assert.match(css, /\.paper-lilies img\+img\s*\{[^}]*rotate:-29deg/);
 });
 
-for (const [name,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']]) {
+for (const [name,slug] of [['cumpleanos','camila-30'],['eventos','conexion-27']]) {
   test(name + ' shows the real details screen, localized dashboard and two catalogue plans', async () => {
     const source = page(name);
     const { translatedPageOutput } = await import('../build/translated-pages.mjs');
@@ -110,7 +110,7 @@ for (const [name,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']])
         assert.ok(sample.includes(image));assert.equal(readFileSync('public'+image).subarray(8,12).toString(),'WEBP');
       }
       for(const size of [390,780]){
-        const prefix=name==='cumpleanos'?'/artwork/birthday-noche/sofia':'/artwork/invitation-covers/'+slug;
+        const prefix=name==='cumpleanos'?'/artwork/birthday-noche/camila':'/artwork/invitation-covers/'+slug;
         const asset=prefix+'-detalles-'+size+'.webp';
         assert.ok(sample.includes(asset));
         assert.equal(readFileSync('public'+asset).subarray(8,12).toString(),'WEBP');

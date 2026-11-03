@@ -11,7 +11,7 @@ test('light is default; only the saved dark preference changes it',()=>{
  for(const value of [null,'light','system','invalid'])assert.equal(initialTheme({getItem:()=>value}),'light');
  assert.equal(initialTheme({getItem:()=>{throw Error('blocked')}}),'light');assert.equal(initialTheme({getItem:()=> 'dark'}),'dark');
 });
-for(const [slug,start] of [['sofia-25','20270725T010000Z'],['conexion-27','20270612T160000Z']]){
+for(const [slug,start] of [['camila-30','20270725T010000Z'],['conexion-27','20270612T160000Z']]){
  test(`${slug}: safe initial markup and local sample`,()=>{
   const html=read(`invitaciones/${slug}/index.html`);
   assert.match(html,/class="celebration-header" hidden inert/);assert.match(html,/class="celebration-content" hidden inert/);
@@ -40,5 +40,5 @@ test('Invitaciones keeps the legacy destinations and the four real screens in re
  assert.equal((journey.match(/class="journey-card"/g)||[]).length,4);
  for(const name of ['inv-guest-cover','inv-guest-open','inv-guest-rsvp','dashboard-v3-es'])assert.ok(journey.includes(name));
  for(const href of ['/invitaciones/valentina-y-sebastian/','/panel-boda.html'])assert.ok(journey.includes('href="'+href+'"'));
- for(const forPage of ['/bodas','/cumpleanos','/eventos','/temporada','/invitaciones/sofia-25/','/invitaciones/conexion-27/'])assert.ok(html.split('id="tipos-invitacion"')[1].split('</section>')[0].includes('href="'+forPage+'"'));
+ for(const forPage of ['/bodas','/cumpleanos','/eventos','/temporada','/invitaciones/camila-30/','/invitaciones/conexion-27/'])assert.ok(html.split('id="tipos-invitacion"')[1].split('</section>')[0].includes('href="'+forPage+'"'));
 });

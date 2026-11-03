@@ -14,13 +14,13 @@ describe('site — return from sample invitations', () => {
     assert.equal(returnTarget('', origin), null);
     assert.equal(returnTarget('https://web.whatsapp.com/', origin), null);
     assert.equal(returnTarget('https://nordrastudio.mx/panel-boda?codigo=x', origin), null);
-    assert.equal(returnTarget('https://nordrastudio.mx/invitaciones/sofia-25/', origin), null);
+    assert.equal(returnTarget('https://nordrastudio.mx/invitaciones/camila-30/', origin), null);
     assert.equal(returnTarget('no es una url', origin), null);
   });
   test('accepts the path a site page noted for this tab', () => {
     assert.equal(returnTarget('/bodas#bodas-event-experience', origin), 'https://nordrastudio.mx/bodas#bodas-event-experience');
     assert.equal(returnTarget('/en/#trabajos', origin), origin+'/en/#trabajos');
-    assert.equal(returnTarget('/en/invitaciones/sofia-25/', origin), null);
+    assert.equal(returnTarget('/en/invitaciones/camila-30/', origin), null);
     assert.equal(returnTarget('//otro.mx/bodas', origin), null);
   });
   test('drops query parameters from the way back', () => {

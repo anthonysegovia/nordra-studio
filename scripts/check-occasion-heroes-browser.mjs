@@ -5,11 +5,11 @@ const {values}=parseArgs({options:{phase:{type:'string',default:'after'},url:{ty
 assert.ok(['before','after'].includes(values.phase));const after=values.phase==='after';const require=createRequire(values.tools?path.resolve(values.tools):import.meta.url);const {chromium}=require('playwright');fs.mkdirSync(values.evidence,{recursive:true});const records=[];
 const browser=await chromium.launch({executablePath:values.chrome,headless:true,args:['--enable-unsafe-swiftshader']});
 try{
- for(const [name,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']])for(const width of [375,768,1440,1920])for(const theme of ['light','dark']){
+ for(const [name,slug] of [['cumpleanos','camila-30'],['eventos','conexion-27']])for(const width of [375,768,1440,1920])for(const theme of ['light','dark']){
   const context=await browser.newContext({viewport:{width,height:width<800?844:1000}});await context.addInitScript(theme=>{localStorage.setItem('nordra-theme',theme);window.testShifts=[];new PerformanceObserver(list=>{for(const e of list.getEntries())if(!e.hadRecentInput)window.testShifts.push(e.value);}).observe({type:'layout-shift',buffered:true});},theme);
   const page=await context.newPage(),docs=[],errors=[];page.on('request',r=>{if(r.resourceType()==='document')docs.push(r.url());});page.on('pageerror',e=>errors.push(e.message));
   // Delay only the cover to demonstrate that decoding cannot resize its frame.
-  let release;const held=new Promise(resolve=>release=resolve);if(after)await page.route(slug==='sofia-25'?'**/artwork/birthday-noche/sofia-portada-*.webp':`**/artwork/invitation-covers/${slug}.webp`,async route=>{await held;await route.continue();});
+  let release;const held=new Promise(resolve=>release=resolve);if(after)await page.route(slug==='camila-30'?'**/artwork/birthday-noche/camila-portada-*.webp':`**/artwork/invitation-covers/${slug}.webp`,async route=>{await held;await route.continue();});
   await page.goto(`${values.url}/${name}`,{waitUntil:'domcontentloaded'});await page.evaluate(()=>document.fonts.ready);
   const beforeBox=after?await page.locator('.occasion-hero-live .live-phone').boundingBox():null;release();await page.waitForLoadState('load');await page.waitForTimeout(1800);
   const cls=await page.evaluate(()=>window.testShifts.reduce((a,b)=>a+b,0));const background=await page.locator('.occasion-hero').evaluate(x=>getComputedStyle(x.closest('.scene')).getPropertyValue('--bg'));
@@ -20,7 +20,7 @@ try{
   assert.deepEqual(errors.filter(x=>x!=='Transition was aborted because of invalid state. ViewTransition opt-in disabled'),[]);}
   records.push({name,width,theme,cls,background,browserNotices:errors,noPreload:after,mode:width<=700?'direct':'iframe'});await context.close();
  }
- if(after)for(const width of [375,1440])for(const [category,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']]){
+ if(after)for(const width of [375,1440])for(const [category,slug] of [['cumpleanos','camila-30'],['eventos','conexion-27']]){
   const context=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce'}),page=await context.newPage();const docs=[];page.on('request',r=>{if(r.resourceType()==='document')docs.push(r.url());});await page.goto(`${values.url}/invitaciones`);assert.equal(docs.some(x=>x.includes(slug)),false);await page.locator(`#tipos-invitacion a[href="/invitaciones/${slug}/"]`).click();await page.waitForURL(`**/invitaciones/${slug}/`);records.push({regression:'invitaciones',category,width,passed:true});await context.close();
  }
  fs.writeFileSync(path.join(values.evidence,`${values.phase}-checks.json`),JSON.stringify(records,null,2));console.log(`${values.phase}: ${records.length} cases passed`);

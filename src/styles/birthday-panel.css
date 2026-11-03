@@ -23,6 +23,7 @@ html .wedding-workspace[data-occasion=birthday] {
   & :is(.workspace-topbar,.workspace-footer,.workspace-sidebar,.workspace-navigation,.ledger-row,.boreal-table-card,.ledger-stat,.ledger-list,.workspace-monogram,.workspace-language) {border-color:var(--line)}
   & :is(p,small,label,legend,summary,strong,span,h1,h2,h3,h4,button,a,select,input) {color:inherit}
   & :is(h1,h2,h3,h4,.workspace-monogram,.workspace-couple p,.boreal-summary strong,.boreal-table-center>span,.ledger-stat-value,.record-detail-name) {font-family:var(--occasion-title);font-weight:550;letter-spacing:-.035em}
+  & :is(.workspace-brand,.workspace-sidebar-bottom p,.wedding-paper-monogram,.wedding-reply-context,.seating-plan-grid>strong,.seating-plan-table>strong) {font-family:var(--occasion-title);font-style:normal}
   & :is(.ledger-stat-value,.boreal-summary strong,.boreal-table-center>span) {font-variant-numeric:lining-nums tabular-nums}
   & :is(.workspace-list-footer,.workspace-footer,.workspace-date,.workspace-topbar,.workspace-sync,.ledger-results,.ledger-columns,.boreal-summary span,.workspace-sidebar-bottom,.ledger-heading p,.ledger-list small) {color:var(--muted)}
   & :is(.workspace-sidebar nav a,.workspace-sidebar nav button,.workspace-brand,.workspace-couple p) {color:var(--text)}
@@ -50,6 +51,11 @@ html .wedding-workspace[data-occasion=birthday] {
   & .ledger-stat:not(.is-yes,.is-no) {color:var(--gold)}
   & .ledger-stat>span {color:inherit}
   & :is(.ledger-search,.boreal-filters) input::placeholder {color:var(--muted);opacity:1}
+  & :is(.wedding-sync-status,.boreal-filters label>span:first-child,.boreal-list-meta,.boreal-list-meta>label) {color:var(--muted)}
+  & :is(.panel-more>button,.panel-more>div:not([hidden]),.boreal-plan-entry>button,.seat-move>button) {background:var(--surface);color:var(--text);border-color:var(--line)}
+  & :is(.seating-plan-grid article,.seating-plan-table,.wedding-kind-picker label,.workspace-editor-cancel,.workspace-dialog-close,.seat-picker .seat-bulk button,.seating-plan-assign button) {background:var(--surface);border-color:var(--line);color:var(--text)}
+  & :is(.seating-plan-footnote,.seating-plan-unassigned p,.seating-plan-grid header p,.wedding-editor-person legend,.wedding-preview-note) {color:var(--muted)}
+  & .workspace-dialog .wedding-kind-picker label:has(input:checked) {color:var(--gold);background:var(--pending-bg);border-color:var(--gold)}
   & :focus-visible {outline-color:var(--gold)}
   & .birthday-theme-button {display:inline-grid;place-items:center;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;padding:0}
 }
