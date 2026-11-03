@@ -132,7 +132,16 @@ try{
       assert.equal(await cover.textContent(),'Hay algo para ti en esta caja');
       assert.match(await cover.evaluate(el=>getComputedStyle(el).fontFamily),/Sora/);
     }
-    await guest.locator('[data-skip]').click();
+    if(kind==='cumple'){
+      const menu=guest.locator('.celebration-header');
+      assert.ok(await menu.evaluate(e=>e.hidden && e.inert));
+      await guest.locator('[data-open]').press('Enter');
+      assert.equal(await guest.locator('body').getAttribute('data-phase'),'opening');
+      assert.ok(await menu.evaluate(e=>e.hidden && e.inert));
+      await guest.waitForFunction(()=>document.body.dataset.phase==='open');
+      assert.equal(await menu.evaluate(e=>e.hidden || e.inert),false);
+      assert.equal(await guest.evaluate(()=>document.activeElement.id),'confirmacion');
+    }else await guest.locator('[data-skip]').click();
     await guest.locator('.celebration-rsvp select').selectOption('1');
     if(kind==='cumple'){assert.match(await guest.locator('[data-admission]').innerText(),/Admite a .+ · 2 lugares/)}
     await guest.locator('#guest').fill('Andrea Local');

@@ -77,7 +77,7 @@ try{
    assert.ok(!loaded.some(url=>/\/(?:scene|three)-[^/]+\.js/.test(url)));await page.close();
  }
  for(const width of [390,1440]){
-  const live=await browser.newPage({viewport:{width,height:width===390?844:960}});
+  const live=await browser.newPage({hasTouch:width===390,viewport:{width,height:width===390?844:960}});
   await live.goto(values.url+'/invitaciones/camila-30/?quality=low#confirmacion');await settled(live);
   const menu=live.locator('.celebration-header');
   assert.equal(await menu.evaluate(e=>e.hidden&&e.inert),true);
@@ -87,7 +87,11 @@ try{
   await live.waitForFunction(()=>document.body.dataset.phase==='open');assert.equal(await menu.evaluate(e=>e.hidden||e.inert),false);assert.equal(await live.evaluate(()=>document.activeElement.id),'confirmacion');
   assert.equal(await live.locator('[data-admission]').innerText(),'Admite a: tu nombre');
   if(width===390){
-    const next=live.locator('.next');await next.click();await next.press('ArrowRight');assert.match(await live.locator('.position').textContent(),/Los 18/);
+    const next=live.locator('.next');await next.tap();await next.press('ArrowRight');assert.match(await live.locator('.position').textContent(),/Los 18/);
+    const box=await next.boundingBox(),x=box.x+box.width*.65,y=box.y+box.height*.4;
+    const touch=await live.context().newCDPSession(live);
+    for(const [type,points] of [['touchStart',[{x,y}]],['touchMove',[{x:x-85,y}]],['touchEnd',[]]])await touch.send('Input.dispatchTouchEvent',{type,touchPoints:points});
+    assert.match(await live.locator('.position').textContent(),/Los 25/);
   }else{
     for(const cap of await live.locator('figcaption').all()){
       await cap.scrollIntoViewIfNeeded();assert.ok(await cap.evaluate(el=>{
