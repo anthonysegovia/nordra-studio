@@ -91,8 +91,7 @@ const pages = {
       "motion",
       "scroll-motion",
       "business-motion",
-      "invitation-preview",
-      "wedding-reply",
+      "wedding-stage",
       "theme-transition",
       "living-images",
       "nordra-materials",
@@ -107,7 +106,6 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "unscoped": ["wedding-reply"],
     "entryStyles": ["mobile-chrome","language-switch","wedding-page"],
     "inline": 3
   },
