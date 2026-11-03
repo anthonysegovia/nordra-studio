@@ -6,12 +6,12 @@ function greeting(invitation:WeddingInvitation, en:boolean) {
   return (en?'Hi':'Hola')+(names.length?', '+new Intl.ListFormat(en?'en':'es-MX').format(names):'')+'. ';
 }
 export const birthdayPanel:typeof base = {
-  ...base,key:'birthday',accent:'#7140b5',ink:'#30204f',paper:'#fbf8ff',
+  ...base,key:'birthday',accent:'#74531b',ink:'#1d1a2e',paper:'#fff9ed',
   sample:{path:'/panel-cumple.html',date:['24 de julio de 2027','July 24, 2027']},
   identity:{
-    name:'Sofía 25',title:['Sofía 25'],mark:['Sofía 25'],back:'/cumpleanos',anchor:'cumpleanos-panel-muestra',
-    invitation:'/invitaciones/sofia-25/',download:'cumpleanos',photo:'/artwork/birthday-afterglow/chrome-ribbon-v2-640.webp',srcSet:'/artwork/birthday-afterglow/chrome-ribbon-v2-640.webp 640w, /artwork/birthday-afterglow/chrome-ribbon-v2-1024.webp 1024w',
-    place:['Terraza Aurora · ubicación general','Terraza Aurora · general location'],brand:['CELEBRACIONES','CELEBRATIONS'],brandLabel:['Cumpleaños','Birthdays'],
+    name:'Sofía 25',title:['Sofía 25'],mark:['S','25'],back:'/cumpleanos',anchor:'cumpleanos-panel-muestra',
+    invitation:'/invitaciones/sofia-25/',download:'cumpleanos',photo:'/artwork/birthday-noche/solo-640.webp',srcSet:'/artwork/birthday-noche/solo-640.webp 640w, /artwork/birthday-noche/solo-1024.webp 1024w',
+    place:['Terraza Aurora · ubicación general','Terraza Aurora · general location'],brand:['NOCHE DE CUMPLE','BIRTHDAY NIGHT'],brandLabel:['Cumpleaños','Birthdays'],
     badge:['MI CUMPLEAÑOS','MY BIRTHDAY'],panel:['Panel de cumpleaños','Birthday dashboard'],space:['Tu espacio de cumpleaños','Your birthday space'],
     backLabel:['Volver a Cumpleaños','Back to Birthdays'],kicker:['LA FIESTA DE SOFÍA','SOFÍA’S PARTY'],note:['Reúne a tus personas favoritas.','Bring your favorite people together.'],
     motto:['Hecho para tu fiesta','Made for your party'],guests:['Tus invitados','Your guests'],nav:['Invitados','Guests'],ours:['Mi invitación','My invitation'],

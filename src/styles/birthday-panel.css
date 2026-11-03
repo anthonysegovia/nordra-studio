@@ -1,0 +1,16 @@
+@import './noche-fonts.css';
+
+.wedding-workspace[data-occasion=birthday]{--occasion-bg:#f4e9d3;--occasion-title:NocheSerif,Georgia,serif;font-family:NocheManrope,sans-serif}
+.wedding-workspace[data-occasion=birthday] .workspace-welcome{isolation:isolate;background:#1d1a2e;color:#f4e9d3;border-radius:12px;overflow:hidden;padding:clamp(14px,3vw,38px)}
+.wedding-workspace[data-occasion=birthday] .workspace-welcome :is(h1,p,span){color:#f4e9d3}
+.wedding-workspace[data-occasion=birthday] .workspace-welcome .workspace-eyebrow{color:#e6c98e}
+.wedding-workspace[data-occasion=birthday] .workspace-welcome-art{background:#1d1a2e}
+.wedding-workspace[data-occasion=birthday] .workspace-welcome-art img{object-fit:cover}
+.wedding-workspace[data-occasion=birthday] .workspace-welcome-art::after{background:linear-gradient(90deg,#1d1a2e,transparent 48%)}
+.wedding-workspace[data-occasion=birthday] .workspace-monogram{font-style:italic}
+.wedding-workspace[data-occasion=birthday] :is(.ledger-stat-value,.boreal-summary strong,.boreal-table-center>span){font-family:NocheManrope,sans-serif;font-variant-numeric:lining-nums tabular-nums}
+html[data-theme=dark] .wedding-workspace[data-occasion=birthday]{--occasion-bg:#1d1a2e}
+html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-section-content{--occasion-bg:#f4e9d3;background:var(--occasion-bg);border-radius:10px;padding:clamp(10px,2vw,24px)}
+html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-quick-links :is(a,button.guide-trigger){color:#e6c98e}
+html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-topbar{background:#3b2f55;color:#f4e9d3}
+html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-topbar :is(span,button){color:#f4e9d3;background:transparent}
