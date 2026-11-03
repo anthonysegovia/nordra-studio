@@ -11,3 +11,8 @@ html[lang=en] .theme-birthday .occasion-stage .wedding-dashboard::after{top:80.4
 .theme-birthday .light-gathering::after{content:none}
 
 body[data-scene=cumpleanos] .theme-birthday :is(.horizon-button,.live-try){background:var(--accent);color:var(--bg)}
+
+.birthday-hero .occasion-lead{display:flex;flex-wrap:wrap;align-items:center;gap:20px;padding-right:0}
+.birthday-hero .occasion-lead>p{flex-basis:100%;margin-block:0}
+.theme-birthday .birthday-hero .occasion-lead>a{margin:0}
+.theme-birthday .birthday-hero .occasion-lead .horizon-button{padding-inline:16px;gap:12px}
