@@ -1,3 +1,4 @@
+import {renderInvitation} from '../src/celebrations/numero-que-flota/template.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -13,7 +14,7 @@ test('light is default; only the saved dark preference changes it',()=>{
 });
 for(const [slug,start] of [['camila-30','20270725T010000Z'],['conexion-27','20270612T160000Z']]){
  test(`${slug}: safe initial markup and local sample`,()=>{
-  const html=read(`invitaciones/${slug}/index.html`);
+  const html=renderInvitation(read(`invitaciones/${slug}/index.html`));
   assert.match(html,/class="celebration-header" hidden inert/);assert.match(html,/class="celebration-content" hidden inert/);
   assert.match(html,/data-skip/);assert.match(html,/Las respuestas de esta vista no se envían/);assert.match(html,/fecha\.ics" download/);
   assert.doesNotMatch(html,/\/api\b|<iframe|action=/);assert.match(read('vite.config.ts'),new RegExp(`invitaciones/${slug}/index.html`));
