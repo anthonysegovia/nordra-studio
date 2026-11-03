@@ -16,7 +16,7 @@ try{
  const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,reducedMotion:'reduce',colorScheme:'dark'});
  await context.addInitScript(()=>localStorage.setItem('nordra-theme','light'));
  for(const slug of ['camila-30','conexion-27']){
-  const page=await context.newPage();await page.goto(`${values.url}/invitaciones/${slug}/`);await page.evaluate(()=>document.fonts.ready);await page.locator('.cover-art img').evaluate(img=>img.decode());
+  const page=await context.newPage();await page.goto(`${values.url}/invitaciones/${slug}/`);await page.evaluate(()=>document.fonts.ready);await page.locator(slug==='camila-30'?'.gift img':'.cover-art img').evaluate(img=>img.decode());
   assert.equal(await page.locator('body').getAttribute('data-phase'),'closed');assert.equal(await page.locator('.celebration-header').isVisible(),false);
   const png=path.join(values.evidence,`${slug}.png`),webp=path.join(values.output,`${slug}.webp`);
   await page.screenshot({path:png});
