@@ -61,7 +61,7 @@
 /* The first guest is in the same position in both language versions of the v3 capture. */
 .wedding-dashboard::after { content:""; position:absolute; inset:67% 5% auto 21%; height:10%; pointer-events:none; opacity:0; background:radial-gradient(ellipse at 28% 50%,#edc07d45,transparent 73%); }
 .wedding-stage[data-step=panel] .wedding-dashboard::after { opacity:1; }
-.wedding-stage[data-step=panel] .wedding-phone { transform:translate(-15%,-50%) scale(.62); opacity:.6; z-index:0; }
+.wedding-stage[data-step=panel] .wedding-phone { transform:translate(-15%,-50%) scale(.62); opacity:.6; z-index:0; pointer-events:auto; cursor:pointer; }
 .wedding-stage[data-step=panel] .wedding-dashboard { z-index:2; transform:translateY(-50%); opacity:1; }
 .wedding-credit { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin:6px 0 0; font-size:.88rem; }
 @media(prefers-reduced-motion:no-preference) {
