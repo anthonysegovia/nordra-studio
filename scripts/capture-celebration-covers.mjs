@@ -20,8 +20,14 @@ try{
   assert.equal(await page.locator('body').getAttribute('data-phase'),'closed');assert.equal(await page.locator('.celebration-header').isVisible(),false);
   const png=path.join(values.evidence,`${slug}.png`),webp=path.join(values.output,`${slug}.webp`);
   await page.screenshot({path:png});
-  const result=spawnSync('ffmpeg',['-y','-i',png,'-c:v','libwebp','-quality','86',webp],{encoding:'utf8'});assert.equal(result.status,0,result.stderr);
-  console.log(`${webp}: ${fs.statSync(webp).size} bytes, 780 x 1688`);await page.close();
+  const birthday=slug==='sofia-25';
+  for(const width of birthday?[390,780]:[780]){
+    const output=birthday?path.resolve(values.output,'../birthday-noche',`sofia-portada-${width}.webp`):webp;
+    fs.mkdirSync(path.dirname(output),{recursive:true});
+    const result=spawnSync('ffmpeg',['-y','-i',png,'-vf',`scale=${width}:-1`,'-c:v','libwebp','-quality','86',output],{encoding:'utf8'});
+    assert.equal(result.status,0,result.stderr);console.log(output);
+  }
+  await page.close();
  }
  await context.close();
 }finally{await browser.close();}

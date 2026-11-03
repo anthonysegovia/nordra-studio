@@ -78,6 +78,12 @@ try{
     assert.equal(await dashboard.locator('h1').innerText(),brand);
     await dashboard.keyboard.press('Escape');
     assert.doesNotMatch(await dashboard.locator('body').innerText(),/\bboda[s]?\b|Valentina/i);
+    if(kind==='cumple'){
+      const title=dashboard.locator('#workspace-title');
+      assert.match(await title.evaluate(el=>getComputedStyle(el).fontFamily),/NocheSerif/);
+      assert.equal(await title.evaluate(el=>getComputedStyle(el).color),'rgb(244, 233, 211)');
+      assert.match(await dashboard.locator('.ledger-stat-value').first().evaluate(el=>getComputedStyle(el).fontVariantNumeric),/tabular-nums/);
+    }
     if(kind==='evento'){
       await dashboard.getByRole('button',{name:'Mesas',exact:true}).click();
       await dashboard.getByRole('button',{name:'Agregar asistentes'}).last().click();

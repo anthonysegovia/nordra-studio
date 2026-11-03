@@ -9,7 +9,7 @@ try{
   const context=await browser.newContext({viewport:{width,height:width<800?844:1000}});await context.addInitScript(theme=>{localStorage.setItem('nordra-theme',theme);window.testShifts=[];new PerformanceObserver(list=>{for(const e of list.getEntries())if(!e.hadRecentInput)window.testShifts.push(e.value);}).observe({type:'layout-shift',buffered:true});},theme);
   const page=await context.newPage(),docs=[],errors=[];page.on('request',r=>{if(r.resourceType()==='document')docs.push(r.url());});page.on('pageerror',e=>errors.push(e.message));
   // Delay only the cover to demonstrate that decoding cannot resize its frame.
-  let release;const held=new Promise(resolve=>release=resolve);if(after)await page.route(`**/artwork/invitation-covers/${slug}.webp`,async route=>{await held;await route.continue();});
+  let release;const held=new Promise(resolve=>release=resolve);if(after)await page.route(slug==='sofia-25'?'**/artwork/birthday-noche/sofia-portada-*.webp':`**/artwork/invitation-covers/${slug}.webp`,async route=>{await held;await route.continue();});
   await page.goto(`${values.url}/${name}`,{waitUntil:'domcontentloaded'});await page.evaluate(()=>document.fonts.ready);
   const beforeBox=after?await page.locator('.occasion-hero-live .live-phone').boundingBox():null;release();await page.waitForLoadState('load');await page.waitForTimeout(1800);
   const cls=await page.evaluate(()=>window.testShifts.reduce((a,b)=>a+b,0));const background=await page.locator('.occasion-hero').evaluate(x=>getComputedStyle(x.closest('.scene')).getPropertyValue('--bg'));

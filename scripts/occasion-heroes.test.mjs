@@ -10,7 +10,7 @@ for(const [page,entry,slug] of [['cumpleanos','birthdays','sofia-25'],['eventos'
   assert.doesNotMatch(hero,/organico|occasion-poster|organic-poster/);assert.match(hero,/live-phone nordra-phone/);assert.match(hero,/fetchpriority="high"/);assert.match(hero,/loading="eager"/);assert.match(hero,/width="780" height="1688"/);
  });
  test(`${page}: try link opens the right invitation using the shared controller`,()=>{
-  assert.match(hero,new RegExp(`href="/invitaciones/${slug}/" data-live-try="[^"]+">Pruébala aquí`));assert.match(hero,/Un diseño de Nordra/);assert.match(hero,new RegExp(`/artwork/invitation-covers/${slug}\\.webp`));assert.doesNotMatch(hero,/<iframe/);
+  assert.match(hero,new RegExp(`href="/invitaciones/${slug}/" data-live-try="[^"]+">Pruébala aquí`));assert.match(hero,/Un diseño de Nordra/);assert.ok(hero.includes(slug==='sofia-25'?'/artwork/birthday-noche/sofia-portada-780.webp':'/artwork/invitation-covers/conexion-27.webp'));assert.doesNotMatch(hero,/<iframe/);
   const entryText=read(`src/site/entries/${entry}.js`);for(const css of ['phone-frame','showcase-live','occasion-live'])assert.ok(entryText.includes(`../styles/${css}.css`));assert.ok(entryText.includes(`../scripts/showcase-live.js?entry=${entry}`));assert.match(read('src/site/scripts/showcase-live.js'),new RegExp(`data-view="${page}"`));
  });
 }
@@ -19,5 +19,5 @@ test('retired poster styles and assets are absent from deploy inputs',()=>{
  assert.doesNotMatch(read('src/site/styles/scene.css'),/occasion-poster|organic-poster|birthday-poster|event-poster/);
  const inputs=buildInputs(fileURLToPath(root));
  for(const page of ['cumpleanos','eventos']){const file=`public/nordra/v541/assets/${page}-organico-5-33.webp`;assert.equal(inputs.includes(file),false);assert.equal(fs.existsSync(new URL(file,root)),false);}
- for(const slug of ['sofia-25','conexion-27'])assert.ok(inputs.includes(`public/artwork/invitation-covers/${slug}.webp`));
+ for(const file of ['birthday-noche/sofia-portada-390.webp','birthday-noche/sofia-portada-780.webp','invitation-covers/conexion-27.webp'])assert.ok(inputs.includes('public/artwork/'+file));
 });

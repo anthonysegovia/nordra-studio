@@ -110,7 +110,8 @@ for (const [name,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']])
         assert.ok(sample.includes(image));assert.equal(readFileSync('public'+image).subarray(8,12).toString(),'WEBP');
       }
       for(const size of [390,780]){
-        const asset='/artwork/invitation-covers/'+slug+'-detalles-'+size+'.webp';
+        const prefix=name==='cumpleanos'?'/artwork/birthday-noche/sofia':'/artwork/invitation-covers/'+slug;
+        const asset=prefix+'-detalles-'+size+'.webp';
         assert.ok(sample.includes(asset));
         assert.equal(readFileSync('public'+asset).subarray(8,12).toString(),'WEBP');
       }

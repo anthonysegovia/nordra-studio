@@ -32,16 +32,11 @@ const pages = {
     "entry": "birthdays",
     "scripts": [
       "journey",
-      "scroll-travel",
-      "mobile-aurora",
-      "motion",
       "scroll-motion",
       "business-motion",
       "wedding-stage",
       "theme-transition",
       "showcase-live",
-      "nordra-materials",
-      "nordra-theatre",
       "interface-icons",
       "mobile-chrome",
       "language-switch",
@@ -52,7 +47,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch","occasion-stage"],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch","occasion-stage","birthday-noche"],
     "inline": 3
   },
   "eventos": {

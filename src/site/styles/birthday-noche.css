@@ -1,11 +1,13 @@
 @import '../../styles/noche-fonts.css';
 
 .theme-birthday{font-family:NocheManrope,Manrope,sans-serif}
-.theme-birthday :is(h1,h2,h3){font-family:NocheSerif,Georgia,serif;font-weight:550;letter-spacing:-.035em}
+body[data-scene=cumpleanos] .scene.theme-birthday :is(h1,h2,h3){font-family:NocheSerif,Georgia,serif;font-weight:550;letter-spacing:-.035em}
 .theme-birthday .birthday-hero .business-title-line:last-child{font-style:italic;color:var(--accent)}
 .theme-birthday .occasion-stage .wedding-dashboard::after{top:84.7%}
-html[lang=en] .theme-birthday .occasion-stage .wedding-dashboard::after{top:89.5%}
+html[lang=en] .theme-birthday .occasion-stage .wedding-dashboard::after{top:80.4%}
 .theme-birthday .invite-card{background:var(--bg);border-color:var(--line)}
 .dark .theme-birthday .invite-card{background:#30263f}
 .theme-birthday .invite-featured{border-color:var(--accent)}
 .theme-birthday .light-gathering::after{content:none}
+
+body[data-scene=cumpleanos] .theme-birthday :is(.horizon-button,.live-try){background:var(--accent);color:var(--bg)}
