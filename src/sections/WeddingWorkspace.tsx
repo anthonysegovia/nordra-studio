@@ -1,3 +1,4 @@
+import { panelTerms } from '../lib/panelTerms';
 import { SampleGuide } from '../components/SampleGuide';
 import { PanelExperience, defaultPanelExperience } from '../lib/panelExperience';
 import { useEffect, useRef, useState } from "react";
@@ -26,6 +27,7 @@ export function WeddingWorkspace({ wedding, adminView = false, experience: reque
   const english = !wedding && language === "en";
   const { management, managementAction, lastSyncedAt, syncing, changedIds, invitations, saveInvitation, deleteInvitation, reset, resetKey, loading, syncError, refresh, event: latestEvent, errorCode, boreal, borealAction } = useWeddingCloud(wedding?.id, adminView, experience.key);
   const lang=english?1:0;
+  const text=panelTerms(experience.key,english);
   const real = latestEvent ?? wedding;
   const hasBoreal = !real || real.plan === 'Boreal';
   const [tab, setTab] = useState(location.hash === '#mesas' ? 'tables' : location.hash === '#recepcion' ? 'reception' : 'guests');
@@ -108,9 +110,9 @@ export function WeddingWorkspace({ wedding, adminView = false, experience: reque
           {real ? real.coverPath && <img className="workspace-portrait" src={real.coverPath} width={1600} height={1068} alt={`La boda de ${couple}`} /> : <div className="workspace-welcome-art" aria-hidden="true"><img src={identity.photo} srcSet={identity.srcSet || undefined} sizes="(max-width:760px) 76vw, (max-width:1250px) 43vw, 510px" width={1200} height={1200} decoding="async" alt="" /></div>}
         </section>
 
-        <div className="workspace-quick-links">{!wedding && !real && !adminView && location.pathname===experience.sample.path && <SampleGuide english={english} link={replyInvitation?.link} onGuests={()=>navigate('guests')}/>}{invitationPath && <a href={invitationPath} target="_blank" rel="noopener noreferrer"><Mail size={15} aria-hidden="true" />{english ? 'Open invitation' : 'Abrir invitación'}<ArrowUpRight size={14} aria-hidden="true" /></a>}{!real && replyInvitation?.link && <a href={replyInvitation.link} target="_blank" rel="noopener noreferrer">{english ? 'Try it as a guest' : 'Vívelo como invitado'}<ArrowUpRight size={14} aria-hidden="true" /></a>}{real && <span>{real.archived ? 'Solo consulta · ' : ''}Disponible hasta el {lastWeddingDay(real.expiresAt)}{real.replyUntil ? ' · Confirmaciones hasta el ' + weddingDate(real.replyUntil) : ''}</span>}</div>
+        <div className="workspace-quick-links">{!wedding && !real && !adminView && location.pathname===experience.sample.path && <SampleGuide english={english} link={replyInvitation?.link} onGuests={()=>navigate('guests')}/>}{invitationPath && <a href={invitationPath} target="_blank" rel="noopener noreferrer"><Mail size={15} aria-hidden="true" />{english ? 'Open invitation' : 'Abrir invitación'}<ArrowUpRight size={14} aria-hidden="true" /></a>}{!real && replyInvitation?.link && <a href={replyInvitation.link} target="_blank" rel="noopener noreferrer">{text('asGuest')}<ArrowUpRight size={14} aria-hidden="true" /></a>}{real && <span>{real.archived ? 'Solo consulta · ' : ''}Disponible hasta el {lastWeddingDay(real.expiresAt)}{real.replyUntil ? ' · Confirmaciones hasta el ' + weddingDate(real.replyUntil) : ''}</span>}</div>
 
-        <div ref={sectionContent} className="workspace-section-content" tabIndex={-1} role="region" aria-label={activeTab === 'tables' ? (english ? 'Tables' : 'Mesas') : activeTab === 'reception' ? (english ? 'Reception' : 'Recepción') : (english ? 'Guests' : 'Invitados')}>
+        <div ref={sectionContent} className="workspace-section-content" tabIndex={-1} role="region" aria-label={activeTab === 'tables' ? (english ? 'Tables' : 'Mesas') : activeTab === 'reception' ? (english ? 'Reception' : 'Recepción') : identity.nav[lang]}>
         {activeTab !== 'guests' && <><p className={`workspace-sync${syncError ? ' is-offline' : ''}`} role="status">{loading ? (english ? 'Preparing your space…' : 'Preparando su espacio…') : syncError ? (english ? 'Connection interrupted · Changes are paused' : 'Conexión interrumpida · Los cambios están en pausa') : (english ? 'Boreal · Synced with your invitations' : 'Boreal · Sincronizado con sus invitaciones')}{syncError && <button onClick={() => void refresh()}>{english ? 'Retry' : 'Reintentar'}</button>}</p>{errorCode && <p role="alert">{weddingError(new Error(errorCode))}</p>}{!loading && (activeTab === 'tables' ? <WeddingTables invitations={invitations} state={boreal} action={borealAction} english={english} disabled={syncError} readOnly={!!real?.archived} couple={couple}/> : <WeddingReception invitations={invitations} state={boreal} action={borealAction} english={english} disabled={syncError} readOnly={!!real?.archived}/>)}</>}
 
         <div className="workspace-content-grid" hidden={activeTab !== 'guests'}>

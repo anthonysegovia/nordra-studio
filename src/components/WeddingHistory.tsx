@@ -1,3 +1,4 @@
+import { usePanelTerms } from '../lib/panelTerms';
 import {useContext} from 'react';
 import {PanelExperience} from '../lib/panelExperience';
 import { useState } from 'react';
@@ -8,8 +9,9 @@ import { weddingError } from '../lib/weddingClient';
 import { WeddingOperationsDialog } from './WeddingOperationsDialog';
 
 export function ActivityList({ entries, english }: { entries: WeddingActivity[]; english: boolean }) {
+  const text=usePanelTerms(english);
   const attendance = (value: string) => ({yes:english?'Confirmed':'Confirmado',no:english?'Not attending':'No asistirá',pending:english?'Pending':'Pendiente'}[value] || value || (english?'Unnamed':'Sin nombre'));
-  return entries.length ? <ol className="operations-activity">{entries.map(entry=><li key={entry.id}><div><strong>{activityLabel(entry.action,english)}{entry.count ? ` · ${entry.count}` : ''}</strong><span>{actorLabel(entry.actor,english)}</span></div>{entry.label && <p>{entry.label}</p>}{entry.changes?.map((change,index)=><p className="activity-change" key={index}>{change.name} · {change.field === 'attendance' ? `${attendance(change.before)} → ${attendance(change.after)}` : `${change.before || (english?'Unnamed':'Sin nombre')} → ${change.after}`}</p>)}<time dateTime={entry.at}>{activityDate(entry.at,english)}</time></li>)}</ol> : <p className="operations-empty">{english?'New activity will appear here':'Los nuevos movimientos aparecerán aquí'}</p>;
+  return entries.length ? <ol className="operations-activity">{entries.map(entry=><li key={entry.id}><div><strong>{activityLabel(entry.action,english)}{entry.count ? ` · ${entry.count}` : ''}</strong><span>{entry.actor==='guest'?text('actor'):actorLabel(entry.actor,english)}</span></div>{entry.label && <p>{entry.label}</p>}{entry.changes?.map((change,index)=><p className="activity-change" key={index}>{change.name} · {change.field === 'attendance' ? `${attendance(change.before)} → ${attendance(change.after)}` : `${change.before || (english?'Unnamed':'Sin nombre')} → ${change.after}`}</p>)}<time dateTime={entry.at}>{activityDate(entry.at,english)}</time></li>)}</ol> : <p className="operations-empty">{english?'New activity will appear here':'Los nuevos movimientos aparecerán aquí'}</p>;
 }
 export function WeddingHistory({ management, action, english, readOnly, disabled, onClose }: { management:WeddingManagement;action:ManagementAction;english:boolean;readOnly?:boolean;disabled:boolean;onClose:()=>void }) {
   const config=useContext(PanelExperience);

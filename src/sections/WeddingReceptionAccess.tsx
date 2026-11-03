@@ -1,3 +1,4 @@
+import { PanelExperience } from '../lib/panelExperience';
 import { sampleExperience } from '../lib/occasionPanels';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ShieldCheck } from 'lucide-react';
@@ -29,6 +30,7 @@ export function WeddingReceptionAccess() {
     try { const result = await borealPublicApi<ReceptionData>(capability, { ...body, action }); accept(result); return result; }
     catch (reason) { await refresh(); throw reason; }
   }
-  const identity=sampleExperience(data?.occasion).identity;
-  return <div className="wedding-workspace boreal-reception-page"><header><a className="workspace-brand" href={identity.back}>NORDRA<span>{identity.brand[0]}</span></a><span><ShieldCheck size={15}/>Recepción privada</span></header><main><p className="boreal-reception-couple">{data?.couple || 'Acceso a la celebración'}</p>{capability.mode === 'sample' && <p className="boreal-demo-note">Vista de muestra · Datos ficticios</p>}{error && <div className="boreal-connection-error"><p role="alert">{error}</p><button className="boreal-quiet" onClick={() => void refresh()}>Reintentar conexión</button></div>}{loading && !data && <p role="status">Preparando recepción…</p>}{data && <WeddingReception invitations={data.invitations} state={data.boreal} action={action} english={false} disabled={!!error || loading} limited/>}</main><footer>{data?.occasion?'Las entradas se sincronizan con el panel del evento':'Las entradas se sincronizan con el panel de los novios'} · Nordra Studio</footer></div>;
+  const experience=sampleExperience(data?.occasion);
+  const {identity}=experience;
+  return <div className="wedding-workspace boreal-reception-page"><header><a className="workspace-brand" href={identity.back}>NORDRA<span>{identity.brand[0]}</span></a><span><ShieldCheck size={15}/>Recepción privada</span></header><main><p className="boreal-reception-couple">{data?.couple || 'Acceso a la celebración'}</p>{capability.mode === 'sample' && <p className="boreal-demo-note">Vista de muestra · Datos ficticios</p>}{error && <div className="boreal-connection-error"><p role="alert">{error}</p><button className="boreal-quiet" onClick={() => void refresh()}>Reintentar conexión</button></div>}{loading && !data && <p role="status">Preparando recepción…</p>}{data && <PanelExperience.Provider value={experience}><WeddingReception invitations={data.invitations} state={data.boreal} action={action} english={false} disabled={!!error || loading} limited/></PanelExperience.Provider>}</main><footer>{data?.occasion?'Las entradas se sincronizan con el panel del evento':'Las entradas se sincronizan con el panel de los novios'} · Nordra Studio</footer></div>;
 }

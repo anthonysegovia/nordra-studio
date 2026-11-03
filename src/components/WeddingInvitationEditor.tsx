@@ -1,3 +1,4 @@
+import { usePanelTerms } from '../lib/panelTerms';
 import { useContext } from 'react';
 import { PanelExperience } from '../lib/panelExperience';
 import { useEffect, useId, useRef, useState, type FormEvent, type RefObject } from "react";
@@ -10,6 +11,7 @@ export function WeddingInvitationEditor({ action, english, realEvent = false, on
   action: WeddingInvitationAction; english: boolean; realEvent?: boolean; onSave: (invitation: WeddingInvitation, mode: "add" | "edit") => Promise<void>;
   onDelete: (invitation: WeddingInvitation) => Promise<void>; onClose: () => void; fallbackFocus: RefObject<HTMLDivElement | null>;
 }) {
+  const text=usePanelTerms(english);
   const id = useId();
   const dialog = useRef<HTMLDialogElement>(null);
   const firstField = useRef<HTMLInputElement | HTMLSelectElement | null>(null);
@@ -62,16 +64,16 @@ export function WeddingInvitationEditor({ action, english, realEvent = false, on
     <div className="workspace-dialog-inner">
       <button className="workspace-dialog-close" type="button" disabled={busy} onClick={onClose} aria-label={english ? "Close" : "Cerrar"}><X size={20} aria-hidden="true" /></button>
       <span className={`workspace-editor-icon${deleting ? " is-removing" : ""}`}>{deleting ? <Trash2 size={22} strokeWidth={1.3} aria-hidden="true" /> : replying ? <Heart size={22} strokeWidth={1.3} aria-hidden="true" /> : <UserRound size={22} strokeWidth={1.3} aria-hidden="true" />}</span>
-      <p className="workspace-eyebrow">{english ? "YOUR FAVORITE PEOPLE" : "SUS PERSONAS FAVORITAS"}</p><h2 id={id + "-title"}>{title}</h2>
+      <p className="workspace-eyebrow">{text('editorHeading')}</p><h2 id={id + "-title"}>{title}</h2>
       <form onSubmit={submit}>
         {action.mode === "delete" ? <p className="workspace-delete-description">{english ? "Remove the invitation for " : "Se eliminará la invitación de "}<strong>{invitationLabel(action.invitation)}</strong>{english ? ` and its ${action.invitation.people.length} assigned place(s) from this list` : ` y ${action.invitation.people.length === 1 ? "su lugar asignado" : "sus 2 lugares asignados"} de esta lista`}</p> : <>
           {!replying && !correcting && <fieldset className="wedding-kind-picker"><legend>{english ? "Invitation type" : "Tipo de invitación"}</legend>{(["individual", "couple", "plusOne"] as const).map(value => <label key={value}><input type="radio" name={id + "-kind"} value={value} checked={kind === value} onChange={() => { setKind(value); setError(""); }} /><span>{value === "individual" ? "Individual" : value === "couple" ? (english ? "Couple" : "Pareja") : "+1"}</span></label>)}</fieldset>}
-          {correcting && <p className="workspace-editor-note">{english ? 'Use this only to correct a reply on behalf of a guest' : 'Usa esta opción para corregir una respuesta por indicación del invitado'}</p>}
+          {correcting && <p className="workspace-editor-note">{text('correct')}</p>}
           {replying && <p className="wedding-reply-context">{invitationLabel(action.invitation)}<span>{displayed.length} {english ? "assigned place(s) · Reply for each person" : `${displayed.length === 1 ? "lugar asignado" : "lugares asignados"} · Respuesta por persona`}</span></p>}
           <div className="wedding-editor-people">{displayed.map((person, index) => {
             const knownInReply = (replying || correcting) && !!action.invitation.people[index]?.name;
             const optionalName = kind === "plusOne" && index === 1 && person.attendance !== "yes";
-            return <fieldset className="wedding-editor-person" key={person.id}><legend>{index === 0 ? (english ? "Main guest" : "Invitado principal") : kind === "couple" ? (english ? "Partner" : "Pareja") : (english ? "Companion" : "Acompañante")}</legend><div>
+            return <fieldset className="wedding-editor-person" key={person.id}><legend>{index === 0 ? (text('mainGuest')) : kind === "couple" ? (english ? "Partner" : "Pareja") : (english ? "Companion" : "Acompañante")}</legend><div>
               <label htmlFor={`${id}-name-${index}`}>{english ? "Name" : "Nombre"}{optionalName && <span> · {english ? "optional" : "opcional"}</span>}</label><input id={`${id}-name-${index}`} name={`guestName${index}`} ref={node => { if (person.id === focusId && !knownInReply) firstField.current = node; }} value={person.name} readOnly={knownInReply} autoComplete="off" required={!optionalName} minLength={2} maxLength={100} placeholder={optionalName ? (english ? "To be named" : "Por definir") : (english ? "Full name" : "Nombre completo")} onChange={event => updatePerson(person.id, { name: event.target.value })} aria-describedby={error ? id + "-error" : undefined} />
               <label className="workspace-editor-attendance" htmlFor={`${id}-attendance-${index}`}>{english ? "Attendance" : "Asistencia"}</label><select id={`${id}-attendance-${index}`} ref={node => { if (person.id === focusId && knownInReply) firstField.current = node; }} value={person.attendance} onChange={event => updatePerson(person.id, { attendance: event.target.value as WeddingAttendance })}><option value="pending">{english ? "Pending" : "Pendiente"}</option><option value="yes">{english ? "Confirmed" : "Confirmado"}</option><option value="no">{english ? "Not attending" : "No asistirá"}</option></select>
             </div></fieldset>;

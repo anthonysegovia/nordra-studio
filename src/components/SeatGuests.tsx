@@ -1,3 +1,4 @@
+import { usePanelTerms } from '../lib/panelTerms';
 import { useEffect, useRef, useState } from 'react';
 import type { WeddingInvitation } from '../lib/weddingInvitations';
 import type { BorealAction, BorealState, WeddingTable } from '../lib/weddingBoreal';
@@ -7,6 +8,7 @@ export function SeatGuests({table,state,invitations,action,english,disabled,onCl
   table:WeddingTable; state:BorealState; invitations:WeddingInvitation[]; action:BorealAction;
   english:boolean; disabled:boolean; onClose:()=>void;
 }) {
+  const text=usePanelTerms(english);
   const dialog=useRef<HTMLDialogElement>(null);
   const [query,setQuery]=useState(''),[all,setAll]=useState(false),[ids,setIds]=useState<string[]>([]);
   const [busy,setBusy]=useState(false),[error,setError]=useState('');
@@ -35,9 +37,9 @@ export function SeatGuests({table,state,invitations,action,english,disabled,onCl
     }finally{setBusy(false)}
   }
   return <dialog ref={dialog} className="workspace-dialog seat-picker" aria-labelledby="seat-picker-title" onCancel={e=>{e.preventDefault();if(!busy)onClose()}}>
-    <h2 id="seat-picker-title">{english?'Add guests':'Agregar invitados'} · {table.name}</h2>
+    <h2 id="seat-picker-title">{text('add')} · {table.name}</h2>
     <label>{english?'Search by name':'Buscar por nombre'}<input type="search" autoFocus value={query} onChange={e=>setQuery(e.target.value)}/></label>
-    <label><input type="checkbox" checked={all} onChange={e=>setAll(e.target.checked)}/>{english?'Show all eligible people':'Ver todos los invitados disponibles'}</label>
+    <label><input type="checkbox" checked={all} onChange={e=>setAll(e.target.checked)}/>{text('eligible')}</label>
     <fieldset disabled={busy||disabled}>{eligible.map((group,index)=>{
       const choices=group.filter(p=>all || (p.attendance==='yes' && !state.seats[p.id]));
       if(!choices.length||!choices.some(p=>p.name.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())))return null;

@@ -1,8 +1,10 @@
+import { usePanelTerms } from '../lib/panelTerms';
 import { useEffect, useRef, useState } from 'react';
 import { Camera, ImageUp, QrCode, X } from 'lucide-react';
 import type QrScanner from 'qr-scanner';
 
 export function WeddingQrScanner({ onRead, disabled, english }: { onRead: (value: string) => Promise<void>; disabled: boolean; english: boolean }) {
+  const text=usePanelTerms(english);
   const video = useRef<HTMLVideoElement>(null), scanner = useRef<QrScanner | null>(null), attempt = useRef(0);
   const [running, setRunning] = useState(false), [starting, setStarting] = useState(false), [error, setError] = useState(''), [processing, setProcessing] = useState(false);
   function stop() { attempt.current++; scanner.current?.destroy(); scanner.current = null; setRunning(false); setStarting(false); }
@@ -31,7 +33,7 @@ export function WeddingQrScanner({ onRead, disabled, english }: { onRead: (value
     finally { setProcessing(false); }
   }
   return <div className="boreal-scanner">
-    <div className={`boreal-camera${running ? ' is-running' : ''}`}><video ref={video} muted playsInline aria-label={english ? 'QR camera' : 'Cámara del lector QR'}/><div className="boreal-camera-frame" aria-hidden="true"/>{!running && <div className="boreal-camera-placeholder"><QrCode size={42} strokeWidth={1}/><h3>{english ? 'Welcome them in' : 'La bienvenida comienza aquí'}</h3><p>{english ? 'Point the camera at the guest’s pass' : 'Acerca el pase del invitado a la cámara'}</p></div>}</div>
+    <div className={`boreal-camera${running ? ' is-running' : ''}`}><video ref={video} muted playsInline aria-label={english ? 'QR camera' : 'Cámara del lector QR'}/><div className="boreal-camera-frame" aria-hidden="true"/>{!running && <div className="boreal-camera-placeholder"><QrCode size={42} strokeWidth={1}/><h3>{text('welcome')}</h3><p>{text('scan')}</p></div>}</div>
     <button className="workspace-button" disabled={disabled || starting || processing} onClick={running ? stop : () => void start()}>{running ? <X size={17}/> : <Camera size={17}/>} {starting ? (english ? 'Opening camera…' : 'Abriendo cámara…') : running ? (english ? 'Close camera' : 'Cerrar cámara') : (english ? 'Scan QR' : 'Escanear QR')}</button>
     <label className={`boreal-upload${disabled || processing ? ' is-disabled' : ''}`}><ImageUp size={16}/>{processing ? (english ? 'Reading…' : 'Leyendo…') : (english ? 'Read a QR image' : 'Leer una imagen del QR')}<input type="file" accept="image/png,image/jpeg,image/webp" disabled={disabled || processing} onChange={event => { void readFile(event.target.files?.[0]); event.target.value = ''; }}/></label>
     {error && <p role="alert" className="boreal-error">{error}</p>}

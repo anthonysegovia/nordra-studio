@@ -78,6 +78,13 @@ try{
     assert.equal(await dashboard.locator('h1').innerText(),brand);
     await dashboard.keyboard.press('Escape');
     assert.doesNotMatch(await dashboard.locator('body').innerText(),/\bboda[s]?\b|Valentina/i);
+    if(kind==='evento'){
+      await dashboard.getByRole('button',{name:'Mesas',exact:true}).click();
+      await dashboard.getByRole('button',{name:'Agregar asistentes'}).last().click();
+      assert.doesNotMatch(await dashboard.locator('.seat-picker').innerText(),/invitad[oa]s?/i);
+      await dashboard.keyboard.press('Escape');
+      await dashboard.getByRole('button',{name:'Asistentes',exact:true}).click();
+    }
     const personal=await dashboard.locator('.workspace-quick-links a').last().getAttribute('href');
     assert.equal(new URL(personal).pathname,'/invitaciones/'+slug+'/');
     const guest=await context.newPage();await guest.goto(personal);
@@ -93,6 +100,7 @@ try{
     for(const label of ['Tables','Reception']){
       await dashboard.getByRole('button',{name:label,exact:true}).first().click();
       assert.doesNotMatch(await dashboard.locator('body').innerText(),/\bwedding[s]?\b|Valentina/i);
+      if(kind==='evento')assert.doesNotMatch(await dashboard.locator('body').innerText(),/\bguests?\b|favorite people|place to celebrate/i);
     }
     await dashboard.goto(origin+'/en/'+back+'#'+back+'-panel-muestra');
     const image=dashboard.locator('.wedding-dashboard img');await image.evaluate(i=>i.decode());

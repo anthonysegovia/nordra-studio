@@ -1,3 +1,4 @@
+import { usePanelTerms } from '../lib/panelTerms';
 import { useContext } from 'react';
 import { PanelExperience, reminderUrl } from '../lib/panelExperience';
 import { useLayoutEffect, useRef, useState } from 'react';
@@ -17,6 +18,7 @@ export function AttendanceBadge({ status, english, children }: { status: Wedding
 export type RecordActions = { disabled?: boolean; readOnly?: boolean; onEdit: (invitation: WeddingInvitation, personId?: string) => void; onCorrect: (invitation: WeddingInvitation, personId: string) => void; onDelete: (invitation: WeddingInvitation) => void };
 
 export function WeddingRecordDetail({ invitation, english, boreal, sharing, management, managementAction, onClose, disabled, readOnly, onEdit, onCorrect, onDelete }: RecordActions & { invitation: WeddingInvitation; english: boolean; boreal?: BorealState; sharing: boolean; management: WeddingManagement; managementAction: ManagementAction; onClose: () => void }) {
+  const text=usePanelTerms(english);
   const dialog = useRef<HTMLDialogElement>(null);
   const [copied, setCopied] = useState(false), [fallback, setFallback] = useState(false);
   const progress = invitationProgress(invitation);
@@ -41,7 +43,7 @@ export function WeddingRecordDetail({ invitation, english, boreal, sharing, mana
     try { await navigator.clipboard.writeText(invitation.link); setCopied(true); setFallback(false); }
     catch { setFallback(true); }
   }
-  const message = `${english ? 'We would love to celebrate with you' : 'Nos encantará celebrar contigo'}, ${invitationLabel(invitation)}. ${english ? "Open your invitation and confirm each person's attendance" : 'Abre tu invitación y confirma la asistencia de cada persona'}: ${invitation.link || ''}`;
+  const message = `${text('sharing')}, ${invitationLabel(invitation)}. ${english ? "Open your invitation and confirm each person's attendance" : 'Abre tu invitación y confirma la asistencia de cada persona'}: ${invitation.link || ''}`;
   return <dialog ref={dialog} className="wedding-record-drawer" aria-labelledby="record-detail-title" onCancel={event => { event.preventDefault(); onClose(); }} onClick={event => { if (event.target === dialog.current) onClose(); }}>
     <div className="record-detail-inner">
       <header className="record-detail-header"><span>{english ? 'Invitation details' : 'Detalle de invitación'}</span><button autoFocus onClick={onClose} aria-label={english ? 'Close details' : 'Cerrar detalle'}><X size={20} aria-hidden="true" /></button></header>
@@ -54,7 +56,7 @@ export function WeddingRecordDetail({ invitation, english, boreal, sharing, mana
         const table = boreal?.tables.find(item => item.id === boreal.seats[person.id]);
         const arrival = boreal?.arrivals[person.id];
         return <section className="record-person" key={person.id} aria-label={person.name || (english ? 'Companion' : 'Acompañante')}>
-          <p className="record-person-role">{index === 0 ? (english ? 'Main guest' : 'Invitado principal') : invitation.kind === 'couple' ? (english ? 'Partner' : 'Pareja') : (english ? 'Companion' : 'Acompañante')}</p>
+          <p className="record-person-role">{index === 0 ? (text('mainGuest')) : invitation.kind === 'couple' ? (english ? 'Partner' : 'Pareja') : (english ? 'Companion' : 'Acompañante')}</p>
           <h3>{person.name || (english ? 'Name to be confirmed' : 'Nombre por definir')}</h3><AttendanceBadge status={person.attendance} english={english} />
           {boreal && <dl className="record-person-facts"><div><dt>{english ? 'Table' : 'Mesa'}</dt><dd>{person.attendance === 'no' ? (english ? 'Not required' : 'No requiere') : table?.name || (english ? 'Not assigned' : 'Sin asignar')}</dd></div><div><dt>{english ? 'Arrival' : 'Entrada'}</dt><dd>{arrival ? `${english ? 'Arrived' : 'Ingresó'} · ${arrivalTime(arrival.at)}` : person.attendance === 'yes' ? (english ? 'Yet to arrive' : 'Por llegar') : person.attendance === 'no' ? (english ? 'Not attending' : 'No asistirá') : (english ? 'Awaiting RSVP' : 'Sin confirmar')}</dd></div></dl>}
           {!readOnly && <div className="record-person-actions">{!person.name && <button disabled={disabled} onClick={() => onEdit(invitation, person.id)}><Pencil size={14} />{english ? 'Add name' : 'Agregar nombre'}</button>}<button disabled={disabled} onClick={() => onCorrect(invitation, person.id)}>{english ? 'Correct RSVP' : 'Corregir asistencia'}</button></div>}

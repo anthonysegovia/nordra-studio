@@ -39,9 +39,14 @@ export const eventPanel:typeof base = {
     history:'Recupera invitaciones durante la vigencia de esta muestra. Después, vuelve a asignar sus mesas.',
     remove:'Su enlace quedará inactivo. Puedes recuperar la invitación desde Historial durante la vigencia del evento.',
   },
+  tasks:{...base.tasks,
+    singular:{...base.tasks.singular,followup:['asistente sin responder con invitación enviada','attendee awaiting a reply on a sent invitation'],unseated:['asistente confirmado sin mesa','confirmed attendee without a table']},
+    followup:['asistentes sin responder con invitación enviada','attendees awaiting replies on sent invitations'],
+    unseated:['asistentes confirmados sin mesa','confirmed attendees without a table'],
+  },
   guide:{...base.guide,steps:[
     {...base.guide.steps[0],detail:['Abre un enlace personal de Conexión 27 en otra pestaña.','Open a personal Conexión 27 invitation in another tab.']},
-    base.guide.steps[1],{...base.guide.steps[2],detail:['Vuelve a Asistentes para consultar la respuesta.','Return to Attendees to see the reply.']},
+    {...base.guide.steps[1],title:['Confirma como asistente','RSVP as an attendee']},{...base.guide.steps[2],detail:['Vuelve a Asistentes para consultar la respuesta.','Return to Attendees to see the reply.']},
   ]},
   reminder(inv,en){return greeting(inv,en)+(en?'We’d appreciate your RSVP for Conexión 27. Here is your personal invitation:':inv.kind==='individual'?'Nos gustaría contar contigo en Conexión 27. ¿Podrías confirmar tu asistencia? Esta es tu invitación:':'Nos gustaría contar con ustedes en Conexión 27. ¿Podrían confirmar su asistencia? Esta es su invitación:')},
 };
