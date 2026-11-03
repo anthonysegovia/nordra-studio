@@ -5,9 +5,9 @@ export const defaultPanelExperience = {
   key: 'wedding', accent: '#67533e', paper: '#fffdf8', ink: '#43392f',
   sample: {path:'/panel-boda.html', date:['19 de junio de 2027','June 19, 2027']},
   tasks: {
-    singular: {followup:['persona sin responder','person awaiting a reply'], unsent:['invitación sin enviar','invitation without a recorded send'], unseated:['confirmado sin mesa','confirmed guest without a table']},
+    singular: {followup:['persona sin responder con invitación enviada','person awaiting a reply on a sent invitation'], unsent:['invitación sin enviar','invitation without a recorded send'], unseated:['confirmado sin mesa','confirmed guest without a table']},
     title: ['Qué sigue','What’s next'], done: ['Todo al día','All caught up'],
-    followup: ['personas sin responder','people awaiting a reply'],
+    followup: ['personas sin responder con invitación enviada','people awaiting replies on sent invitations'],
     unsent: ['invitaciones sin enviar','invitations without a recorded send'],
     unseated: ['confirmados sin mesa','confirmed guests without a table'],
     remind: ['Enviar recordatorio','Send reminder'],
