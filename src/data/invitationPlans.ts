@@ -1,5 +1,5 @@
 import { ClipboardList, TicketCheck, Link, UserCheck, LayoutDashboard, CircleDot, QrCode } from "lucide-react";
-import { invitationOffers } from "./invitationPricing";
+import { invitationOffers, invitationPlanFeatures } from "./invitationPricing";
 
 export function getInvitationPlans(english: boolean) {
   return [
@@ -24,15 +24,7 @@ export function getInvitationPlans(english: boolean) {
         "Date, locations and directions", "Dress code and schedule", "Your event link on Nordra",
         "3 revision rounds", "Hosting: up to 12 months before + 90 days after the event",
         "WhatsApp support from delivery through 30 days after the event",
-      ] : [
-        "Diseño de catálogo personalizado", "Galería de recuerdos con hasta 30 fotos",
-        "Cuenta propia y panel privado de invitados", "Enlaces personales para individuales, parejas y +1",
-        "Confirmación por persona que se refleja automáticamente en tu panel", "Sin límite de invitados, incluidos acompañantes",
-        "Búsqueda, filtros, pendientes y descarga de lista", "Copiar enlaces y compartir por WhatsApp",
-        "Fecha, ubicaciones y cómo llegar", "Código de vestimenta y agenda", "Enlace de tu evento en Nordra",
-        "3 rondas de cambios", "Alojamiento: hasta 12 meses antes y 90 días después del evento",
-        "Soporte por WhatsApp desde la entrega hasta 30 días después del evento",
-      ],
+      ] : invitationPlanFeatures.aurora,
       responseTitle: english ? "Your guests, in one place" : "Tus invitados, en un solo lugar",
       responseDescription: english ? "Personal links, replies per person and your private panel. No guest limit, companions included." : "Enlaces personales, respuestas por persona y tu panel privado. Sin límite de invitados, incluidos acompañantes",
     },
@@ -54,12 +46,7 @@ export function getInvitationPlans(english: boolean) {
         "Seat individuals, couples and +1s together or separately", "Personal QR passes accessible from the invitation",
         "Check-in per person, duplicate detection and arrival list download", "Separate reception access, valid for 48 hours and revocable",
         "More personalized visual design and priority support", "Additional custom features quoted separately",
-      ] : [
-        "Todo Aurora, incluida la invitación y el panel privado", "Mesas con nombre, capacidad y asignación de invitados",
-        "Individuales, parejas y +1 juntos o por separado", "Pases QR personales accesibles desde la invitación",
-        "Registro por persona, detección de duplicados y descarga de entradas", "Acceso separado para recepción, revocable y válido por 48 horas",
-        "Diseño visual más personalizado y atención prioritaria", "Funciones adicionales a medida cotizadas por separado",
-      ],
+      ] : invitationPlanFeatures.boreal,
       responseTitle: english ? "From seating to check-in" : "De las mesas a la bienvenida",
       responseDescription: english ? "Everything in Aurora, plus seating, personal QR passes and check-in per person." : "Todo Aurora, más mesas, pases QR personales y registro de entradas por persona",
     },

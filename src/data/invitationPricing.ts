@@ -34,3 +34,21 @@ export const invitationFacts = {
 export function invitationMoney(cents: number) {
   return new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(cents / 100);
 }
+
+export const invitationPlanFeatures = {
+  aurora: [
+        "Diseño de catálogo personalizado", "Galería de recuerdos con hasta 30 fotos",
+        "Cuenta propia y panel privado de invitados", "Enlaces personales para individuales, parejas y +1",
+        "Confirmación por persona que se refleja automáticamente en tu panel", "Sin límite de invitados, incluidos acompañantes",
+        "Búsqueda, filtros, pendientes y descarga de lista", "Copiar enlaces y compartir por WhatsApp",
+        "Fecha, ubicaciones y cómo llegar", "Código de vestimenta y agenda", "Enlace de tu evento en Nordra",
+        "3 rondas de cambios", "Alojamiento: hasta 12 meses antes y 90 días después del evento",
+        "Soporte por WhatsApp desde la entrega hasta 30 días después del evento",
+      ],
+  boreal: [
+        "Todo Aurora, incluida la invitación y el panel privado", "Mesas con nombre, capacidad y asignación de invitados",
+        "Individuales, parejas y +1 juntos o por separado", "Pases QR personales accesibles desde la invitación",
+        "Registro por persona, detección de duplicados y descarga de entradas", "Acceso separado para recepción, revocable y válido por 48 horas",
+        "Diseño visual más personalizado y atención prioritaria", "Funciones adicionales a medida cotizadas por separado",
+      ],
+};
