@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { PanelExperience } from '../lib/panelExperience';
 import { useEffect, useId, useRef, useState, type FormEvent, type RefObject } from "react";
 import { Check, Heart, Trash2, UserRound, X } from "lucide-react";
 import { invitationLabel, type WeddingAttendance, type WeddingInvitation, type WeddingInvitationKind, type WeddingPerson } from "../lib/weddingInvitations";
@@ -55,6 +57,7 @@ export function WeddingInvitationEditor({ action, english, realEvent = false, on
     : error === "guest_missing" ? (english ? "This invitation is no longer in the list" : "Esta invitación ya no está en la lista")
     : (english ? "Use names with 2 to 100 characters" : "Usa nombres de 2 a 100 caracteres");
 
+  const experience=useContext(PanelExperience);
   return <dialog ref={dialog} className="workspace-dialog workspace-guest-editor wedding-party-editor" aria-labelledby={id + "-title"} aria-busy={busy} onCancel={event => { event.preventDefault(); if (!busy) onClose(); }} onClick={event => { if (!busy && event.target === dialog.current) onClose(); }}>
     <div className="workspace-dialog-inner">
       <button className="workspace-dialog-close" type="button" disabled={busy} onClick={onClose} aria-label={english ? "Close" : "Cerrar"}><X size={20} aria-hidden="true" /></button>
@@ -79,7 +82,7 @@ export function WeddingInvitationEditor({ action, english, realEvent = false, on
         {error && <p className="workspace-editor-error" role="alert" id={id + "-error"}>{errorText}</p>}
         <div className="workspace-editor-actions"><button ref={cancelButton} disabled={busy} className="workspace-editor-cancel" type="button" onClick={onClose}>{english ? "Cancel" : "Cancelar"}</button><button disabled={busy} className={`workspace-button${deleting ? " workspace-remove-button" : ""}`} type="submit">{deleting ? <Trash2 size={15} aria-hidden="true" /> : <Check size={16} aria-hidden="true" />}{busy ? (english ? "Saving…" : "Guardando…") : deleting ? (english ? "Delete" : "Eliminar") : replying ? (english ? "Confirm replies" : "Confirmar respuestas") : action.mode === "add" ? (english ? "Add invitation" : "Agregar invitación") : (english ? "Save changes" : "Guardar cambios")}</button></div>
       </form>
-      <p className="workspace-editor-note">{deleting ? (english ? "Its personal link will stop working" : "Su enlace quedará inactivo. Puedes recuperar la invitación desde Historial durante la vigencia de la boda") : realEvent ? (english ? "Saved in your private wedding panel" : "Se guarda en el panel privado de su boda") : (english ? "Connected sample · Available for 24 hours · Use fictional names" : "Muestra conectada · Disponible por 24 horas · Usa nombres ficticios")}</p>
+      <p className="workspace-editor-note">{deleting ? (english ? "Its personal link will stop working" : experience.identity.remove) : realEvent ? (english ? "Saved in your private wedding panel" : "Se guarda en el panel privado de su boda") : (english ? "Connected sample · Available for 24 hours · Use fictional names" : "Muestra conectada · Disponible por 24 horas · Usa nombres ficticios")}</p>
     </div>
   </dialog>;
 }

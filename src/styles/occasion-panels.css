@@ -1,0 +1,13 @@
+@font-face{font-family:OccasionSyne;src:url('/demos/del-otro-lado/assets/fonts/syne.ttf') format('truetype');font-weight:400 800;font-display:swap}
+@font-face{font-family:OccasionSora;src:url('/fonts/sora/Sora-latin.woff2') format('woff2');font-weight:100 800;font-display:swap}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]){--occasion-bg:#f0e9ff;--occasion-title:OccasionSyne, sans-serif;background:var(--occasion-bg);color:var(--panel-ink);font-family:OccasionSora,sans-serif}
+.wedding-workspace[data-occasion=event]{--occasion-bg:#e9f4f1;--occasion-title:OccasionSora,sans-serif}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.workspace-body,.workspace-main,.workspace-welcome,.ledger-tools){background:var(--occasion-bg)}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.workspace-sidebar,.workspace-navigation,.ledger-row,.boreal-table-card,.record-detail-inner,.workspace-dialog-inner,.panel-compact-bar){background:var(--panel-paper);color:var(--panel-ink)}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(h1,h2,h3,.workspace-monogram,.workspace-couple p,.ledger-stat-value){font-family:var(--occasion-title);color:var(--panel-ink)}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-monogram{font-size:1rem;border-radius:20px;color:var(--panel-accent)}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art{background:var(--occasion-bg)}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art img{object-fit:cover;object-position:center 28%}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art::after{background:linear-gradient(90deg,var(--occasion-bg),transparent 68%),linear-gradient(0deg,var(--occasion-bg),transparent 28%)}
+.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.workspace-button,.guest-ledger .ledger-add,.workspace-nav-current){background:var(--panel-accent);border-color:var(--panel-accent);color:white}
+

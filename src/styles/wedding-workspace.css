@@ -252,3 +252,6 @@ html:has(.seat-picker[open]) { overflow:hidden; }
   .seat-picker fieldset { overflow-y:auto; }
   .seat-picker .workspace-editor-actions { flex-wrap:wrap; gap:8px; }
 }
+.sample-guide button{padding:6px 12px;border-radius:6px;cursor:pointer;font:inherit}
+.sample-guide button:first-of-type{background:var(--panel-accent);color:white;border:1px solid var(--panel-accent)}
+.sample-guide button:last-of-type{background:transparent;color:var(--panel-ink);border:1px solid currentColor}
