@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cantera — Arquitectura e interiores</title>
+    <meta name="description" content="Cantera, despacho ficticio de arquitectura e interiores en México. Recorre ocho proyectos ilustrativos, nuestro método y los detalles de obra." />
+    <link rel="icon" href="data:," />
+    <script type="module" crossorigin src="./assets/index-DKd_fV6f.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CGiftOIh.css">
+  </head>
+  <body>
+    <!-- Background layers (behind the WebGL canvas) -->
+    <div id="bg">
+      <div class="bg-dark"></div>
+      <div class="bg-dots"></div>
+      <div class="about-glow"></div>
+      <svg class="rings rings-about" viewBox="-100 -100 200 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <circle r="92" class="faint" /><circle r="107" /><circle r="144" /><circle r="181" /><circle r="212" class="faint" />
+        <line class="arm" x1="-181" x2="-900" /><line class="arm" x1="181" x2="900" />
+        <g class="cross" transform="translate(-181 0)"><line x1="-2.2" x2="2.2" /><line y1="-2.2" y2="2.2" /></g>
+        <g class="cross" transform="translate(181 0)"><line x1="-2.2" x2="2.2" /><line y1="-2.2" y2="2.2" /></g>
+      </svg>
+      <svg class="rings rings-services" viewBox="-100 -100 200 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs><linearGradient id="svc-fade" gradientUnits="userSpaceOnUse" x1="0" y1="-98" x2="0" y2="98"><stop offset="0" stop-color="#fff" stop-opacity="0" /><stop offset=".22" stop-color="#fff" stop-opacity=".1" /><stop offset=".5" stop-color="#fff" stop-opacity=".45" /><stop offset=".78" stop-color="#fff" stop-opacity=".1" /><stop offset="1" stop-color="#fff" stop-opacity="0" /></linearGradient></defs>
+        <circle r="98.6" class="outer" />
+        <g class="cross" transform="translate(-98.6 0)"><line x1="-1.6" x2="1.6" /><line y1="-1.6" y2="1.6" /></g>
+        <g class="cross" transform="translate(98.6 0)"><line x1="-1.6" x2="1.6" /><line y1="-1.6" y2="1.6" /></g>
+      </svg>
+      <div class="lens"></div>
+      <div class="blog-bg"></div>
+    </div>
+
+    <canvas id="gl"></canvas>
+
+    <!-- Section content (fixed layers driven by scroll) -->
+    <main id="layers">
+      <!-- Hero: headline, lead, buttons and glass cards over the 3D city block. -->
+      <section class="layer hero" id="inicio" data-layer="hero">
+        <div class="fh">
+          <h1 class="fh-title" aria-label="Un patio cambia todo">
+            <span class="fh-line"><span class="l1" data-split>Un patio</span></span>
+            <span class="fh-line"><span class="l2" data-split>cambia</span><span class="fh-mark" aria-hidden="true"><svg viewBox="0 0 96 97"><path d="M4 97V46a44 44 0 0 1 88 0v51H68V47a20 20 0 0 0-40 0v50Z" /></svg></span><span class="l3" data-split>todo</span></span>
+          </h1>
+          <div class="fh-bottom">
+            <div class="fh-left">
+              <p class="fh-lead">Dibujamos la casa desde el patio. Por ahí entran la luz de la mañana, el aire y la vida de todos los días.</p>
+              <div class="fh-actions">
+                <a class="fh-cta fh-in" href="#contacto" data-jump="contact"><span class="fh-cta__bg"></span><span class="fh-cta__txt">Platicar mi proyecto</span></a>
+                <a class="fh-cta fh-in" href="#proyectos" data-jump="blog"><span class="fh-cta__bg"></span><span class="fh-cta__txt">Ver proyectos</span></a>
+              </div>
+              <p class="fh-note">Arquitectura e interiores en México</p>
+            </div>
+            <div class="fh-right">
+              <div class="fh-card">
+                <p>Casas · Interiores · Espacios públicos</p>
+                <div class="fh-card__btns">
+                  <a class="fh-ibtn fh-ibtn--dark" href="#contacto" data-jump="contact" aria-label="Platicar con el despacho"><span class="fh-ibtn__fill"></span><svg viewBox="0 0 24 24" class="fh-ico22"><path d="M0 3h24v18H0Zm2.6 2.6v.9L12 13l9.4-6.5v-.9Zm0 4.1v8.7h18.8V9.7L12 16.2Z" /></svg></a>
+                  <a class="fh-ibtn fh-ibtn--dark" href="#contacto" data-jump="contact" aria-label="Ir al contacto"><span class="fh-ibtn__fill"></span><svg viewBox="0 0 20 24" class="fh-ico22"><path fill-rule="evenodd" d="M10 0a10 10 0 0 1 10 10c0 6.2-7.3 12.6-10 14C7.3 22.6 0 16.2 0 10A10 10 0 0 1 10 0Zm0 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" /></svg></a>
+                </div>
+              </div>
+              <a class="fh-media" href="#proyectos" data-jump="blog" aria-label="Casa Risco, ver proyectos">
+                <img src="./assets/casa-risco-B1NkLbKU.webp" alt="" />
+                <span class="fh-media__btn"><svg viewBox="0 0 14 14"><path d="m0 12.02 1.414 1.415 9.016-9.016 1.414 1.415 1.503-1.503-1.414-1.414 1.502-1.503L12.021 0l-1.503 1.503L9.104.088 7.602 1.591l1.414 1.414L0 12.021ZM4.685 1.68 6.187.176 7.602 1.59 6.099 3.094 4.685 1.679Zm0 0L3.182 3.181 1.768 1.768 3.27.265 4.685 1.68Zm7.07 7.07 1.503-1.502-1.414-1.414-1.502 1.502 1.414 1.414Zm0 0-1.502 1.503 1.414 1.414 1.503-1.502-1.414-1.415Z" /></svg></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="layer about" id="despacho" data-layer="about">
+        <h2 class="title" data-split>CANTERA</h2>
+        <div class="about-copy">
+          <p class="reveal" data-beat="0.18 0.74">Antes del primer muro trazamos la sombra que queremos habitar.</p>
+          <p class="reveal" data-beat="0.49 0.89">Como la cantera, una planta se trabaja por sustracción. En casa, acortamos el paso de la cocina al patio. En una biblioteca, apartamos las mesas del ruido de la entrada.</p>
+        </div>
+      </section>
+
+      <section class="layer services" id="servicios" data-layer="services">
+        <div class="sv sv--a">
+          <div class="sva-top sva-top--l"><p class="sv-k">(02) Qué hacemos</p><p class="sva-lead">Del deslinde del terreno al último encuentro entre madera y piedra.</p></div>
+          <div class="sva-top sva-top--r"><p class="sv-k">México</p><p class="sv-k">Del patio a la plaza</p></div>
+          <div class="sva-group sva-group--l"><div class="sva-head"><h3>Arquitectura</h3><span class="sv-k">01&#8202;&#8211;&#8202;05</span></div><ol class="sva-list"><li style="--i:0"><i>01</i><span>Anteproyecto</span><b aria-hidden="true">&#8599;</b></li><li style="--i:1"><i>02</i><span>Proyecto ejecutivo</span><b aria-hidden="true">&#8599;</b></li><li style="--i:2"><i>03</i><span>Trámites y licencias</span><b aria-hidden="true">&#8599;</b></li><li style="--i:3"><i>04</i><span>Supervisión de obra</span><b aria-hidden="true">&#8599;</b></li><li style="--i:4"><i>05</i><span>Adecuaciones</span><b aria-hidden="true">&#8599;</b></li></ol></div>
+          <div class="sva-group sva-group--r"><div class="sva-head"><h3>Interiores</h3><span class="sv-k">06&#8202;&#8211;&#8202;10</span></div><ol class="sva-list"><li style="--i:0"><i>06</i><span>Distribución</span><b aria-hidden="true">&#8599;</b></li><li style="--i:1"><i>07</i><span>Mobiliario a medida</span><b aria-hidden="true">&#8599;</b></li><li style="--i:2"><i>08</i><span>Iluminación</span><b aria-hidden="true">&#8599;</b></li><li style="--i:3"><i>09</i><span>Selección de acabados</span><b aria-hidden="true">&#8599;</b></li><li style="--i:4"><i>10</i><span>Detalles de carpintería</span><b aria-hidden="true">&#8599;</b></li></ol></div>
+        </div>
+        <div class="sv sv--b">
+          <div class="svb-intro"><p class="sv-k">(02) Qué hacemos</p><p class="svb-lead">Del plano de conjunto al detalle del mueble.</p></div>
+          <ul class="svb-orbit">
+            <li class="svb-cap svb-cap--l"><span class="sv-k">A</span><h3>Arquitectura</h3></li>
+            <li class="svb-cap svb-cap--r"><h3>Interiores</h3><span class="sv-k">I</span></li>
+            <li class="svb-c svb-c--l" style="--i:0;--y:.22;--x:0.38"><span class="svb-l"><i>A.01</i>Anteproyecto</span></li><li class="svb-c svb-c--l" style="--i:1;--y:.36;--x:0.34"><span class="svb-l"><i>A.02</i>Proyecto ejecutivo</span></li><li class="svb-c svb-c--l" style="--i:2;--y:.5;--x:0.32"><span class="svb-l"><i>A.03</i>Trámites y licencias</span></li><li class="svb-c svb-c--l" style="--i:3;--y:.64;--x:0.34"><span class="svb-l"><i>A.04</i>Supervisión de obra</span></li><li class="svb-c svb-c--l" style="--i:4;--y:.78;--x:0.38"><span class="svb-l"><i>A.05</i>Adecuaciones</span></li>
+            <li class="svb-c svb-c--r" style="--i:0;--y:.22;--x:0.62"><span class="svb-l"><i>I.01</i>Distribución</span></li><li class="svb-c svb-c--r" style="--i:1;--y:.36;--x:0.66"><span class="svb-l"><i>I.02</i>Mobiliario a medida</span></li><li class="svb-c svb-c--r" style="--i:2;--y:.5;--x:0.68"><span class="svb-l"><i>I.03</i>Iluminación</span></li><li class="svb-c svb-c--r" style="--i:3;--y:.64;--x:0.66"><span class="svb-l"><i>I.04</i>Selección de acabados</span></li><li class="svb-c svb-c--r" style="--i:4;--y:.78;--x:0.62"><span class="svb-l"><i>I.05</i>Detalles de carpintería</span></li>
+          </ul>
+          <a class="sv-cta" href="#contacto" data-jump="contact"><span>Platicar mi proyecto</span><b aria-hidden="true">&#8594;</b></a>
+        </div>
+        <div class="sv sv--c">
+          <article class="svc-card svc-card--l">
+            <header><span class="sv-k">01 / 02</span><span class="sv-k">Disciplina</span></header>
+            <h3>Arquitectura</h3>
+            <p class="svc-lead">Trazamos sobre lo que ya existe: el desnivel, los árboles y los muros que vale la pena conservar.</p>
+            <ul class="svc-list2"><li tabindex="0" style="--i:0"><div class="svc-row"><span>Anteproyecto</span><i>01</i></div><p class="svc-d"><span>Plantas y cortes para comparar maneras de habitar el terreno.</span></p></li><li tabindex="0" style="--i:1"><div class="svc-row"><span>Proyecto ejecutivo</span><i>02</i></div><p class="svc-d"><span>Planos coordinados para cotizar y construir.</span></p></li><li tabindex="0" style="--i:2"><div class="svc-row"><span>Trámites y licencias</span><i>03</i></div><p class="svc-d"><span>Preparamos el expediente según las condiciones del predio.</span></p></li><li tabindex="0" style="--i:3"><div class="svc-row"><span>Supervisión de obra</span><i>04</i></div><p class="svc-d"><span>Revisamos en sitio medidas, muestras y avances.</span></p></li><li tabindex="0" style="--i:4"><div class="svc-row"><span>Adecuaciones</span><i>05</i></div><p class="svc-d"><span>Estudiamos qué conservar antes de demoler.</span></p></li></ul>
+            <footer><span class="eye" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 6C6.5 6 3 12 3 12s3.5 6 9 6 9-6 9-6-3.5-6-9-6Z" /><circle cx="12" cy="12" r="3.2" /></svg></span><span>Explora cada servicio</span></footer>
+          </article>
+          <article class="svc-card svc-card--r">
+            <header><span class="sv-k">02 / 02</span><span class="sv-k">Disciplina</span></header>
+            <h3>Interiores</h3>
+            <p class="svc-lead">Probamos recorridos, alturas y materiales a la escala de quien usa el cuarto.</p>
+            <ul class="svc-list2"><li tabindex="0" style="--i:0"><div class="svc-row"><span>Distribución</span><i>06</i></div><p class="svc-d"><span>Medimos el paso libre entre la mesa y el muro.</span></p></li><li tabindex="0" style="--i:1"><div class="svc-row"><span>Mobiliario a medida</span><i>07</i></div><p class="svc-d"><span>Dibujamos cada módulo según lo que debe guardar.</span></p></li><li tabindex="0" style="--i:2"><div class="svc-row"><span>Iluminación</span><i>08</i></div><p class="svc-d"><span>Ubicamos luminarias para leer, cocinar y descansar.</span></p></li><li tabindex="0" style="--i:3"><div class="svc-row"><span>Selección de acabados</span><i>09</i></div><p class="svc-d"><span>Comparamos muestras bajo la luz del espacio.</span></p></li><li tabindex="0" style="--i:4"><div class="svc-row"><span>Detalles de carpintería</span><i>10</i></div><p class="svc-d"><span>Resolvemos uniones, cantos y herrajes.</span></p></li></ul>
+            <footer><span class="eye" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 6C6.5 6 3 12 3 12s3.5 6 9 6 9-6 9-6-3.5-6-9-6Z" /><circle cx="12" cy="12" r="3.2" /></svg></span><span>Explora cada servicio</span></footer>
+          </article>
+        </div>
+        <h2 class="title" data-split>SERVICIOS</h2>
+      </section>
+
+      <section class="layer blog" id="proyectos" data-layer="blog">
+        <p class="blog-intro reveal" data-beat="0.0 0.6">Ocho estudios de luz y materia. Recorre la serie para ver cómo cambia la relación entre un edificio y su entorno.</p>
+        <div class="project-nav"><button id="prev-project" aria-label="Proyecto anterior">←</button><span id="project-label" aria-live="polite"></span><button id="next-project" aria-label="Proyecto siguiente">→</button></div>
+        <h2 class="title" data-split>PROYECTOS</h2>
+      </section>
+
+      <!-- Workflow: four stages; one block joins the stack per stage. -->
+      <section class="layer workflow" id="metodo" data-layer="workflow" aria-label="Método del despacho">
+        <div class="wf-grid" aria-hidden="true"></div>
+        <div class="wf-badge"><span class="wf-w">MÉTODO</span><span class="wf-arrows" aria-hidden="true"><i>&gt;</i><i>&gt;</i><i>&gt;</i></span><span class="wf-scr" id="wf-scr">ETAPA</span><span class="wf-w">[04]</span></div>
+        <div class="wf-ruler" aria-hidden="true"></div>
+        <div class="wf-steps">
+          <div class="wf-step"><span class="wf-n">01</span><div class="wf-body"><h3 class="wf-t">Escuchamos</h3><p class="wf-d">Recibes un mapa del terreno con asoleamiento, vistas y necesidades de tu familia.</p></div></div>
+          <div class="wf-step"><span class="wf-n">02</span><div class="wf-body"><h3 class="wf-t">Trazamos</h3><p class="wf-d">Comparamos contigo dos plantas y entregamos el anteproyecto elegido.</p></div></div>
+          <div class="wf-step"><span class="wf-n">03</span><div class="wf-body"><h3 class="wf-t">Detallamos</h3><p class="wf-d">Recibes planos de obra y un catálogo de materiales para pedir cotizaciones.</p></div></div>
+          <div class="wf-step"><span class="wf-n">04</span><div class="wf-body"><h3 class="wf-t">Acompañamos la obra</h3><p class="wf-d">Cada visita queda en una bitácora con acuerdos, fotos y pendientes.</p></div></div>
+        </div>
+        <div class="wf-blocks" aria-hidden="true">
+          <img class="wf-block" src="./assets/block-04-D385KufW.webp" alt="" width="540" height="810" decoding="async" />
+          <img class="wf-block" src="./assets/block-03-DuUrG9FC.webp" alt="" width="540" height="810" decoding="async" />
+          <img class="wf-block" src="./assets/block-02-CKUTnL-n.webp" alt="" width="540" height="810" decoding="async" />
+          <img class="wf-block" src="./assets/block-01-BqZtU5Og.webp" alt="" width="540" height="810" decoding="async" />
+        </div>
+      </section>
+
+      <section class="layer process" id="obra" data-layer="process">
+        <h2 class="title" data-split>EN<br />OBRA</h2>
+        <div id="hotspots"></div>
+      </section>
+
+      <section class="layer contact" id="contacto" data-layer="contact">
+        <!-- Footer: hairline grid with a line reveal, newsletter field, links and studio mark.
+             The glass sits on the footer itself; its content is counter-inverted like the header so it keeps true colours. -->
+        <footer class="ft" id="footer">
+          <div class="ft__in">
+            <div class="ft-top">
+              <div class="ft-left">
+                <div class="ft-news-wrap">
+                  <div class="ft-news">
+                    <p class="ft-news__lead">Cuéntanos de tu terreno</p>
+                    <form id="ft-form" novalidate>
+                      <div class="ft-group">
+                        <input id="ft-email" type="email" name="email" aria-label="Correo electrónico" placeholder="tu.nombre@example.com" required autocomplete="off" />
+                        <label for="ft-email">Correo electrónico</label>
+                        <button type="submit" aria-label="Quiero que me contacten">Quiero que me contacten</button>
+                      </div>
+                    </form>
+                    <p class="ft-msg" role="status" aria-live="polite"></p>
+                  </div>
+                  <div class="ft-lines"><div class="ft-line ft-line--right"></div><div class="ft-line ft-line--bottom"></div><div class="ft-line ft-line--left"></div><div class="ft-plus ft-plus--tl ft-clip-top"><span></span><span></span></div><div class="ft-plus ft-plus--tr ft-clip-top"><span></span><span></span></div><div class="ft-plus ft-plus--bl ft-clip-outside"><span></span><span></span></div><div class="ft-plus ft-plus--br ft-clip-outside"><span></span><span></span></div></div>
+                </div>
+                <div class="ft-note">
+                  <!-- Brand red: a deeper flag red cannot survive the two colour inversions (it clamps to maroon) -->
+                  
+                  <p>Arquitectura e interiores · México</p>
+                  <div class="ft-lines"><div class="ft-line ft-line--right"></div><div class="ft-line ft-line--bottom"></div><div class="ft-line ft-line--left"></div><div class="ft-plus ft-plus--bl ft-clip-outside"><span></span><span></span></div><div class="ft-plus ft-plus--br ft-clip-bottom"><span></span><span></span></div></div>
+                </div>
+              </div>
+              <div class="ft-center">
+                <a href="#inicio" data-jump="hero" aria-label="Cantera, volver al inicio"><svg class="ft-logo" width="110" height="110" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M6 36V18a14 14 0 0 1 28 0v18" stroke="currentColor" stroke-width="3.2" /><path d="M14 36V19a6 6 0 0 1 12 0v17" stroke="currentColor" stroke-width="3.2" /><path d="M2 36h36" stroke="currentColor" stroke-width="3.2" /></svg></a>
+                <div class="ft-lines"><div class="ft-line ft-line--bottom"></div><div class="ft-plus ft-plus--tr ft-clip-top"><span></span><span></span></div><div class="ft-plus ft-plus--br ft-clip-bottom"><span></span><span></span></div></div>
+              </div>
+              <div class="ft-right">
+                <ul aria-label="Navegación del pie">
+<li style="--index:0"><a href="#inicio" data-jump="hero">Inicio</a></li>
+<li style="--index:1"><a href="#despacho" data-jump="about">Despacho</a></li>
+<li style="--index:2"><a href="#servicios" data-jump="services">Servicios</a></li>
+<li style="--index:3"><a href="#proyectos" data-jump="blog">Proyectos</a></li>
+<li style="--index:4"><a href="#metodo" data-jump="workflow">Método</a></li>
+<li style="--index:5"><a href="#obra" data-jump="process">Obra</a></li>
+<li style="--index:6"><a href="#contacto" data-jump="contact">Contacto</a></li>
+</ul>
+                <div class="ft-lines"><div class="ft-line ft-line--bottom"></div><div class="ft-line ft-line--left"></div><div class="ft-plus ft-plus--tl ft-clip-top"><span></span><span></span></div><div class="ft-plus ft-plus--tr ft-clip-top"><span></span><span></span></div><div class="ft-plus ft-plus--bl ft-clip-bottom"><span></span><span></span></div><div class="ft-plus ft-plus--br ft-clip-outside"><span></span><span></span></div></div>
+              </div>
+            </div>
+            <div class="ft-bottom">
+              <div class="ft-bottom__left">Despacho ficticio creado por Nordra Studio como muestra. Los proyectos y las imágenes son ilustrativos.</div>
+              <div class="ft-bottom__right"><a href="#inicio" data-jump="hero">Volver al inicio</a></div>
+            </div>
+            <div class="ft-lines ft-lines--offset"><div class="ft-line ft-line--top"></div><div class="ft-line ft-line--right"></div><div class="ft-line ft-line--left"></div></div>
+          </div>
+        </footer>
+      </section>
+    </main>
+
+    <!-- Header: wordmark, call-to-action pill and Menu pill with an elastic dropdown -->
+    <header class="sh-header">
+      <a class="sh-logo" href="#inicio" data-jump="hero" aria-label="Cantera, inicio"><svg class="sh-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M6 36V18a14 14 0 0 1 28 0v18" stroke="currentColor" stroke-width="3.2" /><path d="M14 36V19a6 6 0 0 1 12 0v17" stroke="currentColor" stroke-width="3.2" /><path d="M2 36h36" stroke="currentColor" stroke-width="3.2" /></svg><span class="sh-word">Cantera</span></a>
+      <div class="sh-right">
+        <div class="sh-row">
+          <a class="sh-btn sh-chat" href="#contacto" data-jump="contact">
+            <span class="sh-btn__txt">Contacto</span>
+            <span class="sh-btn__circle"><span class="sh-ico"><svg width="100%" viewBox="0 0 18 17" fill="none" aria-hidden="true"><path d="M1 3.26215C1 2.33911 1.79594 1.59084 2.77778 1.59084L15.2222 1.59082C16.2041 1.59082 17 2.33909 17 3.26213V11.6485C17 12.5716 16.2041 13.3198 15.2222 13.3199L11.9989 13.3199C11.7918 13.3199 11.5912 13.3878 11.4318 13.512L8.9962 15.409L6.59291 13.5151C6.43287 13.389 6.23071 13.3199 6.02188 13.3199H2.77778C1.79594 13.3199 1 12.5716 1 11.6486L1 3.26215Z" stroke="currentColor" stroke-width="1.77778" stroke-linejoin="round" /></svg></span><span class="sh-ico sh-ico--in"><svg width="100%" viewBox="0 0 18 17" fill="none" aria-hidden="true"><path d="M1 3.26215C1 2.33911 1.79594 1.59084 2.77778 1.59084L15.2222 1.59082C16.2041 1.59082 17 2.33909 17 3.26213V11.6485C17 12.5716 16.2041 13.3198 15.2222 13.3199L11.9989 13.3199C11.7918 13.3199 11.5912 13.3878 11.4318 13.512L8.9962 15.409L6.59291 13.5151C6.43287 13.389 6.23071 13.3199 6.02188 13.3199H2.77778C1.79594 13.3199 1 12.5716 1 11.6486L1 3.26215Z" stroke="currentColor" stroke-width="1.77778" stroke-linejoin="round" /></svg></span></span>
+          </a>
+          <button class="sh-btn sh-menu" type="button" aria-expanded="false" aria-controls="sh-menu">
+            <span class="sh-btn__txt"><span class="sh-swap"><span class="sh-swap__a">Menú</span><span class="sh-swap__b">Cerrar</span></span></span>
+            <span class="sh-btn__circle"><span class="sh-ico sh-dots"><svg width="100%" viewBox="0 0 14 6" fill="none" aria-hidden="true"><circle cx="11.4517" cy="3.41264" r="2.54545" fill="currentColor" /><circle cx="2.54545" cy="3.41264" r="2.54545" fill="currentColor" /></svg></span></span>
+          </button>
+        </div>
+        <nav class="sh-nav" id="sh-menu" aria-label="Menú del sitio">
+          <div class="sh-nav__wrap">
+            <a class="sh-link" href="#inicio" data-sh-jump="hero"><span class="sh-link__arrow"><svg width="100%" viewBox="0 0 45 38" fill="none" aria-hidden="true"><path d="M24.4118 2L41.5 19.0882L24.4118 36.1765M2.06726e-07 19.0882L40.2794 19.0882" stroke="currentColor" stroke-width="4.88235" /></svg></span><span>Inicio</span></a>
+            <a class="sh-link" href="#despacho" data-sh-jump="about"><span class="sh-link__arrow"><svg width="100%" viewBox="0 0 45 38" fill="none" aria-hidden="true"><path d="M24.4118 2L41.5 19.0882L24.4118 36.1765M2.06726e-07 19.0882L40.2794 19.0882" stroke="currentColor" stroke-width="4.88235" /></svg></span><span>Despacho</span></a>
+            <a class="sh-link" href="#proyectos" data-sh-jump="blog"><span class="sh-link__arrow"><svg width="100%" viewBox="0 0 45 38" fill="none" aria-hidden="true"><path d="M24.4118 2L41.5 19.0882L24.4118 36.1765M2.06726e-07 19.0882L40.2794 19.0882" stroke="currentColor" stroke-width="4.88235" /></svg></span><span>Proyectos</span></a>
+            <a class="sh-link" href="#contacto" data-sh-jump="contact"><span class="sh-link__arrow"><svg width="100%" viewBox="0 0 45 38" fill="none" aria-hidden="true"><path d="M24.4118 2L41.5 19.0882L24.4118 36.1765M2.06726e-07 19.0882L40.2794 19.0882" stroke="currentColor" stroke-width="4.88235" /></svg></span><span>Contacto</span></a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <div class="sh-scrim" aria-hidden="true"></div>
+
+    <!-- Persistent chrome -->
+    <header id="chrome">
+      <div class="counter" id="counter">[2]</div>
+      <div class="rail"><i id="rail"></i></div>
+    </header>
+
+    <canvas id="smoke" aria-hidden="true"></canvas>
+    <div class="cursor" id="cursor" aria-hidden="true"><div class="cursor__core"></div></div>
+    <div class="cursor-label" id="cursor-label" aria-hidden="true"></div>
+    <div class="cursor-anchor-label" id="cursor-anchor" aria-hidden="true"></div>
+    <div id="fx-grain"></div>
+    <div id="fx-glitch"></div>
+
+    <!-- Preloader: a ticking ruler folds into one mark, the name wipes in,
+         then the panel lifts away on its own. -->
+    <div id="loader" aria-hidden="true">
+      <div class="ld-ticks" id="ld-ticks"></div>
+      <div class="ld-lock" id="ld-lock">
+        <span class="ld-dash" id="ld-dash"></span>
+        <span class="ld-word" id="ld-word">Cantera</span>
+        <span class="ld-tag" id="ld-tag"><span>Medir</span><span>antes</span><span>siempre</span></span>
+      </div>
+    </div>
+
+    <svg width="0" height="0" style="position:absolute">
+      <filter id="smear" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence id="smear-turb" type="fractalNoise" baseFrequency="0.0015 0.06" numOctaves="2" seed="3" />
+        <feDisplacementMap id="smear-map" in="SourceGraphic" scale="0" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <!-- Process entry: horizontal smear with the colour channels pulled apart -->
+      <filter id="rgbsmear" x="-10%" y="0%" width="120%" height="100%" color-interpolation-filters="sRGB">
+        <feGaussianBlur id="rgb-blur" in="SourceGraphic" stdDeviation="0 0" result="b" />
+        <feColorMatrix in="b" type="matrix" values="1.6 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r" />
+        <feColorMatrix in="b" type="matrix" values="0 0 0 0 0  0 1.5 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g" />
+        <feColorMatrix in="b" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1.7 0 0  0 0 0 1 0" result="bl" />
+        <feOffset id="rgb-r" in="r" dx="0" result="ro" />
+        <feOffset id="rgb-b" in="bl" dx="0" result="bo" />
+        <feBlend in="ro" in2="g" mode="screen" result="rg" />
+        <feBlend in="rg" in2="bo" mode="screen" />
+      </filter>
+    </svg>
+
+  </body>
+</html>
