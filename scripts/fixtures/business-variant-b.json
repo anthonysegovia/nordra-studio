@@ -25,5 +25,11 @@
       "caption": "Despacho de arquitectura · Experiencia en 3D"
     }
   ],
-  "notice": "Negocios ficticios creados por Nordra como muestra"
+  "notice": "Negocios ficticios creados por Nordra como muestra",
+  "objectives": {
+    "landing": "Que me encuentren",
+    "business": "Mostrar mis servicios",
+    "custom": "Vender o agendar",
+    "immersive": "Lanzar algo memorable"
+  }
 }

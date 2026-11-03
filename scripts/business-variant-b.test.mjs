@@ -9,7 +9,7 @@ const approved = JSON.parse(readFileSync('scripts/fixtures/business-variant-b.js
 
 test('business sections lead from prices to examples, questions and contact', () => {
   const html = renderBusinessOffers(renderBusinessContent(source));
-  const order = ['class="business-head"', 'class="business-benefits"', 'id="opciones-web"', 'class="offer-hosting"', 'id="guia-web"', 'id="proyectos"', 'class="business-trust"', 'id="negocios-preguntas"', 'id="proceso"', 'id="contacto-negocios"'];
+  const order = ['class="business-head"', 'class="business-benefits"', 'id="opciones-web"', 'class="offer-hosting"', 'id="proyectos"', 'class="business-trust"', 'id="negocios-preguntas"', 'id="proceso"', 'id="contacto-negocios"'];
   const positions = order.map(marker => html.indexOf(marker));
   assert.ok(positions.every(i => i >= 0));
   assert.deepEqual(positions, [...positions].sort((a,b) => a-b));
@@ -19,6 +19,18 @@ test('business sections lead from prices to examples, questions and contact', ()
   assert.deepEqual([...benefits.matchAll(/<h3>(.*?)<\/h3>/g)].map(m=>m[1]),approved.benefits);
 });
 
+test('four objectives share one feature stage and use only published work',()=>{
+ const html=renderBusinessOffers('{{business:offers}}');
+ assert.doesNotMatch(html,/guide-form|offers-grid|<section[^>]*id="guia-web"/);
+ const choices=[...html.matchAll(/<input type="radio" name="web-goal" value="([^"]+)"( checked)?><strong>([^<]+)<\/strong>/g)];
+ assert.deepEqual(Object.fromEntries(choices.map(m=>[m[1],m[3]])),approved.objectives);
+ assert.deepEqual(choices.filter(m=>m[2]).map(m=>m[1]),['business']);
+ const rows=[...html.matchAll(/<a class="offer-row"[^>]+>/g)].map(m=>m[0]);
+ assert.equal(rows.filter(row=>!row.endsWith(' hidden>')).length,3);
+ assert.ok(rows.every(row=>row.includes('https://wa.me/')));
+ const images=[...html.matchAll(/<img src="([^"]+)"[^>]+>/g)].map(m=>m[1]);
+ assert.deepEqual(images.sort(),approved.examples.map(o=>'/nordra/'+o.image).sort());
+});
 test('three whole example cards link to the demos and share one notice', () => {
   const gallery=source.match(/<section class="business-examples"[\s\S]*?<\/section>/)[0];
   const cards=[...gallery.matchAll(/<a class="example-card"[\s\S]*?<\/a>/g)];
