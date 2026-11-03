@@ -28,6 +28,19 @@ test('Bodas pairs two accessible steps with a permanent phone and a localized da
   }
 });
 
+test('the dashboard hover lift composes with the stage transform instead of replacing it', () => {
+  const css = readFileSync('src/site/styles/wedding-page.css', 'utf8');
+  const hover = [...css.matchAll(/([^{}]*\.wedding-dashboard:is\(:hover[^{]*)\{([^}]*)\}/g)];
+  assert.ok(hover.length > 0);
+  for (const [, , body] of hover) {
+    assert.doesNotMatch(body, /(^|;|\s)transform\s*:/);
+    assert.match(body, /translate\s*:/);
+  }
+  const stage = readFileSync('src/site/scripts/wedding-stage.js', 'utf8');
+  assert.match(stage, /\.wedding-dashboard'\)\.addEventListener\('click'/);
+  assert.match(stage, /event\.detail === 0/);
+});
+
 test('Bodas shows both catalogue prices before each disclosure and keeps the complete plan inside', () => {
   assert.doesNotMatch(wedding, /plan-comparison|Qué incluyen los paquetes/);
   for (const offer of invitationOffers) {

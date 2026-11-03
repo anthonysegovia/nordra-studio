@@ -22,8 +22,10 @@
 .wedding-extra { max-width:75ch; }
 .wedding-plans details[open]>summary span { transform:rotate(45deg); }
 @media (prefers-reduced-motion:no-preference) {
-  .wedding-plans :is(summary span,.invite-cta),.wedding-dashboard { transition:transform .18s ease; }
-  .wedding-plans .invite-cta:is(:hover,:focus-visible),.wedding-dashboard:is(:hover,:focus-visible) { transform:translateY(-2px); }
+  .wedding-plans :is(summary span,.invite-cta) { transition:transform .18s ease; }
+  .wedding-plans .invite-cta:is(:hover,:focus-visible) { transform:translateY(-2px); }
+  /* The stage owns the dashboard's transform; the lift uses translate so the two compose. */
+  .wedding-dashboard:is(:hover,:focus-visible) { translate:0 -2px; }
 }
 @media(max-width:700px) {
   .theme-wedding .wedding-hero { min-height:0; padding-block:20px 38px; }
@@ -63,7 +65,7 @@
 .wedding-stage[data-step=panel] .wedding-dashboard { z-index:2; transform:translateY(-50%); opacity:1; }
 .wedding-credit { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; margin:6px 0 0; font-size:.88rem; }
 @media(prefers-reduced-motion:no-preference) {
-  .wedding-devices>* { transition:transform .35s cubic-bezier(.22,.68,.23,1),opacity .35s; }
+  .wedding-devices>* { transition:transform .35s cubic-bezier(.22,.68,.23,1),opacity .35s,translate .18s ease; }
   .wedding-switch button { transition:background-color .2s; }
   .wedding-dashboard::after { transition:opacity .35s ease; }
 }

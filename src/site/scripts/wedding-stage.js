@@ -24,4 +24,12 @@ for (const tab of tabs) {
     if (next) { event.preventDefault(); select(next); next.focus(); }
   });
 }
+// While the dashboard sits behind the phone, a tap brings it forward; once in front, it opens the sample panel.
+// Keyboard activation (detail 0) and modified clicks keep the link's normal behaviour.
+stage.querySelector('.wedding-dashboard').addEventListener('click', event => {
+  if (stage.dataset.step === 'panel' || event.detail === 0 || event.button !== 0 ||
+      event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  select(tabs[1]);
+});
 if (['#panel-boda','#bodas-panel-muestra'].includes(location.hash)) select(tabs[1]);
