@@ -1,4 +1,4 @@
-import {renderInvitation} from '../src/celebrations/numero-que-flota/template.mjs';
+import {renderInvitation} from '../src/celebrations/caja-de-regalo/template.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -16,7 +16,7 @@ for(const [slug,start] of [['camila-30','20270725T010000Z'],['conexion-27','2027
  test(`${slug}: safe initial markup and local sample`,()=>{
   const html=renderInvitation(read(`invitaciones/${slug}/index.html`));
   assert.match(html,/class="celebration-header" hidden inert/);assert.match(html,/class="celebration-content" hidden inert/);
-  assert.match(html,/data-skip/);assert.match(html,/Las respuestas de esta vista no se envían/);assert.match(html,/fecha\.ics" download/);
+  assert.match(html,/data-skip/);assert.match(html,slug==='camila-30'?/Es una muestra: no se ha enviado ni guardado ninguna respuesta/:/Las respuestas de esta vista no se envían/);assert.match(html,/fecha\.ics" download/);
   assert.doesNotMatch(html,/\/api\b|<iframe|action=/);assert.match(read('vite.config.ts'),new RegExp(`invitaciones/${slug}/index.html`));
   const routes=JSON.parse(read('vercel.json')).routes;const route=routes.find(x=>x.dest&&new RegExp(x.src).test(`/invitaciones/${slug}/`));assert.equal(`/invitaciones/${slug}/`.replace(new RegExp(route.src),route.dest),`/invitaciones/${slug}/index.html`);
  });

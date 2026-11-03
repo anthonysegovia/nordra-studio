@@ -1,16 +1,16 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {renderInvitation} from '../src/celebrations/numero-que-flota/template.mjs';
+import {renderInvitation} from '../src/celebrations/caja-de-regalo/template.mjs';
 import {readFileSync,existsSync} from 'node:fs';
 const read=file=>readFileSync(file,'utf8');
 
 test('Camila and the birthday hero use real responsive images with descriptive alternatives',()=>{
-  for(const [path,selector] of [['invitaciones/camila-30/index.html','/numero-que-flota/camila-'],['cumpleanos.html','/birthday-noche/camila-portada-']]){
+  for(const [path,selector] of [['invitaciones/camila-30/index.html','/birthday-caja/cerrada-'],['cumpleanos.html','/birthday-noche/camila-portada-']]){
     const images=renderInvitation(read(path)).match(/<img\b[^>]+>/g).filter(tag=>tag.includes(selector));
     assert.ok(images.length);
     for(const image of images){
-      if(image.includes('class="number-mark"')){assert.match(image,/alt=""/);continue}
-      assert.match(image,/alt="[^"]*globo[^"]+"/i);
+      if(path.startsWith('invitaciones/')){assert.match(image,/alt=""/);assert.ok(images.length===1);assert.ok(renderInvitation(read(path)).includes('cerrada-360.webp'));continue}
+      assert.match(image,/alt="[^"]*caja[^"]+"/i);
       const set=image.match(/srcset="([^"]+)"/)[1].split(', ');
       assert.ok(set.length>=2);
       for(const item of set)assert.ok(existsSync('public'+item.split(' ')[0]));

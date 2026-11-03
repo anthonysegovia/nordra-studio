@@ -1,5 +1,5 @@
 import test from 'node:test';
-import {renderInvitation} from '../src/celebrations/numero-que-flota/template.mjs';
+import {renderInvitation} from '../src/celebrations/caja-de-regalo/template.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
@@ -15,7 +15,7 @@ for(const [page,entry,slug] of [['cumpleanos','birthdays','camila-30'],['eventos
   const entryText=read(`src/site/entries/${entry}.js`);for(const css of ['phone-frame','showcase-live','occasion-live'])assert.ok(entryText.includes(`../styles/${css}.css`));assert.ok(entryText.includes(`../scripts/showcase-live.js?entry=${entry}`));assert.match(read('src/site/scripts/showcase-live.js'),new RegExp(`data-view="${page}"`));
  });
 }
-test('Camila uses her own copy throughout the five stops',()=>{const html=renderInvitation(read('invitaciones/camila-30/index.html'));assert.match(html,/Treinta y con ganas de bailar/);assert.doesNotMatch(html,/Lo mejor es celebrarlo contigo|Nuestra noche|Con mis personas favoritas|Así lo celebramos|Mi noche favorita empieza contigo/i);});
+test('Camila uses her own copy throughout the five stops',()=>{const html=renderInvitation(read('invitaciones/camila-30/index.html'));assert.match(html,/Hay algo para ti en esta caja/);assert.doesNotMatch(html,/Nos vemos a las siete|Lo que debes saber|Tu pase|Treinta y con ganas de bailar|Tu presencia es el regalo|Lo mejor es celebrarlo contigo|Nuestra noche|Con mis personas favoritas|Así lo celebramos|Mi noche favorita empieza contigo/i);});
 test('retired poster styles and assets are absent from deploy inputs',()=>{
  assert.doesNotMatch(read('src/site/styles/scene.css'),/occasion-poster|organic-poster|birthday-poster|event-poster/);
  const inputs=buildInputs(fileURLToPath(root));

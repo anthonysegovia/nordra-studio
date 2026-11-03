@@ -11,14 +11,14 @@ values.url??=server.resolvedUrls.local[0].replace(/\/$/,'');
 const require=createRequire(values.tools?path.resolve(values.tools):import.meta.url);const {chromium}=require('playwright');
 fs.mkdirSync(values.evidence,{recursive:true});const records=[];
 const browser=await chromium.launch({executablePath:values.chrome,headless:true,args:['--enable-unsafe-swiftshader']});
-async function settled(page){await page.evaluate(()=>document.fonts.ready);await page.locator('.cover-art img').evaluate(img=>img.decode());}
+async function settled(page){await page.evaluate(()=>document.fonts.ready);await page.locator('.cover-art img,.gift img').first().evaluate(img=>img.decode());}
 async function geometry(page){return page.evaluate(()=>{
- const box=selector=>{const r=document.querySelector(selector).getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
- return {art:box('.cover-art img'),copy:box('.cover-copy'),cover:box('.cover'),footer:box('.cover-bottom'),width:innerWidth,scrollWidth:document.documentElement.scrollWidth};
+ const gift=!!document.querySelector('.gift');const box=selector=>{const r=document.querySelector(selector).getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
+ return {art:box(gift?'.gift img':'.cover-art img'),copy:box(gift?'.headline':'.cover-copy'),cover:box('.cover'),footer:box(gift?'.actions':'.cover-bottom'),width:innerWidth,scrollWidth:document.documentElement.scrollWidth};
 });}
 function checkGeometry(g){assert.ok(g.art.x>=g.cover.x&&g.art.right<=g.cover.right+1,'art within cover');assert.ok(g.art.y>=g.cover.y&&g.art.bottom<=g.cover.bottom+1,'whole artwork inside cover');assert.ok(g.art.x>=g.copy.right||g.art.y>=g.copy.bottom-1,'name/age and artwork do not overlap');assert.ok(g.art.x>=g.footer.right||g.art.bottom<=g.footer.y+1,'art does not overlap footer');assert.ok(g.scrollWidth<=g.width,'no horizontal overflow');}
 try{
- for(const slug of ['camila-30','conexion-27'])for(const theme of ['light','dark'])for(const width of [375,1440,1920]){
+ for(const slug of ['conexion-27'])for(const theme of ['light','dark'])for(const width of [375,1440,1920]){
   const context=await browser.newContext({viewport:{width,height:width===375?844:1000},colorScheme:'dark'});
   // Unset preference with a dark device verifies the required light default.
   if(theme==='dark')await context.addInitScript(()=>localStorage.setItem('nordra-theme','dark'));
@@ -29,12 +29,7 @@ try{
   await page.keyboard.press('Tab');assert.equal(await page.locator('[data-open]').evaluate(x=>x===document.activeElement),true);
   await page.keyboard.press('Enter');assert.equal(await page.locator('body').getAttribute('data-phase'),'opening');assert.equal(await page.locator('.celebration-header').isVisible(),false);
   await page.waitForFunction(()=>document.body.dataset.phase==='open');assert.equal(await page.locator('.celebration-header').isVisible(),true);assert.equal(await page.evaluate(()=>document.activeElement.id),'confirmacion');
-  if(slug==='camila-30'){
-    assert.equal(await page.locator('.album-fan img[loading=lazy]').count(),6);
-    assert.equal(await page.locator('[data-pass-name]').textContent(),'Tu nombre aquí');
-    const card=page.locator('.note-card button').first();await card.focus();await page.keyboard.press('Enter');
-    assert.equal(await card.getAttribute('aria-expanded'),'true');await page.keyboard.press('Space');assert.equal(await card.getAttribute('aria-expanded'),'false');
-  }else assert.ok(Math.abs(await page.locator('.welcome img').evaluate(img=>img.clientWidth/img.clientHeight)-1)<.01);
+  assert.ok(Math.abs(await page.locator('.welcome img').evaluate(img=>img.clientWidth/img.clientHeight)-1)<.01);
   await page.locator('#guest').fill('Persona de muestra');await page.locator('[value=yes]').check();await page.locator('button[type=submit]').click();assert.match(await page.locator('[data-rsvp-status]').innerText(),/no se ha enviado ni guardado/);
   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.screenshot({path:path.join(values.evidence,`${slug}-${theme}-${width}-interior.png`),fullPage:true});
   await page.locator('[data-cover]').click();assert.equal(await page.locator('.celebration-header').isVisible(),false);assert.equal(await page.locator('.celebration-header').evaluate(x=>x.inert),true);
@@ -74,25 +69,37 @@ try{
    });
    await page.goto(values.url+'/invitaciones/camila-30/');await settled(page);
    if(fallback==='no-webgl')await page.waitForTimeout(800);
-   assert.equal(await page.locator('.cover-art img').isVisible(),true);
+   assert.equal(await page.locator('.gift img').isVisible(),true);
    await page.locator(fallback==='no-webgl'?'[data-open]':'[data-skip]').click();
    await page.waitForFunction(()=>document.body.dataset.phase==='open');
    assert.equal(await page.locator('.celebration-header').isVisible(),true);
    assert.equal(await page.locator('canvas').count(),0);
    assert.ok(!loaded.some(url=>/\/(?:scene|three)-[^/]+\.js/.test(url)));await page.close();
  }
- const live=await browser.newPage();await live.goto(values.url+'/invitaciones/camila-30/?quality=low');
- await live.locator('.cover-art.is-live canvas').waitFor();assert.equal(await live.locator('.cover-art').getAttribute('data-quality'),'low');
- await live.locator('[data-float-motion]').click();assert.equal(await live.locator('[data-float-motion]').getAttribute('aria-pressed'),'true');
- await live.locator('[data-float-motion]').click();await live.locator('.cover-art').click();
- assert.equal(await live.locator('.celebration-header').isVisible(),false);
- await live.waitForFunction(()=>document.body.dataset.phase==='open');assert.equal(await live.locator('.celebration-header').isVisible(),true);
- await live.locator('#guest').fill('Mar');await live.locator('[value=yes]').check();await live.locator('[type=submit]').click();await live.locator('.gold-sparks i').first().waitFor();
- await live.waitForTimeout(750);await live.locator('[type=submit]').click();assert.equal(await live.locator('.gold-sparks').count(),0);
- await live.locator('[value=no]').check();await live.locator('[type=submit]').click();
- assert.equal(await live.locator('[data-pass-state]').innerText(),'Esta vez no');
- assert.match(await live.locator('[data-rsvp-status]').innerText(),/Nos debemos ese baile/);
- assert.equal(await live.locator('.gold-sparks').count(),0);
- await live.close();records.push({anchors:5,reducedMotion:true,skip:true,noWebGL:true,interactive:true});
+ for(const width of [390,1440]){
+  const live=await browser.newPage({viewport:{width,height:width===390?844:960}});
+  await live.goto(values.url+'/invitaciones/camila-30/?quality=low#confirmacion');await settled(live);
+  const menu=live.locator('.celebration-header');
+  assert.equal(await menu.evaluate(e=>e.hidden&&e.inert),true);
+  await live.waitForSelector('.balloons canvas',{state:'attached'});assert.equal(await live.locator('.balloons').getAttribute('data-quality'),'low');
+  await live.keyboard.press('Tab');assert.ok(await live.locator('[data-open]').evaluate(e=>e===document.activeElement));
+  await live.keyboard.press('Enter');assert.equal(await live.locator('body').getAttribute('data-phase'),'opening');assert.ok(await menu.evaluate(e=>e.hidden&&e.inert));
+  await live.waitForFunction(()=>document.body.dataset.phase==='open');assert.equal(await menu.evaluate(e=>e.hidden||e.inert),false);assert.equal(await live.evaluate(()=>document.activeElement.id),'confirmacion');
+  assert.equal(await live.locator('[data-admission]').innerText(),'Admite a: tu nombre');
+  if(width===390){
+    const next=live.locator('.next');await next.click();await next.press('ArrowRight');assert.match(await live.locator('.position').getAttribute('aria-label'),/Los 18/);
+  }else{
+    for(const cap of await live.locator('figcaption').all()){
+      await cap.scrollIntoViewIfNeeded();assert.ok(await cap.evaluate(el=>{
+        const r=document.createRange();r.selectNodeContents(el);
+        return [...r.getClientRects()].every(rect=>[.05,.5,.95].every(k=>el.contains(document.elementFromPoint(rect.left+rect.width*k,rect.top+rect.height*.5))));
+      }),'Caption is exposed: '+await cap.innerText());
+    }
+  }
+  for(const [answer,msg] of [['yes','Listo. Te guardo un lugar en la pista y una copa de champaña'],['no','Te voy a extrañar. Me debes un brindis']]){
+    const radio=live.locator('[value='+answer+']');await radio.check();assert.ok(await radio.isChecked());assert.equal(await live.locator('[data-rsvp-status]').innerText(),msg);
+  }
+  await live.close();
+ }
  fs.writeFileSync(path.join(values.evidence,'checks.json'),JSON.stringify(records,null,2));console.log(`${records.length} browser cases passed`);
 }finally{await browser.close();await server?.close();}

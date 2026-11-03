@@ -129,17 +129,17 @@ try{
     }else await guest.goto(personal);
     if(kind==='cumple'){
       const cover=guest.locator('#cover-title');
-      assert.match(await cover.textContent(),/Camila/);
-      assert.match(await cover.evaluate(el=>getComputedStyle(el).fontFamily),/NocheSora/);
+      assert.equal(await cover.textContent(),'Hay algo para ti en esta caja');
+      assert.match(await cover.evaluate(el=>getComputedStyle(el).fontFamily),/Sora/);
     }
     await guest.locator('[data-skip]').click();
     await guest.locator('.celebration-rsvp select').selectOption('1');
-    if(kind==='cumple'){assert.equal(await guest.locator('[data-pass-seats]').textContent(),'2 lugares');assert.ok(await guest.locator('[data-pass-name]').innerText())}
+    if(kind==='cumple'){assert.match(await guest.locator('[data-admission]').innerText(),/Admite a .+ · 2 lugares/)}
     await guest.locator('#guest').fill('Andrea Local');
     await guest.locator('[value=yes]').check();
     await guest.locator('.celebration-rsvp [type=submit]').click();
-    await guest.getByText('Tu respuesta ya está en el panel de muestra.').waitFor();
-    if(kind==='cumple'){assert.equal(await guest.locator('[data-pass-name]').innerText(),'Andrea Local');assert.equal(await guest.locator('[data-pass-state]').innerText(),'Confirmado')}
+    await guest.getByText(/Tu respuesta ya está en el panel de muestra/).waitFor();
+    if(kind==='cumple'){assert.equal(await guest.locator('[data-admission]').innerText(),'Admite a Andrea Local · 2 lugares');assert.equal(await guest.locator('.admission.accepted').count(),1)}
     await dashboard.reload();await dashboard.getByText('Andrea Local',{exact:true}).first().waitFor({state:'attached'});
     await dashboard.locator('.workspace-language').click();
     assert.match(await dashboard.locator('.workspace-topbar').innerText(),/Your (birthday|event) space/);
