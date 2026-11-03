@@ -33,11 +33,11 @@ test('three whole example cards link to the demos and share one notice', () => {
 test('old case and design hashes select the right card and bring the gallery into view', () => {
   const arrive=source.match(/function arrive\(id\)[\s\S]+?\n}/)[0];
   for(const {slug} of approved.examples){
-    const track={scrollBy({left}){assert.equal(left,160);},getBoundingClientRect(){return {left:10}}};
+    const track={clientLeft:0,scrollTo({left}){assert.equal(left,160);}};
     for(const hash of ['caso-'+slug,slug+'-diseno',...(slug==='sobremesa'?['universos']:[])]){
       let scrolled=false;
       const gallery={scrollIntoView(){scrolled=true;}};
-      const target={matches:()=>true,parentElement:track,getBoundingClientRect:()=>({left:170}),closest:sel=>sel==='section'?gallery:null};
+      const target={matches:()=>true,parentElement:track,offsetLeft:160,closest:sel=>sel==='section'?gallery:null};
       const document={getElementById(id){assert.equal(id,'caso-'+slug);return target;}};
       runInNewContext(arrive+';arrive(hash)',{document,hash});
       assert.ok(scrolled);
