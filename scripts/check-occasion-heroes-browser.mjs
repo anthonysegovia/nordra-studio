@@ -21,7 +21,7 @@ try{
   records.push({name,width,theme,cls,background,browserNotices:errors,noPreload:after,mode:width<=700?'direct':'iframe'});await context.close();
  }
  if(after)for(const width of [375,1440])for(const [category,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']]){
-  const context=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce'}),page=await context.newPage();const docs=[];page.on('request',r=>{if(r.resourceType()==='document')docs.push(r.url());});await page.goto(`${values.url}/invitaciones`);await page.locator(`#showcase-tab-${category}`).click();assert.equal(docs.some(x=>x.includes(slug)),false);await page.locator(`#showcase-${category} [data-live-try]`).click();if(width===375)await page.waitForURL(`**/invitaciones/${slug}/`);else await page.frameLocator(`#showcase-${category} iframe`).locator('[data-open]').waitFor();records.push({regression:'invitaciones',category,width,passed:true});await context.close();
+  const context=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce'}),page=await context.newPage();const docs=[];page.on('request',r=>{if(r.resourceType()==='document')docs.push(r.url());});await page.goto(`${values.url}/invitaciones`);assert.equal(docs.some(x=>x.includes(slug)),false);await page.locator(`#tipos-invitacion a[href="/invitaciones/${slug}/"]`).click();await page.waitForURL(`**/invitaciones/${slug}/`);records.push({regression:'invitaciones',category,width,passed:true});await context.close();
  }
  fs.writeFileSync(path.join(values.evidence,`${values.phase}-checks.json`),JSON.stringify(records,null,2));console.log(`${values.phase}: ${records.length} cases passed`);
 }finally{await browser.close();}

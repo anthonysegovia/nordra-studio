@@ -75,26 +75,18 @@ try {
   }
   if (values.report) { fs.mkdirSync(path.dirname(values.report), { recursive: true }); fs.writeFileSync(values.report, JSON.stringify(rows, null, 2)); }
   if (!values.audit) assert.deepEqual(rows.filter(r => r.small.length || r.contrast.length || r.sampledFailures.length), [], 'Commercial text must be >=12px and meet WCAG AA contrast (4.5:1 normal; 3:1 large).');
-  for (const [date, expected] of [['2026-11-01', 'Posadas, Navidad y fin de año.'], ['2026-12-20', 'Fin de año, Posadas y Navidad.'], ['2026-09-15', 'Halloween, Posadas, Navidad y fin de año.']]) {
-    const context = await browser.newContext({ viewport: { width: 375, height: 812 }, reducedMotion: 'reduce' });
+  for (const [date, expected] of [['2026-11-01','posadas'],['2026-12-20','fin-de-ano'],['2026-09-15','halloween']]) {
+    const context = await browser.newContext({ viewport:{width:375,height:812},reducedMotion:'reduce' });
     const page = await context.newPage();
     await page.clock.setFixedTime(new Date(`${date}T12:00:00-06:00`));
-    await page.addInitScript(() => {
-      window.lateSeasonCopies = [];
-      new MutationObserver(changes => {
-        if (!performance.getEntriesByName('first-contentful-paint').length) return;
-        for (const change of changes) if (change.target.nodeType === 1 && change.target.matches('[data-season-copy]')) window.lateSeasonCopies.push(change.target.textContent);
-      }).observe(document, { childList: true, subtree: true });
-    });
-    await page.goto(`${base.replace(/\/$/, '')}/invitaciones`, { waitUntil: 'networkidle' });
-    assert.equal(await page.locator('[data-season-copy]').textContent(), expected);
-    assert.deepEqual(await page.evaluate(() => window.lateSeasonCopies), [], 'Season copy must be ready before first paint');
+    await page.goto(base.replace(/\/$/,'')+'/invitaciones#temporadas');
+    await page.waitForSelector(`.season-card[data-season-current][data-season="${expected}"]`);
     await context.close();
   }
-  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  const noJs = await browser.newContext({javaScriptEnabled:false});
   const fallback = await noJs.newPage();
-  await fallback.goto(`${base.replace(/\/$/, '')}/invitaciones`);
-  assert.equal(await fallback.locator('[data-season-copy]').textContent(), 'Halloween, Navidad y fin de año.');
+  await fallback.goto(base.replace(/\/$/,'')+'/invitaciones');
+  assert.equal(await fallback.locator('#temporadas .season-card a').count(),3);
   await noJs.close();
-  console.log('Season copy: three visitor dates before paint, and no-JS fallback passed');
+  console.log('Season gallery: three visitor dates and no-JS links passed');
 } finally { await browser.close(); await server?.close(); }

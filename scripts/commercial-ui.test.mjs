@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import postcss from 'postcss';
 import { commercialTypeFloor } from '../build/commercial-type.mjs';
-import { showcaseSeasonText } from '../src/seasonal/showcase-copy.mjs';
+import { seasons } from '../src/data/invitationPricing.ts';
 import { renderInvitationPage } from '../build/invitation-offers.mjs';
 
 test('the CSS floor preserves sizes, line heights and private/phone styles', async () => {
@@ -15,16 +15,12 @@ test('the CSS floor preserves sizes, line heights and private/phone styles', asy
   for (const from of ['/repo/src/panel.css', '/repo/src/site/styles/phone-frame.css', '/repo/src/site/styles/landscape.css']) assert.equal((await process(from)).css, input);
 });
 
-test('seasonal showcase uses the shared calendar, with its original no-JS fallback', () => {
-  assert.equal(showcaseSeasonText(new Date(2026, 10, 1)), 'Posadas, Navidad y fin de año.');
-  assert.equal(showcaseSeasonText(new Date(2026, 11, 20)), 'Fin de año, Posadas y Navidad.');
-  assert.equal(showcaseSeasonText(new Date(2026, 8, 15)), 'Halloween, Posadas, Navidad y fin de año.');
-  const source = readFileSync('invitaciones.html', 'utf8');
-  assert.match(source, /data-season-copy>Halloween, Navidad y fin de año\./);
-  const html = renderInvitationPage(source);
-  assert.ok(!html.includes('{{invitations:'));
-  assert.ok(html.indexOf('showcaseSeasonCopy') < html.indexOf('</head>'));
-  assert.match(readFileSync('src/seasonal/showcase-copy.mjs', 'utf8'), /import.*seasonOrder.*order\.mjs/);
+test('the seasonal gallery provides real links without JavaScript',()=>{
+ const html=renderInvitationPage(readFileSync('invitaciones.html','utf8'));
+ assert.ok(!html.includes('{{invitations:'));
+ const gallery=html.split('id="temporadas"')[1].split('</section>')[0];
+ for(const season of seasons)assert.ok(gallery.includes('href="'+season.demo+'"'));
+ assert.doesNotMatch(gallery,/showcase-tab|role="tab"/);
 });
 
 test('home keeps two equivalent doors, with filled and outlined buttons in the same action group', () => {

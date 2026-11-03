@@ -26,3 +26,19 @@ for(const [slug,start] of [['sofia-25','20270725T010000Z'],['conexion-27','20270
 test('sample does not send requests or persist responses',()=>{
  const js=read('src/celebrations/invitation.js');assert.doesNotMatch(js,/\bfetch\s*\(|XMLHttpRequest|sendBeacon|\/api\b|\.setItem\s*\(|indexedDB|WebSocket/);assert.match(js,/event.preventDefault\(\)/);assert.match(js,/status.textContent/);assert.match(js,/no se ha enviado ni guardado ninguna respuesta/);
 });
+
+test('Invitaciones keeps the legacy destinations and the four real screens in reading order', async()=>{
+ const {renderInvitationPage}=await import('../build/invitation-offers.mjs');
+ const html=renderInvitationPage(read('invitaciones.html'));
+ const order=['tipos-invitacion','planes-invitaciones','asi-lo-viven','clientes-reales','temporadas','invitaciones-preguntas','proceso-invitaciones','contacto-invitaciones'];
+ const positions=order.map(id=>html.indexOf('id="'+id+'"'));assert.ok(positions.every(n=>n>=0));assert.deepEqual(positions,[...positions].sort((a,b)=>a-b));
+ for(const [section,ids] of [['asi-lo-viven',['panel-invitados','event-experience']],['planes-invitaciones',['planes-eventos']],['temporadas',['temporada','plan-temporada']]]){
+   const contents=html.split('id="'+section+'"')[1].split('</section>')[0];
+   for(const id of ids)assert.ok(contents.includes('id="'+id+'"'),id);
+ }
+ const journey=html.split('id="asi-lo-viven"')[1].split('</section>')[0];
+ assert.equal((journey.match(/class="journey-card"/g)||[]).length,4);
+ for(const name of ['inv-guest-cover','inv-guest-open','inv-guest-rsvp','dashboard-v3-es'])assert.ok(journey.includes(name));
+ for(const href of ['/invitaciones/valentina-y-sebastian/','/panel-boda.html'])assert.ok(journey.includes('href="'+href+'"'));
+ for(const forPage of ['/bodas','/cumpleanos','/eventos','/temporada','/invitaciones/sofia-25/','/invitaciones/conexion-27/'])assert.ok(html.split('id="tipos-invitacion"')[1].split('</section>')[0].includes('href="'+forPage+'"'));
+});

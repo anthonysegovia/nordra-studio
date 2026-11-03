@@ -41,12 +41,12 @@ try{
  }
  for(const theme of ['light','dark'])for(const width of [375,1440,1920])for(const [category,slug] of [['cumpleanos','sofia-25'],['eventos','conexion-27']]){
   const context=await browser.newContext({viewport:{width,height:width===375?844:1000},reducedMotion:'reduce'});await context.addInitScript(theme=>localStorage.setItem('nordra-theme',theme),theme);
-  const page=await context.newPage(),docs=[];page.on('request',r=>{if(r.resourceType()==='document')docs.push(r.url());});await page.goto(`${values.url}/invitaciones`);await page.locator(`#showcase-tab-${category}`).click();
-  const panel=page.locator(`#showcase-${category}`);await panel.scrollIntoViewIfNeeded();await panel.locator('.live-screen img').evaluate(img=>img.decode());assert.equal(docs.some(u=>u.includes(slug)),false,'invitation not loaded before click');
-  await page.screenshot({path:path.join(values.evidence,`showcase-${category}-${theme}-${width}.png`)});await panel.locator('[data-live-try]').click();
-  if(width<=700){await page.waitForURL(`**/invitaciones/${slug}/`);await settled(page);assert.equal(await page.locator('iframe').count(),0);}
-  else{const iframe=panel.locator('iframe');await iframe.waitFor();const frame=await (await iframe.elementHandle()).contentFrame();await frame.waitForSelector('.cover-art img');await settled(frame);checkGeometry(await geometry(frame));assert.equal(await frame.locator('.celebration-header').isVisible(),false);await frame.locator('[data-skip]').click();assert.equal(await frame.locator('.celebration-header').isVisible(),true);await frame.locator('[data-cover]').click();}
-  await page.screenshot({path:path.join(values.evidence,`showcase-${category}-${theme}-${width}-live.png`)});records.push({category,theme,width,loadsOnlyOnClick:true,mode:width<=700?'direct':'iframe'});await context.close();
+  const page=await context.newPage(),docs=[];page.on('request',r=>{if(r.resourceType()==='document')docs.push(r.url());});await page.goto(`${values.url}/invitaciones`);const link=page.locator(`#tipos-invitacion a[href="/invitaciones/${slug}/"]`);await link.scrollIntoViewIfNeeded();
+  assert.equal(docs.some(u=>u.includes(slug)),false,'invitation not loaded before click');
+  await page.screenshot({path:path.join(values.evidence,`directory-${category}-${theme}-${width}.png`)});
+  await link.click();await page.waitForURL(`**/invitaciones/${slug}/`);await settled(page);checkGeometry(await geometry(page));
+  assert.equal(await page.locator('.celebration-header').isVisible(),false);await page.locator('[data-skip]').click();assert.equal(await page.locator('.celebration-header').isVisible(),true);
+  records.push({category,theme,width,loadsOnlyOnClick:true,mode:'direct'});await context.close();
  }
  fs.writeFileSync(path.join(values.evidence,'checks.json'),JSON.stringify(records,null,2));console.log(`${records.length} browser cases passed`);
 }finally{await browser.close();}

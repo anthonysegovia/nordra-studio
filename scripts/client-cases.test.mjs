@@ -26,7 +26,7 @@ test('approved opinions and names are exact in visible content and Review JSON-L
   assert.doesNotMatch(JSON.stringify(schemas), /reviewRating|aggregateRating/);
   assert.doesNotMatch(html, /\[Opinión del cliente pendiente\]/);
   assert.ok(html.indexOf('id="tipos-invitacion"') < html.indexOf('id="clientes-reales"'));
-  assert.ok(html.indexOf('id="clientes-reales"') < html.indexOf('id="planes-invitaciones"'));
+  assert.ok(html.indexOf('id="asi-lo-viven"') < html.indexOf('id="clientes-reales"'));
 });
 
 test('missing authorization and placeholder opinions fail closed; empty opinions have no Review or rating', () => {
@@ -106,11 +106,12 @@ test('client images stay exactly the inspected guest-free covers, not RSVP lists
   assert.equal((renderClientCases().match(/<noscript><img /g) || []).length, 2);
 });
 
-test('phones lead with the approved highlight; the full opinion stays complete and open by default', () => {
+test('client cards quote the first authorized sentence and disclose the complete original opinion', () => {
   const html = renderClientCases();
-  for (const item of clientCases) {
-    assert.ok(html.includes(`<blockquote class="client-highlight-quote"><p>${item.highlight}</p></blockquote>`));
-    assert.ok(html.includes(`<details class="client-opinion-full" open><summary>Leer opinión completa <span aria-hidden="true">+</span></summary><blockquote><p>${item.opinion.text}</p>`));
+  for (const [i,item] of clientCases.entries()) {
+    const first=approvedOpinions[i].split('. ')[0]+'.';
+    assert.ok(html.includes(`<blockquote class="client-highlight-quote"><p>${first}</p></blockquote>`));
+    assert.ok(html.includes(`<details class="client-opinion-full"><summary>Leer opinión completa <span aria-hidden="true">+</span></summary><blockquote><p>${item.opinion.text}</p>`));
   }
-  assert.equal((html.match(/<details class="client-opinion-full" open>/g) || []).length, clientCases.length);
+  assert.equal((html.match(/<details class="client-opinion-full">/g) || []).length, clientCases.length);
 });

@@ -140,14 +140,14 @@ const pages = {
   },
   "invitaciones": {
     "entry": "invitations",
-    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "organic-images", "invitation-showcase", "showcase-live", "carousel-positions", "invitation-offers", "client-cases", "nordra-materials", "nordra-theatre", "interface-icons", "mobile-chrome", "language-switch", "page-navigation"],
+    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "carousel-positions", "invitation-offers", "client-cases", "nordra-materials", "nordra-theatre", "interface-icons", "mobile-chrome", "language-switch", "page-navigation"],
     "styles": [
       "scene",
       "nordra-theatre",
       "contact"
     ],
-    "inline": 5,
-    "entryStyles": ["phone-frame", "showcase-live", "invitation-offers", "client-cases", "carousel-positions", "mobile-chrome","language-switch"]
+    "inline": 3,
+    "entryStyles": ["invitation-offers", "client-cases", "carousel-positions", "mobile-chrome","language-switch"]
   },
   "negocios": {
     "entry": "business",
