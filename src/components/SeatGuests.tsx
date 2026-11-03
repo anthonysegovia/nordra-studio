@@ -42,11 +42,11 @@ export function SeatGuests({table,state,invitations,action,english,disabled,onCl
       const choices=group.filter(p=>all || (p.attendance==='yes' && !state.seats[p.id]));
       if(!choices.length||!choices.some(p=>p.name.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())))return null;
       return <div key={invitations[index].id}>{choices.map(p=><label key={p.id}><input type="checkbox" checked={ids.includes(p.id)} onChange={()=>toggle([p.id])}/>{p.name||(english?'Unnamed companion':'Acompañante sin nombre')}</label>)}
-        {choices.length>1 && <button type="button" onClick={()=>toggle(choices.map(p=>p.id))}>{english?'Seat together':'Sentar juntos'}</button>}</div>;
+        {choices.length>1 && <button type="button" className="workspace-editor-cancel" onClick={()=>toggle(choices.map(p=>p.id))}>{english?'Seat together':'Sentar juntos'}</button>}</div>;
     })}</fieldset>
-    <p aria-live="polite">{count} {english?'selected':'seleccionados'}{count>free && (english?' · Over capacity':' · Se supera la capacidad')}</p>
+    <p aria-live="polite">{count} {english?'selected':count===1?'seleccionado':'seleccionados'}{count>free && (english?' · Over capacity':' · Se supera la capacidad')}</p>
     {error&&<p role="alert">{error}</p>}
-    <button disabled={busy} onClick={onClose}>{english?'Cancel':'Cancelar'}</button>
-    <button className="workspace-button" disabled={disabled||busy||!count||count>free} onClick={()=>void save()}>{english?`Seat at ${table.name} (${free} places free)`:`Sentar en ${table.name} (${free} lugares libres)`}</button>
+    <div className="workspace-editor-actions"><button className="workspace-editor-cancel" disabled={busy} onClick={onClose}>{english?'Cancel':'Cancelar'}</button>
+    <button className="workspace-button" disabled={disabled||busy||!count||count>free} onClick={()=>void save()}>{english?`Seat at ${table.name} (${free} places free)`:`Sentar en ${table.name} (${free} lugares libres)`}</button></div>
   </dialog>
 }
