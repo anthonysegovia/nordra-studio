@@ -13,10 +13,11 @@ function renderCollection() {
     const cards = season.designs.map(design => {
       const url = design.demo ?? season.demo;
       const image = design.cover ?? cover(season,780);
+      const responsive = design.cover ? '' : ` srcset="${cover(season,390)} 390w, ${image} 780w" sizes="(max-width:700px) 80vw, (max-width:1150px) 30vw, 390px"`;
       const message = encodeURIComponent(`Hola, Nordra. Me gustaría la invitación de temporada ${design.name}.`);
       const snow = season.id === 'posadas';
       return `<article class="seasonal-demo">
-        <div class="seasonal-cover${snow ? ' living-snow' : ''}"${snow ? ' data-living="snow"' : ''}><img src="${image}" width="390" height="844" loading="lazy" alt=""><div class="snow-layer" aria-hidden="true"></div></div>
+        <div class="seasonal-cover${snow ? ' living-snow' : ''}"${snow ? ' data-living="snow"' : ''}><img src="${image}"${responsive} width="390" height="844" loading="lazy" alt="">${snow ? '<div class="snow-layer" aria-hidden="true"></div>' : ''}</div>
         <div class="seasonal-demo-copy"><h3>${design.name}</h3><p>${design.description}</p>
         <div class="design-actions"><a href="${url}" target="_blank" rel="noopener">Ver diseño <span aria-hidden="true">↗</span></a><a href="https://wa.me/528129022231?text=${message}" target="_blank" rel="noopener" data-analytics-whatsapp="seasonal_design" data-analytics-label="${design.name}">Lo quiero</a></div></div>
       </article>`;

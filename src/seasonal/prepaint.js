@@ -13,6 +13,12 @@ preload.imageSizes = sizes; preload.imageSrcset = srcset; preload.href = cover(s
 document.head.append(preload);
 window.prepareNordraSeason = () => {
   try {
+    // Reserve the language suggestion before revealing the hero on an English browser.
+    const suggestion = document.querySelector('.locale-suggestion');
+    if (suggestion && /^en(?:-|$)/i.test(navigator.language)) {
+      try { suggestion.hidden = !!(localStorage.getItem('nordra-lang') || localStorage.getItem('nordra-lang-dismissed')); }
+      catch { suggestion.hidden = false; }
+    }
     const collection = document.getElementById('temporada-coleccion');
     const list = collection.querySelector('[role="tablist"]');
     const en = root.lang === 'en';
@@ -59,6 +65,14 @@ window.prepareNordraSeason = () => {
     list.hidden = false;
     fromHash();
     addEventListener('hashchange',fromHash);
+    addEventListener('message',event => {
+      if (parent === window || event.source !== parent || event.data?.type !== 'nordra-anchor') return;
+      const item = items.find(({panel}) => panel.id === event.data.id);
+      if (item) {
+        activate(item);
+        collection.scrollIntoView({block:'start'});
+      }
+    });
     const hero = document.querySelector('.seasonal-hero-live');
     const link = hero.querySelector('[data-live-try]');
     const englishLabel = {halloween:'Halloween invitation',posadas:'Christmas and posada invitation','fin-de-ano':'New Year’s invitation'}[selected.id];

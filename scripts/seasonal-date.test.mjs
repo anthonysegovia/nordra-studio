@@ -13,6 +13,16 @@ test('ordering windows may only be declared in invitationPricing.ts',()=>{
  assert.match(read('src/seasonal/order.mjs'),/upcomingSeason\(date\)/);assert.doesNotMatch(read('src/seasonal/prepaint.js'),/\b(?:901|1024|1025|1215|1216|1228)\b/);
 });
 test('only the seasonal HTML changes; dates are compiled and no-JS fallback remains usable',()=>{
- assert.equal(renderSeasonalPage('<p>untouched</p>'),'<p>untouched</p>');const html=renderSeasonalPage(read('temporada.html'));assert.doesNotMatch(html,/\{\{seasonal:/);assert.match(html,/data-season-return hidden/);assert.match(html,/<noscript><img src="\/nordra\/v545\/assets\/inv-season-halloween-780.webp"/);assert.match(html,/fetchpriority="high"/);
- const hero=html.slice(html.indexOf('<div class="seasonal-hero">'),html.indexOf('<nav class="seasonal-route"'));assert.doesNotMatch(hero.replace(/<noscript>[\s\S]*?<\/noscript>/g,''),/<img[^>]*\bsrc=/);assert.ok(html.indexOf('prepareNordraSeason?.()')>html.indexOf('id="temporada-fin-de-ano"'));assert.match(read('src/site/styles/seasonal-page.css'),/html\[data-season-preparing\] body\{visibility:hidden\}/);
+ assert.equal(renderSeasonalPage('<p>untouched</p>'),'<p>untouched</p>');const html=renderSeasonalPage(read('temporada.html'));assert.doesNotMatch(html,/\{\{seasonal:/);assert.match(html,/data-season-return hidden/);assert.match(html,/<noscript><img src="\/nordra\/v545\/assets\/inv-season-posada-780.webp"/);assert.match(html,/fetchpriority="high"/);
+ const hero=html.slice(html.indexOf('<div class="seasonal-hero">'),html.indexOf('<section class="home-continuation seasonal-collection"'));assert.doesNotMatch(hero.replace(/<noscript>[\s\S]*?<\/noscript>/g,''),/<img[^>]*\bsrc=/);assert.ok(html.indexOf('prepareNordraSeason?.()')>html.indexOf('id="temporada-fin-de-ano"'));assert.match(read('src/site/styles/seasonal-page.css'),/html\[data-season-preparing\] body\{visibility:hidden\}/);
+});
+
+test('all six designs have real demo links and individually addressed quotes without JavaScript',()=>{
+ const html=renderSeasonalPage(read('temporada.html'));
+ for(const season of seasons)for(const design of season.designs){
+   const href=design.demo ?? season.demo;
+   assert.ok(html.includes('href="'+href+'"') && fs.existsSync(path.join(root,'public',href)));
+   assert.ok(html.includes(encodeURIComponent('Hola, Nordra. Me gustaría la invitación de temporada '+design.name+'.')));
+ }
+ assert.equal((html.match(/data-analytics-whatsapp="seasonal_design"/g)??[]).length,6);
 });

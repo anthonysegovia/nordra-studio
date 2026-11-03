@@ -32,7 +32,7 @@ html[data-season=fin-de-ano] body.dark{--seasonal-bg:rgb(36 32 44);--seasonal-ac
 .seasonal-collection .seasonal-chapter{grid-template-columns:minmax(170px,.55fr) minmax(0,1.45fr);gap:32px;padding:32px 0 0;border:0;scroll-margin-top:84px}
 .seasonal-chapter header h3{font-size:clamp(24px,3vw,42px);letter-spacing:-.045em;font-weight:450;margin:0 0 8px}
 .seasonal-chapter header p{font-size:15px;color:var(--muted);margin:0 0 18px}
-.seasonal-collection .seasonal-demo{margin:0}
+.seasonal-collection .seasonal-demo:nth-child(n){margin:0}
 .seasonal-collection .seasonal-cover{max-width:none;margin:0;position:relative;border-radius:8px;aspect-ratio:4/5}
 .seasonal-collection .seasonal-cover img{object-position:center 32%}
 .design-actions{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
@@ -62,3 +62,5 @@ html:not([data-season]) .collection-heading button{display:none}
  .theme-seasonal .process-heading{margin-bottom:16px}
  .theme-seasonal .process-list{margin-block:0}
 }
+
+html[data-season] body .seasonal-collection .business-motion-control{display:flex!important}

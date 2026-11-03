@@ -32,13 +32,16 @@ for (const page of ['bodas', 'cumpleanos', 'eventos', 'temporada']) {
       assert.ok(!JSON.stringify(schema).includes('priceValidUntil'));
     });
     const visible = [...html.matchAll(/<details class="faq-item"><summary><span>(.*?)<\/span>[\s\S]*?<div class="faq-answer"><p>(.*?)<\/p>/g)];
-    assert.equal(visible.length, page === 'temporada' ? 3 : 4);
+    assert.equal(visible.length, 4);
     assert.deepEqual(faq.mainEntity.map(q => [q.name, q.acceptedAnswer.text]), visible.map(m => [plainAnswer(m[1]), plainAnswer(m[2])]));
     assert.ok(faq.mainEntity.every(q => !/<[^>]+>/.test(q.acceptedAnswer.text)));
     if (page === 'temporada') {
       assert.doesNotMatch(source, /\$\s*599|%24599|599\s*MXN/);
-      assert.equal((html.match(/class="seasonal-price"/g) || []).length, 3);
-      for (const [, price] of html.matchAll(/class="seasonal-price">([^<]+)</g)) assert.equal(price.trim(), invitationMoney(seasonalOffer.cents));
+      const price = invitationMoney(seasonalOffer.cents);
+      assert.equal(html.split(price).length - 1, 1);
+      assert.ok(html.includes(`Diseños de temporada a ${price} MXN, IVA incluido.`));
+      assert.ok(visible.some(m => m[1] === '¿Cómo se paga?'));
+
     }
   });
 }
