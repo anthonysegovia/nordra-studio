@@ -1,0 +1,47 @@
+/* This stylesheet is loaded by the wedding page only. */
+.theme-wedding :is(.wedding-sample,.wedding-plans,.audience-faq,.wedding-process,.home-closing) {
+  position:relative; min-height:0; padding-block:clamp(40px,5vw,76px);
+}
+.wedding-anchor { position:absolute; inset:0 auto auto 0; }
+.wedding-sample h2,.wedding-plans h2 { margin:0; font-size:clamp(38px,5vw,76px); line-height:1.06; }
+.wedding-sample>p,.wedding-plans>p { margin:12px 0 24px; color:var(--muted); }
+.wedding-sample .wedding-switch { display:flex; gap:12px; margin-bottom:22px; }
+.wedding-switch button { flex:0 1 auto; min-height:44px; }
+.wedding-switch button[aria-selected=true] { border-bottom:2px solid currentColor; }
+.wedding-sample [role=tabpanel][hidden] { display:none; }
+.wedding-sample #vista-cover { display:flex; align-items:center; gap:clamp(16px,4vw,64px); }
+.wedding-cover-screen { width:clamp(105px,22vw,170px); height:auto; border:1px solid var(--line); }
+.wedding-sample h3 { font-size:clamp(28px,3.5vw,52px); margin:0; }
+.wedding-sample .options-compare { display:inline-flex; align-items:center; min-height:44px; }
+.wedding-sample .demo-response { min-height:0; max-width:480px; align-items:flex-start; }
+.wedding-dashboard { display:grid; gap:12px; max-width:760px; color:inherit; }
+.wedding-dashboard img { width:100%; height:auto; border:1px solid var(--line); border-radius:8px; }
+.wedding-plan-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:start; }
+.wedding-plans .invite-card { padding:clamp(18px,3vw,42px); border:1px solid var(--line); border-radius:16px; background:color-mix(in srgb,var(--bg) 90%,var(--accent)); }
+.wedding-plans .invite-card-head { display:flex; flex-wrap:wrap; align-items:center; gap:12px; }
+.wedding-plans h3 { font-size:clamp(32px,3.4vw,54px); margin:0; line-height:1; }
+.wedding-plans .invite-badge { font-size:.75rem; border:1px solid var(--line); padding:4px 8px; border-radius:20px; }
+.wedding-plans .invite-price { display:flex; align-items:center; gap:18px; }
+.wedding-plans .invite-opening { display:grid; order:-1; }
+.wedding-plans .invite-opening strong { font-size:1.7rem; }
+.wedding-plans .invite-regular,.wedding-plans .invite-delivery { color:var(--muted); }
+.wedding-plans :is(.invite-points,.invite-details ul) { padding-inline-start:1.15em; line-height:1.65; }
+.wedding-plans .invite-cta { display:inline-flex; align-items:center; gap:14px; min-height:44px; padding:0 16px; color:var(--bg); background:var(--ink); border-radius:24px; text-decoration:none; }
+.wedding-plans summary { display:flex; align-items:center; justify-content:space-between; min-height:44px; cursor:pointer; list-style:none; }
+.wedding-plans summary::-webkit-details-marker { display:none; }
+.wedding-plans details { margin-top:14px; border-top:1px solid var(--line); }
+.wedding-extra { max-width:75ch; }
+.wedding-plans details[open]>summary span { transform:rotate(45deg); }
+@media (prefers-reduced-motion:no-preference) {
+  .wedding-plans :is(summary span,.invite-cta),.wedding-dashboard { transition:transform .18s ease; }
+  .wedding-plans .invite-cta:is(:hover,:focus-visible),.wedding-dashboard:is(:hover,:focus-visible) { transform:translateY(-2px); }
+}
+@media(max-width:700px) {
+  .theme-wedding .wedding-hero { min-height:0; padding-block:20px 38px; }
+  .theme-wedding .wedding-hero .occasion-hero-photo { width:min(100%,310px); margin:0 auto 18px; }
+  .theme-wedding .occasion-hero-photo img { aspect-ratio:auto; width:100%; height:auto; object-fit:contain; }
+  .wedding-switch button { flex:1; line-height:1.3; }
+  .wedding-plan-grid { grid-template-columns:1fr; gap:12px; }
+  .theme-wedding .wedding-process .process-list { margin-block:18px; }
+  .theme-wedding .home-closing .contact-layout,.theme-wedding .home-closing .contact-channels { margin-block:16px; }
+}

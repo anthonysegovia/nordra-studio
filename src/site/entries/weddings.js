@@ -19,3 +19,4 @@ import '../scripts/mobile-chrome.js?entry=weddings';
 import '../scripts/language-switch.js?entry=weddings';
 import '../scripts/page-navigation.js?entry=weddings';
 import '../analytics/entry.js';
+import '../styles/wedding-page.css';
