@@ -1,4 +1,5 @@
 import { panelTerms } from '../lib/panelTerms';
+import { BirthdayThemeButton } from '../components/BirthdayThemeButton';
 import { SampleGuide } from '../components/SampleGuide';
 import { PanelExperience, defaultPanelExperience } from '../lib/panelExperience';
 import { useEffect, useRef, useState } from "react";
@@ -102,7 +103,7 @@ export function WeddingWorkspace({ wedding, adminView = false, experience: reque
     </aside>
 
     <div className="workspace-body">
-      <header className="workspace-topbar"><span>{identity.space[lang]}</span><div><span className="workspace-sample-label">{real ? (adminView ? "Administración de Nordra" : "Panel privado") : (english ? "Sample data" : "Datos de muestra")}</span>{real ? <>{adminView ? <a href="/?panel=pagos&seccion=bodas">Volver a bodas</a> : <><button type="button" onClick={onBack}>Mis bodas</button><button type="button" onClick={onSignOut}>Salir</button></>}</> : <button type="button" className="workspace-language" onClick={() => setLanguage(english ? "es" : "en")} aria-label={english ? "Cambiar a español" : "Switch to English"}>{english ? "ES" : "EN"}</button>}</div></header>
+      <header className="workspace-topbar"><span>{identity.space[lang]}</span><div><span className="workspace-sample-label">{real ? (adminView ? "Administración de Nordra" : "Panel privado") : (english ? "Sample data" : "Datos de muestra")}</span>{!real && experience.key === 'birthday' && <BirthdayThemeButton english={english}/>} {real ? <>{adminView ? <a href="/?panel=pagos&seccion=bodas">Volver a bodas</a> : <><button type="button" onClick={onBack}>Mis bodas</button><button type="button" onClick={onSignOut}>Salir</button></>}</> : <button type="button" className="workspace-language" onClick={() => setLanguage(english ? "es" : "en")} aria-label={english ? "Cambiar a español" : "Switch to English"}>{english ? "ES" : "EN"}</button>}</div></header>
       <main id="workspace-main" tabIndex={-1}>
         {compact && <div className="panel-compact-bar" aria-hidden="true"><strong>{couple}</strong><span>{dateLabel}</span></div>}
         <section ref={welcome} className={`workspace-welcome${!real ? " workspace-welcome-editorial" : ""}`} aria-labelledby="workspace-title">

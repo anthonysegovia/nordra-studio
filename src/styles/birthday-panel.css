@@ -1,23 +1,59 @@
 @import './noche-fonts.css';
 
-html .wedding-workspace[data-occasion=birthday]{--occasion-bg:#f4e9d3;--occasion-title:NocheSora,Sora,sans-serif;font-family:NocheManrope,sans-serif}
-html .wedding-workspace[data-occasion=birthday] .workspace-welcome{isolation:isolate;background:#1d1a2e;color:#f4e9d3;border-radius:12px;overflow:hidden;padding:clamp(14px,3vw,38px)}
-html .wedding-workspace[data-occasion=birthday] .workspace-welcome :is(#workspace-title,p,span){color:#f4e9d3}
-html .wedding-workspace[data-occasion=birthday] .workspace-welcome .workspace-eyebrow{color:#e6c98e}
-html .wedding-workspace[data-occasion=birthday] .workspace-welcome-art{background:#1d1a2e}
-html .wedding-workspace[data-occasion=birthday] .workspace-welcome-art img{object-fit:cover}
-html .wedding-workspace[data-occasion=birthday] .workspace-welcome-art::after{background:linear-gradient(90deg,#1d1a2e,transparent 48%)}
-html .wedding-workspace[data-occasion=birthday] .workspace-monogram{font-style:normal}
-html .wedding-workspace[data-occasion=birthday] :is(.ledger-stat-value,.boreal-summary strong,.boreal-table-center>span){font-family:NocheSora,sans-serif;font-variant-numeric:lining-nums tabular-nums}
-html[data-theme=dark] .wedding-workspace[data-occasion=birthday]{--occasion-bg:#1d1a2e}
-html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-section-content{--occasion-bg:#f4e9d3;background:var(--occasion-bg);border-radius:10px;padding:clamp(10px,2vw,24px)}
-html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-quick-links :is(a,button.guide-trigger){color:#e6c98e}
-html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-topbar{background:#3b2f55;color:#f4e9d3}
-html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-topbar :is(span,button){color:#f4e9d3;background:transparent}
+html:has(.wedding-workspace[data-occasion=birthday]) {background:var(--birthday-bg,#faf6ee)}
+html[data-theme=dark]:has(.wedding-workspace[data-occasion=birthday]) {background:#1d1a2e;color-scheme:dark}
+html .wedding-workspace[data-occasion=birthday] {
+  --birthday-bg:#faf6ee; --sidebar:#f3ecdf; --surface:#fffaf2; --hover:#eee4d4;
+  --text:#1d1a2e; --muted:#605969; --line:#d6ccbb; --gold:#74531b;
+  --pending-bg:#f5e7ca; --yes-bg:#e3ede6; --yes:#245539; --no-bg:#f2e4e3; --no:#79413f;
+  --occasion-bg:var(--birthday-bg); --occasion-title:NocheSora,Sora,sans-serif;
+  background:var(--birthday-bg);color:var(--text);font-family:NocheManrope,Manrope,sans-serif;
+}
+html[data-theme=dark] .wedding-workspace[data-occasion=birthday] {
+  --birthday-bg:#1d1a2e; --sidebar:#17152a; --surface:#252140; --hover:#332e4a;
+  --text:#f4e9d3; --muted:#cbbfd3; --line:#4c465c; --gold:#e6c98e;
+  --pending-bg:#393024; --yes-bg:#263b35; --yes:#b8e4c8; --no-bg:#443039; --no:#ffd1c8;
+}
 
-html .wedding-workspace[data-occasion=birthday] :is(.workspace-list-footer,.workspace-footer,.workspace-list-footer button){color:#5d5164}
-html:not([data-theme=dark]) .wedding-workspace[data-occasion=birthday] .workspace-topbar,
-html:not([data-theme=dark]) .wedding-workspace[data-occasion=birthday] .workspace-topbar :is(span,button){color:#5d5164}
-html[data-theme=dark] .wedding-workspace[data-occasion=birthday] .workspace-footer{color:#d9c7b0}
-
-html .wedding-workspace[data-occasion=birthday] :is(#workspace-title,.workspace-monogram,.workspace-couple p){letter-spacing:-.04em}
+html .wedding-workspace[data-occasion=birthday] {
+  & .guest-ledger {--ledger-paper:var(--surface);--ledger-muted:var(--muted);--ledger-line:var(--line)}
+  & .boreal-section {--boreal-line:var(--line)}
+  & :is(.workspace-body,.workspace-topbar,.workspace-section-content,.ledger-tools,.workspace-footer) {background:var(--birthday-bg);color:var(--text)}
+  & :is(.workspace-sidebar,.workspace-sidebar .workspace-navigation,.panel-compact-bar) {background:var(--sidebar);color:var(--text)}
+  & :is(.workspace-topbar,.workspace-footer,.workspace-sidebar,.workspace-navigation,.ledger-row,.boreal-table-card,.ledger-stat,.ledger-list,.workspace-monogram,.workspace-language) {border-color:var(--line)}
+  & :is(p,small,label,legend,summary,strong,span,h1,h2,h3,h4,button,a,select,input) {color:inherit}
+  & :is(h1,h2,h3,h4,.workspace-monogram,.workspace-couple p,.boreal-summary strong,.boreal-table-center>span,.ledger-stat-value,.record-detail-name) {font-family:var(--occasion-title);font-weight:550;letter-spacing:-.035em}
+  & :is(.ledger-stat-value,.boreal-summary strong,.boreal-table-center>span) {font-variant-numeric:lining-nums tabular-nums}
+  & :is(.workspace-list-footer,.workspace-footer,.workspace-date,.workspace-topbar,.workspace-sync,.ledger-results,.ledger-columns,.boreal-summary span,.workspace-sidebar-bottom,.ledger-heading p,.ledger-list small) {color:var(--muted)}
+  & :is(.workspace-sidebar nav a,.workspace-sidebar nav button,.workspace-brand,.workspace-couple p) {color:var(--text)}
+  & :is(.workspace-sidebar nav button,.workspace-sidebar nav a):hover {background:var(--hover)}
+  & .workspace-sidebar .workspace-navigation>[aria-current=page] {background:var(--pending-bg);color:var(--gold)}
+  & .workspace-quick-links {color:var(--muted)}
+  & :is(.workspace-sidebar-bottom a,.workspace-eyebrow,.workspace-monogram,.panel-tasks,.ledger-badge.is-pending) {color:var(--gold)}
+  & .workspace-welcome {isolation:isolate;background:#1d1a2e;color:#f4e9d3;border-radius:12px;overflow:hidden;padding:clamp(14px,3vw,38px)}
+  & .workspace-welcome :is(#workspace-title,p,span) {color:#f4e9d3}
+  & .workspace-welcome .workspace-eyebrow {color:#e6c98e}
+  & .workspace-welcome-art {background:#1d1a2e}
+  & .workspace-welcome-art img {object-fit:cover}
+  & .workspace-welcome-art::after {background:linear-gradient(90deg,#1d1a2e,transparent 48%)}
+  & :is(.ledger-list,.ledger-row,.ledger-columns,.guest-ledger .ledger-stat,.boreal-table-card,.boreal-assignment-panel,.boreal-reception-list>button,.boreal-arrival-result,.boreal-scanner,.panel-more,.sample-guide,.workspace-dialog,.workspace-dialog-inner,.record-detail-header,.record-detail-inner,.wedding-record-drawer,.wedding-operations-dialog,.operations-actions,.workspace-invitation-card,.seating-plan-grid,.import-row,.panel-compact-bar) {background:var(--surface);color:var(--text);border-color:var(--line)}
+  & :is(.panel-tasks,.ledger-empty,.ledger-quick-filters button>span,.boreal-table-center,.boreal-seat-label,.workspace-dialog .wedding-editor-person,.import-upload,.seating-plan-assign,.boreal-upload) {background:var(--sidebar);border-color:var(--line)}
+  & :is(.workspace-button,.guest-ledger .ledger-add,.sample-guide button:first-of-type) {background:var(--gold);color:var(--birthday-bg);border-color:var(--gold)}
+  & :is(.boreal-section,.guest-ledger,.workspace-dialog,.wedding-operations-dialog,.record-detail-inner) :is(select,input:not([type=checkbox],[type=radio]),textarea) {background:var(--surface);color:var(--text);border-color:var(--line)}
+  & :is(.guest-ledger .ledger-quick-filters button,.boreal-quiet,.boreal-icon,.ledger-row-actions button,.boreal-pagination button,.panel-filter-trigger,.ledger-secondary-tools button,.workspace-language,.birthday-theme-button,.guide-trigger,.seat-picker button,.wedding-operations-dialog button,.record-share summary) {background:var(--surface);color:var(--text);border-color:var(--line)}
+  & :is(.ledger-row:hover,.ledger-record:hover,.boreal-reception-list>button:is(.is-selected,:hover),.ledger-quick-filters button[aria-pressed=true],.birthday-theme-button:hover) {background:var(--hover)}
+  & .ledger-badge.is-yes {background:var(--yes-bg);color:var(--yes)}
+  & .ledger-badge.is-pending {background:var(--pending-bg);color:var(--gold)}
+  & .ledger-badge.is-no {background:var(--no-bg);color:var(--no)}
+  & .ledger-stat.is-yes {color:var(--yes)}
+  & .ledger-stat.is-no {color:var(--no)}
+  & .ledger-stat:not(.is-yes,.is-no) {color:var(--gold)}
+  & .ledger-stat>span {color:inherit}
+  & :is(.ledger-search,.boreal-filters) input::placeholder {color:var(--muted);opacity:1}
+  & :focus-visible {outline-color:var(--gold)}
+  & .birthday-theme-button {display:inline-grid;place-items:center;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;padding:0}
+}
+@media(prefers-reduced-motion:no-preference){
+  .birthday-theme-button svg{transition:transform .18s ease}
+  .birthday-theme-button:active svg{transform:rotate(18deg)}
+}

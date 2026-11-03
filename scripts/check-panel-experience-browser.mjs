@@ -70,7 +70,7 @@ try{
     await page.close();
   }
   for (const [kind,slug,back,brand] of [['cumple','sofia-25','cumpleanos','Sofía 25'],['evento','conexion-27','eventos','Conexión 27']]) {
-    const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,reducedMotion:'reduce'});
+    const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,reducedMotion:'reduce',colorScheme:'dark'});
     await context.route('**/api/wedding-links',samplePanelFixture(origin));
     const dashboard=await context.newPage();
     await dashboard.goto(origin+'/panel-'+kind+'.html');
@@ -81,6 +81,16 @@ try{
     if(kind==='cumple'){
       const title=dashboard.locator('#workspace-title');
       assert.match(await title.evaluate(el=>getComputedStyle(el).fontFamily),/NocheSora/);
+      const toggle=dashboard.getByRole('button',{name:'Modo oscuro'});
+      assert.equal(await toggle.getAttribute('aria-pressed'),'false');
+      await toggle.click();
+      assert.equal(await dashboard.locator('html').getAttribute('data-theme'),'dark');
+      await dashboard.reload();await dashboard.locator('.ledger-row').first().waitFor();
+      assert.equal(await toggle.getAttribute('aria-pressed'),'true');
+      const wedding=await context.newPage();await wedding.goto(origin+'/panel-boda.html');
+      assert.equal(await wedding.locator('.wedding-workspace').evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(246, 243, 237)');
+      assert.equal(await wedding.locator('.birthday-theme-button').count(),0);
+      await wedding.close();await toggle.click();
       const commercial=await context.newPage();
       await commercial.goto(origin+'/cumpleanos');
       assert.equal(await commercial.locator('.birthday-hero h1').evaluate(el=>getComputedStyle(el).fontFamily).includes('NocheSora'),true);
@@ -89,6 +99,7 @@ try{
       assert.match(await dashboard.locator('.ledger-stat-value').first().evaluate(el=>getComputedStyle(el).fontVariantNumeric),/tabular-nums/);
     }
     if(kind==='evento'){
+      assert.equal(await dashboard.locator('.birthday-theme-button').count(),0);
       await dashboard.getByRole('button',{name:'Mesas',exact:true}).click();
       await dashboard.getByRole('button',{name:'Agregar asistentes'}).last().click();
       assert.doesNotMatch(await dashboard.locator('.seat-picker').innerText(),/invitad[oa]s?/i);
