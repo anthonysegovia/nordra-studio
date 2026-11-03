@@ -1,7 +1,8 @@
 @import '../../styles/noche-fonts.css';
 
 :root[data-invitation=camila]{--bg:#f4e9d3;--ink:#1d1a2e;--accent:#74531b;--title:NocheSora,Sora,sans-serif;font-family:NocheManrope,Manrope,sans-serif}
-:root[data-invitation=camila][data-theme=dark]{--bg:#1d1a2e;--ink:#f4e9d3;--accent:#e6c98e}
+.birthday-invitation{--bg:var(--ivory);--ink:var(--night);--accent:var(--ink-gold);--rule:color-mix(in srgb,var(--ink) 20%,transparent)}
+:root[data-invitation=camila][data-theme=dark] .birthday-invitation{--bg:var(--night);--ink:var(--ivory);--accent:var(--highlight)}
 .birthday-invitation .celebration-entrance{background:radial-gradient(ellipse at 65% 45%,var(--plum),var(--night) 75%);color:var(--ivory)}
 .birthday-invitation .cover{position:relative;width:min(100%,1200px);max-width:none;min-height:610px;height:100svh;max-height:none;padding:24px clamp(22px,5vw,80px);gap:10px;grid-template-rows:auto auto minmax(0,1fr) auto}
 .birthday-invitation .cover-head{border-bottom:1px solid #e6c98e48;padding-bottom:14px;font-size:9px;letter-spacing:.16em;color:#ebd6ac}
@@ -18,9 +19,9 @@
 .birthday-invitation .cover-bottom{width:100%;max-width:390px;justify-self:center}
 .birthday-invitation .cover-date{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 12px;padding-top:12px;border-color:#e6c98e48}
 .birthday-invitation .cover-date p+p{margin:0;color:#e1d5d5;opacity:1}
-.birthday-invitation .cover .primary{background:#e6c98e;color:#241e30;min-height:48px}
+.birthday-invitation .cover .primary{background:var(--highlight);color:#241e30;min-height:48px}
 .birthday-invitation .cover .text-button{color:#f4e9d3;min-height:44px}
-.float-motion{position:absolute;right:clamp(22px,5vw,80px);bottom:14px;min-height:44px;background:transparent;color:#e6c98e;border:0;padding:8px;font-size:11px}
+.float-motion{position:absolute;right:clamp(22px,5vw,80px);bottom:14px;min-height:44px;background:transparent;color:var(--highlight);border:0;padding:8px;font-size:11px}
 @media(max-width:700px){.float-motion{bottom:auto;top:58px;right:16px}}
 @media(min-width:900px){
  .birthday-invitation .cover{grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);grid-template-rows:auto 1fr auto;column-gap:32px;padding-block:38px}

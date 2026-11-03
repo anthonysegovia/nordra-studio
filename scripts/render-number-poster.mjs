@@ -9,7 +9,7 @@ import {invitation} from '../src/celebrations/numero-que-flota/config.mjs';
 if(!/^\/artwork\/[a-z\d/-]+$/i.test(invitation.poster))throw Error('Use a local /artwork/ poster prefix.');
 const base=path.join('public',invitation.poster);
 mkdirSync(path.dirname(base),{recursive:true});
-const vite=await createServer({server:{host:'127.0.0.1',port:0}});
+const vite=await createServer({optimizeDeps:{include:['three','three/addons/objects/MarchingCubes.js']},server:{host:'127.0.0.1',port:0}});
 await vite.listen();
 const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--enable-unsafe-swiftshader']});
 try{

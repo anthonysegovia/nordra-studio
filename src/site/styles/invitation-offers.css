@@ -104,4 +104,4 @@ body[data-journey-motion=paused] .invitations :is(.inv-directory,.invite-offers,
 .inv-occasions>.inv-birthday-noche{position:relative;isolation:isolate;overflow:hidden;background:#1d1a2e}
 .inv-occasions>.inv-birthday-noche a{color:#f4e9d3;position:relative;z-index:1;width:fit-content}
 .inv-occasions>.inv-birthday-noche .inv-sample{color:#e6c98e}
-.inv-birthday-art{position:absolute;right:0;top:0;height:100%;width:32%;object-fit:cover;mask-image:linear-gradient(to right,transparent,#000 35%)}
+.inv-birthday-art{position:absolute;right:0;top:0;height:100%;width:32%;object-fit:contain}

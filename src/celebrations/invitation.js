@@ -49,7 +49,7 @@ function finishOpening() {
 
 openButton.addEventListener('click', () => {
   if (phase !== 'closed') return;
-  if (reduce.matches) { finishOpening(); return; }
+  if (reduce.matches || document.body.hasAttribute('data-float-skipped')) { finishOpening(); return; }
   phase = 'opening'; render();
   // Skip remains reachable by keyboard while the opening runs.
   skipButton.focus({ preventScroll: true });
