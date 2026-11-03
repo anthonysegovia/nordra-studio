@@ -20,55 +20,6 @@ function glow() {
   });
 }
 
-function compare() {
-  const figure = root.querySelector('[data-compare]');
-  const range = figure?.querySelector('.compare-range');
-  if (!range) return;
-  const set = value => {
-    figure.style.setProperty('--split', `${value}%`);
-    figure.toggleAttribute('data-split-low', value < 18);
-    figure.toggleAttribute('data-split-high', value > 82);
-    range.setAttribute('aria-valuetext', value <= 5 ? 'Solo Boreal' : value >= 95 ? 'Solo Aurora' : `${Math.round(value)}% Aurora, ${Math.round(100 - value)}% Boreal`);
-  };
-  range.hidden = false;
-  range.addEventListener('input', () => set(+range.value));
-  figure.addEventListener('pointermove', event => {
-    const box = figure.getBoundingClientRect();
-    figure.style.setProperty('--lx', `${(event.clientX - box.left) / box.width * 100}%`);
-    figure.style.setProperty('--ly', `${(event.clientY - box.top) / box.height * 100}%`);
-  });
-  set(+range.value);
-  // A single, gentle hint that the line moves, the first time the panel is in view.
-  const hint = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) return;
-    hint.disconnect();
-    if (still() || range.matches(':active, :focus')) return;
-    const start = performance.now();
-    const step = now => {
-      const t = Math.min(1, (now - start) / 1600);
-      if (range.matches(':active, :focus')) return;
-      const value = 50 - Math.sin(t * Math.PI) * 16;
-      range.value = value; set(value);
-      if (t < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, { threshold: .6 });
-  hint.observe(figure);
-}
-
-function journey() {
-  // Stacked Cards Spread: the pile opens once it is in view.
-  const stack = root.querySelector('[data-journey-stack]');
-  if (!stack || still() || matchMedia('(max-width:700px)').matches) return;
-  stack.setAttribute('data-stacked', '');
-  const open = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) return;
-    open.disconnect();
-    setTimeout(() => stack.removeAttribute('data-stacked'), 180);
-  }, { threshold: .45 });
-  open.observe(stack);
-}
-
 function season() {
   // The page is built ahead of time; the visitor's date decides which season is next.
   // Same rule as upcomingSeason() in src/data/invitationPricing.ts, read from the windows the build wrote.
@@ -85,10 +36,10 @@ function season() {
 
 if (root?.querySelector('.invite-offers')) {
   const start = () => {
-    glow(); compare(); journey(); season();
+    glow(); season();
     window.NordraCarousel?.positions(root.querySelector('.journey-stack'), document.documentElement.lang==='en'?'Guest journey position':'Posición en el recorrido');
     window.NordraCarousel?.positions(root.querySelector('.season-fan'), document.documentElement.lang==='en'?'Season position':'Posición en las temporadas');
-    window.NordraCarousel?.positions(root.querySelector('.invite-grid'), (document.documentElement.lang==='en'?'Plan position':'Posición en los planes'), card => card.querySelector('h3').textContent.trim());
+    window.NordraCarousel?.positions(root.querySelector('.client-case-grid'), document.documentElement.lang==='en'?'Client position':'Posición en los clientes', card => card.querySelector('h3').textContent.trim());
   };
   'requestIdleCallback' in window ? requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 200);
 }

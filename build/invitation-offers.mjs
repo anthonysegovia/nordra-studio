@@ -39,15 +39,13 @@ export function renderSeasons(date = new Date()) {
 export const closingMessage = 'Hola, Nordra. Quiero una invitación digital. Celebro: … Fecha: … Invitados aproximados: …';
 const minPrice = invitationMoney(Math.min(...invitationOffers.map(o => o.cents)));
 export const invitationFaq = [
-  { q: '¿Por dónde empiezo?', a: 'Elige el tipo de celebración para explorar su temática y sus muestras: Bodas, Cumpleaños, Eventos o Temporada.', link: ['#tipos-invitacion', 'Encuentra tu celebración.'] },
-  { q: '¿Cómo se reúnen las confirmaciones?', a: 'En Aurora y Boreal, los enlaces personales reúnen las respuestas en un panel privado. Puedes probar aquí una simulación con dos personas ficticias; no guarda ni envía respuestas.', link: ['/bodas#bodas-respuesta', 'Prueba el recorrido del invitado.', 'bodas', 'bodas-respuesta'] },
-  { q: '¿Todas las invitaciones tienen el mismo alcance?', a: 'Bodas, Cumpleaños y Eventos presentan los planes Aurora y Boreal. Temporada tiene su propia oferta: confirma funciones, cambios y vigencia en su cotización.' },
-  { q: '¿Cuánto tarda en estar lista?', a: `Aurora, ${invitationOffers[0].delivery}; Boreal, ${invitationOffers[1].delivery}; Temporada, ${seasonalOffer.delivery}. El plazo cuenta desde que recibimos tus datos y el anticipo.` },
+  { q: '¿Qué incluye el panel?', a: 'Aurora y Boreal incluyen un panel privado con enlaces personales, confirmados y pendientes. Boreal suma mesas, pases QR y registro de llegadas. La simulación no guarda ni envía respuestas.', link: ['/bodas#bodas-respuesta', 'Prueba el recorrido del invitado.', 'bodas', 'bodas-respuesta'] },
   { q: '¿Cuántos invitados caben?', a: invitationFacts.guests },
-  { q: '¿Cómo la envío a mis invitados?', a: 'Te entregamos un enlace para compartir por WhatsApp, redes o correo. Con Aurora y Boreal, cada invitado puede recibir su enlace personal.' },
-  { q: '¿Hasta cuándo sigue activa?', a: invitationFacts.afterEvent },
-  { q: '¿Puedo cambiar datos después de publicarla?', a: 'Sí. Los cambios de contenido después de la entrega se cotizan aparte, según lo que necesites.' },
-  { q: '¿Emiten factura?', a: 'Sí, emitimos factura (CFDI). Avísanos al pedir tu cotización.' },
+  { q: '¿Cómo la comparto?', a: 'Envía el enlace por WhatsApp, redes o correo. En Aurora y Boreal cada invitado puede recibir su enlace personal.' },
+  { q: '¿Cuánto tarda?', a: `Aurora, ${invitationOffers[0].delivery}; Boreal, ${invitationOffers[1].delivery}; Temporada, ${seasonalOffer.delivery}. El plazo cuenta desde que recibimos tus datos y el anticipo.` },
+  { q: '¿Hasta cuándo sigue activa?', a: invitationFacts.afterEvent + ' Los cambios de contenido después de la entrega se cotizan aparte. En Temporada, confirma funciones, cambios y vigencia en tu cotización.' },
+  { q: '¿Cómo pago y facturo?', a: 'Para iniciar necesitamos la propuesta aceptada, los materiales y un anticipo del 50%. El otro 50% se paga después de tu aprobación y antes de publicar o entregar los accesos finales. Al confirmar la cotización, te enviamos un enlace de Mercado Pago para pagar con tarjeta de crédito o débito. Emitimos factura (CFDI); solicítala al pedir tu cotización.' },
+
 ];
 
 export function renderFaq() {
