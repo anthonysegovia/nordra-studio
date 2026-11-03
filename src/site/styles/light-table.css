@@ -96,4 +96,6 @@ body[data-business-motion="paused"] [data-view="negocios"] .light-table *,body[d
 [data-view="negocios"] .light-table .case-index>.eyebrow{grid-column:1/-1}
 @media(min-width:1000px){
  [data-view="negocios"] .light-table-deck{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,2.5vw,40px)}
+ [data-view="negocios"] .light-table-deck>.light-table-case{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:0;align-items:start}
+ [data-view="negocios"] .light-table-case>.case-brief-demo{justify-self:start}
 }
