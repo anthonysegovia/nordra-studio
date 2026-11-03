@@ -5,25 +5,58 @@
 .wedding-anchor { position:absolute; inset:0 auto auto 0; }
 .wedding-sample h2,.wedding-plans h2 { margin:0; font-size:clamp(38px,5vw,76px); line-height:1.06; }
 .wedding-sample>p,.wedding-plans>p { margin:12px 0 24px; color:var(--muted); }
-.wedding-plan-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:start; }
-.wedding-plans .invite-card { padding:clamp(18px,3vw,42px); border:1px solid var(--line); border-radius:16px; background:color-mix(in srgb,var(--bg) 90%,var(--accent)); }
-.wedding-plans .invite-card-head { display:flex; flex-wrap:wrap; align-items:center; gap:12px; }
-.wedding-plans h3 { font-size:clamp(32px,3.4vw,54px); margin:0; line-height:1; }
-.wedding-plans .invite-badge { font-size:.75rem; border:1px solid var(--line); padding:4px 8px; border-radius:20px; }
-.wedding-plans .invite-price { display:flex; align-items:center; gap:18px; }
-.wedding-plans .invite-opening { display:grid; order:-1; }
-.wedding-plans .invite-opening strong { font-size:1.7rem; }
-.wedding-plans .invite-regular,.wedding-plans .invite-delivery { color:var(--muted); }
-.wedding-plans :is(.invite-points,.invite-details ul) { padding-inline-start:1.15em; line-height:1.65; }
-.wedding-plans .invite-cta { display:inline-flex; align-items:center; gap:14px; min-height:44px; padding:0 16px; color:var(--bg); background:var(--ink); border-radius:24px; text-decoration:none; }
-.wedding-plans summary { display:flex; align-items:center; justify-content:space-between; min-height:44px; cursor:pointer; list-style:none; }
+.wedding-plan-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 clamp(18px,3vw,42px); padding-top:16px; }
+.wedding-plans .invite-card {
+  --paper:#f6f1e7; --print:#433329; --secondary:#624f42; --lift:0px;
+  position:relative; isolation:isolate; display:grid; grid-template-rows:subgrid; grid-row:span 3;
+  padding:clamp(26px,3.1vw,48px); background:var(--paper); color:var(--print);
+  box-shadow:0 6px 20px #3021161a; translate:0 var(--lift);
+}
+.wedding-plans .invite-featured { --paper:#fbf7ee; --lift:-8px; }
+.wedding-plans .invite-card::before,.wedding-plans .invite-card::after {
+  content:""; position:absolute; inset:9px; pointer-events:none; border:1px solid #bda98b70;
+}
+.wedding-plans .invite-card::after { inset:17px; border-color:#bda98b25; }
+.wedding-plans .invite-light { display:none; }
+.paper-copy,.wedding-plans .invite-details,.wedding-plans .invite-cta { position:relative; }
+.wedding-plans .invite-card-head { min-height:64px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.wedding-plans .invite-card h3 { color:var(--print); font-size:clamp(32px,3.4vw,54px); margin:0; line-height:1; }
+.wedding-seal { flex:none; width:68px; height:68px; display:grid; align-content:center; justify-items:center; border-radius:50%;
+  border:1px solid #b9a58a; outline:1px solid #c9b89e; outline-offset:-5px;
+  background:#e7dcc7; color:#47382d; font:500 18px/.94 'Cormorant Wedding',Georgia,serif; }
+.wedding-plans .paper-copy p { margin:10px 0; color:var(--secondary); }
+.wedding-plans .paper-copy .invite-price { display:grid; gap:4px; margin-block:18px; }
+.wedding-plans .invite-opening { display:grid; gap:5px; color:var(--print); }
+.wedding-plans .invite-opening small { font:600 .72rem/1.4 Manrope,sans-serif; text-transform:uppercase; letter-spacing:.1em; }
+.wedding-plans .invite-opening strong { font:500 clamp(38px,3.1vw,48px)/1.08 'Cormorant Wedding',Georgia,serif; }
+.wedding-plans .paper-terms { color:var(--secondary); font-size:clamp(.76rem,1.2vw,.9rem); }
+.wedding-plans :is(.invite-points,.invite-details ul) { padding-inline-start:1.15em; line-height:1.6; color:var(--print); }
+.wedding-plans .invite-points { margin:10px 0 18px; }
+.paper-lilies { position:absolute; inset:auto 19px 18px auto; width:clamp(76px,10vw,120px); pointer-events:none; opacity:.32; }
+.paper-lilies img { display:block; width:100%; height:auto; }
+.paper-lilies img+img { position:absolute; inset:auto 22% 0 auto; width:74%; rotate:-18deg; transform-origin:bottom center; }
+.wedding-plans .invite-cta { justify-self:start; align-self:start; display:inline-flex; align-items:center; gap:14px; min-height:44px; padding:0 18px; color:#fffaf2; background:var(--print); border-radius:24px; text-decoration:none; }
+.wedding-plans .invite-featured :is(.invite-cta,.invite-details) { top:calc(0px - var(--lift)); }
+.wedding-plans summary { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; cursor:pointer; list-style:none; }
 .wedding-plans summary::-webkit-details-marker { display:none; }
-.wedding-plans details { margin-top:14px; border-top:1px solid var(--line); }
-.wedding-extra { max-width:75ch; }
-.wedding-plans details[open]>summary span { transform:rotate(45deg); }
+.wedding-plans .invite-details { color:var(--print); margin-top:12px; border-top:1px solid #bda98b70; }
+.wedding-plans .invite-details summary { width:fit-content; max-width:100%; }
+.wedding-plans .invite-details[open] ul { background:var(--paper); }
+.wedding-extra { margin-top:18px; border-block:1px solid var(--line); }
+.wedding-extra summary { padding:6px 0; }
+.wedding-extra p { max-width:75ch; }
+.wedding-plans details[open]>summary span { rotate:45deg; }
+.wedding-plans .invite-card :focus-visible { outline:2px solid #664c34; outline-offset:3px; }
+@media(prefers-reduced-motion:no-preference) {
+  .wedding-plans .invite-card { transition:translate .18s ease,box-shadow .18s ease; }
+  .wedding-plans .invite-card:focus-within { translate:0 calc(var(--lift) - 3px); box-shadow:0 10px 24px #3a261426; }
+  @media(hover:hover) {
+    .wedding-plans .invite-card:hover { translate:0 calc(var(--lift) - 3px); box-shadow:0 10px 24px #3a261426; }
+  }
+  .wedding-plans summary span { transition:rotate .18s ease; }
+}
+
 @media (prefers-reduced-motion:no-preference) {
-  .wedding-plans :is(summary span,.invite-cta) { transition:transform .18s ease; }
-  .wedding-plans .invite-cta:is(:hover,:focus-visible) { transform:translateY(-2px); }
   /* The stage owns the dashboard's transform; the lift uses translate so the two compose. */
   .wedding-dashboard:is(:hover,:focus-visible) { translate:0 -2px; }
 }
@@ -33,7 +66,11 @@
   .theme-wedding .occasion-hero-photo img { aspect-ratio:auto; width:100%; height:auto; object-fit:contain; }
 
   .theme-wedding :is(.wedding-sample,.wedding-plans,.audience-faq,.wedding-process,.home-closing) { padding-block:32px; }
-  .wedding-plans .invite-card p { margin-block:10px; }
+  .wedding-plans .invite-featured { --lift:0px; }
+  .wedding-plans .invite-card { display:block; padding:25px; }
+  .wedding-plans .invite-card-head { min-height:52px; }
+  .wedding-seal { width:55px; height:55px; font-size:15px; }
+  .paper-lilies { width:76px; }
   .wedding-plans .invite-points { margin-block:10px; }
   .wedding-plan-grid { grid-template-columns:1fr; gap:12px; }
   .theme-wedding .wedding-process .process-list { margin-block:18px; }
