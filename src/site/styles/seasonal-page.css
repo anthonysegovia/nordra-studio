@@ -18,3 +18,38 @@ html[data-season=fin-de-ano] body{--seasonal-bg:rgb(250 247 243);--seasonal-acce
 html[data-season=halloween] body.dark{--seasonal-bg:rgb(37 27 43);--seasonal-accent:rgb(239 183 139)}
 html[data-season=posadas] body.dark{--seasonal-bg:rgb(19 41 35);--seasonal-accent:rgb(164 215 188)}
 html[data-season=fin-de-ano] body.dark{--seasonal-bg:rgb(36 32 44);--seasonal-accent:rgb(222 193 236)}
+
+.seasonal-collection{scroll-margin-top:85px;min-width:0}
+.collection-heading{display:flex;align-items:start;justify-content:space-between;gap:20px}
+.collection-heading h2{margin:0;font-size:clamp(32px,4.5vw,66px);font-weight:450;letter-spacing:-.055em}
+.collection-heading .seasonal-price{margin:12px 0 24px;font-size:16px;letter-spacing:0;color:var(--muted)}
+.seasonal-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--line)}
+.seasonal-tabs button{border:0;border-bottom:3px solid transparent;background:none;color:var(--muted);padding:12px 5px;text-align:start;font:inherit;cursor:pointer}
+.seasonal-tabs button[aria-selected=true]{color:var(--accent);border-color:currentColor}
+.seasonal-tabs small{display:block;font-size:11px;margin-top:5px}
+.seasonal-tabs button:focus-visible,.design-actions a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.seasonal-collection [hidden]{display:none!important}
+.seasonal-collection .seasonal-chapter{grid-template-columns:minmax(170px,.55fr) minmax(0,1.45fr);gap:32px;padding:32px 0 0;border:0;scroll-margin-top:84px}
+.seasonal-chapter header h3{font-size:clamp(24px,3vw,42px);letter-spacing:-.045em;font-weight:450;margin:0 0 8px}
+.seasonal-chapter header p{font-size:15px;color:var(--muted);margin:0 0 18px}
+.seasonal-collection .seasonal-demo{margin:0}
+.seasonal-collection .seasonal-cover{max-width:none;margin:0;position:relative;border-radius:8px;aspect-ratio:4/5}
+.seasonal-collection .seasonal-cover img{object-position:center 32%}
+.design-actions{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.design-actions a{display:inline-block;font-size:14px;padding:10px 0;border-bottom:1px solid var(--line);color:var(--accent)}
+.design-actions a:last-child{font-weight:600}
+html:not([data-season]) .collection-heading button{display:none}
+@media(max-width:700px){
+ .seasonal-collection{padding-top:42px;padding-bottom:42px}
+ .collection-heading{flex-wrap:wrap;gap:0}
+ .collection-heading .business-motion-control{margin:0 0 8px}
+ .seasonal-tabs button{font-size:13px}
+ .seasonal-tabs small{font-size:10px}
+ .seasonal-collection .seasonal-demo-grid{display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:84%;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;padding:3px 3px 10px}
+ .seasonal-collection .seasonal-demo{scroll-snap-align:start}
+}
+@media(prefers-reduced-motion:no-preference){
+ body:not([data-business-motion=paused]) .seasonal-tabs button,body:not([data-business-motion=paused]) .design-actions a{transition:color .17s,border-color .17s,background-color .17s}
+ .seasonal-tabs button:hover,.design-actions a:hover{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+}
+

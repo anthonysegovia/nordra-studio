@@ -12,9 +12,21 @@ export const seasonalOffer = { id: "temporada", name: "Temporada", cents: 59900,
   audience: "Para celebrar la temporada con un diseño listo para compartir.",
   points: ["Diseño de temporada personalizado", "Fecha, lugar y tus datos", "Lista para compartir por WhatsApp"] } as const;
 export const seasons = [
-  { id: "halloween", catalogId: "halloween", name: "Halloween", label: "Invitación de Halloween", demo: "/demos/halloween/index.html", image: "inv-season-halloween", order: { from: [9, 1], to: [10, 24] } },
-  { id: "posadas", catalogId: "christmas", name: "Posadas y Navidad", label: "Invitación de Posadas y Navidad", demo: "/demos/posada-pinata/index.html", image: "inv-season-posada", order: { from: [10, 25], to: [12, 15] } },
-  { id: "fin-de-ano", catalogId: "new-year", name: "Fin de año", label: "Invitación de Fin de año", demo: "/demos/celebra-2027/index.html", image: "inv-season-celebra", order: { from: [12, 16], to: [12, 28] } },
+  { id: "halloween", catalogId: "halloween", name: "Halloween", label: "Invitación de Halloween", demo: "/demos/halloween/index.html", image: "inv-season-halloween", order: { from: [9, 1], to: [10, 24] },
+    caption: "Un poco de misterio. Mucha diversión.", designs: [
+      { name: "Spooky Party", description: "Divertida, vibrante y con misterio." },
+      { name: "La Mansión de Medianoche", description: "Una noche elegante de suspenso.", demo: "/demos/halloween-mansion/index.html", cover: "/artwork/seasonal-covers/halloween-mansion.webp" }
+    ] },
+  { id: "posadas", catalogId: "christmas", name: "Posadas y Navidad", label: "Invitación de Posadas y Navidad", demo: "/demos/posada-pinata/index.html", image: "inv-season-posada", order: { from: [10, 25], to: [12, 15] },
+    caption: "Reunirnos, compartir y celebrar.", designs: [
+      { name: "Se viene la posada", description: "Piñata, luces cálidas y tradición." },
+      { name: "Una noche para reunirnos", description: "Un encuentro íntimo y festivo.", demo: "/demos/posada/index.html", cover: "/artwork/seasonal-covers/posada.webp" }
+    ] },
+  { id: "fin-de-ano", catalogId: "new-year", name: "Fin de año", label: "Invitación de Fin de año", demo: "/demos/celebra-2027/index.html", image: "inv-season-celebra", order: { from: [12, 16], to: [12, 28] },
+    caption: "Un brindis por nuevos comienzos.", designs: [
+      { name: "Por todo lo que viene", description: "Destellos dorados y nuevos comienzos." },
+      { name: "Del otro lado de las doce", description: "Un portal de cristal y una noche sobre la ciudad.", demo: "/demos/del-otro-lado/index.html", cover: "/artwork/seasonal-covers/del-otro-lado.webp" }
+    ] },
 ] as const;
 
 // The season to promote on a given date: the one whose ordering window contains it, else the next to open.

@@ -1,6 +1,5 @@
 // Bundled into a classic head script by seasonal-page.mjs. No runtime import
 // or fetch is needed to choose the visitor's season before the body can paint.
-import {seasons} from '../data/invitationPricing.ts';
 import {seasonOrder, chapterId, cover, inOrderingWindow, returnMessage} from './order.mjs';
 const date = new Date(), ordered = seasonOrder(date), selected = ordered[0];
 const root = document.documentElement;
@@ -14,27 +13,59 @@ preload.imageSizes = sizes; preload.imageSrcset = srcset; preload.href = cover(s
 document.head.append(preload);
 window.prepareNordraSeason = () => {
   try {
-    const chapters = ordered.map(s => document.getElementById(chapterId(s.id)));
-    const original = document.querySelector('.seasonal-chapter');
-    const marker = document.createComment('season order');
-    original.before(marker);
-    chapters.forEach(chapter => marker.before(chapter));
-    marker.remove();
-    const index = document.querySelector('.seasonal-route > div');
-    ordered.forEach(s => index.append(index.querySelector(`a[href="#${chapterId(s.id)}"]`)));
-    document.querySelector('.mobile-route a[href="#temporada-halloween"]').href = `#${chapterId(selected.id)}`;
+    const collection = document.getElementById('temporada-coleccion');
+    const list = collection.querySelector('[role="tablist"]');
+    const en = root.lang === 'en';
+    const items = ordered.map(season => {
+      const panel = document.getElementById(chapterId(season.id));
+      const tab = document.getElementById('tab-' + panel.id);
+      const note = tab.querySelector('[data-season-return]');
+      note.hidden = inOrderingWindow(season,date);
+      if (!note.hidden) note.textContent = returnMessage(season,en?'en':'es-MX');
+      list.append(tab);
+      panel.setAttribute('role','tabpanel');
+      panel.setAttribute('aria-labelledby',tab.id);
+      return {season, tab, panel};
+    });
+    function activate(item) {
+      for (const other of items) {
+        const active = other === item;
+        other.tab.setAttribute('aria-selected',String(active));
+        other.tab.tabIndex = active ? 0 : -1;
+        other.panel.hidden = !active;
+      }
+      root.dataset.season = item.season.id;
+      dispatchEvent(new Event('season-selection'));
+    }
+    function fromHash() {
+      const item = items.find(({panel}) => '#' + panel.id === location.hash);
+      activate(item ?? items[0]);
+      if (item) collection.scrollIntoView({block:'start'});
+    }
+    items.forEach((item,index) => {
+      function select() {
+        activate(item);
+        history.replaceState(history.state,'','#'+item.panel.id);
+      }
+      item.tab.addEventListener('click',select);
+      item.tab.addEventListener('keydown',event => {
+        const target = {ArrowRight:(index+1)%items.length, ArrowLeft:(index+items.length-1)%items.length, Home:0, End:items.length-1}[event.key];
+        if (target === undefined) return;
+        event.preventDefault();
+        items[target].tab.focus();
+        items[target].tab.click();
+      });
+    });
+    list.hidden = false;
+    fromHash();
+    addEventListener('hashchange',fromHash);
     const hero = document.querySelector('.seasonal-hero-live');
     const link = hero.querySelector('[data-live-try]');
-    const en = document.documentElement.lang==='en';
     const englishLabel = {halloween:'Halloween invitation',posadas:'Christmas and posada invitation','fin-de-ano':'New Year’s invitation'}[selected.id];
     link.href = selected.demo; link.dataset.liveTry = en ? englishLabel : selected.label;
     const img = hero.querySelector('.live-screen > img');
     img.alt = en ? `${englishLabel} by Nordra` : `${selected.label} de Nordra, portada del diseño real`;
     img.sizes = sizes; img.srcset = srcset; img.src = cover(selected,780);
-    const halloween = seasons.find(s => s.id === 'halloween');
-    const note = document.querySelector('[data-season-return]');
-    note.textContent = returnMessage(halloween,en?'en':'es-MX');
-    note.hidden = inOrderingWindow(halloween,date);
   } finally {
     delete root.dataset.seasonPreparing;
     delete window.prepareNordraSeason;
