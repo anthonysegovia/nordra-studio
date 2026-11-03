@@ -31,9 +31,9 @@
 .goal-choice:has(:checked){background:color-mix(in srgb,var(--accent) 10%,var(--bg));border-color:var(--accent);box-shadow:inset 0 -3px var(--accent)}
 .goal-choice:hover,.offer-row:hover{border-color:var(--accent)}
 .offer-badge{align-self:start;padding:2px 8px;border-radius:20px;background:var(--ink);color:var(--bg);font-size:11px;font-weight:700}
-.offer-stage{display:grid;isolation:isolate}
-.offer-panel{grid-area:1/1;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid var(--offer-line);border-radius:22px;overflow:hidden;background:var(--bg);box-shadow:0 10px 36px #457aa413}
-.offer-panel[inert]{visibility:hidden;pointer-events:none}
+.offer-stage{isolation:isolate}
+.offer-panel{min-width:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid var(--offer-line);border-radius:22px;overflow:hidden;background:var(--bg);box-shadow:0 10px 36px #457aa413}
+.offer-panel[inert]{display:none}
 .offers-ready .offer-panel:not([inert]) .offer-copy,.offers-ready .offer-level:not([hidden]){animation:offer-in .23s ease-out both}
 @keyframes offer-in{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
 .offer-copy{padding:clamp(20px,3.5vw,48px)}
@@ -45,10 +45,6 @@
 .offer-switch label{position:relative;display:inline-flex;align-items:center;cursor:pointer;gap:5px;min-height:44px;padding:4px 9px;border:1px solid var(--line);border-radius:8px;font-size:13px}
 .offer-switch input{margin:0;accent-color:var(--accent)}
 .offer-switch label:has(:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--bg))}
-.offer-levels{display:grid}
-.offer-level,.offer-print>[data-level]{grid-area:1/1}
-.offer-level[hidden],.offer-print>[data-level][hidden]{display:block!important;visibility:hidden;pointer-events:none}
-.offer-print>[data-level][hidden]{display:grid!important}
 .offer-price{font-size:clamp(28px,3.2vw,44px);font-weight:600;letter-spacing:-.04em;line-height:1.15;margin:14px 0 4px}
 .offer-price small{font-size:14px;font-weight:400;letter-spacing:0}
 .offer-delivery{margin:0;color:var(--muted)}
