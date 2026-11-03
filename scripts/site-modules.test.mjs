@@ -92,7 +92,7 @@ const pages = {
       "scroll-motion",
       "business-motion",
       "invitation-preview",
-      "experience",
+      "wedding-reply",
       "theme-transition",
       "living-images",
       "nordra-materials",
@@ -107,7 +107,8 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["mobile-chrome","language-switch"],
+    "unscoped": ["wedding-reply"],
+    "entryStyles": ["mobile-chrome","language-switch","wedding-page"],
     "inline": 3
   },
   "temporada": {
