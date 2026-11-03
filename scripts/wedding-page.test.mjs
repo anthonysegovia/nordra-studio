@@ -24,7 +24,7 @@ test('Bodas pairs two accessible steps with a permanent phone and a localized da
     assert.match(sample, /id="tab-panel" aria-controls="panel-boda" aria-selected="false" tabindex="-1"/);
     assert.match(sample, /role="tabpanel" aria-labelledby="tab-cover"/);
     assert.match(sample, /inv-guest-cover-390.webp/);
-    assert.ok(sample.includes('dashboard-v3-' + lang + '-760.webp'));
+    assert.ok(sample.includes('dashboard-v4-' + lang + '-760.webp'));
     assert.match(sample, /class="wedding-dashboard" href="\/panel-boda.html"/);
     assert.doesNotMatch(sample, /<form|demo-response|Confirma asistencia|tab-reply/);
   }

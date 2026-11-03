@@ -83,7 +83,7 @@ function renderEnglish(html,page) {
       const isInvitation = ['bodas','invitaciones'].includes(page) && /href="\/invitaciones\/(?:valentina-y-sebastian|spooky-party)\//.test(attrs);
       return `<a${attrs}>${body}<small class="demo-language">${isInvitation?'Invitation in Spanish':'Demo in Spanish'}</small></a>`;
     });
-  translated=translated.replaceAll('/artwork/wedding-dashboard-preview/dashboard-v3-es-','/artwork/wedding-dashboard-preview/dashboard-v3-en-');
+  translated=translated.replace(/(\/artwork\/wedding-dashboard-preview\/dashboard-v[34])-es-/g,'$1-en-');
   if(page===legal)translated=translated.replace(/(<h1>[^<]+<\/h1>)/,'$1<p class="translation-note">This is a translation for convenience; the Spanish version is the legally binding one.</p>')
     .replace("'Activar tema claro' : 'Activar tema oscuro'","'Switch to light mode' : 'Switch to dark mode'");
   return translated;

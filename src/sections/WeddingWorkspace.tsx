@@ -1,3 +1,4 @@
+import { SampleGuide } from '../components/SampleGuide';
 import { PanelExperience, defaultPanelExperience } from '../lib/panelExperience';
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowUpRight, CalendarDays, Check, CircleDot, Heart, Mail, QrCode, RotateCcw, UsersRound } from "lucide-react";
@@ -53,7 +54,7 @@ export function WeddingWorkspace({ wedding, adminView = false, experience = defa
     if (welcome.current) observer.observe(welcome.current);
     return ()=>observer.disconnect();
   },[]);
-  const dateLabel = real ? weddingDate(real.eventDate) : english ? 'June 19, 2027' : '19 de junio de 2027';
+  const dateLabel = real ? weddingDate(real.eventDate) : experience.sample.date[english?1:0];
   const listFocus = useRef<HTMLDivElement>(null);
   const resetDialog = useRef<HTMLDialogElement>(null);
   const [operation,setOperation]=useState<'import'|'history'|null>(null);
@@ -82,7 +83,7 @@ export function WeddingWorkspace({ wedding, adminView = false, experience = defa
     : notice.kind === "storage" ? (english ? "The change could not be saved. Please try again." : "No se pudo guardar el cambio. Intenta nuevamente.")
     : `${notice.name} · ${notice.kind === "added" ? (english ? "added to the list" : "se agregó a la lista") : notice.kind === "updated" ? (english ? "changes saved" : "cambios guardados") : (english ? "removed from the list" : "se eliminó de la lista")}`;
 
-  return <PanelExperience.Provider value={experience}><div className="wedding-workspace" style={{ '--panel-accent': experience.accent } as React.CSSProperties}>
+  return <PanelExperience.Provider value={experience}><div className="wedding-workspace" style={{ '--panel-accent': experience.accent, '--panel-paper':experience.paper, '--panel-ink':experience.ink } as React.CSSProperties}>
     <a className="workspace-skip" href="#workspace-main">{english ? "Skip to content" : "Saltar al contenido"}</a>
     <aside className="workspace-sidebar">
       <a className="workspace-brand" href="/bodas" aria-label={english ? "Nordra Studio · Weddings" : "Nordra Studio · Bodas"}>NORDRA<span>WEDDINGS</span></a>
@@ -104,7 +105,7 @@ export function WeddingWorkspace({ wedding, adminView = false, experience = defa
           {real ? real.coverPath && <img className="workspace-portrait" src={real.coverPath} width={1600} height={1068} alt={`La boda de ${couple}`} /> : <div className="workspace-welcome-art" aria-hidden="true"><img src="/artwork/invitation-editorial/wedding-v2-640.webp" srcSet="/artwork/invitation-editorial/wedding-v2-400.webp 400w, /artwork/invitation-editorial/wedding-v2-640.webp 640w, /artwork/invitation-editorial/wedding-v2-1200.webp 1200w" sizes="(max-width:760px) 76vw, (max-width:1250px) 43vw, 510px" width={1200} height={1200} decoding="async" alt="" /></div>}
         </section>
 
-        <div className="workspace-quick-links">{invitationPath && <a href={invitationPath} target="_blank" rel="noopener noreferrer"><Mail size={15} aria-hidden="true" />{english ? 'Open invitation' : 'Abrir invitación'}<ArrowUpRight size={14} aria-hidden="true" /></a>}{!real && replyInvitation?.link && <a href={replyInvitation.link} target="_blank" rel="noopener noreferrer">{english ? 'Try it as a guest' : 'Vívelo como invitado'}<ArrowUpRight size={14} aria-hidden="true" /></a>}{real && <span>{real.archived ? 'Solo consulta · ' : ''}Disponible hasta el {lastWeddingDay(real.expiresAt)}{real.replyUntil ? ' · Confirmaciones hasta el ' + weddingDate(real.replyUntil) : ''}</span>}</div>
+        <div className="workspace-quick-links">{!wedding && !real && !adminView && location.pathname===experience.sample.path && <SampleGuide english={english} link={replyInvitation?.link} onGuests={()=>navigate('guests')}/>}{invitationPath && <a href={invitationPath} target="_blank" rel="noopener noreferrer"><Mail size={15} aria-hidden="true" />{english ? 'Open invitation' : 'Abrir invitación'}<ArrowUpRight size={14} aria-hidden="true" /></a>}{!real && replyInvitation?.link && <a href={replyInvitation.link} target="_blank" rel="noopener noreferrer">{english ? 'Try it as a guest' : 'Vívelo como invitado'}<ArrowUpRight size={14} aria-hidden="true" /></a>}{real && <span>{real.archived ? 'Solo consulta · ' : ''}Disponible hasta el {lastWeddingDay(real.expiresAt)}{real.replyUntil ? ' · Confirmaciones hasta el ' + weddingDate(real.replyUntil) : ''}</span>}</div>
 
         <div ref={sectionContent} className="workspace-section-content" tabIndex={-1} role="region" aria-label={activeTab === 'tables' ? (english ? 'Tables' : 'Mesas') : activeTab === 'reception' ? (english ? 'Reception' : 'Recepción') : (english ? 'Guests' : 'Invitados')}>
         {activeTab !== 'guests' && <><p className={`workspace-sync${syncError ? ' is-offline' : ''}`} role="status">{loading ? (english ? 'Preparing your space…' : 'Preparando su espacio…') : syncError ? (english ? 'Connection interrupted · Changes are paused' : 'Conexión interrumpida · Los cambios están en pausa') : (english ? 'Boreal · Synced with your invitations' : 'Boreal · Sincronizado con sus invitaciones')}{syncError && <button onClick={() => void refresh()}>{english ? 'Retry' : 'Reintentar'}</button>}</p>{errorCode && <p role="alert">{weddingError(new Error(errorCode))}</p>}{!loading && (activeTab === 'tables' ? <WeddingTables invitations={invitations} state={boreal} action={borealAction} english={english} disabled={syncError} readOnly={!!real?.archived} couple={couple}/> : <WeddingReception invitations={invitations} state={boreal} action={borealAction} english={english} disabled={syncError} readOnly={!!real?.archived}/>)}</>}

@@ -30,7 +30,8 @@ export function SeatGuests({table,state,invitations,action,english,disabled,onCl
       }
       onClose();
     }catch(reason){
-      setError((saved?(english?`${saved} seated. `:`${saved} personas asignadas. `):'')+weddingError(reason));
+      const explanation=english ? (reason instanceof Error && reason.message==='table_full' ? 'The table is full. Review the available places.' : 'Unable to save. Check the current seating and try again.') : weddingError(reason);
+      setError((saved?(english?`${saved} seated. `:`${saved} personas asignadas. `):'')+explanation);
     }finally{setBusy(false)}
   }
   return <dialog ref={dialog} className="workspace-dialog seat-picker" aria-labelledby="seat-picker-title" onCancel={e=>{e.preventDefault();if(!busy)onClose()}}>

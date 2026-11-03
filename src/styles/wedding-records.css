@@ -201,4 +201,4 @@
  .workspace-dialog.panel-filter-sheet{position:fixed;inset:auto 0 0;width:100%;max-width:none;max-height:85dvh;margin:0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));border-radius:16px 16px 0 0}
  .panel-filter-sheet .ledger-quick-filters{flex-wrap:wrap;overflow:visible;margin:14px 0}.wedding-workspace .guest-ledger .panel-filter-sheet .ledger-quick-filters button{white-space:normal;text-align:start;max-width:100%}
 }
-.workspace-dialog.panel-filter-sheet{background:#fffcf6;color:#43392f;border:1px solid #cabca9}.workspace-dialog.panel-filter-sheet h3{margin-top:0}
+.workspace-dialog.panel-filter-sheet{background:var(--panel-paper);color:var(--panel-ink);border:1px solid #cabca9}.workspace-dialog.panel-filter-sheet h3{margin-top:0}
