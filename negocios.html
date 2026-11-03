@@ -68,7 +68,11 @@ new ResizeObserver(measurePreview).observe(document.querySelector('main'));
 function arrive(id){
  const aliases={universos:'caso-sobremesa','opciones-negocio':'opciones-web',paquetes:'opciones-web'};
  if(id.endsWith('-diseno'))id='caso-'+id.slice(0,-7);
- const target=document.getElementById(aliases[id]||id);
+ if(id.startsWith('offer-')||id.startsWith('service-')){
+   document.getElementById('opciones-web').dispatchEvent(new CustomEvent('offeranchor',{detail:id}));
+   id='opciones-web';
+ }
+ const target=document.getElementById(id==='guia-web'?'opciones-web':aliases[id]||id);
  if(!target||target.closest('[hidden]'))return;
  if(target.matches('.example-card')){
    const track=target.parentElement;

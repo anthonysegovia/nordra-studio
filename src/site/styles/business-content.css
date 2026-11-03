@@ -35,8 +35,6 @@ body[data-business-motion=paused] .business-halo:before,body[data-journey-motion
  .business-benefits li{padding:10px 4px}
  .business-benefits h3{font-size:14px}
  .business .home-continuation{margin-top:20px;padding-top:24px}
- .business .offer-guide{gap:16px;padding:20px 0}
- .business .guide-form-shell{min-height:0;padding:16px}
  .business .offer-hosting{gap:2px;margin-top:12px}
  .business #negocios-preguntas>div:first-child{margin-bottom:12px}
  #negocios-preguntas .business-disclosure>summary{min-height:48px;padding:10px 0}

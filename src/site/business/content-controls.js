@@ -14,11 +14,11 @@ export function initializeBusinessContent(root){
   },options);
  });
 
- const contactLinks=[...root.querySelectorAll('[data-business-contact]')],guide=root.querySelector('.guide-result'),halo=root.querySelector('.business-halo'),defaultWhatsApp=halo?.href;
+ const contactLinks=[...root.querySelectorAll('[data-business-contact]')],offers=root.querySelector('.business-offers'),halo=root.querySelector('.business-halo'),defaultWhatsApp=halo?.href;
  let haloFrame=0;
  function resetHalo(){cancelAnimationFrame(haloFrame);haloFrame=0;halo?.style.removeProperty('--contact-x');halo?.style.removeProperty('--contact-y');}
  function contact(){
-  const offer=guide&&!guide.hidden?[...root.querySelectorAll('[data-offer]')].find(item=>item.dataset.offer===guide.dataset.recommendation):null;
+  const offer=[...offers.querySelectorAll('[data-offer]')].find(item=>item.dataset.offer===offers.dataset.selectedOffer);
   const name=offer?.dataset.offerName,packageId=offer?.dataset.offer||'not_selected';
   const en=document.documentElement.lang==='en';
   const subject=en?'My website project · '+(name||'Nordra Studio'):name?'Mi proyecto web · '+name:'Mi proyecto web · Nordra Studio';
@@ -27,10 +27,10 @@ export function initializeBusinessContent(root){
   if (mobileContact) mobileContact.href = offer?.href || defaultWhatsApp;
   for(const link of contactLinks){link.dataset.businessPackage=packageId;link.href=link.dataset.businessContact==='email'?'mailto:hola@nordrastudio.mx?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body):offer?.href||defaultWhatsApp;}
  }
- const recommendation=new MutationObserver(contact);if(guide)recommendation.observe(guide,{attributes:true,attributeFilter:['data-recommendation','hidden']});contact();
+ offers.addEventListener('offerchange',contact,options);contact();
  halo?.addEventListener('pointermove',event=>{if(paused()||event.pointerType==='touch')return;cancelAnimationFrame(haloFrame);const {clientX,clientY}=event;haloFrame=requestAnimationFrame(()=>{const box=halo.getBoundingClientRect();halo.style.setProperty('--contact-x',(clientX-box.left)+'px');halo.style.setProperty('--contact-y',(clientY-box.top)+'px');haloFrame=0;});},options);
  halo?.addEventListener('pointerleave',resetHalo,options);halo?.addEventListener('blur',resetHalo,options);
  function sync(){if(paused()||document.hidden){finish();resetHalo();}}
  const state=new MutationObserver(sync);state.observe(document.body,{attributes:true,attributeFilter:['data-business-motion','data-journey-motion']});reduce.addEventListener('change',sync,options);mobile.addEventListener('change',sync,options);document.addEventListener('visibilitychange',sync,options);sync();root.dataset.businessContentReady='true';
- addEventListener('pagehide',e=>{if(e.persisted){finish();return;}finish();state.disconnect();recommendation.disconnect();resetHalo();abort.abort();},{once:true});
+ addEventListener('pagehide',e=>{if(e.persisted){finish();return;}finish();state.disconnect();resetHalo();abort.abort();},{once:true});
 }
