@@ -1,3 +1,4 @@
+import { mobileWhatsApp } from '../build/mobile-whatsapp.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -7,17 +8,24 @@ import { invitationMoney, invitationOffers, invitationPlanFeatures } from '../sr
 const page = name => renderOccasionPage(readFileSync(name + '.html', 'utf8'));
 const wedding = page('bodas');
 
-test('Bodas has a single three-tab sample, legacy anchors and the actual dashboard', () => {
-  assert.doesNotMatch(wedding, /class="[^"]*wedding-atelier/);
-  for (const id of ['bodas-event-experience','event-experience','bodas-respuesta','panel-boda']) {
-    assert.equal(wedding.split('id="' + id + '"').length, 2);
+test('Bodas pairs two accessible steps with a permanent phone and a localized dashboard', async () => {
+  const { translatedPageOutput } = await import('../build/translated-pages.mjs');
+  const english = translatedPageOutput().transformIndexHtml.handler(mobileWhatsApp(wedding), { path:'/en/bodas.html' });
+  for (const [html, lang] of [[wedding,'es'],[english,'en']]) {
+    const sample = html.split('id="bodas-respuesta"')[1].split('</section>')[0];
+    for (const id of ['bodas-event-experience','event-experience','panel-boda']) {
+      assert.equal(sample.split('id="' + id + '"').length, 2);
+    }
+    assert.match(sample, /role="tablist"/);
+    assert.equal(sample.match(/role="tab"/g).length, 2);
+    assert.match(sample, /id="tab-cover" aria-controls="panel-boda" aria-selected="true"/);
+    assert.match(sample, /id="tab-panel" aria-controls="panel-boda" aria-selected="false" tabindex="-1"/);
+    assert.match(sample, /role="tabpanel" aria-labelledby="tab-cover"/);
+    assert.match(sample, /inv-guest-cover-390.webp/);
+    assert.ok(sample.includes('dashboard-v3-' + lang + '-760.webp'));
+    assert.match(sample, /class="wedding-dashboard" href="\/panel-boda.html"/);
+    assert.doesNotMatch(sample, /<form|demo-response|Confirma asistencia|tab-reply/);
   }
-  assert.equal(wedding.match(/role="tab"/g).length, 3);
-  for (const match of wedding.matchAll(/role="tab" id="([^"]+)" aria-controls="([^"]+)"/g)) {
-    assert.ok(wedding.includes(`id="${match[2]}" role="tabpanel" aria-labelledby="${match[1]}"`));
-  }
-  assert.match(wedding, /href="\/panel-boda.html"><img src="\/artwork\/wedding-dashboard-preview\/dashboard-v3-es-760.webp"/);
-  assert.match(wedding, /No se envían datos ni se guardan respuestas/);
 });
 
 test('Bodas shows both catalogue prices before each disclosure and keeps the complete plan inside', () => {
