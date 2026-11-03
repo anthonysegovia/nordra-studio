@@ -16,6 +16,3 @@ if (!('IntersectionObserver' in window)) {
   covers.forEach(template => observer.observe(template.parentElement));
   addEventListener('pagehide', event => { if (!event.persisted) observer.disconnect(); }, { once: true });
 }
-
-// Phones start from the approved highlight; the full opinion opens on request.
-if (matchMedia('(max-width:700px)').matches) document.querySelectorAll('.client-opinion-full[open]').forEach(details => { details.open = false; });
