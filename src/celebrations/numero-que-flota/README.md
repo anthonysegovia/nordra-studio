@@ -10,6 +10,6 @@ Ejecuta `node scripts/render-number-poster.mjs` desde la raíz para renderizar l
 
 ## Escena y acceso
 
-`?quality=low`, `medium` o `high` fuerza la calidad para pruebas. El nivel automático tiene en cuenta pantalla, memoria anunciada y ahorro de datos. Cambian la malla, el antialiasing y el límite de resolución. La luz proviene de un panorama procedural filtrado con PMREM. No hay mapas HDR externos ni pases de sombras.
+`?quality=low`, `medium` o `high` fuerza la calidad para pruebas. El nivel automático tiene en cuenta pantalla, memoria anunciada y ahorro de datos. Cambian la malla, el antialiasing y el límite de resolución. La luz proviene de un panorama procedural filtrado con PMREM. Las sombras propias usan 512 o 256 px; el nivel bajo prescinde de ellas. No hay mapas HDR externos.
 
 El puntero inclina el foil; un toque sin arrastre inicia la apertura. El control de pausa detiene el vaivén. Con movimiento reducido o sin WebGL queda el póster; Entrar sin animación abre directamente. En el interior se conserva una miniatura en el encabezado, sin un segundo canvas ni un bucle de render. La URL y el fragmento personal se conservan al navegar por las secciones.

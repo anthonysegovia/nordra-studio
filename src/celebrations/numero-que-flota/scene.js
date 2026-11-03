@@ -2,7 +2,7 @@ import {
   WebGLRenderer, Scene, OrthographicCamera, MeshPhysicalMaterial, Mesh, Group, Color,
   AmbientLight, DirectionalLight, DataTexture, FloatType, EquirectangularReflectionMapping,
   PMREMGenerator, SphereGeometry, Line, LineBasicMaterial, BufferGeometry, Float32BufferAttribute,
-  ACESFilmicToneMapping
+  ACESFilmicToneMapping, PCFSoftShadowMap
 } from 'three';
 import {inflatedGlyph} from './balloons';
 import {invitation} from './config.mjs';
@@ -31,21 +31,24 @@ export function createFloatScene(stage, canvas, gl, quality) {
   const foil=new MeshPhysicalMaterial({color:new Color(invitation.palette.gold),metalness:.78,roughness:.31,emissive:0x947045,emissiveIntensity:.23,clearcoat:.22,clearcoatRoughness:.30});
   const thread=new LineBasicMaterial({color:0xc39b58,transparent:true,opacity:.83});
   const key=new DirectionalLight(0xffe5be,2.1);key.position.set(-3,5,3);scene.add(key,new AmbientLight(0xffedcc,.65));
+  renderer.shadowMap.enabled=quality!=='low';renderer.shadowMap.type=PCFSoftShadowMap;
+  key.castShadow=renderer.shadowMap.enabled;key.shadow.mapSize.setScalar(quality==='high'?512:256);
+  key.shadow.normalBias=.025;key.shadow.camera.far=15;
   const ensemble=new Group();scene.add(ensemble);
   const glyphs=[...invitation.balloons].map((letter,i)=>{
     const group=new Group();ensemble.add(group);
     const shape=inflatedGlyph(letter,quality==='high',foil);
-    group.add(new Mesh(shape,foil));
+    const mesh=new Mesh(shape,foil);mesh.castShadow=mesh.receiveShadow=key.castShadow;group.add(mesh);
     let foot=Infinity,footX=0;
     const pos=shape.attributes.position;
     for(let j=0;j<pos.count;j++)if(pos.getY(j)<foot){foot=pos.getY(j);footX=pos.getX(j)}
     const knot=new Mesh(new SphereGeometry(.062,10,8),foil);knot.scale.set(.7,1,.5);knot.position.set(footX,foot-.012,0);group.add(knot);
     const geo=new BufferGeometry();const points=new Float32BufferAttribute(new Float32Array(17*3),3);
     geo.setAttribute('position',points);const string=new Line(geo,thread);string.frustumCulled=false;group.add(string);
-    return {group,string,points,foot,footX,index:i};
+    return {group,string,points,foot,footX,index:i,swing:0,velocity:0};
   });
   const span=Math.max(3.85,glyphs.length*1.55+.36);
-  let actualSize=0,tiltX=0,tiltY=0;
+  let actualSize=0,tiltX=0,tiltY=0,previousTime=0;
   function render(time, pointer, lift=0){
     const size=Math.max(1,stage.clientWidth);
     const limit={low:256,medium:450,high:780}[quality];
@@ -53,13 +56,18 @@ export function createFloatScene(stage, canvas, gl, quality) {
     if(actualSize!==buffer){renderer.setSize(buffer,buffer,false);actualSize=buffer;}
     camera.left=-span/2;camera.right=span/2;camera.top=span/2;camera.bottom=-span/2;camera.position.y=-.16+lift*.30;camera.updateProjectionMatrix();
     tiltX+=(pointer.x-tiltX)*.14;tiltY+=(pointer.y-tiltY)*.14;
-    for(const {group,points,foot,footX,index:i} of glyphs){
+    const dt=Math.min(.045,Math.max(0,time-previousTime));previousTime=time;
+    for(const glyph of glyphs){
+      const {group,points,foot,footX,index:i}=glyph;
       const wave=time*.65+i*2.2, rise=lift*lift*.55;
       group.position.set((i-(glyphs.length-1)/2)*1.49+.025*Math.sin(wave),.24+.075*Math.sin(wave)+rise*(1+i*.10),0);
       group.rotation.set(-.07+.045*Math.cos(wave)+tiltY*.18,(i%2?.18:-.21)+.09*Math.sin(wave*.76)+tiltX*.32,(i%2?-.06:.055)+.028*Math.sin(wave));
+      const target=.12*Math.sin(wave+.7)-.18*tiltX;
+      glyph.velocity+=((target-glyph.swing)*22-glyph.velocity*6)*dt;
+      glyph.swing+=glyph.velocity*dt;
       for(let j=0;j<17;j++){
         const f=j/16;
-        points.setXYZ(j,footX+(.115*Math.sin(wave+f*4.2)+.08*tiltX)*f*(1-lift),foot-.025-f*(.98+.42*lift),.035*f*Math.cos(wave+f));
+        points.setXYZ(j,footX+(.085*Math.sin(wave+f*4.2)+glyph.swing)*f*(1-lift),foot-.025-f*(.98+.42*lift),.035*f*Math.cos(wave+f));
       }
       points.needsUpdate=true;
     }
@@ -67,7 +75,7 @@ export function createFloatScene(stage, canvas, gl, quality) {
   }
   function dispose(){
     for(const {group} of glyphs)for(const child of group.children)child.geometry.dispose();
-    foil.dispose();thread.dispose();environment.dispose();renderer.dispose();
+    key.shadow.dispose();foil.dispose();thread.dispose();environment.dispose();renderer.dispose();
   }
   return {render,dispose};
 }
