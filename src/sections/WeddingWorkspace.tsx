@@ -46,6 +46,14 @@ export function WeddingWorkspace({ wedding, adminView = false, experience = defa
   }, [activeTab]);
   const couple = real?.couple || "Valentina & Sebastián";
   const invitationPath = real ? real.invitationPath : "/invitaciones/valentina-y-sebastian/";
+  const welcome = useRef<HTMLElement>(null);
+  const [compact,setCompact] = useState(false);
+  useEffect(()=>{
+    const observer = new IntersectionObserver(([entry])=>setCompact(entry.boundingClientRect.bottom < 1));
+    if (welcome.current) observer.observe(welcome.current);
+    return ()=>observer.disconnect();
+  },[]);
+  const dateLabel = real ? weddingDate(real.eventDate) : english ? 'June 19, 2027' : '19 de junio de 2027';
   const listFocus = useRef<HTMLDivElement>(null);
   const resetDialog = useRef<HTMLDialogElement>(null);
   const [operation,setOperation]=useState<'import'|'history'|null>(null);
@@ -90,8 +98,9 @@ export function WeddingWorkspace({ wedding, adminView = false, experience = defa
     <div className="workspace-body">
       <header className="workspace-topbar"><span>{english ? "Your wedding space" : "Su espacio de boda"}</span><div><span className="workspace-sample-label">{real ? (adminView ? "Administración de Nordra" : "Panel privado") : (english ? "Sample data" : "Datos de muestra")}</span>{real ? <>{adminView ? <a href="/?panel=pagos&seccion=bodas">Volver a bodas</a> : <><button type="button" onClick={onBack}>Mis bodas</button><button type="button" onClick={onSignOut}>Salir</button></>}</> : <button type="button" className="workspace-language" onClick={() => setLanguage(english ? "es" : "en")} aria-label={english ? "Cambiar a español" : "Switch to English"}>{english ? "ES" : "EN"}</button>}</div></header>
       <main id="workspace-main" tabIndex={-1}>
-        <section className={`workspace-welcome${!real ? " workspace-welcome-editorial" : ""}`} aria-labelledby="workspace-title">
-          <div><p className="workspace-eyebrow">{english ? "THE START OF FOREVER" : "EL COMIENZO DE SU PARA SIEMPRE"}</p><h1 id="workspace-title">{real ? couple : <>Valentina <em>&</em> Sebastián</>}</h1><p className="workspace-date"><CalendarDays size={15} aria-hidden="true" />{real ? weddingDate(real.eventDate) : english ? "June 19, 2027" : "19 de junio de 2027"}<span>·</span>{real ? real.city : english ? "Mexico City" : "Ciudad de México"}</p><p className="workspace-welcome-note">{english ? "Every reply brings your favorite people a little closer" : "Cada respuesta acerca a sus personas favoritas"}</p></div>
+        {compact && <div className="panel-compact-bar" aria-hidden="true"><strong>{couple}</strong><span>{dateLabel}</span></div>}
+        <section ref={welcome} className={`workspace-welcome${!real ? " workspace-welcome-editorial" : ""}`} aria-labelledby="workspace-title">
+          <div><p className="workspace-eyebrow">{english ? "THE START OF FOREVER" : "EL COMIENZO DE SU PARA SIEMPRE"}</p><h1 id="workspace-title">{real ? couple : <>Valentina <em>&</em> Sebastián</>}</h1><p className="workspace-date"><CalendarDays size={15} aria-hidden="true" />{dateLabel}<span>·</span>{real ? real.city : english ? "Mexico City" : "Ciudad de México"}</p><p className="workspace-welcome-note">{english ? "Every reply brings your favorite people a little closer" : "Cada respuesta acerca a sus personas favoritas"}</p></div>
           {real ? real.coverPath && <img className="workspace-portrait" src={real.coverPath} width={1600} height={1068} alt={`La boda de ${couple}`} /> : <div className="workspace-welcome-art" aria-hidden="true"><img src="/artwork/invitation-editorial/wedding-v2-640.webp" srcSet="/artwork/invitation-editorial/wedding-v2-400.webp 400w, /artwork/invitation-editorial/wedding-v2-640.webp 640w, /artwork/invitation-editorial/wedding-v2-1200.webp 1200w" sizes="(max-width:760px) 76vw, (max-width:1250px) 43vw, 510px" width={1200} height={1200} decoding="async" alt="" /></div>}
         </section>
 
@@ -99,12 +108,13 @@ export function WeddingWorkspace({ wedding, adminView = false, experience = defa
 
         <div ref={sectionContent} className="workspace-section-content" tabIndex={-1} role="region" aria-label={activeTab === 'tables' ? (english ? 'Tables' : 'Mesas') : activeTab === 'reception' ? (english ? 'Reception' : 'Recepción') : (english ? 'Guests' : 'Invitados')}>
         {activeTab !== 'guests' && <><p className={`workspace-sync${syncError ? ' is-offline' : ''}`} role="status">{loading ? (english ? 'Preparing your space…' : 'Preparando su espacio…') : syncError ? (english ? 'Connection interrupted · Changes are paused' : 'Conexión interrumpida · Los cambios están en pausa') : (english ? 'Boreal · Synced with your invitations' : 'Boreal · Sincronizado con sus invitaciones')}{syncError && <button onClick={() => void refresh()}>{english ? 'Retry' : 'Reintentar'}</button>}</p>{errorCode && <p role="alert">{weddingError(new Error(errorCode))}</p>}{!loading && (activeTab === 'tables' ? <WeddingTables invitations={invitations} state={boreal} action={borealAction} english={english} disabled={syncError} readOnly={!!real?.archived} couple={couple}/> : <WeddingReception invitations={invitations} state={boreal} action={borealAction} english={english} disabled={syncError} readOnly={!!real?.archived}/>)}</>}
-        <WeddingSyncStatus at={lastSyncedAt} syncing={syncing} offline={syncError} english={english} onRefresh={()=>void refresh()} />
+
         <div className="workspace-content-grid" hidden={activeTab !== 'guests'}>
           <div className="workspace-confirmations" id="confirmaciones" ref={listFocus} tabIndex={-1}>
-            <p className={`workspace-sync${syncError ? " is-offline" : ""}`} role="status">{loading ? (real ? "Preparando su boda…" : english ? "Preparing your sample space…" : "Preparando su espacio de muestra…") : syncError ? (english ? "Unable to sync right now" : "No pudimos sincronizar en este momento") : (english ? "Connected to your invitations · Updates automatically" : "Conectado a sus invitaciones · Actualización automática")}{syncError && <button type="button" onClick={() => void refresh()}>{english ? "Retry" : "Reintentar"}</button>}</p>
+            {loading && <p role="status">{english?'Loading invitations…':'Cargando invitaciones…'}</p>}
+            {syncError && loading && <button onClick={()=>void refresh()}>{english?'Retry':'Reintentar'}</button>}
             {real && errorCode && <p role="alert">{weddingError(new Error(errorCode))}{errorCode === "signed_out" && <a href="/mi-boda.html"> · Iniciar sesión</a>}</p>}
-            {!loading && <div className="workspace-live-list"><WeddingInvitationPanel onTables={()=>navigate('tables')} management={management} managementAction={managementAction} changedIds={changedIds} onImport={()=>setOperation('import')} onHistory={()=>setOperation('history')} key={resetKey} invitations={invitations} english={english} boreal={hasBoreal ? boreal : undefined} disabled={busy || syncError} readOnly={real?.archived} onAdd={() => setEditor({ mode: "add" })} onEdit={(invitation, personId) => setEditor({ mode: "edit", invitation, personId })} onCorrect={(invitation, personId) => setEditor({ mode: "attendance", invitation, personId })} onDelete={invitation => setEditor({ mode: "delete", invitation })} /></div>}
+            {!loading && <div className="workspace-live-list"><WeddingInvitationPanel syncStatus={<WeddingSyncStatus at={lastSyncedAt} syncing={syncing} offline={syncError} english={english} onRefresh={()=>void refresh()} />} onTables={()=>navigate('tables')} management={management} managementAction={managementAction} changedIds={changedIds} onImport={()=>setOperation('import')} onHistory={()=>setOperation('history')} key={resetKey} invitations={invitations} english={english} boreal={hasBoreal ? boreal : undefined} disabled={busy || syncError} readOnly={real?.archived} onAdd={() => setEditor({ mode: "add" })} onEdit={(invitation, personId) => setEditor({ mode: "edit", invitation, personId })} onCorrect={(invitation, personId) => setEditor({ mode: "attendance", invitation, personId })} onDelete={invitation => setEditor({ mode: "delete", invitation })} /></div>}
             <div className="workspace-list-footer"><span><Check size={14} aria-hidden="true" />{english ? "Replies arrive from each personal invitation" : "Las respuestas llegan desde cada invitación personal"}</span>{!real && <button type="button" disabled={loading || busy || syncError} onClick={() => resetDialog.current?.showModal()}><RotateCcw size={14} aria-hidden="true" />{english ? "Reset preview" : "Reiniciar vista"}</button>}</div>
             <p className="workspace-reset-notice" role="status">{noticeText}</p>
           </div>
