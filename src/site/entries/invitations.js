@@ -22,3 +22,5 @@ import '../scripts/mobile-chrome.js?entry=invitations';
 import '../scripts/language-switch.js?entry=invitations';
 import '../scripts/page-navigation.js?entry=invitations';
 import '../analytics/entry.js';
+
+import '../scripts/showcase-live.js?entry=invitations';

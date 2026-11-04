@@ -77,6 +77,7 @@ window.prepareNordraSeason = () => {
     const link = hero.querySelector('[data-live-try]');
     const englishLabel = {halloween:'Halloween invitation',posadas:'Christmas and posada invitation','fin-de-ano':'New Year’s invitation'}[selected.id];
     link.href = selected.demo; link.dataset.liveTry = en ? englishLabel : selected.label;
+    link.setAttribute('aria-label', en ? `Open ${englishLabel}` : `Abrir la invitación de ${selected.name}`);
     const img = hero.querySelector('.live-screen > img');
     img.alt = en ? `${englishLabel} by Nordra` : `${selected.label} de Nordra, portada del diseño real`;
     img.sizes = sizes; img.srcset = srcset; img.src = cover(selected,780);

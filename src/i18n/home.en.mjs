@@ -1,6 +1,8 @@
 // Editorial copy for the shared home template. Keys are its complete Spanish
 // text nodes or accessible labels, never substrings inside URLs or scripts.
 export const homeCopy = {
+  'Ábrela': 'Open it',
+  'Abrir la invitación de Valentina y Sebastián': "Open Valentina and Sebastián's invitation",
   'Nordra Studio · Diseño web e invitaciones digitales': 'Nordra Studio · Websites and digital invitations',
   'Nordra Studio, inicio': 'Nordra Studio, home',
   'Principal': 'Main navigation', 'Inicio': 'Home', 'El estudio': 'The studio',

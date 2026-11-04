@@ -1,9 +1,8 @@
-/* Invitation showcase and birthday/event heroes: «Pruébala aquí» loads the real invitation inside the phone, only on request.
-   Without JavaScript the same link simply opens the invitation. */
 const small=matchMedia('(max-width:700px)');
-document.querySelectorAll('[data-view="invitaciones"]:not([hidden]) .showcase-live, [data-view="cumpleanos"]:not([hidden]) .occasion-hero-live, [data-view="eventos"]:not([hidden]) .occasion-hero-live, [data-view="temporada"]:not([hidden]) .seasonal-hero-live').forEach(art=>{
- const link=art.querySelector('[data-live-try]'),screen=art.querySelector('.live-screen');
- if(!link||!screen)return;
+document.querySelectorAll('.showcase-live, [data-phone-live]').forEach(art=>{
+ const link=art.querySelector('.phone-open'),screen=art.querySelector('.live-screen,.phone-screen');
+ if(!link||!screen||art.dataset.phoneReady)return;
+ art.dataset.phoneReady="true";
  let frame=null,sizes=null;
  // The invitation is laid out at a real phone width and scaled to the screen, so it reads as a phone.
  function fit(){if(!frame)return;const scale=screen.clientWidth/390;frame.style.transform=`scale(${scale})`;frame.style.height=`${screen.clientHeight/scale}px`;}
@@ -20,15 +19,14 @@ document.querySelectorAll('[data-view="invitaciones"]:not([hidden]) .showcase-li
  }
  link.addEventListener('click',event=>{
   // On a phone the showcase is too small to read inside; the link opens the invitation itself.
-  if(event.metaKey||event.ctrlKey||event.shiftKey||event.button||frame||small.matches)return;
+  if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||event.button||frame||small.matches)return;
   event.preventDefault();
   frame=document.createElement('iframe');
-  frame.title=link.dataset.liveTry||'Invitación';frame.src=link.href;
-  frame.addEventListener('load',()=>{contain(frame.contentWindow);art.classList.add('is-live');frame.focus({preventScroll:true});},{once:true});
+  frame.title=link.dataset.liveTry||link.getAttribute('aria-label');frame.src=link.href;
+  frame.addEventListener('load',()=>{contain(frame.contentWindow);art.classList.add('is-live');link.hidden=true;const full=document.createElement('a');full.className='phone-fullscreen';full.href=link.href;full.target='_blank';full.rel='noopener';full.textContent=document.documentElement.lang==='en'?'Open full screen ↗':'Abrir en pantalla completa ↗';art.querySelector('.live-actions') ? art.querySelector('.live-actions').append(full) : art.matches('.season-card') ? art.append(full) : art.after(full);frame.focus({preventScroll:true});},{once:true});
   screen.prepend(frame);fit();
   sizes=new ResizeObserver(fit);sizes.observe(screen);
-  // Once open, the same control leads to the full-screen invitation.
-  link.firstChild.textContent=document.documentElement.lang==='en'?'Open full screen ':'Abrir en pantalla completa ';link.target='_blank';link.rel='noopener';
+
  });
  addEventListener('pagehide',()=>sizes?.disconnect(),{once:true});
 });

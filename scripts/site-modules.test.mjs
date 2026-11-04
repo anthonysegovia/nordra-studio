@@ -134,7 +134,8 @@ const pages = {
   },
   "invitaciones": {
     "entry": "invitations",
-    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "carousel-positions", "invitation-offers", "client-cases", "nordra-materials", "nordra-theatre", "interface-icons", "mobile-chrome", "language-switch", "page-navigation"],
+    "scripts": ["journey", "scroll-travel", "mobile-aurora", "motion", "scroll-motion", "business-motion", "theme-transition", "carousel-positions", "invitation-offers", "client-cases", "nordra-materials", "nordra-theatre", "interface-icons", "mobile-chrome", "language-switch", "page-navigation",
+      "showcase-live"],
     "styles": [
       "scene",
       "nordra-theatre",
