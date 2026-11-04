@@ -222,7 +222,39 @@ img{height:auto}
 .wax:has(:checked)::after{content:'✓';position:absolute;right:9%;top:5%;background:var(--gold);color:var(--ink);border-radius:50%;padding:0 .35rem}
 .choices:has(:checked) .wax:not(:has(:checked)){opacity:.73}
 .personal-fields{display:grid;gap:.55rem;max-width:24rem;margin-block:1rem}
-.personal-fields :is(select,input),.save{padding:.7rem;font:inherit;color:var(--ink);background:var(--ivory);border:1px solid var(--foil)}
+.personal-fields { width:100%; padding:0; }
+.personal-fields select {
+  width:100%; min-width:0; min-height:52px; padding:.7rem 2.1rem .7rem 1.2rem;
+  font:650 1rem Manrope,sans-serif; color:var(--ink); border:1px solid var(--foil);
+  background:linear-gradient(4deg,#b48e52,#e6c98e 48%,#c5a269 75%,#eed9a9);
+  box-shadow:0 3px 7px #100b1780,inset 0 0 0 3px #38253530;
+}
+.personal-fields select option { background:var(--ivory);color:var(--ink); }
+.personal-fields input {
+  width:100%; min-width:0; padding:.55rem 0; font:600 1.1rem Manrope,sans-serif;
+  color:var(--ivory); background:transparent; border:0; border-bottom:1px solid var(--gold);
+  border-radius:0;
+}
+.save {
+  max-width:100%; padding:.85rem 1.3rem; font:650 1rem Manrope,sans-serif;
+  color:var(--ivory);background:linear-gradient(115deg,#35283c,#1d1a2e);
+  border:1px solid var(--gold);outline-offset:4px;
+  box-shadow:inset 0 0 0 3px var(--ink),inset 0 0 0 4px #a7844e,0 4px 8px #100b1760;
+  cursor:pointer;transition:filter .18s,transform .18s;
+}
+.save:hover { filter:brightness(1.15); }
+.save:active { transform:translateY(2px); }
+.save:disabled { cursor:wait;opacity:.7; }
+[data-rsvp-status]:not(:empty) {
+  color:var(--ivory);background:#211a28f5;padding:.85rem 1rem;
+  border-left:1px solid var(--foil);line-height:1.6;overflow-wrap:anywhere;
+}
+.admission-seats { white-space:nowrap; }
+@media(max-width:680px) {
+  .objects { width:calc(100% - 44px); }
+  [data-admission] > span { display:block; }
+  [data-admission] > .admission-separator { display:none; }
+}
 .celebration-rsvp>a{display:inline-block;margin-block:.7rem}
 .position{display:none}
 .admission{--ticket:url('/artwork/birthday-caja/boleto-1000.webp')}

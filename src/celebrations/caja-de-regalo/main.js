@@ -47,7 +47,14 @@ if(access){
   form.querySelector('.personal-fields').hidden=false;
   const save=form.querySelector('.save');save.hidden=false;save.disabled=true;
   form.addEventListener('pass-person',({detail:p})=>{
-    admission.textContent=copy.personalPass.replace('{guest}',p.name).replace('{seats}',p.seats+' '+(p.seats===1?'lugar':'lugares'));
+    const line=document.createElement('span');
+    const seats=document.createElement('span');
+    const separator=document.createElement('span');
+    const [prefix,suffix='']=copy.personalPass.split('{seats}');
+    line.textContent=prefix.replace('{guest}',p.name).replace(/ · $/,'');
+    separator.className='admission-separator';separator.textContent=' · ';
+    seats.className='admission-seats';seats.textContent=p.seats+' '+(p.seats===1?'lugar':'lugares')+suffix;
+    admission.replaceChildren(line,separator,seats);
     stamp(p.attendance,false);
   });
   form.addEventListener('pass-response',({detail})=>stamp(detail.attendance,true));
