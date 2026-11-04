@@ -171,7 +171,7 @@ try{
     await guest.locator('[value=yes]').check();
     await guest.locator('.celebration-rsvp [type=submit]').click();
     await guest.getByText(/Tu respuesta ya está en el panel de muestra/).waitFor();
-    if(kind==='cumple'){assert.equal(await guest.locator('[data-admission]').textContent(),'Admite a Andrea Local · 2 lugares');assert.equal(await guest.locator('.admission.accepted').count(),1)}
+    if(kind==='cumple'){assert.equal(await guest.locator('[data-rsvp-status]').innerText(),'Tu respuesta ya está en el panel de muestra. Listo. Te guardo un lugar en la pista y una copa de champaña');assert.equal(await guest.locator('[data-admission]').textContent(),'Admite a Andrea Local · 2 lugares');assert.equal(await guest.locator('.admission.accepted').count(),1)}
     await dashboard.reload();await dashboard.getByText('Andrea Local',{exact:true}).first().waitFor({state:'attached'});
     await dashboard.locator('.workspace-language').click();
     assert.match(await dashboard.locator('.workspace-topbar').innerText(),/Your (birthday|event) space/);

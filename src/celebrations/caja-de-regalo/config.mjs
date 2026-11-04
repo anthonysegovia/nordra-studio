@@ -38,7 +38,7 @@ export const invitation = {
   "guest": "Tu nombre",
   "save": "Guardar mi respuesta",
   "personalNotice": "Este enlace es personal. Confirma por cada persona invitada.",
-  "saved": "Tu respuesta ya está en el panel de muestra",
+  "saved": "Tu respuesta ya está en el panel de muestra.",
   "yesMessage": "Listo. Te guardo un lugar en la pista y una copa de champaña",
   "noMessage": "Te voy a extrañar. Me debes un brindis",
   "days": "Faltan {n} días para el brindis",
