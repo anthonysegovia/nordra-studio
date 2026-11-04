@@ -41,7 +41,7 @@ test('the dashboard hover lift composes with the stage transform instead of repl
   const stage = readFileSync('src/site/scripts/wedding-stage.js', 'utf8');
   assert.match(stage, /\.wedding-dashboard'\)\.addEventListener\('click'/);
   assert.match(stage, /event\.detail === 0/);
-  assert.doesNotMatch(stage, /querySelector\('\.wedding-phone'\)/);
+  assert.match(stage, /\.wedding-phone'\)\.addEventListener\('click'[^]*select\(tabs\[0\]\)/);
   assert.match(css, /\[data-step=panel\] \.wedding-phone \{[^}]*pointer-events:auto/);
 });
 

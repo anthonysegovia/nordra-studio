@@ -32,6 +32,10 @@ stage.querySelector('.wedding-dashboard').addEventListener('click', event => {
   event.preventDefault();
   select(tabs[1]);
 });
+// The phone only takes pointer events while it sits behind the dashboard; a tap brings the cover back.
+stage.querySelector('.wedding-phone').addEventListener('click', () => {
+  if (stage.dataset.step === 'panel') select(tabs[0]);
+});
 function followPanelAnchor() {
   if (location.hash === '#' + stage.id || (stage.id === 'panel-boda' && location.hash === '#bodas-panel-muestra')) select(tabs[1]);
 }
