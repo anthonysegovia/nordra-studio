@@ -62,9 +62,7 @@
 .season-card{--r:0deg;--y:0px;--x:0px;position:relative;width:min(240px,30vw);margin:0 -26px;transform:translate(var(--x),var(--y)) rotate(var(--r));transform-origin:50% 120%;transition:transform .5s cubic-bezier(.22,.61,.36,1);z-index:1}
 .season-card:first-child{--r:-8deg;--y:18px}.season-card:last-child{--r:8deg;--y:18px}
 .season-card[data-season-current]{--y:-14px;z-index:3}
-.season-fan:hover .season-card:first-child,.season-fan:focus-within .season-card:first-child{--x:-34px;--r:-11deg}
-.season-fan:hover .season-card:last-child,.season-fan:focus-within .season-card:last-child{--x:34px;--r:11deg}
-.season-card:hover,.season-card:focus-within{--y:-26px!important;z-index:4}
+.season-card:hover,.season-card:focus-within{z-index:4}
 .season-card a{display:block;color:inherit;text-decoration:none;border-radius:22px}
 .season-card a:focus-visible{outline:2px solid var(--warm-b);outline-offset:6px}
 .season-shot{display:block;aspect-ratio:390/700;border-radius:22px;overflow:clip;border:5px solid #1f1a16;background:#1f1a16;box-shadow:0 26px 50px -28px #2d2117a0}

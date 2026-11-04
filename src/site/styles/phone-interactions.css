@@ -33,3 +33,5 @@ body[data-journey-motion=paused] .phone-open::before{animation:none!important}
 .phone-open .demo-language{display:none}
 .wedding-phone .phone-screen{height:auto;aspect-ratio:390/844}
 .wedding-stage .phone-fullscreen{position:absolute;bottom:0;left:7%;z-index:3}
+
+.showcase-live,.wedding-stage,.seasonal-demo,.season-card{perspective:1000px}
