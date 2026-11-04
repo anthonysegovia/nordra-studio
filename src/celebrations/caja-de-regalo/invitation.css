@@ -304,4 +304,16 @@ img{height:auto}
 @keyframes descend{to{transform:translateY(-2rem);opacity:.35}}
 /* On the static path the two titles never sit over one another. */
 [data-phase=opening] .entrance.still .cover :is(.headline,.gift){animation:vanish .12s both}
-[data-phase=opening] .entrance.still .opening :is(.headline,.scene){animation:appear .16s .12s both}
+[data-phase=opening] .entrance.still .opening :is(.headline,.scene){animation:appear .16s .12s both}.ticket-type [data-admission] > span { font:inherit; }
+.personal-fields select {
+  padding-inline:1.5rem 2.1rem; border:0;
+  clip-path:polygon(0 0,100% 0,97% 50%,100% 100%,0 100%,3% 50%);
+}
+.personal-fields select:focus-visible { outline-offset:-6px;outline-color:var(--ink); }
+.personal-fields select {
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%231d1a2e' stroke-width='2'/%3E%3C/svg%3E"),linear-gradient(4deg,#b48e52,#e6c98e 48%,#c5a269 75%,#eed9a9);
+  background-size:.75rem .5rem,auto;
+  background-position:right 1.25rem center,0 0;
+  background-repeat:no-repeat;
+}
