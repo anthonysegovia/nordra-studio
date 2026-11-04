@@ -7,7 +7,7 @@
 .phone-open[hidden]{display:none}
 .phone-open:focus-visible{outline:3px solid var(--accent,#ac8c57);outline-offset:-5px}
 .phone-open::before{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,#ffffff35 49%,transparent 58%);translate:-80% 0;pointer-events:none}
-.phone-open-hint{position:absolute;bottom:8%;left:50%;translate:-50% 0;z-index:4;white-space:nowrap;padding:9px 15px;border-radius:99px;background:var(--phone-paper,#f8f1e4);color:var(--phone-ink,#473a30);box-shadow:0 3px 15px #0002;font-size:13px;opacity:0;transition:opacity .3s ease;pointer-events:none}
+.phone-open-hint{position:absolute;top:calc(100% - 16px);left:50%;translate:-50% 0;z-index:6;display:inline-flex;align-items:center;gap:5px;height:32px;white-space:nowrap;padding:0 12px;border:1px solid #00000012;border-radius:8px 8px 12px 12px;background:var(--phone-paper,#f8f1e4);color:var(--phone-ink,#473a30);box-shadow:0 3px 10px #0002;font-size:14px;line-height:1;opacity:0;transition:opacity .3s ease,translate .3s ease;pointer-events:none}
 .phone-interactive:is(:hover,:focus-within),a:is(:hover,:focus-visible) .phone-interactive,.showcase-live:not(.is-live) .live-phone:is(:hover,:focus-within){translate:0 -6px;rotate:y -2.5deg;box-shadow:0 38px 65px -25px #0006}
 .phone-interactive:is(:hover,:focus-within) .phone-open-hint,a:is(:hover,:focus-visible) .phone-open-hint,.live-phone:is(:hover,:focus-within) .phone-open-hint{opacity:1}
 .phone-open:is(:hover,:focus-visible)::before{animation:phone-sheen .4s ease both}
@@ -29,9 +29,51 @@ body[data-journey-motion=paused] :is(.phone-interactive,.showcase-live .live-pho
 body[data-journey-motion=paused] .phone-open::before{animation:none!important}
 
 [data-phone-live].is-live .phone-interactive{translate:none!important;rotate:none!important}
-.season-shot.phone-screen{display:block}
 .phone-open .demo-language{display:none}
 .wedding-phone .phone-screen{height:auto;aspect-ratio:390/844}
 .wedding-stage .phone-fullscreen{position:absolute;bottom:0;left:7%;z-index:3}
 
 .showcase-live,.wedding-stage,.seasonal-demo,.season-card{perspective:1000px}
+
+/* The hint is a sibling of the clipped screen, resting on the lower frame. */
+.scene .live-phone,.wedding-stage .wedding-phone,.signature-phone-stage .nordra-phone,
+.season-fan .season-shot,.seasonal-collection .seasonal-cover{padding-bottom:18px;overflow:visible}
+.season-fan .season-shot>.phone-screen{display:block;overflow:clip}
+.season-fan .season-shot>.phone-screen>img{height:100%;object-fit:cover;object-position:top}
+.scene .showcase-live .live-actions,
+.scene .occasion-hero .occasion-hero-live.showcase-live .live-actions{margin-top:32px}
+.scene .season-caption{margin-top:32px}
+.scene .seasonal-demo-copy h3{margin-top:32px}
+.phone-open-hint>span{display:inline-flex;transition:translate .3s ease}
+.phone-interactive:is(:hover,:focus-within)>.phone-open-hint,
+a:is(:hover,:focus-visible) .phone-open-hint,
+.live-phone:is(:hover,:focus-within)>.phone-open-hint{translate:-50% 2px}
+.phone-interactive:is(:hover,:focus-within)>.phone-open-hint>span,
+a:is(:hover,:focus-visible) .phone-open-hint>span,
+.live-phone:is(:hover,:focus-within)>.phone-open-hint>span{translate:2px -2px}
+/* Reserve the hanging edge in the shared phone/panel composition. */
+.wedding-stage .wedding-devices{height:calc(clamp(500px,49vw,690px) + 48px)}
+@media(max-width:700px){
+ .wedding-stage .wedding-devices{height:calc(clamp(334px,99vw,480px) + 48px)}
+ .occasion-stage .wedding-stage .wedding-devices{height:calc(clamp(305px,90vw,420px) + 48px)}
+ .signature-work .signature-phone-stage{overflow:visible}
+}
+/* Match the real seasonal designs without borrowing the currently selected tab's palette. */
+[data-phone-season=halloween],.season-card[data-season=halloween]{--phone-paper:#e5c6a3;--phone-ink:#402636}
+[data-phone-season=posadas],.season-card[data-season=posadas]{--phone-paper:#f4e4c6;--phone-ink:#563d2b}
+[data-phone-season=fin-de-ano],.season-card[data-season=fin-de-ano]{--phone-paper:#e5d6af;--phone-ink:#383044}
+.seasonal-hero-live:has([href*="halloween"]){--phone-paper:#e5c6a3;--phone-ink:#402636}
+.seasonal-hero-live:has([href*="posada"]){--phone-paper:#f4e4c6;--phone-ink:#563d2b}
+.seasonal-hero-live:has([href*="celebra-2027"]){--phone-paper:#e5d6af;--phone-ink:#383044}
+@media(prefers-reduced-motion:reduce){
+ .phone-open-hint{translate:-50% 0!important;transition:none}
+ .phone-open-hint>span{translate:none!important;transition:none}
+}
+body[data-journey-motion=paused] .phone-open-hint{translate:-50% 0!important;transition:none}
+body[data-journey-motion=paused] .phone-open-hint>span{translate:none!important;transition:none}
+
+/* The tilted fan needs clearance for the screen's lowest rotated corner. */
+@media(min-width:701px){.season-fan .season-shot{padding-bottom:40px}}
+.seasonal-cover:has([href*="halloween-mansion"]){--phone-paper:#e1a578;--phone-ink:#201a15}
+.seasonal-cover:has([href="/demos/posada/index.html"]){--phone-paper:#f7efdd;--phone-ink:#102b25}
+.seasonal-cover:has([href*="del-otro-lado"]){--phone-paper:#e5def0;--phone-ink:#30273c}

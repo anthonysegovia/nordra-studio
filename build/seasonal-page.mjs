@@ -17,7 +17,7 @@ function renderCollection() {
       const message = encodeURIComponent(`Hola, Nordra. Me gustaría la invitación de temporada ${design.name}.`);
       const snow = season.id === 'posadas';
       return `<article class="seasonal-demo">
-        <div data-phone-live class="phone-interactive seasonal-cover${snow ? ' living-snow' : ''}"${snow ? ' data-living="snow"' : ''}><div class="phone-screen"><a class="phone-open" href="${url}" aria-label="Abrir la invitación de ${design.name}"><span class="phone-open-hint" aria-hidden="true">Ábrela <span>↗</span></span></a><img src="${image}"${responsive} width="390" height="844" loading="lazy" alt="">${snow ? '<div class="snow-layer" aria-hidden="true"></div>' : ''}</div></div>
+        <div data-phone-live data-phone-season="${season.id}" class="phone-interactive seasonal-cover${snow ? ' living-snow' : ''}"${snow ? ' data-living="snow"' : ''}><div class="phone-screen"><a class="phone-open" href="${url}" aria-label="Abrir la invitación de ${design.name}"></a><img src="${image}"${responsive} width="390" height="844" loading="lazy" alt="">${snow ? '<div class="snow-layer" aria-hidden="true"></div>' : ''}</div><span class="phone-open-hint" aria-hidden="true">Ábrela <span>↗</span></span></div>
         <div class="seasonal-demo-copy"><h3>${design.name}</h3><p>${design.description}</p>
         <div class="design-actions"><a href="${url}" target="_blank" rel="noopener">Ver diseño <span aria-hidden="true">↗</span></a><a href="https://wa.me/528129022231?text=${message}" target="_blank" rel="noopener" data-analytics-whatsapp="seasonal_design" data-analytics-label="${design.name}">Lo quiero</a></div></div>
       </article>`;
