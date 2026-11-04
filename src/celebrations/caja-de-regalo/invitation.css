@@ -251,7 +251,7 @@ img{height:auto}
 }
 .admission-seats { white-space:nowrap; }
 @media(max-width:680px) {
-  .objects { width:calc(100% - 44px); }
+  #confirmacion { max-width:calc(100vw - 32px); }
   [data-admission] > span { display:block; }
   [data-admission] > .admission-separator { display:none; }
 }

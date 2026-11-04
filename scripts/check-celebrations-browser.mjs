@@ -83,7 +83,7 @@ try{
   assert.equal(await menu.evaluate(e=>e.hidden&&e.inert),true);
   await live.waitForSelector('.balloons canvas',{state:'attached'});assert.equal(await live.locator('.balloons').getAttribute('data-quality'),'low');
   await live.keyboard.press('Tab');assert.ok(await live.locator('[data-open]').evaluate(e=>e===document.activeElement));
-  await live.keyboard.press('Enter');assert.equal(await live.locator('body').getAttribute('data-phase'),'opening');assert.ok(await menu.evaluate(e=>e.hidden&&e.inert));
+  await live.keyboard.press('Enter');assert.equal(await live.locator('body').getAttribute('data-phase'),'opening');assert.equal(await live.locator('[data-skip]').isVisible(),false);assert.ok(await menu.evaluate(e=>e.hidden&&e.inert));
   await live.waitForFunction(()=>document.body.dataset.phase==='open');assert.equal(await menu.evaluate(e=>e.hidden||e.inert),false);assert.equal(await live.evaluate(()=>document.activeElement.id),'confirmacion');
   assert.equal(await live.locator('[data-admission]').innerText(),'Admite a: tu nombre');
   if(width===390){

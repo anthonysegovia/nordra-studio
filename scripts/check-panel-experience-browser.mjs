@@ -142,13 +142,36 @@ try{
       assert.equal(await menu.evaluate(e=>e.hidden || e.inert),false);
       assert.equal(await guest.evaluate(()=>document.activeElement.id),'confirmacion');
     }else await guest.locator('[data-skip]').click();
+    if(kind==='cumple'){
+      for(const width of [390,1440]){
+        await guest.setViewportSize({width,height:844});
+        const picker=guest.locator('.personal-fields select');
+        await picker.focus();
+        await guest.keyboard.press('Home');await guest.keyboard.press('ArrowDown');await guest.keyboard.press('Enter');
+        assert.equal(await picker.inputValue(),'1');
+        assert.equal(await picker.evaluate(e=>getComputedStyle(e).outlineStyle),'solid');
+        assert.ok(await guest.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+        for(const control of ['.personal-fields select','#guest','.save','[data-rsvp-status]']){
+          const rect=await guest.locator(control).boundingBox();
+          assert.ok(rect.x>=16 && rect.x+rect.width<=width-16,control+' margins at '+width);
+        }
+        await picker.selectOption('0');
+        assert.equal(await picker.inputValue(),'0');
+        if(width===390){
+          const line=guest.locator('.admission-seats');
+          assert.equal(await line.innerText(),'2 lugares');
+          assert.ok(await line.evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=16));
+        }
+      }
+      await guest.setViewportSize({width:390,height:844});
+    }
     await guest.locator('.celebration-rsvp select').selectOption('1');
-    if(kind==='cumple'){assert.match(await guest.locator('[data-admission]').innerText(),/Admite a .+ · 2 lugares/)}
+    if(kind==='cumple'){assert.match(await guest.locator('[data-admission]').textContent(),/Admite a .+ · 2 lugares/)}
     await guest.locator('#guest').fill('Andrea Local');
     await guest.locator('[value=yes]').check();
     await guest.locator('.celebration-rsvp [type=submit]').click();
     await guest.getByText(/Tu respuesta ya está en el panel de muestra/).waitFor();
-    if(kind==='cumple'){assert.equal(await guest.locator('[data-admission]').innerText(),'Admite a Andrea Local · 2 lugares');assert.equal(await guest.locator('.admission.accepted').count(),1)}
+    if(kind==='cumple'){assert.equal(await guest.locator('[data-admission]').textContent(),'Admite a Andrea Local · 2 lugares');assert.equal(await guest.locator('.admission.accepted').count(),1)}
     await dashboard.reload();await dashboard.getByText('Andrea Local',{exact:true}).first().waitFor({state:'attached'});
     await dashboard.locator('.workspace-language').click();
     assert.match(await dashboard.locator('.workspace-topbar').innerText(),/Your (birthday|event) space/);
