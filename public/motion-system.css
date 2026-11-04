@@ -27,8 +27,6 @@ html body .offer-panel:focus-within .offer-quote{transform:translateY(-2px)}
 html body .invite-card:focus-within .invite-price{color:color-mix(in srgb,var(--ink) 80%,var(--motion-accent))}
 html body .invite-card:focus-within .invite-cta{transform:translateY(-2px)}
 html body .invite-card:focus-within :is(.invite-badge,.wedding-seal){box-shadow:0 0 14px color-mix(in srgb,var(--motion-accent) 25%,transparent)}
-/* Existing border layer: a single opacity breath replaces the perpetual orbit. */
-html body .invite-featured[data-orbit] .invite-light{animation:none}
 html body .invite-card:focus-within .invite-light{opacity:.7}
 html body summary [aria-hidden=true]{display:inline-block;rotate:none;transform:rotate(0);transition:transform var(--motion-medium) var(--motion-ease)}
 html body details[open]>summary [aria-hidden=true]{rotate:none;transform:rotate(45deg)}
