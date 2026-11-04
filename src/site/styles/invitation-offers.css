@@ -101,7 +101,21 @@
 @media(prefers-reduced-motion:reduce){.invitations :is(.inv-directory,.invite-offers,.invite-journey,.invite-seasons,.client-case,.inv-actions) *{transition:none!important;animation:none!important}}
 body[data-journey-motion=paused] .invitations :is(.inv-directory,.invite-offers,.invite-journey,.invite-seasons,.client-case,.inv-actions) *{transition:none!important;animation:none!important}
 
-.inv-occasions>.inv-birthday-noche{position:relative;isolation:isolate;overflow:hidden;background:#1d1a2e}
-.inv-occasions>.inv-birthday-noche a{color:#f4e9d3;position:relative;z-index:1;width:fit-content}
-.inv-occasions>.inv-birthday-noche .inv-sample{color:#e6c98e}
-.inv-birthday-art{position:absolute;right:0;top:0;height:100%;width:32%;object-fit:contain}
+
+.inv-occasions>div{--occasion-rgb:180 155 116;position:relative;isolation:isolate;min-height:112px;padding-right:120px;background:linear-gradient(125deg,rgb(var(--occasion-rgb)/.14),rgb(var(--occasion-rgb)/.03));transition:border-color .3s}
+.inv-occasions>.inv-birthday-noche{--occasion-rgb:146 92 151}
+.inv-occasions>.inv-eventos{--occasion-rgb:88 159 187}
+.inv-occasions>.inv-temporada{--occasion-rgb:195 133 62}
+.inv-occasions>div>a:first-child{position:static;width:fit-content}
+.inv-occasions>div>a:first-child::after{content:"";position:absolute;inset:0;border-radius:12px;z-index:1}
+.inv-occasions .inv-sample{position:relative;z-index:2;width:fit-content}
+.inv-occasions>div:is(:hover,:focus-within){border-color:rgb(var(--occasion-rgb))}
+.inv-occasions>div:has(a:focus-visible){outline:2px solid rgb(var(--occasion-rgb));outline-offset:3px}
+.inv-occasion-art{position:absolute;right:8px;top:50%;width:100px;height:100px;object-fit:contain;translate:0 -50%;pointer-events:none;transition:transform .32s}
+.inv-occasions>div:is(:hover,:focus-within) .inv-occasion-art{transform:translateY(-5px) rotate(-3deg)}
+.inv-occasions>div:active .inv-occasion-art{transform:translateY(1px)}
+.inv-occasions>div>a:first-child span{transition:transform .3s}
+.inv-occasions>div:is(:hover,:focus-within)>a:first-child span{transform:translate(2px,-2px)}
+@media(max-width:700px){.inv-occasions>div{padding:8px 10px 70px;min-height:162px}.inv-occasion-art{width:64px;height:64px;top:auto;bottom:4px;right:10px;translate:none}.inv-occasions>div>a:first-child{font-size:16px}.inv-occasions p,.inv-occasions .inv-sample{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.inv-occasions>div .inv-occasion-art,.inv-occasions>div>a:first-child span{transform:none!important}}
+body[data-journey-motion=paused] .inv-occasions>div :is(.inv-occasion-art,span){transform:none!important}
