@@ -24,3 +24,6 @@ import '../scripts/page-navigation.js?entry=invitations';
 import '../analytics/entry.js';
 
 import '../scripts/showcase-live.js?entry=invitations';
+
+import '../../../public/motion-system.css';
+import '../scripts/interaction-motion.js?entry=invitations';

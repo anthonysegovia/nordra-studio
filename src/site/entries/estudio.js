@@ -30,3 +30,5 @@ if (portrait) {
   }, { rootMargin: '400px' });
   proximity.observe(portrait);
 }
+import '../../../public/motion-system.css';
+import '../scripts/interaction-motion.js?entry=estudio';

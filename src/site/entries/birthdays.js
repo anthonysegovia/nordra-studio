@@ -18,3 +18,6 @@ import '../scripts/page-navigation.js?entry=birthdays';
 import '../analytics/entry.js';
 import '../styles/occasion-stage.css';
 import '../styles/birthday-noche.css';
+
+import '../../../public/motion-system.css';
+import '../scripts/interaction-motion.js?entry=birthdays';

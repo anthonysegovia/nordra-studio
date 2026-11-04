@@ -11,3 +11,6 @@ review/
 !.env.example
 .DS_Store
 Thumbs.db
+documentacion/animaciones-de-calidad/*.webm
+documentacion/animaciones-de-calidad/*.png
+documentacion/animaciones-de-calidad/*.json

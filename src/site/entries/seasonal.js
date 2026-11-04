@@ -22,3 +22,6 @@ import '../scripts/mobile-chrome.js?entry=seasonal';
 import '../scripts/language-switch.js?entry=seasonal';
 import '../scripts/page-navigation.js?entry=seasonal';
 import '../analytics/entry.js';
+
+import '../../../public/motion-system.css';
+import '../scripts/interaction-motion.js?entry=seasonal';

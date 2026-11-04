@@ -22,3 +22,6 @@ import '../scripts/language-switch.js?entry=events';
 import '../scripts/page-navigation.js?entry=events';
 import '../analytics/entry.js';
 import '../styles/occasion-stage.css';
+
+import '../../../public/motion-system.css';
+import '../scripts/interaction-motion.js?entry=events';

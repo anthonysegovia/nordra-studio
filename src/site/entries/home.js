@@ -14,3 +14,6 @@ import '../scripts/home-snow.js?entry=home';
 import '../scripts/page-navigation.js?entry=home';
 import '../analytics/entry.js';
 import '../landscape/landscape-hero.js';
+
+import '../../../public/motion-system.css';
+import '../scripts/interaction-motion.js?entry=home';

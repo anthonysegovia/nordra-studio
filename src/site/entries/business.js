@@ -25,3 +25,6 @@ import '../scripts/business-offers.js';
 
 import '../styles/business-content.css';
 import '../scripts/business-content.js';
+
+import '../../../public/motion-system.css';
+import '../scripts/interaction-motion.js?entry=business';

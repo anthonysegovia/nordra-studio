@@ -200,6 +200,8 @@ const pages = {
     "entryStyles": ["mobile-chrome", "language-switch", "studio-showcase"]
   }
 };
+// The shared interaction layer follows existing page initialization.
+for (const page of Object.values(pages)) page.scripts.push('interaction-motion');
 const scripts = [...new Set(Object.values(pages).flatMap(page => page.scripts))];
 const read = file => readFileSync(resolve(root, file), 'utf8');
 

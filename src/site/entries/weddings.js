@@ -20,3 +20,6 @@ import '../scripts/page-navigation.js?entry=weddings';
 import '../analytics/entry.js';
 import '../styles/wedding-page.css';
 import '../styles/occasion-stage.css';
+
+import '../../../public/motion-system.css';
+import '../scripts/interaction-motion.js?entry=weddings';

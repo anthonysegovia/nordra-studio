@@ -1,0 +1,101 @@
+/* Shared by commercial entries and static legal pages only. */
+:root{--motion-fast:150ms;--motion-medium:250ms;--motion-slow:400ms;--motion-ease:cubic-bezier(.2,.7,.2,1)}
+body{--motion-accent:var(--accent,#278baf)}
+.theme-wedding{--motion-accent:#a58a63}
+.theme-birthday{--motion-accent:#c7a568}
+html body :is(a,button,summary,input,select,textarea,[role=tab],label,.invite-card,.offer-panel,.season-card,.client-case){transition-property:transform,opacity,box-shadow,color,background-color,border-color;transition-duration:var(--motion-medium);transition-timing-function:var(--motion-ease)}
+html body [data-view=estudio] a.studio-work{transition:opacity var(--motion-medium),box-shadow var(--motion-medium),color var(--motion-medium)}
+html body :is(a,button,summary,input,select,textarea,[role=tab]):focus-visible{outline:2px solid var(--motion-accent);outline-offset:4px;box-shadow:0 0 0 5px color-mix(in srgb,var(--motion-accent) 16%,transparent)}
+html body :is(button,.primary-action,.horizon-button,.invite-cta,.offer-quote,[role=tab]):active{transform:translateY(1px) scale(.98);transition-duration:var(--motion-fast)}
+html body :is(a,summary):active{opacity:.78;transition-duration:var(--motion-fast)}
+html body :is(.interface-arrow,.contact-channel-arrow,.motion-arrow){display:inline-block;transition:transform var(--motion-medium) var(--motion-ease)}
+html body :is(a,button):focus-visible :is(.interface-arrow,.contact-channel-arrow,.motion-arrow){transform:translate(2px,-2px)}
+/* Underline uses a transform, never width; no extra DOM or layout space. */
+html body :is(.desktop-nav a,.footer-layout nav a,.footer-legal a,.back-link,.faq-answer a,.legal a,.options-compare){position:relative}
+html body :is(.desktop-nav a,.footer-layout nav a,.footer-legal a,.back-link,.faq-answer a,.legal a,.options-compare)::after{content:'';position:absolute;inset:auto 0 0;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform var(--motion-medium) var(--motion-ease);pointer-events:none}
+html body :is(.desktop-nav a,.footer-layout nav a,.footer-legal a,.back-link,.faq-answer a,.legal a,.options-compare):focus-visible::after{transform:scaleX(1)}
+html body :is(.invite-card,.offer-panel,.season-card,.client-case):focus-within{transform:translateY(-5px);border-color:var(--motion-accent);box-shadow:0 22px 38px -22px color-mix(in srgb,var(--motion-accent) 45%,transparent)}
+/* Keep decorative layers anchored before transform establishes a containing block. */
+html body :is(.invite-card,.offer-panel){position:relative}
+/* Wedding's resting offset belongs to its layout. Do not animate it twice. */
+html body .wedding-plans .invite-card:is(:hover,:focus-within){translate:0 var(--lift)}
+html body :is(.invite-card,.offer-panel,.season-card,.client-case):active{transform:translateY(1px)}
+html body .season-card:focus-within{transform:translate(var(--x),calc(var(--y) - 5px)) rotate(var(--r))}
+html body :is(.invite-price,.offer-price,.invite-badge,.wedding-seal,.invite-cta,.offer-quote){transition:transform var(--motion-medium) var(--motion-ease),color var(--motion-medium),box-shadow var(--motion-medium)}
+html body .offer-panel:focus-within .offer-price{color:color-mix(in srgb,var(--ink) 80%,var(--motion-accent))}
+html body .offer-panel:focus-within .offer-quote{transform:translateY(-2px)}
+html body .invite-card:focus-within .invite-price{color:color-mix(in srgb,var(--ink) 80%,var(--motion-accent))}
+html body .invite-card:focus-within .invite-cta{transform:translateY(-2px)}
+html body .invite-card:focus-within :is(.invite-badge,.wedding-seal){box-shadow:0 0 14px color-mix(in srgb,var(--motion-accent) 25%,transparent)}
+/* Existing border layer: a single opacity breath replaces the perpetual orbit. */
+html body .invite-featured[data-orbit] .invite-light{animation:none}
+html body .invite-card:focus-within .invite-light{opacity:.7}
+html body summary [aria-hidden=true]{display:inline-block;rotate:none;transform:rotate(0);transition:transform var(--motion-medium) var(--motion-ease)}
+html body details[open]>summary [aria-hidden=true]{rotate:none;transform:rotate(45deg)}
+/* Native details stays usable without JS, including browsers without this API. */
+@supports (interpolate-size:allow-keywords){
+ html body details{interpolate-size:allow-keywords}
+ html body details::details-content{height:0;opacity:0;overflow:clip;transition:height var(--motion-slow) var(--motion-ease),opacity var(--motion-medium),content-visibility var(--motion-slow) allow-discrete}
+ html body details[open]::details-content{height:auto;opacity:1}
+}
+html body :is(input,select,textarea):focus{border-color:var(--motion-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--motion-accent) 15%,transparent)}
+html body label:focus-within{color:var(--motion-accent)}
+html body :is(input[type=checkbox],input[type=radio]){accent-color:var(--motion-accent)}
+html body :is(.goal-choice,.offer-switch label)::before{transition:background-color var(--motion-medium),border-color var(--motion-medium),box-shadow var(--motion-medium)}
+html body :is([role=status],[role=alert],.form-status):not(:empty){animation:motion-fade var(--motion-medium) var(--motion-ease)}
+@keyframes motion-fade{from{opacity:.25}to{opacity:1}}
+html body .theme-button svg{transition:transform var(--motion-medium) var(--motion-ease),opacity var(--motion-medium)}
+html body .motion-segment{position:relative}
+html body .motion-indicator{position:absolute;left:0;top:0;width:1px;height:2px;min-width:0;min-height:0;margin:0;padding:0;background:var(--motion-accent);pointer-events:none;transform-origin:left;transition:transform var(--motion-medium) var(--motion-ease),opacity var(--motion-medium)}
+html body .motion-sheen{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none}
+html body .motion-sheen::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,color-mix(in srgb,var(--motion-accent) 8%,transparent) 50%,transparent 75%);opacity:0;transform:translateX(-100%)}
+html body :is(.invite-card,.offer-panel):focus-within .motion-sheen::before{animation:motion-sheen 600ms var(--motion-ease) 1}
+@keyframes motion-sheen{0%{transform:translateX(-100%);opacity:0}25%{opacity:1}100%{transform:translateX(100%);opacity:0}}
+html body.dark .theme-button svg{transform:rotate(25deg)}
+html body button[aria-pressed=true]{box-shadow:inset 0 -2px var(--motion-accent)}
+@media(max-width:700px){
+ html body #mobile-menu{animation:none;opacity:1;transform:translateY(0);transition:opacity var(--motion-medium),transform var(--motion-medium) var(--motion-ease),display var(--motion-medium) allow-discrete}
+ html body #mobile-menu[hidden]{display:none;opacity:0;transform:translateY(16px)}
+ @starting-style{html body #mobile-menu:not([hidden]){opacity:0;transform:translateY(16px)}}
+}
+html body #mobile-menu:not([hidden]) :is(a,button){animation:motion-menu var(--motion-medium) var(--motion-ease) both;animation-delay:calc(var(--motion-index,0)*35ms)}
+@keyframes motion-menu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(hover:hover){
+ html body :is(a,button,summary):hover{color:var(--motion-accent)}
+ html body :is(button,.primary-action,.horizon-button,.invite-cta):hover{box-shadow:0 5px 16px -8px var(--motion-accent)}
+ html body :is(a,button):hover :is(.interface-arrow,.contact-channel-arrow,.motion-arrow){transform:translate(2px,-2px)}
+ html body :is(.desktop-nav a,.footer-layout nav a,.footer-legal a,.back-link,.faq-answer a,.legal a,.options-compare):hover::after{transform:scaleX(1)}
+ html body :is(.invite-card,.offer-panel,.season-card,.client-case):hover{transform:translateY(-5px);border-color:var(--motion-accent);box-shadow:0 22px 38px -22px color-mix(in srgb,var(--motion-accent) 45%,transparent)}
+ html body .invite-card:hover .invite-price{color:color-mix(in srgb,var(--ink) 80%,var(--motion-accent))}
+ html body :is(.invite-card,.offer-panel):hover .motion-sheen::before{animation:motion-sheen 600ms var(--motion-ease) 1}
+ html body .offer-panel:hover .offer-price{color:color-mix(in srgb,var(--ink) 80%,var(--motion-accent))}
+ html body .offer-panel:hover .offer-quote{transform:translateY(-2px)}
+ html body .invite-card:hover .invite-cta{transform:translateY(-2px)}
+ html body .invite-card:hover :is(.invite-badge,.wedding-seal){box-shadow:0 0 14px color-mix(in srgb,var(--motion-accent) 25%,transparent)}
+ html body .invite-card:hover .invite-light{opacity:.7}
+ html body :is(.invite-card,.offer-panel,.season-card,.client-case):active{transform:translateY(1px)}
+ html body .season-card:hover{transform:translate(var(--x),calc(var(--y) - 5px)) rotate(var(--r))}
+ html body .season-card:active{transform:translate(var(--x),calc(var(--y) + 1px)) rotate(var(--r))}
+}
+html body .invite-card .invite-cta:active,html body .offer-panel .offer-quote:active{transform:translateY(1px) scale(.98);transition-duration:var(--motion-fast)}
+/* State changes remain perceptible when spatial motion is disabled. */
+html body[data-journey-motion=paused] :is(a,button,summary,input,select,textarea,[role=tab],.invite-card,.offer-panel,.season-card,.client-case),
+html body[data-journey-motion=paused] :is(.interface-arrow,.motion-arrow,summary [aria-hidden=true],.invite-cta,.theme-button svg){transform:none!important;translate:none!important;rotate:none!important;transition-property:color,background-color,border-color,opacity!important;transition-duration:var(--motion-fast)!important;animation:none!important}
+html body[data-journey-motion=paused] details::details-content{transition:opacity var(--motion-fast)}
+html body[data-journey-motion=paused] .motion-indicator{transition:opacity var(--motion-fast)}
+html body[data-journey-motion=paused] :is(.invite-light,#mobile-menu){animation:none!important}
+html body[data-journey-motion=paused] #mobile-menu{transform:none!important;transition:opacity var(--motion-fast),display var(--motion-fast) allow-discrete}
+html body[data-journey-motion=paused] .motion-sheen::before{animation:none!important}
+html body[data-journey-motion=paused] .wedding-plans .invite-card{translate:0 var(--lift)!important}
+html body[data-journey-motion=paused] [data-view=estudio] a.studio-work{transition:opacity var(--motion-fast),color var(--motion-fast)!important}
+@media(prefers-reduced-motion:reduce){
+ html body :is(a,button,summary,input,select,textarea,[role=tab],.invite-card,.offer-panel,.season-card,.client-case),html body :is(.interface-arrow,.motion-arrow,summary [aria-hidden=true],.invite-cta,.theme-button svg){transform:none!important;translate:none!important;rotate:none!important;transition-property:color,background-color,border-color,opacity!important;transition-duration:var(--motion-fast)!important;animation:none!important}
+ html body details::details-content{transition:opacity var(--motion-fast)}
+ html body .motion-indicator{transition:opacity var(--motion-fast)}
+ html body :is(.invite-light,#mobile-menu){animation:none!important}
+ html body #mobile-menu{transform:none!important;transition:opacity var(--motion-fast),display var(--motion-fast) allow-discrete}
+ html body .motion-sheen::before{animation:none!important}
+ html body .wedding-plans .invite-card{translate:0 var(--lift)!important}
+ html body [data-view=estudio] a.studio-work{transition:opacity var(--motion-fast),color var(--motion-fast)!important}
+ html body #mobile-menu:not([hidden]) :is(a,button){animation:motion-fade var(--motion-fast)!important}
+}
