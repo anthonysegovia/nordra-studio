@@ -70,7 +70,8 @@ export function giftOpening() {
     entrance.classList.toggle('still',!live);stage.classList.toggle('live',live&&Boolean(scene));
     frame.hidden=false;frame.removeAttribute('aria-hidden');open.disabled=true;
     document.body.dataset.phase='opening';
-    skip.focus({preventScroll:true});sync();
+    skip.hidden=true;
+    entrance.focus({preventScroll:true});sync();
   });
   skip.addEventListener('click',e=>{e.preventDefault();finish()});
   entrance.addEventListener('keydown',e=>{if(e.key==='Escape')finish()});
