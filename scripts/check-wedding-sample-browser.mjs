@@ -8,6 +8,8 @@ try{for(const [width,height] of [[1440,900],[390,844],[375,667]])for(const lang 
  const mobile=width<701,context=await browser.newContext({viewport:{width,height},hasTouch:mobile,isMobile:mobile,locale:lang==='es'?'es-MX':'en-US'}),page=await context.newPage(),errors=[];
  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});await page.route('**/_vercel/**',r=>r.fulfill({contentType:'application/javascript',body:''}));
  await page.goto(`${url}/${lang==='en'?'en/':''}bodas?theme=${theme}`);await settle(page);
+ assert(await page.evaluate(()=>document.querySelector('#bodas-respuesta').getBoundingClientRect().top>=document.querySelector('.rings-hero').getBoundingClientRect().bottom-1),'Sample background must not cover the hero fade');
+ if(!mobile)await page.waitForTimeout(9500);
  const notice=page.locator('.locale-suggestion button');if(await notice.isVisible())await notice.click();
  const ref=await context.newPage();await ref.goto(mock);await ref.addStyleTag({content:'.mock-bar{display:none}'});await settle(ref);
  if(theme==='dark')await ref.addStyleTag({content:':root{--paper:#1c1714;--paper-2:#28201b;--ink:#efe6d8;--soft:#bfae99;--line:#3a3029;--accent:#d8c3a5}'});
