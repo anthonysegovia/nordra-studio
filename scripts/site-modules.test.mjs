@@ -101,7 +101,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["mobile-chrome","language-switch","wedding-page","occasion-stage"],
+    "entryStyles": ["mobile-chrome","language-switch","wedding-page","occasion-stage","wedding-sample"],
     "inline": 3
   },
   "temporada": {

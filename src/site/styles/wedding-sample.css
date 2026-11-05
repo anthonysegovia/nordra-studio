@@ -1,6 +1,6 @@
 /* Approved couple and sample composition; wedding entry only. */
-#bodas-respuesta{--paper:#fbf7ee;--paper-2:#f3ebdd;--ink:#433329;--soft:#7a6655;--line:#e2d6c3;--accent:#6b5444;--gold:#b8955a;--sample-ease:cubic-bezier(.22,.8,.24,1);display:block;margin-top:0;padding:0;border-top:0;color:var(--ink);background:var(--paper);width:100vw;max-width:none;margin-left:calc(50% - 50vw)}
-body.dark #bodas-respuesta{--paper:#1c1714;--paper-2:#28201b;--ink:#efe6d8;--soft:#bfae99;--line:#3a3029;--accent:#d8c3a5}
+#bodas-respuesta{--paper:#fbf7ee;--paper-2:#f3ebdd;--sample-ink:#433329;--soft:#7a6655;--sample-line:#e2d6c3;--sample-accent:#6b5444;--gold:#b8955a;--sample-ease:cubic-bezier(.22,.8,.24,1);display:block;margin-top:0;padding:0;border-top:0;color:var(--sample-ink);background:var(--paper);width:100vw;max-width:none;margin-left:calc(50% - 50vw)}
+body.dark #bodas-respuesta{--paper:#1c1714;--paper-2:#28201b;--sample-ink:#efe6d8;--soft:#bfae99;--sample-line:#3a3029;--sample-accent:#d8c3a5}
 .rings-hero::after{content:"";position:absolute;inset:auto 0 0;height:170px;z-index:0;pointer-events:none;background:linear-gradient(transparent,var(--paper) 96%)}
 .rings-thread{display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;margin-top:-34px;pointer-events:none}
 .rings-thread .rings-seal{width:62px;height:36px;margin:0;overflow:visible}
@@ -13,9 +13,9 @@ body.dark #bodas-respuesta{--paper:#1c1714;--paper-2:#28201b;--ink:#efe6d8;--sof
 .rings-couple .couple-script{font:400 clamp(40px,4.2vw,56px)/1.1 'Pinyon Script',cursive;color:var(--gold);margin:0}
 .couple-script span{display:block}
 .rings-couple .couple-date{font:500 13px Manrope,sans-serif;letter-spacing:.32em;color:var(--soft);margin:18px 0 26px}
-.rings-couple .couple-lead{font:400 clamp(24px,2.3vw,30px)/1.25 'Cormorant Wedding',serif;color:var(--ink);margin:0;max-width:22ch}
+.rings-couple .couple-lead{font:400 clamp(24px,2.3vw,30px)/1.25 'Cormorant Wedding',serif;color:var(--sample-ink);margin:0;max-width:22ch}
 .wedding-sample-composition{display:grid;grid-template-columns:minmax(0,400px) minmax(0,640px);gap:24px 72px;align-items:center;justify-content:center;padding:40px 48px 140px}
-#bodas-respuesta h2{font:400 clamp(44px,4.4vw,62px)/1.02 'Cormorant Wedding',serif;letter-spacing:-.01em;margin:0 0 14px;color:var(--ink)}
+#bodas-respuesta h2{font:400 clamp(44px,4.4vw,62px)/1.02 'Cormorant Wedding',serif;letter-spacing:-.01em;margin:0 0 14px;color:var(--sample-ink)}
 #bodas-respuesta .wedding-direction>p{font-size:14px;color:var(--soft);margin:0 0 30px}
 #bodas-respuesta .wedding-switch{display:grid;gap:4px;margin:0 0 30px;padding:0}
 #bodas-respuesta .wedding-switch button{display:grid;grid-template-columns:34px 1fr;gap:2px 10px;width:100%;padding:16px 18px;border:0;border-radius:12px;background:transparent;transition:background .35s var(--sample-ease),transform .35s var(--sample-ease)}
@@ -24,16 +24,16 @@ body.dark #bodas-respuesta{--paper:#1c1714;--paper-2:#28201b;--ink:#efe6d8;--sof
 #bodas-respuesta .wedding-switch button[aria-selected=true]{background:var(--paper-2)}
 #bodas-respuesta .wedding-switch button[aria-selected=true]::before{transform:scaleY(1)}
 #bodas-respuesta .wedding-switch em{grid-row:span 2;font:italic 400 20px/1.2 'Cormorant Wedding',serif;color:var(--gold)}
-#bodas-respuesta .wedding-switch strong{font-size:15px;font-weight:600;color:var(--ink)}
+#bodas-respuesta .wedding-switch strong{font-size:15px;font-weight:600;color:var(--sample-ink)}
 #bodas-respuesta .wedding-switch span{font-size:13.5px;color:var(--soft)}
 #bodas-respuesta .wedding-links{display:flex;flex-wrap:wrap;gap:0 22px}
-#bodas-respuesta .wedding-links a{color:var(--ink);font-size:14px;text-decoration:none;background:linear-gradient(var(--accent),var(--accent)) 0 calc(100% - 10px)/100% 1px no-repeat;transition:background-size .35s var(--sample-ease),color .25s,transform .25s}
-#bodas-respuesta .wedding-links a:is(:hover,:focus-visible){background-size:0 1px;color:var(--accent)}
+#bodas-respuesta .wedding-links a{color:var(--sample-ink);font-size:14px;text-decoration:none;background:linear-gradient(var(--sample-accent),var(--sample-accent)) 0 calc(100% - 10px)/100% 1px no-repeat;transition:background-size .35s var(--sample-ease),color .25s,transform .25s}
+#bodas-respuesta .wedding-links a:is(:hover,:focus-visible){background-size:0 1px;color:var(--sample-accent)}
 #bodas-respuesta .wedding-devices{height:auto;aspect-ratio:640/520}
 #bodas-respuesta :is(.wedding-phone,.wedding-dashboard){top:0;padding:0;border:0;transform:none;transform-origin:center;transition:translate .8s var(--sample-ease),scale .8s var(--sample-ease),rotate .8s var(--sample-ease),opacity .6s var(--sample-ease),filter .6s var(--sample-ease),box-shadow .6s}
 #bodas-respuesta .wedding-phone{left:0;width:36%;border-radius:30px;overflow:hidden;box-shadow:0 0 0 7px #4a382d,0 30px 60px #43332940}
 #bodas-respuesta .wedding-phone img{border-radius:0}
-#bodas-respuesta .wedding-dashboard{right:0;top:12%;width:84%;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 30px 70px #43332924,0 0 0 1px var(--line)}
+#bodas-respuesta .wedding-dashboard{right:0;top:12%;width:84%;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 30px 70px #43332924,0 0 0 1px var(--sample-line)}
 #bodas-respuesta .wedding-dashboard img{border-radius:0}
 #bodas-respuesta .wedding-dashboard::after{display:none}
 #bodas-respuesta [data-step=cover] .wedding-phone{z-index:2;translate:0;scale:1;rotate:0deg;opacity:1;filter:none;pointer-events:none}
@@ -55,7 +55,7 @@ body.dark #bodas-respuesta{--paper:#1c1714;--paper-2:#28201b;--ink:#efe6d8;--sof
  #bodas-respuesta h2{order:1;font-size:42px;text-align:center}
  #bodas-respuesta .wedding-direction>p{order:2;text-align:center;margin-bottom:20px}
  #bodas-respuesta .wedding-switch{order:3;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 22px;width:100%}
- #bodas-respuesta .wedding-switch button{grid-template-columns:1fr;padding:12px;text-align:center;border:1px solid var(--line);border-radius:14px;min-height:44px}
+ #bodas-respuesta .wedding-switch button{grid-template-columns:1fr;padding:12px;text-align:center;border:1px solid var(--sample-line);border-radius:14px;min-height:44px}
  #bodas-respuesta .wedding-switch button::before{left:20%;right:20%;top:auto;bottom:-1px;width:auto;height:2px;transform:scaleX(0)}
  #bodas-respuesta .wedding-switch button[aria-selected=true]::before{transform:scaleX(1)}
  #bodas-respuesta .wedding-switch em{grid-row:auto;font-size:16px}
