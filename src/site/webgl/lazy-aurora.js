@@ -12,15 +12,13 @@ export function lazyAurora(element,initialize){
  const sized=()=>element.clientWidth>0&&element.clientHeight>0;
  function schedule(){
   if(controller.signal.aborted||started||queued||!near||!sized())return;
-  queued=true;jobs.push(async()=>{
+  queued=true;warmContext(controller.signal,'webgl').then(()=>{jobs.push(async()=>{
    try{
-    if(controller.signal.aborted||!near||!sized())return;
-    await warmContext(controller.signal,'webgl');
     if(controller.signal.aborted||!near||!sized())return;
     started=true;await initialize(controller.signal);
    }catch(error){if(error.name!=='AbortError')element.dataset.renderer='fallback';}
    finally{queued=false;}
-  });drain();
+  });drain();},error=>{queued=false;if(error.name!=='AbortError')element.dataset.renderer='fallback';});
  }
  const intersection=new IntersectionObserver(([entry])=>{near=entry.isIntersecting;schedule();},{rootMargin:`${innerHeight}px 0px`});
  const size=new ResizeObserver(schedule);intersection.observe(element);size.observe(element);

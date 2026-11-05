@@ -12,8 +12,8 @@ test('zero-size and distant fields wait; shared idle queue initializes one at a 
  try{
   const disposeA=lazyAurora(a,async()=>{calls.push('a');await new Promise(r=>release=r);});const disposeB=lazyAurora(b,async()=>calls.push('b'));
   intersections[0]([{isIntersecting:true}]);assert.equal(idle.length,0);
-  a.clientHeight=100;sizes[0]();assert.equal(idle.length,1);
-  intersections[1]([{isIntersecting:true}]);assert.equal(idle.length,1,'No second idle callback until first job finishes');
+  a.clientHeight=100;sizes[0]();await settle();assert.equal(idle.length,1);
+  intersections[1]([{isIntersecting:true}]);await settle();assert.equal(idle.length,1,'No second idle callback until first job finishes');
   const running=idle.shift()();await settle();assert.deepEqual(calls,['a']);disposeB();release();await running;
   assert.equal(idle.length,1);await idle.shift()();assert.deepEqual(calls,['a']);disposeA();
  }finally{restore();}
