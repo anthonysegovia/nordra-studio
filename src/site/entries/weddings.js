@@ -26,3 +26,4 @@ import '../scripts/interaction-motion.js?entry=weddings';
 
 import '../wedding-rings/rings.css';
 import '../wedding-rings/rings-hero.js';
+import '../styles/wedding-sample.css';

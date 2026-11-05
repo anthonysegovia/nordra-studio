@@ -87,15 +87,11 @@ body[data-scene=bodas] .rings-hero{width:100vw;max-width:none;margin-left:calc(5
 .rings-hero [hidden]{display:none!important}
 .rings-hero .rings-motion{position:absolute;bottom:22px;left:0;right:0;margin-inline:auto;width:max-content;z-index:4;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:10px 18px;font:inherit;font-size:13px;cursor:pointer;min-height:44px}
 .rings-hero button:focus-visible,.rings-hero a:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
-.rings-story-head{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;max-width:1240px;margin:0 auto;padding:110px 64px;width:100%}
-.rings-story-photo{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:999px 999px 6px 6px;display:block}
 .rings-seal{width:84px;height:48px;display:block;margin-bottom:18px}
 .rings-seal circle{fill:none;stroke:#c9a15c;stroke-width:2.2;stroke-dasharray:120;stroke-dashoffset:120;transition:stroke-dashoffset 1.6s cubic-bezier(.45,.05,.3,1)}
 .rings-seal circle+circle{transition-delay:.35s}.rings-seal.on circle{stroke-dashoffset:0}
-.rings-story-head .wedding-direction{display:block}
-.wedding-sample:has(.rings-story-head)>.wedding-stage{grid-column:1/-1;width:min(100%,980px);justify-self:center}
 @media(min-width:901px){.rings-hero .rings-controls{justify-content:flex-start}}
-@media(max-width:700px){.rings-story-head{grid-template-columns:1fr;padding:70px 20px;gap:32px}.rings-hero .actions{gap:16px}.rings-hero .rings-controls{gap:16px}}
+@media(max-width:700px){.rings-hero .actions{gap:16px}.rings-hero .rings-controls{gap:16px}}
 @media(prefers-reduced-motion:reduce){.rings-seal circle{stroke-dashoffset:0;transition:none}.rings-hero *{animation:none!important;transition:none!important}}
 body[data-journey-motion=paused] .rings-seal circle{stroke-dashoffset:0;transition:none}
 /* The retained occasion navigation overlays the hero's reserved top space. */
