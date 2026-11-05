@@ -110,10 +110,10 @@ body[data-scene=bodas] .rings-hero{margin-top:-115px;padding-top:calc(74px + 4vh
 /* Keep layout independent of the shared press transform. */
 .rings-hero .rings-controls button{display:inline-flex;align-items:center;align-self:center;justify-content:center;gap:10px;line-height:1}
 @media(max-width:700px){
- body[data-scene=bodas] .rings-hero{min-height:calc(100svh - 136px);height:calc(100svh - 136px);margin-top:-132px;padding:118px 20px 0}
+ body[data-scene=bodas] .rings-hero{min-height:var(--rings-available-height,100svh);height:var(--rings-available-height,100svh);margin-top:-132px;padding:118px 20px 0}
  .rings-hero .rings-controls{top:12px;left:auto;right:20px;height:36px}
- .rings-hero .rings-controls button{min-height:36px;padding:4px 0;font-size:11px}
- .rings-hero .eyebrow{font-size:9px;letter-spacing:.16em;margin:0}
+ .rings-hero .rings-controls button{min-height:36px;padding:4px 0;font-size:12px}
+ .rings-hero .eyebrow{font-size:11px;letter-spacing:.1em;margin:0}
  .rings-hero h1{font-size:clamp(32px,8.7vw,40px);margin:8px 0 0}
  .rings-hero h1 .script{width:70vw;margin:-.08em auto 0}
  .rings-hero .lead{font-size:13px;line-height:1.45;margin:5px auto 0;max-width:340px}
@@ -121,7 +121,7 @@ body[data-scene=bodas] .rings-hero{margin-top:-115px;padding-top:calc(74px + 4vh
  .rings-hero .horizon-button{font-size:11px;min-height:44px;padding:10px 14px;gap:8px;white-space:nowrap}
  .rings-hero .options-compare{font-size:11px;min-height:44px;padding:8px 0;gap:6px;white-space:nowrap}
  .rings-hero .rings-motion{bottom:8px;min-height:36px;padding:7px 14px;font-size:12px}
- .rings-hero .hint{font-size:9px;letter-spacing:.08em}
+ .rings-hero .hint{font-size:11px;letter-spacing:.04em}
 }
 @media(max-width:700px) and (max-height:720px){
  body[data-scene=bodas] .rings-hero{padding-top:111px}

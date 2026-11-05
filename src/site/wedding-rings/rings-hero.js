@@ -8,6 +8,23 @@ function mountRings(){
  const frame=window.frameElement,parentDocument=frame?.ownerDocument,events=new AbortController();
  let scene,loading=false,failed=false,disposed=false,painted=false,visible=false,optedIn=false,idle=0,paint=0;
  const listen=(target,name,fn)=>target?.addEventListener(name,fn,{signal:events.signal});
+ // Use document coordinates so scrolling never expands the first-screen hero.
+ const bottomBar=document.querySelector('.mobile-route');
+ let layoutFrame=0;
+ function fitPhone(){
+  layoutFrame=0;if(disposed)return;
+  if(!phone.matches){hero.style.removeProperty('--rings-available-height');return;}
+  const bar=bottomBar?.getBoundingClientRect();
+  const bottom=bar?.height?bar.top:innerHeight;
+  const top=hero.getBoundingClientRect().top+scrollY;
+  const height=Math.max(0,Math.floor(bottom-top))+'px';
+  if(hero.style.getPropertyValue('--rings-available-height')!==height)hero.style.setProperty('--rings-available-height',height);
+ }
+ function scheduleFit(){if(!disposed&&!layoutFrame)layoutFrame=requestAnimationFrame(fitPhone);}
+ const layoutObserver=new ResizeObserver(scheduleFit);
+ for(const element of [hero,bottomBar,...document.querySelectorAll('.site-header,.locale-suggestion,.occasion-path')])if(element)layoutObserver.observe(element);
+ listen(window,'resize',scheduleFit);listen(window.visualViewport,'resize',scheduleFit);
+ document.fonts.ready.then(scheduleFit);fitPhone();
  const snapshot=()=>({visible,hidden:document.hidden,embeddedHidden:Boolean(frame&&(frame.getAttribute('aria-hidden')==='true'||!frame.isConnected)),paused:document.body.dataset.journeyMotion==='paused',reduced:reduced.matches,static:staticProfile(navigator),phone:phone.matches,optedIn,dark:document.body.classList.contains('dark'),ready:Boolean(scene),failed,disposed,painted});
  const cancelIdle=()=>{if(idle){if(window.cancelIdleCallback)cancelIdleCallback(idle);else clearTimeout(idle);idle=0;}};
  function fallback(){failed=true;scene?.dispose();scene=null;sync();}
@@ -56,7 +73,7 @@ function mountRings(){
  listen(document,'visibilitychange',sync);
  function afterPaint(){paint=requestAnimationFrame(()=>{paint=requestAnimationFrame(()=>{painted=true;sync();});});}
  if(document.readyState==='complete')afterPaint();else listen(window,'load',afterPaint);
- function dispose(){if(disposed)return;disposed=true;cancelIdle();cancelAnimationFrame(paint);events.abort();io.disconnect();bodyObserver.disconnect();parentObserver.disconnect();sealObserver.disconnect();scene?.dispose();scene=null;hero.classList.remove('has-scene');hero.dataset.running='false';}
+ function dispose(){if(disposed)return;disposed=true;cancelIdle();cancelAnimationFrame(paint);cancelAnimationFrame(layoutFrame);layoutObserver.disconnect();events.abort();io.disconnect();bodyObserver.disconnect();parentObserver.disconnect();sealObserver.disconnect();scene?.dispose();scene=null;hero.classList.remove('has-scene');hero.dataset.running='false';}
  listen(window,'pagehide',dispose);
  // BFCache restores the static DOM; reconstruct the policy without keeping GPU resources alive.
  function restore(e){if(e.persisted&&disposed){window.removeEventListener('pageshow',restore);mountRings();}}

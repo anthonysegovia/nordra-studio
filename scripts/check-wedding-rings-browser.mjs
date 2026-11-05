@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';import fs from 'node:fs';import path fro
 const url=process.env.RINGS_URL||'http://127.0.0.1:5198';const output=process.env.RINGS_EVIDENCE||path.join(process.env.TEMP||'.','nordra-wedding-rings');fs.mkdirSync(output,{recursive:true});const results=[];
 const browser=await launch();
 try{
- if(process.env.RINGS_SUITE!=='static')for(const lang of ['es','en'])for(const mobile of [false,true])for(const theme of ['light','dark']){
+ if(!['static','language'].includes(process.env.RINGS_SUITE))for(const lang of ['es','en'])for(const mobile of [false,true])for(const theme of ['light','dark']){
   const context=await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1440,height:900},hasTouch:mobile,isMobile:mobile,locale:lang==='es'?'es-MX':'en-US'});await profile(context);const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});await instrument(page);await page.route('**/_vercel/insights/script.js',r=>r.fulfill({status:200,contentType:'application/javascript',body:''}));
   await page.goto(`${url}/${lang==='en'?'en/':''}bodas?theme=${theme}`);await page.evaluate(()=>document.fonts.ready);
   const title=await page.locator('h1').textContent();assert.match(title,lang==='es'?/para siempre/:/forever/);
@@ -28,7 +28,7 @@ try{
   await page.locator('.rings-story-photo').scrollIntoViewIfNeeded();assert(await page.locator('.rings-story-photo').isVisible());await page.locator('#rings-seal').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('#rings-seal').classList.contains('on'));
   await page.screenshot({path:path.join(output,`${lang}-${theme}-${mobile?'mobile':'desktop'}-story.jpg`),type:'jpeg'});assert.deepEqual(errors,[]);results.push({lang,mobile,theme,fps,dragError:returned,consoleErrors:errors.length,preparation});console.log(lang,mobile,theme,fps.toFixed(1));await context.close();
  }
- if(process.env.RINGS_SUITE!=='static')for(const [width,height] of [[375,667],[412,915]])for(const theme of ['light','dark']){
+ if(!['static','language'].includes(process.env.RINGS_SUITE))for(const [width,height] of [[375,667],[412,915]])for(const theme of ['light','dark']){
   const context=await browser.newContext({viewport:{width,height},hasTouch:true,isMobile:true,locale:'es-MX'});await profile(context);const page=await context.newPage();await instrument(page);
   await page.goto(`${url}/bodas?theme=${theme}`);await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(200);
   const box=await page.locator('[data-rings-start]').boundingBox();assert(box.y>=0&&box.y+box.height<=await page.locator('.mobile-route').evaluate(el=>el.getBoundingClientRect().top),'Control above bottom bar');assert.equal(await page.evaluate(()=>scrollY),0);
@@ -36,9 +36,33 @@ try{
   await page.screenshot({path:path.join(output,`es-${theme}-${width}-initial.jpg`),type:'jpeg'});await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);assert.equal(await page.evaluate(()=>window.__ringsStartClicks),1);
   await page.waitForFunction(()=>window.__rings&&document.querySelector('.rings-hero.has-scene'));await page.waitForTimeout(8500);await page.screenshot({path:path.join(output,`es-${theme}-${width}-live.jpg`),type:'jpeg'});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);results.push({width,height,theme,realTouch:true});await context.close();
  }
- for(const mobile of [false,true])for(const mode of ['reduced','cores','memory','saveData','paused'])for(const lang of ['es','en'])for(const theme of ['light','dark']){
+ if(process.env.RINGS_SUITE!=='static')for(const [width,height] of [[375,667],[390,844],[412,915]])for(const theme of ['light','dark'])for(const dismissed of [false,true]){
+  const context=await browser.newContext({viewport:{width,height},hasTouch:true,isMobile:true,locale:'en-US'});await profile(context);const page=await context.newPage();await instrument(page);
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(`${url}/bodas?theme=${theme}`);await page.evaluate(()=>document.fonts.ready);await page.locator('.locale-suggestion').waitFor({state:'visible'});
+  const checkFit=async()=>{
+   await page.waitForFunction(()=>{const h=document.querySelector('.rings-hero').getBoundingClientRect(),bar=document.querySelector('.mobile-route').getBoundingClientRect();return Math.abs(h.bottom-bar.top)<2;});
+   const box=await page.locator('[data-rings-start]').boundingBox();
+   assert(box.y>=0&&box.y+box.height<=await page.locator('.mobile-route').evaluate(el=>el.getBoundingClientRect().top),'Motion control above actual bottom bar');
+   assert(await page.evaluate(({x,y,width,height})=>Boolean(document.elementFromPoint(x+width/2,y+height/2)?.closest('[data-rings-start]')),box),'Motion control owns the touch point');
+   assert.equal(await page.evaluate(()=>scrollY),0);return box;
+  };
+  await checkFit();const before=await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height);
+  if(dismissed){await page.locator('.locale-suggestion button').click();await page.locator('.locale-suggestion').waitFor({state:'hidden'});}
+  const box=await checkFit();const fitted=await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height);if(dismissed)assert(fitted>before,'Closing notice restores hero space');
+  const sizes=await page.evaluate(()=>Object.fromEntries(['.eyebrow','.hint','.rings-controls button'].map(selector=>[selector,parseFloat(getComputedStyle(document.querySelector('.rings-hero '+selector)).fontSize)])));
+  assert(sizes['.eyebrow']>=11&&sizes['.hint']>=11&&sizes['.rings-controls button']>=12);
+  await page.screenshot({path:path.join(output,`locale-${theme}-${width}-${dismissed?'closed':'visible'}.jpg`),type:'jpeg'});
+  await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);assert.equal(await page.evaluate(()=>window.__ringsStartClicks),1);
+  await page.waitForFunction(()=>document.querySelector('.rings-hero.has-scene #rings-stage canvas'));await page.waitForTimeout(8500);
+  await page.screenshot({path:path.join(output,`locale-${theme}-${width}-${dismissed?'closed':'visible'}-live.jpg`),type:'jpeg'});
+  if(!dismissed){await page.locator('.locale-suggestion button').click();await page.waitForFunction(old=>document.querySelector('.rings-hero').getBoundingClientRect().height>old,fitted);assert(await page.locator('#rings-stage canvas').isVisible());}
+  await page.setViewportSize({width,height:height+40});await page.waitForFunction(()=>Math.abs(document.querySelector('.rings-hero').getBoundingClientRect().bottom-document.querySelector('.mobile-route').getBoundingClientRect().top)<2);
+  assert.deepEqual(errors,[]);results.push({locale:'en-US',width,height,theme,notice:dismissed?'closed':'visible',realTouch:true,resized:true,sizes});await context.close();
+ }
+ if(process.env.RINGS_SUITE!=='language')for(const mobile of [false,true])for(const mode of ['reduced','cores','memory','saveData','paused'])for(const lang of ['es','en'])for(const theme of ['light','dark']){
   const context=await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1440,height:900},locale:lang,reducedMotion:mode==='reduced'?'reduce':'no-preference'});await profile(context,{cores:mode==='cores'?3:8,memory:mode==='memory'?2:8,saveData:mode==='saveData'});const page=await context.newPage();await page.goto(`${url}/${lang==='en'?'en/':''}bodas?theme=${theme}${mode==='paused'?'&motion=paused':''}`);await page.waitForTimeout(350);
   assert.equal(await page.evaluate(()=>window.__webglContexts),0,mode);assert.equal(await page.locator('#rings-stage canvas').count(),0);assert(await page.locator(`.rings-poster-${theme} img`).isVisible());assert.match(await page.locator(`.rings-poster-${theme} img`).evaluate(i=>i.currentSrc),new RegExp(`rings-poster-${theme}-${mobile?'mobile':'desktop'}.webp`));assert.equal(await page.locator('#hint').isVisible(),false);results.push({mode,lang,theme,mobile,webglContexts:0});await context.close();
  }
- fs.writeFileSync(path.join(output,process.env.RINGS_SUITE==='static'?'browser-static-results.json':'browser-results.json'),JSON.stringify(results,null,2));console.log(JSON.stringify(results,null,2));
+ fs.writeFileSync(path.join(output,process.env.RINGS_SUITE==='static'?'browser-static-results.json':process.env.RINGS_SUITE==='language'?'browser-language-results.json':'browser-results.json'),JSON.stringify(results,null,2));console.log(JSON.stringify(results,null,2));
 }finally{await browser.close();}

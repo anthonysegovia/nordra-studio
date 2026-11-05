@@ -9,7 +9,7 @@ const events=new AbortController(), envTargets=[];
 let disposed=false, frameId=0, active=false, currentDark=Boolean(options.dark);
 const listen=(target,type,fn,opts={})=>target.addEventListener(type,fn,{...opts,signal:events.signal});
 function releaseTree(tree){tree.traverse(o=>{o.geometry?.dispose();for(const m of (Array.isArray(o.material)?o.material:[o.material]))m?.dispose();});}
-async function environment(env,sigma){await yieldSetup();renderer.setRenderTarget(pmrem._pingPongRenderTarget);await renderer.compileAsync(env,new THREE.PerspectiveCamera(90,1,.1,100));renderer.setRenderTarget(null);await yieldSetup();const rt=pmrem.fromScene(env,sigma);envTargets.push(rt);releaseTree(env);return rt.texture;}
+async function environment(env,sigma){await yieldSetup();if(pmremPrepared){renderer.setRenderTarget(pmrem._pingPongRenderTarget);await renderer.compileAsync(env,new THREE.PerspectiveCamera(90,1,.1,100));renderer.setRenderTarget(null);await yieldSetup();}const rt=pmrem.fromScene(env,sigma);envTargets.push(rt);releaseTree(env);return rt.texture;}
 let reduce=false;
 const wideQ=matchMedia('(min-width:901px)'),narrowQ=matchMedia('(max-width:700px)');
 const LITE=narrowQ.matches;
@@ -23,7 +23,7 @@ stage.appendChild(renderer.domElement);
 const scene=new THREE.Scene();
 const pmrem=new THREE.PMREMGenerator(renderer);
 const camera=new THREE.PerspectiveCamera(30,1,0.05,80);
-await preparePMREM(renderer,pmrem);
+const pmremPrepared=await preparePMREM(renderer,pmrem);
 
 // ---------- Helpers ----------
 const clamp=t=>Math.min(1,Math.max(0,t));

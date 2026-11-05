@@ -31,6 +31,9 @@ export async function prepareRingsPrograms(renderer, camera, scene, passes) {
 // 256px targets once, then await the exact blur/background programs it uses.
 // Keep this adapter pinned to that version; no environment parameters change.
 export async function preparePMREM(renderer, pmrem) {
+ // These fields start as null in r181; absence, not null, signals an incompatible API.
+ if(['_setSize','_allocateTargets','_applyGGXFilter'].some(key=>typeof pmrem[key]!=='function')||
+    ['_blurMaterial','_ggxMaterial','_pingPongRenderTarget'].some(key=>!(key in pmrem)))return false;
  pmrem._setSize(256);
  const target=pmrem._allocateTargets();
  const geometry=new THREE.BufferGeometry();
@@ -41,9 +44,11 @@ export async function preparePMREM(renderer, pmrem) {
  try{renderer.render=()=>{};pmrem._applyGGXFilter(target,0,1);}
  finally{renderer.render=render;}
  try{
+  if(!pmrem._blurMaterial||!pmrem._ggxMaterial)return false;
   renderer.setRenderTarget(target);
   for(const material of [pmrem._blurMaterial,pmrem._ggxMaterial,background]){
    await yieldSetup();await renderer.compileAsync(new THREE.Mesh(geometry,material),camera);
   }
+  return true;
  }finally{renderer.setRenderTarget(null);target.dispose();geometry.dispose();background.dispose();}
 }
