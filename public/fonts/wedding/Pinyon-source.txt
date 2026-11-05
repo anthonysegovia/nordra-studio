@@ -1,0 +1,6 @@
+Pinyon Script — SIL Open Font License 1.1
+Source: https://github.com/google/fonts/tree/main/ofl/pinyonscript
+Subset requested from Google Fonts CSS API: text=para%20siempreforever
+Converted losslessly to WOFF2 with fontTools and Brotli (offline tooling only).
+Characters cover the Spanish and English hero lettering. License: Pinyon-OFL.txt.
+No font service is contacted by the site.

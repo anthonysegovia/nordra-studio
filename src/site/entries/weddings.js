@@ -23,3 +23,6 @@ import '../styles/occasion-stage.css';
 
 import '../../../public/motion-system.css';
 import '../scripts/interaction-motion.js?entry=weddings';
+
+import '../wedding-rings/rings.css';
+import '../wedding-rings/rings-hero.js';

@@ -33,7 +33,7 @@ export function assertDeferredLandscape(entryFiles, read) {
   function visit(file) {
     if (visited.has(file)) return;
     visited.add(file);
-    assert.ok(!/^(?:three|landscape-scene)-.*\.js$/.test(basename(file)), `3D code in initial bundle: ${file}`);
+    assert.ok(!/^(?:three|landscape-scene|rings-scene)-.*\.js$/.test(basename(file)), `3D code in initial bundle: ${file}`);
     for (const match of read(file).matchAll(/\bimport\s*(?:[^;"']*?\bfrom\s*)?["']([^"']+)["']/g)) visit(resolve(dirname(file), match[1]));
   }
   entryFiles.forEach(visit);

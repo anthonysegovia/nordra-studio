@@ -15,6 +15,7 @@ Preferencias explícitas del usuario, aplicables a cambios futuros:
 - Priorizar mensajes breves, tipografía legible y recursos visuales. El panel privado de invitados está incluido en Aurora y Boreal. Bruma se retiró de la oferta comercial; conservar los registros históricos ya contratados.
 
 - Las tarjetas deben expresar amor, alegría, conexión y celebración con imágenes minimalistas, un solo motivo y espacio libre. El usuario rechazó las escenas fantásticas recargadas, destellos y exceso de elementos. La emoción debe sentirse íntima y natural.
+- El hero de Bodas es «Los dos anillos» (aprobado el 05/11/2026). La foto de la pareja se conserva en la primera sección. Maqueta de referencia: E:\Nordra Studio\Maquetas\bodas-anillos\index.html.
 - La página de Bodas tiene identidad propia: blanco, marfil, crema y beige, fotografía romántica y tipografía delicada. Esta paleta sí aplica a Bodas aunque la entrada general conserve los colores de Nordra. Si se elige modo oscuro, usar neutros cálidos, sin auroras azules ni violetas en Bodas.
 - Conservar la fotografía editorial de la pareja aprobada por el usuario. Bodas debe tener una composición propia, evitando la repetición de bloques genéricos de imagen y texto. Reducir superficies oscuras y mantener una aurora blanca/beige muy tenue y lenta, con opción de pausa y respeto a movimiento reducido.
 - No usar puntos en los títulos. Todos los controles deben responder con una animación sutil al interactuar, incluyendo teclado y toque, respetando movimiento reducido.
