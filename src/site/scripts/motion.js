@@ -1,5 +1,6 @@
 import { staticProfile } from '../wedding-rings/state.js';
 import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js';
+import { pageLifecycle } from '../webgl/page-lifecycle.js';
 (()=>{
  const host=document.querySelector('[data-view]:not([hidden])');
  host.querySelectorAll('.aurora-field').forEach((field,index)=>{
@@ -8,15 +9,15 @@ import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js
  const heroLight=host.dataset.view==='entrada'&&field.parentElement===host&&!field.classList.contains('travel-ambient');
  const constrained=navigator.connection?.saveData===true||(navigator.deviceMemory>0&&navigator.deviceMemory<=4)||(navigator.hardwareConcurrency>0&&navigator.hardwareConcurrency<=4);
  const profile=()=>constrained?{fps:24,dpr:1,pixels:700000,name:'light'}:smallScreen.matches?{fps:30,dpr:1.15,pixels:1000000,name:'mobile'}:{fps:60,dpr:index===0?1.5:1.25,pixels:2400000,name:'full'};
- let paused=parent!==window||reduced.matches||document.body.dataset.journeyMotion==='paused',intensity=.85,time=0,last=0,raf=0,ready=false,visible=false,render,mobileLight;
+ let paused=parent!==window||reduced.matches||document.body.dataset.journeyMotion==='paused',intensity=.85,time=0,last=0,raf=0,ready=false,visible=false,render,mobileLight,parked=false,disposed=false;
  const tell=state=>{if(index===0&&parent!==window)parent.postMessage({type:'nordra-motion-status',state},'*');};
  const stop=()=>{cancelAnimationFrame(raf);raf=0;last=0;};
- function frame(now){if(paused||document.hidden||!ready||!visible)return;if(last&&now-last<1000/profile().fps-.5){raf=requestAnimationFrame(frame);return;}if(last)time+=Math.min((now-last)/1000,.08);last=now;render(time);raf=requestAnimationFrame(frame);}
- function sync(){stop();if(!ready)return;canvas.dataset.motion=paused?'paused':visible?'playing':'offscreen';tell(paused?'paused':'playing');if(mobileLight){mobileLight.setPlaying(!paused && visible);return;}if(!paused&&!document.hidden&&visible)raf=requestAnimationFrame(frame);}
+ function frame(now){if(parked||disposed||paused||reduced.matches||document.hidden||!ready||!visible)return;if(last&&now-last<1000/profile().fps-.5){raf=requestAnimationFrame(frame);return;}if(last)time+=Math.min((now-last)/1000,.08);last=now;render(time);raf=requestAnimationFrame(frame);}
+ function sync(){stop();if(parked||disposed||!ready)return;canvas.dataset.motion=paused||reduced.matches?'paused':visible?'playing':'offscreen';tell(paused?'paused':'playing');if(mobileLight){mobileLight.setPlaying(!paused && visible);return;}if(!paused&&!reduced.matches&&!document.hidden&&visible)raf=requestAnimationFrame(frame);}
  addEventListener('message',e=>{if(e.source!==parent||e.data?.type!=='nordra-motion')return;paused=!!e.data.paused;intensity=Math.max(.2,Math.min(1.2,Number(e.data.intensity)||.85));sync();if(ready)render(time);});
  addEventListener('nordra-local-motion',e=>{paused=!!e.detail.paused;sync();if(ready)render(time);});
  reduced.addEventListener('change',e=>{paused=e.matches;sync();});document.addEventListener('visibilitychange',sync);addEventListener('nordra-theme',()=>{if(ready)render(time);});
- const canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');field.append(canvas);
+ let canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');field.append(canvas);
  const inView=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();},{threshold:0});inView.observe(field);
  if((smallScreen.matches||matchMedia('(pointer:coarse)').matches||(host.dataset.view==='bodas'&&(reduced.matches||document.body.dataset.journeyMotion==='paused'||staticProfile(navigator))))&&window.NordraMobileAurora){
   canvas.remove();const mobile=window.NordraMobileAurora;
@@ -29,7 +30,7 @@ import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js
   if(host.dataset.view==='temporada')addEventListener('nordra-seasonal-palette',paletteChange);
   if(field.classList.contains('showcase-aurora'))addEventListener('nordra-showcase-palette',paletteChange);
   ready=true;render(0);if(parent!==window)tell('ready');else sync();
-  addEventListener('pagehide',()=>{stop();inView.disconnect();mobileLight.dispose();},{once:true});return;
+  pageLifecycle({pause(){parked=true;stop();inView.disconnect();mobileLight.setPlaying(false);},resume(){parked=false;inView.observe(field);render(time);sync();},dispose(){disposed=true;stop();inView.disconnect();mobileLight.dispose();}});return;
  }
  let unfold=heroLight ? .65 : Number(field.dataset.unfold)||0;
  const initialPalette=Number(field.dataset.palette)||({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0;
@@ -39,11 +40,12 @@ import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js
  if(field.classList.contains('showcase-aurora'))addEventListener('nordra-showcase-palette',paletteChange);
  addEventListener('nordra-aurora-unfold',e=>{if(e.detail.field===field){unfold=e.detail.progress;if(ready)render(time);}});
  canvas.style.opacity='0';field.dataset.renderer='pending';
- let gl,program,buffer,observer;
- const dispose=()=>{ready=false;stop();observer?.disconnect();inView.disconnect();if(gl){gl.deleteBuffer(buffer);gl.deleteProgram(program);gl.getExtension('WEBGL_lose_context')?.loseContext();}canvas.remove();};
- addEventListener('pagehide',dispose,{once:true});
- lazyAurora(field,async signal=>{try{
- gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:true,preserveDrawingBuffer:true});if(!gl)throw Error('WebGL');
+ let currentGl,program,buffer,observer,lost=false;
+ const release=()=>{ready=false;stop();observer?.disconnect();observer=null;render=()=>{};if(currentGl){currentGl.deleteBuffer(buffer);currentGl.deleteProgram(program);currentGl.getExtension('WEBGL_lose_context')?.loseContext();}currentGl=null;program=buffer=null;};
+ function recover(){if(disposed)return;release();canvas.remove();canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');canvas.style.opacity='0';field.append(canvas);lost=false;field.dataset.renderer='pending';load.reset();}
+ const load=lazyAurora(field,async signal=>{const surface=canvas;try{
+ const gl=surface.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:true,preserveDrawingBuffer:true});if(!gl)throw Error('WebGL');currentGl=gl;
+ surface.addEventListener('webglcontextlost',event=>{event.preventDefault();if(disposed||surface!==canvas||currentGl!==gl)return;lost=true;ready=false;stop();if(!parked)recover();},{once:true});
  const vs='attribute vec2 a;varying vec2 uv;void main(){uv=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0.,1.);}';
  const fs=`precision highp float;varying vec2 uv;uniform float t;uniform float strength;uniform float dark;uniform float palette;uniform float paletteNext;uniform float paletteBlend;uniform float unfold;
  float hash(float n){return fract(sin(n*127.1)*43758.5453);}
@@ -98,13 +100,13 @@ import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js
    color=mix(color,vec3(.20,.91,.80),dark*(palette>.5?0.:.22));
    float alpha=clamp(light*mix(1.35,1.9,dark),0.,.82);gl_FragColor=vec4(color*alpha,alpha);
  }`;
- program=await compileAurora(gl,vs,fs,signal);gl.useProgram(program);
+ const compiled=await compileAurora(gl,vs,fs,signal);if(signal.aborted){gl.deleteProgram(compiled);return;}program=compiled;gl.useProgram(program);
  buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);const a=gl.getAttribLocation(program,'a');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
  const up=gl.getUniformLocation(program,'palette'),un=gl.getUniformLocation(program,'paletteNext'),ub=gl.getUniformLocation(program,'paletteBlend'),uf=gl.getUniformLocation(program,'unfold');
  const ut=gl.getUniformLocation(program,'t'),us=gl.getUniformLocation(program,'strength'),ud=gl.getUniformLocation(program,'dark');
- render=elapsed=>{if(!field.clientWidth||!field.clientHeight)return;gl.uniform1f(up,paletteState.from);gl.uniform1f(un,paletteState.to);gl.uniform1f(ub,paletteState.blend);gl.uniform1f(uf,unfold);const quality=profile(),area=Math.max(1,field.clientWidth*field.clientHeight),dpr=Math.min(devicePixelRatio,quality.dpr,Math.sqrt(quality.pixels/area)),w=Math.max(1,Math.round(field.clientWidth*dpr)),h=Math.max(1,Math.round(field.clientHeight*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}canvas.dataset.quality=quality.name;canvas.dataset.targetFps=String(quality.fps);gl.uniform1f(ut,elapsed+index*11.7);gl.uniform1f(us,intensity);gl.uniform1f(ud,document.body.classList.contains('dark')?1:0);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLES,0,6);canvas.dataset.elapsed=elapsed.toFixed(2);};
- observer=new ResizeObserver(()=>render(time));observer.observe(field);ready=true;render(0);field.dataset.renderer='webgl';revealAurora(canvas);if(parent!==window)tell('ready');sync();
- canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();ready=false;stop();canvas.remove();tell('static');});
- }catch{dispose();field.dataset.renderer='fallback';tell('static');}});
+ render=elapsed=>{if(parked||disposed||lost||!field.clientWidth||!field.clientHeight)return;gl.uniform1f(up,paletteState.from);gl.uniform1f(un,paletteState.to);gl.uniform1f(ub,paletteState.blend);gl.uniform1f(uf,unfold);const quality=profile(),area=Math.max(1,field.clientWidth*field.clientHeight),dpr=Math.min(devicePixelRatio,quality.dpr,Math.sqrt(quality.pixels/area)),w=Math.max(1,Math.round(field.clientWidth*dpr)),h=Math.max(1,Math.round(field.clientHeight*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}canvas.dataset.quality=quality.name;canvas.dataset.targetFps=String(quality.fps);gl.uniform1f(ut,elapsed+index*11.7);gl.uniform1f(us,intensity);gl.uniform1f(ud,document.body.classList.contains('dark')?1:0);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLES,0,6);canvas.dataset.elapsed=elapsed.toFixed(2);};
+ observer=new ResizeObserver(()=>render(time));ready=true;field.dataset.renderer='webgl';if(!parked){observer.observe(field);render(time);revealAurora(canvas);if(parent!==window)tell('ready');sync();}
+ }catch{if(signal.aborted)return;if(currentGl?.isContextLost()){lost=true;if(!parked)recover();return;}release();field.dataset.renderer='fallback';tell('static');}});
+ pageLifecycle({pause(){parked=true;stop();inView.disconnect();observer?.disconnect();},resume(){parked=false;inView.observe(field);if(lost||currentGl?.isContextLost()){recover();return;}if(ready){observer?.observe(field);render(time);revealAurora(canvas);sync();}},dispose(){disposed=true;load();release();inView.disconnect();canvas.remove();}});
  });
 })();

@@ -5,7 +5,7 @@ function globals(values){const old=Object.fromEntries(Object.keys(values).map(k=
 const settle=()=>new Promise(resolve=>setImmediate(resolve));
 
 test('zero-size and distant fields wait; shared idle queue initializes one at a time and cancels disposed work',async()=>{
- const idle=[],intersections=[],sizes=[];const restore=globals({Worker:undefined,OffscreenCanvas:undefined,innerHeight:900,addEventListener(){},requestIdleCallback:fn=>idle.push(fn),
+ const idle=[],intersections=[],sizes=[];const restore=globals({Worker:undefined,OffscreenCanvas:undefined,innerHeight:900,addEventListener(){},removeEventListener(){},requestIdleCallback:fn=>idle.push(fn),
   IntersectionObserver:class{constructor(fn,options){assert.equal(options.rootMargin,'900px 0px');intersections.push(fn);}observe(){}disconnect(){}},
   ResizeObserver:class{constructor(fn){sizes.push(fn);}observe(){}disconnect(){}}});
  const calls=[],a={clientWidth:100,clientHeight:0,dataset:{}},b={clientWidth:100,clientHeight:100,dataset:{}};let release;

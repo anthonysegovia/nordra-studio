@@ -1,5 +1,6 @@
 import { staticProfile } from '../wedding-rings/state.js';
 import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js';
+import { pageLifecycle } from '../webgl/page-lifecycle.js';
 /* 5.40 — Layered aurora light + the unchanged CSS 3D typography.
    Image composition, envelopes and snow keep their existing controllers. */
 (()=>{
@@ -9,7 +10,7 @@ import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js
  const stopped=()=>reduce.matches||document.body.dataset.journeyMotion==='paused'||small.matches;
  const clamp=x=>Math.max(0,Math.min(1,x)),smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
  const layoutTop=el=>{let y=0;for(let n=el;n;n=n.offsetParent)y+=n.offsetTop;return y;};
- const chapters=[];
+ const chapters=[];let parked=false,disposed=false;
  function chapter(anchor,stage,kind,pinned){
   const ribbon=document.createElement('div');ribbon.className='theatre-ribbon';ribbon.setAttribute('aria-hidden','true');stage.prepend(ribbon);
   const canvas=document.createElement('canvas');ribbon.append(canvas);
@@ -45,10 +46,14 @@ import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js
    item.canvas.remove();const light=window.NordraMobileAurora.create(item.ribbon,({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0);
    item.mobileLight=light;item.render=()=>light.render(item.progress);item.dispose=()=>light.dispose();continue;
   }
-  let gl,program,buffer;
+  let currentGl,program,buffer,lost=false;
   item.canvas.style.opacity='0';item.ribbon.dataset.renderer='pending';
-  const cancel=lazyAurora(item.ribbon,async signal=>{try{
-   gl=item.canvas.getContext('webgl',{alpha:true,antialias:true,premultipliedAlpha:false});if(!gl)throw Error('No WebGL');
+  const release=()=>{item.render=()=>{};if(currentGl){currentGl.deleteBuffer(buffer);currentGl.deleteProgram(program);currentGl.getExtension('WEBGL_lose_context')?.loseContext();}currentGl=null;program=buffer=null;};
+  function recover(){if(disposed)return;release();item.canvas.remove();item.canvas=document.createElement('canvas');item.canvas.style.opacity='0';item.ribbon.append(item.canvas);lost=false;item.ribbon.dataset.renderer='pending';cancel.reset();}
+  item.checkContext=()=>{if(lost||currentGl?.isContextLost())recover();};
+  const cancel=lazyAurora(item.ribbon,async signal=>{const surface=item.canvas;try{
+   const gl=surface.getContext('webgl',{alpha:true,antialias:true,premultipliedAlpha:false});if(!gl)throw Error('No WebGL');currentGl=gl;
+   surface.addEventListener('webglcontextlost',event=>{event.preventDefault();if(disposed||surface!==item.canvas||currentGl!==gl)return;lost=true;item.render=()=>{};if(!parked)recover();},{once:true});
    const vert=`attribute vec2 a;varying vec2 uv;
     void main(){uv=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0.,1.);}`;
    const frag=`precision highp float;varying vec2 uv;
@@ -83,13 +88,14 @@ import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js
      c=mix(c,c*1.13,breath*.3);
      gl_FragColor=vec4(c,clamp(density*mix(1.85,1.15,depth),0.,.78));
     }`;
-   program=await compileAurora(gl,vert,frag,signal);gl.useProgram(program);
+   const compiled=await compileAurora(gl,vert,frag,signal);if(signal.aborted){gl.deleteProgram(compiled);return;}program=compiled;gl.useProgram(program);
    const vertices=[-1,-1,1,-1,-1,1,-1,1,1,-1,1,1];
    buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);
    const a=gl.getAttribLocation(program,'a');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
    const uniforms={};['progress','aspect','layer','closing','c1','c2','c3'].forEach(key=>uniforms[key]=gl.getUniformLocation(program,key));
    gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
    item.render=()=>{
+    if(parked||disposed||lost)return;
     const w=item.ribbon.clientWidth,h=item.ribbon.clientHeight;if(!w||!h)return;const dpr=Math.min(devicePixelRatio,small.matches?1:1.25,Math.sqrt(1200000/Math.max(1,w*h)));
     const cw=Math.max(1,Math.round(w*dpr)),ch=Math.max(1,Math.round(h*dpr));
     if(item.canvas.width!==cw||item.canvas.height!==ch){item.canvas.width=cw;item.canvas.height=ch;gl.viewport(0,0,cw,ch);}
@@ -97,14 +103,14 @@ import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js
     colors.forEach((c,i)=>gl.uniform3fv(uniforms['c'+(i+1)],c));gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
     for(let i=2;i>=0;i--){gl.uniform1f(uniforms.layer,i);gl.drawArrays(gl.TRIANGLES,0,vertices.length/2);}
    };
-   item.ribbon.dataset.renderer='webgl';item.render();revealAurora(item.canvas);
-   item.canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();item.render=()=>{};item.ribbon.dataset.renderer='fallback';item.canvas.hidden=true;});
-  }catch{item.canvas.hidden=true;item.ribbon.dataset.renderer='fallback';}});
-  item.dispose=()=>{cancel();item.render=()=>{};if(gl){gl.deleteBuffer(buffer);gl.deleteProgram(program);gl.getExtension('WEBGL_lose_context')?.loseContext();}};
+   item.ribbon.dataset.renderer='webgl';if(!parked){item.render();revealAurora(item.canvas);}
+  }catch{if(signal.aborted)return;if(currentGl?.isContextLost()){lost=true;if(!parked)recover();return;}release();item.canvas.hidden=true;item.ribbon.dataset.renderer='fallback';}});
+  item.resume=()=>{item.checkContext();if(item.ribbon.dataset.renderer==='webgl'){item.render();revealAurora(item.canvas);}};
+  item.dispose=()=>{cancel();release();item.canvas.remove();};
  }
  let frame=0;
  function paint(){
-  frame=0;if(document.hidden)return;
+  frame=0;if(parked||disposed||document.hidden)return;
   const still=stopped(),mobile=small.matches,h=innerHeight;
   host.classList.toggle('theatre-still',still);
   for(const item of chapters){
@@ -137,12 +143,13 @@ import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js
    if(y<h*1.5&&y+item.anchor.offsetHeight>-h*.5)item.render();
   }
  }
- function queue(){if(!frame&&!document.hidden)frame=requestAnimationFrame(paint);}
+ function queue(){if(!parked&&!disposed&&!frame&&!document.hidden)frame=requestAnimationFrame(paint);}
  const onScroll=()=>{if(!small.matches)queue();};
  addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',queue,{passive:true});
  addEventListener('nordra-seasonal-palette',e=>{const a=palette[e.detail.from]||palette[6],b=palette[e.detail.to]||a;colors=a.map((c,i)=>c.map((v,j)=>v+(b[i][j]-v)*e.detail.blend));chapters.forEach(item=>item.mobileLight?.setPalette(e.detail.from,e.detail.to,e.detail.blend));queue();});
  document.addEventListener('visibilitychange',queue);reduce.addEventListener('change',queue);small.addEventListener('change',queue);short.addEventListener('change',queue);
  const state=new MutationObserver(queue);state.observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
  const size=new ResizeObserver(queue);size.observe(host);document.fonts.ready.then(queue);queue();
- addEventListener('pagehide',()=>{cancelAnimationFrame(frame);state.disconnect();size.disconnect();chapters.forEach(i=>i.dispose());removeEventListener('scroll',onScroll);removeEventListener('resize',queue);},{once:true});
+ const disconnect=()=>{cancelAnimationFrame(frame);frame=0;state.disconnect();size.disconnect();removeEventListener('scroll',onScroll);removeEventListener('resize',queue);};
+ pageLifecycle({pause(){parked=true;disconnect();chapters.forEach(i=>i.mobileLight?.setPlaying(false));},resume(){parked=false;state.observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});size.observe(host);addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',queue,{passive:true});chapters.forEach(i=>{i.mobileLight?.setPlaying(true);i.resume?.();});queue();},dispose(){disposed=true;disconnect();chapters.forEach(i=>i.dispose());}});
 })();
