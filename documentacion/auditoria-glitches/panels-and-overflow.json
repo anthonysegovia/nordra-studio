@@ -1,0 +1,556 @@
+[
+  {
+    "route": "panel-boda.html",
+    "width": 1280,
+    "index": 0,
+    "up": true,
+    "rect": {
+      "x": 1043,
+      "y": 559.65625,
+      "width": 160,
+      "height": 186,
+      "top": 559.65625,
+      "right": 1203,
+      "bottom": 745.65625,
+      "left": 1043
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      },
+      {
+        "label": "Jazmín",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.916549 0.898823 0.870431)"
+      },
+      {
+        "label": "Olivo",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      },
+      {
+        "label": "Azahar",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      }
+    ]
+  },
+  {
+    "route": "panel-boda.html",
+    "width": 1280,
+    "index": 14,
+    "up": false,
+    "rect": {
+      "x": 1043,
+      "y": 687.65625,
+      "width": 160,
+      "height": 186,
+      "top": 687.65625,
+      "right": 1203,
+      "bottom": 873.65625,
+      "left": 1043
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.916549 0.898823 0.870431)"
+      },
+      {
+        "label": "Jazmín",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      },
+      {
+        "label": "Olivo",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      },
+      {
+        "label": "Azahar",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      }
+    ]
+  },
+  {
+    "route": "panel-evento.html",
+    "width": 1280,
+    "index": 0,
+    "up": true,
+    "rect": {
+      "x": 1043,
+      "y": 559.65625,
+      "width": 160,
+      "height": 186,
+      "top": 559.65625,
+      "right": 1203,
+      "bottom": 745.65625,
+      "left": 1043
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.824706 0.891843 0.868471)"
+      },
+      {
+        "label": "Foro",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      },
+      {
+        "label": "Nexo",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      },
+      {
+        "label": "Ágora",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      }
+    ]
+  },
+  {
+    "route": "panel-evento.html",
+    "width": 1280,
+    "index": 10,
+    "up": true,
+    "rect": {
+      "x": 1043,
+      "y": 662.15625,
+      "width": 160,
+      "height": 186,
+      "top": 662.15625,
+      "right": 1203,
+      "bottom": 848.15625,
+      "left": 1043
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.824706 0.891843 0.868471)"
+      },
+      {
+        "label": "Foro",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      },
+      {
+        "label": "Nexo",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      },
+      {
+        "label": "Ágora",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      }
+    ]
+  },
+  {
+    "route": "panel-cumple.html",
+    "width": 1280,
+    "index": 0,
+    "up": true,
+    "rect": {
+      "x": 1043,
+      "y": 559.6875,
+      "width": 160,
+      "height": 186,
+      "top": 559.6875,
+      "right": 1203,
+      "bottom": 745.6875,
+      "left": 1043
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.923686 0.888706 0.83098)"
+      },
+      {
+        "label": "Confeti",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      },
+      {
+        "label": "Brindis",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      },
+      {
+        "label": "Estrellas",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      }
+    ]
+  },
+  {
+    "route": "panel-cumple.html",
+    "width": 1280,
+    "index": 10,
+    "up": true,
+    "rect": {
+      "x": 1043,
+      "y": 662.1875,
+      "width": 160,
+      "height": 186,
+      "top": 662.1875,
+      "right": 1203,
+      "bottom": 848.1875,
+      "left": 1043
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.923686 0.888706 0.83098)"
+      },
+      {
+        "label": "Confeti",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      },
+      {
+        "label": "Brindis",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      },
+      {
+        "label": "Estrellas",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      }
+    ]
+  },
+  {
+    "route": "panel-boda.html",
+    "width": 390,
+    "index": 0,
+    "up": true,
+    "rect": {
+      "x": 190,
+      "y": 561.796875,
+      "width": 160,
+      "height": 186,
+      "top": 561.796875,
+      "right": 350,
+      "bottom": 747.796875,
+      "left": 190
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      },
+      {
+        "label": "Jazmín",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.916549 0.898823 0.870431)"
+      },
+      {
+        "label": "Olivo",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      },
+      {
+        "label": "Azahar",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      }
+    ]
+  },
+  {
+    "route": "panel-boda.html",
+    "width": 390,
+    "index": 14,
+    "up": false,
+    "rect": {
+      "x": 190,
+      "y": 565.796875,
+      "width": 160,
+      "height": 186,
+      "top": 565.796875,
+      "right": 350,
+      "bottom": 751.796875,
+      "left": 190
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.916549 0.898823 0.870431)"
+      },
+      {
+        "label": "Jazmín",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      },
+      {
+        "label": "Olivo",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      },
+      {
+        "label": "Azahar",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 253, 248)"
+      }
+    ]
+  },
+  {
+    "route": "panel-evento.html",
+    "width": 390,
+    "index": 0,
+    "up": true,
+    "rect": {
+      "x": 190,
+      "y": 559.59375,
+      "width": 160,
+      "height": 186,
+      "top": 559.59375,
+      "right": 350,
+      "bottom": 745.59375,
+      "left": 190
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.824706 0.891843 0.868471)"
+      },
+      {
+        "label": "Foro",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      },
+      {
+        "label": "Nexo",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      },
+      {
+        "label": "Ágora",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      }
+    ]
+  },
+  {
+    "route": "panel-evento.html",
+    "width": 390,
+    "index": 10,
+    "up": true,
+    "rect": {
+      "x": 190,
+      "y": 390.09375,
+      "width": 160,
+      "height": 186,
+      "top": 390.09375,
+      "right": 350,
+      "bottom": 576.09375,
+      "left": 190
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.824706 0.891843 0.868471)"
+      },
+      {
+        "label": "Foro",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      },
+      {
+        "label": "Nexo",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      },
+      {
+        "label": "Ágora",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(239, 248, 244)"
+      }
+    ]
+  },
+  {
+    "route": "panel-cumple.html",
+    "width": 390,
+    "index": 0,
+    "up": true,
+    "rect": {
+      "x": 190,
+      "y": 559.59375,
+      "width": 160,
+      "height": 186,
+      "top": 559.59375,
+      "right": 350,
+      "bottom": 745.59375,
+      "left": 190
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.923686 0.888706 0.83098)"
+      },
+      {
+        "label": "Confeti",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      },
+      {
+        "label": "Brindis",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      },
+      {
+        "label": "Estrellas",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      }
+    ]
+  },
+  {
+    "route": "panel-cumple.html",
+    "width": 390,
+    "index": 10,
+    "up": true,
+    "rect": {
+      "x": 190,
+      "y": 390.09375,
+      "width": 160,
+      "height": 186,
+      "top": 390.09375,
+      "right": 350,
+      "bottom": 576.09375,
+      "left": 190
+    },
+    "options": [
+      {
+        "label": "Sin mesa",
+        "visible": true,
+        "uncovered": true,
+        "background": "color(srgb 0.923686 0.888706 0.83098)"
+      },
+      {
+        "label": "Confeti",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      },
+      {
+        "label": "Brindis",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      },
+      {
+        "label": "Estrellas",
+        "visible": true,
+        "uncovered": true,
+        "background": "rgb(255, 250, 242)"
+      }
+    ]
+  },
+  {
+    "route": "panel-boda.html",
+    "fallback": true,
+    "guests": 15,
+    "requests": 1
+  },
+  {
+    "route": "panel-evento.html",
+    "fallback": true,
+    "guests": 11,
+    "requests": 1
+  },
+  {
+    "route": "panel-cumple.html",
+    "fallback": true,
+    "guests": 11,
+    "requests": 1
+  },
+  {
+    "route": "invitaciones/spooky-party/",
+    "width": 1280,
+    "overflow": {
+      "viewport": 1280,
+      "width": 1280
+    }
+  },
+  {
+    "route": "demos/halloween/index.html",
+    "width": 1280,
+    "overflow": {
+      "viewport": 1280,
+      "width": 1280
+    }
+  },
+  {
+    "route": "invitaciones/spooky-party/",
+    "width": 390,
+    "overflow": {
+      "viewport": 390,
+      "width": 390
+    }
+  },
+  {
+    "route": "demos/halloween/index.html",
+    "width": 390,
+    "overflow": {
+      "viewport": 390,
+      "width": 390
+    }
+  }
+]

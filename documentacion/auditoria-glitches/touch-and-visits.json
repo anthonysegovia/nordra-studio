@@ -1,0 +1,230 @@
+[
+  {
+    "route": "demos/posada/",
+    "selector": ".sample-bar>a",
+    "rect": {
+      "x": 290.828125,
+      "y": 15,
+      "width": 82.171875,
+      "height": 13,
+      "top": 15,
+      "right": 373,
+      "bottom": 28,
+      "left": 290.828125
+    },
+    "width": 82.1719,
+    "height": 44,
+    "targets": [
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>",
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>",
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>",
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>"
+    ],
+    "hits": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "route": "demos/halloween/",
+    "selector": ".demo-banner>a",
+    "rect": {
+      "x": 292.890625,
+      "y": 14.5,
+      "width": 81.109375,
+      "height": 14,
+      "top": 14.5,
+      "right": 374,
+      "bottom": 28.5,
+      "left": 292.890625
+    },
+    "width": 81.1094,
+    "height": 44,
+    "targets": [
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>",
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>",
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>",
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>"
+    ],
+    "hits": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "route": "demos/celebra-2027/",
+    "selector": ".demo-bar>a",
+    "rect": {
+      "x": 290.890625,
+      "y": 15,
+      "width": 79.109375,
+      "height": 13,
+      "top": 15,
+      "right": 370,
+      "bottom": 28,
+      "left": 290.890625
+    },
+    "width": 79.1094,
+    "height": 44,
+    "targets": [
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>",
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>",
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>",
+      "<a href=\"/invitaciones#temporada\">Volver a Nordra ↗</a>"
+    ],
+    "hits": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "route": "aviso-de-privacidad/",
+    "selector": ".locale-switch>a",
+    "rect": {
+      "x": 128.296875,
+      "y": 15,
+      "width": 44,
+      "height": 44,
+      "top": 15,
+      "right": 172.296875,
+      "bottom": 59,
+      "left": 128.296875
+    },
+    "width": 44,
+    "height": 44,
+    "targets": [
+      "<a data-language=\"es-MX\" lang=\"es-MX\" hreflang=\"es-MX\" href=\"http://127.0.0.1:59137/aviso-de-privacidad\" target=\"_top\" aria-label=\"Español\" aria-current=\"true\">ES</a>",
+      "<a data-language=\"es-MX\" lang=\"es-MX\" hreflang=\"es-MX\" href=\"http://127.0.0.1:59137/aviso-de-privacidad\" target=\"_top\" aria-label=\"Español\" aria-current=\"true\">ES</a>",
+      "<a data-language=\"es-MX\" lang=\"es-MX\" hreflang=\"es-MX\" href=\"http://127.0.0.1:59137/aviso-de-privacidad\" target=\"_top\" aria-label=\"Español\" aria-current=\"true\">ES</a>",
+      "<a data-language=\"es-MX\" lang=\"es-MX\" hreflang=\"es-MX\" href=\"http://127.0.0.1:59137/aviso-de-privacidad\" target=\"_top\" aria-label=\"Español\" aria-current=\"true\">ES</a>"
+    ],
+    "hits": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "route": "panel-boda.html",
+    "selector": ".wedding-sync-status>button",
+    "rect": {
+      "x": 199.1875,
+      "y": 363.984375,
+      "width": 44,
+      "height": 44,
+      "top": 363.984375,
+      "right": 243.1875,
+      "bottom": 407.984375,
+      "left": 199.1875
+    },
+    "width": 44,
+    "height": 44,
+    "targets": [
+      "<button aria-label=\"Actualizar datos\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-refresh-cw",
+      "<button aria-label=\"Actualizar datos\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-refresh-cw",
+      "<button aria-label=\"Actualizar datos\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-refresh-cw",
+      "<button aria-label=\"Actualizar datos\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-refresh-cw"
+    ],
+    "hits": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "route": "invitaciones/valentina-y-sebastian/",
+    "selector": ".iv-footer a",
+    "rect": {
+      "x": 79.75,
+      "y": 740.40625,
+      "width": 230.484375,
+      "height": 44,
+      "top": 740.40625,
+      "right": 310.234375,
+      "bottom": 784.40625,
+      "left": 79.75
+    },
+    "width": 230.484375,
+    "height": 44,
+    "targets": [
+      "<a href=\"/bodas\">Diseñado con intención por <strong>Nordra</strong><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" cl",
+      "<a href=\"/bodas\">Diseñado con intención por <strong>Nordra</strong><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" cl",
+      "<a href=\"/bodas\">Diseñado con intención por <strong>Nordra</strong><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" cl",
+      "<a href=\"/bodas\">Diseñado con intención por <strong>Nordra</strong><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" cl"
+    ],
+    "hits": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  {
+    "route": "estudio",
+    "width": 390,
+    "visit": true
+  },
+  {
+    "route": "panel-boda.html",
+    "width": 390,
+    "visit": true
+  },
+  {
+    "route": "panel-evento.html",
+    "width": 390,
+    "visit": true
+  },
+  {
+    "route": "panel-cumple.html",
+    "width": 390,
+    "visit": true
+  },
+  {
+    "route": "invitaciones/spooky-party/",
+    "width": 390,
+    "visit": true
+  },
+  {
+    "route": "demos/halloween/",
+    "width": 390,
+    "visit": true
+  },
+  {
+    "route": "estudio",
+    "width": 1280,
+    "visit": true
+  },
+  {
+    "route": "panel-boda.html",
+    "width": 1280,
+    "visit": true
+  },
+  {
+    "route": "panel-evento.html",
+    "width": 1280,
+    "visit": true
+  },
+  {
+    "route": "panel-cumple.html",
+    "width": 1280,
+    "visit": true
+  },
+  {
+    "route": "invitaciones/spooky-party/",
+    "width": 1280,
+    "visit": true
+  },
+  {
+    "route": "demos/halloween/",
+    "width": 1280,
+    "visit": true
+  }
+]
