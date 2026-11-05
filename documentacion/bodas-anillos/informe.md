@@ -1,5 +1,39 @@
 # Bodas · Los dos anillos
 
+## Segunda revisión de Claude · aviso de idioma y compatibilidad
+
+Cambios sobre `e2c1eb8`, en la misma rama `codex/bodas-anillos` y el mismo worktree, sin push ni despliegue. Commit de implementación y verificación limpia: **`1fedffc915c897cf7db68f9b31e558de8eb8c629`**.
+
+### Altura disponible y legibilidad móvil
+
+En ≤700 px, `rings-hero.js` calcula `--rings-available-height` restando la posición inicial real del hero al borde superior real de `.mobile-route`. Usa coordenadas de documento para que desplazarse no agrande el hero. Un `ResizeObserver` sigue el header, el aviso, la subnavegación, el hero y la barra inferior; también se atienden los cambios de viewport y la carga de fuentes. Las actualizaciones se agrupan por cuadro y se cancelan al desmontar. Ya no se descuenta una constante de 136 px.
+
+Al cerrar «View this page in English?», el hero recupera el espacio liberado, también si el canvas ya está activo. La tipografía móvil mínima es **11 px** para el eyebrow y la indicación y **12 px** para pausa/sonido. Se regeneraron los seis retratos móviles con la escena y composición actuales; los retratos de escritorio no cambiaron.
+
+Los casos nuevos visitan `/bodas` con `locale: 'en-US'`, en 375×667, 390×844 y 412×915, en claro y oscuro, con aviso visible o cerrado. Cada caso comprueba que el botón entero queda por encima de la barra, que `elementFromPoint` devuelve el propio botón, que no se ha desplazado la página, que los tamaños calculados cumplen los mínimos y que **`page.touchscreen.tap`** produce un clic y un canvas visible. También se comprueba cerrar el aviso con la escena activa y redimensionar la pantalla. Las capturas iniciales y activadas se guardan fuera del repositorio.
+
+### Protección de PMREM
+
+Antes de preparar se comprueban `_setSize`, `_allocateTargets`, `_applyGGXFilter`, `_blurMaterial`, `_ggxMaterial` y `_pingPongRenderTarget`. Los campos de material pueden ser `null` al construir el generador; se comprueba su existencia antes de asignarlos y su valor después de la inicialización. Si falta un miembro requerido, el adaptador devuelve `false` sin tocar el renderer ni asignar recursos. La generación de entornos omite entonces sus accesos privados y usa `fromScene` normal, en vez de descartar la escena. Esa ruta de compatibilidad puede recuperar el coste síncrono de compilación.
+
+`scripts/wedding-rings-pmrem.test.mjs` exige que `package.json` mantenga Three exactamente en `0.181.0`, con un mensaje que pide revisar el adaptador al actualizar. Otra prueba retira cada miembro requerido por separado y comprueba que se omite la preparación sin llamadas al renderer/generador; también cubre métodos presentes pero no invocables.
+
+### Verificación y evidencia
+
+Con `git status --porcelain` vacío en `1fedffc`, se eliminó exclusivamente `dist/` del worktree y se ejecutaron, en orden:
+
+- `npm run typecheck`: aprobado.
+- `npm test`: **300 + 38 = 338 pruebas**, más la comprobación Posada, aprobadas.
+- `npm run check:build`: aprobado.
+- Suite específica de idioma: **12 casos aprobados**, incluido cierre y resize.
+- Matriz completa ampliada: **64 casos aprobados** (ocho recorridos principales, cuatro tamaños móviles adicionales, doce casos de idioma y cuarenta perfiles estáticos). Sin errores de página en los casos de idioma. Escritorio mantiene aproximadamente 60 fps; máxima tarea larga de preparación: **80 ms** en primera visita, y ninguna tarea de ≥50 ms en las cuatro visitas repetidas. Son mediciones sobre Vite con el mismo observador y ventana de preparación de la revisión anterior; no se repitió la campaña de producción en este ajuste.
+
+Evidencia externa: `C:\Users\USER\.codex\visualizations\2026\11\05\01a1ab9a-d1f4-7e71-b46c-e156d8b307df\bodas-review-2`.
+
+Para cada tamaño 375, 390 y 412, y cada tema `light`/`dark`, las capturas son `locale-{tema}-{ancho}-visible.jpg` y `locale-{tema}-{ancho}-closed.jpg`; sus variantes `-live.jpg` muestran la escena activada. Los resultados están en `browser-language-results.json` y `browser-results.json`. Los logs son `language.log`, `matrix.log`, `typecheck.log`, `tests.log`, `build.log`; `verified-commit.txt` identifica el commit comprobado.
+
+Reproducción: servidor Vite en 5198, `RINGS_EVIDENCE` apuntando a una carpeta externa y `node scripts/check-wedding-rings-browser.mjs`. Para ejecutar sólo los casos de idioma, añadir `RINGS_SUITE=language`. Prueba realizada con Chrome y toque emulado; no se presenta como prueba física en Safari/iPhone.
+
 ## Correcciones de la revisión de Claude · 05/11/2026
 
 Estado: corregido en la misma rama y worktree, **sin push ni despliegue**. Esta sección sustituye las conclusiones de activación táctil y del pico de shaders del informe original conservado debajo.
