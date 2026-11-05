@@ -1,7 +1,7 @@
 /* Approved couple and sample composition; wedding entry only. */
-#bodas-respuesta{--paper:#fbf7ee;--paper-2:#f3ebdd;--sample-ink:#433329;--soft:#7a6655;--sample-line:#e2d6c3;--sample-accent:#6b5444;--gold:#b8955a;--sample-ease:cubic-bezier(.22,.8,.24,1);display:flow-root;margin-top:0;padding:0;border-top:0;color:var(--sample-ink);background:var(--paper);width:100vw;max-width:none;margin-left:calc(50% - 50vw)}
+#bodas-respuesta{--paper:#fbf7ee;--paper-2:#f3ebdd;--sample-ink:#433329;--soft:#7a6655;--sample-line:#e2d6c3;--sample-accent:#6b5444;--gold:#b8955a;--sample-ease:cubic-bezier(.22,.8,.24,1);display:flow-root;margin-top:0;padding:0;border-top:0;color:var(--sample-ink);background:var(--bg);width:100vw;max-width:none;margin-left:calc(50% - 50vw)}
 body.dark #bodas-respuesta{--paper:#1c1714;--paper-2:#28201b;--sample-ink:#efe6d8;--soft:#bfae99;--sample-line:#3a3029;--sample-accent:#d8c3a5}
-.rings-hero::after{content:"";position:absolute;inset:auto 0 0;height:170px;z-index:2;pointer-events:none;background:linear-gradient(transparent,var(--paper) 96%)}
+.rings-hero::after{content:"";position:absolute;inset:auto 0 0;height:170px;z-index:2;pointer-events:none;background:linear-gradient(transparent,var(--bg) 96%)}
 .rings-thread{display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;margin-top:-34px;pointer-events:none}
 .rings-thread .rings-seal{width:62px;height:36px;margin:0;overflow:visible}
 .rings-thread .rings-seal circle{stroke:var(--gold);stroke-width:1.8}
