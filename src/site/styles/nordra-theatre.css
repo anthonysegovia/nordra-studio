@@ -223,3 +223,4 @@ body[data-journey-motion=paused] .package-details summary{transition:none}
 .faq-item summary:focus-visible>span:first-child{transform:translateX(8px)}
 body[data-journey-motion=paused] .faq-item summary>span:first-child{transform:none!important}
 @media(prefers-reduced-motion:reduce){.faq-item summary>span:first-child{transform:none!important}}
+.faq-item[data-closing] summary>span:last-child,.package-details details[data-closing] summary>span{transform:rotate(0)}

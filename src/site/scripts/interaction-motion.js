@@ -26,3 +26,34 @@ document.querySelectorAll('[role=tablist],.offer-goals,.offer-switch,.locale-swi
  group.addEventListener('change',update);update();
  addEventListener('pagehide',()=>{observer.disconnect();resize.disconnect();},{once:true});
 });
+// Height motion for native details only where CSS cannot interpolate to auto (Safari, Firefox).
+// Chrome animates through motion-system.css, so this never runs alongside it.
+(()=>{
+ if(window.CSS?.supports?.('interpolate-size','allow-keywords'))return;
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+ const still=()=>reduce.matches||document.body.dataset.journeyMotion==='paused'||document.hidden;
+ const running=new Map();
+ function settle(detail,opening){detail.style.height='';detail.style.overflow='';detail.removeAttribute('data-closing');detail.open=opening;running.delete(detail);}
+ function finishAll(){for(const [detail,item] of running){item.animation.onfinish=null;item.animation.cancel();settle(detail,item.opening);}}
+ document.addEventListener('click',event=>{
+  const summary=event.target instanceof Element?event.target.closest('summary'):null;
+  const detail=summary?.parentElement;
+  if(!detail||detail.tagName!=='DETAILS'||detail.querySelector(':scope>summary')!==summary||!detail.animate||still())return;
+  event.preventDefault();
+  const previous=running.get(detail),opening=previous?!previous.opening:!detail.open;
+  const from=detail.getBoundingClientRect().height;
+  if(previous){previous.animation.onfinish=null;previous.animation.cancel();}
+  detail.style.height='';
+  detail.open=false;const closed=detail.getBoundingClientRect().height;
+  detail.open=true;const full=detail.getBoundingClientRect().height;
+  const to=opening?full:closed;
+  detail.toggleAttribute('data-closing',!opening);
+  detail.style.overflow='hidden';
+  const animation=detail.animate([{height:`${from}px`},{height:`${to}px`}],{duration:Math.min(420,220+Math.abs(to-from)*.6),easing:'cubic-bezier(.2,.7,.2,1)'});
+  running.set(detail,{animation,opening});
+  animation.onfinish=()=>settle(detail,opening);
+ });
+ reduce.addEventListener('change',finishAll);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)finishAll();});
+ new MutationObserver(()=>{if(still())finishAll();}).observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
+})();

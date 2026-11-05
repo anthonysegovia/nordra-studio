@@ -49,7 +49,7 @@ html:not([data-season]) .collection-heading button{display:none}
  .seasonal-collection .seasonal-demo{scroll-snap-align:start}
 }
 @media(prefers-reduced-motion:no-preference){
- body:not([data-business-motion=paused]) .seasonal-tabs button,body:not([data-business-motion=paused]) .design-actions a{transition:color .17s,border-color .17s,background-color .17s}
+ body:not([data-business-motion=paused]) .seasonal-tabs button,body:not([data-business-motion=paused]) .design-actions a{transition:color .17s,border-color .17s,background-color .17s,box-shadow .17s}
  .seasonal-tabs button:hover,.design-actions a:hover{background:color-mix(in srgb,var(--accent) 8%,transparent)}
 }
 

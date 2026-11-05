@@ -16,7 +16,7 @@ body.dark .client-case-art{background:linear-gradient(140deg,#153236,#29223d)}
 .client-case blockquote{margin:0;font:500 18px/1.6 Sora,sans-serif;color:var(--ink)}
 .client-case blockquote p{margin:0}
 .client-case blockquote footer{font:500 14px/1.6 Manrope,sans-serif;margin-top:16px;color:var(--muted)}
-.client-case>.options-compare{display:inline-flex;align-items:center;gap:18px;padding:12px 0;min-height:44px;font-size:14px;transition:transform .2s}
+.client-case>.options-compare{display:inline-flex;align-items:center;gap:18px;padding:12px 0;min-height:44px;font-size:14px;transition:transform .2s,color .25s,border-color .25s}
 .client-case>.options-compare:is(:hover,:focus-visible){transform:translateX(3px)}
 @media(max-width:700px){.client-case-grid{grid-template-columns:1fr;gap:45px}.client-case-art{padding:28px}.client-case h3{font-size:29px}}
 @media(prefers-reduced-motion:reduce){.client-case>.options-compare{transition:none;transform:none}}

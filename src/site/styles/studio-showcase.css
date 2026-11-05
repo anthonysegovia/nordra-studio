@@ -21,11 +21,17 @@
 [data-view="estudio"] .studio-work-caption{position:absolute;inset:auto 22px 25px;z-index:2;display:flex;flex-direction:column;gap:8px}
 [data-view="estudio"] .studio-work-caption strong{font-family:Sora,Manrope,sans-serif;font-size:20px;font-weight:450;line-height:1.2;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap}
 [data-view="estudio"] .studio-work-caption>span:not(.studio-work-arrow){font-size:11px;line-height:1.5;opacity:0;max-height:0;overflow:hidden;transition:opacity .35s ease}
-[data-view="estudio"] .studio-work-arrow{position:absolute;right:0;bottom:0;font-size:25px;opacity:0}
+[data-view="estudio"] .studio-work-arrow{position:absolute;right:0;bottom:0;font-size:25px;opacity:0;transition:opacity .3s ease}
 [data-view="estudio"] .studio-work[data-studio-active] .studio-work-caption{padding-right:32px}
 [data-view="estudio"] .studio-work[data-studio-active] .studio-work-caption strong{writing-mode:horizontal-tb;transform:none;white-space:normal;font-size:clamp(22px,2vw,28px)}
 [data-view="estudio"] .studio-work[data-studio-active] .studio-work-caption>span{opacity:1;max-height:40px}
 [data-view="estudio"] .studio-work:focus-visible{outline:3px solid var(--ink);outline-offset:5px}
+/* The horizontal title waits for the card to widen, so it never flashes in a narrow, wrapped state. */
+@media(min-width:701px){
+ [data-view="estudio"] .studio-work[data-studio-active] .studio-work-caption strong{animation:studio-title-in .42s cubic-bezier(.22,.7,.2,1) .22s backwards}
+ [data-view="estudio"] .studio-work[data-studio-active] .studio-work-caption>span{transition-delay:.3s}
+}
+@keyframes studio-title-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media(max-width:700px){
  [data-view="estudio"] .studio-aurora-poster{display:block;position:absolute;inset:0;transform:translate3d(-20px,12px,0)}
  [data-view="estudio"] .studio-aurora:has(>.studio-aurora-poster)>div.mobile-aurora{visibility:hidden}
@@ -43,8 +49,8 @@
  [data-view="estudio"] .studio-work-arrow{right:12px;bottom:12px}
  body:not(.dark) [data-view="estudio"] .studio-work{background:var(--bg);color:var(--ink)}
 }
-body[data-journey-motion="paused"] [data-view="estudio"] .studio-work,body[data-journey-motion="paused"] [data-view="estudio"] .studio-work *{transition:none!important}
-@media(prefers-reduced-motion:reduce){[data-view="estudio"] .studio-work,[data-view="estudio"] .studio-work *{transition:none!important}}
+body[data-journey-motion="paused"] [data-view="estudio"] .studio-work,body[data-journey-motion="paused"] [data-view="estudio"] .studio-work *{transition:none!important;animation:none!important}
+@media(prefers-reduced-motion:reduce){[data-view="estudio"] .studio-work,[data-view="estudio"] .studio-work *{transition:none!important;animation:none!important}}
 
 .studio-person{padding:40px 0 32px;scroll-margin-top:110px}
 .person-card{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(220px,380px) 1fr;gap:clamp(28px,5vw,80px);align-items:center;padding:26px;border:1px solid var(--line);border-radius:20px;background:color-mix(in srgb,var(--bg) 94%,var(--accent) 6%);transition:transform .35s,box-shadow .35s}

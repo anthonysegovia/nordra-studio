@@ -99,7 +99,7 @@ html body[data-journey-motion=paused] [data-view=estudio] a.studio-work{transiti
 }
 
 /* Individual transform properties and nested calls to action share the same timing. */
-html body :is(.signature-work .nordra-phone,.invite-card .invite-cta,.wedding-plan-grid .invite-card,.locale-switch>a,.wedding-devices>a.wedding-dashboard){transition-property:transform,translate,rotate,scale,opacity,color,background-color,border-color;transition-duration:var(--motion-medium);transition-timing-function:var(--motion-ease)}
+html body :is(.signature-work .nordra-phone,.invite-card .invite-cta,.wedding-plan-grid .invite-card,.locale-switch>a,.wedding-devices>a.wedding-dashboard){transition-property:transform,translate,rotate,scale,opacity,box-shadow,color,background-color,border-color;transition-duration:var(--motion-medium);transition-timing-function:var(--motion-ease)}
 
 /* Extend the touch target without changing the visible label. */
 :is(.locale-switch>a){position:relative}
@@ -112,3 +112,7 @@ html body[data-journey-motion=paused] .signature-work .nordra-phone{transform:no
 /* Pausing removes the rotation animation, not the open-state indicator. */
 html body[data-journey-motion=paused] details[open]>summary [aria-hidden=true]{transform:rotate(45deg)!important}
 @media(prefers-reduced-motion:reduce){html body details[open]>summary [aria-hidden=true]{transform:rotate(45deg)!important}}
+
+/* Safari/Firefox height fallback (interaction-motion.js): the icon turns back as soon as closing starts. */
+html body details[data-closing]>summary [aria-hidden=true]{transform:rotate(0)}
+html body .invite-light{transition:opacity var(--motion-medium) var(--motion-ease)}
