@@ -70,6 +70,7 @@ try{for(const route of (process.env.AURORA_PAGES||'/,/bodas,/eventos,/temporada,
   await fixture.evaluate(()=>{
    const field=document.querySelector('.theme-wedding>.aurora-field');
    if(field.clientHeight!==0||field.dataset.renderer!=='pending')throw Error('Expected a dormant zero-size field');
+   window.__unfoldEvents=[];addEventListener('nordra-aurora-unfold',e=>{if(e.detail.field===field)window.__unfoldEvents.push({progress:e.detail.progress,pending:field.dataset.renderer==='pending'});});
    dispatchEvent(new CustomEvent('nordra-aurora-unfold',{detail:{field,progress:.37}}));
    dispatchEvent(new CustomEvent('nordra-local-motion',{detail:{paused:true}}));
    document.body.classList.add('dark');dispatchEvent(new Event('nordra-theme'));
@@ -77,8 +78,9 @@ try{for(const route of (process.env.AURORA_PAGES||'/,/bodas,/eventos,/temporada,
   });await fixture.waitForTimeout(50);
   await fixture.evaluate(()=>{const field=document.querySelector('.theme-wedding>.aurora-field');field.style.display='block';field.style.height='240px';});
   await fixture.waitForFunction(()=>document.querySelector('.theme-wedding>.aurora-field').dataset.renderer==='webgl');
-  const stored=await fixture.evaluate(()=>{const canvas=document.querySelector('.theme-wedding>.aurora-field canvas'),gl=canvas.getContext('webgl'),program=gl.getParameter(gl.CURRENT_PROGRAM);return{unfold:gl.getUniform(program,gl.getUniformLocation(program,'unfold')),strength:gl.getUniform(program,gl.getUniformLocation(program,'strength')),dark:gl.getUniform(program,gl.getUniformLocation(program,'dark')),motion:canvas.dataset.motion};});
-  assert(Math.abs(stored.unfold-.37)<.001);assert(Math.abs(stored.strength-.6)<.001);assert.equal(stored.dark,1);assert.equal(stored.motion,'paused');
+  const stored=await fixture.evaluate(()=>{const canvas=document.querySelector('.theme-wedding>.aurora-field canvas'),gl=canvas.getContext('webgl'),program=gl.getParameter(gl.CURRENT_PROGRAM);return{unfold:gl.getUniform(program,gl.getUniformLocation(program,'unfold')),events:window.__unfoldEvents,strength:gl.getUniform(program,gl.getUniformLocation(program,'strength')),dark:gl.getUniform(program,gl.getUniformLocation(program,'dark')),motion:canvas.dataset.motion};});
+  // Resizing legitimately makes scroll-travel emit a newer unfold; the latest value must win.
+  assert(stored.events.some(e=>e.pending&&e.progress===.37));assert(Math.abs(stored.unfold-stored.events.at(-1).progress)<.001);assert(Math.abs(stored.strength-.6)<.001);assert.equal(stored.dark,1);assert.equal(stored.motion,'paused');
   await fixture.evaluate(()=>dispatchEvent(new PageTransitionEvent('pagehide')));assert.equal(await fixture.locator('.theme-wedding>.aurora-field canvas').count(),0);await fixture.close();
   fs.writeFileSync(path.join(output,'deferred-events.json'),JSON.stringify(stored,null,2));
  }
