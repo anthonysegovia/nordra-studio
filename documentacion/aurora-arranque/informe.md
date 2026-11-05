@@ -15,7 +15,7 @@ No se cambiaron shaders, paletas, colores, perfiles de FPS/DPR/píxeles ni `Nord
 
 ## Método
 
-Chrome del sistema, ejecutable `C:/Program Files/Google/Chrome/Application/chrome.exe`, escritorio 1440×900. **Un proceso nuevo de navegador por página y tema**, doce procesos por versión. Builds de producción servidos localmente; sin limitación artificial de CPU o red. No se utilizaron navegaciones repetidas dentro del mismo navegador para medir en frío.
+Chrome del sistema **156.0.8078.80**, ejecutable `C:/Program Files/Google/Chrome/Application/chrome.exe`, escritorio 1440×900. **Un proceso nuevo de navegador por página y tema**, doce procesos por versión. Builds de producción servidos localmente; sin limitación artificial de CPU o red. No se utilizaron navegaciones repetidas dentro del mismo navegador para medir en frío.
 
 La baseline es una copia externa del build limpio verificado de `1fedffc`; el código de ejecución, recursos, HTML y configuración de build es idéntico a `origin/main` en `1fa1ff3` (el commit posterior sólo documenta resultados). El build corregido corresponde al commit verificado indicado abajo.
 
@@ -27,7 +27,18 @@ Los contextos de los anillos y de otros productos se excluyen de los recuentos d
 
 ## Antes y después
 
-Pendiente de incorporar los resultados finales de las seis páginas.
+Máximos entre claro y oscuro. Los recuentos son de **contextos de aurora**, al cargar / al final del recorrido:
+
+| Página | Tarea larga máxima antes | Después | Contextos antes | Contextos después |
+|---|---:|---:|---:|---:|
+| `/` | Ninguna ≥50 ms | Ninguna ≥50 ms | 0 / 0 | 0 / 0 |
+| `/bodas` | 579 ms | Ninguna ≥50 ms | 5 / 5 | **0 / 3** |
+| `/eventos` | 351 ms | Ninguna ≥50 ms | 5 / 5 | 2 / 5 |
+| `/temporada` | 440 ms | Ninguna ≥50 ms | 2 / 2 | 1 / 2 |
+| `/invitaciones` | 381 ms | Ninguna ≥50 ms | 5 / 5 | 2 / 5 |
+| `/en/bodas` | 332 ms | Ninguna ≥50 ms | 5 / 5 | **0 / 3** |
+
+Se cumple el objetivo de ninguna tarea atribuible a las auroras superior a 100 ms en estas doce navegaciones finales. En Bodas, los dos campos sin tamaño permanecen sin contexto; los tres campos visibles se crean al aproximarse a sus secciones. En todas las páginas se mantiene el dibujo, la respuesta al desplazamiento y los controles comprobados, sin errores de página.
 
 En `/` no hay campos de estos dos controladores en el recorrido actual; su resultado cero no implica que otros efectos de Inicio no utilicen WebGL.
 
@@ -37,18 +48,19 @@ Una prueba separada vuelve visible un campo de Bodas que empieza con tamaño cer
 
 Las pruebas unitarias cubren espera por tamaño/proximidad, cola de un trabajo por callback, cancelación de trabajo sin inicializar, sondeo de compilación en futuros cuadros y cancelación sin leer `LINK_STATUS`.
 
-Desde el worktree limpio en `e7256da66970f5a1beb6a271477a979fb31e25b9`, eliminando previamente sólo su `dist/`:
+Desde el worktree limpio en `5f0a73c5c80c5cf980e1ec98545458dc6c7b7d1c`, eliminando previamente sólo su `dist/`:
 
 - `npm run typecheck`: aprobado.
 - `npm test`: **303 + 38 = 341 pruebas**, más la comprobación de Posada, aprobadas.
 - `npm run check:build`: aprobado.
-- Matriz de auroras y regresión de anillos: pendientes de incorporar al terminar.
+- Matriz de auroras: **doce navegaciones finales aprobadas**, con un proceso nuevo por página y tema, más la prueba independiente de tamaño/eventos previos.
+- Regresión de anillos: **64 casos aprobados con el script original sin cambios**. Se mantienen los ocho recorridos ES/EN en claro/oscuro, los tamaños móviles adicionales, los doce casos de idioma y los cuarenta perfiles estáticos con cero contextos WebGL. Escritorio conserva aproximadamente 60 fps y supera sus comprobaciones existentes de carga, toque, arrastre, pausa y rendimiento.
 
 ## Evidencia externa y reproducción
 
 Carpeta: `C:\Users\USER\.codex\visualizations\2026\11\05\01a1ab9a-d1f4-7e71-b46c-e156d8b307df\aurora-arranque`.
 
-`before-results.json` y `after-results.json` contienen medidas, errores y el inventario de capturas por sección. Las imágenes siguen el patrón `{before,after}-{ruta}-{light,dark}-{índice}.jpg`; se omiten los campos de tamaño cero porque no tienen una sección visible que capturar. `before.log`, `after.log`, `typecheck.log`, `tests.log`, `build.log` y `verified-commit.txt` conservan las ejecuciones.
+`before-results.json` y `after-results.json` contienen medidas, errores y el inventario de capturas por sección. **`comparativa.html` reúne 36 parejas, 72 imágenes**, con enlaces a cada captura completa. Las imágenes siguen el patrón `{before,after}-{ruta}-{light,dark}-{índice}.jpg`; se omiten los campos de tamaño cero porque no tienen una sección visible que capturar. `before.log`, `after.log`, `typecheck.log`, `tests.log`, `build.log` y `verified-commit.txt` conservan las ejecuciones. La regresión de anillos guarda sus archivos en la subcarpeta `rings/`.
 
 Para reproducir: hacer el build, definir `AURORA_EVIDENCE` como carpeta externa y ejecutar `node scripts/check-aurora-startup-browser.mjs`. `AURORA_ROOT` permite seleccionar la baseline externa y `AURORA_LABEL=before` guardarla aparte. Las variables opcionales `AURORA_PAGES` y `AURORA_THEMES` limitan el recorrido. Para anillos, servir Vite en 5198 y ejecutar el script existente con `RINGS_EVIDENCE` apuntando a una carpeta externa.
 
@@ -61,5 +73,6 @@ Sin `KHR_parallel_shader_compile` se difiere la lectura de estado al siguiente c
 ## Commits
 
 - `55fa42485de465abfe5fd561ce3d779ad2b34ebd`: inicialización perezosa, compilación asíncrona y pruebas.
-- `be8ece3`: prueba del último estado de apertura tras cambios de tamaño.
-- `e7256da66970f5a1beb6a271477a979fb31e25b9`: calentamiento separado de WebGL/WebGL2; commit verificado en limpio.
+- `be8ece3cb593560368c5bd14296ce0ae9905a396`: prueba del último estado de apertura tras cambios de tamaño.
+- `e7256da66970f5a1beb6a271477a979fb31e25b9`: calentamiento separado de WebGL/WebGL2.
+- `5f0a73c5c80c5cf980e1ec98545458dc6c7b7d1c`: creación dentro del callback de tiempo libre una vez calentado el backend; commit final de código verificado en limpio.
