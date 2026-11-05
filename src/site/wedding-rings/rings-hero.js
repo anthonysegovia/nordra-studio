@@ -1,3 +1,4 @@
+import { warmContext } from './prepare-context.js';
 import { ringsPolicy, staticProfile } from './state.js';
 function mountRings(){
  const hero=document.querySelector('.rings-hero');if(!hero)return;
@@ -12,16 +13,24 @@ function mountRings(){
  function fallback(){failed=true;scene?.dispose();scene=null;sync();}
  async function load(){
   idle=0;if(loading||!ringsPolicy(snapshot()).load)return;loading=true;
+  performance.mark('nordra-rings-load-start');
+  let context,transferred=false;
   try{
+   await warmContext(events.signal);
+   if(!ringsPolicy(snapshot()).load)return;
+   context=document.createElement('canvas').getContext('webgl2',{antialias:false,alpha:true,premultipliedAlpha:true});
+   if(!context)throw new Error('WebGL unavailable');
+   await new Promise(resolve=>setTimeout(resolve,0));
    const {createRingsScene}=await import('./rings-scene.js');
    if(!ringsPolicy(snapshot()).load)return;
    let entered=false;try{entered=sessionStorage.getItem('nordra-rings-entered')==='1';}catch{}
    hero.classList.toggle('entering',!entered);
-   const next=await createRingsScene(stage,{dark:snapshot().dark,initialElapsed:entered?7.8:0,isCancelled:()=>!ringsPolicy(snapshot()).load,onFallback:()=>queueMicrotask(fallback)});
+   const next=await createRingsScene(stage,{context,dark:snapshot().dark,initialElapsed:entered?7.8:0,isCancelled:()=>!ringsPolicy(snapshot()).load,onFallback:()=>queueMicrotask(fallback)});
+   transferred=true;
    if(!ringsPolicy(snapshot()).load){next.dispose();return;}
    scene=next;hero.classList.toggle('ready',entered);try{sessionStorage.setItem('nordra-rings-entered','1');}catch{}
   }catch{failed=true;stage.querySelectorAll('canvas').forEach(c=>{c.getContext('webgl2')?.getExtension('WEBGL_lose_context')?.loseContext();c.remove();});}
-  finally{loading=false;sync();}
+  finally{if(!transferred)context?.getExtension('WEBGL_lose_context')?.loseContext();loading=false;sync();}
  }
  function sync(){
   if(disposed)return;

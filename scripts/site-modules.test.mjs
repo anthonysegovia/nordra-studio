@@ -280,3 +280,10 @@ test('the static scope check detects an undeclared assignment and read in its fi
   assert.ok(errors.some(e => e.includes('unboundFixture')), errors.join('\n'));
   assert.ok(errors.some(e => e.includes('otherUnboundFixture')), errors.join('\n'));
 });
+
+test('site isolation preserves static imports while containing initializer failures', async () => {
+  const module = isolateSiteScript("import { value } from 'data:text/javascript,export const value=42';\nglobalThis.__siteImportFixture=value; throw new Error('isolated');", 'import-fixture.js');
+  const errors=[];const original=console.error;console.error=(...args)=>errors.push(args);
+  try { await import('data:text/javascript,'+encodeURIComponent(module));assert.equal(globalThis.__siteImportFixture,42);assert.equal(errors.length,1);assert.match(errors[0][0],/import-fixture/); }
+  finally {console.error=original;delete globalThis.__siteImportFixture;}
+});

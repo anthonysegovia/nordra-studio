@@ -1,6 +1,7 @@
 // Scene ported from the approved 2026-11-05 mockup. Geometry, shaders and timeline retain its values.
 
 import * as THREE from 'three';
+import { prepareRingsPrograms, preparePMREM, yieldSetup } from './prepare-programs.js';
 
 export async function createRingsScene(stage, options = {}) {
 const hero=stage.closest('.rings-hero');
@@ -8,11 +9,11 @@ const events=new AbortController(), envTargets=[];
 let disposed=false, frameId=0, active=false, currentDark=Boolean(options.dark);
 const listen=(target,type,fn,opts={})=>target.addEventListener(type,fn,{...opts,signal:events.signal});
 function releaseTree(tree){tree.traverse(o=>{o.geometry?.dispose();for(const m of (Array.isArray(o.material)?o.material:[o.material]))m?.dispose();});}
-function environment(env,sigma){const rt=pmrem.fromScene(env,sigma);envTargets.push(rt);releaseTree(env);return rt.texture;}
+async function environment(env,sigma){await yieldSetup();renderer.setRenderTarget(pmrem._pingPongRenderTarget);await renderer.compileAsync(env,new THREE.PerspectiveCamera(90,1,.1,100));renderer.setRenderTarget(null);await yieldSetup();const rt=pmrem.fromScene(env,sigma);envTargets.push(rt);releaseTree(env);return rt.texture;}
 let reduce=false;
 const wideQ=matchMedia('(min-width:901px)'),narrowQ=matchMedia('(max-width:700px)');
 const LITE=narrowQ.matches;
-const renderer=new THREE.WebGLRenderer({antialias:false,alpha:true,premultipliedAlpha:true});
+const renderer=new THREE.WebGLRenderer({canvas:options.context?.canvas,context:options.context,antialias:false,alpha:true,premultipliedAlpha:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,LITE?1.5:2));
 renderer.toneMapping=THREE.NoToneMapping; // tone mapping happens in the composite pass
 renderer.outputColorSpace=THREE.SRGBColorSpace;
@@ -22,6 +23,7 @@ stage.appendChild(renderer.domElement);
 const scene=new THREE.Scene();
 const pmrem=new THREE.PMREMGenerator(renderer);
 const camera=new THREE.PerspectiveCamera(30,1,0.05,80);
+await preparePMREM(renderer,pmrem);
 
 // ---------- Helpers ----------
 const clamp=t=>Math.min(1,Math.max(0,t));
@@ -36,7 +38,7 @@ const starTex=dataTexture(64,(u,v)=>{const x=Math.abs(u-.5)*2,y=Math.abs(v-.5)*2
 const bokehTex=dataTexture(128,(u,v)=>{const r=Math.hypot(u-.5,v-.5)*2;const body=smooth(1,.9,r);const rim=.55+.45*smooth(.55,.93,r);const a=body*rim;return [255,255,255,255*a];});
 
 // ---------- Light ----------
-function studio(dark){
+async function studio(dark){
  const env=new THREE.Scene();
  env.add(new THREE.Mesh(new THREE.SphereGeometry(10,48,24),new THREE.MeshBasicMaterial({side:THREE.BackSide,color:dark?'#2a211b':'#c2a888'})));
  const f=new THREE.Mesh(new THREE.CircleGeometry(10,48),new THREE.MeshBasicMaterial({color:dark?'#120e0b':'#6f5a45'}));f.rotation.x=-Math.PI/2;f.position.y=-3;env.add(f);
@@ -44,10 +46,10 @@ function studio(dark){
  box(7,1.6,0,6,2.5,'#fff4e2',dark?2.6:3.4);box(1.4,7,-6,.5,2.5,'#ffe9cf',dark?2:2.8);box(1.4,7,6,1,-1.5,'#fff8ee',dark?2.2:3);box(6,.9,0,1.2,-7,'#ffe3c2',1.8);box(3,3,2,-1,6,'#fff1dd',dark?1.2:1.8);
  return environment(env,0.02);
 }
-function gemStudio(){const env=new THREE.Scene();env.add(new THREE.Mesh(new THREE.SphereGeometry(10,32,16),new THREE.MeshBasicMaterial({side:THREE.BackSide,color:'#16110d'})));
+async function gemStudio(){const env=new THREE.Scene();env.add(new THREE.Mesh(new THREE.SphereGeometry(10,32,16),new THREE.MeshBasicMaterial({side:THREE.BackSide,color:'#16110d'})));
  for(let i=0;i<14;i++){const a=i/14*Math.PI*2,e=(i%3-1)*.6;const m=new THREE.Mesh(new THREE.PlaneGeometry(.9,.35),new THREE.MeshBasicMaterial({color:new THREE.Color(i%4?'#fff7ea':'#ffe2b0').multiplyScalar(6),side:THREE.DoubleSide}));m.position.set(Math.cos(a)*6,Math.sin(e)*6+1.5,Math.sin(a)*6);m.lookAt(0,0,0);env.add(m);}
  return environment(env,0);}
-const envGem=gemStudio(),envLight=studio(false);let envDark=null;scene.environment=envLight;
+const envGem=await gemStudio();await yieldSetup();const envLight=await studio(false);await yieldSetup();const envDark=await studio(true);await yieldSetup();scene.environment=envLight;
 const key=new THREE.DirectionalLight('#fff1dc',1.4);key.position.set(3,4,5);
 const fill=new THREE.DirectionalLight('#ffe2c4',.6);fill.position.set(-4,1,2);
 const glint=new THREE.PointLight('#fff6e6',0,8,1.6);
@@ -242,7 +244,7 @@ function setTheme(dark){
  silkMat.uniforms.uSheen.value.setRGB(...(dark?[.5,.38,.24]:[.55,.48,.36]));
  silkMat.uniforms.uDark.value=dustMat.uniforms.uDark.value=dark?1:0;
  trailMat.uniforms.uColor.value.set(...(dark?[2.4,1.89,1.13]:[.95,.52,.15]));trailMat.uniforms.uCore.value.set(...(dark?[3.2,3.06,2.82]:[1.5,.98,.42]));moteMat.uniforms.uColor.value.set(...(dark?[1.9,1.45,.8]:[.95,.6,.22]));
- if(dark&&!envDark)envDark=studio(true);scene.environment=dark?envDark:envLight;
+ scene.environment=dark?envDark:envLight;
  compMat.uniforms.uExposure.value=dark?.95:.98;compMat.uniforms.uBloom.value=dark?.85:.42;key.intensity=dark?1.8:1.4;
  bokeh.forEach(s=>{s.material.blending=dark?THREE.AdditiveBlending:THREE.NormalBlending;s.material.needsUpdate=true;});
 }
@@ -264,7 +266,7 @@ function resize(){
  script1.setAttribute('x',wide?20:450);script2.setAttribute('x',wide?20:450);
  let unit;
  if(wide){unit=Math.min(H*.25,W*.16);ringCx=W*.7;ringCy=H*.55;}
- else{const heroTop=hero.getBoundingClientRect().top,below=actions.getBoundingClientRect().bottom-heroTop;const space=Math.max(260,H-below-30);unit=Math.min(space*.3,W*.27);ringCx=W/2;ringCy=below+space*.5;}
+ else{const heroTop=hero.getBoundingClientRect().top,below=actions.getBoundingClientRect().bottom-heroTop;const space=LITE?Math.max(140,H-below-70):Math.max(260,H-below-30);unit=Math.min(space*(LITE?.38:.3),W*.27);ringCx=W/2;ringCy=below+space*.5;}
  const half=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));finalDist=(H/2)/(unit*half);
  hint.style.left=ringCx+'px';hint.style.top=Math.min(H-34,ringCy+unit*1.45)+'px';
 }
@@ -312,7 +314,7 @@ function pose(e,dt){
  const dist=Math.exp(lerp(Math.log(1.55),Math.log(finalDist),k));
  target.copy(gemW).lerp(holder.position,k);
  camera.position.copy(target).addScaledVector(dir,dist);camera.lookAt(target);
- camera.setViewOffset(W,H,-(ringCx-W/2)*k,-(ringCy-H/2)*k,W,H);camera.updateProjectionMatrix();
+ camera.setViewOffset(W,H,-(ringCx-W/2)*(wideQ.matches?1:k),-(ringCy-H/2)*k,W,H);camera.updateProjectionMatrix();
  dustMat.uniforms.uFocus.value=camera.position.distanceTo(target);dustMat.uniforms.uAperture.value=lerp(1.1,.12,k);
  // (2) pen of light: head runs 0→1+tail between 2.2 s and 4.2 s
  const head=reduce?-1:lerp(-.02,1+TAIL,clamp((t-2.2)/2));
@@ -432,6 +434,10 @@ function dispose(){
 listen(renderer.domElement,'webglcontextlost',e=>{e.preventDefault();options.onFallback?.();});
 await document.fonts.ready;
 if(options.isCancelled?.()){dispose();return {setState(){},dispose(){}};}
-buildEngraving();resize();shown=true;pose(clock-.25,0);render();
+buildEngraving();resize();pose(clock-.25,0);
+await prepareRingsPrograms(renderer,camera,scene,{rtRefl,rtMain,fsScene,fsCam,fsQuad,brightMat,downMat,blurMat,compMat,bloomRT});
+await yieldSetup();
+if(options.isCancelled?.()){dispose();return {setState(){},dispose(){}};}
+shown=true;render();performance.mark('nordra-rings-ready');
 return {setState,dispose};
 }

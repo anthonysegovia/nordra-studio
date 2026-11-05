@@ -1,3 +1,4 @@
+import { staticProfile } from '../wedding-rings/state.js';
 (()=>{
  const host=document.querySelector('[data-view]:not([hidden])');
  host.querySelectorAll('.aurora-field').forEach((field,index)=>{
@@ -16,7 +17,7 @@
  reduced.addEventListener('change',e=>{paused=e.matches;sync();});document.addEventListener('visibilitychange',sync);addEventListener('nordra-theme',()=>{if(ready)render(time);});
  const canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');field.append(canvas);
  const inView=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();},{threshold:0});inView.observe(field);
- if((smallScreen.matches||matchMedia('(pointer:coarse)').matches||(host.dataset.view==='bodas'&&(reduced.matches||document.body.dataset.journeyMotion==='paused'||navigator.connection?.saveData===true||(navigator.deviceMemory!=null&&navigator.deviceMemory<3)||(navigator.hardwareConcurrency!=null&&navigator.hardwareConcurrency<4))))&&window.NordraMobileAurora){
+ if((smallScreen.matches||matchMedia('(pointer:coarse)').matches||(host.dataset.view==='bodas'&&(reduced.matches||document.body.dataset.journeyMotion==='paused'||staticProfile(navigator))))&&window.NordraMobileAurora){
   canvas.remove();const mobile=window.NordraMobileAurora;
   const paletteIndex=Number(field.dataset.palette)||({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0;
   const ambient=heroLight;

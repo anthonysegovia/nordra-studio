@@ -2,9 +2,11 @@ import { basename, resolve } from 'node:path';
 
 // Classic script tags isolate synchronous initialization failures. Preserve that
 // boundary when Vite places their side effects in a shared ES module bundle.
-// Keep the copied sources unchanged, including nordra-theatre.js.
+// Static imports remain at module scope; only executable initialization is isolated.
 export function isolateSiteScript(source, name) {
-  return `try {\n${source}\n} catch (error) {\n  console.error(${JSON.stringify(`[Nordra site] ${name} failed to initialize`)}, error);\n}\n`;
+  const imports = [];
+  source = source.replace(/^import\s+[^;\n]+\s+from\s+['"][^'"]+['"];[ \t]*$/gm, statement => { imports.push(statement); return ''; });
+  return `${imports.length ? imports.join('\n')+'\n' : ''}try {\n${source}\n} catch (error) {\n  console.error(${JSON.stringify(`[Nordra site] ${name} failed to initialize`)}, error);\n}\n`;
 }
 
 /** @returns {import('vite').Plugin} */

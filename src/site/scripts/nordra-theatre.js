@@ -1,3 +1,4 @@
+import { staticProfile } from '../wedding-rings/state.js';
 /* 5.40 — Layered aurora light + the unchanged CSS 3D typography.
    Image composition, envelopes and snow keep their existing controllers. */
 (()=>{
@@ -39,7 +40,7 @@
  const palette={0:[[.04,.65,.66],[.24,.43,.91],[.62,.3,.85]],1:[[.63,.43,.25],[.9,.75,.53],[.5,.31,.21]],2:[[.45,.34,.9],[.8,.43,.68],[.4,.62,.9]],3:[[.1,.61,.44],[.23,.53,.61],[.3,.42,.7]],4:[[.9,.4,.12],[.53,.28,.68],[.77,.48,.36]],5:[[.13,.6,.4],[.52,.69,.44],[.86,.65,.28]],6:[[.8,.62,.32],[.61,.44,.78],[.91,.78,.5]]};
  let colors=palette[({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0];
  for(const item of chapters){
-  if((small.matches||matchMedia('(pointer:coarse)').matches||(host.dataset.view==='bodas'&&(reduce.matches||document.body.dataset.journeyMotion==='paused'||navigator.connection?.saveData===true||(navigator.deviceMemory!=null&&navigator.deviceMemory<3)||(navigator.hardwareConcurrency!=null&&navigator.hardwareConcurrency<4))))&&window.NordraMobileAurora){
+  if((small.matches||matchMedia('(pointer:coarse)').matches||(host.dataset.view==='bodas'&&(reduce.matches||document.body.dataset.journeyMotion==='paused'||staticProfile(navigator))))&&window.NordraMobileAurora){
    item.canvas.remove();const light=window.NordraMobileAurora.create(item.ribbon,({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0);
    item.mobileLight=light;item.render=()=>light.render(item.progress);item.dispose=()=>light.dispose();continue;
   }
