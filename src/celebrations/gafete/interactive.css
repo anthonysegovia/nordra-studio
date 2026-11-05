@@ -1102,8 +1102,13 @@ button:hover {
 }
 
 @media (max-width: 700px) {
+  /* The agenda's window light reaches up over the links below the registration card; start it at the section edge. */
+  .agenda-v2 > .light-field {
+    top: 0;
+  }
   .register-links {
     margin-top: 14px;
     color: #000;
+    font-size: 14px;
   }
 }
