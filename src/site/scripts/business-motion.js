@@ -3,7 +3,7 @@
  if(!host)return;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const mobile=matchMedia('(max-width:700px)');
- const animations=new Set(),expansions=new Map();
+ const animations=new Set();
  const seen=new WeakSet();
  let paused=parent!==window||reduced.matches||document.body.dataset.journeyMotion==='paused',ready=parent===window;
  const toggle=host.querySelector('[data-business-toggle]');
@@ -84,33 +84,6 @@
  },{threshold:.12});
  host.querySelectorAll('.project-feature,.home-continuation,.process-list,.case-story').forEach(el=>surfaces.observe(el));
 
- // Native details remain usable without JavaScript; enhanced height changes are cancellable.
- const options=[...host.querySelectorAll('.web-option,.sample-detail')];
- function expand(detail,open){
-  const from=detail.getBoundingClientRect().height;
-  const old=expansions.get(detail);
-  if(old){old.onfinish=null;old.cancel();expansions.delete(detail);}
-  detail.dataset.expanded=String(open);
-  detail.style.height='';detail.style.overflow='';
-  if(open)detail.open=true;
-  const to=open?detail.getBoundingClientRect().height:detail.querySelector('summary').getBoundingClientRect().height+1;
-  const settle=()=>{detail.open=open;detail.style.height='';detail.style.overflow='';expansions.delete(detail);};
-  if(!enabled()){settle();return;}
-  detail.style.overflow='hidden';
-  const animation=animate(detail,[{height:`${from}px`},{height:`${to}px`}],{duration:mobile.matches?220:280},settle);
-  if(animation)expansions.set(detail,animation);
- }
- options.forEach(detail=>{
-  detail.dataset.motionGroup=detail.getAttribute('name')||'web-options';
-  detail.removeAttribute('name');
-  detail.dataset.expanded=String(detail.open);
-  detail.querySelector('summary').addEventListener('click',event=>{
-   event.preventDefault();
-   const opening=detail.dataset.expanded!=='true';
-   if(opening)options.filter(other=>other!==detail&&other.dataset.motionGroup===detail.dataset.motionGroup&&other.dataset.expanded==='true').forEach(other=>expand(other,false));
-   expand(detail,opening);
-  });
- });
  addEventListener('nordra-preview-change',event=>{finish();const panel=event.detail?.panel;if(panel&&host.contains(panel))animate(panel,[{opacity:.85,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:mobile.matches?220:320});});
  paint();
  addEventListener('pagehide',()=>{finish();observer.disconnect();surfaces.disconnect();},{once:true});

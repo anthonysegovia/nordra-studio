@@ -255,3 +255,22 @@ html:has(.seat-picker[open]) { overflow:hidden; }
 .sample-guide button{padding:6px 12px;border-radius:6px;cursor:pointer;font:inherit}
 .sample-guide button:first-of-type{background:var(--panel-accent);color:white;border:1px solid var(--panel-accent)}
 .sample-guide button:last-of-type{background:transparent;color:var(--panel-ink);border:1px solid currentColor}
+
+/* Menus stay above adjacent guest groups and use each panel's palette. */
+.wedding-workspace{--seat-paper:var(--panel-paper,#fffcf6);--seat-ink:var(--panel-ink,#43392f);--seat-accent:var(--panel-accent,#67533e);--seat-line:#c7b9a8}
+.wedding-workspace[data-occasion=event]{--seat-paper:#eff8f4;--seat-line:#b6cec3}
+html .wedding-workspace[data-occasion=birthday]{--seat-paper:var(--surface);--seat-ink:var(--text);--seat-accent:var(--gold);--seat-line:var(--line)}
+.boreal-seating-group.has-seat-menu{position:relative;z-index:20}
+.wedding-workspace .seat-move>button,.wedding-workspace .seat-options button{appearance:none;font:inherit;font-size:12px;min-height:44px;padding:8px 12px;border:1px solid var(--seat-line);border-radius:5px;background:var(--seat-paper);color:var(--seat-ink);cursor:pointer;transition:transform .18s ease,background-color .18s ease,color .18s ease}
+.wedding-workspace .seat-options{top:calc(100% + 4px);border-color:var(--seat-line);background:var(--seat-paper);border-radius:6px;box-shadow:0 8px 24px #30271920;overflow-y:auto;min-width:160px;max-width:calc(100vw - 32px);animation:seat-menu-in .18s ease backwards}
+.wedding-workspace .seat-options.opens-up{top:auto;bottom:calc(100% + 4px)}
+.wedding-workspace .seat-options button{text-align:left;border-color:transparent}
+.wedding-workspace .seat-options button[aria-current=true]{background:color-mix(in srgb,var(--seat-accent) 14%,var(--seat-paper));font-weight:600;opacity:1}
+.wedding-workspace .seat-move button:disabled{cursor:default}
+.wedding-workspace .seat-move button:not(:disabled):is(:hover,:focus-visible){background:color-mix(in srgb,var(--seat-accent) 10%,var(--seat-paper))}
+.wedding-workspace .seat-move button:focus-visible{outline:2px solid var(--seat-accent);outline-offset:2px}
+.wedding-workspace .seat-move button:not(:disabled):active{transform:scale(.98)}
+@keyframes seat-menu-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+body[data-journey-motion=paused] .seat-options{animation:none!important}
+body[data-journey-motion=paused] .seat-move button{transform:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){.wedding-workspace .seat-options{animation:none!important}.wedding-workspace .seat-move button{transform:none!important;transition:none!important}}

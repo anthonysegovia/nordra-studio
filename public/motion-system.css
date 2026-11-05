@@ -3,8 +3,8 @@
 body{--motion-accent:var(--accent,#278baf)}
 .theme-wedding{--motion-accent:#a58a63}
 .theme-birthday{--motion-accent:#c7a568}
-html body :is(a,button,summary,input,select,textarea,[role=tab],label,.invite-card,.offer-panel,.season-card,.client-case){transition-property:transform,opacity,box-shadow,color,background-color,border-color;transition-duration:var(--motion-medium);transition-timing-function:var(--motion-ease)}
-html body [data-view=estudio] a.studio-work{transition:opacity var(--motion-medium),box-shadow var(--motion-medium),color var(--motion-medium)}
+html body :is(a,button,summary,input,select,textarea,[role=tab],label,.invite-card,.offer-panel,.season-card,.client-case){transition-property:transform,translate,rotate,scale,opacity,box-shadow,color,background-color,border-color;transition-duration:var(--motion-medium);transition-timing-function:var(--motion-ease)}
+html body [data-view=estudio] a.studio-work{transition:flex-grow .6s var(--motion-ease),opacity var(--motion-medium),box-shadow var(--motion-medium),color var(--motion-medium)}
 html body :is(a,button,summary,input,select,textarea,[role=tab]):focus-visible{outline:2px solid var(--motion-accent);outline-offset:4px;box-shadow:0 0 0 5px color-mix(in srgb,var(--motion-accent) 16%,transparent)}
 html body :is(button,.primary-action,.horizon-button,.invite-cta,.offer-quote,[role=tab]):active{transform:translateY(1px) scale(.98);transition-duration:var(--motion-fast)}
 html body :is(a,summary):active{opacity:.78;transition-duration:var(--motion-fast)}
@@ -33,7 +33,7 @@ html body details[open]>summary [aria-hidden=true]{rotate:none;transform:rotate(
 /* Native details stays usable without JS, including browsers without this API. */
 @supports (interpolate-size:allow-keywords){
  html body details{interpolate-size:allow-keywords}
- html body details::details-content{height:0;opacity:0;overflow:clip;transition:height var(--motion-slow) var(--motion-ease),opacity var(--motion-medium),content-visibility var(--motion-slow) allow-discrete}
+ html body details::details-content{height:0;opacity:0;overflow:clip;transition:height var(--motion-slow) ease-in-out,opacity var(--motion-medium),content-visibility var(--motion-slow) allow-discrete}
  html body details[open]::details-content{height:auto;opacity:1}
 }
 html body :is(input,select,textarea):focus{border-color:var(--motion-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--motion-accent) 15%,transparent)}
@@ -97,3 +97,18 @@ html body[data-journey-motion=paused] [data-view=estudio] a.studio-work{transiti
  html body [data-view=estudio] a.studio-work{transition:opacity var(--motion-fast),color var(--motion-fast)!important}
  html body #mobile-menu:not([hidden]) :is(a,button){animation:motion-fade var(--motion-fast)!important}
 }
+
+/* Individual transform properties and nested calls to action share the same timing. */
+html body :is(.signature-work .nordra-phone,.invite-card .invite-cta,.wedding-plan-grid .invite-card,.locale-switch>a,.wedding-devices>a.wedding-dashboard){transition-property:transform,translate,rotate,scale,opacity,color,background-color,border-color;transition-duration:var(--motion-medium);transition-timing-function:var(--motion-ease)}
+
+/* Extend the touch target without changing the visible label. */
+:is(.locale-switch>a){position:relative}
+:is(.locale-switch>a)::before{content:'';position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);transform:translate(-50%,-50%)}
+
+html body .locale-switch>a{min-width:44px;min-height:44px}
+html body[data-journey-motion=paused] .signature-work .nordra-phone{transform:none!important;translate:none!important;rotate:none!important}
+@media(prefers-reduced-motion:reduce){html body .signature-work .nordra-phone{transform:none!important;translate:none!important;rotate:none!important}}
+
+/* Pausing removes the rotation animation, not the open-state indicator. */
+html body[data-journey-motion=paused] details[open]>summary [aria-hidden=true]{transform:rotate(45deg)!important}
+@media(prefers-reduced-motion:reduce){html body details[open]>summary [aria-hidden=true]{transform:rotate(45deg)!important}}

@@ -414,3 +414,9 @@ p{font-size:23px;line-height:1.45;text-wrap:pretty}
 }
 @media(max-width:370px){.iv-header nav{gap:15px}.iv-cover-copy{padding-inline:7%}.iv-cover h1{font-size:75px}.iv-cover-date{max-width:250px}.iv-cover-date>span:last-child{width:100%;margin-top:-6px}.iv-date-line{display:none}.iv-timeline li{grid-template-columns:65px 1fr;column-gap:23px}.iv-timeline li::before{left:76px}.iv-timeline-dot{left:73px}.iv-rsvp-paper{padding-inline:8%}.iv-rsvp-paper h2{font-size:42px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}[data-iv-reveal]:not(.iv-seen){opacity:1}.iv-light{transform:none}}
+
+/* Extend the touch target without changing the visible label. */
+:is(.iv-location-link){position:relative}
+:is(.iv-location-link)::before{content:'';position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);transform:translate(-50%,-50%)}
+
+.iv-footer a{min-height:44px;justify-content:center}

@@ -154,16 +154,16 @@ body:not(.dark) .theatre-closing>.theatre-ribbon{opacity:.6}
  .invitation-decision .decision-actions button{font-size:16px}
  .invitation-decision .decision-note{font-size:13px}
 }
-.faq-item summary{transition:color .25s,padding-left .25s,background-color .25s}
+.faq-item summary{transition:color .25s,background-color .25s}
 .faq-item summary>span:last-child{transition:transform .34s}
-.faq-item[data-expanded=true] summary>span:last-child{transform:rotate(45deg)}
-.faq-item[data-expanded=false] summary>span:last-child{transform:rotate(0)}
+.faq-item[open] summary>span:last-child{transform:rotate(45deg)}
+.faq-item:not([open]) summary>span:last-child{transform:rotate(0)}
 .faq-item:focus-within,.web-option:focus-within,.package-details details:focus-within{translate:none;opacity:1}
-@media(hover:hover){.faq-item summary:hover,.package-details summary:hover{color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent);padding-left:8px}}
+@media(hover:hover){.faq-item summary:hover,.package-details summary:hover{color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,transparent)}}
 body[data-journey-motion=paused] .faq-item summary,body[data-journey-motion=paused] .faq-item summary>span:last-child,body[data-journey-motion=paused] .package-details summary>span{transition:none}
 @media(prefers-reduced-motion:reduce){.faq-item summary,.faq-item summary>span:last-child,.package-details summary>span{transition:none}}
-.package-details details[data-expanded=false] summary>span{transform:rotate(0)}
-.package-details summary{transition:color .25s,padding-left .25s,background-color .25s}
+.package-details details:not([open]) summary>span{transform:rotate(0)}
+.package-details summary{transition:color .25s,background-color .25s}
 body[data-journey-motion=paused] .package-details summary{transition:none}
 @media(prefers-reduced-motion:reduce){.package-details summary{transition:none}}
 /* Production: process copy stays full width without decorative numbers. */
@@ -217,3 +217,9 @@ body[data-journey-motion=paused] .package-details summary{transition:none}
  .dark{--muted:#bdcbd5}
  body.dark[data-scene=bodas]{--muted:#ddd0be}
 }
+
+.faq-item summary>span:first-child{display:inline-block;transition:transform .25s ease}
+@media(hover:hover){.faq-item summary:hover>span:first-child{transform:translateX(8px)}}
+.faq-item summary:focus-visible>span:first-child{transform:translateX(8px)}
+body[data-journey-motion=paused] .faq-item summary>span:first-child{transform:none!important}
+@media(prefers-reduced-motion:reduce){.faq-item summary>span:first-child{transform:none!important}}

@@ -113,27 +113,4 @@
  if(mobile.matches)items.filter(item=>['media','heading','block'].includes(item.kind)&&item.el.getBoundingClientRect().top>innerHeight).forEach(item=>arrive.observe(item.el));
  addEventListener('pagehide',()=>{cancelAnimationFrame(frame);observer.disconnect();arrive.disconnect();sizes.disconnect();state.disconnect();removeEventListener('scroll',onScroll);removeEventListener('resize',dimensions);},{once:true});
 })();
-/* 5.41 — Reversible disclosure motion, including keyboard activation. */
-(()=>{
- const host=document.querySelector('[data-view]:not([hidden])');if(!host)return;
- const reduce=matchMedia('(prefers-reduced-motion: reduce)'),active=new Map();
- const enabled=()=>!reduce.matches&&document.body.dataset.journeyMotion!=='paused'&&!document.hidden;
- const details=[...host.querySelectorAll('.faq-item,.package-details details,.studio-notes')];
- function settle(el,open){el.open=open;el.style.height='';el.style.overflow='';active.delete(el);}
- function toggle(el,open){
-  const from=el.getBoundingClientRect().height,previous=active.get(el);
-  if(previous){previous.animation.onfinish=null;previous.animation.cancel();active.delete(el);}
-  el.dataset.expanded=String(open);el.style.height='';el.style.overflow='';
-  el.open=true;
-  const to=open?el.offsetHeight:el.querySelector('summary').offsetHeight+2;
-  if(!enabled()){settle(el,open);return;}
-  el.style.overflow='hidden';
-  const animation=el.animate([{height:from+'px'},{height:to+'px'}],{duration:340,easing:'cubic-bezier(.22,.7,.2,1)'});
-  active.set(el,{animation,open});animation.onfinish=()=>settle(el,open);
- }
- details.forEach(el=>{el.dataset.expanded=String(el.open);el.querySelector('summary').addEventListener('click',event=>{event.preventDefault();toggle(el,el.dataset.expanded!=='true');});});
- function finish(){for(const [el,item] of active){item.animation.onfinish=null;item.animation.cancel();settle(el,item.open);}}
- const state=new MutationObserver(()=>{if(!enabled())finish();});state.observe(document.body,{attributes:true,attributeFilter:['data-journey-motion']});
- reduce.addEventListener('change',finish);document.addEventListener('visibilitychange',()=>{if(document.hidden)finish();});
- addEventListener('pagehide',()=>{finish();state.disconnect();reduce.removeEventListener('change',finish);},{once:true});
-})();
+/* Disclosure motion is owned by native details and motion-system.css. */

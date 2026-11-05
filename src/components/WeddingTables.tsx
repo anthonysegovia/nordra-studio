@@ -17,6 +17,22 @@ export function WeddingTables({ invitations, state, action, english, disabled, r
   const [adding,setAdding]=useState('');
   const target=state.tables.find(table=>table.id===adding);
   const [moving,setMoving]=useState('');
+  const [menuSpace,setMenuSpace]=useState({up:false,height:280});
+  useEffect(()=>{
+    if(!moving)return;
+    const close=(event:PointerEvent)=>{if(!(event.target instanceof Element)||!event.target.closest('.seat-move'))setMoving('');};
+    document.addEventListener('pointerdown',close);
+    return()=>document.removeEventListener('pointerdown',close);
+  },[moving]);
+  function openSeats(id:string,button:HTMLButtonElement){
+    const box=button.getBoundingClientRect();
+    const navigation=document.querySelector<HTMLElement>('.workspace-navigation');
+    const edge=navigation && getComputedStyle(navigation).position==='fixed' ? navigation.getBoundingClientRect().top : window.innerHeight;
+    const bottom=edge-box.bottom-12, top=box.top-20;
+    const up=bottom<Math.min(280,(state.tables.length+1)*44+10)&&top>bottom;
+    setMenuSpace({up,height:Math.max(44,Math.min(280,up?top:bottom))});
+    setMoving(moving===id?'':id);
+  }
   const [showPlan,setShowPlan]=useState(false);
   const [query, setQuery] = useState(''), [filter, setFilter] = useState('all'), [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -62,11 +78,11 @@ export function WeddingTables({ invitations, state, action, english, disabled, r
       <div className="boreal-feedback" aria-live="polite">{error ? <p role="alert" className="boreal-error">{error}</p> : notice ? <p><Check size={15}/>{notice}</p> : null}</div>
       <div className="boreal-list-meta"><p role="status">{visible.length} {english ? 'invitations' : 'invitaciones'}</p><label>{english ? 'Per page' : 'Por página'}<select aria-label={english ? 'Seating invitations per page' : 'Invitaciones por página en mesas'} value={pageSize} onChange={event => { setPageSize(Number(event.target.value)); setPage(1); }}>{[10,25,50].map(size => <option key={size} value={size}>{size}</option>)}</select></label></div>{visible.slice((currentPage - 1) * pageSize, currentPage * pageSize).map(invitation => {
         const group = invitation.people.filter(person => person.attendance !== 'no');
-        return <div className="boreal-seating-group" key={invitation.id}>
+        return <div className={`boreal-seating-group${group.some(person=>person.id===moving)?' has-seat-menu':''}`} key={invitation.id}>
           {invitation.people.length>1 && <div className="boreal-group-heading"><span>{invitationLabel(invitation)}</span></div>}
           {group.map(person => <div className="boreal-seating-person" key={person.id}><div><strong>{person.name || (english ? 'Companion to be named' : 'Acompañante por definir')}</strong><small>{person.attendance === 'yes' ? (english ? 'Confirmed' : 'Confirmado') : (english ? 'Reply pending' : 'Por confirmar')}</small></div><div className="seat-move" onBlur={e=>{if(!e.currentTarget.contains(e.relatedTarget))setMoving('')}} onKeyDown={e=>{if(e.key==='Escape'){setMoving('');e.currentTarget.querySelector('button')?.focus()}}}>
-              <button aria-expanded={moving===person.id} disabled={locked} onClick={()=>setMoving(moving===person.id?'':person.id)}>{english?'Table':'Mesa'}: {state.tables.find(t=>t.id===state.seats[person.id])?.name||(english?'Unassigned':'Sin mesa')} ▾</button>
-              {moving===person.id && <div className="seat-options">{[{id:'',name:english?'No table':'Sin mesa',capacity:Infinity},...state.tables].map(t=><button key={t.id} disabled={locked||t.id===(state.seats[person.id]||'')||Object.values(state.seats).filter(id=>id===t.id).length>=t.capacity} onClick={()=>{setMoving('');void assign([person.id],t.id)}}>{t.name}</button>)}</div>}
+              <button aria-expanded={moving===person.id} disabled={locked} onClick={event=>openSeats(person.id,event.currentTarget)}>{english?'Table':'Mesa'}: {state.tables.find(t=>t.id===state.seats[person.id])?.name||(english?'Unassigned':'Sin mesa')} ▾</button>
+              {moving===person.id && <div className={`seat-options${menuSpace.up?' opens-up':''}`} style={{maxHeight:menuSpace.height}}>{[{id:'',name:english?'No table':'Sin mesa',capacity:Infinity},...state.tables].map(t=><button key={t.id} aria-current={t.id===(state.seats[person.id]||'')?'true':undefined} disabled={locked||t.id===(state.seats[person.id]||'')||Object.values(state.seats).filter(id=>id===t.id).length>=t.capacity} onClick={()=>{setMoving('');void assign([person.id],t.id)}}>{t.name}</button>)}</div>}
             </div></div>)}
         </div>;
       })}

@@ -15,5 +15,5 @@ body:has(.translation-note) .header-actions>.locale-switch,body:has(#analytics-p
 @media(max-width:600px){
   body:has(#analytics-preference) .brand img{width:100px;height:auto}
   body:has(#analytics-preference) .back-link{white-space:nowrap}
-  body:has(#analytics-preference) .locale-switch a{min-width:25px}
+  body:has(#analytics-preference) .locale-switch a{min-width:44px}
 }

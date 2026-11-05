@@ -191,7 +191,7 @@
  .wedding-workspace .workspace-sidebar{padding-block:9px}.wedding-workspace .workspace-topbar{padding-block:6px}
  .wedding-workspace .workspace-welcome-editorial{min-height:132px;padding:16px 0 10px}.wedding-workspace .workspace-welcome-editorial>div:first-child{width:76%}
  .wedding-workspace .workspace-quick-links{gap:0 10px;font-size:12px}.wedding-workspace .workspace-quick-links>a{min-height:32px}
- .wedding-workspace .ledger-heading .wedding-sync-status{margin:0;gap:4px}.wedding-workspace .ledger-heading .wedding-sync-status button{min-height:32px}
+ .wedding-workspace .ledger-heading .wedding-sync-status{margin:0;gap:4px}.wedding-workspace .ledger-heading .wedding-sync-status button{min-height:44px}
  .wedding-workspace .guest-ledger .panel-tasks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:6px 0}
  .panel-tasks strong,.panel-tasks>span{grid-column:1/-1}.wedding-workspace .guest-ledger .panel-tasks button{font-size:12px;padding:3px 4px;text-align:left;color:var(--panel-accent);min-height:42px}
  .wedding-workspace .guest-ledger .ledger-stat{min-height:70px;padding:7px;gap:4px}.ledger-stat-value{font-size:29px}

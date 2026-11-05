@@ -1,7 +1,7 @@
 .wedding-workspace .ledger-secondary-tools{display:flex;gap:8px;justify-content:flex-end;margin:-8px 0 12px}
 .wedding-workspace .guest-ledger .ledger-secondary-tools button{background:transparent;border-color:transparent;font-size:13px;min-height:34px;padding:6px 9px;color:#735e43}
 .wedding-sync-status{display:flex;align-items:center;gap:8px;justify-content:flex-end;font-size:12px;color:#74634e;margin:-6px 0 7px;min-height:28px}
-.wedding-sync-status button{display:grid;place-items:center;padding:6px;border:0;background:transparent;color:inherit;cursor:pointer;transition:background .2s;animation:ledger-fade .3s ease both;border-radius:50%}
+.wedding-sync-status button{min-width:44px;min-height:44px;display:grid;place-items:center;padding:6px;border:0;background:transparent;color:inherit;cursor:pointer;transition:background .2s;animation:ledger-fade .3s ease both;border-radius:50%}
 .wedding-sync-status button:hover{background:#e9dfcf}.wedding-sync-status.is-offline{color:#935b41}.is-syncing{animation:operations-spin 1s linear infinite}
 .ledger-row.is-updated{animation:operations-highlight 4.5s ease both}
 .wedding-operations-dialog{position:fixed;inset:0;margin:auto;width:min(690px,calc(100% - 32px));max-height:88svh;border:1px solid #d3c5af;border-radius:10px;padding:26px 30px;background:#fbf8f2;color:#4d443b;box-shadow:0 25px 90px #43332230;font:15px/1.55 "Segoe UI",sans-serif;overflow:auto;overscroll-behavior:contain}
