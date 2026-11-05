@@ -1,4 +1,5 @@
 import { staticProfile } from '../wedding-rings/state.js';
+import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js';
 (()=>{
  const host=document.querySelector('[data-view]:not([hidden])');
  host.querySelectorAll('.aurora-field').forEach((field,index)=>{
@@ -30,8 +31,19 @@ import { staticProfile } from '../wedding-rings/state.js';
   ready=true;render(0);if(parent!==window)tell('ready');else sync();
   addEventListener('pagehide',()=>{stop();inView.disconnect();mobileLight.dispose();},{once:true});return;
  }
- try{
- const gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:true,preserveDrawingBuffer:true});if(!gl)throw Error('WebGL');
+ let unfold=heroLight ? .65 : Number(field.dataset.unfold)||0;
+ const initialPalette=Number(field.dataset.palette)||({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0;
+ let paletteState={from:initialPalette,to:initialPalette,blend:0};
+ const paletteChange=e=>{paletteState={...e.detail};if(ready)render(time);};
+ if(host.dataset.view==='temporada')addEventListener('nordra-seasonal-palette',paletteChange);
+ if(field.classList.contains('showcase-aurora'))addEventListener('nordra-showcase-palette',paletteChange);
+ addEventListener('nordra-aurora-unfold',e=>{if(e.detail.field===field){unfold=e.detail.progress;if(ready)render(time);}});
+ canvas.style.opacity='0';field.dataset.renderer='pending';
+ let gl,program,buffer,observer;
+ const dispose=()=>{ready=false;stop();observer?.disconnect();inView.disconnect();if(gl){gl.deleteBuffer(buffer);gl.deleteProgram(program);gl.getExtension('WEBGL_lose_context')?.loseContext();}canvas.remove();};
+ addEventListener('pagehide',dispose,{once:true});
+ lazyAurora(field,async signal=>{try{
+ gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:true,preserveDrawingBuffer:true});if(!gl)throw Error('WebGL');
  const vs='attribute vec2 a;varying vec2 uv;void main(){uv=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0.,1.);}';
  const fs=`precision highp float;varying vec2 uv;uniform float t;uniform float strength;uniform float dark;uniform float palette;uniform float paletteNext;uniform float paletteBlend;uniform float unfold;
  float hash(float n){return fract(sin(n*127.1)*43758.5453);}
@@ -86,20 +98,13 @@ import { staticProfile } from '../wedding-rings/state.js';
    color=mix(color,vec3(.20,.91,.80),dark*(palette>.5?0.:.22));
    float alpha=clamp(light*mix(1.35,1.9,dark),0.,.82);gl_FragColor=vec4(color*alpha,alpha);
  }`;
- function shader(type,text){const s=gl.createShader(type);gl.shaderSource(s,text);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error('shader');return s;}
- const program=gl.createProgram(),v=shader(gl.VERTEX_SHADER,vs),f=shader(gl.FRAGMENT_SHADER,fs);gl.attachShader(program,v);gl.attachShader(program,f);gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error('link');gl.useProgram(program);gl.deleteShader(v);gl.deleteShader(f);
- const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);const a=gl.getAttribLocation(program,'a');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
- const up=gl.getUniformLocation(program,'palette'),un=gl.getUniformLocation(program,'paletteNext'),ub=gl.getUniformLocation(program,'paletteBlend');const initialPalette=Number(field.dataset.palette)||({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0;gl.uniform1f(up,initialPalette);gl.uniform1f(un,initialPalette);gl.uniform1f(ub,0);
- if(host.dataset.view==='temporada')addEventListener('nordra-seasonal-palette',e=>{gl.uniform1f(up,e.detail.from);gl.uniform1f(un,e.detail.to);gl.uniform1f(ub,e.detail.blend);if(ready)render(time);});
- if(field.classList.contains('showcase-aurora'))addEventListener('nordra-showcase-palette',e=>{gl.uniform1f(up,e.detail.from);gl.uniform1f(un,e.detail.to);gl.uniform1f(ub,e.detail.blend);if(ready)render(time);});
- const uf=gl.getUniformLocation(program,'unfold');let unfold=heroLight ? .65 : Number(field.dataset.unfold)||0;
- gl.uniform1f(uf,unfold);
- addEventListener('nordra-aurora-unfold',e=>{if(e.detail.field!==field)return;unfold=e.detail.progress;gl.uniform1f(uf,unfold);if(ready)render(time);});
+ program=await compileAurora(gl,vs,fs,signal);gl.useProgram(program);
+ buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);const a=gl.getAttribLocation(program,'a');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
+ const up=gl.getUniformLocation(program,'palette'),un=gl.getUniformLocation(program,'paletteNext'),ub=gl.getUniformLocation(program,'paletteBlend'),uf=gl.getUniformLocation(program,'unfold');
  const ut=gl.getUniformLocation(program,'t'),us=gl.getUniformLocation(program,'strength'),ud=gl.getUniformLocation(program,'dark');
- render=elapsed=>{const quality=profile(),area=Math.max(1,field.clientWidth*field.clientHeight),dpr=Math.min(devicePixelRatio,quality.dpr,Math.sqrt(quality.pixels/area)),w=Math.max(1,Math.round(field.clientWidth*dpr)),h=Math.max(1,Math.round(field.clientHeight*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}canvas.dataset.quality=quality.name;canvas.dataset.targetFps=String(quality.fps);gl.uniform1f(ut,elapsed+index*11.7);gl.uniform1f(us,intensity);gl.uniform1f(ud,document.body.classList.contains('dark')?1:0);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLES,0,6);canvas.dataset.elapsed=elapsed.toFixed(2);};
- const observer=new ResizeObserver(()=>render(time));observer.observe(field);ready=true;render(0);if(parent!==window)tell('ready');else sync();
+ render=elapsed=>{if(!field.clientWidth||!field.clientHeight)return;gl.uniform1f(up,paletteState.from);gl.uniform1f(un,paletteState.to);gl.uniform1f(ub,paletteState.blend);gl.uniform1f(uf,unfold);const quality=profile(),area=Math.max(1,field.clientWidth*field.clientHeight),dpr=Math.min(devicePixelRatio,quality.dpr,Math.sqrt(quality.pixels/area)),w=Math.max(1,Math.round(field.clientWidth*dpr)),h=Math.max(1,Math.round(field.clientHeight*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}canvas.dataset.quality=quality.name;canvas.dataset.targetFps=String(quality.fps);gl.uniform1f(ut,elapsed+index*11.7);gl.uniform1f(us,intensity);gl.uniform1f(ud,document.body.classList.contains('dark')?1:0);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLES,0,6);canvas.dataset.elapsed=elapsed.toFixed(2);};
+ observer=new ResizeObserver(()=>render(time));observer.observe(field);ready=true;render(0);field.dataset.renderer='webgl';revealAurora(canvas);if(parent!==window)tell('ready');sync();
  canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();ready=false;stop();canvas.remove();tell('static');});
- addEventListener('pagehide',()=>{stop();observer.disconnect();inView.disconnect();gl.deleteBuffer(buffer);gl.deleteProgram(program);},{once:true});
- }catch{inView.disconnect();canvas.remove();tell('static');}
+ }catch{dispose();field.dataset.renderer='fallback';tell('static');}});
  });
 })();

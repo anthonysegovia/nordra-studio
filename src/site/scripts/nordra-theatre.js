@@ -1,4 +1,5 @@
 import { staticProfile } from '../wedding-rings/state.js';
+import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js';
 /* 5.40 — Layered aurora light + the unchanged CSS 3D typography.
    Image composition, envelopes and snow keep their existing controllers. */
 (()=>{
@@ -44,8 +45,9 @@ import { staticProfile } from '../wedding-rings/state.js';
    item.canvas.remove();const light=window.NordraMobileAurora.create(item.ribbon,({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0);
    item.mobileLight=light;item.render=()=>light.render(item.progress);item.dispose=()=>light.dispose();continue;
   }
-  let gl;
-  try{
+  let gl,program,buffer;
+  item.canvas.style.opacity='0';item.ribbon.dataset.renderer='pending';
+  const cancel=lazyAurora(item.ribbon,async signal=>{try{
    gl=item.canvas.getContext('webgl',{alpha:true,antialias:true,premultipliedAlpha:false});if(!gl)throw Error('No WebGL');
    const vert=`attribute vec2 a;varying vec2 uv;
     void main(){uv=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0.,1.);}`;
@@ -81,24 +83,24 @@ import { staticProfile } from '../wedding-rings/state.js';
      c=mix(c,c*1.13,breath*.3);
      gl_FragColor=vec4(c,clamp(density*mix(1.85,1.15,depth),0.,.78));
     }`;
-   function shader(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error('ribbon shader');return s;}
-   const v=shader(gl.VERTEX_SHADER,vert),f=shader(gl.FRAGMENT_SHADER,frag),program=gl.createProgram();gl.attachShader(program,v);gl.attachShader(program,f);gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error('ribbon link');gl.useProgram(program);gl.deleteShader(v);gl.deleteShader(f);
+   program=await compileAurora(gl,vert,frag,signal);gl.useProgram(program);
    const vertices=[-1,-1,1,-1,-1,1,-1,1,1,-1,1,1];
-   const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);
+   buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);
    const a=gl.getAttribLocation(program,'a');gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
    const uniforms={};['progress','aspect','layer','closing','c1','c2','c3'].forEach(key=>uniforms[key]=gl.getUniformLocation(program,key));
    gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
    item.render=()=>{
-    const w=item.ribbon.clientWidth,h=item.ribbon.clientHeight,dpr=Math.min(devicePixelRatio,small.matches?1:1.25,Math.sqrt(1200000/Math.max(1,w*h)));
+    const w=item.ribbon.clientWidth,h=item.ribbon.clientHeight;if(!w||!h)return;const dpr=Math.min(devicePixelRatio,small.matches?1:1.25,Math.sqrt(1200000/Math.max(1,w*h)));
     const cw=Math.max(1,Math.round(w*dpr)),ch=Math.max(1,Math.round(h*dpr));
     if(item.canvas.width!==cw||item.canvas.height!==ch){item.canvas.width=cw;item.canvas.height=ch;gl.viewport(0,0,cw,ch);}
     gl.uniform1f(uniforms.progress,item.progress);gl.uniform1f(uniforms.aspect,w/Math.max(1,h));gl.uniform1f(uniforms.closing,item.kind==='contact'?1:0);
     colors.forEach((c,i)=>gl.uniform3fv(uniforms['c'+(i+1)],c));gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
     for(let i=2;i>=0;i--){gl.uniform1f(uniforms.layer,i);gl.drawArrays(gl.TRIANGLES,0,vertices.length/2);}
    };
-   item.dispose=()=>{gl.deleteBuffer(buffer);gl.deleteProgram(program);};item.ribbon.dataset.renderer='webgl';
+   item.ribbon.dataset.renderer='webgl';item.render();revealAurora(item.canvas);
    item.canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();item.render=()=>{};item.ribbon.dataset.renderer='fallback';item.canvas.hidden=true;});
-  }catch{item.canvas.hidden=true;item.ribbon.dataset.renderer='fallback';}
+  }catch{item.canvas.hidden=true;item.ribbon.dataset.renderer='fallback';}});
+  item.dispose=()=>{cancel();item.render=()=>{};if(gl){gl.deleteBuffer(buffer);gl.deleteProgram(program);gl.getExtension('WEBGL_lose_context')?.loseContext();}};
  }
  let frame=0;
  function paint(){

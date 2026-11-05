@@ -22,7 +22,7 @@ test('mobile motion advances visible textures and suspends the clock for every s
   // The VM exercises browser initialization; supply the real shared module binding.
   window.staticProfile=staticProfile;
   for (const file of ['mobile-aurora','motion']) {
-    const source=readFileSync('src/site/scripts/'+file+'.js','utf8').replace("import { staticProfile } from '../wedding-rings/state.js';",'');
+    const source=readFileSync('src/site/scripts/'+file+'.js','utf8').replace(/^import .*;$/gm,'');
     runInNewContext(source,window);
   }
   const layer=field.children.at(-1);

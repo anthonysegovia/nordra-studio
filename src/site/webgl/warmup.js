@@ -1,0 +1,17 @@
+let pending;
+export async function warmContext(signal){
+ if(signal.aborted)throw new DOMException('Preparation cancelled','AbortError');
+ if(typeof Worker==='undefined'||typeof OffscreenCanvas==='undefined')return;
+ if(!pending)pending=new Promise(resolve=>{
+  const worker=new Worker(new URL('./warmup.worker.js',import.meta.url),{type:'module'});
+  const finish=()=>{clearTimeout(timeout);worker.terminate();removeEventListener('pagehide',finish);resolve();};
+  const timeout=setTimeout(finish,10000);
+  worker.onmessage=finish;worker.onerror=finish;
+  addEventListener('pagehide',finish,{once:true});worker.postMessage('prepare');
+ });
+ await new Promise((resolve,reject)=>{
+  const abort=()=>{signal.removeEventListener('abort',abort);reject(new DOMException('Preparation cancelled','AbortError'));};
+  signal.addEventListener('abort',abort,{once:true});
+  pending.then(()=>{signal.removeEventListener('abort',abort);if(!signal.aborted)resolve();});
+ });
+}

@@ -1,4 +1,4 @@
-import { warmContext } from './prepare-context.js';
+import { warmContext } from '../webgl/warmup.js';
 import { ringsPolicy, staticProfile } from './state.js';
 function mountRings(){
  const hero=document.querySelector('.rings-hero');if(!hero)return;
