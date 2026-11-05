@@ -1,0 +1,3 @@
+import {chromium} from 'playwright';import sharp from 'sharp';
+const b=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'});
+try{const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:2});await p.goto('http://127.0.0.1:5611/invitaciones/conexion-27/');await p.evaluate(()=>document.fonts.ready);await p.locator('.back-face').evaluate(i=>i.decode());const png=await p.screenshot();await sharp(png).webp({quality:86}).toFile('public/artwork/invitation-covers/conexion-27.webp');for(const w of [390,780])await sharp(png).resize(w).webp({quality:86}).toFile(`public/artwork/invitation-covers/conexion-27-detalles-${w}.webp`);}finally{await b.close()}

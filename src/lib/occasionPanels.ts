@@ -30,7 +30,7 @@ export const eventPanel:typeof base = {
   sample:{path:'/panel-evento.html',date:['12 de junio de 2027','June 12, 2027']},
   identity:{
     name:'Conexión 27',title:['Conexión 27'],mark:['C27'],back:'/eventos',anchor:'eventos-panel-muestra',
-    invitation:'/invitaciones/conexion-27/',download:'evento',photo:'/artwork/event-connection/crystal-rings-v1-640.webp',srcSet:'/artwork/event-connection/crystal-rings-v1-640.webp 640w, /artwork/event-connection/crystal-rings-v1-1024.webp 1024w',
+    invitation:'/invitaciones/conexion-27/',download:'evento',photo:'/artwork/event-gafete/reverso-live-480.webp',srcSet:'/artwork/event-gafete/reverso-live-480.webp 480w, /artwork/event-gafete/reverso-live-960.webp 960w',
     place:['Espacio Nodo · Monterrey','Espacio Nodo · Monterrey'],brand:['EVENTOS','EVENTS'],brandLabel:['Eventos','Events'],
     badge:['MI EVENTO','MY EVENT'],panel:['Panel del evento','Event dashboard'],space:['Tu espacio del evento','Your event space'],
     backLabel:['Volver a Eventos','Back to Events'],kicker:['PUNTO DE ENCUENTRO','MEETING POINT'],note:['Consulta quién viene al encuentro.','See who is coming to the event.'],
@@ -53,3 +53,4 @@ export const eventPanel:typeof base = {
 export function sampleExperience(key?:string) {
   return key==='birthday'?birthdayPanel:key==='event'?eventPanel:base;
 }
+

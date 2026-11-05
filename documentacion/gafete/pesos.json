@@ -1,0 +1,60 @@
+[
+  {
+    "width": 390,
+    "state": "portada",
+    "files": [
+      "mesa-1536.webp",
+      "gafete-reverso-480.webp"
+    ],
+    "bytes": 321064
+  },
+  {
+    "width": 390,
+    "state": "personal",
+    "files": [
+      "mesa-1536.webp",
+      "cordon-curva-780.webp",
+      "cordon-bucle-780.webp",
+      "cordon-recto-780.webp",
+      "tarjeta-registro-540.webp",
+      "programa-780.webp",
+      "tarjeta-1-390.webp",
+      "tarjeta-2-390.webp",
+      "tarjeta-3-390.webp",
+      "gafete-frente-480.webp",
+      "pestana-si-260.webp",
+      "pestana-no-260.webp",
+      "circulo-80.webp"
+    ],
+    "bytes": 504810
+  },
+  {
+    "width": 1440,
+    "state": "portada",
+    "files": [
+      "mesa-1536.webp",
+      "gafete-reverso-960.webp"
+    ],
+    "bytes": 413644
+  },
+  {
+    "width": 1440,
+    "state": "personal",
+    "files": [
+      "mesa-1536.webp",
+      "cordon-curva-1536.webp",
+      "cordon-bucle-1536.webp",
+      "cordon-recto-1536.webp",
+      "tarjeta-registro-1080.webp",
+      "programa-1536.webp",
+      "tarjeta-1-780.webp",
+      "tarjeta-2-780.webp",
+      "tarjeta-3-780.webp",
+      "gafete-frente-960.webp",
+      "pestana-si-520.webp",
+      "pestana-no-520.webp",
+      "circulo-160.webp"
+    ],
+    "bytes": 1013170
+  }
+]

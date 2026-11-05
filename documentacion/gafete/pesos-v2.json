@@ -1,0 +1,34 @@
+[
+  {
+    "width": 390,
+    "files": [
+      "mesa-calida-v2-1536.webp",
+      "cordon-tejido-v2-780.webp",
+      "registro-impreso-v2-780.webp",
+      "programa-impreso-v2-780.webp",
+      "cafe-v2-780.webp",
+      "abanico-impreso-v2-780.webp",
+      "acceso-v2-700.webp",
+      "boleto-si-v2-400.webp",
+      "boleto-no-v2-400.webp",
+      "circulo-80.webp"
+    ],
+    "bytes": 1043580
+  },
+  {
+    "width": 1440,
+    "files": [
+      "mesa-calida-v2-1536.webp",
+      "cordon-tejido-v2-1536.webp",
+      "registro-impreso-v2-1536.webp",
+      "programa-impreso-v2-1536.webp",
+      "cafe-v2-1536.webp",
+      "abanico-impreso-v2-1536.webp",
+      "acceso-v2-1400.webp",
+      "boleto-si-v2-800.webp",
+      "boleto-no-v2-800.webp",
+      "circulo-160.webp"
+    ],
+    "bytes": 2343952
+  }
+]

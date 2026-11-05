@@ -1,0 +1,258 @@
+[
+  {
+    "name": "portada",
+    "height": 844,
+    "width": 390,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "headings": [],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "giro",
+    "height": 844,
+    "width": 390,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "headings": [],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "interior",
+    "height": 2580,
+    "width": 390,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "headings": [
+      {
+        "text": "Apártalo: sábado 12 de junio",
+        "fontSize": 40
+      },
+      {
+        "text": "Lo que pasa el sábado",
+        "fontSize": 40
+      },
+      {
+        "text": "Antes de llegar",
+        "fontSize": 40
+      },
+      {
+        "text": "Tu acceso",
+        "fontSize": 40
+      }
+    ],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "elegido",
+    "height": 2580,
+    "width": 390,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "headings": [
+      {
+        "text": "Apártalo: sábado 12 de junio",
+        "fontSize": 40
+      },
+      {
+        "text": "Lo que pasa el sábado",
+        "fontSize": 40
+      },
+      {
+        "text": "Antes de llegar",
+        "fontSize": 40
+      },
+      {
+        "text": "Tu acceso",
+        "fontSize": 40
+      }
+    ],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "personal",
+    "height": 2580,
+    "width": 390,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "headings": [
+      {
+        "text": "Apártalo: sábado 12 de junio",
+        "fontSize": 40
+      },
+      {
+        "text": "Lo que pasa el sábado",
+        "fontSize": 40
+      },
+      {
+        "text": "Antes de llegar",
+        "fontSize": 40
+      },
+      {
+        "text": "Tu acceso",
+        "fontSize": 40
+      }
+    ],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "no",
+    "height": 2580,
+    "width": 390,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "headings": [
+      {
+        "text": "Apártalo: sábado 12 de junio",
+        "fontSize": 40
+      },
+      {
+        "text": "Lo que pasa el sábado",
+        "fontSize": 40
+      },
+      {
+        "text": "Antes de llegar",
+        "fontSize": 40
+      },
+      {
+        "text": "Tu acceso",
+        "fontSize": 40
+      }
+    ],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "portada",
+    "height": 1000,
+    "width": 1440,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "headings": [],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "giro",
+    "height": 1000,
+    "width": 1440,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "headings": [],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "interior",
+    "height": 4430,
+    "width": 1440,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "headings": [
+      {
+        "text": "Apártalo: sábado 12 de junio",
+        "fontSize": 88
+      },
+      {
+        "text": "Lo que pasa el sábado",
+        "fontSize": 88
+      },
+      {
+        "text": "Antes de llegar",
+        "fontSize": 88
+      },
+      {
+        "text": "Tu acceso",
+        "fontSize": 88
+      }
+    ],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "elegido",
+    "height": 4466,
+    "width": 1440,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "headings": [
+      {
+        "text": "Apártalo: sábado 12 de junio",
+        "fontSize": 88
+      },
+      {
+        "text": "Lo que pasa el sábado",
+        "fontSize": 88
+      },
+      {
+        "text": "Antes de llegar",
+        "fontSize": 88
+      },
+      {
+        "text": "Tu acceso",
+        "fontSize": 88
+      }
+    ],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "personal",
+    "height": 4466,
+    "width": 1440,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "headings": [
+      {
+        "text": "Apártalo: sábado 12 de junio",
+        "fontSize": 88
+      },
+      {
+        "text": "Lo que pasa el sábado",
+        "fontSize": 88
+      },
+      {
+        "text": "Antes de llegar",
+        "fontSize": 88
+      },
+      {
+        "text": "Tu acceso",
+        "fontSize": 88
+      }
+    ],
+    "missingImages": [],
+    "errors": []
+  },
+  {
+    "name": "no",
+    "height": 4466,
+    "width": 1440,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "headings": [
+      {
+        "text": "Apártalo: sábado 12 de junio",
+        "fontSize": 88
+      },
+      {
+        "text": "Lo que pasa el sábado",
+        "fontSize": 88
+      },
+      {
+        "text": "Antes de llegar",
+        "fontSize": 88
+      },
+      {
+        "text": "Tu acceso",
+        "fontSize": 88
+      }
+    ],
+    "missingImages": [],
+    "errors": []
+  }
+]

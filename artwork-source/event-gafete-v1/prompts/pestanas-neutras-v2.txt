@@ -1,0 +1,1 @@
+Edit this reference sprite sheet only: close/fill the round punched hole near the left end of the TOP 'Ahí estaré' ticket with matching continuous aqua textured ticket paper, so the ticket is not yet punched. Preserve all typography exactly, both tickets, dimensions, perforated upper edges, notches, material, alpha background and shadows. No other changes.

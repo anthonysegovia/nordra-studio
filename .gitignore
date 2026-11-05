@@ -1,6 +1,7 @@
 node_modules/
 *.private.json
 dist/
+documentacion/gafete/final/
 .vercel/
 design-assets/
 review/
@@ -15,3 +16,21 @@ documentacion/animaciones-de-calidad/*.webm
 documentacion/animaciones-de-calidad/*.png
 documentacion/animaciones-de-calidad/*.json
 documentacion/animaciones-de-calidad/telefonos/
+
+# Gafete: full-resolution review evidence stays on disk, never in branch history.
+documentacion/gafete/**
+!documentacion/gafete/**/
+!documentacion/gafete/**/*.md
+!documentacion/gafete/**/*.json
+!documentacion/gafete/**/*.js
+!documentacion/gafete/**/*.mjs
+!documentacion/gafete/**/*.py
+!documentacion/gafete/resumen-portada.webp
+!documentacion/gafete/resumen-interior.webp
+!documentacion/gafete/resumen-comparacion.webp
+documentacion/gafete/final/
+
+documentacion/gafete/anterior/
+documentacion/gafete/referencias/
+documentacion/gafete/capturas/
+documentacion/gafete/boceto/

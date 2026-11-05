@@ -11,10 +11,10 @@ values.url??=server.resolvedUrls.local[0].replace(/\/$/,'');
 const require=createRequire(values.tools?path.resolve(values.tools):import.meta.url);const {chromium}=require('playwright');
 fs.mkdirSync(values.evidence,{recursive:true});const records=[];
 const browser=await chromium.launch({executablePath:values.chrome,headless:true,args:['--enable-unsafe-swiftshader']});
-async function settled(page){await page.evaluate(()=>document.fonts.ready);await page.locator('.cover-art img,.gift img').first().evaluate(img=>img.decode());}
+async function settled(page){await page.evaluate(()=>document.fonts.ready);await page.locator('.cover-art img,.gift img,.badge-back .back-face').first().evaluate(img=>img.decode());}
 async function geometry(page){return page.evaluate(()=>{
- const gift=!!document.querySelector('.gift');const box=selector=>{const r=document.querySelector(selector).getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
- return {art:box(gift?'.gift img':'.cover-art img'),copy:box(gift?'.headline':'.cover-copy'),cover:box('.cover'),footer:box(gift?'.actions':'.cover-bottom'),width:innerWidth,scrollWidth:document.documentElement.scrollWidth};
+ const gift=!!document.querySelector('.gift'),gafete=!!document.querySelector('.badge-back');const box=selector=>{const r=document.querySelector(selector).getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
+ const art=box(gift?'.gift img':gafete?'.badge-back .back-face':'.cover-art img');if(gafete){art.x+=art.width*.2;art.right-=art.width*.2;art.width*=.6}return {art,copy:box(gift?'.headline':'.cover-copy'),cover:box('.cover'),footer:box(gift?'.actions':gafete?'.skip':'.cover-bottom'),width:innerWidth,scrollWidth:document.documentElement.scrollWidth};
 });}
 function checkGeometry(g){assert.ok(g.art.x>=g.cover.x&&g.art.right<=g.cover.right+1,'art within cover');assert.ok(g.art.y>=g.cover.y&&g.art.bottom<=g.cover.bottom+1,'whole artwork inside cover');assert.ok(g.art.x>=g.copy.right||g.art.y>=g.copy.bottom-1,'name/age and artwork do not overlap');assert.ok(g.art.x>=g.footer.right||g.art.bottom<=g.footer.y+1,'art does not overlap footer');assert.ok(g.scrollWidth<=g.width,'no horizontal overflow');}
 try{
@@ -29,8 +29,8 @@ try{
   await page.keyboard.press('Tab');assert.equal(await page.locator('[data-open]').evaluate(x=>x===document.activeElement),true);
   await page.keyboard.press('Enter');assert.equal(await page.locator('body').getAttribute('data-phase'),'opening');assert.equal(await page.locator('.celebration-header').isVisible(),false);
   await page.waitForFunction(()=>document.body.dataset.phase==='open');assert.equal(await page.locator('.celebration-header').isVisible(),true);assert.equal(await page.evaluate(()=>document.activeElement.id),'confirmacion');
-  assert.ok(Math.abs(await page.locator('.welcome img').evaluate(img=>img.clientWidth/img.clientHeight)-1)<.01);
-  await page.locator('#guest').fill('Persona de muestra');await page.locator('[value=yes]').check();await page.locator('button[type=submit]').click();assert.match(await page.locator('[data-rsvp-status]').innerText(),/no se ha enviado ni guardado/);
+  assert.equal(await page.locator('.program-ink li').count(),4);
+  await page.locator('[value=yes]').check();assert.match(await page.locator('[data-rsvp-status]').innerText(),/Listo. Tu gafete/);assert.match(await page.locator('.sample-notice').innerText(),/no se ha enviado ni guardado/);
   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.screenshot({path:path.join(values.evidence,`${slug}-${theme}-${width}-interior.png`),fullPage:true});
   await page.locator('[data-cover]').click();assert.equal(await page.locator('.celebration-header').isVisible(),false);assert.equal(await page.locator('.celebration-header').evaluate(x=>x.inert),true);
   await page.locator('[data-skip]').click();assert.equal(await page.locator('body').getAttribute('data-phase'),'open');

@@ -1,0 +1,98 @@
+[
+  {
+    "name": "portada",
+    "width": 390,
+    "height": 844,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "giro",
+    "width": 390,
+    "height": 844,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "interior",
+    "width": 390,
+    "height": 2170,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "elegido",
+    "width": 390,
+    "height": 2209,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "personal",
+    "width": 390,
+    "height": 2193,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "no",
+    "width": 390,
+    "height": 2233,
+    "scrollWidth": 390,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "portada",
+    "width": 1440,
+    "height": 1000,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "giro",
+    "width": 1440,
+    "height": 1000,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "interior",
+    "width": 1440,
+    "height": 2448,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "elegido",
+    "width": 1440,
+    "height": 2448,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "personal",
+    "width": 1440,
+    "height": 2448,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "errors": []
+  },
+  {
+    "name": "no",
+    "width": 1440,
+    "height": 2448,
+    "scrollWidth": 1440,
+    "textOverflow": [],
+    "errors": []
+  }
+]

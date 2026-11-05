@@ -1,0 +1,1109 @@
+/* Interactive layers over the approved phase 1b composition. */
+.front-face .front-print {
+  clip-path: polygon(
+    45% 42%,
+    78% 43%,
+    82% 46%,
+    82% 94%,
+    79% 97%,
+    22% 97%,
+    19% 94%,
+    19% 46%,
+    22% 43%
+  );
+}
+.front-face .front-cord {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 57%);
+}
+[hidden] {
+  display: none !important;
+}
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+button,
+a,
+input,
+select {
+  touch-action: manipulation;
+  transition:
+    transform 0.22s,
+    color 0.22s,
+    opacity 0.22s,
+    box-shadow 0.22s,
+    filter 0.22s;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #123044;
+  outline-offset: 5px;
+  box-shadow: 0 0 0 7px #edf8fc99;
+}
+button:active,
+a:active {
+  translate: 0 2px;
+}
+button:disabled {
+  cursor: wait;
+}
+button:hover {
+  filter: brightness(1.05);
+}
+.v2 {
+  color: var(--ink);
+}
+.scene-intro > p,
+.opening-copy > p,
+.cover-hint {
+  color: var(--ink);
+}
+.cover.table {
+  background-image: url('/artwork/event-gafete/mesa-live-1536.webp');
+  background-size: cover;
+  background-position: center;
+}
+.celebration-entrance {
+  outline: 0;
+}
+.skip {
+  border: 0;
+  padding: 10px 0;
+  background: none;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.cover-hint {
+  pointer-events: none;
+}
+.badge-back {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  transform-origin: 50% 40%;
+  transform-style: preserve-3d;
+  filter: none !important;
+  will-change: transform;
+}
+.back-face {
+  backface-visibility: hidden;
+}
+.front-face {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  display: block;
+}
+.front-face img {
+  width: 100%;
+}
+.front-face .turn-brand {
+  position: absolute;
+  top: 52.7%;
+  left: 40%;
+  right: 19%;
+  font-size: 32px;
+  letter-spacing: -0.06em;
+}
+.front-face .turn-data-v2 {
+  top: 62%;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+.front-face .turn-data-v2 strong {
+  font-size: 22px;
+}
+.front-face .turn-data-v2 > span:last-child {
+  margin-top: 22px;
+}
+.flip-stage {
+  perspective: 1400px;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.flip-stage button {
+  pointer-events: auto;
+}
+.edge-glint {
+  pointer-events: none;
+  position: absolute;
+  inset: 46% 20% 2%;
+  border-radius: 18px;
+  border: 2px solid transparent;
+  opacity: 0;
+  backface-visibility: hidden;
+}
+.cover .badge-back:hover {
+  transform: rotateZ(1.3deg);
+}
+.opening-copy {
+  position: absolute;
+  left: 9%;
+  top: 28%;
+  max-width: 630px;
+  opacity: 0;
+  pointer-events: none;
+}
+.opening-copy p:first-child {
+  font-size: 82px;
+  line-height: 1.05;
+  letter-spacing: -0.065em;
+}
+.opening-copy p:last-child {
+  font-size: 23px;
+  line-height: 1.5;
+  max-width: 480px;
+  margin-top: 25px;
+}
+.cover-copy,
+.cover-hint {
+  transition: opacity 0.3s;
+}
+.event-invitation[data-phase='opening'] .cover-copy,
+.event-invitation[data-phase='opening'] .cover-hint {
+  opacity: 0;
+}
+.event-invitation[data-phase='opening'] .badge-back {
+  animation: gafete-turn 2.6s cubic-bezier(0.22, 0.65, 0.2, 1) both;
+}
+.event-invitation[data-phase='opening'] .opening-copy {
+  animation: gafete-copy 2.6s ease both;
+}
+.event-invitation[data-phase='opening'] .edge-glint {
+  animation: gafete-edge 2.6s both;
+}
+.event-invitation[data-phase='opening'] .cover {
+  animation: gafete-camera 2.6s both;
+}
+.celebration-content:focus,
+.v2 section:focus,
+#bienvenida:focus {
+  outline: 0;
+}
+.event-invitation[data-phase='open'] .celebration-header {
+  animation: menu-in 0.35s both;
+}
+.reveal {
+  transition:
+    opacity 0.6s,
+    translate 0.6s;
+  opacity: 0.01;
+  translate: 0 16px;
+}
+.reveal.arrived {
+  opacity: 1;
+  translate: 0;
+}
+.program-paper.arrived {
+  animation: paper-unfold 0.65s ease-out both;
+}
+.printed-fan.arrived {
+  animation: fan-settle 0.65s ease-out both;
+}
+.access-object.arrived {
+  animation: badge-settle 0.7s ease-out both;
+}
+.woven {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.9s ease;
+}
+.woven.arrived {
+  clip-path: inset(0);
+}
+.light-field {
+  background-image: url('/artwork/event-gafete/mesa-live-1536.webp');
+}
+.program-ink {
+  position: absolute;
+  inset: 11% 7% 8% 11%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  mix-blend-mode: multiply;
+}
+.program-ink li {
+  min-height: 23%;
+}
+.program-ink time {
+  font-size: 62px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.07em;
+}
+.program-ink h3 {
+  margin: 6px 0;
+  font-size: 29px;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+}
+.program-ink p {
+  font-size: 23px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+.printed-fan .fan-card {
+  position: absolute;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  text-align: left;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  font-weight: 650;
+}
+.fan-0 {
+  left: 6%;
+  top: 22%;
+  width: 27%;
+  font-size: 46px;
+  transform: rotate(-13deg);
+}
+.fan-1 {
+  right: 4%;
+  top: 23%;
+  width: 38%;
+  font-size: 36px;
+  transform: rotate(13deg);
+  text-align: right !important;
+}
+.fan-2 {
+  left: 24%;
+  top: 53%;
+  width: 55%;
+  font-size: 45px;
+  transform: rotate(1deg);
+}
+.fan-card.front {
+  z-index: 3;
+  text-shadow: 0 1px #ffffff88;
+}
+.fan-card:hover {
+  filter: none;
+  text-shadow: 0 0 8px #edf8fcc0;
+}
+.fan-card:active {
+  scale: 0.98;
+}
+.fan-card:focus-visible {
+  outline-offset: 7px;
+}
+.countdown-v2 {
+  display: block;
+  line-height: 1.1;
+}
+.countdown-v2 strong {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 12px;
+}
+.access-object {
+  margin-top: -35px;
+}
+.access-brand {
+  position: absolute;
+  top: calc(550px * 0.46);
+  left: 36%;
+  right: 8%;
+  font-size: 38px;
+  line-height: 1.1;
+  letter-spacing: -0.06em;
+}
+.access-date {
+  position: absolute;
+  top: calc(550px * 0.65);
+  left: 10%;
+  right: 10%;
+  font-size: 17px;
+  text-align: center;
+}
+.guest-data {
+  font-size: 27px;
+  letter-spacing: -0.04em;
+}
+.guest-seats {
+  display: block;
+  font-size: 19px;
+  letter-spacing: 0;
+  margin-top: 4px;
+}
+.access-question {
+  position: absolute;
+  top: calc(550px * 0.87);
+  left: 10%;
+  right: 10%;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+.ticket-tabs {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+.ticket-tabs label {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.ticket-tabs input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 3;
+  cursor: pointer;
+  margin: 0;
+}
+.ticket-surface {
+  position: relative;
+  display: block;
+  transition:
+    transform 0.3s,
+    opacity 0.3s,
+    filter 0.3s;
+}
+.ticket-word {
+  position: absolute;
+  inset: 20% 8% 17%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 43px;
+  font-weight: 650;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+}
+.ticket-yes .ticket-word {
+  font-size: 57px;
+}
+.ticket-yes,
+.ticket-no {
+  transform: none !important;
+}
+.ticket-no {
+  margin-top: -5px;
+}
+.ticket-tabs input:focus-visible + .ticket-surface {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  filter: brightness(1.07);
+}
+.ticket-tabs label:hover .ticket-surface {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+}
+.ticket-tabs input:active + .ticket-surface {
+  transform: translateY(2px);
+}
+.punch-hole {
+  position: absolute;
+  left: 10%;
+  top: 42%;
+  width: 5.2%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0;
+  background: #b39164;
+  box-shadow: inset 2px 2px 3px #12304455;
+}
+.access-object[data-answer='yes'] .ticket-yes .ticket-surface,
+.access-object[data-answer='no'] .ticket-no .ticket-surface {
+  transform: translate(-12px, 12px) rotate(-3deg);
+  filter: drop-shadow(3px 7px 4px #47301f55);
+}
+.access-object[data-answer='yes'] .ticket-no .ticket-surface,
+.access-object[data-answer='no'] .ticket-yes .ticket-surface {
+  opacity: 0.5;
+}
+.access-object[data-answer='yes'] .ticket-yes .punch-hole,
+.access-object[data-answer='no'] .ticket-no .punch-hole {
+  opacity: 1;
+}
+.punching .punch-hole {
+  animation: punch 0.3s both;
+}
+.punched-disc {
+  background: #bfe2e9;
+  border-radius: 50%;
+  opacity: 0;
+  height: 18px;
+  bottom: 90px;
+}
+.punching .punched-disc {
+  animation: disc-drop 0.3s both;
+}
+.qr-wrap {
+  display: contents;
+}
+.access-qr {
+  aspect-ratio: 1;
+}
+.access-caption {
+  font-size: 14px;
+}
+.qr-flash .access-art {
+  animation: holo-once 0.6s;
+}
+.response-copy {
+  margin-top: 10px;
+}
+.sample-notice {
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.personal-fields {
+  max-width: 600px;
+  margin: 0 auto 24px;
+  display: grid;
+  gap: 12px;
+}
+.personal-fields select {
+  background: #16475c;
+  color: #edf8fc;
+  border: 0;
+  padding: 14px 18px;
+  box-shadow: 0 6px 10px #12304420;
+}
+.personal-fields label {
+  font-size: 14px;
+}
+.personal-fields input {
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  background: transparent;
+  padding: 8px 0;
+  font-size: 20px;
+  border-radius: 0;
+}
+.save {
+  border: 0;
+  background: #c8e5e9 url('/artwork/event-gafete/boleto-html-800.webp')
+    center/100% 100%;
+  padding: 18px 25px;
+  min-height: 64px;
+  font-size: 19px;
+  box-shadow: 3px 6px 8px #12304420;
+  clip-path: polygon(
+    3% 0,
+    97% 0,
+    100% 15%,
+    97% 50%,
+    100% 85%,
+    97% 100%,
+    3% 100%,
+    0 85%,
+    3% 50%,
+    0 15%
+  );
+}
+.celebration-rsvp > a {
+  display: none !important;
+}
+.back-to-cover {
+  display: block;
+  margin: 24px auto 0;
+  border: 0;
+  border-bottom: 1px solid;
+  background: none;
+  font-size: 12px;
+  padding: 8px;
+}
+.access-v2 {
+  height: auto !important;
+  min-height: 1250px;
+}
+.status-v2:empty {
+  display: none;
+}
+.response-copy [role='status']:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 5px;
+}
+.no-script {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #edf8fc;
+  color: #123044;
+  padding: 18px;
+  z-index: 20;
+}
+@keyframes gafete-turn {
+  0% {
+    transform: rotateY(0) rotateZ(0);
+  }
+  18% {
+    transform: rotateY(-18deg) rotateZ(-3deg);
+  }
+  57% {
+    transform: rotateY(180deg) rotateZ(4deg);
+  }
+  78% {
+    transform: rotateY(180deg) rotateZ(0);
+  }
+  100% {
+    transform: rotateY(180deg) translateY(-15px);
+  }
+}
+@keyframes gafete-copy {
+  0%,
+  35% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  60%,
+  85% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+@keyframes gafete-edge {
+  0%,
+  24%,
+  95%,
+  100% {
+    opacity: 0;
+  }
+  45%,
+  65% {
+    opacity: 1;
+    border-color: #a3ffff;
+    box-shadow: 0 0 15px #99e7ff;
+  }
+}
+@keyframes gafete-camera {
+  0%,
+  83% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-25px);
+  }
+}
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    translate: 0 -5px;
+  }
+}
+@keyframes paper-unfold {
+  from {
+    opacity: 0.6;
+    scale: 0.98 1;
+    rotate: -2deg;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+    rotate: 0deg;
+  }
+}
+@keyframes fan-settle {
+  from {
+    opacity: 0;
+    translate: 0 -20px;
+    rotate: 4deg;
+  }
+  to {
+    opacity: 1;
+    translate: 0;
+    rotate: 0deg;
+  }
+}
+@keyframes badge-settle {
+  0% {
+    rotate: -4deg;
+  }
+  65% {
+    rotate: 1deg;
+  }
+  100% {
+    rotate: 0deg;
+  }
+}
+@keyframes punch {
+  0% {
+    scale: 0.1;
+    opacity: 0;
+  }
+  60% {
+    scale: 1.25;
+    opacity: 1;
+  }
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+@keyframes disc-drop {
+  0% {
+    opacity: 1;
+    translate: 0 -20px;
+  }
+  100% {
+    opacity: 0;
+    translate: 8px 20px;
+  }
+}
+@keyframes holo-once {
+  50% {
+    filter: brightness(1.12) saturate(1.2);
+  }
+}
+@media (max-width: 700px) {
+  .cover.table {
+    background-image: url('/artwork/event-gafete/mesa-live-640.webp');
+  }
+  .front-face .turn-brand {
+    font-size: 20px;
+  }
+  .front-face .turn-data-v2 {
+    font-size: 10px;
+  }
+  .front-face .turn-data-v2 strong {
+    font-size: 15px;
+    margin-top: 8px;
+  }
+  .front-face .turn-data-v2 > span:last-child {
+    margin-top: 14px;
+  }
+  .opening-copy {
+    left: 27px;
+    right: 27px;
+    top: 58px;
+  }
+  .opening-copy p:first-child {
+    font-size: 43px;
+  }
+  .opening-copy p:last-child {
+    font-size: 18px;
+    margin-top: 18px;
+  }
+  .program-ink time {
+    font-size: 36px;
+  }
+  .program-ink h3 {
+    font-size: 17px;
+    margin: 4px 0;
+  }
+  .program-ink p {
+    font-size: 13.5px;
+  }
+  .fan-0 {
+    font-size: 22px;
+  }
+  .fan-1 {
+    font-size: 17px;
+  }
+  .fan-2 {
+    font-size: 21px;
+  }
+  .countdown-v2 strong {
+    margin: 0 6px;
+  }
+  .access-object {
+    margin-top: 18px;
+    padding-bottom: 150px;
+  }
+  .access-brand {
+    top: calc(340px * 0.46);
+    font-size: 24px;
+  }
+  .access-date {
+    top: calc(340px * 0.65);
+    font-size: 11px;
+  }
+  .guest-data {
+    font-size: 18px;
+  }
+  .guest-seats {
+    font-size: 14px;
+  }
+  .access-question {
+    top: calc(340px * 0.87);
+    font-size: 18px;
+  }
+  .ticket-word {
+    font-size: 27px;
+  }
+  .ticket-yes .ticket-word {
+    font-size: 37px;
+  }
+  .access-caption {
+    font-size: 11px;
+  }
+  .ticket-no {
+    margin-top: -3px;
+  }
+  .access-v2 {
+    min-height: 850px;
+    padding-bottom: 24px !important;
+  }
+  .sample-notice {
+    font-size: 11px;
+  }
+  .personal-fields {
+    margin: 15px 10px 22px;
+  }
+  .personal-fields input {
+    font-size: 19px;
+  }
+  .personal-fields select {
+    font-size: 16px;
+  }
+  .response-copy {
+    margin-top: 8px;
+  }
+  .back-to-cover {
+    margin-top: 12px;
+  }
+  .details-v2 {
+    height: 440px;
+  }
+  .agenda-v2 {
+    height: 595px;
+  }
+  .registration-v2 {
+    height: 420px;
+  }
+  .scene-intro {
+    height: 230px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+  .woven {
+    clip-path: none;
+    transition: none;
+  }
+  .arrived,
+  .punching .punch-hole,
+  .punching .punched-disc,
+  .qr-flash .access-art,
+  .event-invitation[data-phase='open'] .celebration-header {
+    animation: none !important;
+  }
+  .event-invitation[data-phase='opening'] .badge-back {
+    animation: none;
+    transform: rotateY(180deg);
+  }
+  .event-invitation[data-phase='opening'] .cover {
+    animation: reduced-fade 0.24s both;
+  }
+  .event-invitation[data-phase='opening'] .opening-copy {
+    animation: none;
+    opacity: 1;
+  }
+  .event-invitation[data-phase='opening'] .edge-glint {
+    animation: none;
+  }
+  .ticket-surface {
+    transition: opacity 0.15s;
+  }
+  .cover .badge-back:hover {
+    transform: none;
+  }
+  button,
+  a,
+  input,
+  select {
+    transition:
+      opacity 0.15s,
+      color 0.15s;
+  }
+  button:active,
+  a:active {
+    translate: none;
+  }
+  @keyframes reduced-fade {
+    to {
+      opacity: 0;
+    }
+  }
+}
+
+.fan-1 {
+  right: 2%;
+  top: 25%;
+  width: 35%;
+}
+@media (max-width: 700px) {
+  .fan-1 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 700px) {
+  .personal-fields {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 6px;
+    margin: 0 10px 10px;
+  }
+  .personal-fields select {
+    grid-column: 1/-1;
+    padding: 10px 14px;
+    min-height: 44px;
+  }
+  .personal-fields > label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .personal-fields input {
+    padding: 8px 0;
+    font-size: 16px;
+    min-width: 0;
+    min-height: 44px;
+  }
+  .personal-fields .save {
+    min-height: 44px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .personal-fields input:read-only {
+    display: none;
+  }
+  .personal-fields:has(input:read-only) .save {
+    grid-column: 1/-1;
+  }
+}
+
+.ticket-yes .ticket-surface:after {
+  content: '';
+  position: absolute;
+  left: 9.5%;
+  top: 37%;
+  width: 6.5%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #bce1d8;
+}
+.access-object[data-answer='yes'] .ticket-yes .ticket-surface:after {
+  display: none;
+}
+.access-object[data-answer='yes'] .ticket-yes img,
+.access-object[data-answer='no'] .ticket-no img {
+  mask-image: radial-gradient(
+    circle at 12.7% 48%,
+    transparent 0 8px,
+    #000 8.7px
+  );
+}
+.punch-hole {
+  background: transparent;
+}
+
+.access-object[data-answer='yes'] .ticket-no .ticket-surface,
+.access-object[data-answer='no'] .ticket-yes .ticket-surface {
+  opacity: 1;
+}
+.access-object[data-answer='yes'] .ticket-no img,
+.access-object[data-answer='no'] .ticket-yes img {
+  opacity: 0.5;
+}
+
+/* Clipping must not create a hidden scroll container when focus enters. */
+.material-interior {
+  overflow: clip;
+}
+.scene-intro > p,
+.opening-copy > p:last-child,
+.sample-notice {
+  color: #03121b;
+}
+
+.register-links {
+  color: #03121b;
+}
+@media (min-width: 701px) {
+  .register-links {
+    margin-top: 48px;
+  }
+}
+
+/* Keep one ink color above the window-light texture on every line. */
+.scene-intro {
+  /* Let the text sit above adjacent sections without lifting the light layer. */
+  isolation: auto;
+}
+.scene-intro > .light-field {
+  z-index: 0;
+}
+.scene-intro > h1 {
+  position: relative;
+  z-index: 2;
+}
+.celebration-header {
+  position: relative;
+  z-index: 3;
+}
+.scene-intro > p,
+.opening-copy > p:last-child {
+  position: relative;
+  z-index: 2;
+  color: #03121b;
+  font-size: 22px;
+  opacity: 1;
+  mix-blend-mode: normal;
+  text-shadow: none;
+}
+.personal-fields {
+  position: relative;
+  z-index: 4;
+  grid-template-columns: 1fr;
+  max-width: 550px;
+  margin: 16px 16% 48px auto;
+  transform: rotate(-1deg);
+}
+.personal-fields .sample-notice {
+  margin: 0 0 8px;
+  grid-column: 1/-1;
+}
+.picker-ribbon {
+  position: relative;
+  grid-column: 1/-1;
+  filter: drop-shadow(0 5px 4px #12304430);
+  transition:
+    filter 0.22s,
+    transform 0.22s;
+}
+.picker-ribbon:after {
+  content: '';
+  position: absolute;
+  right: 22px;
+  top: calc(50% - 5px);
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid #edf8fc;
+  border-bottom: 2px solid #edf8fc;
+  transform: rotate(45deg);
+  pointer-events: none;
+  transition: transform 0.22s;
+}
+.personal-fields select {
+  appearance: none;
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 48px 14px 22px;
+  border-block: 2px dashed #b8d8e24d;
+  background-color: #16475c;
+  background-image:
+    repeating-linear-gradient(90deg, #ffffff0d 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, #071d2933 0 1px, transparent 1px 3px);
+  clip-path: polygon(0 0, 100% 0, 98% 50%, 100% 100%, 0 100%, 2% 50%);
+  border-radius: 0;
+  font-size: 17px;
+  box-shadow:
+    inset 0 3px 4px #ffffff12,
+    inset 0 -3px 4px #071d2933;
+}
+.personal-fields option {
+  background: #16475c;
+  color: #edf8fc;
+}
+.picker-ribbon:focus-within {
+  filter: drop-shadow(0 0 3px #123044);
+  transform: translateY(-2px);
+}
+.picker-ribbon.picker-open:after,
+.picker-ribbon:has(select:open):after {
+  transform: rotate(225deg);
+}
+.celebration-rsvp > .save {
+  display: block;
+  width: min(550px, 90%);
+  margin: 16px 16% 24px auto;
+}
+.personal-fields input:read-only,
+.personal-fields:has(input:read-only) > label {
+  display: none;
+}
+@media (max-width: 700px) {
+  .scene-intro > p,
+  .opening-copy > p:last-child {
+    font-size: 17px;
+  }
+  .personal-fields {
+    grid-template-columns: 1fr;
+    margin: 20px 10px 30px;
+    transform: rotate(-1deg);
+  }
+  .personal-fields select {
+    font-size: 16px;
+  }
+  .personal-fields input {
+    grid-column: 1/-1;
+  }
+  .personal-fields .sample-notice {
+    font-size: 12px;
+  }
+  .celebration-rsvp > .save {
+    margin: 18px auto 20px;
+    min-height: 44px;
+    font-size: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .picker-ribbon,
+  .picker-ribbon:after {
+    transition: none;
+  }
+  .picker-ribbon:focus-within {
+    transform: none;
+  }
+}
+
+.celebration-content img,
+.badge-back img {
+  height: auto;
+}
+
+@media (max-width: 700px) {
+  .register-links {
+    margin-top: 14px;
+    color: #000;
+  }
+}

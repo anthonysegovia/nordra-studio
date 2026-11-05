@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {chromium} from 'playwright';
 import {preview} from 'vite';
-const evidence=path.resolve('documentacion/abrir-con-un-toque');fs.mkdirSync(evidence,{recursive:true});
+const evidence=path.resolve(process.env.PHONE_EVIDENCE||'documentacion/abrir-con-un-toque');fs.mkdirSync(evidence,{recursive:true});
 const server=await preview({preview:{host:'127.0.0.1',port:5575,strictPort:true}}),origin='http://127.0.0.1:5575';
 const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe'});
 const records=[],hintChecks=[];

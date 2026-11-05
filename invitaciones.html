@@ -25,7 +25,7 @@
 <div class="inv-occasions">
 <div class="inv-bodas"><a href="/bodas" data-go="bodas">Bodas <span aria-hidden="true">↗</span></a><p>Una invitación con su historia.</p><img class="inv-occasion-art" src="/artwork/wedding-lilies/lily-stem-v1-320.webp" srcset="/artwork/wedding-lilies/lily-stem-v1-320.webp 1x, /artwork/wedding-lilies/lily-stem-v1-640.webp 2x" width="100" height="100" loading="lazy" alt=""></div>
 <div class="inv-birthday-noche"><a href="/cumpleanos" data-go="cumpleanos">Cumpleaños <span aria-hidden="true">↗</span></a><a class="inv-sample" href="/invitaciones/camila-30/">Ver Camila 30 ↗</a><img class="inv-birthday-art inv-occasion-art" src="/artwork/birthday-caja/cerrada-360.webp" srcset="/artwork/birthday-caja/cerrada-360.webp 360w, /artwork/birthday-caja/cerrada-660.webp 660w" sizes="100px" width="100" height="100" loading="lazy" alt=""></div>
-<div class="inv-eventos"><a href="/eventos" data-go="eventos">Eventos <span aria-hidden="true">↗</span></a><a class="inv-sample" href="/invitaciones/conexion-27/">Ver Conexión 27 ↗</a><img class="inv-occasion-art" src="/artwork/event-connection/crystal-rings-v1-640.webp" srcset="/artwork/event-connection/crystal-rings-v1-640.webp 1x, /artwork/event-connection/crystal-rings-v1-1024.webp 2x" width="100" height="100" loading="lazy" alt=""></div>
+<div class="inv-eventos"><a href="/eventos" data-go="eventos">Eventos <span aria-hidden="true">↗</span></a><a class="inv-sample" href="/invitaciones/conexion-27/">Ver Conexión 27 ↗</a><img class="inv-occasion-art" src="/artwork/event-gafete/reverso-live-480.webp" srcset="/artwork/event-gafete/reverso-live-480.webp 1x, /artwork/event-gafete/reverso-live-960.webp 2x" width="100" height="100" loading="lazy" alt=""></div>
 <div class="inv-temporada"><a href="/temporada" data-go="temporada">Temporada <span aria-hidden="true">↗</span></a><p>Posadas y fin de año.</p><img class="inv-occasion-art" src="/demos/posada-pinata/assets/pinata-560.webp" srcset="/demos/posada-pinata/assets/pinata-560.webp 1x, /demos/posada-pinata/assets/pinata-1120.webp 2x" width="100" height="100" loading="lazy" alt=""></div>
 </div></section>
 {{invitations:offers}}
@@ -71,3 +71,4 @@ function arrive(id){id=({"eventos": "tipos-invitacion", "comparar-paquetes": "ti
 addEventListener('message',event=>{if(event.source===parent&&event.data?.type==='nordra-anchor')document.fonts.ready.then(()=>requestAnimationFrame(()=>arrive(event.data.id)));});
 document.fonts.ready.then(()=>{measurePreview();requestAnimationFrame(()=>arrive(location.hash.slice(1)));});
 </script><script type="module" src="/src/site/entries/invitations.js"></script></body></html>
+

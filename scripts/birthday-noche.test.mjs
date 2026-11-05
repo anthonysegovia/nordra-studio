@@ -17,7 +17,7 @@ test('Camila and the birthday hero use real responsive images with descriptive a
     }
   }
   const conexion=read('invitaciones/conexion-27/index.html');
-  assert.ok(conexion.includes('/src/celebrations/invitation.css'));
+  assert.ok(conexion.includes('/src/celebrations/gafete/invitation.css'));
   assert.doesNotMatch(conexion,/camila\.css|birthday-noche/);
   assert.doesNotMatch(read('src/celebrations/invitation.css'),/NocheSora|birthday-noche/);
 });
