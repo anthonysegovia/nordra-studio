@@ -6,7 +6,7 @@ const settle=async p=>{await p.evaluate(()=>document.fonts.ready);await p.waitFo
 const position=async(p,selector,offset)=>{await p.locator(selector).evaluate((e,y)=>scrollTo({top:scrollY+e.getBoundingClientRect().top-y,behavior:'instant'}),offset);await settle(p);};
 try{for(const [width,height] of [[1440,900],[390,844],[375,667]])for(const lang of ['es','en'])for(const theme of ['light','dark']){
  const mobile=width<701,context=await browser.newContext({viewport:{width,height},hasTouch:mobile,isMobile:mobile,locale:lang==='es'?'es-MX':'en-US'}),page=await context.newPage(),errors=[];
- page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});await page.route('**/_vercel/insights/script.js',r=>r.fulfill({contentType:'application/javascript',body:''}));
+ page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});await page.route('**/_vercel/**',r=>r.fulfill({contentType:'application/javascript',body:''}));
  await page.goto(`${url}/${lang==='en'?'en/':''}bodas?theme=${theme}`);await settle(page);
  const notice=page.locator('.locale-suggestion button');if(await notice.isVisible())await notice.click();
  const ref=await context.newPage();await ref.goto(mock);await ref.addStyleTag({content:'.mock-bar{display:none}'});await settle(ref);
