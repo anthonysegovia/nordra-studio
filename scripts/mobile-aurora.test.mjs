@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
+import { staticProfile } from '../src/site/wedding-rings/state.js';
 
 test('mobile motion advances visible textures and suspends the clock for every stop condition', () => {
   const element = () => ({ dataset:{}, style:{}, classList:{contains:()=>false},
@@ -18,7 +19,12 @@ test('mobile motion advances visible textures and suspends the clock for every s
     IntersectionObserver:class {constructor(fn){intersections.push(fn)} observe(){}},
     MutationObserver:class {constructor(fn){mutations.push(fn)} observe(){}}
   });
-  for (const file of ['mobile-aurora','motion']) runInNewContext(readFileSync('src/site/scripts/'+file+'.js','utf8'),window);
+  // The VM exercises browser initialization; supply the real shared module binding.
+  window.staticProfile=staticProfile;
+  for (const file of ['mobile-aurora','motion']) {
+    const source=readFileSync('src/site/scripts/'+file+'.js','utf8').replace("import { staticProfile } from '../wedding-rings/state.js';",'');
+    runInNewContext(source,window);
+  }
   const layer=field.children.at(-1);
   const intersection=visible=>intersections.forEach(fn=>fn([{isIntersecting:visible}]));
   const tick=now=>{const pending=[...frames.values()];frames.clear();pending.forEach(fn=>fn(now))};
