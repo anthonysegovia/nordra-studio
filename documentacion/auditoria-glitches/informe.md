@@ -108,6 +108,8 @@ Las dos transiciones de geometría expresamente solicitadas siguen en CSS: altur
 
 ## Evidencias
 
+Los scripts de navegador regeneran estos archivos en `documentacion/auditoria-glitches/` al ejecutarse; están en `.gitignore` y no se versionan.
+
 - `disclosures.json`: 24 secuencias de altura, una por apertura/cierre, página y ancho.
 - `interaction-frames.json`: 28 casos con cuadros y lista de fallos vacía.
 - `panels-and-overflow.json`: 12 selectores, 3 muestras 429 y 4 comprobaciones de ancho; 10 de las aperturas medidas fueron hacia arriba.

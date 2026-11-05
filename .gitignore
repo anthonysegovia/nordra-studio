@@ -15,6 +15,7 @@ Thumbs.db
 documentacion/animaciones-de-calidad/*.webm
 documentacion/animaciones-de-calidad/*.png
 documentacion/animaciones-de-calidad/*.json
+documentacion/auditoria-glitches/*.json
 documentacion/animaciones-de-calidad/telefonos/
 
 # Gafete: full-resolution review evidence stays on disk, never in branch history.
