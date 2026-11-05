@@ -15,7 +15,7 @@ export function lazyAurora(element,initialize){
   queued=true;jobs.push(async()=>{
    try{
     if(controller.signal.aborted||!near||!sized())return;
-    await warmContext(controller.signal);
+    await warmContext(controller.signal,'webgl');
     if(controller.signal.aborted||!near||!sized())return;
     started=true;await initialize(controller.signal);
    }catch(error){if(error.name!=='AbortError')element.dataset.renderer='fallback';}
