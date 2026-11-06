@@ -43,8 +43,11 @@ body[data-birthday-sign] .birthday-sign-root .sr-only{position:absolute;width:1p
 
 /* ---------- hero ---------- */
 body[data-birthday-sign] .birthday-sign-root .hero{position:relative;overflow:hidden;min-height:min(960px,calc(100svh - 68px));display:grid;grid-template-columns:minmax(0,4.9fr) minmax(0,7.1fr);align-items:center;gap:clamp(24px,3vw,48px);padding:clamp(120px,12vw,150px) clamp(16px,4vw,56px) clamp(56px,6vw,90px)}
-body[data-birthday-sign] .birthday-sign-root .wall{position:absolute;inset:0;z-index:0;pointer-events:none}
-body[data-birthday-sign] .birthday-sign-root .wall canvas{position:absolute;inset:0;width:100%;height:100%}
+body[data-birthday-sign] .birthday-sign-root .wall{position:absolute;inset:0;z-index:0;pointer-events:none;background:var(--bg)}
+body[data-birthday-sign] .birthday-sign-root .wall canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:none}
+body[data-birthday-sign] .birthday-sign-root #bs-wall[data-ready=true]{opacity:1;transition:opacity .4s ease-out}
+body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root #bs-wall,body[data-birthday-sign][data-sign-static] .birthday-sign-root #bs-wall{transition:none!important}
+@media(prefers-reduced-motion:reduce){body[data-birthday-sign] .birthday-sign-root #bs-wall{transition:none!important}}
 body[data-birthday-sign] .birthday-sign-root .blinds{position:absolute;inset:-20%;z-index:1;display:none;background:repeating-linear-gradient(180deg,transparent 0 46px,rgba(120,84,40,.15) 46px 74px);transform:rotate(-17deg) skewX(-8deg);filter:blur(7px);mix-blend-mode:multiply;
   -webkit-mask:radial-gradient(70% 60% at 62% 42%,#000 30%,transparent 80%);mask:radial-gradient(70% 60% at 62% 42%,#000 30%,transparent 80%);animation:bs-sun 18s ease-in-out infinite alternate}
 @keyframes bs-sun{to{transform:rotate(-15deg) skewX(-8deg) translateX(22px)}}
@@ -287,18 +290,19 @@ body[data-birthday-sign] .birthday-sign-root .note{margin:30px 0 0;text-align:ce
 
 /* ---------- teléfono ---------- */
 @media (max-width:900px){
-  body[data-birthday-sign] .birthday-sign-root .hero{grid-template-columns:1fr;align-content:start;gap:0;min-height:0;padding:16px 16px 56px}
+  body[data-birthday-sign] .occasion-path{margin-bottom:0}
+  body[data-birthday-sign] .birthday-sign-root .hero{grid-template-columns:1fr;align-content:start;gap:0;min-height:0;padding:56px 16px 56px}
   body[data-birthday-sign] .birthday-sign-root .garland{height:96px}
   body[data-birthday-sign] .birthday-sign-root .wall::before{background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 88%,transparent) 0%,color-mix(in srgb,var(--bg) 40%,transparent) 30%,transparent 42%,transparent 80%,var(--bg) 100%)}
   body[data-birthday-sign] .birthday-sign-root .path{margin:0 0 20px;overflow-x:auto;scrollbar-width:none;margin-right:-16px;padding-right:16px}
   body[data-birthday-sign] .birthday-sign-root .path::-webkit-scrollbar{display:none}
   body[data-birthday-sign] .birthday-sign-root .path a{white-space:nowrap}
-  body[data-birthday-sign] .birthday-sign-root .kicker{margin-bottom:10px;justify-content:space-between}
+  body[data-birthday-sign] .birthday-sign-root .kicker{margin-bottom:2px;justify-content:space-between}
   body[data-birthday-sign] .birthday-sign-root h1{font-size:40px;line-height:1.04}
   body[data-birthday-sign] .birthday-sign-root .hero-copy{display:contents}
   body[data-birthday-sign] .birthday-sign-root .hero-copy>*{position:relative;z-index:5}
   body[data-birthday-sign] .birthday-sign-root .hero-copy>.kicker,body[data-birthday-sign] .birthday-sign-root .hero-copy>h1{order:1}
-  body[data-birthday-sign] .birthday-sign-root .sign-zone{order:2;margin:22px 0 0;width:100%}
+  body[data-birthday-sign] .birthday-sign-root .sign-zone{order:2;margin:8px 0 0;width:100%}
   body[data-birthday-sign] .birthday-sign-root .style-tag{margin:0 0 10px;font-size:10px}
   body[data-birthday-sign] .birthday-sign-root .shelf .switch-box{flex-direction:row-reverse}
   body[data-birthday-sign] .birthday-sign-root .cables,body[data-birthday-sign] .birthday-sign-root .cord{display:none}

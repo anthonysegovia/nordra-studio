@@ -69,8 +69,8 @@ function setLook(tube, style){
 const gsvg = $('garland');
 function buildGarland(){
   gsvg.textContent = '';
-  const w = hero.clientWidth, small = w < 700;
-  const sag = small ? 44 : 92, top = small ? 10 : 14, n = Math.max(7, Math.round(w / (small ? 52 : 84)));
+  const w = hero.clientWidth, small = mobile.matches;
+  const sag = small ? 6 : 92, top = small ? 4 : 14, n = Math.max(7, Math.round(w / (small ? 52 : 84)));
   const y = x => top + sag * 4 * (x / w) * (1 - x / w) + (small ? 0 : 10 * Math.sin(x / w * Math.PI * 3));
   let d = `M0 ${y(0)}`; for (let x = 8; x <= w; x += 8) d += `L${x} ${y(x).toFixed(1)}`;
   el('path', { class: 'wire', d }, gsvg);
@@ -114,9 +114,10 @@ function drawWires(){
 const canvas = $('wall'), base = document.createElement('canvas');
 let bricks = [], W = 0, H = 0, dpr = 1, sources = [];
 function rand(seed){ let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
-let wallVersion=0, illumination=null, lightGeometry="", fullLight=true, lastFade=-1;
+let wallVersion=0, wallPainting=false, illumination=null, lightGeometry="", fullLight=true, lastFade=-1;
 async function paintBase(){
   const version=++wallVersion; illumination=null; lightGeometry=""; fullLight=true;
+  wallPainting=true;canvas.dataset.ready='false';
   dpr = Math.min(devicePixelRatio || 1, 2); W = hero.clientWidth; H = hero.clientHeight;
   for (const cv of [canvas, base, fx]) { cv.width = W * dpr; cv.height = H * dpr; }
   const painted=document.createElement('canvas');painted.width=base.width;painted.height=base.height;
@@ -125,7 +126,7 @@ async function paintBase(){
   const context={W,H,css,star4,copy};
   const nextBricks=activeStyle.paintWorldSteps?await runSteps(activeStyle.paintWorldSteps(c,dark,r,context)):await idleTask(()=>activeStyle.paintWorld(c,dark,r,context));
   if(version!==wallVersion)return;
-  base.getContext('2d').drawImage(painted,0,0);bricks=nextBricks;lightGeometry='';light();
+  base.getContext('2d').drawImage(painted,0,0);bricks=nextBricks;lightGeometry='';wallPainting=false;light();
 }
 const rgbCache = {};
 function rgb(c){ if (rgbCache[c]) return rgbCache[c]; const d = document.createElement('i'); d.style.color = c; document.body.appendChild(d); const v = getComputedStyle(d).color.match(/\d+/g).map(Number); d.remove(); return rgbCache[c] = v; }
@@ -142,9 +143,10 @@ function collectSources(){
 }
 let shelfX = [0, 0], lightQueued = false;
 function light(){
-  if (!initialized || lightQueued) return; lightQueued = true;
+  if (!initialized || wallPainting || lightQueued) return; lightQueued = true;
   requestAnimationFrame(() => {
     lightQueued = false;
+    if(wallPainting)return;
     const geometry=sources.map(s=>[s.x,s.y,s.k,...s.col].join(',')).join(';');
     if(!illumination||geometry!==lightGeometry){illumination=lightingCache(bricks,sources,W<700?90:150);lightGeometry=geometry;fullLight=true;}
     const fade=1-parseFloat(body.style.getPropertyValue('--handoff')||0)*.7;
@@ -166,6 +168,7 @@ function light(){
       c.fillStyle=tint((dark?.55:.26)*alpha*fade);c.fillRect(x+2,up>=0?y:y+h-2,w-4,2);
     }
     c.globalCompositeOperation='source-over';fullLight=false;lastFade=fade;
+    if(canvas.dataset.ready!=='true')canvas.dataset.ready='true';
   });
 }
 

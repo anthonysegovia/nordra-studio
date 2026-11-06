@@ -24,7 +24,7 @@ const {rand,el,gsvg}=context;
 const out = [], wd = 'xv', rr = rand(11);
 
     for (let i = 0; i < n; i++) {
-      const x = (i + .5) * w / n, yy = y(x), L = (small ? 18 : 30) + rr() * (small ? 34 : 70);
+      const x = (i + .5) * w / n, yy = y(x), L = (small ? 6 : 30) + rr() * (small ? 8 : 70);
       const g = el('g', { class: 'bulb', style: `--sw:${4 + (i % 3) * .8}s;--sd:${-(i * .41) % 2}s` }, gsvg);
       el('path', { class: 'strand', d: `M${x} ${yy}V${yy + L}` }, g);
       el('path', { class: 'star', d: STAR(x, yy + L + 6, small ? 5 : 7) }, g);

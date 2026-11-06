@@ -17,7 +17,7 @@ const out = [], wd = 'espacio', rr = rand(11);
 
     const cols = ['#ff7a3d', '#22d3c5', '#a57bff', '#ff5a5f'];
     for (let i = 0; i < n; i++) {
-      const x = (i + .5) * w / n, yy = y(x), L = (small ? 16 : 26) + rr() * (small ? 30 : 60);
+      const x = (i + .5) * w / n, yy = y(x), L = (small ? 6 : 26) + rr() * (small ? 8 : 60);
       const g = el('g', { class: 'bulb', style: `--sw:${5 + (i % 3) * .9}s;--sd:${-(i * .43) % 2}s` }, gsvg);
       el('path', { class: 'strand', d: `M${x} ${yy}V${yy + L}` }, g);
       if (i % 2) el('path', { class: 'star', d: STAR(x, yy + L + 7, small ? 6 : 8), style: 'fill:#ffd84a' }, g);
