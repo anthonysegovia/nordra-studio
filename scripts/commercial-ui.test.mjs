@@ -33,7 +33,7 @@ test('home keeps two equivalent doors, with filled and outlined buttons in the s
 });
 
 test('other commercial occasion heroes keep a single existing filled button', () => {
-  for (const page of ['negocios', 'invitaciones', 'bodas', 'cumpleanos', 'eventos', 'temporada']) {
+  for (const page of ['negocios', 'invitaciones', 'bodas', 'eventos', 'temporada']) {
     const source = readFileSync(`${page}.html`, 'utf8');
     assert.equal((source.match(/class="horizon-button(?: business-quote)?"/g) || []).length, 1, page);
   }

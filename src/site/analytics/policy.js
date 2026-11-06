@@ -3,7 +3,7 @@ export const commercialRoutes = Object.freeze({
   invitaciones: '/invitaciones', bodas: '/bodas', cumpleanos: '/cumpleanos',
   eventos: '/eventos', temporada: '/temporada',
 });
-export const buttonIds = Object.freeze(['mobile_bar', 'hero_quote', 'closing', 'plan_aurora', 'plan_boreal', 'web_option', 'footer', 'seasonal_design']);
+export const buttonIds = Object.freeze(['mobile_bar', 'hero_quote', 'closing', 'plan_aurora', 'plan_boreal', 'web_option', 'footer', 'seasonal_design', 'letrero', 'estilos']);
 export const preferenceKey = 'nordra-analytics-disabled';
 const hosts = new Set(['nordrastudio.mx', 'www.nordrastudio.mx', 'localhost', '127.0.0.1']);
 

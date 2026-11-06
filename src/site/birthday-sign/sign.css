@@ -1,0 +1,801 @@
+
+body[data-birthday-sign]{
+  --bg:#f4e9d3;--ink:#1d1a2e;--muted:#5d5164;--accent:#74531b;--line:#74531b40;
+  --btn:#1d1a2e;--btn-ink:#f4e9d3;
+  --tube:#ff2a85;--tube-core:#ff2a85;--tube-off:rgba(196,88,138,.3);
+  --gold:#f09a00;--gold-core:#ffab1a;--gold-off:rgba(176,124,40,.32);
+  --bulb:#ffb23a;--bulb-core:#ffd27a;--bulb-off:rgba(255,255,255,.55);
+  --hl:rgba(255,255,255,.85);--cap:#4b4152;--shelf:#cdb48a;--shelf-top:#e3cfa9;
+  --glow-strength:.42;--plate:rgba(255,255,255,.16);--plate-edge:rgba(255,255,255,.75);
+  --ease:cubic-bezier(.22,.8,.24,1);--handoff:0;--warm:.45s;
+}
+body[data-birthday-sign][data-tube=ambar]{--tube:#e57f00;--tube-core:#f08c00;--tube-off:rgba(176,110,30,.3)}
+body[data-birthday-sign][data-tube=menta]{--tube:#00a77d;--tube-core:#00b98a;--tube-off:rgba(0,140,100,.28);--warm:1s}
+body[data-birthday-sign][data-tube=violeta]{--tube:#7a45ff;--tube-core:#8657ff;--tube-off:rgba(110,70,200,.28);--warm:1s}
+body[data-birthday-sign][data-tube=cielo]{--tube:#008fd6;--tube-core:#0aa0ea;--tube-off:rgba(0,120,190,.28);--warm:1s}
+body[data-birthday-sign].dark{
+  --bg:#1d1a2e;--ink:#f4e9d3;--muted:#d9c7b0;--accent:#e6c98e;--line:#e6c98e40;
+  --btn:#e6c98e;--btn-ink:#1d1a2e;
+  --tube:#ff4fa3;--tube-core:#ffe3f0;--tube-off:rgba(255,170,210,.2);
+  --gold:#ffb640;--gold-core:#fff1cf;--gold-off:rgba(255,214,150,.2);
+  --bulb:#ffb84a;--bulb-core:#fff0c8;--bulb-off:rgba(255,255,255,.14);
+  --hl:rgba(255,255,255,.6);--cap:#0d0b16;--shelf:#2a2238;--shelf-top:#3a3150;
+  --glow-strength:1;--plate:rgba(255,255,255,.035);--plate-edge:rgba(255,255,255,.16);
+}
+body[data-birthday-sign].dark[data-tube=ambar]{--tube:#ff9a1f;--tube-core:#fff0d6;--tube-off:rgba(255,200,140,.2)}
+body[data-birthday-sign].dark[data-tube=menta]{--tube:#22f0bd;--tube-core:#e0fff5;--tube-off:rgba(140,255,220,.18)}
+body[data-birthday-sign].dark[data-tube=violeta]{--tube:#a57bff;--tube-core:#f0e8ff;--tube-off:rgba(200,170,255,.2)}
+body[data-birthday-sign].dark[data-tube=cielo]{--tube:#3cc6ff;--tube-core:#e4f8ff;--tube-off:rgba(150,220,255,.2)}
+body[data-birthday-sign] .birthday-sign-root *{box-sizing:border-box}
+body[data-birthday-sign],body[data-birthday-sign]{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 NocheManrope,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+body[data-birthday-sign]{transition:background-color .5s var(--ease),color .5s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root a{color:inherit;text-decoration:none}
+body[data-birthday-sign] .birthday-sign-root button,body[data-birthday-sign] .birthday-sign-root input{font:inherit;color:inherit}
+body[data-birthday-sign] .birthday-sign-root :focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:6px}
+body[data-birthday-sign] .birthday-sign-root .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+
+
+
+
+/* ---------- hero ---------- */
+body[data-birthday-sign] .birthday-sign-root .hero{position:relative;overflow:hidden;min-height:min(960px,calc(100svh - 68px));display:grid;grid-template-columns:minmax(0,4.9fr) minmax(0,7.1fr);align-items:center;gap:clamp(24px,3vw,48px);padding:clamp(120px,12vw,150px) clamp(16px,4vw,56px) clamp(56px,6vw,90px)}
+body[data-birthday-sign] .birthday-sign-root .wall{position:absolute;inset:0;z-index:0;pointer-events:none}
+body[data-birthday-sign] .birthday-sign-root .wall canvas{position:absolute;inset:0;width:100%;height:100%}
+body[data-birthday-sign] .birthday-sign-root .blinds{position:absolute;inset:-20%;z-index:1;display:none;background:repeating-linear-gradient(180deg,transparent 0 46px,rgba(120,84,40,.15) 46px 74px);transform:rotate(-17deg) skewX(-8deg);filter:blur(7px);mix-blend-mode:multiply;
+  -webkit-mask:radial-gradient(70% 60% at 62% 42%,#000 30%,transparent 80%);mask:radial-gradient(70% 60% at 62% 42%,#000 30%,transparent 80%);animation:bs-sun 18s ease-in-out infinite alternate}
+@keyframes bs-sun{to{transform:rotate(-15deg) skewX(-8deg) translateX(22px)}}
+body[data-birthday-sign]:not(.dark) .birthday-sign-root .blinds{display:block}
+body[data-birthday-sign] .birthday-sign-root .wall::before{content:"";position:absolute;inset:0;z-index:2;background:
+  linear-gradient(90deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 64%,transparent) 26%,transparent 48%),
+  linear-gradient(180deg,transparent 72%,var(--bg) 100%);transition:background .5s}
+body[data-birthday-sign] .birthday-sign-root .wall-glow{position:absolute;z-index:3;inset:0;opacity:calc(var(--lit,0) * var(--glow-strength) * (1 - var(--handoff) * .7));transition:opacity .09s linear;
+  background:radial-gradient(34% 28% at var(--gx,62%) 40%,color-mix(in srgb,var(--tube) 34%,transparent),transparent 70%);mix-blend-mode:screen}
+body[data-birthday-sign]:not(.dark) .birthday-sign-root .wall-glow{mix-blend-mode:multiply}
+body[data-birthday-sign] .birthday-sign-root .fx{position:absolute;inset:0;z-index:7;pointer-events:none;width:100%;height:100%}
+
+/* guirnalda */
+body[data-birthday-sign] .birthday-sign-root .garland{position:absolute;z-index:4;left:0;right:0;top:0;height:170px;pointer-events:none;filter:blur(.6px);transform:translateX(var(--gsx,0px));transition:transform 1.2s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .garland svg{width:100%;height:100%;overflow:visible}
+body[data-birthday-sign] .birthday-sign-root .garland .wire{fill:none;stroke:color-mix(in srgb,var(--ink) 55%,transparent);stroke-width:1.6}
+body[data-birthday-sign] .birthday-sign-root .garland .bulb{transform-box:fill-box;transform-origin:50% 0;animation:bs-swing var(--sw,4s) ease-in-out infinite alternate;animation-delay:var(--sd,0s)}
+@keyframes bs-swing{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+body[data-birthday-sign] .birthday-sign-root .garland .socket{fill:color-mix(in srgb,var(--ink) 75%,transparent)}
+body[data-birthday-sign] .birthday-sign-root .garland .glass{fill:var(--bulb-off);stroke:color-mix(in srgb,var(--ink) 18%,transparent);stroke-width:.8;transition:fill .08s}
+body[data-birthday-sign] .birthday-sign-root .garland .bulb.on .glass{fill:var(--bc,var(--bulb-core));filter:drop-shadow(0 0 4px var(--bg2,var(--bulb))) drop-shadow(0 0 14px color-mix(in srgb,var(--bg2,var(--bulb)) 70%,transparent))}
+body[data-birthday-sign]:not(.dark) .birthday-sign-root .garland .bulb.on .glass{filter:drop-shadow(0 0 3px var(--bg2,var(--bulb))) drop-shadow(0 0 8px color-mix(in srgb,var(--bg2,var(--bulb)) 50%,transparent))}
+
+body[data-birthday-sign] .birthday-sign-root .hero-copy{position:relative;z-index:5;max-width:520px}
+body[data-birthday-sign] .birthday-sign-root .path{display:flex;flex-wrap:nowrap;gap:8px;margin:0 0 30px;padding:0;list-style:none}
+body[data-birthday-sign] .birthday-sign-root .path a{display:block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 60%,transparent);font-size:13px;font-weight:500;color:var(--muted);transition:background .3s,color .3s,border-color .3s,transform .3s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .path a:hover{color:var(--ink);border-color:var(--accent);transform:translateY(-2px)}
+body[data-birthday-sign] .birthday-sign-root .path a[aria-current]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+body[data-birthday-sign] .birthday-sign-root .kicker{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:0 0 16px}
+body[data-birthday-sign] .birthday-sign-root .eyebrow{margin:0;font:600 12px NocheManrope;letter-spacing:.2em;color:var(--accent)}
+body[data-birthday-sign] .birthday-sign-root .pause{border:0;background:none;padding:4px 0;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--line);transition:color .25s,border-color .25s}
+body[data-birthday-sign] .birthday-sign-root .pause:hover{color:var(--ink);border-color:var(--ink)}
+body[data-birthday-sign] .birthday-sign-root h1{margin:0;font:300 clamp(46px,6vw,90px)/.98 NocheSora;letter-spacing:-.035em}
+body[data-birthday-sign] .birthday-sign-root h1 em{font-style:normal;font-weight:600;position:relative;white-space:nowrap}
+body[data-birthday-sign] .birthday-sign-root h1 em::after{content:"";position:absolute;left:2%;right:2%;bottom:.04em;height:.07em;border-radius:9px;background:var(--tube);opacity:calc(.25 + var(--lit,0) * .75);box-shadow:0 0 calc(var(--lit,0) * 18px) var(--tube);transition:opacity .09s,box-shadow .09s,background .6s}
+body[data-birthday-sign] .birthday-sign-root .lead{margin:26px 0 30px;max-width:440px;font-size:18px;color:var(--muted)}
+body[data-birthday-sign] .birthday-sign-root .actions{position:relative;display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;width:max-content;max-width:100%}
+body[data-birthday-sign] .birthday-sign-root .btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;background:var(--btn);color:var(--btn-ink);font-weight:600;font-size:15px;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .btn span{transition:transform .35s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px -10px color-mix(in srgb,var(--tube) 70%,transparent)}
+body[data-birthday-sign] .birthday-sign-root .btn:hover span{transform:translateY(3px)}
+body[data-birthday-sign] .birthday-sign-root .link{display:inline-flex;gap:8px;align-items:center;font-weight:600;font-size:15px;padding:10px 0;border-bottom:1.5px solid var(--line);transition:border-color .3s,gap .3s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .link:hover{border-color:var(--ink);gap:12px}
+
+/* flecha de neón */
+body[data-birthday-sign] .birthday-sign-root .arrow{position:absolute;left:calc(100% + 20px);top:50%;width:104px;height:36px;margin-top:-18px;overflow:visible}
+body[data-birthday-sign] .birthday-sign-root .arrow path{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke:var(--tube-off);transition:stroke .06s}
+body[data-birthday-sign] .birthday-sign-root .arrow .on{stroke:var(--tube-core);filter:drop-shadow(0 0 2px var(--tube)) drop-shadow(0 0 8px var(--tube));transition:stroke .6s}
+body[data-birthday-sign]:not(.dark) .birthday-sign-root .arrow .on{filter:drop-shadow(0 0 2px color-mix(in srgb,var(--tube) 70%,transparent)) drop-shadow(0 0 6px color-mix(in srgb,var(--tube) 40%,transparent))}
+body[data-birthday-sign] .birthday-sign-root .arrow.chase .on{animation:bs-chase 1.5s steps(1) infinite}
+body[data-birthday-sign] .birthday-sign-root .arrow.chase .on:nth-child(1){animation-delay:.9s}body[data-birthday-sign] .birthday-sign-root .arrow.chase .on:nth-child(2){animation-delay:.45s}body[data-birthday-sign] .birthday-sign-root .arrow.chase .on:nth-child(3){animation-delay:0s}
+@keyframes bs-chase{0%{opacity:1}55%{opacity:.25}100%{opacity:1}}
+
+/* ---------- letrero ---------- */
+body[data-birthday-sign] .birthday-sign-root .sign-zone{position:relative;z-index:5;container-type:inline-size;justify-self:center;width:min(100%,880px);perspective:1400px}
+body[data-birthday-sign] .birthday-sign-root .style-tag{display:flex;width:max-content;align-items:center;gap:8px;margin:0 auto 14px;position:relative;z-index:2;padding:5px 12px;border-radius:999px;font:600 11px NocheManrope;letter-spacing:.14em;color:var(--muted);background:color-mix(in srgb,var(--bg) 72%,transparent);border:1px solid var(--line);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+body[data-birthday-sign] .birthday-sign-root .style-tag i{width:7px;height:7px;border-radius:50%;background:var(--tube);box-shadow:0 0 8px var(--tube);transition:background .6s,box-shadow .6s}
+body[data-birthday-sign] .birthday-sign-root .sign{position:relative;transform:rotateX(var(--ry,0deg)) rotateY(var(--rx,0deg));transform-style:preserve-3d;transition:transform .6s var(--ease);filter:brightness(calc(1 - var(--handoff) * .35))}
+body[data-birthday-sign] .birthday-sign-root .sign.drop{animation:bs-hang 1.6s var(--ease) both}
+@keyframes bs-hang{0%{transform:translateY(-36px) rotate(-2.2deg);opacity:0}45%{opacity:1}65%{transform:translateY(4px) rotate(.9deg)}85%{transform:translateY(-1px) rotate(-.3deg)}100%{transform:none}}
+body[data-birthday-sign] .birthday-sign-root .sign.party .tubes{animation:bs-pulse .5s ease-in-out infinite alternate}
+@keyframes bs-pulse{to{filter:brightness(1.35) saturate(1.2)}}
+body[data-birthday-sign] .birthday-sign-root .cables{position:absolute;left:0;right:0;bottom:calc(100% - 1.6cqi);height:min(26vh,190px);overflow:visible;pointer-events:none}
+body[data-birthday-sign] .birthday-sign-root .cables path{fill:none;stroke:color-mix(in srgb,var(--ink) 55%,transparent);stroke-width:1.4}
+body[data-birthday-sign] .birthday-sign-root .cables .hook{fill:none;stroke:color-mix(in srgb,var(--ink) 70%,transparent);stroke-width:2}
+body[data-birthday-sign] .birthday-sign-root .cables .eye{fill:color-mix(in srgb,var(--ink) 70%,transparent)}
+body[data-birthday-sign] .birthday-sign-root .plate{position:relative;padding:5cqi 5.5cqi 4cqi;border-radius:3cqi;background:var(--plate);
+  box-shadow:inset 0 0 0 1px var(--plate-edge),inset 0 1px 0 var(--plate-edge),var(--sx,0px) calc(var(--sy,0px) + 26px) 50px -18px rgba(20,14,30,.42);
+  backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px);transition:box-shadow .6s var(--ease),background .5s}
+body[data-birthday-sign] .birthday-sign-root .plate::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,rgba(255,255,255,.35),transparent 28%,transparent 70%,rgba(255,255,255,.12));opacity:.5;pointer-events:none}
+body[data-birthday-sign].dark .birthday-sign-root .plate::before{opacity:.16}
+/* 10 · canto del acrílico con la aurora de Nordra */
+body[data-birthday-sign] .birthday-sign-root .plate::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.6px;pointer-events:none;
+  background:linear-gradient(115deg,#29d3e8,#6a4cff 45%,#ff4fd8 75%,#29d3e8);background-size:220% 100%;animation:bs-edge 9s linear infinite;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  opacity:calc(.3 + var(--lit,0) * .55);filter:drop-shadow(0 0 5px rgba(106,76,255,.55));transition:opacity .2s}
+@keyframes bs-edge{to{background-position:220% 0}}
+body[data-birthday-sign] .birthday-sign-root .plate-wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+body[data-birthday-sign] .birthday-sign-root .plate-wires path{fill:none;stroke:var(--cap);stroke-width:1.6;opacity:.7}
+body[data-birthday-sign] .birthday-sign-root .plate-wires circle{fill:color-mix(in srgb,var(--ink) 30%,#9a9288)}
+body[data-birthday-sign] .birthday-sign-root .screw{position:absolute;width:1.4cqi;height:1.4cqi;min-width:8px;min-height:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#b9b2a8 45%,#6d655c);box-shadow:0 1px 2px rgba(0,0,0,.4)}
+body[data-birthday-sign] .birthday-sign-root .screw.a{left:2cqi;top:2cqi}body[data-birthday-sign] .birthday-sign-root .screw.b{right:2cqi;top:2cqi}body[data-birthday-sign] .birthday-sign-root .screw.c{left:2cqi;bottom:2cqi}body[data-birthday-sign] .birthday-sign-root .screw.d{right:2cqi;bottom:2cqi}
+body[data-birthday-sign] .birthday-sign-root .tubes{--s:1;position:relative;display:flex;align-items:center;justify-content:center;gap:2.6cqi;min-height:24cqi}
+body[data-birthday-sign] .birthday-sign-root .word{--fs:24cqi;position:relative;font:400 calc(var(--fs) * var(--s))/1 Neonderthaw,cursive;letter-spacing:.005em;white-space:pre;padding:0 .5cqi;transform:translateY(-1.5cqi)}
+body[data-birthday-sign] .birthday-sign-root .plate[data-style=bloque] .word{--fs:16.5cqi;font-family:"Tilt Neon",sans-serif;letter-spacing:.02em;transform:translateY(0)}
+body[data-birthday-sign] .birthday-sign-root .plate[data-style=retro] .word{--fs:12.5cqi;font-family:Monoton,sans-serif;letter-spacing:.04em;transform:translateY(0)}
+body[data-birthday-sign] .birthday-sign-root .word .t{display:inline-block;color:var(--tube-off);text-shadow:0 .25cqi 0 rgba(0,0,0,.18);transition:color .05s,text-shadow .05s;filter:brightness(calc(1 + var(--b,0) * .45))}
+body[data-birthday-sign] .birthday-sign-root .word .t.on{color:var(--tube-core);text-shadow:0 -.12cqi 0 var(--hl),0 0 .2cqi #fff,0 0 .7cqi var(--tube),0 0 1.8cqi var(--tube),0 0 4cqi var(--tube),0 0 8cqi color-mix(in srgb,var(--tube) 60%,transparent)}
+body[data-birthday-sign]:not(.dark) .birthday-sign-root .word .t.on{text-shadow:0 -.1cqi 0 var(--hl),0 0 .5cqi color-mix(in srgb,var(--tube) 80%,transparent),0 0 1.6cqi color-mix(in srgb,var(--tube) 45%,transparent),0 .5cqi 1.2cqi rgba(120,30,70,.18)}
+/* 9 · arranque: destello blanco azulado y calentamiento hasta el color */
+body[data-birthday-sign] .birthday-sign-root .word .t.on.strike{color:#f4f9ff;text-shadow:0 0 .3cqi #fff,0 0 1.2cqi #b9dcff,0 0 3.5cqi #8fc4ff}
+body[data-birthday-sign] .birthday-sign-root .word .t.warming{transition:color var(--warm) ease-out,text-shadow var(--warm) ease-out}
+body[data-birthday-sign] .birthday-sign-root .word::before,body[data-birthday-sign] .birthday-sign-root .word::after{content:"";position:absolute;bottom:22%;width:1.1cqi;height:1.6cqi;border-radius:.4cqi;background:var(--cap);box-shadow:inset 0 .3cqi 0 rgba(255,255,255,.15)}
+body[data-birthday-sign] .birthday-sign-root .word::before{left:-.6cqi}body[data-birthday-sign] .birthday-sign-root .word::after{right:-.6cqi}
+body[data-birthday-sign] .birthday-sign-root .num{height:calc(21cqi * var(--s));flex:none;overflow:visible}
+body[data-birthday-sign] .birthday-sign-root .num path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+body[data-birthday-sign] .birthday-sign-root .num .core{stroke-width:8;stroke:var(--gold-off);transition:stroke .05s}
+body[data-birthday-sign] .birthday-sign-root .num .hl{stroke-width:1.6;stroke:var(--hl);opacity:0;transform:translate(-1.6px,-1.8px);transition:opacity .05s}
+body[data-birthday-sign] .birthday-sign-root .num .behind{stroke-width:1.5;stroke:var(--cap);opacity:.55;stroke-dasharray:3 3}
+body[data-birthday-sign] .birthday-sign-root .num .cap{fill:var(--cap)}
+body[data-birthday-sign] .birthday-sign-root .num .t{filter:drop-shadow(0 2px 0 rgba(0,0,0,.18)) brightness(calc(1 + var(--b,0) * .45))}
+body[data-birthday-sign] .birthday-sign-root .num .t.on .core{stroke:var(--gold-core)}
+body[data-birthday-sign] .birthday-sign-root .num .t.on .hl{opacity:1}
+body[data-birthday-sign] .birthday-sign-root .num .t.on{filter:drop-shadow(0 0 1px #fff) drop-shadow(0 0 4px var(--gold)) drop-shadow(0 0 12px var(--gold)) drop-shadow(0 0 26px color-mix(in srgb,var(--gold) 70%,transparent)) brightness(calc(1 + var(--b,0) * .45))}
+body[data-birthday-sign]:not(.dark) .birthday-sign-root .num .t.on{filter:drop-shadow(0 0 3px color-mix(in srgb,var(--gold) 80%,transparent)) drop-shadow(0 0 10px color-mix(in srgb,var(--gold) 45%,transparent)) drop-shadow(0 4px 6px rgba(120,70,0,.2)) brightness(calc(1 + var(--b,0) * .3))}
+body[data-birthday-sign] .birthday-sign-root .num .t.on.strike .core{stroke:#f4f9ff}
+body[data-birthday-sign] .birthday-sign-root .num .t.on.strike{filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 10px #a9d2ff)}
+body[data-birthday-sign] .birthday-sign-root .num .t.warming .core{transition:stroke var(--warm) ease-out}
+body[data-birthday-sign] .birthday-sign-root .sub{display:block;width:max-content;margin:1.4cqi auto 0;font:500 max(11px,2.2cqi)/1 NocheSora;letter-spacing:.38em;padding-left:.38em;color:var(--gold-off);transition:color .05s,text-shadow .05s}
+body[data-birthday-sign] .birthday-sign-root .sub.on{color:var(--gold-core);text-shadow:0 0 .3cqi var(--gold),0 0 1.2cqi var(--gold),0 0 3cqi color-mix(in srgb,var(--gold) 60%,transparent)}
+body[data-birthday-sign]:not(.dark) .birthday-sign-root .sub.on{color:#e08a00;text-shadow:0 0 .25cqi color-mix(in srgb,var(--gold) 55%,transparent),0 0 1.2cqi color-mix(in srgb,var(--gold) 25%,transparent)}
+body[data-birthday-sign] .birthday-sign-root .cord{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:-1}
+body[data-birthday-sign] .birthday-sign-root .cord path{fill:none;stroke:var(--cap);stroke-width:2;opacity:.7}
+
+/* 7 · repisa con reflejo y vela */
+body[data-birthday-sign] .birthday-sign-root .shelf{position:relative;height:44px;margin:22px -1cqi 0;display:flex;align-items:flex-end;justify-content:space-between;padding:0 4cqi 16px}
+body[data-birthday-sign] .birthday-sign-root .shelf::before{content:"";position:absolute;left:0;right:0;bottom:0;height:16px;border-radius:3px;background:linear-gradient(var(--shelf-top),var(--shelf) 35%,color-mix(in srgb,var(--shelf) 70%,#000));box-shadow:0 14px 20px -12px rgba(20,14,30,.5);transition:background .5s}
+body[data-birthday-sign] .birthday-sign-root .shelf::after{content:"";position:absolute;left:4%;right:4%;bottom:12px;height:18px;border-radius:50%;filter:blur(7px);opacity:calc(var(--lit,0) * .9 * (1 - var(--handoff) * .7));
+  background:radial-gradient(40% 100% at 42% 100%,color-mix(in srgb,var(--tube) 80%,transparent),transparent 70%),radial-gradient(18% 100% at 80% 100%,color-mix(in srgb,var(--gold) 80%,transparent),transparent 70%);transition:opacity .1s}
+body[data-birthday-sign] .birthday-sign-root .candle{position:relative;z-index:1;width:9px;height:30px;border-radius:2px 2px 1px 1px;background:repeating-linear-gradient(160deg,#fffaf0 0 5px,#ff8fb8 5px 8px)}
+body[data-birthday-sign] .birthday-sign-root .candle::before{content:"";position:absolute;left:50%;top:-4px;width:1.5px;height:5px;margin-left:-.75px;background:#3b2f2a}
+body[data-birthday-sign] .birthday-sign-root .flame{position:absolute;left:50%;top:-17px;width:8px;height:14px;margin-left:-4px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(circle at 50% 75%,#fff 0 22%,#ffd36a 45%,#ff8a2a 80%);box-shadow:0 0 10px 3px rgba(255,170,60,.55),0 0 26px 8px rgba(255,150,40,.2);transform-origin:50% 90%;animation:bs-flame 1.6s ease-in-out infinite alternate}
+@keyframes bs-flame{0%{transform:rotate(-3deg) scaleY(1)}40%{transform:rotate(2deg) scaleY(1.08)}70%{transform:rotate(-1deg) scaleY(.95)}100%{transform:rotate(3deg) scaleY(1.04)}}
+
+/* controles: nombre, estilo, color, interruptor */
+body[data-birthday-sign] .birthday-sign-root .custom-toggle{display:none}
+body[data-birthday-sign] .birthday-sign-root .controls{display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;margin:24px 1cqi 0}
+body[data-birthday-sign] .birthday-sign-root .try{flex-basis:100%;margin:0 0 -4px;font:600 11px NocheManrope;letter-spacing:.18em;color:var(--accent)}
+body[data-birthday-sign] .birthday-sign-root .namer{display:flex;align-items:center;gap:6px;padding:5px;border-radius:999px;background:color-mix(in srgb,var(--bg) 78%,transparent);border:1px solid var(--line);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:border-color .3s,box-shadow .3s}
+body[data-birthday-sign] .birthday-sign-root .namer:focus-within{border-color:var(--tube);box-shadow:0 0 0 4px color-mix(in srgb,var(--tube) 16%,transparent),0 0 24px -6px var(--tube)}
+body[data-birthday-sign] .birthday-sign-root .namer input{border:0;background:none;outline:0;font-size:16px;padding:8px 6px 8px 14px;min-width:0}
+body[data-birthday-sign] .birthday-sign-root .namer #bs-nm{width:9em}
+body[data-birthday-sign] .birthday-sign-root .namer #bs-ag{width:3.4em;padding-left:10px;border-left:1px solid var(--line);text-transform:uppercase}
+body[data-birthday-sign] .birthday-sign-root .namer input::placeholder{color:color-mix(in srgb,var(--muted) 75%,transparent);text-transform:none}
+body[data-birthday-sign] .birthday-sign-root .namer button{border:0;cursor:pointer;min-height:40px;padding:0 16px;border-radius:999px;background:var(--btn);color:var(--btn-ink);font-weight:600;font-size:14px;white-space:nowrap;transition:transform .3s var(--ease),box-shadow .3s}
+body[data-birthday-sign] .birthday-sign-root .namer button:hover{transform:translateY(-1px);box-shadow:0 8px 18px -8px var(--tube)}
+body[data-birthday-sign] .birthday-sign-root .namer button:active{transform:scale(.96)}
+body[data-birthday-sign] .birthday-sign-root .ask{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--tube);color:var(--ink);font-weight:600;font-size:14px;background:color-mix(in srgb,var(--tube) 10%,var(--bg));box-shadow:0 0 18px -6px var(--tube);transition:transform .35s var(--ease),box-shadow .35s,opacity .4s;animation:bs-askin .6s var(--ease) both}
+body[data-birthday-sign] .birthday-sign-root .ask[hidden]{display:none}
+body[data-birthday-sign] .birthday-sign-root .ask:hover{transform:translateY(-2px);box-shadow:0 0 26px -4px var(--tube)}
+body[data-birthday-sign] .birthday-sign-root .ask svg{width:16px;height:16px}
+@keyframes bs-askin{from{opacity:0;transform:translateY(8px) scale(.96)}}
+body[data-birthday-sign] .birthday-sign-root .row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;flex-basis:100%}
+body[data-birthday-sign] .birthday-sign-root .seg{display:flex;padding:3px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 70%,transparent)}
+body[data-birthday-sign] .birthday-sign-root .seg button{border:0;background:none;cursor:pointer;padding:6px 12px;border-radius:999px;font-size:15px;line-height:1.2;color:var(--muted);transition:background .3s,color .3s,transform .3s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .seg button:hover{color:var(--ink)}
+body[data-birthday-sign] .birthday-sign-root .seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+body[data-birthday-sign] .birthday-sign-root .seg [data-s=cursiva]{font-family:Neonderthaw;font-size:21px;line-height:1}
+body[data-birthday-sign] .birthday-sign-root .seg [data-s=bloque]{font-family:"Tilt Neon"}
+body[data-birthday-sign] .birthday-sign-root .seg [data-s=retro]{font-family:Monoton;font-size:12px;letter-spacing:.06em}
+body[data-birthday-sign] .birthday-sign-root .chips{display:flex;gap:7px}
+body[data-birthday-sign] .birthday-sign-root .chip{position:relative;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 70%,transparent);cursor:pointer;display:grid;place-items:center;transition:transform .3s var(--ease),border-color .3s}
+body[data-birthday-sign] .birthday-sign-root .chip::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--c);transition:box-shadow .3s,transform .3s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .chip:hover{transform:translateY(-2px)}
+body[data-birthday-sign] .birthday-sign-root .chip:hover::before{transform:scale(1.15)}
+body[data-birthday-sign] .birthday-sign-root .chip[aria-pressed=true]{border-color:var(--c)}
+body[data-birthday-sign] .birthday-sign-root .chip[aria-pressed=true]::before{box-shadow:0 0 10px 1px var(--c)}
+body[data-birthday-sign] .birthday-sign-root .tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translate(-50%,4px);padding:4px 9px;border-radius:6px;background:var(--ink);color:var(--bg);font:600 11px NocheManrope;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .25s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .chip:hover .tip,body[data-birthday-sign] .birthday-sign-root .chip:focus-visible .tip,body[data-birthday-sign] .birthday-sign-root .round:hover .tip,body[data-birthday-sign] .birthday-sign-root .round:focus-visible .tip{opacity:1;transform:translate(-50%,0)}
+body[data-birthday-sign] .birthday-sign-root .round{position:relative;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 70%,transparent);cursor:pointer;display:grid;place-items:center;transition:transform .3s var(--ease),border-color .3s,background .3s}
+body[data-birthday-sign] .birthday-sign-root .round:hover{transform:translateY(-2px);border-color:var(--accent)}
+body[data-birthday-sign] .birthday-sign-root .round svg{width:17px;height:17px}
+body[data-birthday-sign] .birthday-sign-root .party-btn[aria-pressed=true]{border-color:var(--tube);background:color-mix(in srgb,var(--tube) 14%,var(--bg))}
+body[data-birthday-sign] .birthday-sign-root .party-btn[aria-pressed=true] svg{animation:bs-spin 1.2s linear infinite}
+@keyframes bs-spin{to{transform:rotate(360deg)}}
+body[data-birthday-sign] .birthday-sign-root .sound .wave{opacity:0;transition:opacity .3s}
+body[data-birthday-sign] .birthday-sign-root .sound[aria-pressed=true]{border-color:var(--tube)}
+body[data-birthday-sign] .birthday-sign-root .sound[aria-pressed=true] .wave{opacity:1}
+body[data-birthday-sign] .birthday-sign-root .sound[aria-pressed=true] .mute{opacity:0}
+body[data-birthday-sign] .birthday-sign-root .switch-wrap{margin-left:auto;display:flex;align-items:center;gap:10px}
+body[data-birthday-sign] .birthday-sign-root .switch-box{display:flex;flex-direction:column;align-items:center;gap:6px}
+body[data-birthday-sign] .birthday-sign-root .switch-cap{font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--muted);min-width:5em;text-align:center}
+body[data-birthday-sign] .birthday-sign-root .switch{position:relative;width:46px;height:72px;border:0;padding:0;border-radius:9px;cursor:pointer;background:linear-gradient(160deg,#fbf6ec,#e4dccd);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08),0 6px 16px -6px rgba(20,14,30,.45),0 1px 0 rgba(255,255,255,.7) inset;transition:transform .3s var(--ease),box-shadow .3s}
+body[data-birthday-sign].dark .birthday-sign-root .switch{background:linear-gradient(160deg,#3a3550,#2a263b);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 6px 16px -6px rgba(0,0,0,.7)}
+body[data-birthday-sign] .birthday-sign-root .switch:hover{transform:translateY(-2px)}
+body[data-birthday-sign] .birthday-sign-root .switch:active{transform:translateY(0) scale(.97)}
+body[data-birthday-sign] .birthday-sign-root .switch::before{content:"";position:absolute;left:14px;right:14px;top:14px;bottom:14px;border-radius:5px;background:rgba(0,0,0,.14)}
+body[data-birthday-sign] .birthday-sign-root .lever{position:absolute;left:16px;right:16px;top:17px;height:22px;border-radius:4px;background:linear-gradient(#fff,#d9d1c2);box-shadow:0 3px 4px rgba(0,0,0,.25);transition:transform .32s cubic-bezier(.5,1.8,.4,.8),background .3s}
+body[data-birthday-sign].dark .birthday-sign-root .lever{background:linear-gradient(#5b5574,#433e5a)}
+body[data-birthday-sign] .birthday-sign-root .switch[aria-checked=false] .lever{transform:translateY(16px)}
+body[data-birthday-sign] .birthday-sign-root .switch .pilot{position:absolute;left:50%;top:7px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:#bdb3a2;transition:background .2s,box-shadow .2s}
+body[data-birthday-sign] .birthday-sign-root .switch[aria-checked=true] .pilot{background:var(--tube);box-shadow:0 0 6px var(--tube)}
+
+/* ---------- 4 · un nombre, muchos estilos ---------- */
+body[data-birthday-sign] .birthday-sign-root .styles{position:relative;padding:30px clamp(16px,4vw,56px) 130px;max-width:1240px;margin:0 auto}
+body[data-birthday-sign] .birthday-sign-root .styles-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px 60px;flex-wrap:wrap;margin-bottom:46px}
+body[data-birthday-sign] .birthday-sign-root .styles h2{margin:0;font:300 clamp(34px,4vw,56px)/1.05 NocheSora;letter-spacing:-.03em}
+body[data-birthday-sign] .birthday-sign-root .styles h2 b{font-weight:600}
+body[data-birthday-sign] .birthday-sign-root .styles-head p{margin:0;color:var(--muted);max-width:400px}
+body[data-birthday-sign] .birthday-sign-root .fan{list-style:none;margin:0;padding:0;display:flex;justify-content:center;align-items:flex-start}
+body[data-birthday-sign] .birthday-sign-root .card{position:relative;width:232px;margin:0 -10px;transform:translateY(var(--y,0)) rotate(var(--r,0deg));transition:transform .55s var(--ease);z-index:1}
+body[data-birthday-sign] .birthday-sign-root .card:nth-child(1){--r:-7deg;--y:34px}body[data-birthday-sign] .birthday-sign-root .card:nth-child(2){--r:-2.5deg;--y:6px;z-index:2}body[data-birthday-sign] .birthday-sign-root .card:nth-child(3){--r:2.5deg;--y:6px;z-index:2}body[data-birthday-sign] .birthday-sign-root .card:nth-child(4){--r:7deg;--y:34px}
+body[data-birthday-sign] .birthday-sign-root .card:hover,body[data-birthday-sign] .birthday-sign-root .card:focus-within{--r:0deg;--y:-12px;z-index:5}
+body[data-birthday-sign] .birthday-sign-root .phone{position:relative;display:block;aspect-ratio:780/1688;border-radius:34px;overflow:hidden;background:#111;
+  box-shadow:0 0 0 7px var(--ink),0 0 calc(var(--handoff) * 60px) calc(var(--handoff) * 4px) color-mix(in srgb,var(--tube) calc(var(--handoff) * 70%),transparent),0 30px 50px -22px rgba(20,14,30,.55);transition:box-shadow .5s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .card:hover .phone{box-shadow:0 0 0 7px var(--ink),0 0 44px 4px color-mix(in srgb,var(--tube) 55%,transparent),0 34px 60px -20px rgba(20,14,30,.6)}
+body[data-birthday-sign] .birthday-sign-root .phone>img{display:block;width:100%;height:100%;object-fit:cover}
+body[data-birthday-sign] .birthday-sign-root .card figcaption{margin-top:20px;text-align:center}
+body[data-birthday-sign] .birthday-sign-root .card figcaption strong{display:block;font:600 15px NocheSora}
+body[data-birthday-sign] .birthday-sign-root .card figcaption span{font-size:12.5px;color:var(--muted)}
+body[data-birthday-sign] .birthday-sign-root .badge{position:absolute;z-index:3;top:16px;left:50%;transform:translateX(-50%);padding:3px 10px;border-radius:999px;font:700 9.5px NocheManrope;letter-spacing:.14em;background:rgba(255,255,255,.88);color:#1d1a2e;white-space:nowrap}
+body[data-birthday-sign] .birthday-sign-root .neon-tag{position:absolute;z-index:3;left:50%;bottom:16%;transform:translateX(-50%);padding:2px 14px 6px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(20,10,30,.55);font:400 30px/1.1 Neonderthaw;color:#ffe3f0;text-shadow:0 0 2px #fff,0 0 8px var(--tube),0 0 18px var(--tube);white-space:nowrap;opacity:0;transition:opacity .5s}
+body[data-birthday-sign].named .birthday-sign-root .neon-tag{opacity:1}
+body[data-birthday-sign] .birthday-sign-root .cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;text-align:center;padding:58px 18px 22px}
+body[data-birthday-sign] .birthday-sign-root .cover .open{margin-top:auto;padding:8px 18px;border-radius:999px;font:600 12px NocheManrope}
+/* bar clandestino */
+body[data-birthday-sign] .birthday-sign-root .c-bar{color:#e7cf95;background:radial-gradient(70% 34% at 50% 0%,rgba(255,190,90,.38),transparent 70%),repeating-linear-gradient(92deg,#2a190e 0 7px,#311d11 7px 9px,#26170c 9px 17px),#25160c}
+body[data-birthday-sign] .birthday-sign-root .c-bar::before{content:"";position:absolute;inset:14px;border:1px solid rgba(214,178,106,.65);border-radius:20px;pointer-events:none}
+body[data-birthday-sign] .birthday-sign-root .c-bar::after{content:"";position:absolute;left:50%;top:14px;width:70px;height:35px;margin-left:-35px;background:repeating-conic-gradient(from -90deg at 50% 0,rgba(214,178,106,.6) 0 2deg,transparent 2deg 15deg);border-radius:0 0 70px 70px;-webkit-mask:radial-gradient(circle at 50% 0,transparent 12px,#000 13px);mask:radial-gradient(circle at 50% 0,transparent 12px,#000 13px)}
+body[data-birthday-sign] .birthday-sign-root .c-bar small{font:600 8.5px NocheManrope;letter-spacing:.28em;opacity:.8;margin-top:30px}
+body[data-birthday-sign] .birthday-sign-root .c-bar .nm{font:400 40px/1.05 "Poiret One";margin-top:18px;background:linear-gradient(180deg,#f6e2ad,#b98d43);-webkit-background-clip:text;background-clip:text;color:transparent}
+body[data-birthday-sign] .birthday-sign-root .c-bar .ag{font:400 92px/1 "Poiret One";margin-top:2px;background:linear-gradient(180deg,#f6e2ad,#a77a33);-webkit-background-clip:text;background-clip:text;color:transparent;border-top:1px solid rgba(214,178,106,.5);border-bottom:1px solid rgba(214,178,106,.5);padding:2px 18px}
+body[data-birthday-sign] .birthday-sign-root .c-bar p{font:500 11px/1.5 NocheManrope;margin:16px 0 0;opacity:.85}
+body[data-birthday-sign] .birthday-sign-root .c-bar .open{background:#d6b26a;color:#25160c}
+/* gala de XV */
+body[data-birthday-sign] .birthday-sign-root .c-xv{color:#e9e4ff;background:radial-gradient(1.2px 1.2px at 20% 18%,#fff,transparent),radial-gradient(1px 1px at 78% 12%,#fff,transparent),radial-gradient(1.4px 1.4px at 64% 30%,#fff,transparent),radial-gradient(1px 1px at 30% 40%,#fff,transparent),radial-gradient(1.2px 1.2px at 86% 52%,#fff,transparent),radial-gradient(1px 1px at 12% 64%,#fff,transparent),radial-gradient(60% 40% at 50% 100%,rgba(166,124,255,.45),transparent 70%),linear-gradient(180deg,#0e1233,#251a4f)}
+body[data-birthday-sign] .birthday-sign-root .c-xv .tiara{width:66px;height:30px;margin-top:22px}
+body[data-birthday-sign] .birthday-sign-root .c-xv .tiara path{fill:none;stroke:#d9d1ff;stroke-width:1.4;stroke-linejoin:round}
+body[data-birthday-sign] .birthday-sign-root .c-xv .tiara circle{fill:#fff}
+body[data-birthday-sign] .birthday-sign-root .c-xv small{font:600 9px NocheManrope;letter-spacing:.32em;margin-top:14px;opacity:.85}
+body[data-birthday-sign] .birthday-sign-root .c-xv .nm{font:400 54px/1.1 "Pinyon Script";margin-top:6px;background:linear-gradient(180deg,#fff,#bfb1ff);-webkit-background-clip:text;background-clip:text;color:transparent;padding:0 6px}
+body[data-birthday-sign] .birthday-sign-root .c-xv .ag{font:300 26px/1 NocheSora;letter-spacing:.3em;margin-top:6px;padding-left:.3em}
+body[data-birthday-sign] .birthday-sign-root .c-xv p{font:500 11px/1.5 NocheManrope;margin:18px 0 0;opacity:.8}
+body[data-birthday-sign] .birthday-sign-root .c-xv .open{background:#e9e4ff;color:#251a4f}
+/* misión espacial */
+body[data-birthday-sign] .birthday-sign-root .c-space{color:#fff;background:radial-gradient(1.4px 1.4px at 14% 22%,#fff,transparent),radial-gradient(1px 1px at 84% 16%,#fff,transparent),radial-gradient(1.2px 1.2px at 70% 44%,#fff,transparent),radial-gradient(1px 1px at 22% 58%,#fff,transparent),linear-gradient(180deg,#1b2a7a,#3a1f78 70%,#5a2a8c)}
+body[data-birthday-sign] .birthday-sign-root .c-space .planet{position:absolute;right:-26px;top:70px;width:96px;height:96px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffd27a,#ff7a3d 60%,#d4492a)}
+body[data-birthday-sign] .birthday-sign-root .c-space .planet::after{content:"";position:absolute;left:-22px;right:-22px;top:42px;height:14px;border-radius:50%;border:3px solid rgba(255,220,150,.75);transform:rotate(-14deg)}
+body[data-birthday-sign] .birthday-sign-root .c-space .rocket{width:54px;height:80px;margin-top:20px;animation:bs-float 3s ease-in-out infinite alternate}
+@keyframes bs-float{to{transform:translateY(-6px) rotate(3deg)}}
+body[data-birthday-sign] .birthday-sign-root .c-space small{font:700 10px Fredoka;letter-spacing:.3em;margin-top:12px;color:#7ff0ff}
+body[data-birthday-sign] .birthday-sign-root .c-space .nm{font:700 46px/1.05 Fredoka;color:#ffd84a;text-shadow:0 3px 0 #c2410c}
+body[data-birthday-sign] .birthday-sign-root .c-space .ag{display:grid;place-items:center;width:58px;height:58px;margin-top:10px;border-radius:50%;background:#22d3c5;color:#14213d;font:700 30px Fredoka;box-shadow:0 0 0 4px rgba(255,255,255,.2)}
+body[data-birthday-sign] .birthday-sign-root .c-space p{font:500 11px/1.5 NocheManrope;margin:14px 0 0;opacity:.9}
+body[data-birthday-sign] .birthday-sign-root .c-space .open{background:#ffd84a;color:#14213d}
+body[data-birthday-sign] .birthday-sign-root .styles-foot{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;margin-top:70px;align-items:center}
+body[data-birthday-sign] .birthday-sign-root .note{margin:30px 0 0;text-align:center;font-size:12px;color:var(--muted);opacity:.8}
+
+/* ---------- teléfono ---------- */
+@media (max-width:900px){
+  body[data-birthday-sign] .birthday-sign-root .hero{grid-template-columns:1fr;align-content:start;gap:0;min-height:0;padding:86px 16px 56px}
+  body[data-birthday-sign] .birthday-sign-root .garland{height:96px}
+  body[data-birthday-sign] .birthday-sign-root .wall::before{background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 88%,transparent) 0%,color-mix(in srgb,var(--bg) 40%,transparent) 30%,transparent 42%,transparent 80%,var(--bg) 100%)}
+  body[data-birthday-sign] .birthday-sign-root .path{margin:0 0 20px;overflow-x:auto;scrollbar-width:none;margin-right:-16px;padding-right:16px}
+  body[data-birthday-sign] .birthday-sign-root .path::-webkit-scrollbar{display:none}
+  body[data-birthday-sign] .birthday-sign-root .path a{white-space:nowrap}
+  body[data-birthday-sign] .birthday-sign-root .kicker{margin-bottom:10px;justify-content:space-between}
+  body[data-birthday-sign] .birthday-sign-root h1{font-size:40px;line-height:1.04}
+  body[data-birthday-sign] .birthday-sign-root .hero-copy{display:contents}
+  body[data-birthday-sign] .birthday-sign-root .hero-copy>*{position:relative;z-index:5}
+  body[data-birthday-sign] .birthday-sign-root .hero-copy>.path,body[data-birthday-sign] .birthday-sign-root .hero-copy>.kicker,body[data-birthday-sign] .birthday-sign-root .hero-copy>h1{order:1}
+  body[data-birthday-sign] .birthday-sign-root .sign-zone{order:2;margin:22px 0 0;width:100%}
+  body[data-birthday-sign] .birthday-sign-root .style-tag{margin:0 0 10px;font-size:10px}
+  body[data-birthday-sign] .birthday-sign-root .shelf .switch-box{flex-direction:row-reverse}
+  body[data-birthday-sign] .birthday-sign-root .cables,body[data-birthday-sign] .birthday-sign-root .cord{display:none}
+  body[data-birthday-sign] .birthday-sign-root .hero-copy>.lead{order:3;margin:26px 0 18px;font-size:16px}
+  body[data-birthday-sign] .birthday-sign-root .hero-copy>.actions{order:4;flex-direction:column;align-items:stretch;gap:6px;width:auto}
+  body[data-birthday-sign] .birthday-sign-root .arrow{position:static;order:-1;align-self:center;margin:0 0 8px;width:84px;height:30px;transform:rotate(-90deg)}
+  body[data-birthday-sign] .birthday-sign-root .btn{justify-content:center}
+  body[data-birthday-sign] .birthday-sign-root .link{justify-content:center;border:0}
+  body[data-birthday-sign] .birthday-sign-root .shelf{margin-top:14px;height:66px;padding:0 3cqi 16px}
+  body[data-birthday-sign] .birthday-sign-root .shelf .switch-box{position:relative;z-index:1;flex-direction:row;gap:8px;margin-bottom:-2px}
+  body[data-birthday-sign] .birthday-sign-root .shelf .switch{width:30px;height:46px;border-radius:7px}
+  body[data-birthday-sign] .birthday-sign-root .shelf .switch::before{left:9px;right:9px;top:9px;bottom:9px}
+  body[data-birthday-sign] .birthday-sign-root .shelf .lever{left:10px;right:10px;top:11px;height:12px}
+  body[data-birthday-sign] .birthday-sign-root .shelf .switch[aria-checked=false] .lever{transform:translateY(12px)}
+  body[data-birthday-sign] .birthday-sign-root .shelf .switch .pilot{top:4px}
+  body[data-birthday-sign] .birthday-sign-root .shelf .switch-cap{min-width:0;font-size:11px}
+  body[data-birthday-sign] .birthday-sign-root .custom-toggle{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:14px;min-height:46px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 78%,transparent);cursor:pointer;font-weight:600;font-size:15px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:border-color .3s,box-shadow .3s}
+  body[data-birthday-sign] .birthday-sign-root .custom-toggle:hover,body[data-birthday-sign] .birthday-sign-root .custom-toggle[aria-expanded=true]{border-color:var(--tube);box-shadow:0 0 20px -8px var(--tube)}
+  body[data-birthday-sign] .birthday-sign-root .custom-toggle span{display:inline-block;transition:transform .35s var(--ease)}
+  body[data-birthday-sign] .birthday-sign-root .custom-toggle[aria-expanded=true] span{transform:rotate(45deg)}
+  body[data-birthday-sign] .birthday-sign-root .controls{display:grid;grid-template-rows:0fr;margin:0;transition:grid-template-rows .45s var(--ease),margin .45s var(--ease)}
+  body[data-birthday-sign] .birthday-sign-root .controls.open{grid-template-rows:1fr;margin-top:14px}
+  body[data-birthday-sign] .birthday-sign-root .controls-inner{overflow:hidden;display:flex;flex-direction:column;gap:12px}
+  body[data-birthday-sign] .birthday-sign-root .controls:not(.open) .controls-inner{visibility:hidden;transition:visibility 0s .45s}
+  body[data-birthday-sign] .birthday-sign-root .try{display:none}
+  body[data-birthday-sign] .birthday-sign-root .namer #bs-nm{flex:1;width:auto}
+  body[data-birthday-sign] .birthday-sign-root .ask{justify-content:center}
+  body[data-birthday-sign] .birthday-sign-root .row{gap:10px;padding-bottom:4px}
+  body[data-birthday-sign] .birthday-sign-root .switch-wrap{margin-left:0}
+  body[data-birthday-sign] .birthday-sign-root .styles{padding:10px 0 100px}
+  body[data-birthday-sign] .birthday-sign-root .styles-head{padding:0 16px;margin-bottom:26px}
+  body[data-birthday-sign] .birthday-sign-root .fan{justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;gap:18px;padding:44px 16px 30px;margin:-24px 0 -20px;scrollbar-width:none}
+  body[data-birthday-sign] .birthday-sign-root .phone{box-shadow:0 0 0 6px var(--ink),0 0 calc(var(--handoff) * 26px) calc(var(--handoff) * 2px) color-mix(in srgb,var(--tube) calc(var(--handoff) * 60%),transparent),0 18px 30px -18px rgba(20,14,30,.5)}
+  body[data-birthday-sign] .birthday-sign-root .fan::-webkit-scrollbar{display:none}
+  body[data-birthday-sign] .birthday-sign-root .card{flex:none;width:172px;margin:0;scroll-snap-align:center;--r:0deg!important;--y:0px!important}
+  body[data-birthday-sign] .birthday-sign-root .styles-foot{flex-direction:column;gap:10px;margin-top:40px;padding:0 16px}
+}
+@media (min-width:901px){body[data-birthday-sign] .birthday-sign-root .controls-inner{display:contents}}
+@media (prefers-reduced-motion:reduce){
+  body[data-birthday-sign] .birthday-sign-root .sign.drop,body[data-birthday-sign] .birthday-sign-root .blinds,body[data-birthday-sign] .birthday-sign-root .garland .bulb,body[data-birthday-sign] .birthday-sign-root .arrow.chase .on,body[data-birthday-sign] .birthday-sign-root .plate::after,body[data-birthday-sign] .birthday-sign-root .flame,body[data-birthday-sign] .birthday-sign-root .c-space .rocket,body[data-birthday-sign] .birthday-sign-root .sign.party .tubes{animation:none}
+  body[data-birthday-sign] .birthday-sign-root .sign,body[data-birthday-sign] .birthday-sign-root .garland,body[data-birthday-sign] .birthday-sign-root .card{transition:none}
+}
+body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .blinds,body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .garland .bulb,body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .arrow.chase .on,body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .plate::after,body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .flame,body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .c-space .rocket{animation-play-state:paused}
+
+/* =====================================================================
+   v4 · CINCO ESTILOS: cada uno cambia el objeto y la página completa
+   ===================================================================== */
+body[data-birthday-sign][data-world]{--cable:color-mix(in srgb,var(--ink) 55%,transparent)}
+body[data-birthday-sign] .birthday-sign-root .cables path{stroke:var(--cable)}
+body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .plate-wires,body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .cord,body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .num .cap,body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .num .behind,body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .num .hl,body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .word::before,body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .word::after,body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .seg,body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .chips,body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .blinds{display:none}
+body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .plate::after{display:none}
+body[data-birthday-sign] .birthday-sign-root .deco,body[data-birthday-sign] .birthday-sign-root .deco2{display:none;position:absolute;pointer-events:none}
+body[data-birthday-sign]:not([data-world=neon]) .birthday-sign-root .word .t{text-shadow:none;filter:none}
+body[data-birthday-sign] .birthday-sign-root .word .t.warming{transition:color var(--warm) ease-out,text-shadow var(--warm) ease-out,opacity var(--warm) ease-out}
+
+/* ---------- selector de estilo ---------- */
+body[data-birthday-sign] .birthday-sign-root .world-pick{position:relative;width:max-content;margin:0 auto 14px;z-index:6}
+body[data-birthday-sign] .birthday-sign-root .world-btn{display:flex;align-items:center;gap:9px;padding:6px 8px 6px 13px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);cursor:pointer;font:600 11px NocheManrope;letter-spacing:.14em;color:var(--muted);transition:border-color .3s,box-shadow .3s,transform .3s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .world-btn:hover,body[data-birthday-sign] .birthday-sign-root .world-btn[aria-expanded=true]{border-color:var(--accent);color:var(--ink);transform:translateY(-1px)}
+body[data-birthday-sign] .birthday-sign-root .world-btn b{color:var(--ink);font-weight:700}
+body[data-birthday-sign] .birthday-sign-root .world-btn i{width:8px;height:8px;border-radius:50%;background:var(--wdot);box-shadow:0 0 8px var(--wdot)}
+body[data-birthday-sign] .birthday-sign-root .world-btn .chev{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--bg);font-size:10px;transition:transform .35s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .world-btn[aria-expanded=true] .chev{transform:rotate(180deg)}
+body[data-birthday-sign] .birthday-sign-root .world-menu{position:absolute;top:calc(100% + 8px);left:50%;width:270px;margin:0 0 0 -135px;padding:6px;list-style:none;border-radius:18px;background:var(--bg);border:1px solid var(--line);box-shadow:0 24px 50px -18px rgba(20,14,30,.45);opacity:0;transform:translateY(-6px) scale(.97);transform-origin:50% 0;pointer-events:none;visibility:hidden;transition:opacity .25s,transform .3s var(--ease),visibility 0s .3s}
+body[data-birthday-sign] .birthday-sign-root .world-menu.open{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .25s,transform .3s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .world-menu button{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:2px 12px;width:100%;padding:9px 12px;border:0;border-radius:12px;background:none;cursor:pointer;text-align:left;transition:background .2s}
+body[data-birthday-sign] .birthday-sign-root .world-menu button:hover,body[data-birthday-sign] .birthday-sign-root .world-menu button:focus-visible{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+body[data-birthday-sign] .birthday-sign-root .world-menu button i{grid-row:span 2;width:12px;height:12px;border-radius:50%;background:var(--d);box-shadow:0 0 8px var(--d)}
+body[data-birthday-sign] .birthday-sign-root .world-menu strong{font:600 14px NocheSora}
+body[data-birthday-sign] .birthday-sign-root .world-menu small{grid-column:2;font-size:12px;color:var(--muted)}
+body[data-birthday-sign] .birthday-sign-root .world-menu .check{grid-row:1 / span 2;grid-column:3;opacity:0;font-weight:700;color:var(--accent)}
+body[data-birthday-sign] .birthday-sign-root .world-menu [aria-pressed=true] .check{opacity:1}
+body[data-birthday-sign] .birthday-sign-root .try-style{margin-top:10px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 80%,transparent);border-radius:999px;padding:7px 14px;font:600 12.5px NocheManrope;cursor:pointer;color:var(--ink);transition:border-color .3s,transform .3s var(--ease),background .3s}
+body[data-birthday-sign] .birthday-sign-root .try-style:hover{border-color:var(--accent);transform:translateY(-2px)}
+body[data-birthday-sign] .birthday-sign-root .try-style[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+body[data-birthday-sign] .birthday-sign-root .card figcaption{display:flex;flex-direction:column;align-items:center}
+
+/* ---------- velo de transición ---------- */
+body[data-birthday-sign] .birthday-sign-root .veil{position:fixed;inset:0;z-index:90;pointer-events:none;display:none;overflow:hidden}
+body[data-birthday-sign] .birthday-sign-root .veil.on{display:block}
+body[data-birthday-sign] .birthday-sign-root .veil>*{position:absolute}
+body[data-birthday-sign] .birthday-sign-root .vfx{position:fixed;inset:0;z-index:91;pointer-events:none;width:100%;height:100%}
+body[data-birthday-sign] .birthday-sign-root .v-half{top:0;bottom:0;width:50.5%;background:
+  repeating-linear-gradient(45deg,rgba(226,192,122,.18) 0 2px,transparent 2px 26px),repeating-linear-gradient(-45deg,rgba(226,192,122,.18) 0 2px,transparent 2px 26px),
+  linear-gradient(180deg,#6a2652,#4a1838)}
+body[data-birthday-sign] .birthday-sign-root .v-half.l{left:0;box-shadow:inset -18px 0 30px -18px rgba(0,0,0,.5)}body[data-birthday-sign] .birthday-sign-root .v-half.r{right:0;box-shadow:inset 18px 0 30px -18px rgba(0,0,0,.5)}
+body[data-birthday-sign] .birthday-sign-root .v-ribbon{left:50%;top:-5%;width:64px;height:110%;margin-left:-32px;background:linear-gradient(90deg,#9c6f22,#f6dc94 40%,#c9973e 60%,#8a5f18);box-shadow:0 0 30px rgba(0,0,0,.35)}
+body[data-birthday-sign] .birthday-sign-root .v-ribbon.h{left:-5%;top:50%;width:110%;height:64px;margin:-32px 0 0;background:linear-gradient(180deg,#9c6f22,#f6dc94 40%,#c9973e 60%,#8a5f18)}
+body[data-birthday-sign] .birthday-sign-root .v-bow{left:50%;top:50%;width:220px;height:140px;margin:-60px 0 0 -110px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
+body[data-birthday-sign] .birthday-sign-root .v-bow-old{background:
+  radial-gradient(ellipse 36px 30px at 30% 50%,#f6dc94 0 55%,#9c6f22 56% 70%,transparent 72%),radial-gradient(ellipse 36px 30px at 70% 50%,#f6dc94 0 55%,#9c6f22 56% 70%,transparent 72%),radial-gradient(circle 16px at 50% 50%,#e8c06a 0 80%,#8a5f18 82% 100%,transparent 100%)}
+body[data-birthday-sign] .birthday-sign-root .v-iris{inset:-30vmax;background:radial-gradient(circle,#f3d48c 0 3.2vmax,#2a190e 3.3vmax 4.4vmax,transparent 4.5vmax),repeating-conic-gradient(from 0deg,#2a190e 0 7deg,#c99a4b 7deg 8deg,#22140a 8deg 15deg)}
+body[data-birthday-sign] .birthday-sign-root .v-curtain{inset:0;background:radial-gradient(120% 70% at 50% 100%,rgba(185,166,255,.35),transparent 60%),repeating-linear-gradient(90deg,#141a45 0 22px,#1f2760 22px 40px,#10153a 40px 64px),#0f1233;box-shadow:0 30px 60px rgba(0,0,0,.5)}
+body[data-birthday-sign] .birthday-sign-root .v-curtain::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22px;background:repeating-linear-gradient(90deg,#d9d4f0 0 6px,#8f86b8 6px 12px)}
+body[data-birthday-sign] .birthday-sign-root .v-black{inset:0;background:#05040a}
+body[data-birthday-sign] .birthday-sign-root .v-space{inset:0;background:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 70% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 80% 70%,#fff,transparent),radial-gradient(1px 1px at 35% 80%,#fff,transparent),linear-gradient(160deg,#10153d,#2a1a5e)}
+body[data-birthday-sign] .birthday-sign-root .v-count{left:50%;top:50%;transform:translate(-50%,-50%);font:700 min(40vw,300px)/1 Fredoka;color:#ffd84a;text-shadow:0 8px 0 #c2410c,0 0 60px rgba(255,216,74,.5)}
+body[data-birthday-sign] .birthday-sign-root .v-rocket{left:0;top:0;width:120px;height:178px;margin:-89px 0 0 -60px}
+body[data-birthday-sign] .birthday-sign-root .v-fade{inset:0}
+
+/* ---------- 1 · CAJA DE REGALO ---------- */
+body[data-birthday-sign][data-world=caja]{--bg:#f7eaee;--ink:#3a1830;--muted:#6e4a62;--accent:#8a5a1c;--line:#8a5a1c3d;--btn:#3a1830;--btn-ink:#f7eaee;
+  --tube:#c98a2e;--tube-core:#b07a22;--tube-off:rgba(138,90,28,.3);--gold:#c98a2e;--glow-strength:.25;--wdot:#c98a2e;--cable:#b8862e;--warm:.7s;--shelf:#7a2c5e;--shelf-top:#a24a82}
+body[data-birthday-sign].dark[data-world=caja]{--bg:#2a1226;--ink:#f7e6ee;--muted:#d9b9cb;--accent:#e2c07a;--line:#e2c07a40;--btn:#e2c07a;--btn-ink:#2a1226;--glow-strength:.5;--shelf:#4a1838;--shelf-top:#6a2652}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root h1 em,body[data-birthday-sign][data-world=xv] .birthday-sign-root h1 em{display:inline-block;margin-top:.14em;font:400 1.12em/1 "Pinyon Script";letter-spacing:0}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .sign{filter:drop-shadow(0 22px 26px rgba(58,24,48,.35)) brightness(calc(1 - var(--handoff) * .35))}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate{background:radial-gradient(120% 80% at 30% 0%,#fffaf1,#f4e4c8 70%,#ead4b0);border-radius:1.4cqi;clip-path:polygon(9% 0,100% 0,100% 100%,9% 100%,0 72%,0 28%);box-shadow:inset 0 0 0 .8cqi #fffaf1,inset 0 0 0 1cqi #c9973e;padding-left:12cqi;backdrop-filter:none;-webkit-backdrop-filter:none}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate::before{opacity:1;border-radius:0;background:repeating-linear-gradient(115deg,rgba(150,110,60,.05) 0 2px,transparent 2px 7px)}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .deco{display:block;left:4.2cqi;top:50%;width:3.4cqi;height:3.4cqi;margin-top:-1.7cqi;border-radius:50%;background:var(--bg);box-shadow:0 0 0 .7cqi #c9973e,inset 0 .3cqi .5cqi rgba(0,0,0,.3)}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .screw{display:none}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .word{--fs:21cqi;font-family:"Pinyon Script",cursive;transform:translateY(-.5cqi)}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .word .t{padding:.3em .08em .2em;margin:-.3em -.08em -.2em;color:rgba(150,110,60,.18);text-shadow:0 1px 0 rgba(255,255,255,.7)}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .word .t.on{color:#a8721f;background:linear-gradient(180deg,#e9c46a,#a8721f 55%,#7a4f12);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8)) drop-shadow(0 -1px 0 rgba(90,55,10,.25))}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .num .core{stroke:rgba(150,110,60,.2);stroke-width:7}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .num .t.on .core{stroke:#b07a22}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .num .t,body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .num .t.on{filter:drop-shadow(0 1px 0 rgba(255,255,255,.8)) drop-shadow(0 -1px 0 rgba(90,55,10,.25))}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .sub{font-family:NocheManrope;font-weight:600;color:rgba(150,110,60,.3);text-shadow:none}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .sub.on{color:#8a5a1c;text-shadow:none}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .shelf::before{background:linear-gradient(var(--shelf-top),var(--shelf) 40%,color-mix(in srgb,var(--shelf) 70%,#000))}
+
+/* ---------- 2 · BAR CLANDESTINO ---------- */
+body[data-birthday-sign][data-world=bar]{--bg:#efe2cc;--ink:#2b1a0f;--muted:#6b5340;--accent:#8a6420;--line:#8a64203d;--btn:#2b1a0f;--btn-ink:#efe2cc;
+  --tube:#ffb24a;--tube-core:#b97a1c;--tube-off:rgba(140,100,40,.3);--gold:#ffb24a;--bulb:#ffad3a;--bulb-core:#ffd690;--glow-strength:.45;--wdot:#d6b26a;--cable:#a8803a;--warm:.8s;--shelf:#3a2414;--shelf-top:#5a3a20}
+body[data-birthday-sign].dark[data-world=bar]{--bg:#1c120b;--ink:#f1e1bf;--muted:#cdb68f;--accent:#d6b26a;--line:#d6b26a40;--btn:#d6b26a;--btn-ink:#1c120b;--glow-strength:1}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root h1,body[data-birthday-sign][data-world=bar] .birthday-sign-root .styles h2{font-family:"Poiret One";font-weight:400;letter-spacing:-.01em}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root h1 em{font:400 1em/.98 "Poiret One"}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .sign{filter:drop-shadow(0 24px 30px rgba(20,10,4,.5)) brightness(calc(1 - var(--handoff) * .35))}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate{background:radial-gradient(90% 70% at 50% 40%,#3d2616,#22140a);border-radius:1.8cqi;padding:6.5cqi 7cqi 5.5cqi;box-shadow:inset 0 0 0 .7cqi #c99a4b,inset 0 0 0 .9cqi #6b4a1c,inset 0 0 0 4.6cqi #2a190e,inset 0 0 0 4.75cqi #c99a4b;backdrop-filter:none;-webkit-backdrop-filter:none}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate::before{opacity:1;background:linear-gradient(180deg,rgba(255,230,180,.08),transparent 40%)}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .deco,body[data-birthday-sign][data-world=bar] .birthday-sign-root .deco2{display:block;inset:1.5cqi;border-radius:1.2cqi;padding:2.4cqi;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .deco{background:radial-gradient(circle,#5a4320 0 32%,transparent 38%) 0 0/2.4cqi 2.4cqi space}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .deco2{background:radial-gradient(circle,#fff3cf 0 22%,#ffc45c 34%,transparent 44%) 0 0/2.4cqi 2.4cqi space;opacity:var(--lit,0);filter:drop-shadow(0 0 .5cqi #ffb24a);transition:opacity .2s}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .sign.party .deco2{animation:bs-marquee .35s steps(2) infinite}
+@keyframes bs-marquee{50%{background-position:1.2cqi 0}}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .screw{display:none}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate .word{--fs:15cqi;font-family:"Poiret One",sans-serif;letter-spacing:.03em;transform:none}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate .word .t{color:#5a4320}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate .word .t.on{color:#f6dc9c;text-shadow:0 0 .4cqi rgba(255,210,130,.9),0 0 1.6cqi rgba(255,170,60,.6),0 0 4cqi rgba(255,150,40,.35)}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate .num .core{stroke:#5a4320;stroke-width:5}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate .num .t.on .core{stroke:#f6dc9c}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate .num .t.on{filter:drop-shadow(0 0 2px #ffd690) drop-shadow(0 0 10px rgba(255,170,60,.7))}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate .sub{font-family:"Poiret One";font-weight:400;color:#5a4320;text-shadow:none}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate .sub.on{color:#e9c47a;text-shadow:0 0 1cqi rgba(255,170,60,.5)}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .shelf::before{height:20px;background:linear-gradient(#c99a4b 0 3px,#6b3f1e 3px,#3a2414 60%,#22140a)}
+
+/* ---------- 3 · GALA DE XV ---------- */
+body[data-birthday-sign][data-world=xv]{--bg:#eeeaf8;--ink:#1d1840;--muted:#5b557a;--accent:#6a4fc4;--line:#6a4fc43d;--btn:#1d1840;--btn-ink:#eeeaf8;
+  --tube:#9b7cff;--tube-core:#6a4fc4;--tube-off:rgba(106,79,196,.25);--gold:#b9a6ff;--bulb:#cfc4ff;--bulb-core:#ffffff;--glow-strength:.5;--wdot:#b9a6ff;--cable:#b8b1d8;--warm:.9s;--shelf:#cfc9e6;--shelf-top:#f4f2fb}
+body[data-birthday-sign].dark[data-world=xv]{--bg:#0f1233;--ink:#ece8ff;--muted:#bdb5e6;--accent:#c9bbff;--line:#c9bbff40;--btn:#c9bbff;--btn-ink:#0f1233;--glow-strength:1;--shelf:#2a2a5a;--shelf-top:#4a4a86}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate{background:linear-gradient(160deg,rgba(255,255,255,.4),rgba(210,200,255,.12) 60%,rgba(255,255,255,.3));border-radius:22cqi 22cqi 2.4cqi 2.4cqi/9cqi 9cqi 2.4cqi 2.4cqi;padding-top:7cqi;box-shadow:inset 0 0 0 .5cqi #e9e5ff,inset 0 0 0 .75cqi #8f86b8,inset 0 0 0 1.4cqi rgba(233,229,255,.35),0 24px 46px -20px rgba(29,24,64,.45)}
+body[data-birthday-sign].dark[data-world=xv] .birthday-sign-root .plate{background:linear-gradient(160deg,rgba(255,255,255,.12),rgba(160,140,255,.06) 60%,rgba(255,255,255,.1))}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .deco{display:block;left:50%;top:-6.4cqi;width:17cqi;height:8cqi;margin-left:-8.5cqi;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 56'%3E%3Cg fill='none' stroke='%23b9b0e6' stroke-width='2.4' stroke-linejoin='round'%3E%3Cpath d='M6 52 18 22l16 16 26-34 26 34 16-16 12 30Z'/%3E%3Cpath d='M10 52h100' stroke-width='3'/%3E%3C/g%3E%3Cg fill='%23fff' stroke='%238f86b8' stroke-width='1'%3E%3Ccircle cx='60' cy='4' r='4'/%3E%3Ccircle cx='18' cy='22' r='3'/%3E%3Ccircle cx='102' cy='22' r='3'/%3E%3Ccircle cx='60' cy='36' r='5' fill='%23b9a6ff'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 calc(var(--lit,0) * 8px) rgba(255,255,255,.9))}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .screw{background:radial-gradient(circle at 35% 30%,#fff,#d9d4f0 45%,#8f86b8)}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .word{--fs:21cqi;font-family:"Pinyon Script",cursive;transform:translateY(-.5cqi)}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .word .t{color:rgba(106,79,196,.2)}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .word .t.on{color:#5b40b8;text-shadow:0 0 .3cqi #fff,0 0 1.6cqi rgba(185,166,255,.8)}
+body[data-birthday-sign].dark[data-world=xv] .birthday-sign-root .plate .word .t.on{color:#fff;text-shadow:0 0 .4cqi #fff,0 0 1.5cqi #b9a6ff,0 0 4cqi #8e6bff}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .num .core{stroke:rgba(106,79,196,.2);stroke-width:5}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .num .t.on .core{stroke:#7a62d4}
+body[data-birthday-sign].dark[data-world=xv] .birthday-sign-root .plate .num .t.on .core{stroke:#fff}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .num .t.on{filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 10px rgba(185,166,255,.8))}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .sub{font-family:NocheSora;font-weight:300;color:rgba(106,79,196,.3);text-shadow:none}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .sub.on{color:var(--accent);text-shadow:0 0 1cqi rgba(185,166,255,.6)}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .shelf::before{background:radial-gradient(60% 200% at 30% 0,rgba(255,255,255,.6),transparent),linear-gradient(var(--shelf-top),var(--shelf) 60%)}
+
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .world-pick{margin-bottom:8.5cqi}
+
+/* ---------- 4 · MISIÓN ESPACIAL ---------- */
+body[data-birthday-sign][data-world=espacio]{--bg:#e6f0ff;--ink:#14213d;--muted:#43557a;--accent:#d9480f;--line:#14213d33;--btn:#ffd84a;--btn-ink:#14213d;
+  --tube:#ffd84a;--tube-core:#ffd84a;--tube-off:#36407a;--gold:#22d3c5;--bulb:#ffd84a;--bulb-core:#fff5c2;--glow-strength:.4;--wdot:#ffd84a;--cable:#7a86b8;--warm:.5s;--shelf:#3a4a8a;--shelf-top:#5a6ab0}
+body[data-birthday-sign].dark[data-world=espacio]{--bg:#10153d;--ink:#f2f5ff;--muted:#b9c3e6;--accent:#ffd84a;--line:#b9c3e640;--glow-strength:1}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root h1,body[data-birthday-sign][data-world=espacio] .birthday-sign-root .styles h2{font-family:Fredoka;font-weight:500;letter-spacing:-.02em}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root h1 em{font:700 1em/.98 Fredoka;color:var(--accent)}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .sign{filter:drop-shadow(0 24px 30px rgba(10,14,40,.45)) brightness(calc(1 - var(--handoff) * .35))}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate{background:linear-gradient(180deg,#22306a,#141c48);border-radius:3.6cqi;padding-top:7cqi;box-shadow:inset 0 0 0 .6cqi #3a4a8a,inset 0 0 0 1cqi #141c48,inset 0 -1.2cqi 0 1cqi rgba(0,0,0,.25);backdrop-filter:none;-webkit-backdrop-filter:none}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate::before{opacity:1;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 2px,transparent 2px 5px)}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .deco{display:block;top:2.6cqi;left:50%;width:22cqi;height:1.8cqi;margin-left:-11cqi;background:
+  radial-gradient(circle,#ff5a5f 0 40%,transparent 45%) 0 50%/1.8cqi 1.8cqi no-repeat,radial-gradient(circle,#ffd84a 0 40%,transparent 45%) 3cqi 50%/1.8cqi 1.8cqi no-repeat,radial-gradient(circle,#22d3c5 0 40%,transparent 45%) 6cqi 50%/1.8cqi 1.8cqi no-repeat,
+  linear-gradient(90deg,transparent 9cqi,#3a4a8a 9cqi 22cqi) 0 50%/100% .6cqi no-repeat;opacity:calc(.35 + var(--lit,0) * .65);filter:drop-shadow(0 0 calc(var(--lit,0) * 5px) rgba(255,216,74,.7))}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .deco2{display:block;right:3cqi;bottom:2.4cqi;font:700 max(9px,1.5cqi) Fredoka;letter-spacing:.2em;color:#7ff0ff;opacity:.7}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .deco2::after{content:"T-MENOS 0 · DESPEGUE"}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .screw{background:radial-gradient(circle at 35% 30%,#e6ecff,#8a96c8 45%,#3a4a8a)}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate .word{--fs:16cqi;font-family:Fredoka,sans-serif;font-weight:700;letter-spacing:.01em;transform:none}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate .word .t{color:#2c3570}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate .word .t.on{color:#ffd84a;text-shadow:0 .45cqi 0 #c2410c,0 0 2cqi rgba(255,216,74,.45)}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate .num .core{stroke:#2c3570;stroke-width:9}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate .num .t.on .core{stroke:#22d3c5}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate .num .t.on{filter:drop-shadow(0 0 3px #7ff0ff) drop-shadow(0 0 12px rgba(34,211,197,.7))}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate .sub{font-family:Fredoka;font-weight:500;color:#2c3570;text-shadow:none}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate .sub.on{color:#7ff0ff;text-shadow:0 0 1cqi rgba(127,240,255,.6)}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .shelf::before{height:20px;background:repeating-linear-gradient(-45deg,#ffd84a 0 10px,#14213d 10px 20px) 0 0/100% 4px no-repeat,linear-gradient(#5a6ab0,#3a4a8a 50%,#24306a)}
+
+/* banderines, estrellas, planetas y focos de filamento */
+body[data-birthday-sign] .birthday-sign-root .garland .flag-shape{stroke:rgba(0,0,0,.08);stroke-width:.6}
+body[data-birthday-sign] .birthday-sign-root .garland .star{fill:var(--bulb-off)}
+body[data-birthday-sign] .birthday-sign-root .garland .bulb.on .star{fill:#fff;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px var(--bulb))}
+body[data-birthday-sign] .birthday-sign-root .garland .strand{stroke:color-mix(in srgb,var(--ink) 30%,transparent);stroke-width:1}
+body[data-birthday-sign] .birthday-sign-root .garland .bulb.on .planet{filter:drop-shadow(0 0 6px rgba(255,255,255,.5))}
+body[data-birthday-sign] .birthday-sign-root .garland .edison{fill:var(--bulb-off);stroke:color-mix(in srgb,var(--ink) 25%,transparent);stroke-width:.8}
+body[data-birthday-sign] .birthday-sign-root .garland .bulb.on .edison{fill:#ffcf7d;filter:drop-shadow(0 0 4px #ffad3a) drop-shadow(0 0 14px rgba(255,160,40,.7))}
+body[data-birthday-sign] .birthday-sign-root .garland .filament{fill:none;stroke:#8a5a1c;stroke-width:.8}
+body[data-birthday-sign] .birthday-sign-root .garland .bulb.on .filament{stroke:#fff6d0}
+
+@media (max-width:900px){
+  body[data-birthday-sign] .birthday-sign-root .world-pick{margin:0 0 10px}
+  body[data-birthday-sign] .birthday-sign-root .world-menu{left:0;margin-left:0;width:min(290px,calc(100vw - 32px))}
+  body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate{padding-left:10cqi}
+  body[data-birthday-sign][data-world=espacio] .birthday-sign-root .deco2{display:none}
+}
+@media (prefers-reduced-motion:reduce){ body[data-birthday-sign][data-world=bar] .birthday-sign-root .sign.party .deco2{animation:none} }
+
+/* =====================================================================
+   v5 · 50 MEJORAS: 10 POR ESTILO
+   ===================================================================== */
+body[data-birthday-sign] .birthday-sign-root .props{display:flex;align-items:flex-end;gap:14px;position:relative;z-index:1;margin-left:auto;margin-right:12px}
+body[data-birthday-sign] .birthday-sign-root .props>*{display:none}
+body[data-birthday-sign] .birthday-sign-root .reflect,body[data-birthday-sign] .birthday-sign-root .satin,body[data-birthday-sign] .birthday-sign-root .planets,body[data-birthday-sign] .birthday-sign-root .floor,body[data-birthday-sign] .birthday-sign-root .rainbows,body[data-birthday-sign] .birthday-sign-root .astro,body[data-birthday-sign] .birthday-sign-root .tissue,body[data-birthday-sign] .birthday-sign-root .chandelier,body[data-birthday-sign] .birthday-sign-root .wrapper,body[data-birthday-sign] .birthday-sign-root .door,body[data-birthday-sign] .birthday-sign-root .bow-btn,body[data-birthday-sign] .birthday-sign-root .bow-hint,body[data-birthday-sign] .birthday-sign-root .transformer,body[data-birthday-sign] .birthday-sign-root .motel-arrow,body[data-birthday-sign] .birthday-sign-root .radar,body[data-birthday-sign] .birthday-sign-root .seal,body[data-birthday-sign] .birthday-sign-root .nib,body[data-birthday-sign] .birthday-sign-root .countdown,body[data-birthday-sign] .birthday-sign-root .xv-chips{display:none}
+
+/* ---------------- NEÓN ---------------- */
+/* 1 · gas real: rosa y ámbar encienden de golpe; el argón se calienta granulado */
+body[data-birthday-sign][data-world=neon]{--wdot:var(--tube)}
+body[data-birthday-sign][data-world=neon][data-tube=rosa],body[data-birthday-sign][data-world=neon][data-tube=ambar]{--warm:.12s}
+body[data-birthday-sign][data-world=neon]:is([data-tube=menta],[data-tube=violeta],[data-tube=cielo]) .birthday-sign-root .word .t.warming{filter:url(#bs-argon) brightness(1.1);animation:bs-argon 1s steps(8)}
+@keyframes bs-argon{0%{opacity:.5}25%{opacity:.85}40%{opacity:.6}70%{opacity:.95}100%{opacity:1}}
+/* 2 · sombra de los tubos sobre el acrílico */
+body[data-birthday-sign][data-world=neon] .birthday-sign-root .plate>.tubes{filter:drop-shadow(var(--tsx,0px) var(--tsy,8px) 3px rgba(40,20,40,.3))}
+body[data-birthday-sign].dark[data-world=neon] .birthday-sign-root .plate>.tubes{filter:drop-shadow(var(--tsx,0px) var(--tsy,8px) 3px rgba(0,0,0,.65))}
+/* 3 · reflejo en la repisa */
+body[data-birthday-sign][data-world=neon] .birthday-sign-root .shelf{height:66px}
+body[data-birthday-sign][data-world=neon] .birthday-sign-root .shelf::before{height:40px;background:linear-gradient(180deg,color-mix(in srgb,var(--shelf-top) 70%,#fff) 0,var(--shelf-top) 5%,var(--shelf) 72%,color-mix(in srgb,var(--shelf) 55%,#000) 100%)}
+body[data-birthday-sign][data-world=neon] .birthday-sign-root .reflect{display:block;position:absolute;left:3%;right:3%;bottom:12px;height:27px;overflow:hidden;pointer-events:none}
+body[data-birthday-sign] .birthday-sign-root .reflect>.tubes{transform-origin:50% 0;transform:translateY(32%) scaleY(-.32);filter:blur(1.1px);opacity:.55;-webkit-mask:linear-gradient(to top,#000,transparent 65%);mask:linear-gradient(to top,#000,transparent 65%)}
+body[data-birthday-sign] .birthday-sign-root .reflect .word::before,body[data-birthday-sign] .birthday-sign-root .reflect .word::after,body[data-birthday-sign] .birthday-sign-root .reflect .cap,body[data-birthday-sign] .birthday-sign-root .reflect .behind{display:none}
+/* 4 · brillo residual al apagar */
+body[data-birthday-sign] .birthday-sign-root .word .t.afterglow{transition:color 1.1s ease-out,text-shadow 1.1s ease-out!important}
+body[data-birthday-sign] .birthday-sign-root .num .t.afterglow .core,body[data-birthday-sign] .birthday-sign-root .num .t.afterglow .core2{transition:stroke 1.1s ease-out!important}
+/* 5 · transformador */
+body[data-birthday-sign][data-world=neon] .birthday-sign-root .transformer{display:grid;place-items:center;position:relative;width:58px;height:42px;border-radius:7px;background:linear-gradient(160deg,#4a4458,#2a2636);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 6px 14px -6px rgba(0,0,0,.6);font:700 10px NocheManrope;letter-spacing:.08em;color:#e8e2d4}
+body[data-birthday-sign] .birthday-sign-root .transformer i{position:absolute;top:6px;right:7px;width:5px;height:5px;border-radius:50%;background:#5a3030;transition:background .3s,box-shadow .3s}
+body[data-birthday-sign] .birthday-sign-root .switch-wrap:has(.switch[aria-checked=true]) .transformer i{background:#ff5050;box-shadow:0 0 6px #ff5050}
+body[data-birthday-sign] .birthday-sign-root .transformer::before,body[data-birthday-sign] .birthday-sign-root .transformer::after{content:"";position:absolute;bottom:-5px;width:8px;height:5px;border-radius:0 0 2px 2px;background:#1a1722}
+body[data-birthday-sign] .birthday-sign-root .transformer::before{left:9px}body[data-birthday-sign] .birthday-sign-root .transformer::after{right:9px}
+/* 6 · letra rebelde */
+body[data-birthday-sign] .birthday-sign-root .word .t.rebel{cursor:pointer;animation:bs-rebel 1.8s steps(1) infinite}
+@keyframes bs-rebel{0%,100%{color:var(--tube-off);text-shadow:none}8%{color:var(--tube-core);text-shadow:0 0 1cqi var(--tube)}11%{color:var(--tube-off);text-shadow:none}54%{color:var(--tube-core);text-shadow:0 0 .6cqi var(--tube)}56%{color:var(--tube-off);text-shadow:none}}
+body[data-birthday-sign] .birthday-sign-root .word .t.thunk{animation:bs-thunk .4s cubic-bezier(.3,1.8,.5,1)}
+@keyframes bs-thunk{30%{transform:translateY(.6cqi) scale(1.06)}}
+body[data-birthday-sign] .birthday-sign-root .plate[aria-hidden] .word .t.rebel{pointer-events:auto}
+/* 9 · edad en doble tubo */
+body[data-birthday-sign] .birthday-sign-root .num .core2{stroke-width:3.2;stroke:transparent;transform:translate(7px,6px)}
+body[data-birthday-sign][data-world=neon] .birthday-sign-root .num .t.on .core2{stroke:var(--tube-core)}
+body[data-birthday-sign][data-world=neon] .birthday-sign-root .num .t .core2{stroke:var(--tube-off)}
+/* 10 · estilo Motel con flecha */
+body[data-birthday-sign] .birthday-sign-root .seg [data-s=motel]{font-family:Yellowtail;font-size:18px;line-height:1}
+body[data-birthday-sign] .birthday-sign-root .plate[data-style=motel] .word{--fs:19cqi;font-family:Yellowtail,cursive;transform:translateY(-1.6cqi)}
+body[data-birthday-sign][data-world=neon] .birthday-sign-root .plate[data-style=motel] .motel-arrow{display:block;position:absolute;left:4%;bottom:-3.4cqi;width:44cqi;height:9cqi;overflow:visible;pointer-events:none}
+body[data-birthday-sign] .birthday-sign-root .motel-arrow path{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+body[data-birthday-sign] .birthday-sign-root .motel-arrow .ma-off{stroke:var(--tube-off)}
+body[data-birthday-sign] .birthday-sign-root .motel-arrow .ma-on{stroke:var(--tube-core);opacity:var(--lit,0);filter:drop-shadow(0 0 2px var(--tube)) drop-shadow(0 0 8px var(--tube))}
+
+/* ---------------- CAJA DE REGALO ---------------- */
+/* 1 · jalar el listón para desenvolver */
+body[data-birthday-sign] .birthday-sign-root .sign-zone.is-wrapped .wrapper{display:block}
+body[data-birthday-sign] .birthday-sign-root .wrapper{position:absolute;inset:-1.4cqi;z-index:6;pointer-events:none}
+body[data-birthday-sign] .birthday-sign-root .wrapper .wp{position:absolute;top:0;bottom:0;width:50.5%;transition:transform .75s cubic-bezier(.6,0,.3,1),opacity .6s;
+  background:repeating-linear-gradient(45deg,rgba(226,192,122,.2) 0 2px,transparent 2px 22px),repeating-linear-gradient(-45deg,rgba(226,192,122,.2) 0 2px,transparent 2px 22px),linear-gradient(180deg,#7a2c5e,#4a1838);box-shadow:0 18px 30px -12px rgba(58,24,48,.55)}
+body[data-birthday-sign] .birthday-sign-root .wrapper .wp.l{left:0;border-radius:1.4cqi 0 0 1.4cqi;transform:translateX(calc(var(--pull,0) * -5%)) rotate(calc(var(--pull,0) * -1.5deg))}
+body[data-birthday-sign] .birthday-sign-root .wrapper .wp.r{right:0;border-radius:0 1.4cqi 1.4cqi 0;transform:translateX(calc(var(--pull,0) * 5%)) rotate(calc(var(--pull,0) * 1.5deg))}
+body[data-birthday-sign] .birthday-sign-root .wrapper i{position:absolute;background:linear-gradient(90deg,#9c6f22,#f6dc94 40%,#c9973e 60%,#8a5f18);transition:opacity .4s,transform .5s}
+body[data-birthday-sign] .birthday-sign-root .wrapper .wr-v{left:50%;top:-1cqi;bottom:-1cqi;width:5cqi;margin-left:-2.5cqi}
+body[data-birthday-sign] .birthday-sign-root .wrapper .wr-h{top:50%;left:-1cqi;right:-1cqi;height:5cqi;margin-top:-2.5cqi;background:linear-gradient(180deg,#9c6f22,#f6dc94 40%,#c9973e 60%,#8a5f18)}
+body[data-birthday-sign] .birthday-sign-root .sign-zone.is-unwrapping .wrapper .wp.l{transform:translateX(-40%) rotate(-10deg);opacity:0}
+body[data-birthday-sign] .birthday-sign-root .sign-zone.is-unwrapping .wrapper .wp.r{transform:translateX(40%) rotate(10deg);opacity:0}
+body[data-birthday-sign] .birthday-sign-root .sign-zone.is-unwrapping .wrapper i{opacity:0}
+body[data-birthday-sign] .birthday-sign-root .sign-zone.is-unwrapping .wrapper .wr-v{transform:translateY(-60%)}
+body[data-birthday-sign] .birthday-sign-root .sign-zone.is-wrapped .bow-btn{display:block}
+body[data-birthday-sign] .birthday-sign-root .bow-btn{position:absolute;z-index:9;left:50%;top:var(--bowy,50%);width:20cqi;height:13cqi;margin:-6.5cqi 0 0 -10cqi;padding:0;border:0;background:none;cursor:grab;touch-action:none;filter:drop-shadow(0 8px 12px rgba(58,24,48,.45));transition:transform .45s cubic-bezier(.3,1.6,.5,1),opacity .3s}
+body[data-birthday-sign] .birthday-sign-root .bow-btn:active{cursor:grabbing;transition:none}
+body[data-birthday-sign] .birthday-sign-root .bow-btn svg{width:100%;height:100%}
+body[data-birthday-sign] .birthday-sign-root .bow-btn:hover{filter:drop-shadow(0 8px 12px rgba(58,24,48,.45)) brightness(1.08)}
+body[data-birthday-sign] .birthday-sign-root .sign-zone.is-unwrapping .bow-btn{opacity:0;transform:translateY(-40px) scale(.6)!important}
+body[data-birthday-sign] .birthday-sign-root .sign-zone.is-wrapped .bow-hint{display:block}
+body[data-birthday-sign] .birthday-sign-root .bow-hint{position:absolute;z-index:9;left:50%;top:calc(var(--bowy,50%) + 7.5cqi);transform:translateX(-50%);padding:5px 12px;border-radius:999px;background:var(--ink);color:var(--bg);font:600 12px NocheManrope;white-space:nowrap;animation:bs-hint 1.6s ease-in-out infinite;pointer-events:none}
+@keyframes bs-hint{50%{transform:translate(-50%,4px)}}
+body[data-birthday-sign] .birthday-sign-root .sign-zone.is-unwrapping .bow-hint{display:none}
+/* 2 · nombre escrito a pluma */
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .word .t{clip-path:inset(-45% 105% -45% -12%);transition:clip-path .32s ease-out}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .word .t.on{clip-path:inset(-45% -12% -45% -12%)}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .num .core{stroke-dasharray:1 1;stroke-dashoffset:1;transition:stroke-dashoffset .8s ease-in-out,stroke .3s}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .num .t.on .core{stroke-dashoffset:0}
+body[data-birthday-sign] .birthday-sign-root .nib{position:absolute;left:0;top:0;z-index:4;pointer-events:none;opacity:0;transition:transform .14s linear,opacity .3s}
+body[data-birthday-sign] .birthday-sign-root .nib.show{opacity:1}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .nib{display:block;width:1.6cqi;height:1.6cqi;margin:-.8cqi 0 0 -.8cqi;border-radius:50%;background:radial-gradient(circle,#fffbe6,#f3cf6a 50%,transparent 70%);box-shadow:0 0 1.2cqi #f6dc94}
+/* 3 · brillo de lámina dorada */
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .word .t.on{background:linear-gradient(100deg,transparent 0 38%,rgba(255,252,225,.95) 46%,transparent 54% 100%) 100% 0/260% 100% no-repeat,linear-gradient(180deg,#e9c46a,#a8721f 55%,#7a4f12);-webkit-background-clip:text;background-clip:text}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .sign:hover .word .t.on{animation:bs-foil 1s ease-out calc(var(--i,0) * 55ms) both}
+@keyframes bs-foil{from{background-position:100% 0,0 0}to{background-position:0 0,0 0}}
+/* 4 · papel de seda */
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .tissue{display:block;position:absolute;inset:-5cqi -3cqi auto;height:16cqi;z-index:-1;pointer-events:none;transform:translateX(calc(var(--rxn,0) * -8px))}
+body[data-birthday-sign] .birthday-sign-root .tissue i{position:absolute;width:24cqi;height:15cqi;background:linear-gradient(160deg,#fff,#f6d3df 60%,#efc1d0);clip-path:polygon(0 60%,12% 18%,30% 30%,46% 0,62% 22%,80% 6%,100% 40%,92% 100%,8% 100%);transform-origin:50% 100%;animation:bs-tissue 5s ease-in-out infinite alternate;opacity:.95}
+body[data-birthday-sign] .birthday-sign-root .tissue i:nth-child(1){left:6%;transform:rotate(-10deg)}body[data-birthday-sign] .birthday-sign-root .tissue i:nth-child(2){left:38%;top:-1.5cqi;animation-delay:-1.6s;background:linear-gradient(160deg,#fff,#fbeef2)}body[data-birthday-sign] .birthday-sign-root .tissue i:nth-child(3){right:6%;transform:rotate(9deg);animation-delay:-3s}
+@keyframes bs-tissue{to{transform:rotate(3deg) translateY(-.6cqi)}}
+/* 5 · cordón de yute */
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .cables{z-index:5}
+body[data-birthday-sign] .birthday-sign-root .cables .jute{fill:none;stroke:#b8925a;stroke-width:3.4;stroke-linecap:round}
+body[data-birthday-sign] .birthday-sign-root .cables .jute2{fill:none;stroke:#7e5f30;stroke-width:3.4;stroke-dasharray:2.5 4;stroke-linecap:round}
+/* 7 · sello de lacre */
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .seal{display:grid;place-items:center;position:absolute;right:3.4cqi;bottom:2cqi;width:7.5cqi;height:7.5cqi;transform:rotate(-14deg);
+  background:radial-gradient(circle at 38% 32%,#e0605a,#a3201f 55%,#6e1010);clip-path:polygon(50% 0,61% 6%,74% 4%,80% 15%,93% 20%,92% 33%,100% 45%,94% 56%,98% 70%,86% 77%,82% 90%,68% 92%,58% 100%,46% 94%,33% 98%,25% 87%,11% 83%,10% 70%,1% 60%,6% 47%,2% 34%,13% 25%,15% 12%,29% 10%,38% 2%);
+  font:600 3.6cqi NocheSora;color:#7a1414;text-shadow:0 1px 0 rgba(255,160,150,.6),0 -1px 0 rgba(0,0,0,.35)}
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .plate .sub{margin-right:auto;margin-left:0}
+/* 6 · caja sobre la repisa */
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .giftbox{display:block;position:relative;width:46px;height:40px}
+body[data-birthday-sign] .birthday-sign-root .giftbox .gb{position:absolute;left:3px;right:3px;bottom:0;height:30px;background:linear-gradient(90deg,transparent 42%,#e8c06a 42% 58%,transparent 58%),linear-gradient(160deg,#9a3a76,#6a2652);border-radius:2px}
+body[data-birthday-sign] .birthday-sign-root .giftbox .lid{position:absolute;left:0;right:0;bottom:28px;height:10px;background:linear-gradient(90deg,transparent 42%,#f6dc94 42% 58%,transparent 58%),linear-gradient(160deg,#b24a8a,#7a2c5e);border-radius:2px;transform-origin:20% 100%}
+body[data-birthday-sign] .birthday-sign-root .giftbox .lid::after{content:"";position:absolute;left:50%;top:-9px;width:22px;height:11px;margin-left:-11px;background:radial-gradient(ellipse 6px 5px at 30% 60%,#f6dc94 70%,transparent 72%),radial-gradient(ellipse 6px 5px at 70% 60%,#f6dc94 70%,transparent 72%)}
+body[data-birthday-sign] .birthday-sign-root .giftbox .curl{position:absolute;left:50%;bottom:34px;width:70px;height:70px;margin-left:-35px;opacity:0;pointer-events:none}
+body[data-birthday-sign] .birthday-sign-root .giftbox .curl path{fill:none;stroke-width:2.4;stroke-linecap:round;stroke-dasharray:120;stroke-dashoffset:120}
+body[data-birthday-sign] .birthday-sign-root .giftbox.pop .lid{animation:bs-lid 1s cubic-bezier(.3,1.5,.5,1)}
+@keyframes bs-lid{0%{transform:none}25%{transform:translateY(-26px) rotate(-28deg)}70%{transform:translateY(-22px) rotate(-24deg)}100%{transform:none}}
+body[data-birthday-sign] .birthday-sign-root .giftbox.pop .curl{opacity:1;transition:opacity .4s 1.2s}
+body[data-birthday-sign] .birthday-sign-root .giftbox.pop .curl path{animation:bs-curl .9s ease-out forwards}
+@keyframes bs-curl{to{stroke-dashoffset:0}}
+/* 9 · papel satinado */
+body[data-birthday-sign][data-world=caja] .birthday-sign-root .satin{display:block;position:absolute;inset:0;z-index:1;background:linear-gradient(115deg,transparent 25%,rgba(255,255,255,.22) 40%,transparent 52%,rgba(255,255,255,.12) 68%,transparent 80%) 0 0/220% 100%;animation:bs-satin 16s ease-in-out infinite alternate;mix-blend-mode:soft-light}
+@keyframes bs-satin{to{background-position:100% 0}}
+
+/* ---------------- BAR CLANDESTINO ---------------- */
+/* 1 · entrada por la mirilla */
+body[data-birthday-sign] .birthday-sign-root .sign-zone.door-in .door{display:block}
+body[data-birthday-sign] .birthday-sign-root .door{position:absolute;inset:-1cqi;z-index:7;border-radius:1.8cqi;transform-origin:0 50%;transition:transform .85s cubic-bezier(.6,0,.3,1);
+  background:linear-gradient(90deg,transparent 49.6%,rgba(0,0,0,.35) 49.6% 50.4%,transparent 50.4%),repeating-linear-gradient(92deg,#3a2414 0 9px,#432a17 9px 11px,#341f10 11px 22px);box-shadow:inset 0 0 0 .7cqi #c99a4b,inset 0 0 0 1.4cqi #2a190e,0 24px 30px -12px rgba(0,0,0,.6)}
+body[data-birthday-sign] .birthday-sign-root .door .slot{position:absolute;left:50%;top:24%;width:24cqi;height:4.4cqi;margin-left:-12cqi;border-radius:.8cqi;overflow:hidden;background:radial-gradient(60% 120% at 50% 50%,#ffcf7d,#c26a10 60%,#3a1a04);box-shadow:inset 0 0 0 .45cqi #c99a4b}
+body[data-birthday-sign] .birthday-sign-root .door .slot::after{content:"";position:absolute;inset:.45cqi;border-radius:.4cqi;background:linear-gradient(#5a3a20,#2a190e);transition:transform .45s cubic-bezier(.6,0,.3,1)}
+body[data-birthday-sign] .birthday-sign-root .door.peek .slot::after{transform:translateX(102%)}
+body[data-birthday-sign] .birthday-sign-root .door .knob-d{position:absolute;right:6%;top:52%;width:2.6cqi;height:2.6cqi;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3cf,#c99a4b 50%,#6b4a1c)}
+body[data-birthday-sign] .birthday-sign-root .door.open{transform:perspective(1400px) rotateY(-102deg)}
+/* 3 · marquesina siempre viva */
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .deco2{animation:bs-marquee 1.4s steps(2) infinite}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .sign.party .deco2{animation-duration:.3s}
+body[data-birthday-sign][data-journey-motion=paused][data-world=bar] .birthday-sign-root .deco2{animation-play-state:paused}
+/* 5 · números art déco */
+body[data-birthday-sign] .birthday-sign-root .num .deco-num{font:400 160px "Poiret One";fill:#5a4320;stroke:none!important;transition:fill .5s}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .plate .num .t.on .deco-num{fill:#f6dc9c}
+/* 6 · cristalería */
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .glass-prop{display:block;position:relative;width:30px;height:36px;padding:0;border:2px solid rgba(255,245,220,.55);border-top-color:rgba(255,245,220,.3);border-bottom-width:5px;border-radius:2px 2px 4px 4px;background:linear-gradient(90deg,rgba(255,255,255,.18),transparent 40%);cursor:pointer;transition:transform .3s}
+body[data-birthday-sign] .birthday-sign-root .glass-prop::before{content:"";position:absolute;left:0;right:0;bottom:0;height:52%;background:linear-gradient(#d9892a,#9a4f0a);opacity:.85}
+body[data-birthday-sign] .birthday-sign-root .glass-prop::after{content:"";position:absolute;left:4px;bottom:9px;width:10px;height:10px;border-radius:2px;background:rgba(255,255,255,.55);box-shadow:9px -3px 0 -1px rgba(255,255,255,.45);transform:rotate(12deg)}
+body[data-birthday-sign] .birthday-sign-root .glass-prop:hover,body[data-birthday-sign] .birthday-sign-root .glass-prop.clink{animation:bs-wiggle .5s ease-in-out}
+@keyframes bs-wiggle{25%{transform:rotate(-7deg)}55%{transform:rotate(5deg)}80%{transform:rotate(-2deg)}}
+/* 7 · carta de cócteles */
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .board{display:flex;flex-direction:column;align-items:center;justify-content:center;width:118px;height:56px;padding:4px 8px;border-radius:3px;background:radial-gradient(circle at 30% 20%,#3a3a36,#1e1e1c);box-shadow:inset 0 0 0 4px #6b4a1c,0 8px 14px -6px rgba(0,0,0,.6);color:#f1ece0;text-align:center;font-family:Caveat,cursive;line-height:1.05}
+body[data-birthday-sign] .birthday-sign-root .board small{font:700 8px NocheManrope;letter-spacing:.16em;opacity:.7}
+body[data-birthday-sign] .birthday-sign-root .board b{font-size:18px;font-weight:700}
+body[data-birthday-sign] .birthday-sign-root .board span{font-size:11px;opacity:.8}
+/* 8 · tocadiscos */
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .turntable{display:block;position:relative;width:62px;height:44px;padding:0;border:0;border-radius:4px;background:linear-gradient(160deg,#5a3a20,#2e1c0e);box-shadow:0 8px 12px -6px rgba(0,0,0,.6);cursor:pointer;transition:transform .3s var(--ease)}
+body[data-birthday-sign] .birthday-sign-root .turntable:hover{transform:translateY(-2px)}
+body[data-birthday-sign] .birthday-sign-root .turntable .record{position:absolute;left:5px;top:3px;width:38px;height:38px;border-radius:50%;background:radial-gradient(circle,#d6b26a 0 18%,#111 19% 22%,transparent 23%),repeating-radial-gradient(circle,#111 0 1.5px,#2a2a2a 1.5px 2.5px);animation:bs-spin 2.2s linear infinite}
+body[data-birthday-sign] .birthday-sign-root .turntable .arm{position:absolute;right:6px;top:4px;width:3px;height:30px;border-radius:2px;background:#d6b26a;transform-origin:50% 2px;transform:rotate(28deg);transition:transform .5s var(--ease)}
+body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .turntable .record{animation-play-state:paused}
+body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .turntable .arm{transform:rotate(0deg)}
+/* 9 · focos de filamento que se calientan */
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .garland .bulb.on .edison{animation:bs-edison 1.5s ease-out both}
+@keyframes bs-edison{0%{fill:#5a1a00}35%{fill:#d4561a}70%{fill:#ffa64a}100%{fill:#ffcf7d}}
+body[data-birthday-sign][data-world=bar] .birthday-sign-root .garland .bulb.on .filament{animation:bs-filament 1.5s ease-out both}
+@keyframes bs-filament{0%{stroke:#8a3a10}100%{stroke:#fff6d0}}
+
+/* ---------------- GALA DE XV ---------------- */
+body[data-birthday-sign][data-world=xv]{--xv-ink:#5b40b8;--xv-glow:rgba(185,166,255,.85);--xv-glow2:#8e6bff;--xv-sky1:#f3effc;--xv-sky2:#ddd3f6;--xv-c1:#cfc6ef;--xv-c2:#f1edfc;--xv-c3:#bfb4e8}
+body[data-birthday-sign].dark[data-world=xv]{--xv-sky1:#0b0e2c;--xv-sky2:#251a4f;--xv-c1:#141a45;--xv-c2:#2a3378;--xv-c3:#10153a}
+body[data-birthday-sign][data-world=xv][data-xvc=rosa]{--xv-c1:#f0c6d6;--xv-c2:#fdeef3;--xv-c3:#e3a9bf}body[data-birthday-sign].dark[data-world=xv][data-xvc=rosa]{--xv-c1:#4a1430;--xv-c2:#7a2650;--xv-c3:#3a0e24}
+body[data-birthday-sign][data-world=xv][data-xvc=champana]{--xv-c1:#e8d6b0;--xv-c2:#fbf3e2;--xv-c3:#d9c08e}body[data-birthday-sign].dark[data-world=xv][data-xvc=champana]{--xv-c1:#3a2c14;--xv-c2:#6a5228;--xv-c3:#2a1e0c}
+body[data-birthday-sign][data-world=xv][data-xvc=azul]{--xv-c1:#c3cdf0;--xv-c2:#eef1fc;--xv-c3:#a9b6e6}body[data-birthday-sign].dark[data-world=xv][data-xvc=azul]{--xv-c1:#0e1a5a;--xv-c2:#1f3290;--xv-c3:#0a1244}
+body[data-birthday-sign][data-world=xv][data-xvc=rosa]{--bg:#f9eaf1;--accent:#b0306a;--line:#b0306a3d;--btn:#4a1530;--xv-ink:#b0306a;--xv-glow:rgba(255,150,190,.85);--xv-glow2:#ff5c9a;--xv-sky1:#fcf0f5;--xv-sky2:#f3d0df;--tube:#ff7ab0;--wdot:#ff8fb8}
+body[data-birthday-sign].dark[data-world=xv][data-xvc=rosa]{--bg:#2a0f20;--ink:#ffe8f1;--accent:#ffb3cf;--line:#ffb3cf40;--btn:#ffb3cf;--btn-ink:#2a0f20;--xv-sky1:#1e0816;--xv-sky2:#4a1838}
+body[data-birthday-sign][data-world=xv][data-xvc=champana]{--bg:#f6efe2;--accent:#8a6a2a;--line:#8a6a2a3d;--btn:#3a2c14;--xv-ink:#8a6a2a;--xv-glow:rgba(240,210,150,.9);--xv-glow2:#d9b25a;--xv-sky1:#fbf6ec;--xv-sky2:#ecdcbc;--tube:#e6c27a;--wdot:#e6c27a}
+body[data-birthday-sign].dark[data-world=xv][data-xvc=champana]{--bg:#221a10;--ink:#f8efdf;--accent:#ecd09a;--line:#ecd09a40;--btn:#ecd09a;--btn-ink:#221a10;--xv-sky1:#140e06;--xv-sky2:#3a2c18}
+body[data-birthday-sign][data-world=xv][data-xvc=azul]{--bg:#e8ecf9;--accent:#2a44b0;--line:#2a44b03d;--btn:#101c4a;--xv-ink:#2a44b0;--xv-glow:rgba(140,170,255,.9);--xv-glow2:#4a6aff;--xv-sky1:#f0f3fc;--xv-sky2:#cdd6f3;--tube:#6a8aff;--wdot:#6a8aff}
+body[data-birthday-sign].dark[data-world=xv][data-xvc=azul]{--bg:#0a1440;--ink:#e9eeff;--accent:#a9bbff;--line:#a9bbff40;--btn:#a9bbff;--btn-ink:#0a1440;--xv-sky1:#050b2a;--xv-sky2:#1a2a6a}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .word .t.on{color:var(--xv-ink);text-shadow:0 0 .3cqi #fff,0 0 1.6cqi var(--xv-glow)}
+body[data-birthday-sign].dark[data-world=xv] .birthday-sign-root .plate .word .t.on{color:#fff;text-shadow:0 0 .4cqi #fff,0 0 1.5cqi var(--xv-glow),0 0 4cqi var(--xv-glow2)}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .num .t.on .core{stroke:var(--xv-ink)}
+body[data-birthday-sign].dark[data-world=xv] .birthday-sign-root .plate .num .t.on .core{stroke:#fff}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate .num .t.on{filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 10px var(--xv-glow))}
+/* 1 · candelabro de cristal */
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .cables{display:none}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .chandelier{display:block;position:absolute;left:50%;bottom:calc(100% + 9cqi);width:30cqi;margin-left:-15cqi;overflow:visible;pointer-events:none;transform-origin:50% 0;animation:bs-chand 6s ease-in-out infinite alternate}
+@keyframes bs-chand{from{transform:rotate(-1.2deg)}to{transform:rotate(1.2deg)}}
+body[data-birthday-sign] .birthday-sign-root .chandelier .metal{fill:none;stroke:#cfc8ec;stroke-width:2.2;stroke-linecap:round}
+body[data-birthday-sign]:not(.dark) .birthday-sign-root .chandelier .metal{stroke:#9a90c8}
+body[data-birthday-sign] .birthday-sign-root .chandelier .drop{fill:rgba(235,230,255,.7);stroke:#fff;stroke-width:.6}
+body[data-birthday-sign] .birthday-sign-root .chandelier .flame{fill:#fff6d6;filter:drop-shadow(0 0 calc(2px + var(--lit,0) * 8px) #ffe6a0);opacity:calc(.3 + var(--lit,0) * .7)}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .rainbows{display:block;position:absolute;inset:0;z-index:3;pointer-events:none}
+body[data-birthday-sign] .birthday-sign-root .rainbows i{position:absolute;width:90px;height:34px;border-radius:50%;background:linear-gradient(90deg,#ff6b6b,#ffd36b,#7bff8f,#6bd5ff,#9b7bff);filter:blur(7px);opacity:calc(var(--lit,0) * .35);mix-blend-mode:screen;animation:bs-rb 9s ease-in-out infinite alternate}
+body[data-birthday-sign]:not(.dark) .birthday-sign-root .rainbows i{mix-blend-mode:multiply;opacity:calc(var(--lit,0) * .2)}
+body[data-birthday-sign] .birthday-sign-root .rainbows i:nth-child(1){left:52%;top:18%;transform:rotate(-20deg)}body[data-birthday-sign] .birthday-sign-root .rainbows i:nth-child(2){left:86%;top:30%;transform:rotate(25deg);animation-delay:-3s}body[data-birthday-sign] .birthday-sign-root .rainbows i:nth-child(3){left:46%;top:62%;transform:rotate(10deg);animation-delay:-5s}body[data-birthday-sign] .birthday-sign-root .rainbows i:nth-child(4){left:74%;top:8%;transform:rotate(-8deg);animation-delay:-2s}body[data-birthday-sign] .birthday-sign-root .rainbows i:nth-child(5){left:92%;top:66%;transform:rotate(-30deg);animation-delay:-7s}
+@keyframes bs-rb{to{translate:26px 10px}}
+/* 3 · vals en el modo fiesta */
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .sign.party{animation:bs-waltz 1.5s ease-in-out infinite}
+@keyframes bs-waltz{0%,100%{transform:none}16%{transform:rotate(-2.2deg) translateY(-5px)}33%{transform:rotate(-1deg)}50%{transform:none}66%{transform:rotate(2.2deg) translateY(-5px)}83%{transform:rotate(1deg)}}
+/* 5 · color de tus XV */
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .xv-chips{display:flex;gap:7px}
+body[data-birthday-sign] .birthday-sign-root .xv-chips .chip[aria-pressed=true]{border-color:var(--c)}
+/* 7 · espejo que refleja el cursor */
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .plate::before{opacity:1;border-radius:inherit;background:radial-gradient(28% 55% at var(--mx,28%) var(--my,22%),rgba(255,255,255,.5),transparent 70%);transition:background .1s}
+body[data-birthday-sign].dark[data-world=xv] .birthday-sign-root .plate::before{background:radial-gradient(28% 55% at var(--mx,28%) var(--my,22%),rgba(255,255,255,.18),transparent 70%)}
+/* 9 · repisa de mármol con corona y zapatilla */
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .shelf::before{background:linear-gradient(100deg,transparent 30%,rgba(150,140,190,.45) 31%,transparent 33%),linear-gradient(75deg,transparent 62%,rgba(150,140,190,.35) 63%,transparent 64.5%),linear-gradient(95deg,transparent 82%,rgba(150,140,190,.3) 83%,transparent 84%),linear-gradient(#fdfcff,#dcd8ec)}
+body[data-birthday-sign].dark[data-world=xv] .birthday-sign-root .shelf::before{background:linear-gradient(100deg,transparent 30%,rgba(220,210,255,.25) 31%,transparent 33%),linear-gradient(75deg,transparent 62%,rgba(220,210,255,.2) 63%,transparent 64.5%),linear-gradient(#4a4a86,#2a2a5a)}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .crown,body[data-birthday-sign][data-world=xv] .birthday-sign-root .slipper{display:block;overflow:visible}
+body[data-birthday-sign] .birthday-sign-root .crown{width:46px;height:30px}body[data-birthday-sign] .birthday-sign-root .slipper{width:58px;height:30px}
+body[data-birthday-sign] .birthday-sign-root .crown path,body[data-birthday-sign] .birthday-sign-root .slipper path{fill:rgba(235,230,255,.55);stroke:#b9b0e6;stroke-width:1.4;stroke-linejoin:round}
+body[data-birthday-sign] .birthday-sign-root .crown circle{fill:var(--accent)}
+/* 10 · pista de baile */
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .floor{display:block;position:absolute;left:-10%;right:-10%;bottom:0;height:30%;z-index:1;perspective:520px;pointer-events:none;-webkit-mask:linear-gradient(to top,#000 20%,transparent);mask:linear-gradient(to top,#000 20%,transparent)}
+body[data-birthday-sign] .birthday-sign-root .floor .grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(16,1fr);gap:2px;transform:rotateX(64deg) scale(1.6);transform-origin:50% 100%}
+body[data-birthday-sign] .birthday-sign-root .floor .grid i{background:var(--xv-glow);opacity:.08;animation:bs-tile 2.4s ease-in-out infinite;animation-delay:var(--d)}
+@keyframes bs-tile{50%{opacity:.4}}
+body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .floor .grid i{animation-play-state:paused}
+
+/* ---------------- MISIÓN ESPACIAL ---------------- */
+/* 1 · botón de despegue con tapa */
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .namer button{position:relative;perspective:200px;background:radial-gradient(circle at 40% 30%,#ff8a7a,#e0302a 55%,#9a1410);color:#fff;box-shadow:0 4px 0 #6e0c0a,0 8px 14px -4px rgba(150,20,10,.6);transform-style:preserve-3d}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .namer button:active{transform:translateY(3px);box-shadow:0 1px 0 #6e0c0a}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .namer button::before{content:"";position:absolute;inset:-3px;border-radius:inherit;border:1.5px solid rgba(255,190,90,.9);background:repeating-linear-gradient(-45deg,rgba(255,200,60,.16) 0 6px,rgba(20,20,40,.1) 6px 12px);transform-origin:50% 0;transition:transform .4s cubic-bezier(.3,1.4,.5,1),opacity .4s}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .namer button:hover::before,body[data-birthday-sign][data-world=espacio] .birthday-sign-root .namer button:focus-visible::before,body[data-birthday-sign][data-world=espacio] .birthday-sign-root .namer:focus-within button::before{transform:rotateX(110deg);opacity:.4}
+/* 2 · nombre en tablero LED que se escribe como teletipo */
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate .word .t{-webkit-mask:radial-gradient(circle,#000 56%,transparent 64%) 0 0/.62cqi .62cqi;mask:radial-gradient(circle,#000 56%,transparent 64%) 0 0/.62cqi .62cqi}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .plate .word .t.on{color:var(--led,#ffd84a);text-shadow:0 0 1.4cqi var(--led,#ffd84a)}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .nib{display:block;width:1.4cqi;height:9cqi;margin-left:.4cqi;background:var(--led,#ffd84a);box-shadow:0 0 1cqi var(--led,#ffd84a);animation:bs-blink .5s steps(1) infinite}
+@keyframes bs-blink{50%{opacity:.2}}
+/* 3 · astronauta */
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .astro{display:block;position:absolute;z-index:4;left:37%;top:13%;width:92px;animation:bs-floaty 6s ease-in-out infinite alternate;pointer-events:none}
+@keyframes bs-floaty{from{transform:translateY(0) rotate(-8deg)}to{transform:translateY(-16px) rotate(6deg)}}
+body[data-birthday-sign] .birthday-sign-root .astro .arm{transform-origin:62px 58px;transition:transform .3s}
+body[data-birthday-sign] .birthday-sign-root .astro.wave .arm{animation:bs-wave .7s ease-in-out infinite alternate}
+@keyframes bs-wave{from{transform:rotate(-10deg)}to{transform:rotate(-55deg)}}
+/* 4 · radar */
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .radar{display:block;position:absolute;left:50%;top:50%;width:46cqi;height:46cqi;margin:-23cqi 0 0 -23cqi;border-radius:50%;pointer-events:none;opacity:calc(.15 + var(--lit,0) * .35);
+  background:repeating-radial-gradient(circle,transparent 0 6cqi,rgba(127,240,255,.35) 6cqi 6.15cqi),conic-gradient(from 0deg,rgba(127,240,255,.55),transparent 22%,transparent);animation:bs-spin 3.2s linear infinite;-webkit-mask:radial-gradient(circle,#000 68%,transparent 70%);mask:radial-gradient(circle,#000 68%,transparent 70%)}
+body[data-birthday-sign] .birthday-sign-root .plate.radar-off .radar{display:none}
+body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .radar{animation-play-state:paused}
+/* 6 · planetas con profundidad */
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .planets{display:block;position:absolute;inset:0;z-index:1;pointer-events:none}
+body[data-birthday-sign] .birthday-sign-root .planets .pl{position:absolute;border-radius:50%;will-change:transform}
+body[data-birthday-sign] .birthday-sign-root .planets .p1{left:-7%;bottom:-6%;width:min(30vw,380px);aspect-ratio:1;background:radial-gradient(circle at 34% 30%,#ffc48a,#ff7a3d 45%,#c2410c 80%)}
+body[data-birthday-sign] .birthday-sign-root .planets .p1::after{content:"";position:absolute;left:-30%;right:-30%;top:44%;height:14%;border-radius:50%;border:max(4px,.6vw) solid rgba(255,220,150,.6);transform:rotate(-16deg)}
+body[data-birthday-sign] .birthday-sign-root .planets .p2{right:7%;top:12%;width:min(6vw,70px);aspect-ratio:1;background:radial-gradient(circle at 35% 30%,#bff8ff,#22d3c5 50%,#126a7a)}
+body[data-birthday-sign] .birthday-sign-root .planets .p3{left:44%;top:72%;width:min(3vw,36px);aspect-ratio:1;background:radial-gradient(circle at 35% 30%,#e6d8ff,#a57bff 55%,#5a2a9a)}
+/* 7 · palancas y perilla */
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .console{display:flex;align-items:flex-end;gap:10px;padding:5px 8px;border-radius:6px;background:linear-gradient(#2c3a74,#1a2350);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 6px 10px -5px rgba(0,0,0,.5)}
+body[data-birthday-sign] .birthday-sign-root .c-lever{position:relative;width:16px;height:34px;padding:0;border:0;border-radius:3px;background:#0e1430;cursor:pointer}
+body[data-birthday-sign] .birthday-sign-root .c-lever::before{content:"";position:absolute;left:50%;bottom:6px;width:4px;height:22px;margin-left:-2px;border-radius:2px;background:#c7cfe8;transform-origin:50% 100%;transform:rotate(-28deg);transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+body[data-birthday-sign] .birthday-sign-root .c-lever::after{content:"";position:absolute;left:50%;top:0;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#ff5a5f;transform:translateX(-9px);transition:transform .35s cubic-bezier(.3,1.6,.5,1),background .3s}
+body[data-birthday-sign] .birthday-sign-root .c-lever[aria-pressed=true]::before{transform:rotate(28deg)}
+body[data-birthday-sign] .birthday-sign-root .c-lever[aria-pressed=true]::after{transform:translateX(9px);background:#22d3c5}
+body[data-birthday-sign] .birthday-sign-root .knob{width:30px;height:30px;padding:0;border:0;border-radius:50%;cursor:pointer;background:conic-gradient(from 0deg,#e6ecff,#8a96c8,#e6ecff,#8a96c8,#e6ecff);box-shadow:0 0 0 3px #0e1430;transform:rotate(var(--kr,0deg));transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+body[data-birthday-sign] .birthday-sign-root .knob::after{content:"";display:block;width:3px;height:10px;margin:2px auto 0;border-radius:2px;background:var(--led,#ffd84a)}
+body[data-birthday-sign] .birthday-sign-root .c-lever:focus-visible,body[data-birthday-sign] .birthday-sign-root .knob:focus-visible{outline:2px solid #ffd84a;outline-offset:3px}
+body[data-birthday-sign][data-world=espacio].panel-alt .birthday-sign-root .plate{background:linear-gradient(180deg,#155a46,#0a2e24)}
+/* 8 · cuenta regresiva */
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .countdown{display:block;position:absolute;right:3cqi;bottom:2.3cqi;font:700 max(9px,1.45cqi) Fredoka;letter-spacing:.16em;color:#7ff0ff;opacity:.8}
+body[data-birthday-sign][data-world=espacio] .birthday-sign-root .deco2{display:none!important}
+
+@media (max-width:900px){
+  body[data-birthday-sign] .birthday-sign-root .board{display:none!important}
+  body[data-birthday-sign][data-world=espacio] .birthday-sign-root .astro{top:62px;right:8px;width:54px}
+  body[data-birthday-sign][data-world=espacio] .birthday-sign-root .countdown{display:none}
+  body[data-birthday-sign] .birthday-sign-root .bow-hint{font-size:11px}
+  body[data-birthday-sign] .birthday-sign-root .props{gap:8px;margin-right:6px}
+  body[data-birthday-sign] .birthday-sign-root .turntable{transform:scale(.85)}
+}
+@media (prefers-reduced-motion:reduce){
+  body[data-birthday-sign] .birthday-sign-root .tissue i,body[data-birthday-sign] .birthday-sign-root .chandelier,body[data-birthday-sign] .birthday-sign-root .rainbows i,body[data-birthday-sign] .birthday-sign-root .astro,body[data-birthday-sign] .birthday-sign-root .radar,body[data-birthday-sign] .birthday-sign-root .turntable .record,body[data-birthday-sign] .birthday-sign-root .floor .grid i,body[data-birthday-sign] .birthday-sign-root .satin,body[data-birthday-sign] .birthday-sign-root .bow-hint,body[data-birthday-sign][data-world=bar] .birthday-sign-root .deco2,body[data-birthday-sign] .birthday-sign-root .word .t.rebel{animation:none!important}
+}
+body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .tissue i,body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .chandelier,body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .rainbows i,body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .astro,body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root .satin{animation-play-state:paused}
+
+body[data-birthday-sign] .birthday-sign-root .astro .arm{transform-origin:88px 62px}
+@media (min-width:901px){ body[data-birthday-sign][data-world=xv] .birthday-sign-root .world-pick{margin-left:auto;margin-right:0} }
+@media (max-width:900px){ body[data-birthday-sign][data-world=xv] .birthday-sign-root .chandelier{display:none} }
+
+
+/* Integration only: the scene's layout belongs to the existing page. */
+body[data-birthday-sign] .birthday-sign-root{grid-column:1/-1;width:100%;min-width:0;font:400 16px/1.55 NocheManrope,Manrope,sans-serif;color:var(--ink);isolation:isolate}
+
+body[data-birthday-sign] .birthday-sign-root .path{list-style:none}
+body[data-birthday-sign] .birthday-sign-root .cover-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+body[data-birthday-sign] .birthday-sign-root .cover>:not(.cover-art){position:relative;z-index:1}
+body[data-birthday-sign] .birthday-sign-root .cover::before,body[data-birthday-sign] .birthday-sign-root .cover::after{content:none}
+body[data-birthday-sign] .birthday-sign-root .c-xv small{margin-top:64px}
+body[data-birthday-sign] .birthday-sign-root .c-space small{margin-top:100px}
+body[data-birthday-sign] .birthday-sign-root .c-bar{background:#25160c}
+body[data-birthday-sign][data-sign-static] .birthday-sign-root *,body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root *{animation-play-state:paused!important}
+body[data-birthday-sign][data-sign-static] .birthday-sign-root .sign.drop{animation:none}
+
+@media(prefers-reduced-motion:reduce){body[data-birthday-sign] .birthday-sign-root *{animation:none!important;scroll-behavior:auto!important}}
+
+body[data-birthday-sign] .birthday-sign-root{width:100vw;margin-inline:calc(50% - 50vw)}
+body[data-birthday-sign] .scene.theme-birthday{padding-top:0}
+
+body[data-birthday-sign] .birthday-sign-overlay{position:fixed;inset:0;z-index:90;width:auto;margin:0;pointer-events:none}
+
+body[data-birthday-sign] .birthday-sign-root .business-motion-control{display:inline-flex!important}

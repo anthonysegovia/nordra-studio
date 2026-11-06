@@ -21,3 +21,6 @@ import '../styles/birthday-noche.css';
 
 import '../../../public/motion-system.css';
 import '../scripts/interaction-motion.js?entry=birthdays';
+
+import '../birthday-sign/sign.css';
+import '../birthday-sign/sign-hero.js';

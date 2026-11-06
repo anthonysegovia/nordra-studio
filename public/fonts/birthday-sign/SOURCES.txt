@@ -1,0 +1,4 @@
+Fontsource Latin subsets (U+0000–00FF includes Spanish accents and ñ), OFL licenses alongside each font. Downloaded 2026-11-06 from https://cdn.jsdelivr.net/npm/@fontsource/. Pinyon Script reuses /fonts/wedding/pinyon-script-subset.woff2 and its existing OFL.
+Pinyon supplemental Latin: https://cdn.jsdelivr.net/npm/@fontsource/pinyon-script/files/pinyon-script-latin-400-normal.woff2, same OFL at /fonts/wedding/Pinyon-OFL.txt. Existing wedding subset loaded for its original characters; supplement supplies ñ, accents and other free-form letters.
+
+Fredoka: Latin weights 500 and 700, matching the reference (no synthesized bold).

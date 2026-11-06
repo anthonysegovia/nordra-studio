@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {buildInputs} from './check-vercel-build-inputs.mjs';
 const root=new URL('../',import.meta.url),read=file=>fs.readFileSync(new URL(file,root),'utf8');
-for(const [page,entry,slug] of [['cumpleanos','birthdays','camila-30'],['eventos','events','conexion-27']]){
+for(const [page,entry,slug] of [['eventos','events','conexion-27']]){
  const html=read(page+'.html'),hero=html.slice(html.indexOf('<div class="occasion-hero '),html.indexOf('<section class="home-continuation wedding-sample'));
  test(`${page}: hero cannot regress to a conceptual poster`,()=>{
   assert.doesNotMatch(hero,/organico|occasion-poster|organic-poster/);assert.match(hero,/live-phone nordra-phone/);assert.match(hero,/fetchpriority="high"/);assert.match(hero,/loading="eager"/);assert.match(hero,/width="780" height="1688"/);
