@@ -66,7 +66,6 @@ export function localeChrome(html,en,path){
     .replace('</head>',seo+'</head>')
     .replace('<div class="header-actions">','<div class="header-actions">'+links)
     .replace('<button id="local-motion-toggle"',links+'<button id="local-motion-toggle"');
-  if (!en) html = html.replace('</header>', '</header><aside class="locale-suggestion" lang="en" aria-label="Language suggestion" hidden><a href="/en'+path+'" hreflang="en" data-language="en" target="_top">View this page in English?</a><button type="button" aria-label="Dismiss language suggestion">×</button></aside>');
   return html;
 }
 

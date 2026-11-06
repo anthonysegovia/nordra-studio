@@ -13,12 +13,6 @@ preload.imageSizes = sizes; preload.imageSrcset = srcset; preload.href = cover(s
 document.head.append(preload);
 window.prepareNordraSeason = () => {
   try {
-    // Reserve the language suggestion before revealing the hero on an English browser.
-    const suggestion = document.querySelector('.locale-suggestion');
-    if (suggestion && /^en(?:-|$)/i.test(navigator.language)) {
-      try { suggestion.hidden = !!(localStorage.getItem('nordra-lang') || localStorage.getItem('nordra-lang-dismissed')); }
-      catch { suggestion.hidden = false; }
-    }
     const collection = document.getElementById('temporada-coleccion');
     const list = collection.querySelector('[role="tablist"]');
     const en = root.lang === 'en';

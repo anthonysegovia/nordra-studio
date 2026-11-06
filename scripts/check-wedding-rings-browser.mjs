@@ -36,10 +36,10 @@ try{
   await page.screenshot({path:path.join(output,`es-${theme}-${width}-initial.jpg`),type:'jpeg'});await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);assert.equal(await page.evaluate(()=>window.__ringsStartClicks),1);
   await page.waitForFunction(()=>window.__rings&&document.querySelector('.rings-hero.has-scene'));await page.waitForTimeout(8500);await page.screenshot({path:path.join(output,`es-${theme}-${width}-live.jpg`),type:'jpeg'});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);results.push({width,height,theme,realTouch:true});await context.close();
  }
- if(process.env.RINGS_SUITE!=='static')for(const [width,height] of [[375,667],[390,844],[412,915]])for(const theme of ['light','dark'])for(const dismissed of [false,true]){
+ if(process.env.RINGS_SUITE!=='static')for(const [width,height] of [[375,667],[390,844],[412,915]])for(const theme of ['light','dark']){
   const context=await browser.newContext({viewport:{width,height},hasTouch:true,isMobile:true,locale:'en-US'});await profile(context);const page=await context.newPage();await instrument(page);
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(`${url}/bodas?theme=${theme}`);await page.evaluate(()=>document.fonts.ready);await page.locator('.locale-suggestion').waitFor({state:'visible'});
+  await page.goto(`${url}/bodas?theme=${theme}`);await page.evaluate(()=>document.fonts.ready);
   const checkFit=async()=>{
    await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.waitForFunction(()=>document.querySelector('.rings-back').getBoundingClientRect().top>=document.querySelector('.site-header').getBoundingClientRect().bottom);
    await page.locator('[data-rings-start]').scrollIntoViewIfNeeded();const box=await page.locator('[data-rings-start]').boundingBox();
@@ -47,18 +47,15 @@ try{
    assert(await page.evaluate(({x,y,width,height})=>Boolean(document.elementFromPoint(x+width/2,y+height/2)?.closest('[data-rings-start]')),box),'Motion control owns the touch point');
    return box;
   };
-  await checkFit();const before=await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height);
-  if(dismissed){await page.locator('.locale-suggestion button').click();await page.locator('.locale-suggestion').waitFor({state:'hidden'});}
-  const box=await checkFit();const fitted=await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height);assert.equal(fitted,before,'Notice does not compress content');
+  const box=await checkFit();const fitted=await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height);
   const sizes=await page.evaluate(()=>Object.fromEntries(['.eyebrow','.hint','.rings-controls button'].map(selector=>[selector,parseFloat(getComputedStyle(document.querySelector('.rings-hero '+selector)).fontSize)])));
   assert(sizes['.eyebrow']>=11&&sizes['.hint']>=11&&sizes['.rings-controls button']>=12);
-  await page.screenshot({path:path.join(output,`locale-${theme}-${width}-${dismissed?'closed':'visible'}.jpg`),type:'jpeg'});
+  await page.screenshot({path:path.join(output,`locale-${theme}-${width}.jpg`),type:'jpeg'});
   await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);assert.equal(await page.evaluate(()=>window.__ringsStartClicks),1);
   await page.waitForFunction(()=>document.querySelector('.rings-hero.has-scene #rings-stage canvas'));await page.waitForTimeout(8500);
-  await page.screenshot({path:path.join(output,`locale-${theme}-${width}-${dismissed?'closed':'visible'}-live.jpg`),type:'jpeg'});
-  if(!dismissed){await page.locator('.locale-suggestion button').click();assert.equal(await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height),fitted);assert(await page.locator('#rings-stage canvas').isVisible());}
+  await page.screenshot({path:path.join(output,`locale-${theme}-${width}-live.jpg`),type:'jpeg'});
   await page.setViewportSize({width,height:height+40});assert.equal(await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height),fitted,'Viewport height does not shrink typography');
-  assert.deepEqual(errors,[]);results.push({locale:'en-US',width,height,theme,notice:dismissed?'closed':'visible',realTouch:true,resized:true,sizes});await context.close();
+  assert.deepEqual(errors,[]);results.push({locale:'en-US',width,height,theme,realTouch:true,resized:true,sizes});await context.close();
  }
  if(process.env.RINGS_SUITE!=='language')for(const mobile of [false,true])for(const mode of ['reduced','cores','memory','saveData','paused'])for(const lang of ['es','en'])for(const theme of ['light','dark']){
   const context=await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1440,height:900},locale:lang,reducedMotion:mode==='reduced'?'reduce':'no-preference'});await profile(context,{cores:mode==='cores'?3:8,memory:mode==='memory'?2:8,saveData:mode==='saveData'});const page=await context.newPage();await page.goto(`${url}/${lang==='en'?'en/':''}bodas?theme=${theme}${mode==='paused'?'&motion=paused':''}`);await page.waitForTimeout(350);
