@@ -52,12 +52,13 @@ const GLYPHS = {
 };
 const cleanAge = sanitizeAge;
 function el(tag, attrs, parent){ const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent && parent.appendChild(e); return e; }
+let fitLayoutFrame=0;
 function fit(){
   tubesBox.style.setProperty('--s', 1);
   const avail = tubesBox.clientWidth;
   const used = word.offsetWidth + (num.style.display === 'none' ? 0 : num.getBoundingClientRect().width) + 30;
   if (used > avail) tubesBox.style.setProperty('--s', (avail / used).toFixed(3));
-  requestAnimationFrame(layout);
+  cancelAnimationFrame(fitLayoutFrame);fitLayoutFrame=requestAnimationFrame(layout);
 }
 function setLook(tube, style){
   if (tube) { body.dataset.tube = tube; root.querySelectorAll('.chips .chip').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.c === tube))); }
@@ -213,7 +214,10 @@ async function swap(name, age, tube, style, opts = {}){
   for (const t of [...old].reverse()) { t.classList.remove('on'); setLit(); if (!still()) await sleep(16); }
   if (id !== run) return;
   if (!still()) await sleep(220);
-  if(id!==run)return; setLook(tube, style); build(name, age); await document.fonts.ready; if(id!==run)return; fit(); collectSources();
+  if(id!==run)return; setLook(tube, style); build(name, age);
+  // Fonts are ready before building. fit() already schedules the one geometry
+  // pass; wait for it instead of forcing a second layout for the same name.
+  await new Promise(requestAnimationFrame);if(id!==run)return;
   if (!on) return;
   if (still()) { tubes.forEach(t => t.classList.add('on')); setLit(); }
   else if (!await lightName(id, true)) return;
@@ -411,7 +415,9 @@ function placeSwitch(){ (mobile.matches ? $('shelf') : $('switch-wrap')).appendC
 mobile.addEventListener('change', () => { placeSwitch(); fit(); });
 function layout(){ drawCables(); drawWires(); collectSources(); light(); positionBow(); }
 let rz; new ResizeObserver(() => {if(!initialized|| (W===hero.clientWidth&&H===hero.clientHeight))return;cancelAnimationFrame(rz);rz=requestAnimationFrame(async()=>{await idleTask(buildGarland);await paintBase();seedMotes();fit();if(on)bulbs.forEach(b=>b.classList.add('on'));});}).observe(hero);
-sign.addEventListener('animationend', layout);
+// Letter warm-up events bubble here too; their opacity does not change geometry.
+// Rebuild wires/light coordinates only when the sign itself finishes moving.
+sign.addEventListener('animationend', event => {if(event.target===sign)layout();});
 
 function setTheme(){ paintBase(); collectSources(); light(); }
 
@@ -486,7 +492,8 @@ function build(name, age){
   num.textContent = '';
   let ds = displayAge(age,wd); //   // XV · 6 · números romanos
   num.style.display = ds ? '' : 'none';
-  const behind = el('g', {}, num), ends = [];
+  const digits=document.createDocumentFragment();
+  const behind = el('g', {}, digits), ends = [];
   if (wd === 'bar' && ds) {                                 // BAR · 5 · números art déco
     const g = el('g', { class: 't' }, num), tx = el('text', { class: 'core deco-num', x: 6, y: 156 }, g);
     tx.textContent = ds;
@@ -497,7 +504,7 @@ function build(name, age){
     num.setAttribute('viewBox', `0 0 ${Wd * n} 180`);
     num.style.width = `calc(21cqi * var(--s) * ${(Wd * n / 180).toFixed(3)})`;
     [...ds].forEach((d, k) => {
-      const g = el('g', { class: 't', transform: `translate(${k * Wd} 0)` }, num);
+      const g = el('g', { class: 't', transform: `translate(${k * Wd} 0)` }, digits);
       if (wd === 'neon') el('path', { class: 'core2', d: GLYPHS[d] }, g);   // NEÓN · 9 · doble tubo
       const core = el('path', { class: 'core', d: GLYPHS[d] }, g);
       el('path', { class: 'hl', d: GLYPHS[d] }, g);
@@ -509,6 +516,7 @@ function build(name, age){
     });
     for (let k = 0; k < ends.length - 1; k++) { const p = ends[k].b, r = ends[k + 1].a; el('path', { class: 'behind', d: `M${p.x} ${p.y}C${p.x} 176 ${r.x} 176 ${r.x} ${Math.max(r.y, 150)}` }, behind); }
   }
+  num.appendChild(digits);
   tubes = [...word.querySelectorAll('.t'), ...num.querySelectorAll('g.t'), sub];
   sign.setAttribute('aria-label', format(copy.sign, {name,age:ds}).trim());
   sign.dataset.age = ds;
