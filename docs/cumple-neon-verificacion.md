@@ -1,5 +1,7 @@
 # Cumpleaños: entrega para verificación de Claude
 
+Actualización posterior a la revisión de Claude: ver [correcciones, mediciones y verificación en Edge](cumple-neon-revision-claude.md). El texto siguiente conserva el estado de la entrega original; sus pendientes no sustituyen los resultados del nuevo informe.
+
 Implementación local del 06/11/2026. **No verificado visualmente**: no se abrió la implementación en navegador, por el reparto acordado con el usuario. La inspección de los PNG de referencia no equivale a validar el resultado implementado.
 
 Rama: `codex/cumple-neon`. Worktree: `C:/Users/USER/.codex/worktrees/cumple-neon/nordra-studio-premium`. Base actualizada: `d20fc9e6641d4c2164c9ff615fd7dccadba9f5d2` (origin/main). Commit de implementación: `9d66f3e976c1b1b953e7705cf33984b4380289eb`. Sin push ni despliegue. El commit posterior de documentación se identifica con `git log -1`.
