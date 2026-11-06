@@ -10,7 +10,10 @@ try{for(const engine of (process.env.HERO_ENGINES||'chrome,webkit').split(',')){
  try{if(process.env.HERO_SUITE!=='visual')for(const [width,height] of [[390,664],[390,844],[375,667],[412,915]])for(const theme of ['light','dark'])for(const state of ['es','notice','closed','en']){
   const context=await browser.newContext({viewport:{width,height},hasTouch:true,isMobile:true,locale:state==='es'?'es-MX':'en-US'});
   await context.addInitScript(()=>{Object.defineProperty(navigator,'hardwareConcurrency',{get:()=>8});Object.defineProperty(navigator,'deviceMemory',{get:()=>8});});
-  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});await page.route('**/_vercel/**',r=>r.fulfill({status:200,body:''}));
+  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text()+' '+m.location().url);});await page.route('**/_vercel/**',r=>r.fulfill({status:200,body:''}));
+  page.on('response',r=>{if(r.status()>=400)console.log('HTTP',r.status(),r.url());});
+  // Local UI tests do not send telemetry or depend on the remote debug SDK.
+  await page.route('https://va.vercel-scripts.com/**',r=>r.fulfill({status:200,contentType:'application/javascript',body:''}));
   const id=`${engine}-${width}x${height}-${theme}-${state}`;console.log(id);
   await page.goto(`${base}/${state==='en'?'en/':''}bodas?theme=${theme}`);await page.evaluate(()=>document.fonts.ready);
   if(state==='notice'||state==='closed')await page.locator('.locale-suggestion').waitFor();
