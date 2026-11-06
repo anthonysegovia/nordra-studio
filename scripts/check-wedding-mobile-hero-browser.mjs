@@ -1,5 +1,6 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {pathToFileURL} from 'node:url';import {chromium,webkit as bundledWebkit} from 'playwright';
 import sharp from 'sharp';
+import {instrument,profile} from './wedding-rings-browser-support.mjs';
 const output=process.env.HERO_EVIDENCE;if(!output)throw Error('Set HERO_EVIDENCE outside the repository');fs.mkdirSync(output,{recursive:true});
 const base=process.env.RINGS_URL||'http://127.0.0.1:5198';
 const webkit=process.env.HERO_WEBKIT_MODULE?(await import(pathToFileURL(process.env.HERO_WEBKIT_MODULE).href)).webkit:bundledWebkit;
@@ -7,7 +8,7 @@ const results=[];
 async function tap(page,selector){const el=page.locator(selector);await el.scrollIntoViewIfNeeded();const b=await el.boundingBox();assert(b&&b.height>=40,`${selector}: touch area`);assert(await el.evaluate(el=>{const b=el.getBoundingClientRect();return el.contains(document.elementFromPoint(b.x+b.width/2,b.y+b.height/2));}),`${selector}: obscured`);await page.touchscreen.tap(b.x+b.width/2,b.y+b.height/2);}
 try{for(const engine of (process.env.HERO_ENGINES||'chrome,webkit').split(',')){
  const browser=await(engine==='chrome'?chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'}):webkit.launch());
- try{if(process.env.HERO_SUITE!=='visual')for(const [width,height] of [[390,664],[390,844],[375,667],[412,915]])for(const theme of ['light','dark'])for(const state of ['es','notice','closed','en']){
+ try{if(!['visual','resize'].includes(process.env.HERO_SUITE))for(const [width,height] of [[390,664],[390,844],[375,667],[412,915]])for(const theme of ['light','dark'])for(const state of ['es','notice','closed','en']){
   const context=await browser.newContext({viewport:{width,height},hasTouch:true,isMobile:true,locale:state==='es'?'es-MX':'en-US'});
   await context.addInitScript(()=>{Object.defineProperty(navigator,'hardwareConcurrency',{get:()=>8});Object.defineProperty(navigator,'deviceMemory',{get:()=>8});});
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text()+' '+m.location().url);});await page.route('**/_vercel/**',r=>r.fulfill({status:200,body:''}));
@@ -28,6 +29,16 @@ try{for(const engine of (process.env.HERO_ENGINES||'chrome,webkit').split(',')){
   await tap(page,'[data-rings-start]');await page.waitForFunction(()=>document.querySelector('.rings-hero.has-scene #rings-stage canvas'),{},{timeout:45000});
   await page.waitForTimeout(1000);assert.equal(await page.locator('#rings-stage').getAttribute('data-renderer'),'webgl');
   await page.locator('#rings-stage').screenshot({path:path.join(output,id+'-scene.png')});assert.deepEqual(errors,[]);results.push({engine,width,height,theme,state,...layout,realTouch:true,canvas:true,errors});await context.close();
+ }
+ if(engine==='chrome'){
+  const context=await browser.newContext({viewport:{width:1440,height:900},hasTouch:true,locale:'es-MX'});await profile(context);const page=await context.newPage();await instrument(page);await page.goto(`${base}/bodas`);await page.waitForFunction(()=>window.__rings);
+  for(const width of [390,800,1440,390]){
+   await page.setViewportSize({width,height:900});await page.waitForTimeout(150);
+   if(await page.locator('[data-rings-start]').isVisible())await tap(page,'[data-rings-start]');
+   await page.evaluate(()=>window.__rings.freeze(7.8));
+   const framing=await page.evaluate(()=>{const b=document.querySelector('#rings-stage').getBoundingClientRect();return {width:innerWidth,stageHeight:b.height,points:window.__rings.project().map(p=>({x:p.x-b.left,y:p.y-b.top})),stageWidth:b.width};});
+   assert(framing.points.every(p=>p.x>0&&p.x<framing.stageWidth&&p.y>0&&p.y<framing.stageHeight),JSON.stringify(framing));if(width<=700)assert.equal(framing.stageHeight,380);results.push({kind:'resize',...framing});
+  }await context.close();
  }
  for(const width of [390,1440])for(const theme of ['light','dark']){
   const page=await browser.newPage({viewport:{width,height:900},locale:'es-MX',reducedMotion:'reduce'});await page.goto(`${base}/bodas?theme=${theme}`);await page.evaluate(()=>document.fonts.ready);

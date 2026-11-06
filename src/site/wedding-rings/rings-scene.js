@@ -266,10 +266,10 @@ function resize(){
  script1.setAttribute('x',wide?20:450);script2.setAttribute('x',wide?20:450);
  let unit;
  if(wide){unit=Math.min(H*.25,W*.16);ringCx=W*.7;ringCy=H*.55;}
- else if(LITE){unit=Math.min(H*.28,W*.27);ringCx=W/2;ringCy=H*.47;}
+ else if(narrowQ.matches){unit=Math.min(H*.28,W*.27);ringCx=W/2;ringCy=H*.47;}
  else{const heroTop=hero.getBoundingClientRect().top,below=actions.getBoundingClientRect().bottom-heroTop;const space=LITE?Math.max(140,H-below-70):Math.max(260,H-below-30);unit=Math.min(space*(LITE?.38:.3),W*.27);ringCx=W/2;ringCy=below+space*.5;}
  const half=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));finalDist=(H/2)/(unit*half);
- hint.style.left=ringCx+'px';hint.style.top=((LITE?stage.offsetTop:0)+Math.min(H-34,ringCy+unit*1.45))+'px';
+ hint.style.left=ringCx+'px';hint.style.top=((narrowQ.matches?stage.offsetTop:0)+Math.min(H-34,ringCy+unit*1.45))+'px';
 }
 const observer=new ResizeObserver(()=>{if(!disposed){resize();if(active)render();}});observer.observe(stage);
 
