@@ -1,0 +1,23 @@
+/* ---------- velo de transición ---------- */
+body[data-birthday-sign] .birthday-sign-root .veil{position:fixed;inset:0;z-index:90;pointer-events:none;display:none;overflow:hidden}
+body[data-birthday-sign] .birthday-sign-root .veil.on{display:block}
+body[data-birthday-sign] .birthday-sign-root .veil>*{position:absolute}
+body[data-birthday-sign] .birthday-sign-root .vfx{position:fixed;inset:0;z-index:91;pointer-events:none;width:100%;height:100%}
+body[data-birthday-sign] .birthday-sign-root .v-half{top:0;bottom:0;width:50.5%;background:
+  repeating-linear-gradient(45deg,rgba(226,192,122,.18) 0 2px,transparent 2px 26px),repeating-linear-gradient(-45deg,rgba(226,192,122,.18) 0 2px,transparent 2px 26px),
+  linear-gradient(180deg,#6a2652,#4a1838)}
+body[data-birthday-sign] .birthday-sign-root .v-half.l{left:0;box-shadow:inset -18px 0 30px -18px rgba(0,0,0,.5)}body[data-birthday-sign] .birthday-sign-root .v-half.r{right:0;box-shadow:inset 18px 0 30px -18px rgba(0,0,0,.5)}
+body[data-birthday-sign] .birthday-sign-root .v-ribbon{left:50%;top:-5%;width:64px;height:110%;margin-left:-32px;background:linear-gradient(90deg,#9c6f22,#f6dc94 40%,#c9973e 60%,#8a5f18);box-shadow:0 0 30px rgba(0,0,0,.35)}
+body[data-birthday-sign] .birthday-sign-root .v-ribbon.h{left:-5%;top:50%;width:110%;height:64px;margin:-32px 0 0;background:linear-gradient(180deg,#9c6f22,#f6dc94 40%,#c9973e 60%,#8a5f18)}
+body[data-birthday-sign] .birthday-sign-root .v-bow{left:50%;top:50%;width:220px;height:140px;margin:-60px 0 0 -110px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
+body[data-birthday-sign] .birthday-sign-root .v-bow-old{background:
+  radial-gradient(ellipse 36px 30px at 30% 50%,#f6dc94 0 55%,#9c6f22 56% 70%,transparent 72%),radial-gradient(ellipse 36px 30px at 70% 50%,#f6dc94 0 55%,#9c6f22 56% 70%,transparent 72%),radial-gradient(circle 16px at 50% 50%,#e8c06a 0 80%,#8a5f18 82% 100%,transparent 100%)}
+body[data-birthday-sign] .birthday-sign-root .v-iris{inset:-30vmax;background:radial-gradient(circle,#f3d48c 0 3.2vmax,#2a190e 3.3vmax 4.4vmax,transparent 4.5vmax),repeating-conic-gradient(from 0deg,#2a190e 0 7deg,#c99a4b 7deg 8deg,#22140a 8deg 15deg)}
+body[data-birthday-sign] .birthday-sign-root .v-curtain{inset:0;background:radial-gradient(120% 70% at 50% 100%,rgba(185,166,255,.35),transparent 60%),repeating-linear-gradient(90deg,#141a45 0 22px,#1f2760 22px 40px,#10153a 40px 64px),#0f1233;box-shadow:0 30px 60px rgba(0,0,0,.5)}
+body[data-birthday-sign] .birthday-sign-root .v-curtain::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22px;background:repeating-linear-gradient(90deg,#d9d4f0 0 6px,#8f86b8 6px 12px)}
+body[data-birthday-sign] .birthday-sign-root .v-black{inset:0;background:#05040a}
+body[data-birthday-sign] .birthday-sign-root .v-space{inset:0;background:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 70% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 80% 70%,#fff,transparent),radial-gradient(1px 1px at 35% 80%,#fff,transparent),linear-gradient(160deg,#10153d,#2a1a5e)}
+body[data-birthday-sign] .birthday-sign-root .v-count{left:50%;top:50%;transform:translate(-50%,-50%);font:700 min(40vw,300px)/1 Fredoka;color:#ffd84a;text-shadow:0 8px 0 #c2410c,0 0 60px rgba(255,216,74,.5)}
+body[data-birthday-sign] .birthday-sign-root .v-rocket{left:0;top:0;width:120px;height:178px;margin:-89px 0 0 -60px}
+body[data-birthday-sign] .birthday-sign-root .v-fade{inset:0}
+

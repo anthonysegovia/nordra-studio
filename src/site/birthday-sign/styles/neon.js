@@ -1,5 +1,5 @@
 // Brick wall, old posters and filament bulbs load only with Neon.
-export function paintWorld(c,dark,r,{W,H,copy}){
+export function* paintWorldSteps(c,dark,r,{W,H,copy}){
   const bw = W < 700 ? 62 : 88, bh = W < 700 ? 22 : 30, m = W < 700 ? 3 : 4;
   c.fillStyle = dark ? '#121020' : '#dccbab'; c.fillRect(0, 0, W, H);
   const bricks = [];
@@ -13,6 +13,7 @@ export function paintWorld(c,dark,r,{W,H,copy}){
       for (let i = 0; i < 22; i++) { c.fillStyle = dark ? `rgba(255,255,255,${r() * .04})` : `rgba(110,80,40,${r() * .08})`; c.fillRect(x + r() * bw, y + r() * bh, 1.2, 1.2); }
       bricks.push([x, y, bw, bh]);
     }
+    yield;
   }
   posters(c, dark, r, W, H, copy);
   return bricks;
@@ -39,4 +40,6 @@ function posters(c, dark, r, W, H, copy){
   });
 }
 
-export const fonts=['Neonderthaw','Tilt Neon','Monoton','Yellowtail'];
+export const fonts=['Neonderthaw'];
+
+export function paintWorld(...args){const steps=paintWorldSteps(...args);let result;do{result=steps.next();}while(!result.done);return result.value;}

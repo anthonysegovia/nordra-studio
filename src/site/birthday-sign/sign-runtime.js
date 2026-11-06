@@ -1,3 +1,5 @@
+import {idleTask,runSteps} from './work.js';
+import {lightingCache} from './lighting.js';
 import {sanitizeName,sanitizeAge,displayAge,daysToLiftoff,whatsappURL,rememberStyle} from './state.js';
 import {dictionary,format} from './copy.js';
 import {loadFonts} from './fonts.js';
@@ -17,13 +19,17 @@ const mobile = matchMedia('(max-width:900px)');
 const $ = id => document.getElementById('bs-'+id);
 const root = document.querySelector('.birthday-sign-root');
 const hero = $('hero'), sign = $('sign'), plate = $('plate'), zone = $('zone');
+// Non-inherited light intensity avoids invalidating the entire container-query
+// subtree on every flicker. Only these decorative consumers need the value.
+const lightNodes=[...hero.querySelectorAll('.wall-glow,.motel-arrow .ma-on,.deco,.deco2,.chandelier .flame,.rainbows i,.radar')];
+const lightParents=[...hero.querySelectorAll('h1 em,.plate,.shelf')];
 const word = $('word'), num = $('num'), tubesBox = $('tubes'), sub = $('sub'), arrow = $('arrow');
 const sw = $('switch'), swCap = $('switch-cap'), status = $('status');
 const NS = 'http://www.w3.org/2000/svg';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const css = v => getComputedStyle(body).getPropertyValue(v).trim();
 const still = () => reduce || body.dataset.journeyMotion === 'paused';
-let visible = true, disposed = false;
+let visible = true, disposed = false, initialized = false;
 let on = false, run = 0, tubes = [], bulbs = [], chevs = [...arrow.querySelectorAll('path')];
 let userSet = false, sampleIx = 0, current = { name: 'Camila', age: '30' };
 const SAMPLES = [
@@ -107,12 +113,18 @@ function drawWires(){
 const canvas = $('wall'), base = document.createElement('canvas');
 let bricks = [], W = 0, H = 0, dpr = 1, sources = [];
 function rand(seed){ let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
-function paintBase(){
+let wallVersion=0, illumination=null, lightGeometry="", fullLight=true, lastFade=-1;
+async function paintBase(){
+  const version=++wallVersion; illumination=null; lightGeometry=""; fullLight=true;
   dpr = Math.min(devicePixelRatio || 1, 2); W = hero.clientWidth; H = hero.clientHeight;
   for (const cv of [canvas, base, fx]) { cv.width = W * dpr; cv.height = H * dpr; }
-  const c = base.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const painted=document.createElement('canvas');painted.width=base.width;painted.height=base.height;
+  const c = painted.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0);
   const dark = body.classList.contains('dark'), r = rand(7);
-  bricks = paintWorld(c, dark, r); light();
+  const context={W,H,css,star4,copy};
+  const nextBricks=activeStyle.paintWorldSteps?await runSteps(activeStyle.paintWorldSteps(c,dark,r,context)):await idleTask(()=>activeStyle.paintWorld(c,dark,r,context));
+  if(version!==wallVersion)return;
+  base.getContext('2d').drawImage(painted,0,0);bricks=nextBricks;lightGeometry='';light();
 }
 const rgbCache = {};
 function rgb(c){ if (rgbCache[c]) return rgbCache[c]; const d = document.createElement('i'); d.style.color = c; document.body.appendChild(d); const v = getComputedStyle(d).color.match(/\d+/g).map(Number); d.remove(); return rgbCache[c] = v; }
@@ -129,35 +141,43 @@ function collectSources(){
 }
 let shelfX = [0, 0], lightQueued = false;
 function light(){
-  if (lightQueued) return; lightQueued = true;
+  if (!initialized || lightQueued) return; lightQueued = true;
   requestAnimationFrame(() => {
     lightQueued = false;
-    const c = canvas.getContext('2d'); c.setTransform(1, 0, 0, 1, 0, 0); c.drawImage(base, 0, 0); c.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const dark = body.classList.contains('dark'), fade = 1 - parseFloat(getComputedStyle(body).getPropertyValue('--handoff') || 0) * .7;
-    c.globalCompositeOperation = dark ? 'lighter' : 'source-over';
-    const R = W < 700 ? 90 : 150;
-    const lit = sources.filter(s => s.e.classList.contains('on'));
-    if (lit.length) for (const [x, y, w, h] of bricks) {
-      const cx = x + w / 2, cy = y + h / 2; let r = 0, g = 0, b = 0, up = 0;
-      for (const s of lit) {
-        const d2 = ((cx - s.x) ** 2 + (cy - s.y) ** 2) / (R * R), k = s.k / (1 + d2 * 4.5) - .07;
-        if (k <= 0) continue; const col = s.party || s.col; r += col[0] * k; g += col[1] * k; b += col[2] * k; up += (s.y < cy ? 1 : -1) * k;
-      }
-      const a = Math.min(1, (r + g + b) / 765);
-      if (a < .01) continue;
-      const n = Math.max(r, g, b) || 1, rr = [r / n * 255 | 0, g / n * 255 | 0, b / n * 255 | 0];
-      const face = (dark ? .22 : .12) * a * fade, edge = (dark ? .55 : .26) * a * fade;
-      if (!dark) c.globalCompositeOperation = 'multiply';
-      const tint = t => dark ? `rgba(${rr},${t})` : `rgb(${rr.map(v => 255 - (255 - v) * t | 0)})`;
-      c.fillStyle = tint(face); c.fillRect(x, y, w, h);
-      c.fillStyle = tint(edge); c.fillRect(x + 2, up >= 0 ? y : y + h - 2, w - 4, 2);
+    const geometry=sources.map(s=>[s.x,s.y,s.k,...s.col].join(',')).join(';');
+    if(!illumination||geometry!==lightGeometry){illumination=lightingCache(bricks,sources,W<700?90:150);lightGeometry=geometry;fullLight=true;}
+    const fade=1-parseFloat(body.style.getPropertyValue('--handoff')||0)*.7;
+    const dirty=illumination.update(sources.map(s=>s.e.classList.contains('on')?(s.party||s.col):[0,0,0]),fullLight||fade!==lastFade);
+    const c=canvas.getContext('2d'),dark=body.classList.contains('dark');
+    c.setTransform(1,0,0,1,0,0);c.globalCompositeOperation='source-over';
+    if(fullLight)c.drawImage(base,0,0);
+    for(const i of dirty){
+      const [x,y,w,h]=bricks[i];
+      c.setTransform(1,0,0,1,0,0);c.globalCompositeOperation='source-over';
+      const px=Math.floor(x*dpr),py=Math.floor(y*dpr),pw=Math.ceil((x+w)*dpr)-px,ph=Math.ceil((y+h)*dpr)-py;
+      c.drawImage(base,px,py,pw,ph,px,py,pw,ph);
+      const [r,g,b,up]=illumination.values[i],alpha=Math.min(1,Math.max(0,(r+g+b)/765));
+      if(alpha<.01)continue;
+      const n=Math.max(r,g,b)||1,rr=[r/n*255|0,g/n*255|0,b/n*255|0];
+      const tint=t=>dark?'rgba('+rr+','+t+')':'rgb('+rr.map(v=>255-(255-v)*t|0)+')';
+      c.setTransform(dpr,0,0,dpr,0,0);c.globalCompositeOperation=dark?'lighter':'multiply';
+      c.fillStyle=tint((dark?.22:.12)*alpha*fade);c.fillRect(x,y,w,h);
+      c.fillStyle=tint((dark?.55:.26)*alpha*fade);c.fillRect(x+2,up>=0?y:y+h-2,w-4,2);
     }
-    c.globalCompositeOperation = 'source-over';
+    c.globalCompositeOperation='source-over';fullLight=false;lastFade=fade;
   });
 }
 
 /* ---------- encendido con arranque (9) ---------- */
-const setLit = () => { hero.style.setProperty('--lit', (tubes.filter(t => t.classList.contains('on')).length / Math.max(1, tubes.length)).toFixed(3)); light(); syncReflect(); startFx(); };
+const setLit = () => {
+ const value=(tubes.filter(t=>t.classList.contains('on')).length/Math.max(1,tubes.length)).toFixed(3);
+ if(hero.style.getPropertyValue('--lit')!==value){
+  hero.style.setProperty('--lit',value);
+  for(const node of lightNodes)node.style.setProperty('--lit',value);
+  for(const node of lightParents)node.style.setProperty('--local-lit',value);
+ }
+ light();syncReflect();startFx();
+};
 function strike(t){
   if (world() !== 'neon') { t.classList.add('warming'); requestAnimationFrame(() => { t.classList.add('on'); setLit(); }); setTimeout(() => t.classList.remove('warming'), 1200); return; }
   t.classList.add('on', 'strike'); setLit();
@@ -187,6 +207,8 @@ async function kill(){
 /* cambia solo el nombre y el número; guirnalda, fecha y flecha siguen encendidas */
 async function swap(name, age, tube, style, opts = {}){
   const id = ++run;
+  if(style&&world()==='neon')await loadFonts([{cursiva:'Neonderthaw',bloque:'Tilt Neon',retro:'Monoton',motel:'Yellowtail'}[style]]);
+  if(id!==run)return;
   const old = tubes.filter(t => t !== sub);
   for (const t of [...old].reverse()) { t.classList.remove('on'); setLit(); if (!still()) await sleep(16); }
   if (id !== run) return;
@@ -275,20 +297,22 @@ $('custom-toggle').addEventListener('click', e => {
 /* ---------- 6 · confeti y polvo en el aire ---------- */
 const fx = $('fx'), fctx = staticMode ? null : fx.getContext('2d');
 if(staticMode)fx.hidden=true;
-let fxFrame=0;
+let fxFrame=0,fxTimer=0,lastFx=0;
+const ambient=()=>!staticMode&&!mobile.matches;
 let pieces = [], resting = [], motes = [], fxRunning = false;
-function seedMotes(){ if(staticMode)return;motes=Array.from({length:W<700?22:46},()=>({x:Math.random(),y:Math.random(),v:.00012+Math.random()*.0003,p:Math.random()*6.28})); }
-function startFx(){if(!effects||staticMode||still()||!visible||document.hidden||disposed)return;if(!fxRunning){fxRunning=true;fxFrame=requestAnimationFrame(tick);}}
+function seedMotes(){ if(!ambient()){motes=[];smokeP=[];shoot=[];return;}motes=Array.from({length:W<700?22:46},()=>({x:Math.random(),y:Math.random(),v:.00012+Math.random()*.0003,p:Math.random()*6.28})); }
+function startFx(){if(!initialized||!effects||staticMode||still()||!visible||document.hidden||disposed||(!ambient()&&!pieces.length&&!sparks.length))return;if(!fxRunning){fxRunning=true;fxFrame=requestAnimationFrame(tick);}}
 function tick(t){
  if(still()||!visible||document.hidden||disposed){fxRunning=false;return;}
 
+  const dt=lastFx?Math.min(2,(t-lastFx)/(1000/60)):1;lastFx=t;
   fctx.setTransform(dpr, 0, 0, dpr, 0, 0); fctx.clearRect(0, 0, W, H);
   const lit = parseFloat(hero.style.getPropertyValue('--lit') || 0);
   // polvo: solo se ve dentro del haz de luz del letrero
   if (!still() && lit > .3) {
     const tube = rgb(css('--tube'));
     for (const m of motes) {
-      m.y -= m.v; if (m.y < 0) m.y = 1;
+      m.y -= m.v*dt; if (m.y < 0) m.y = 1;
       const x = sign0.x + (m.x - .5) * sign0.w * 1.5 + Math.sin(t / 2400 + m.p) * 14, y = sign0.y + (m.y - .5) * sign0.h * 2.4;
       const d = Math.hypot((x - sign0.x) / (sign0.w * .75), (y - sign0.y) / (sign0.h * 1.2));
       const a = Math.max(0, 1 - d) * .55 * lit;
@@ -303,7 +327,9 @@ function tick(t){
   }
   pieces = pieces.filter(p => !p.rest && p.y < H + 20);
   for (const p of [...resting, ...pieces]) drawPiece(fctx, p, t);
-  if (pieces.length || (lit>.3&&motes.length) || sparks.length || smokeP.length || shoot.length || (on&&world()==='espacio')) fxFrame=requestAnimationFrame(tick); else fxRunning = false;
+  if(pieces.length||sparks.length)fxFrame=requestAnimationFrame(tick);
+  else if(ambient()&&((lit>.3&&motes.length)||smokeP.length||shoot.length||(on&&world()==='espacio')))fxTimer=setTimeout(()=>{fxFrame=requestAnimationFrame(tick);},1000/30);
+  else fxRunning=false;
 }
 
 /* ---------- 8 · modo fiesta ---------- */
@@ -384,7 +410,7 @@ addEventListener('scroll', () => requestAnimationFrame(handoff), { passive: true
 function placeSwitch(){ (mobile.matches ? $('shelf') : $('switch-wrap')).appendChild($('switch-box')); }
 mobile.addEventListener('change', () => { placeSwitch(); fit(); });
 function layout(){ drawCables(); drawWires(); collectSources(); light(); positionBow(); }
-let rz; new ResizeObserver(() => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => { buildGarland(); paintBase(); seedMotes(); fit(); if (on) bulbs.forEach(b => b.classList.add('on')); }); }).observe(hero);
+let rz; new ResizeObserver(() => {if(!initialized|| (W===hero.clientWidth&&H===hero.clientHeight))return;cancelAnimationFrame(rz);rz=requestAnimationFrame(async()=>{await idleTask(buildGarland);await paintBase();seedMotes();fit();if(on)bulbs.forEach(b=>b.classList.add('on'));});}).observe(hero);
 sign.addEventListener('animationend', layout);
 
 function setTheme(){ paintBase(); collectSources(); light(); }
@@ -422,7 +448,7 @@ async function goWorld(w, after){
 
 /* ---------- selector ---------- */
 function closeMenu(){ worldMenu.classList.remove('open'); worldBtn.setAttribute('aria-expanded', 'false'); }
-worldBtn.addEventListener('click', () => { const o = !worldMenu.classList.contains('open'); worldMenu.classList.toggle('open', o); worldBtn.setAttribute('aria-expanded', String(o)); if (o) worldMenu.querySelector('[aria-pressed=true]')?.focus(); });
+worldBtn.addEventListener('click', () => { const o = !worldMenu.classList.contains('open'); worldMenu.classList.toggle('open', o); worldBtn.setAttribute('aria-expanded', String(o)); if (o) worldMenu.querySelector('[aria-pressed=true]')?.focus({preventScroll:true}); });
 worldMenu.querySelectorAll('[data-world]').forEach(b => b.addEventListener('click', () => { goWorld(b.dataset.world, () => worldBtn.focus({ preventScroll: true })); }));
 document.addEventListener('click', e => { if (!e.target.closest('.world-pick')) closeMenu(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && worldMenu.classList.contains('open')) { closeMenu(); worldBtn.focus(); } });
@@ -543,7 +569,7 @@ function confetti(ox, oy){
 function drawPiece(c,p,t){effects?.drawPiece(c,p,t,star4);}
 /* ---------- efectos del lienzo por estilo ---------- */
 let sparks = [], smokeP = [], shoot = [], lastShoot = 0, lastSpark = 0;
-function worldFx(c,t,lit){if(!effects)return;const ctx={world,still,body,W,H,sign0,star4,sparks,smokeP,shoot,lastShoot,emit:on};effects.worldFx(c,t,lit,ctx);({sparks,smokeP,shoot,lastShoot}=ctx);}
+function worldFx(c,t,lit){if(!effects)return;const ctx={world,still,body,W,H,sign0,star4,sparks,smokeP,shoot,lastShoot,emit:on&&ambient()};effects.worldFx(c,t,lit,ctx);({sparks,smokeP,shoot,lastShoot}=ctx);}
 /* ---------- cursor: sombra, espejo, chispas, destellos y astronauta ---------- */
 function pointerWorld(e, nx, ny){
   const wd = world();
@@ -676,9 +702,10 @@ placeSwitch();
 
 let previousDark=body.classList.contains('dark');
 function syncPolicy(){
+ hero.classList.toggle('hero-asleep',!visible||document.hidden);
  reduce=reduced.matches||staticMode;
  $('turntable').setAttribute('aria-label',body.dataset.journeyMotion==='paused'?copy.resume:copy.pause);
- if(still()||!visible||document.hidden){cancelAnimationFrame(fxFrame);fxRunning=false;stopParty();clearTimeout(rotTimer);++run;if(on&&!zone.classList.contains('is-wrapped')){[...tubes,...bulbs,...chevs].forEach(t=>t.classList.add('on'));setLit();}}
+ if(still()||!visible||document.hidden){cancelAnimationFrame(fxFrame);clearTimeout(fxTimer);fxRunning=false;stopParty();clearTimeout(rotTimer);++run;if(on&&!zone.classList.contains('is-wrapped')){[...tubes,...bulbs,...chevs].forEach(t=>t.classList.add('on'));setLit();}}
  else {startFx();scheduleRotation(run);}
  const dark=body.classList.contains('dark');if(previousDark!==dark){previousDark=dark;setTheme();}
  hum();
@@ -686,9 +713,12 @@ function syncPolicy(){
 const observer=new MutationObserver(syncPolicy);observer.observe(body,{attributes:true,attributeFilter:['class','data-journey-motion']});
 const visibility=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;syncPolicy();});visibility.observe(hero);
 document.addEventListener('visibilitychange',syncPolicy);reduced.addEventListener('change',syncPolicy);
-window.addEventListener('pagehide',()=>{disposed=true;cancelAnimationFrame(fxFrame);fxRunning=false;clearTimeout(rotTimer);stopParty();ac?.suspend();});
+window.addEventListener('pagehide',()=>{disposed=true;cancelAnimationFrame(fxFrame);clearTimeout(fxTimer);fxRunning=false;clearTimeout(rotTimer);stopParty();ac?.suspend();});
 window.addEventListener('pageshow',e=>{if(e.persisted){disposed=false;syncPolicy();}});
-build('Camila','30');buildGarland();paintBase();seedMotes();layout();handoff();updateAsk();
+await idleTask(()=>build('Camila','30'));
+await idleTask(buildGarland);
+await paintBase();
+await idleTask(layout);initialized=true;seedMotes();handoff();updateAsk();
 await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
 if(world()==='caja'&&!staticMode){on=true;updateSwitch();bulbs.forEach(b=>b.classList.add('on'));wrapIntro();}
 else {if(world()==='bar')doorIntro();await ignite(false);}

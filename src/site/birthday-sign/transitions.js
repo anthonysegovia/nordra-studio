@@ -1,3 +1,4 @@
+import './transitions.css';
 // Timings, curves and drawings ported from the approved v5 reference.
 export async function transition(w,{still,css,star4,swap}){
 const veil = document.getElementById('bs-veil'), vfx = document.getElementById('bs-vfx'), vctx = still()?null:vfx.getContext('2d');
@@ -39,11 +40,11 @@ const TRANSITIONS = {
     const l = V('v-half l'), r = V('v-half r'), v = V('v-ribbon'), h = V('v-ribbon h'), bow = V('v-bow', BOW);
     [v, h, bow].forEach(e => e.style.opacity = 0);
     const ease = 'cubic-bezier(.6,0,.4,1)';
-    await Promise.all([ani(l, [{ transform: 'translateX(-101%)' }, { transform: 'none' }], { duration: 340, easing: ease }), ani(r, [{ transform: 'translateX(101%)' }, { transform: 'none' }], { duration: 340, easing: ease })]);
-    await Promise.all([ani(v, [{ opacity: 1, transform: 'scaleY(0)' }, { opacity: 1, transform: 'scaleY(1)' }], { duration: 160 }), ani(h, [{ opacity: 1, transform: 'scaleX(0)' }, { opacity: 1, transform: 'scaleX(1)' }], { duration: 160 }), ani(bow, [{ opacity: 0, transform: 'scale(.3)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 200, easing: 'cubic-bezier(.3,1.6,.5,1)' })]);
+    await Promise.all([ani(l, [{ transform: 'translateX(-101%)' }, { transform: 'none' }], { duration: 300, easing: ease }), ani(r, [{ transform: 'translateX(101%)' }, { transform: 'none' }], { duration: 300, easing: ease })]);
+    await Promise.all([ani(v, [{ opacity: 1, transform: 'scaleY(0)' }, { opacity: 1, transform: 'scaleY(1)' }], { duration: 140 }), ani(h, [{ opacity: 1, transform: 'scaleX(0)' }, { opacity: 1, transform: 'scaleX(1)' }], { duration: 140 }), ani(bow, [{ opacity: 0, transform: 'scale(.3)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 140, easing: 'cubic-bezier(.3,1.6,.5,1)' })]);
     swap();
-    await Promise.all([ani(bow, [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'translateY(-60vh) scale(.6) rotate(25deg)' }], { duration: 220, easing: 'ease-in' }), ani(v, [{ opacity: 1, transform: 'none' }, { opacity: 1, transform: 'translateY(-115%)' }], { duration: 220, easing: 'ease-in' }), ani(h, [{ opacity: 1 }, { opacity: 0 }], { duration: 180 })]);
-    await Promise.all([ani(l, [{ transform: 'none' }, { transform: 'translateX(-101%) rotate(-4deg)' }], { duration: 330, easing: 'cubic-bezier(.5,0,.3,1)' }), ani(r, [{ transform: 'none' }, { transform: 'translateX(101%) rotate(4deg)' }], { duration: 330, easing: 'cubic-bezier(.5,0,.3,1)' })]);
+    await Promise.all([ani(bow, [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'translateY(-60vh) scale(.6) rotate(25deg)' }], { duration: 200, easing: 'ease-in' }), ani(v, [{ opacity: 1, transform: 'none' }, { opacity: 1, transform: 'translateY(-115%)' }], { duration: 200, easing: 'ease-in' }), ani(h, [{ opacity: 1 }, { opacity: 0 }], { duration: 180 })]);
+    await Promise.all([ani(l, [{ transform: 'none' }, { transform: 'translateX(-101%) rotate(-4deg)' }], { duration: 300, easing: 'cubic-bezier(.5,0,.3,1)' }), ani(r, [{ transform: 'none' }, { transform: 'translateX(101%) rotate(4deg)' }], { duration: 300, easing: 'cubic-bezier(.5,0,.3,1)' })]);
   },
   async bar(swap){
     const i = V('v-iris');

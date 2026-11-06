@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {sanitizeName,sanitizeAge,displayAge,daysToLiftoff,whatsappMessage,whatsappURL,initialStyle,rememberStyle,STYLE_KEY,staticProfile} from '../src/site/birthday-sign/state.js';
 import {dictionary,format} from '../src/site/birthday-sign/copy.js';
+import {lightingCache} from '../src/site/birthday-sign/lighting.js';
 test('only a fifteenth birthday becomes XV in the gala',()=>{
  for(const [age,style,want] of [['15','xv','XV'],['30','xv','30'],['40','xv','40'],['15','bar','15'],['XV','xv','XV'],['6','espacio','6'],['','xv','']])assert.equal(displayAge(age,style),want);
 });
@@ -47,6 +48,22 @@ test('English dynamic dictionary has every key and matching placeholders',()=>{
 });
 test('static policy matches wedding resource constraints',()=>{
  assert(staticProfile({hardwareConcurrency:3}));assert(staticProfile({deviceMemory:2}));assert(staticProfile({connection:{saveData:true}}));assert(!staticProfile({hardwareConcurrency:4,deviceMemory:4}));assert(!staticProfile({}));
+});
+
+test('incremental brick light matches the original sum, and only dirties influenced bricks',()=>{
+ const bricks=[[0,0,60,30],[70,0,60,30],[1000,1000,60,30]];
+ const sources=[{x:30,y:8,k:.8},{x:100,y:40,k:.4}];
+ const cache=lightingCache(bricks,sources,90);
+ const states=[[[255,20,90],[0,0,0]],[[255,20,90],[80,180,255]],[[0,0,0],[80,180,255]],[[0,0,0],[0,0,0]]];
+ for(const colors of states){
+  const dirty=cache.update(colors);assert(!dirty.has(2));
+  bricks.forEach(([x,y,w,h],i)=>{
+   const expected=[0,0,0,0];sources.forEach((s,j)=>{const k=s.k/(1+(((x+w/2-s.x)**2+(y+h/2-s.y)**2)/90**2)*4.5)-.07;if(k<=0||!colors[j].some(Boolean))return;for(let c=0;c<3;c++)expected[c]+=colors[j][c]*k;expected[3]+=(s.y<y+h/2?1:-1)*k;});
+   expected.forEach((v,j)=>assert(Math.abs(v-cache.values[i][j])<1e-9));
+  });
+  assert.equal(cache.update(colors).size,0);
+ }
+ assert.equal(cache.update(states.at(-1),true).size,3);
 });
 
 test('approved birthday hero is text-first with one real invitation and three non-link covers',()=>{
