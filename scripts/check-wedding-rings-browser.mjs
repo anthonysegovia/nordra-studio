@@ -8,7 +8,7 @@ try{
   const title=await page.locator('h1').textContent();assert.match(title,lang==='es'?/para siempre/:/forever/);
   assert.equal(await page.locator('[data-rings-sound]').getAttribute('aria-pressed'),'false');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'Horizontal overflow');
-  if(mobile){await page.waitForTimeout(500);assert.equal(await page.evaluate(()=>window.__webglContexts),0);const box=await page.locator('[data-rings-start]').boundingBox();assert(box.y>=0&&box.y+box.height<=await page.locator('.mobile-route').evaluate(el=>el.getBoundingClientRect().top));await page.screenshot({path:path.join(output,`${lang}-${theme}-390-initial.jpg`),type:'jpeg'});await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);assert.equal(await page.evaluate(()=>window.__ringsStartClicks),1,'Real touch must dispatch a click');}
+  if(mobile){await page.waitForTimeout(500);assert.equal(await page.evaluate(()=>window.__webglContexts),0);await page.locator('[data-rings-start]').scrollIntoViewIfNeeded();const box=await page.locator('[data-rings-start]').boundingBox();assert(box.y>=0&&box.y+box.height<=await page.locator('.mobile-route').evaluate(el=>el.getBoundingClientRect().top));await page.screenshot({path:path.join(output,`${lang}-${theme}-390-initial.jpg`),type:'jpeg'});await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);assert.equal(await page.evaluate(()=>window.__ringsStartClicks),1,'Real touch must dispatch a click');}
   await page.waitForFunction(()=>window.__rings&&document.querySelector('.rings-hero.has-scene'));await page.waitForTimeout(8500);
   let preparation;
   if(!mobile){
@@ -31,8 +31,8 @@ try{
  if(!['static','language'].includes(process.env.RINGS_SUITE))for(const [width,height] of [[375,667],[412,915]])for(const theme of ['light','dark']){
   const context=await browser.newContext({viewport:{width,height},hasTouch:true,isMobile:true,locale:'es-MX'});await profile(context);const page=await context.newPage();await instrument(page);
   await page.goto(`${url}/bodas?theme=${theme}`);await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(200);
-  const box=await page.locator('[data-rings-start]').boundingBox();assert(box.y>=0&&box.y+box.height<=await page.locator('.mobile-route').evaluate(el=>el.getBoundingClientRect().top),'Control above bottom bar');assert.equal(await page.evaluate(()=>scrollY),0);
-  assert.match(await page.locator(`.rings-poster-${theme} img`).evaluate(img=>img.currentSrc),new RegExp(`mobile-${height<720?'short':'tall'}.webp`));
+  await page.locator('[data-rings-start]').scrollIntoViewIfNeeded();const box=await page.locator('[data-rings-start]').boundingBox();assert(box.y>=0&&box.y+box.height<=await page.locator('.mobile-route').evaluate(el=>el.getBoundingClientRect().top),'Control above bottom bar');
+  assert.match(await page.locator(`.rings-poster-${theme} img`).evaluate(img=>img.currentSrc),/mobile.webp/);
   await page.screenshot({path:path.join(output,`es-${theme}-${width}-initial.jpg`),type:'jpeg'});await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);assert.equal(await page.evaluate(()=>window.__ringsStartClicks),1);
   await page.waitForFunction(()=>window.__rings&&document.querySelector('.rings-hero.has-scene'));await page.waitForTimeout(8500);await page.screenshot({path:path.join(output,`es-${theme}-${width}-live.jpg`),type:'jpeg'});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);results.push({width,height,theme,realTouch:true});await context.close();
  }
@@ -41,23 +41,23 @@ try{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(`${url}/bodas?theme=${theme}`);await page.evaluate(()=>document.fonts.ready);await page.locator('.locale-suggestion').waitFor({state:'visible'});
   const checkFit=async()=>{
-   await page.waitForFunction(()=>{const h=document.querySelector('.rings-hero').getBoundingClientRect(),bar=document.querySelector('.mobile-route').getBoundingClientRect();return Math.abs(h.bottom-bar.top)<2;});
-   const box=await page.locator('[data-rings-start]').boundingBox();
+   await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.waitForFunction(()=>document.querySelector('.rings-back').getBoundingClientRect().top>=document.querySelector('.site-header').getBoundingClientRect().bottom);
+   await page.locator('[data-rings-start]').scrollIntoViewIfNeeded();const box=await page.locator('[data-rings-start]').boundingBox();
    assert(box.y>=0&&box.y+box.height<=await page.locator('.mobile-route').evaluate(el=>el.getBoundingClientRect().top),'Motion control above actual bottom bar');
    assert(await page.evaluate(({x,y,width,height})=>Boolean(document.elementFromPoint(x+width/2,y+height/2)?.closest('[data-rings-start]')),box),'Motion control owns the touch point');
-   assert.equal(await page.evaluate(()=>scrollY),0);return box;
+   return box;
   };
   await checkFit();const before=await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height);
   if(dismissed){await page.locator('.locale-suggestion button').click();await page.locator('.locale-suggestion').waitFor({state:'hidden'});}
-  const box=await checkFit();const fitted=await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height);if(dismissed)assert(fitted>before,'Closing notice restores hero space');
+  const box=await checkFit();const fitted=await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height);assert.equal(fitted,before,'Notice does not compress content');
   const sizes=await page.evaluate(()=>Object.fromEntries(['.eyebrow','.hint','.rings-controls button'].map(selector=>[selector,parseFloat(getComputedStyle(document.querySelector('.rings-hero '+selector)).fontSize)])));
   assert(sizes['.eyebrow']>=11&&sizes['.hint']>=11&&sizes['.rings-controls button']>=12);
   await page.screenshot({path:path.join(output,`locale-${theme}-${width}-${dismissed?'closed':'visible'}.jpg`),type:'jpeg'});
   await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);assert.equal(await page.evaluate(()=>window.__ringsStartClicks),1);
   await page.waitForFunction(()=>document.querySelector('.rings-hero.has-scene #rings-stage canvas'));await page.waitForTimeout(8500);
   await page.screenshot({path:path.join(output,`locale-${theme}-${width}-${dismissed?'closed':'visible'}-live.jpg`),type:'jpeg'});
-  if(!dismissed){await page.locator('.locale-suggestion button').click();await page.waitForFunction(old=>document.querySelector('.rings-hero').getBoundingClientRect().height>old,fitted);assert(await page.locator('#rings-stage canvas').isVisible());}
-  await page.setViewportSize({width,height:height+40});await page.waitForFunction(()=>Math.abs(document.querySelector('.rings-hero').getBoundingClientRect().bottom-document.querySelector('.mobile-route').getBoundingClientRect().top)<2);
+  if(!dismissed){await page.locator('.locale-suggestion button').click();assert.equal(await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height),fitted);assert(await page.locator('#rings-stage canvas').isVisible());}
+  await page.setViewportSize({width,height:height+40});assert.equal(await page.locator('.rings-hero').evaluate(el=>el.getBoundingClientRect().height),fitted,'Viewport height does not shrink typography');
   assert.deepEqual(errors,[]);results.push({locale:'en-US',width,height,theme,notice:dismissed?'closed':'visible',realTouch:true,resized:true,sizes});await context.close();
  }
  if(process.env.RINGS_SUITE!=='language')for(const mobile of [false,true])for(const mode of ['reduced','cores','memory','saveData','paused'])for(const lang of ['es','en'])for(const theme of ['light','dark']){

@@ -63,6 +63,7 @@ body.dark .rings-hero .grain{mix-blend-mode:screen;opacity:.06}
  .rings-hero .actions{justify-content:flex-start}
 }
 @media(max-width:700px){
+ body[data-scene=bodas] .occasion-page{padding-top:0}
  .rings-hero .lead{font-size:15px}
 }
 @media(prefers-reduced-motion:reduce){.rings-hero .reveal,.rings-hero.ready .reveal{opacity:1;transform:none;transition:none}.rings-hero .wipe,.rings-hero.ready .wipe{transform:none;transition:none}.rings-hero .rays,.rings-hero .candles,.rings-hero .grain,.rings-hero .band{animation:none!important}}
@@ -98,31 +99,58 @@ body[data-journey-motion=paused] .rings-seal circle{stroke-dashoffset:0;transiti
 body[data-scene=bodas] .occasion-path{position:relative;z-index:4;pointer-events:none}
 body[data-scene=bodas] .occasion-path a{pointer-events:auto}
 body[data-scene=bodas] .rings-hero{margin-top:-115px;padding-top:calc(74px + 4vh)}
-@media(max-width:700px){body[data-scene=bodas] .rings-hero{margin-top:-132px;padding-top:calc(132px + 4vh)}}
+
 
 .rings-hero .rings-controls{position:absolute;top:74px;left:7vw;right:7vw;z-index:4;margin:0;justify-content:flex-end}
 @media(max-width:900px){.rings-hero .rings-controls{top:120px;left:24px;right:24px;justify-content:center}}
 
 /* Keep layout independent of the shared press transform. */
 .rings-hero .rings-controls button{display:inline-flex;align-items:center;align-self:center;justify-content:center;gap:10px;line-height:1}
+.rings-mobile-row,.rings-pause-icon,.rings-motion svg{display:none}
+/* Only the hero-to-seal transition is unruled. */
+body[data-scene=bodas] #bodas-respuesta>.travel-thread{display:none}
 @media(max-width:700px){
- body[data-scene=bodas] .rings-hero{min-height:var(--rings-available-height,100svh);height:var(--rings-available-height,100svh);margin-top:-132px;padding:118px 20px 0}
- .rings-hero .rings-controls{top:12px;left:auto;right:20px;height:36px}
- .rings-hero .rings-controls button{min-height:36px;padding:4px 0;font-size:12px}
- .rings-hero .eyebrow{font-size:11px;letter-spacing:.1em;margin:0}
- .rings-hero h1{font-size:clamp(32px,8.7vw,40px);margin:8px 0 0}
- .rings-hero h1 .script{width:70vw;margin:-.08em auto 0}
- .rings-hero .lead{font-size:13px;line-height:1.45;margin:5px auto 0;max-width:340px}
- .rings-hero .actions{gap:8px 14px;margin-top:10px;flex-wrap:nowrap;width:100%}
- .rings-hero .horizon-button{font-size:11px;min-height:44px;padding:10px 14px;gap:8px;white-space:nowrap}
- .rings-hero .options-compare{font-size:11px;min-height:44px;padding:8px 0;gap:6px;white-space:nowrap}
- .rings-hero .rings-motion{bottom:8px;min-height:36px;padding:7px 14px;font-size:12px}
+ body[data-scene=bodas] .rings-hero{min-height:0;height:auto;margin-top:0;padding:14px 20px 0;background:var(--paper)}
+ .rings-hero::before{background:var(--paper)}
+ .rings-mobile-row{display:flex;align-items:center;width:100%;height:44px;flex:none;z-index:4}
+ .rings-back{display:inline-flex;align-items:center;gap:8px;min-height:40px;font-size:14px;color:var(--soft);text-decoration:none;transition:gap .22s,color .22s}
+ .rings-back::before{content:'←'}
+ .rings-back:hover{gap:11px;color:var(--ink)}
+ .rings-hero .rings-controls{top:16px;left:auto;right:20px;height:40px;gap:8px}
+ .rings-hero .rings-controls button{width:40px;height:40px;min-height:40px;padding:0;border:1px solid var(--line);border-radius:50%;background:color-mix(in srgb,var(--paper) 70%,transparent);color:var(--ink);font-size:12px;transition:background .22s,border-color .22s}
+ .rings-hero .rings-controls button:hover{background:var(--paper-2);border-color:var(--accent)}
+ .rings-hero .rings-controls button::before{display:none}
+ .rings-hero .rings-controls span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .rings-pause-icon{display:block;width:14px;height:14px}
+ .rings-pause-icon .play-triangle,[aria-pressed=true]>.rings-pause-icon .pause-bars{display:none}
+ [aria-pressed=true]>.rings-pause-icon .play-triangle{display:block}
+ body[data-scene=bodas] .rings-hero .occasion-path{display:flex;flex:none;flex-wrap:nowrap;gap:8px;width:calc(100% + 40px);margin:8px -20px 0;padding:0 20px 4px;overflow-x:auto;scrollbar-width:none;pointer-events:auto}
+ .rings-hero .occasion-path::-webkit-scrollbar{display:none}
+ body[data-scene=bodas] .rings-hero .occasion-path a{flex:none;min-height:40px;padding:8px 14px;font-size:13px;line-height:16px;border:1px solid var(--line);border-radius:999px;color:var(--soft);background:transparent;transition:background .22s,color .22s,border-color .22s}
+ body[data-scene=bodas] .rings-hero .occasion-path a:first-child{display:none}
+ body[data-scene=bodas] .rings-hero .occasion-path a[aria-current=page]{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+ body[data-scene=bodas] .rings-hero .occasion-path a:hover{border-color:var(--accent)}
+ .rings-hero .copy{margin-top:22px;width:100%}
+ .rings-hero .eyebrow{font-size:11px;letter-spacing:.16em;margin:0 0 10px}
+ .rings-hero h1{font-size:40px;line-height:1.04;margin:0}
+ .rings-hero h1 .script{width:336px;max-width:calc(100vw - 40px);height:57px;margin:2px auto 0}
+ .rings-hero .ink{fill:#b8955a;stroke:none}
+ body.dark .rings-hero .ink{fill:#c9a15c}
+ .rings-hero .shine{display:none}
+ .rings-hero .lead{font-size:16px;line-height:1.5;margin:14px auto 0;max-width:30ch}
+ .rings-hero .actions{flex-direction:column;gap:6px;margin-top:20px;width:100%}
+ .rings-hero .horizon-button{justify-content:center;font-size:15px;width:min(100%,300px);height:52px;padding:0 20px;gap:10px}
+ .rings-hero .horizon-button span{transition:translate .22s}
+ .rings-hero .horizon-button:hover span{translate:0 3px}
+ .rings-hero .options-compare{font-size:15px;min-height:40px;margin:0;gap:4px;padding:8px 2px;border:0;background:linear-gradient(var(--line),var(--line)) center calc(100% - 6px)/100% 1px no-repeat;transition:background-size .22s}
+ .rings-hero .options-compare::after{display:none}
+ .rings-hero .options-compare:hover{background-size:0 1px}
+ .rings-hero #rings-stage{position:relative;inset:auto;flex:none;order:1;width:100vw;height:380px;margin-top:-24px;z-index:1}
+ .rings-hero .rings-poster{inset:auto 0 0;height:380px;z-index:0}
+ .rings-hero .rings-motion{bottom:34px;display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:13px;background:color-mix(in srgb,var(--paper) 82%,transparent);backdrop-filter:blur(6px);transition:background .22s,border-color .22s}
+ .rings-motion svg{display:block;width:12px;height:12px}
+ .rings-hero .rings-motion:hover{background:var(--paper);border-color:var(--accent)}
  .rings-hero .hint{font-size:11px;letter-spacing:.04em}
-}
-@media(max-width:700px) and (max-height:720px){
- body[data-scene=bodas] .rings-hero{padding-top:111px}
- .rings-hero h1{font-size:30px;margin-top:4px}
- .rings-hero h1 .script{width:60vw}
- .rings-hero .lead{font-size:12px;margin-top:2px}
- .rings-hero .actions{margin-top:4px;gap:10px}
+ .rings-hero .rays,.rings-hero .candles{top:auto;height:380px}
+ body[data-journey-motion=paused] .rings-hero *{transition:none!important;animation:none!important}
 }
