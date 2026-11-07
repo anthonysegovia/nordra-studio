@@ -24,3 +24,5 @@ import '../scripts/interaction-motion.js?entry=birthdays';
 
 import '../birthday-sign/sign.css';
 import '../birthday-sign/sign-hero.js';
+
+import '../birthday-sign/ux.css';

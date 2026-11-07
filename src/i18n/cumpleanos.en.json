@@ -126,5 +126,17 @@
   "NOMBRE DEL PILOTO": "PILOT NAME",
   "Piloto": "Pilot",
   "Despegar": "Lift off",
-  "Retro": "Retro"
+  "Retro": "Retro",
+  "Pruébalo": "Try it",
+  "Lo estás viendo ✓": "You're viewing ✓",
+  "Deshacer": "Undo",
+  "1 de 4": "1 of 4",
+  "Probar el estilo Caja de regalo": "Try the Gift box style",
+  "Probar el estilo Bar clandestino": "Try the Speakeasy style",
+  "Probar el estilo Gala de XV": "Try the Quinceañera gala style",
+  "Probar el estilo Misión espacial": "Try the Space mission style",
+  "Ahora: {style}": "Now: {style}",
+  "{style}: lo estás viendo, volver al letrero": "{style}: you're viewing, back to the sign",
+  "Probar el estilo {style}": "Try the {style} style",
+  "{n} de {total}": "{n} of {total}"
 }

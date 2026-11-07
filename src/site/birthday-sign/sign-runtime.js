@@ -1,3 +1,5 @@
+import uxEnglish from '../../i18n/cumpleanos.en.json';
+import {mountCards} from './cards.js';
 import {idleTask,runSteps} from './work.js';
 import {lightingCache} from './lighting.js';
 import {sanitizeName,sanitizeAge,displayAge,daysToLiftoff,whatsappURL,rememberStyle} from './state.js';
@@ -5,6 +7,9 @@ import {dictionary,format} from './copy.js';
 import {loadFonts} from './fonts.js';
 export async function mountSign({initialStyle,staticMode,loadStyle}){
 const lang=document.documentElement.lang.startsWith('en')?'en':'es',copy=dictionary[lang];
+const text=(key,values={})=>format(lang==='en'?(uxEnglish[key]||key):key,values);
+let cardUI, chosen=false;
+function markChosen(){chosen=true;updateAsk();}
 let activeStyle=await loadStyle(initialStyle);
 const effects=staticMode?null:await import('./effects.js');
 
@@ -442,7 +447,7 @@ function syncWorldUI(){
   const w = world();
   $('world-name').textContent = WORLDS[w].label;
   worldMenu.querySelectorAll('[data-world]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.world === w)));
-  root.querySelectorAll('.try-style').forEach(b => { const a = b.dataset.world === w; b.setAttribute('aria-pressed', String(a)); b.textContent = a ? copy.active : copy.tryStyle; });
+  cardUI?.sync();
 }
 let busy = false;
 async function goWorld(w, after){
@@ -458,10 +463,9 @@ async function goWorld(w, after){
 /* ---------- selector ---------- */
 function closeMenu(){ worldMenu.classList.remove('open'); worldBtn.setAttribute('aria-expanded', 'false'); }
 worldBtn.addEventListener('click', () => { const o = !worldMenu.classList.contains('open'); worldMenu.classList.toggle('open', o); worldBtn.setAttribute('aria-expanded', String(o)); if (o) worldMenu.querySelector('[aria-pressed=true]')?.focus({preventScroll:true}); });
-worldMenu.querySelectorAll('[data-world]').forEach(b => b.addEventListener('click', () => { goWorld(b.dataset.world, () => worldBtn.focus({ preventScroll: true })); }));
+worldMenu.querySelectorAll('[data-world]').forEach(b => b.addEventListener('click', () => { goWorld(b.dataset.world, () => {markChosen();worldBtn.focus({ preventScroll: true });}); }));
 document.addEventListener('click', e => { if (!e.target.closest('.world-pick')) closeMenu(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && worldMenu.classList.contains('open')) { closeMenu(); worldBtn.focus(); } });
-root.querySelectorAll('.try-style').forEach(b => b.addEventListener('click', () => goWorld(b.dataset.world, () => scrollTo({ top: 0, behavior: 'instant' }))));
 syncWorldUI();
 
 
@@ -726,6 +730,7 @@ const visibility=new IntersectionObserver(entries=>{visible=entries[0].isInterse
 document.addEventListener('visibilitychange',syncPolicy);reduced.addEventListener('change',syncPolicy);
 window.addEventListener('pagehide',()=>{disposed=true;cancelAnimationFrame(fxFrame);clearTimeout(fxTimer);fxRunning=false;clearTimeout(rotTimer);stopParty();ac?.suspend();});
 window.addEventListener('pageshow',e=>{if(e.persisted){disposed=false;syncPolicy();}});
+cardUI=mountCards({root,world,goWorld,chosen:markChosen,labels:WORLDS,text,mobile,still});
 await idleTask(()=>build('Camila','30'));
 await idleTask(buildGarland);
 await paintBase();

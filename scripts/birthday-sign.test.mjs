@@ -66,15 +66,16 @@ test('incremental brick light matches the original sum, and only dirties influen
  assert.equal(cache.update(states.at(-1),true).size,3);
 });
 
-test('approved birthday hero is text-first with one real invitation and three non-link covers',()=>{
+test('approved birthday hero is text-first with four whole-card style buttons',()=>{
  const html=fs.readFileSync(new URL('../cumpleanos.html',import.meta.url),'utf8');
  const hero=html.slice(html.indexOf('<section class="hero"'),html.indexOf('<section class="styles"'));
  assert.ok(hero.includes('<h1 id="bs-titulo">Tu nombre,<br><em>en luces</em></h1>'));
  assert.doesNotMatch(hero,/<img|<iframe|occasion-poster|fetchpriority="high"/);
  assert.match(hero,/class="btn" href="#bs-estilos"/);
  assert.ok(html.includes('href="/invitaciones/camila-30/"'));
- assert.equal((html.match(/<a class="phone"/g)||[]).length,1);
- assert.equal((html.match(/<div class="phone"/g)||[]).length,3);
+ assert.equal((html.match(/<a class="phone"/g)||[]).length,0);
+ assert.equal((html.match(/class="card-hit"/g)||[]).length,4);
+ assert.equal((html.match(/<div class="phone"/g)||[]).length,4);
  assert.doesNotMatch(html,/PROPUESTA|Maqueta v5/);
 });
 
