@@ -1228,3 +1228,11 @@ body[data-journey-motion=paused] .occasion-paper{display:none}
 
 /* Phones: a tighter vertical rhythm between sections. Spacing alone added about one screen per page. */
 @media(max-width:700px){.home-continuation{padding-top:36px;margin-top:40px}.home-continuation h2{font-size:clamp(32px,10vw,38px);margin:14px 0 22px}}
+
+/* Keep hero labels in meaningful groups, matching the homepage location. */
+@media(max-width:700px){
+ .scene .eyebrow-split{max-width:none}
+ .eyebrow-split>span{display:block;white-space:nowrap}
+ .eyebrow-split>.eyebrow-divider{display:none}
+ .eyebrow-balanced{text-wrap:balance}
+}
