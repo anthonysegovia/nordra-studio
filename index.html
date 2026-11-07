@@ -7,7 +7,7 @@
  document.documentElement.dataset.initialTheme=theme;
  const paused=matchMedia('(prefers-reduced-motion: reduce)').matches||(q.has('motion')?q.get('motion')==='paused':saved.paused===true);
  let entered=false;try{entered=sessionStorage.getItem('nordra-landscape-entered')==='true';}catch{}
- const phase=!matchMedia('(max-width:700px)').matches&&!paused&&!entered&&navigator.connection?.saveData!==true?'start':'final';
+ const phase=!paused&&!entered&&navigator.connection?.saveData!==true?'start':'final';
  document.documentElement.dataset.landscapePoster=phase;
  const format=matchMedia('(max-width:700px)').matches?'mobile':matchMedia('(max-width:1600px)').matches?'compact':matchMedia('(min-width:2200px)').matches?'wide':'desktop';
  const preload=document.createElement('link');preload.rel='preload';preload.as='image';preload.fetchPriority='high';

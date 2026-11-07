@@ -1,6 +1,6 @@
 /* Approved Signature landscape. Only the homepage hero owns this stage. */
 .home-horizon .horizon-hero{min-height:calc(100svh - 80px);padding-bottom:clamp(280px,36svh,430px)}
-.horizon-landscape{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .6s ease;background:linear-gradient(180deg,#9cc2ef 0%,#d6e8f9 50%,#f2f4f3 70%,#b8cad9 71%,#c9d6e1 100%)}
+.horizon-landscape{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .5s ease;background:linear-gradient(180deg,#9cc2ef 0%,#d6e8f9 50%,#f2f4f3 70%,#b8cad9 71%,#c9d6e1 100%)}
 .dark .horizon-landscape{background:linear-gradient(180deg,#030814 0%,#05121e 52%,#0b2f36 70%,#020509 71%,#040a12 100%)}
 .horizon-landscape.has-scene{opacity:1}
 .horizon-landscape canvas{position:absolute;inset:0;width:100%;height:100%}

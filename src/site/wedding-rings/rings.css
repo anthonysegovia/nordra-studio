@@ -19,7 +19,8 @@ body.dark .rings-hero{--paper:#1c1714;--paper-2:#28201b;--ink:#efe6d8;--soft:#bf
 .rings-hero .shine{fill:#fff6dc;stroke:none;opacity:0}
 .rings-hero .wipe,.rings-hero .band{transform-box:view-box}
 .rings-hero .wipe{transform:translateX(-1200px)}
-.rings-hero.ready .wipe{transform:translateX(0);transition:transform 2.6s cubic-bezier(.45,.05,.3,1) .35s}
+.rings-hero .wipe{animation:rings-write 2.5s cubic-bezier(.45,.05,.3,1) both}
+@keyframes rings-write{from{transform:translateX(-1200px)}to{transform:translateX(0)}}
 .rings-hero.ready .shine{opacity:.95;transition:opacity .3s 3.2s}
 .rings-hero.ready .band{animation:sweep 6.5s cubic-bezier(.4,0,.2,1) 3.2s infinite}
 @keyframes sweep{0%{transform:translateX(0)}26%{transform:translateX(1400px)}100%{transform:translateX(1400px)}}
@@ -75,12 +76,14 @@ body[data-scene=bodas] .rings-hero{width:100vw;max-width:none;margin-left:calc(5
 .rings-hero .copy{flex:none}
 .rings-hero h1{max-width:none;text-wrap:initial}
 .rings-hero .reveal{opacity:1;transform:none}
-.rings-hero:not(.has-scene) .wipe,.rings-hero:not(.entering) .wipe{transform:none;transition:none}
+/* Lettering starts with the page and never restarts when WebGL becomes ready. */
 .rings-hero .rings-poster{position:absolute;inset:0;z-index:-2;pointer-events:none}
 .rings-poster picture,.rings-poster img{display:block;width:100%;height:100%;object-fit:cover}
 .rings-poster-dark{display:none!important}body.dark .rings-poster-light{display:none}body.dark .rings-poster-dark{display:block!important}
-.rings-hero.has-scene .rings-poster{visibility:hidden}
-.rings-hero:not(.has-scene) #rings-stage{visibility:hidden}
+.rings-hero .rings-poster{opacity:1;transition:opacity .5s ease}
+.rings-hero.has-scene .rings-poster{opacity:0}
+.rings-hero #rings-stage{opacity:0;transition:opacity .5s ease}
+.rings-hero.has-scene #rings-stage{opacity:1}
 .rings-hero:not(.has-scene) .hint{display:none}
 .rings-hero[data-running=false] :is(.rays,.candles,.grain,.band){animation-play-state:paused!important}
 .rings-hero .rings-controls{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:12px;pointer-events:auto;color:var(--soft);font-size:12px}

@@ -6,11 +6,11 @@ import '../scripts/mobile-aurora.js?entry=weddings';
 import '../scripts/motion.js?entry=weddings';
 import '../scripts/scroll-motion.js?entry=weddings';
 import '../scripts/business-motion.js?entry=weddings';
-import '../scripts/wedding-stage.js?entry=weddings';
+
 import '../scripts/theme-transition.js?entry=weddings';
-import '../scripts/living-images.js?entry=weddings';
-import '../scripts/nordra-materials.js?entry=weddings';
-import '../scripts/nordra-theatre.js?entry=weddings';
+
+
+
 import '../scripts/interface-icons.js?entry=weddings';
 import '../styles/mobile-chrome.css';
 import '../styles/language-switch.css';
@@ -27,3 +27,15 @@ import '../scripts/interaction-motion.js?entry=weddings';
 import '../wedding-rings/rings.css';
 import '../wedding-rings/rings-hero.js';
 import '../styles/wedding-sample.css';
+
+// Prepare the editorial section only as it approaches the viewport.
+const details = document.getElementById('bodas-respuesta');
+if (details) {
+ const observer = new IntersectionObserver(entries => {
+  if (!entries.some(entry => entry.isIntersecting)) return;
+  observer.disconnect();
+  void Promise.all([import('../scripts/wedding-stage.js?entry=weddings'), import('../scripts/living-images.js?entry=weddings'), import('../scripts/nordra-materials.js?entry=weddings'), import('../scripts/nordra-theatre.js?entry=weddings')]);
+ }, {rootMargin:'0px'});
+ observer.observe(details);
+ addEventListener('pagehide', () => observer.disconnect(), {once:true});
+}

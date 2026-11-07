@@ -5,10 +5,11 @@ if (stage) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const poster = window.NordraLandscapePoster;
   const staticProfile = () => navigator.connection?.saveData === true ||
+    ['2g', 'slow-2g'].includes(navigator.connection?.effectiveType) ||
     (navigator.deviceMemory != null && navigator.deviceMemory < 3) ||
     (navigator.hardwareConcurrency != null && navigator.hardwareConcurrency < 4);
   const phone = matchMedia('(max-width:700px)');
-  const portable = matchMedia('(max-width:700px), (hover:none) and (pointer:coarse)');
+  const portable = matchMedia('(max-width:700px), (pointer:coarse)');
   // Observe the parent-owned frame: document.hidden does not reflect aria-hidden.
   const frame = window.frameElement;
   const parentDocument = frame?.ownerDocument;
@@ -21,8 +22,8 @@ if (stage) {
     dark: document.body.classList.contains('dark'),
   });
   const signal = (active, release = false) => dispatchEvent(new CustomEvent('nordra-landscape', { detail: { active, release } }));
-  // A still visit already has its final landscape; do not allocate WebGL for it.
-  const shouldLoad = current => landscapePolicy(current).load && !current.paused && !current.reduced && !staticProfile();
+  // Portable scenes prepare after the poster paint, even if scrolled away.
+  const shouldLoad = current => landscapePolicy({ ...current, visible: portable.matches || current.visible }).load && !current.paused && !current.reduced && !staticProfile();
   function fallback() {
     failed = true; poster?.final();
     stage.classList.remove('has-scene'); stage.dataset.renderer = 'static'; signal(false);
@@ -37,6 +38,7 @@ if (stage) {
   async function start() {
     idle = null;
     if (loading || !shouldLoad(state())) return;
+    performance.mark('nordra-landscape-load-start');
     const context = webglAvailable();
     if (!context) { failed = true; fallback(); return; }
     let transferred = false;
@@ -77,10 +79,10 @@ if (stage) {
     if (scene && staticProfile()) {
       scene.dispose(); scene = null; signal(false, true);
     }
-    if (phone.matches || current.paused || current.reduced || staticProfile()) poster?.final();
+    if (current.paused || current.reduced || staticProfile()) poster?.final();
     scene?.setState(current);
     if (loaded && !loading && idle == null && shouldLoad(current)) {
-      idle = window.requestIdleCallback ? requestIdleCallback(start, { timeout: 1800 }) : setTimeout(start, 200);
+      idle = window.requestIdleCallback ? requestIdleCallback(start, { timeout: 1800 }) : setTimeout(start, 1500);
     }
   }
   function afterPosterDecode() {
@@ -109,6 +111,7 @@ if (stage) {
     view.disconnect(); changes.disconnect(); parentChanges?.disconnect();
     reduced.removeEventListener('change', sync);
     phone.removeEventListener('change', sync);
+    portable.removeEventListener('change', sync);
     navigator.connection?.removeEventListener?.('change', sync);
     document.removeEventListener('visibilitychange', sync);
     removeEventListener('load', onLoad); removeEventListener('pageshow', onShow); removeEventListener('pagehide', onHide);
@@ -116,6 +119,7 @@ if (stage) {
   }
   const view = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
   phone.addEventListener('change', sync);
+  portable.addEventListener('change', sync);
   navigator.connection?.addEventListener?.('change', sync);
   view.observe(stage);
   const changes = new MutationObserver(sync);

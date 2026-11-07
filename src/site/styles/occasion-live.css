@@ -74,3 +74,6 @@ html[lang=en] .occasion-stage .wedding-dashboard::after { top:85%; }
  .scene.occasion-page .studio-process.process-roadmap .process-list li { padding-block:10px; min-height:44px; }
  .occasion-page .home-closing .contact-channel { min-height:58px; padding-block:6px; }
 }
+
+/* Reserve both phone axes before its cover decodes on the event hero. */
+@media(max-width:700px){.occasion-page .gathering-hero .occasion-hero-live.showcase-live .live-phone{width:calc(clamp(265px,38svh,330px) * 402 / 856)}}

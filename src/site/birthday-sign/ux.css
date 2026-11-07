@@ -175,3 +175,6 @@ body[data-birthday-sign] .birthday-sign-root .card-hit{box-shadow:none!important
   body[data-birthday-sign] .birthday-sign-root .world-chips button { min-height:44px; }
   body[data-birthday-sign] .birthday-sign-root .cover small { font-size:11px; letter-spacing:.12em; }
 }
+
+/* The control occupies its final shelf position before the lazy runtime mounts. */
+@media(max-width:900px){body[data-birthday-sign] .birthday-sign-root .sign-zone>.custom-toggle{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);margin:0!important;min-height:44px}}

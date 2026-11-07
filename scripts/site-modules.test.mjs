@@ -201,6 +201,8 @@ const pages = {
     "entryStyles": ["mobile-chrome", "language-switch", "studio-showcase"]
   }
 };
+pages.bodas.deferred = ['wedding-stage','living-images','nordra-materials','nordra-theatre'];
+pages.bodas.scripts = pages.bodas.scripts.filter(name => !pages.bodas.deferred.includes(name));
 // The shared interaction layer follows existing page initialization.
 for (const page of Object.values(pages)) page.scripts.push('interaction-motion');
 const scripts = [...new Set(Object.values(pages).flatMap(page => page.scripts))];
@@ -209,7 +211,7 @@ const read = file => readFileSync(resolve(root, file), 'utf8');
 for (const [page, expected] of Object.entries(pages)) test(`${page}: original script/style order and only compiled dependencies`, () => {
   const entry = read(`src/site/entries/${expected.entry}.js`);
   assert.deepEqual([...entry.matchAll(/import '\.\.\/scripts\/(.+)\.js(?:\?entry=([a-z]+))?';/g)].map(m => m[1]), expected.scripts);
-  if(page !== 'estudio') assert.equal([...entry.matchAll(/\?entry=([a-z]+)/g)].filter(m => m[1] === expected.entry).length, expected.scripts.length - (expected.unscoped?.length || 0));
+  if(page !== 'estudio') assert.equal([...entry.matchAll(/\?entry=([a-z]+)/g)].filter(m => m[1] === expected.entry).length, expected.scripts.length + (expected.deferred?.length || 0) - (expected.unscoped?.length || 0));
   assert.deepEqual([...entry.matchAll(/import '\.\.\/styles\/(.+)\.css';/g)].map(m => m[1]), expected.entryStyles || []);
   const html = read(`${page}.html`), head = html.split('</head>')[0];
   assert.deepEqual([...head.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].map(m => m[1]), expected.styles.map(name => `/src/site/styles/${name}.css${page === "index" ? "?entry=home" : ""}`));
