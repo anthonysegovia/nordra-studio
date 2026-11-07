@@ -1,6 +1,7 @@
 // Editorial copy for the shared home template. Keys are its complete Spanish
 // text nodes or accessible labels, never substrings inside URLs or scripts.
 export const homeCopy = {
+  "Desde Monterrey creamos páginas web e invitaciones digitales para negocios y celebraciones en todo México. Cuéntanos tu idea.": "From Monterrey, we build websites and digital invitations for businesses and celebrations across Mexico. Tell us your idea.",
   'Ábrela': 'Open it',
   'Abrir la invitación de Valentina y Sebastián': "Open Valentina and Sebastián's invitation",
   'Nordra Studio · Diseño web e invitaciones digitales': 'Nordra Studio · Websites and digital invitations',

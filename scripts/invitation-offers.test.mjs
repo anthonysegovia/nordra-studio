@@ -21,7 +21,7 @@ test('plan cards, WhatsApp messages and the billing catalogue share every invita
  for(const season of seasons)assert.equal(paymentCatalog.find(s=>s.id===season.catalogId)?.cents,seasonalOffer.cents,season.id);
  assert.ok(page.includes(`Desde ${invitationMoney(invitationOffers[0].cents)} MXN.`));
  assert.ok(page.includes(encodeURIComponent(closingMessage)));
- assert.ok(!/negocio|llevar tu idea a la web/i.test(page.slice(page.indexOf('id="proceso-invitaciones"'),page.indexOf('class="footer-layout'))));
+ assert.ok(!/negocio|llevar tu idea a la web/i.test(page.slice(page.indexOf('id="proceso-invitaciones"'),page.indexOf('<!-- commercial:footer -->'))));
 });
 test('the next season follows the calendar without dates shown to visitors',()=>{
  assert.equal(upcomingSeason(new Date(2026,9,10)).id,'halloween');assert.equal(upcomingSeason(new Date(2026,9,31)).id,'posadas');assert.equal(upcomingSeason(new Date(2026,11,20)).id,'fin-de-ano');assert.equal(upcomingSeason(new Date(2027,1,3)).id,'halloween');
