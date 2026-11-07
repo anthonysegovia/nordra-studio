@@ -1,4 +1,5 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
+import { resolve, sep } from 'node:path';
 
 // Local adapter for this project's ordered routes. It runs only in dev/preview,
 // never in the built pages. Vercel remains the production routing authority.
@@ -26,22 +27,40 @@ export function resolvePreviewRoute(request, host, routes) {
 }
 
 export function commercialPreview() {
-  let routes;
-  function configure(server) {
+  let routes, out;
+  function configure(server, preview = false) {
     server.middlewares.use((req, res, next) => {
+      for (const route of routes.filter(r => r.continue && r.headers)) {
+        if(new RegExp(route.src).test(new URL(req.url || '/', 'http://localhost').pathname)) {
+          for(const [name,value] of Object.entries(route.headers)) res.setHeader(name,value);
+        }
+      }
       const result = resolvePreviewRoute(req.url || '/', req.headers.host, routes);
       if (result) {
         for (const [name, value] of Object.entries(result.headers)) res.setHeader(name, value);
         if (result.status) { res.statusCode = result.status; res.end(); return; }
         req.url = result.url;
       }
+      if(preview){
+        let path;
+        try { path=decodeURIComponent(new URL(req.url || '/', 'http://localhost').pathname); } catch { path='/invalid-path'; }
+        const file=resolve(out,'.'+path);
+        const isFile = p => { try{return statSync(p).isFile();}catch{return false;} };
+        if(!(file.startsWith(out+sep) || file===out) || ![file,resolve(file,'index.html')].some(isFile)){
+          const fallback=routes.find(r=>r.status===404 && r.dest);
+          res.statusCode=404;
+          res.setHeader('Content-Type','text/html; charset=utf-8');
+          res.end(readFileSync(resolve(out,'.'+fallback.dest)));
+          return;
+        }
+      }
       next();
     });
   }
   return {
     name: 'nordra-commercial-preview',
-    configResolved(config) { routes = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8')).routes; },
+    configResolved(config) { routes = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8')).routes; out=resolve(config.root,config.build.outDir); },
     configureServer: configure,
-    configurePreviewServer: configure,
+    configurePreviewServer: server => configure(server,true),
   };
 }

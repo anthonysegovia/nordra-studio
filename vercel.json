@@ -1,6 +1,17 @@
 {
   "routes": [
     {
+      "src": "/(.*)",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy": "camera=(self), microphone=(), geolocation=(), payment=(), usb=()",
+        "X-Frame-Options": "SAMEORIGIN",
+        "Content-Security-Policy-Report-Only": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com https://vercel.live; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com; frame-src 'self' https://www.google.com https://maps.google.com https://vercel.live; worker-src 'self' blob:; form-action 'self' https://wa.me https://www.mercadopago.com.mx https://www.mercadopago.com"
+      },
+      "continue": true
+    },
+    {
       "src": "^/favicon\\.ico$",
       "has": [
         {
@@ -166,7 +177,23 @@
       "dest": "/en/index.html"
     },
     {
+      "src": "^/terminos-del-servicio$",
+      "dest": "/terminos-del-servicio.html"
+    },
+    {
+      "src": "^/en/terminos-del-servicio$",
+      "dest": "/en/terminos-del-servicio.html"
+    },
+    {
       "handle": "filesystem"
+    },
+    {
+      "handle": "error"
+    },
+    {
+      "src": "^(?!/api/).*$",
+      "status": 404,
+      "dest": "/404.html"
     }
   ]
 }
