@@ -1,6 +1,7 @@
 // Scope side effects to this entry so shared chunks cannot reorder initialization.
 // Vite consumes this module ID query; emitted asset URLs use content hashes only.
 import '../scripts/journey.js?entry=birthdays';
+import '../scripts/mobile-aurora.js?entry=birthdays';
 import '../scripts/scroll-motion.js?entry=birthdays';
 import '../scripts/business-motion.js?entry=birthdays';
 import '../scripts/wedding-stage.js?entry=birthdays';

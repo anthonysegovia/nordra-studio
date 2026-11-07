@@ -54,7 +54,7 @@ function hosting() {
 export function renderBusinessOffers(html) {
  const helpOffer={name:'una página para mi negocio',cents:Math.min(...businessOffers.map(o=>o.cents))};
  const section=`<section class="home-continuation business-offers" id="opciones-web" aria-labelledby="web-options-title">
- <div class="aurora-field continuation-aurora options-aurora" aria-hidden="true"></div>
+ <template data-desktop-aurora="options-aurora"></template>
  <div class="offer-anchors" aria-hidden="true"><span id="guia-web"></span>${groups.map(group=>`<span id="offer-${group.id}"></span>`).join('')}${businessOffers.map(o=>`<span id="service-${o.id}"></span>`).join('')}</div>
  <h2 id="web-options-title">Elige cómo empezar</h2>
  <p class="goal-question" id="goal-question">¿Qué quieres lograr con tu página?</p>

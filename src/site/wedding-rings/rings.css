@@ -154,3 +154,4 @@ body[data-scene=bodas] #bodas-respuesta>.travel-thread{display:none}
  .rings-hero .rays,.rings-hero .candles{top:auto;height:380px}
  body[data-journey-motion=paused] .rings-hero *{transition:none!important;animation:none!important}
 }
+@media(max-width:700px),(pointer:coarse){body:not(.dark) .rings-hero .eyebrow{color:var(--ink)}}

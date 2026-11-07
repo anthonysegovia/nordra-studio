@@ -3,7 +3,9 @@ import { lazyAurora, compileAurora, revealAurora } from '../webgl/lazy-aurora.js
 import { pageLifecycle } from '../webgl/page-lifecycle.js';
 (()=>{
  const host=document.querySelector('[data-view]:not([hidden])');
- host.querySelectorAll('.aurora-field').forEach((field,index)=>{
+ const heroOnly=matchMedia('(max-width:700px), (pointer:coarse)').matches;
+ host.querySelectorAll(heroOnly?':scope > .aurora-field':'.aurora-field').forEach((field,index)=>{
+ if(heroOnly&&host.dataset.view==='bodas')host.querySelector('.rings-hero').prepend(field);
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const smallScreen=matchMedia('(max-width:700px)');
  const heroLight=host.dataset.view==='entrada'&&field.parentElement===host&&!field.classList.contains('travel-ambient');
@@ -13,14 +15,14 @@ import { pageLifecycle } from '../webgl/page-lifecycle.js';
  const tell=state=>{if(index===0&&parent!==window)parent.postMessage({type:'nordra-motion-status',state},'*');};
  const stop=()=>{cancelAnimationFrame(raf);raf=0;last=0;};
  function frame(now){if(parked||disposed||paused||reduced.matches||document.hidden||!ready||!visible)return;if(last&&now-last<1000/profile().fps-.5){raf=requestAnimationFrame(frame);return;}if(last)time+=Math.min((now-last)/1000,.08);last=now;render(time);raf=requestAnimationFrame(frame);}
- function sync(){stop();if(parked||disposed||!ready)return;canvas.dataset.motion=paused||reduced.matches?'paused':visible?'playing':'offscreen';tell(paused?'paused':'playing');if(mobileLight){mobileLight.setPlaying(!paused && visible);return;}if(!paused&&!reduced.matches&&!document.hidden&&visible)raf=requestAnimationFrame(frame);}
+ function sync(){stop();if(parked||disposed||!ready)return;if(canvas)canvas.dataset.motion=paused||reduced.matches?'paused':visible?'playing':'offscreen';tell(paused?'paused':'playing');if(mobileLight){mobileLight.setPlaying(!paused && visible);return;}if(!paused&&!reduced.matches&&!document.hidden&&visible)raf=requestAnimationFrame(frame);}
  addEventListener('message',e=>{if(e.source!==parent||e.data?.type!=='nordra-motion')return;paused=!!e.data.paused;intensity=Math.max(.2,Math.min(1.2,Number(e.data.intensity)||.85));sync();if(ready)render(time);});
  addEventListener('nordra-local-motion',e=>{paused=!!e.detail.paused;sync();if(ready)render(time);});
  reduced.addEventListener('change',e=>{paused=e.matches;sync();});document.addEventListener('visibilitychange',sync);addEventListener('nordra-theme',()=>{if(ready)render(time);});
- let canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');field.append(canvas);
+ let canvas;
  const inView=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();},{threshold:0});inView.observe(field);
- if((smallScreen.matches||matchMedia('(pointer:coarse)').matches||(host.dataset.view==='bodas'&&(reduced.matches||document.body.dataset.journeyMotion==='paused'||staticProfile(navigator))))&&window.NordraMobileAurora){
-  canvas.remove();const mobile=window.NordraMobileAurora;
+ if((heroOnly||(host.dataset.view==='bodas'&&(reduced.matches||document.body.dataset.journeyMotion==='paused'||staticProfile(navigator))))&&window.NordraMobileAurora){
+  const mobile=window.NordraMobileAurora;
   const paletteIndex=Number(field.dataset.palette)||({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0;
   const ambient=heroLight;
   mobileLight=mobile.create(field,paletteIndex,{ambient,fps:constrained?24:30});let unfold=Number(field.dataset.unfold)||.65;
@@ -32,6 +34,7 @@ import { pageLifecycle } from '../webgl/page-lifecycle.js';
   ready=true;render(0);if(parent!==window)tell('ready');else sync();
   pageLifecycle({pause(){parked=true;stop();inView.disconnect();mobileLight.setPlaying(false);},resume(){parked=false;inView.observe(field);render(time);sync();},dispose(){disposed=true;stop();inView.disconnect();mobileLight.dispose();}});return;
  }
+ canvas=document.createElement('canvas');canvas.setAttribute('aria-hidden','true');field.append(canvas);
  let unfold=heroLight ? .65 : Number(field.dataset.unfold)||0;
  const initialPalette=Number(field.dataset.palette)||({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0;
  let paletteState={from:initialPalette,to:initialPalette,blend:0};

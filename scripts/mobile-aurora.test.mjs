@@ -7,7 +7,9 @@ import { staticProfile } from '../src/site/wedding-rings/state.js';
 test('mobile motion advances visible textures and suspends the clock for every stop condition', () => {
   const element = () => ({ dataset:{}, style:{}, classList:{contains:()=>false},
     children:[], append(child){ this.children.push(child); }, remove(){}, setAttribute(){} });
-  const field=element(),body=element(),host={ dataset:{view:'bodas'},querySelectorAll:()=>[field] };
+  const field=element(),body=element(),host={ dataset:{view:'bodas'},querySelectorAll:selector=>{
+    assert.equal(selector,':scope > .aurora-field');return [field];
+  },querySelector:()=>({prepend(node){assert.equal(node,field)}}) };
   const visibility=[],intersections=[],mutations=[],frames=new Map();
   const reduced={matches:false,listeners:[],addEventListener(_,fn){this.listeners.push(fn)}};
   let id=0;
@@ -26,7 +28,9 @@ test('mobile motion advances visible textures and suspends the clock for every s
     const source=readFileSync('src/site/scripts/'+file+'.js','utf8').replace(/^import .*;$/gm,'');
     runInNewContext(source,window);
   }
-  const layer=field.children.at(-1);
+  assert.equal(field.children.length,1);
+  const layer=field.children[0];
+  assert.equal(layer.className,'mobile-aurora');
   const intersection=visible=>intersections.forEach(fn=>fn([{isIntersecting:visible}]));
   const tick=now=>{const pending=[...frames.values()];frames.clear();pending.forEach(fn=>fn(now))};
   intersection(true);assert.equal(frames.size,1);

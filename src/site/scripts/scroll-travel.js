@@ -6,9 +6,18 @@
  // Phones keep the settled layout: scroll no longer drives these properties frame by frame.
  const paused=()=>motionOff()||mobile.matches;
  const seasonal=host.dataset.view==='temporada';
- let field=host.querySelector('.seasonal-flow-field');
- if(!field){field=document.createElement('div');field.className='aurora-field';field.setAttribute('aria-hidden','true');host.append(field);}
- field.classList.add('travel-ambient');
+ const heroOnly=matchMedia('(max-width:700px), (pointer:coarse)').matches;
+ let field;
+ if(!heroOnly){
+  for(const marker of host.querySelectorAll('template[data-desktop-aurora]')){
+   const light=document.createElement('div');
+   light.className='aurora-field continuation-aurora '+marker.dataset.desktopAurora;
+   light.setAttribute('aria-hidden','true');marker.replaceWith(light);
+  }
+  field=host.querySelector('.seasonal-flow-field');
+  if(!field){field=document.createElement('div');field.className='aurora-field';field.setAttribute('aria-hidden','true');host.append(field);}
+  field.classList.add('travel-ambient');
+ }
  const groups=[...host.querySelectorAll('.home-continuation,.project-feature,.seasonal-chapter')].filter(el=>!el.parentElement.closest('.home-continuation,.project-feature,.seasonal-chapter'));
  const sections=groups.map(el=>{
   el.classList.add('travel-section');
@@ -74,11 +83,13 @@
    paint(item,moved);
   }
   ambient=ambientTarget;
-  const wave=Math.sin(ambient*Math.PI*3);
-  field.style.setProperty('--travel-ambient-x',`${(wave*(mobile.matches?2:4)).toFixed(3)}vw`);
-  field.style.setProperty('--travel-ambient-y',`${((ambient-.5)*(mobile.matches?5:10)).toFixed(3)}vh`);
-  field.style.setProperty('--travel-ambient-alpha',(seasonal?1:.16+.08*Math.sin(ambient*Math.PI)).toFixed(3));
-  field.style.setProperty('--travel-ambient-hue',`${(seasonal?0:wave*(host.dataset.view==='bodas'?9:16)).toFixed(2)}deg`);
+  if(field){
+   const wave=Math.sin(ambient*Math.PI*3);
+   field.style.setProperty('--travel-ambient-x',`${(wave*(mobile.matches?2:4)).toFixed(3)}vw`);
+   field.style.setProperty('--travel-ambient-y',`${((ambient-.5)*(mobile.matches?5:10)).toFixed(3)}vh`);
+   field.style.setProperty('--travel-ambient-alpha',(seasonal?1:.16+.08*Math.sin(ambient*Math.PI)).toFixed(3));
+   field.style.setProperty('--travel-ambient-hue',`${(seasonal?0:wave*(host.dataset.view==='bodas'?9:16)).toFixed(2)}deg`);
+  }
   host.dataset.travelProgress=ambient.toFixed(3);
   if(pending)frame=requestAnimationFrame(tick);else last=0;
  }

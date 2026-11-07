@@ -33,8 +33,7 @@
 }
 @keyframes studio-title-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media(max-width:700px){
- [data-view="estudio"] .studio-aurora-poster{display:block;position:absolute;inset:0;transform:translate3d(-20px,12px,0)}
- [data-view="estudio"] .studio-aurora:has(>.studio-aurora-poster)>div.mobile-aurora{visibility:hidden}
+ [data-view="estudio"] .studio-aurora-poster{display:block}
  [data-view="estudio"] .studio-showcase{margin:65px 0}
  [data-view="estudio"] .studio-showcase-heading{display:block;margin-bottom:24px}
  [data-view="estudio"] .studio-showcase-heading>p{margin-top:18px}

@@ -10,11 +10,14 @@ import { pageLifecycle } from '../webgl/page-lifecycle.js';
  const stopped=()=>reduce.matches||document.body.dataset.journeyMotion==='paused'||small.matches;
  const clamp=x=>Math.max(0,Math.min(1,x)),smooth=x=>{x=clamp(x);return x*x*(3-2*x);};
  const layoutTop=el=>{let y=0;for(let n=el;n;n=n.offsetParent)y+=n.offsetTop;return y;};
+ const heroOnly=matchMedia('(max-width:700px), (pointer:coarse)').matches;
  const chapters=[];let parked=false,disposed=false;
  function chapter(anchor,stage,kind,pinned){
+  const item={anchor,stage,kind,pinned,progress:1,render:()=>{},dispose:()=>{}};chapters.push(item);
+  if(heroOnly)return item;
   const ribbon=document.createElement('div');ribbon.className='theatre-ribbon';ribbon.setAttribute('aria-hidden','true');stage.prepend(ribbon);
   const canvas=document.createElement('canvas');ribbon.append(canvas);
-  const item={anchor,stage,kind,pinned,ribbon,canvas,progress:1,render:()=>{},dispose:()=>{}};chapters.push(item);return item;
+  Object.assign(item,{ribbon,canvas});return item;
  }
  function spacer(track){const el=document.createElement('div');el.className='theatre-distance';el.setAttribute('aria-hidden','true');track.append(el);}
  const heading=host.querySelector('.opening-title');
@@ -42,7 +45,8 @@ import { pageLifecycle } from '../webgl/page-lifecycle.js';
  const palette={0:[[.04,.65,.66],[.24,.43,.91],[.62,.3,.85]],1:[[.63,.43,.25],[.9,.75,.53],[.5,.31,.21]],2:[[.45,.34,.9],[.8,.43,.68],[.4,.62,.9]],3:[[.1,.61,.44],[.23,.53,.61],[.3,.42,.7]],4:[[.9,.4,.12],[.53,.28,.68],[.77,.48,.36]],5:[[.13,.6,.4],[.52,.69,.44],[.86,.65,.28]],6:[[.8,.62,.32],[.61,.44,.78],[.91,.78,.5]]};
  let colors=palette[({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0];
  for(const item of chapters){
-  if((small.matches||matchMedia('(pointer:coarse)').matches||(host.dataset.view==='bodas'&&(reduce.matches||document.body.dataset.journeyMotion==='paused'||staticProfile(navigator))))&&window.NordraMobileAurora){
+  if(!item.ribbon)continue;
+  if(host.dataset.view==='bodas'&&(reduce.matches||document.body.dataset.journeyMotion==='paused'||staticProfile(navigator))&&window.NordraMobileAurora){
    item.canvas.remove();const light=window.NordraMobileAurora.create(item.ribbon,({bodas:1,cumpleanos:2,eventos:3,temporada:6})[host.dataset.view]||0);
    item.mobileLight=light;item.render=()=>light.render(item.progress);item.dispose=()=>light.dispose();continue;
   }

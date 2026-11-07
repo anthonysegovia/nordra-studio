@@ -32,6 +32,7 @@ const pages = {
     "entry": "birthdays",
     "scripts": [
       "journey",
+      "mobile-aurora",
       "scroll-motion",
       "business-motion",
       "wedding-stage",
