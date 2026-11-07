@@ -11,7 +11,7 @@ export function mountSample({root,world,text,ask,still}){
     if(mobile.matches)stage.after(links);else marker.after(links);
     const panel=stage.dataset.step==='panel';
     [...links.children].forEach((link,i)=>{link.hidden=mobile.matches&&(i===0?panel:!panel);});
-    phone.inert=mobile.matches&&panel;stage.querySelector('.wedding-dashboard').inert=mobile.matches&&!panel;
+    credit.hidden=mobile.matches&&panel;phone.inert=mobile.matches&&panel;stage.querySelector('.wedding-dashboard').inert=mobile.matches&&!panel;
   }
   new MutationObserver(layout).observe(stage,{attributes:true,attributeFilter:['data-step']});mobile.addEventListener('change',layout);layout();
   let painted;
@@ -31,7 +31,7 @@ export function mountSample({root,world,text,ask,still}){
   const first=plans.firstElementChild,featured=plans.querySelector('.invite-featured');
   const indicators=document.createElement('div');indicators.className='plan-dots fan-dots';
   indicators.append(document.createElement('span'),document.createElement('i'),document.createElement('i'));plans.after(indicators);
-  function order(){if(small.matches)plans.prepend(featured);else plans.prepend(first);}
+  function order(){if(small.matches)plans.prepend(featured);else plans.prepend(first);plans.scrollLeft=0;}
   small.addEventListener('change',order);order();
   carousel(plans,indicators,{mobile:small,still,countText:(n,total)=>text('{n} de {total}',{n,total})});sync();return {sync};
 }

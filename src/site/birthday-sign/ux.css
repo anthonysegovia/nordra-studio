@@ -140,3 +140,12 @@ body[data-birthday-sign] .birthday-sign-root .sheet-scrim:focus-visible{outline:
 
 body[data-birthday-sign][data-journey-motion=paused] :is(.wedding-devices>*,.plan-dots i){transition:none!important}
 @media(prefers-reduced-motion:reduce){body[data-birthday-sign] :is(.wedding-devices>*,.plan-dots i){transition:none!important}}
+/* The sample and modal reuse typography, not the full-bleed page container. */
+body[data-birthday-sign] #cumpleanos-respuesta .wedding-phone{width:clamp(208px,22vw,318px);margin-inline:0}
+body[data-birthday-sign] .bs-sheet-host{position:relative;z-index:110;width:auto;margin:0;isolation:auto}
+@media(max-width:900px){
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-phone{width:min(100%,280px);margin-inline:auto}
+ body[data-birthday-sign] .birthday-sign-root .controls:not(.open) .controls-inner{visibility:hidden!important}
+}
+body[data-birthday-sign] .occasion-plan-grid{overflow-anchor:none}
+body[data-birthday-sign] .birthday-sign-root .card-hit{box-shadow:none!important}
