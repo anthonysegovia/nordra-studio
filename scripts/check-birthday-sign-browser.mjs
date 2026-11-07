@@ -75,11 +75,36 @@ async function checkSample(s,style){
   await p.evaluate(()=>scrollTo(0,0));
  }
 }
+async function checkGiftNameTag(page) {
+  const card = page.locator('.card[data-world=caja]');
+  await card.scrollIntoViewIfNeeded();
+  const tag = card.locator('[data-name-tag]');
+  assert.equal(await tag.textContent(), 'Andrés Peña');
+  const bounds = await tag.boundingBox();
+  assert(bounds, 'The personalized gift tag must be displayed');
+  for (const cue of await card.locator('.cue').all()) {
+    const pill = await cue.boundingBox();
+    assert(pill && (bounds.y + bounds.height < pill.y || pill.y + pill.height < bounds.y),
+      'The name tag must leave space for both card cues');
+  }
+  // In the cover artwork the printed skip link begins at 82% of its height.
+  assert(await tag.evaluate(el => el.offsetTop + el.offsetHeight < el.parentElement.clientHeight * .82),
+    'The name tag must stay above the printed skip link');
+}
 async function checkUndo(s){
- const p=s.page,previous=await p.locator('body').getAttribute('data-world'),next=previous==='bar'?'xv':'bar';
+ const p=s.page,previous=await p.locator('body').getAttribute('data-world'),next=previous==='xv'?'bar':'xv';
  const hit=p.locator('.card-hit[data-world='+next+']');await hit.scrollIntoViewIfNeeded();await press(s,hit);
  await p.waitForFunction(w=>document.body.dataset.world===w&&!document.getElementById('bs-veil').classList.contains('on'),next);
- assert(await p.locator('#bs-toast').evaluate(e=>e.classList.contains('show')));await p.locator('#bs-toast-undo').click();
+ const toast = p.locator('#bs-toast.show');
+ await toast.waitFor({state:'visible'});
+ for (const section of ['#cumpleanos-respuesta', '#cumpleanos-planes-eventos']) {
+   await p.locator(section).evaluate(el => el.scrollIntoView({behavior:'instant', block:'center'}));
+   assert(await toast.evaluate(el => {
+     const box = el.getBoundingClientRect();
+     return el.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
+   }), 'The toast must receive pointer input over ' + section);
+ }
+ await p.locator('#bs-toast-undo').click();
  await p.waitForFunction(w=>document.body.dataset.world===w&&!document.getElementById('bs-veil').classList.contains('on'),previous);
 }
 async function checkCarousel(s){
@@ -158,7 +183,7 @@ try{
    if(style==='xv'){assert.equal(await p.locator('#bs-sign').getAttribute('data-age'),'XV');await name(s,'30');await p.waitForFunction(()=>document.getElementById('bs-sign').dataset.age==='30');}
    if(style==='espacio'){await p.locator('[data-l="1"]').click();assert(await p.locator('body').evaluate(b=>b.classList.contains('panel-alt')));await p.locator('[data-l="2"]').click();assert(await p.locator('#bs-plate').evaluate(e=>e.classList.contains('radar-off')));const before=await p.locator('#bs-plate').getAttribute('style');await p.locator('#bs-knob').click();assert.notEqual(await p.locator('#bs-plate').getAttribute('style'),before);}
    // Every target transition is exercised throughout the initial-style matrix.
-   await clickCards(s);await checkUndo(s);
+   await checkGiftNameTag(p);await clickCards(s);await checkUndo(s);
    const target=styles[(styles.indexOf(style)+1)%styles.length];await choose(s,target);
    const transitions=await p.evaluate(()=>window.__signTransitions);assert(transitions.length);for(const t of transitions)assert(t.ms<=1300,'Transition exceeded 1.3 s: '+JSON.stringify(t));
    if(target==='caja'){assert(await p.locator('#bs-zone').evaluate(e=>e.classList.contains('is-wrapped')));await p.locator('#bs-bow').focus();await p.keyboard.press('Enter');await p.waitForFunction(()=>!document.getElementById('bs-zone').classList.contains('is-wrapped'));}

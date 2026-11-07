@@ -27,3 +27,5 @@ Reposo: diez segundos por estilo, después de diez segundos de estabilización. 
 | Bar | 2,12 | 2,01 | 60,04 |
 | XV | 2,33 | 2,08 | 59,90 |
 | Espacio | 2,05 | 2,12 | 60,01 |
+
+El commit `c0a616` sitúa el aviso sobre la muestra y los planes, y separa el nombre de las pastillas y del texto impreso en la tarjeta de Caja. Verificado en Edge a 1440×900 y 390×844.

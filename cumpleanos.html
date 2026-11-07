@@ -125,7 +125,6 @@
   <div class="styles-foot"><a class="btn" data-analytics-whatsapp="estilos" target="_blank" rel="noopener" href="https://wa.me/528129022231?text=Hola%2C%20Nordra.%20Me%20gustar%C3%ADa%20una%20invitaci%C3%B3n%20digital%20para%20un%20cumplea%C3%B1os.">Cuéntanos tu idea <span aria-hidden="true">↗</span></a></div>
 
 </section>
-<div class="toast" id="bs-toast" role="status"><span id="bs-toast-text"></span><button id="bs-toast-undo" type="button">Deshacer</button></div>
 </div><section class="home-continuation wedding-sample occasion-stage" id="cumpleanos-respuesta" aria-labelledby="cumpleanos-response-title">
  <span class="occasion-anchor" id="cumpleanos-event-experience"></span><span class="occasion-anchor" id="event-experience"></span>
  <div class="wedding-direction"><h2 id="cumpleanos-response-title">Así llega cada respuesta</h2><p>Muestra interactiva · datos ficticios</p>
@@ -169,4 +168,6 @@ new ResizeObserver(measurePreview).observe(document.querySelector('main'));
 function arrive(id){id=({"planes-eventos": "cumpleanos-planes-eventos", "event-experience": "cumpleanos-event-experience", "comparar-paquetes": "cumpleanos-decision-title"})[id]||id;if(id==='cumpleanos-panel-muestra')document.getElementById('cumpleanos-tab-panel').click();const target=document.getElementById(id);if(target&&!target.closest('[hidden]')){target.scrollIntoView({behavior:'instant',block:'start'});}}
 addEventListener('message',event=>{if(event.source===parent&&event.data?.type==='nordra-anchor')document.fonts.ready.then(()=>requestAnimationFrame(()=>arrive(event.data.id)));});
 requestAnimationFrame(()=>requestAnimationFrame(()=>document.fonts.ready.then(()=>{measurePreview();requestAnimationFrame(()=>arrive(location.hash.slice(1)));})));
-</script><script type="module" src="/src/site/entries/birthdays.js"></script><div class="birthday-sign-root birthday-sign-overlay"><div class="veil" id="bs-veil" aria-hidden="true"></div><canvas class="vfx" id="bs-vfx" aria-hidden="true"></canvas></div></body></html>
+</script><script type="module" src="/src/site/entries/birthdays.js"></script><div class="birthday-sign-root birthday-sign-overlay"><div class="veil" id="bs-veil" aria-hidden="true"></div><canvas class="vfx" id="bs-vfx" aria-hidden="true"></canvas></div>
+<div class="toast" id="bs-toast" role="status"><span id="bs-toast-text"></span><button id="bs-toast-undo" type="button">Deshacer</button></div>
+</body></html>
