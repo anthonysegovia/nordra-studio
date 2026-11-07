@@ -19,7 +19,7 @@
  .scene.entry.business>.home-continuation,.scene.studio-page>.home-continuation{margin-top:var(--commercial-section-gap);padding-top:var(--commercial-section-pad);padding-bottom:var(--commercial-section-pad)}
  .scene.entry.business .business-lead{grid-template-columns:minmax(0,680px) 1fr;gap:16px 48px;align-items:start}
  .scene.entry.business .business-lead>:is(.business-value,p){grid-column:1;grid-row:1}
- .scene.entry.business .business-lead>:is(.business-hero-actions,.invitation-hero-actions){grid-column:1;grid-row:2;justify-self:start;align-items:flex-start}
+ .scene.entry.business .business-lead>:is(.business-hero-actions,.invitation-hero-actions){grid-column:1;grid-row:2;justify-self:start;align-items:flex-start;display:flex;flex-direction:column;gap:6px}
  .scene.entry.business .business-lead>.business-promise{grid-row:3}
  .scene.entry.business .business-lead>.business-motion-control{grid-column:2;grid-row:2;justify-self:end}
  .scene.theme-wedding>#bodas-respuesta{margin-top:0;padding-block:0}
