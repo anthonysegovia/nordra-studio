@@ -1,3 +1,4 @@
+import {mountSheet} from './sheet.js';
 import uxEnglish from '../../i18n/cumpleanos.en.json';
 import {mountCards} from './cards.js';
 import {idleTask,runSteps} from './work.js';
@@ -8,7 +9,7 @@ import {loadFonts} from './fonts.js';
 export async function mountSign({initialStyle,staticMode,loadStyle}){
 const lang=document.documentElement.lang.startsWith('en')?'en':'es',copy=dictionary[lang];
 const text=(key,values={})=>format(lang==='en'?(uxEnglish[key]||key):key,values);
-let cardUI, chosen=false;
+let cardUI, sheet, chosen=false;
 function markChosen(){chosen=true;updateAsk();}
 let activeStyle=await loadStyle(initialStyle);
 const effects=staticMode?null:await import('./effects.js');
@@ -66,8 +67,8 @@ function fit(){
   cancelAnimationFrame(fitLayoutFrame);fitLayoutFrame=requestAnimationFrame(layout);
 }
 function setLook(tube, style){
-  if (tube) { body.dataset.tube = tube; root.querySelectorAll('.chips .chip').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.c === tube))); }
-  if (style) { plate.dataset.style = style; root.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.s === style))); }
+  if (tube) { body.dataset.tube = tube; $('controls').querySelectorAll('.chips .chip').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.c === tube))); }
+  if (style) { plate.dataset.style = style; $('controls').querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.s === style))); }
 }
 
 /* ---------- guirnalda ---------- */
@@ -269,6 +270,8 @@ function stopRotation(){ userSet = true; clearTimeout(rotTimer); }
 const ask = $('ask');
 function updateAsk(){
  ask.href = whatsappURL({ ...current, style:world(), color:body.dataset.tube, lettering:plate.dataset.style, lang });
+ const bar=document.querySelector('.mobile-route a[href*="wa.me"]');
+ if(bar&&(chosen||userSet)){bar.href=ask.href;bar.classList.add('ready');const label=text('Quiero la mía así');if(bar.textContent!==label){bar.textContent=label;if(!still())bar.animate([{opacity:.3,transform:'translateY(4px)'},{opacity:1,transform:'none'}],{duration:220});}}
 }
 function personalize(name, age){
   body.classList.add('named');
@@ -282,6 +285,7 @@ function personalize(name, age){
 }
 $('namer').addEventListener('submit', async e => {
   e.preventDefault();
+  sheet?.cancelPreview();
   stopRotation();
   const name = sanitizeName($('nm').value) || 'Camila';
   const age = cleanAge($('ag').value);
@@ -289,24 +293,17 @@ $('namer').addEventListener('submit', async e => {
   if (!on) { on = true; updateSwitch(); }
   await swap(name, age, null, null, { confetti: true, announce: true });
   if (!sub.classList.contains('on')) { strike(sub); bulbs.forEach(b => b.classList.add('on')); chevs.forEach(c => c.classList.add('on')); arrow.classList.add('chase'); setLit(); }
-  personalize(name, age); updateAsk(); ask.hidden = false;
+  personalize(name, age); updateAsk(); ask.hidden = false; if(mobile.matches)sheet?.close();
 });
 $('nm').addEventListener('input', stopRotation);
 $('ag').addEventListener('input', e => { stopRotation(); e.target.value = sanitizeAge(e.target.value); });
-root.querySelectorAll('.chips .chip').forEach(b => b.addEventListener('click', async () => {
+$('controls').querySelectorAll('.chips .chip').forEach(b => b.addEventListener('click', async () => {
   stopRotation();
   const wasOn = on; setLook(b.dataset.c);
   if (wasOn && !reduce) { const id = ++run; const ts = [...word.querySelectorAll('.t'), ...chevs]; ts.forEach(t => t.classList.remove('on')); setLit(); await sleep(140); if (id !== run) return; collectSources(); for (const t of ts) { strike(t); await sleep(22); } }
   collectSources(); light(); updateAsk();
 }));
-root.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => { stopRotation(); swap(current.name, current.age, null, b.dataset.s).then(updateAsk); }));
-$('custom-toggle').addEventListener('click', e => {
-  const open = e.currentTarget.getAttribute('aria-expanded') !== 'true';
-  e.currentTarget.setAttribute('aria-expanded', String(open)); $('controls').classList.toggle('open', open);
-  if (open) setTimeout(() => $('nm').focus({ preventScroll: true }), 300);
-});
-
-/* ---------- 6 · confeti y polvo en el aire ---------- */
+$('controls').querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => { stopRotation(); swap(current.name, current.age, null, b.dataset.s).then(updateAsk); }));
 const fx = $('fx'), fctx = staticMode ? null : fx.getContext('2d');
 if(staticMode)fx.hidden=true;
 let fxFrame=0,fxTimer=0,lastFx=0;
@@ -448,6 +445,7 @@ function syncWorldUI(){
   $('world-name').textContent = WORLDS[w].label;
   worldMenu.querySelectorAll('[data-world]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.world === w)));
   cardUI?.sync();
+  $('world-chips').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.world===w)));
 }
 let busy = false;
 async function goWorld(w, after){
@@ -654,7 +652,7 @@ async function doorIntro(){
 /* ---------- textos, accesorios y paralaje ---------- */
 function worldCopy(){
   const c = COPY[world()];
-  root.querySelector('.try').textContent = c.tryT;
+  $('controls').querySelector('.try').textContent = c.tryT;
   $('nm').placeholder = c.ph;
   const b = $('namer').querySelector('button'); b.firstChild.nodeValue = c.btn + ' ';
 }
@@ -684,9 +682,9 @@ function applyWorld(w){
 }
 
 /* ---------- XV · color de tus XV ---------- */
-root.querySelectorAll('.xv-chips .chip').forEach(b => b.addEventListener('click', () => {
+$('controls').querySelectorAll('.xv-chips .chip').forEach(b => b.addEventListener('click', () => {
   stopRotation(); body.dataset.xvc = b.dataset.xvc;
-  root.querySelectorAll('.xv-chips .chip').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  $('controls').querySelectorAll('.xv-chips .chip').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
   rgbCache && Object.keys(rgbCache).forEach(k => delete rgbCache[k]);
   paintBase(); collectSources(); light();
 }));
@@ -730,6 +728,13 @@ const visibility=new IntersectionObserver(entries=>{visible=entries[0].isInterse
 document.addEventListener('visibilitychange',syncPolicy);reduced.addEventListener('change',syncPolicy);
 window.addEventListener('pagehide',()=>{disposed=true;cancelAnimationFrame(fxFrame);clearTimeout(fxTimer);fxRunning=false;clearTimeout(rotTimer);stopParty();ac?.suspend();});
 window.addEventListener('pageshow',e=>{if(e.persisted){disposed=false;syncPolicy();}});
+sheet=mountSheet({$,mobile,still,preview:async()=>{
+ const name=sanitizeName($('nm').value),age=cleanAge($('ag').value);stopRotation();
+ if(!on){on=true;updateSwitch();}await swap(name,age,null,null);personalize(name,age);updateAsk();
+}});
+$('world-chips').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+ goWorld(b.dataset.world,()=>{markChosen();b.scrollIntoView({inline:'center',block:'nearest',behavior:still()?'instant':'smooth'});});
+}));
 cardUI=mountCards({root,world,goWorld,chosen:markChosen,labels:WORLDS,text,mobile,still});
 await idleTask(()=>build('Camila','30'));
 await idleTask(buildGarland);

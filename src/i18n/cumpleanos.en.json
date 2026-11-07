@@ -138,5 +138,15 @@
   "Ahora: {style}": "Now: {style}",
   "{style}: lo estás viendo, volver al letrero": "{style}: you're viewing, back to the sign",
   "Probar el estilo {style}": "Try the {style} style",
-  "{n} de {total}": "{n} of {total}"
+  "{n} de {total}": "{n} of {total}",
+  "Elige un estilo y míralo con tu nombre.": "Pick a style and see it with your name.",
+  "Elige un estilo": "Pick a style",
+  "Tu nombre en luces": "Your name in lights",
+  "Cerrar personalización": "Close personalization",
+  "Pedir este estilo ↗": "Request this style ↗",
+  "{name} {age} · Un diseño de Nordra": "{name} {age} · A Nordra design",
+  "Camila · 30": "Camila · 30",
+  "Andrés · 40": "Andrés · 40",
+  "Ximena · XV": "Ximena · XV",
+  "Iker · 6": "Iker · 6"
 }

@@ -18,11 +18,11 @@ test('age accepts digits or exactly XV, never arbitrary Roman numerals',()=>{
 });
 test('ES and EN WhatsApp have the correct destination, style and percent-encoded Unicode',()=>{
  const options={name:'Andrés Peña',age:'40',style:'neon',color:'ambar',lettering:'bloque'};
- assert.equal(whatsappMessage({...options,lang:'es'}),'Hola, Nordra. Quiero una invitación con mi nombre en luces: Andrés Peña 40, estilo Neón, en ámbar y letra bloque.');
- assert.equal(whatsappMessage({...options,lang:'en'}),"Hi, Nordra. I'd like an invitation with my name in lights: Andrés Peña 40, Neon style, in amber with block lettering.");
+ assert.equal(whatsappMessage({...options,lang:'es'}),'Hola, Nordra. Quiero una invitación con mi nombre en luces: Andrés Peña 40, en ámbar y letra bloque, estilo Neón.');
+ assert.equal(whatsappMessage({...options,lang:'en'}),"Hi, Nordra. I'd like an invitation with my name in lights: Andrés Peña 40, in amber with block lettering, Neon style.");
  for(const lang of ['es','en'])for(const style of ['neon','caja','bar','xv','espacio']){
   const url=new URL(whatsappURL({...options,style,lang}));assert.equal(url.origin,'https://wa.me');assert.equal(url.pathname,'/528129022231');assert.equal(url.searchParams.get('text'),whatsappMessage({...options,style,lang}));assert.match(url.search,/%C3%A9/);assert.match(url.search,/%20/);
-  if(style!=='neon')assert.doesNotMatch(url.searchParams.get('text'),/lettering|letra|ámbar|amber/);
+  assert.match(url.searchParams.get('text'),lang==='en'?/in amber with block lettering/:/en ámbar y letra bloque/);
  }
 });
 test('personal data helpers cannot write browser history or storage; only validated style is persisted',()=>{

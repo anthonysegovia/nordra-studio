@@ -36,3 +36,70 @@ body[data-birthday-sign] .birthday-sign-root .toast button:active{transform:scal
 }
 body[data-birthday-sign] .birthday-sign-root .fan-dots{display:none}
 @media(max-width:900px){body[data-birthday-sign] .birthday-sign-root .fan-dots{display:flex}body[data-birthday-sign] .birthday-sign-root .toast{top:calc(var(--header-h,68px) + 8px);bottom:auto;transform:translate(-50%,-24px)}body[data-birthday-sign] .birthday-sign-root .toast.show{transform:translate(-50%,0)}}
+
+body[data-birthday-sign] .birthday-sign-root :is(.lead-m,.world-chips,.pause-ico,.sheet-head,.sheet-scrim){display:none}
+@media(max-width:900px){  /* 4 · hero limpio */
+  body[data-birthday-sign] .birthday-sign-root .pause{display:grid;place-items:center;width:36px;height:36px;padding:0;border:1px solid var(--line);border-radius:50%;background:color-mix(in srgb,var(--bg) 72%,transparent);transition:border-color .25s,transform .25s var(--ease)}
+  body[data-birthday-sign] .birthday-sign-root .pause:active{transform:scale(.9)}
+  body[data-birthday-sign] .birthday-sign-root .pause-txt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  body[data-birthday-sign] .birthday-sign-root .pause-ico{display:block;width:14px;height:14px}
+  body[data-birthday-sign] .birthday-sign-root .pause-ico path{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  body[data-birthday-sign] .birthday-sign-root .pause-ico .ico-r{display:none;fill:var(--ink);stroke-width:1.4}
+  body[data-birthday-sign] .birthday-sign-root .pause[aria-pressed=true] .ico-p{display:none}
+  body[data-birthday-sign] .birthday-sign-root .pause[aria-pressed=true] .ico-r{display:block}
+  body[data-birthday-sign] .birthday-sign-root .lead-m{display:block;order:1;margin:12px 0 0;font-size:15px;color:var(--muted)}
+  body[data-birthday-sign] .birthday-sign-root h1{font-size:36px}
+  body[data-birthday-sign] .birthday-sign-root .shelf .custom-toggle{position:absolute;left:50%;bottom:24px;z-index:2;width:auto;margin:0!important;min-height:40px;padding:0 18px;font-size:14px;transform:translateX(-50%);white-space:nowrap}
+  body[data-birthday-sign] .birthday-sign-root .shelf .custom-toggle:active{transform:translateX(-50%) scale(.95)}
+  body[data-birthday-sign] .birthday-sign-root .shelf{height:72px!important;margin-top:6px!important}
+  body[data-birthday-sign] .birthday-sign-root .hero-copy>.lead,body[data-birthday-sign] .birthday-sign-root .hero-copy>.actions{display:none}
+  body[data-birthday-sign] .birthday-sign-root .hero{padding-bottom:30px}
+  body[data-birthday-sign] .birthday-sign-root .sign-zone{margin-top:12px}
+  /* 5 · estilos con un toque */
+  body[data-birthday-sign] .birthday-sign-root .world-pick{display:none}
+  body[data-birthday-sign] .birthday-sign-root .world-chips{display:flex;gap:8px;overflow-x:auto;margin:0 -16px 10px;padding:2px 16px 4px;scrollbar-width:none;position:relative;z-index:6}
+  body[data-birthday-sign] .birthday-sign-root .world-chips::-webkit-scrollbar{display:none}
+  body[data-birthday-sign] .birthday-sign-root .world-chips button{flex:none;display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 80%,transparent);font:600 13px Manrope;color:var(--muted);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .3s,color .3s,border-color .3s,transform .2s var(--ease)}
+  body[data-birthday-sign] .birthday-sign-root .world-chips button i{width:8px;height:8px;border-radius:50%;background:var(--d);box-shadow:0 0 6px var(--d)}
+  body[data-birthday-sign] .birthday-sign-root .world-chips button:active{transform:scale(.94)}
+  body[data-birthday-sign] .birthday-sign-root .world-chips button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  body[data-birthday-sign][data-world=xv] .birthday-sign-root .world-chips{margin-bottom:8.5cqi}
+  /* 6 · hoja para el nombre */
+  body[data-birthday-sign] .birthday-sign-root .controls{position:fixed;left:0;right:0;bottom:var(--kb,0px);z-index:62;display:block;margin:0!important;padding:8px 16px calc(18px + env(safe-area-inset-bottom));background:var(--bg);border-radius:24px 24px 0 0;border-top:1px solid var(--line);box-shadow:0 -22px 50px -22px rgba(20,14,30,.5);transform:translateY(calc(100% + 24px));visibility:hidden;transition:transform .45s var(--ease),visibility 0s .45s}
+  body[data-birthday-sign] .birthday-sign-root .controls.open{transform:none;visibility:visible;transition:transform .45s var(--ease)}
+  body[data-birthday-sign] .birthday-sign-root .controls-inner{overflow:visible}
+  body[data-birthday-sign] .birthday-sign-root .sheet-head{display:grid;grid-template-columns:1fr auto;align-items:center;position:relative;padding-top:14px}
+  body[data-birthday-sign] .birthday-sign-root .sheet-head .grab{position:absolute;left:50%;top:0;width:40px;height:4px;margin-left:-20px;border-radius:4px;background:var(--line)}
+  body[data-birthday-sign] .birthday-sign-root .sheet-head strong{font:600 17px Sora}
+  body[data-birthday-sign] .birthday-sign-root .sheet-x{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:none;color:var(--ink);font-size:20px;line-height:1;cursor:pointer;transition:transform .2s var(--ease),border-color .25s}
+  body[data-birthday-sign] .birthday-sign-root .sheet-x:active{transform:scale(.9)}
+  body[data-birthday-sign] .birthday-sign-root .namer input{min-height:46px;font-size:17px}
+  body[data-birthday-sign] .birthday-sign-root .sheet-scrim{display:block;position:fixed;inset:0;z-index:61;background:rgba(20,14,30,.14);opacity:0;pointer-events:none;transition:opacity .35s}
+  body[data-birthday-sign].sheet-open .birthday-sign-root .sheet-scrim{opacity:1;pointer-events:auto}
+  body[data-birthday-sign] .birthday-sign-root .ask{display:none!important}
+}
+/* Site layers and compact mobile geometry; the sheet host lives outside the hero. */
+body[data-birthday-sign] .birthday-sign-root .card-hit{min-height:0}
+body[data-birthday-sign] .birthday-sign-root .card:has(.card-hit:focus-visible) figure{transform:translateY(-8px) rotate(0deg)}
+@media(max-width:900px){
+ body[data-birthday-sign] .birthday-sign-root .hero{padding-top:50px;padding-bottom:30px}
+ body[data-birthday-sign] .birthday-sign-root .kicker{margin-bottom:2px;flex-wrap:nowrap}
+ body[data-birthday-sign] .birthday-sign-root h1{font-size:36px}
+ body[data-birthday-sign] .birthday-sign-root .lead-m{margin:8px 0 0;font-size:14px;white-space:nowrap}
+ body[data-birthday-sign] .birthday-sign-root .pause{flex:none;min-height:36px;min-width:36px}
+ body[data-birthday-sign] .birthday-sign-root .pause::before{display:none}
+ body[data-birthday-sign] .birthday-sign-root .shelf .custom-toggle{padding:0 12px;min-height:40px;font-size:13px;bottom:20px}
+ body[data-birthday-sign] .birthday-sign-root .shelf .switch-cap{display:none}
+ body[data-birthday-sign] .birthday-sign-root .controls{z-index:102;max-height:var(--sheet-height,calc(100dvh - 16px));overflow-y:auto;overscroll-behavior:contain;grid-template-rows:initial;container-type:inline-size}
+ body[data-birthday-sign] .birthday-sign-root .controls.open{grid-template-rows:initial}
+ body[data-birthday-sign] .birthday-sign-root .controls-inner{overflow:visible;visibility:visible!important}
+ body[data-birthday-sign] .birthday-sign-root .sheet-scrim{z-index:101;border:0;border-radius:0;padding:0;width:100%;height:100%}
+ body[data-birthday-sign] .birthday-sign-root .sheet-scrim[hidden]{display:none}
+ body[data-birthday-sign] .birthday-sign-root .controls .transformer{display:none}
+ body[data-birthday-sign] .mobile-route a.ready{box-shadow:0 0 0 2px var(--tube),0 0 22px -4px var(--tube);font-size:12px}
+ body[data-birthday-sign] .birthday-sign-root .fan{justify-content:flex-start;overflow-x:auto;scrollbar-width:none;width:100vw;position:relative}
+ body[data-birthday-sign] .birthday-sign-root .fan .card{flex:0 0 min(58vw,232px);scroll-snap-align:center;margin:0}
+ body[data-birthday-sign] .birthday-sign-root .fan .card.is-center>figure{transform:none;opacity:1}
+}
+body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root :is(.controls,.cue,.toast,.card>figure,.world-chips button){transition:none!important}
+@media(prefers-reduced-motion:reduce){body[data-birthday-sign] .birthday-sign-root :is(.controls,.cue,.toast,.card>figure,.world-chips button){transition:none!important}}
