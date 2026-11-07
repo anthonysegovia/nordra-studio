@@ -244,7 +244,7 @@ function scheduleRotation(id){
     if (id !== run || userSet || !on || !visible || document.hidden || body.dataset.journeyMotion === 'paused' || party || zone.classList.contains('is-wrapped') || zone.classList.contains('door-in')) return scheduleRotation(id);
     if (zone.contains(document.activeElement) && document.activeElement.tagName === 'INPUT') return scheduleRotation(id);
     sampleIx = (sampleIx + 1) % SAMPLES.length; const s = SAMPLES[sampleIx];
-    swap(s.name, world() === 'neon' ? s.age : current.age, world() === 'neon' ? s.tube : null, world() === 'neon' ? s.style : null);
+    swap(s.name, s.age, world() === 'neon' ? s.tube : null, world() === 'neon' ? s.style : null);
   }, 5200);
 }
 function stopRotation(){ userSet = true; clearTimeout(rotTimer); }
