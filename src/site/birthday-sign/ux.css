@@ -149,3 +149,15 @@ body[data-birthday-sign] .bs-sheet-host{position:relative;z-index:110;width:auto
 }
 body[data-birthday-sign] .occasion-plan-grid{overflow-anchor:none}
 body[data-birthday-sign] .birthday-sign-root .card-hit{box-shadow:none!important}
+@media(max-width:900px){
+ /* Reserve the middle for the name pill; shelf props still receive real touches. */
+ body[data-birthday-sign] .birthday-sign-root .shelf .props{position:absolute;inset:0;margin:0;pointer-events:none}
+ body[data-birthday-sign] .birthday-sign-root .shelf .props button{pointer-events:auto}
+ body[data-birthday-sign][data-world=espacio] .birthday-sign-root .shelf .console{display:contents}
+ body[data-birthday-sign] .birthday-sign-root .shelf :is(.c-lever,.knob,.glass-prop,.turntable,.giftbox,.crown,.slipper){position:absolute;bottom:18px}
+ body[data-birthday-sign] .birthday-sign-root .shelf :is(.c-lever[data-l="1"],.glass-prop,.giftbox,.crown){left:30px}
+ body[data-birthday-sign] .birthday-sign-root .shelf .c-lever[data-l="2"]{left:62px}
+ body[data-birthday-sign] .birthday-sign-root .shelf .knob{right:52px}
+ body[data-birthday-sign] .birthday-sign-root .shelf :is(.turntable,.slipper){right:48px;width:44px}
+}
+@media(max-width:360px){body[data-birthday-sign] .birthday-sign-root .shelf .custom-toggle{font-size:12px;padding-inline:8px}body[data-birthday-sign] .birthday-sign-root .shelf :is(.knob,.turntable,.slipper){right:45px}}
