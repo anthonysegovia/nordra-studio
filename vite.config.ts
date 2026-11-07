@@ -1,5 +1,6 @@
 import { performanceImages } from './build/performance-images.mjs';
 import { siteTrust } from './build/site-trust.mjs';
+import { commercialFooter } from './build/commercial-footer.mjs';
 import { whatsappOriginPlugin } from './build/whatsapp-origin.mjs';
 import {renderGafete} from './src/celebrations/gafete/template.mjs';
 import { translatedPages, loadLocaleTemplate, translatedPageOutput } from './build/translated-pages.mjs';
@@ -29,7 +30,7 @@ export default defineConfig({
     {name:'number-invitation',transformIndexHtml:{order:'pre',handler:html=>renderInvitation(html)}},
     loadLocaleTemplate(), commercialLocales(),
     { name: "nordra-home-client-highlights", transformIndexHtml: { order: "pre", handler: html => renderHomeClientHighlights(html) } },
-    performanceImages(), occasionContentPlugin(), seasonalPagePlugin(), businessContentPlugin(), businessOffersPlugin(), invitationOffersPlugin(), {name:"mobile-whatsapp",transformIndexHtml:{order:"pre",handler:html=>mobileWhatsApp(html)}}, translatedPageOutput(), commercialPreview(), siteScripts(), siteStyles(), whatsappOriginPlugin(), react(), tailwindcss()
+    performanceImages(), occasionContentPlugin(), seasonalPagePlugin(), businessContentPlugin(), businessOffersPlugin(), invitationOffersPlugin(), {name:"mobile-whatsapp",transformIndexHtml:{order:"pre",handler:html=>mobileWhatsApp(html)}}, translatedPageOutput(), commercialFooter(), commercialPreview(), siteScripts(), siteStyles(), whatsappOriginPlugin(), react(), tailwindcss()
   ],
 });
 

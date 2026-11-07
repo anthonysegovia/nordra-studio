@@ -1,0 +1,97 @@
+/* Commercial pages only: injected after their existing styles by the build. */
+.scene .commercial-footer{margin-top:40px;border-top:1px solid var(--line);color:var(--ink)}
+.scene .commercial-footer .footer-layout{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0;padding:22px 0 12px;border:0}
+.scene .commercial-footer .footer-brand img{width:130px;height:auto}
+.scene .commercial-footer .footer-brand p{max-width:none;font-size:13px;line-height:1.5;margin:8px 0 0}
+.scene .commercial-footer nav{display:flex;flex-direction:row;flex-wrap:wrap;gap:4px 20px;font-size:13px}
+.scene .commercial-footer-hours{font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 12px}
+.scene .commercial-footer .footer-legal{font-size:12px;padding:8px 0 0;gap:8px 16px;align-items:center}
+.scene .commercial-footer .footer-legal a{display:flex;align-items:center;min-height:44px}
+.commercial-footer a,.closing-studio-link{transition:color .2s,transform .2s}
+.commercial-footer a:is(:hover,:focus-visible),.closing-studio-link:is(:hover,:focus-visible){color:var(--accent);transform:translateY(-2px)}
+.commercial-footer a:focus-visible,.closing-studio-link:focus-visible{outline:2px solid currentColor;outline-offset:4px;border-radius:3px}
+.commercial-footer a:active,.closing-studio-link:active{transform:scale(.98)}
+.closing-anchor{display:block;scroll-margin-top:100px}
+.closing-studio-link{display:inline-flex;align-items:center;min-height:44px;margin-top:12px;gap:12px;font-size:15px}
+.home-horizon .contact-layout>div{display:flex;align-items:flex-start;flex-direction:column}
+.horizon-path-caption .service-starting-price{font-size:14px;font-weight:600;line-height:1.5;color:var(--ink);background:var(--bg);display:table;width:fit-content;padding:2px 8px;border-radius:4px;margin:10px 0}
+@media(min-width:1024px){
+ .scene.entry.business>.home-continuation,.scene.studio-page>.home-continuation{margin-top:var(--commercial-section-gap);padding-top:var(--commercial-section-pad);padding-bottom:var(--commercial-section-pad)}
+ .scene.entry.business .business-lead{grid-template-columns:minmax(0,680px) 1fr;gap:16px 48px;align-items:start}
+ .scene.entry.business .business-lead>:is(.business-value,p){grid-column:1;grid-row:1}
+ .scene.entry.business .business-lead>:is(.business-hero-actions,.invitation-hero-actions){grid-column:1;grid-row:2;justify-self:start;align-items:flex-start}
+ .scene.entry.business .business-lead>.business-promise{grid-row:3}
+ .scene.entry.business .business-lead>.business-motion-control{grid-column:2;grid-row:2;justify-self:end}
+ .scene.theme-wedding>#bodas-respuesta{margin-top:0;padding-block:0}
+ .scene.theme-wedding .rings-couple{padding-block:24px 52px}
+ .scene.theme-wedding .wedding-sample-composition{padding-block:24px 52px}
+ .scene.theme-wedding>.wedding-plans{margin-top:0}
+ .scene.theme-birthday>.home-continuation{margin-top:0;padding-block:28px}
+ .scene.theme-birthday .styles{padding-block:28px}
+ .scene .studio-footer>h2{margin-bottom:30px}
+ .scene.entry.business>.home-continuation{padding-bottom:12px}
+ .scene.entry.business .business-head>h1{margin-block:32px 28px}
+ .scene.entry.business .studio-footer>h2{margin-block:12px 24px}
+ .scene.entry.business .studio-footer .contact-channels{margin-top:20px;padding-top:12px}
+ .scene.entry.business .studio-footer .contact-channel{min-height:96px;padding-block:12px 18px}
+ .scene.entry.business .process-heading{margin-bottom:24px}
+ .scene.entry.business .process-finish{margin-top:24px;padding-top:16px}
+ .scene.entry.business .audience-faq>div:first-child{margin-bottom:24px}
+ .scene.entry.business .faq-list summary{padding-block:18px}
+ .scene.entry.business :is(.wedding-plans,.occasion-plans)>h2{margin-block:12px 24px}
+ body[data-birthday-sign] .birthday-sign-root .styles-head{margin-bottom:24px}
+ body[data-birthday-sign] .birthday-sign-root .styles-foot{margin-top:24px}
+ :root{--commercial-section-pad:24px;--commercial-section-gap:24px}
+ .scene.entry.business .business-hero-actions{gap:12px}
+ .scene.entry.business:not(.invitations)>.business-examples{padding-block:28px 12px}
+ .scene.entry.business:not(.invitations) .offer-rows>details>summary{padding-block:12px}
+ body[data-birthday-sign] .birthday-sign-root .hero{padding-top:118px;padding-bottom:48px}
+ .scene.theme-birthday .occasion-stage .wedding-direction>h2{margin-block:12px 24px}
+ .scene.theme-birthday .occasion-stage .wedding-switch{margin-block:18px 12px}
+ body[data-birthday-sign] .scene.theme-birthday :is(#bs-estilos,#cumpleanos-respuesta,#cumpleanos-planes-eventos,#cumpleanos-preguntas,#cumpleanos-proceso-invitaciones,#cumpleanos-contacto-invitaciones){margin-block:0;padding-block:18px}
+ body[data-birthday-sign] .scene .birthday-sign-root .hero{padding-top:110px;padding-bottom:48px;min-height:760px}
+ body[data-birthday-sign] .scene .birthday-sign-root .styles-head{margin-bottom:24px}
+ body[data-birthday-sign] .scene .birthday-sign-root .styles-foot{margin-top:24px}
+ .scene.entry.business .business-lead .business-hero-actions{gap:12px;min-height:0}
+ .scene.entry.business:not(.invitations) .business-head>h1{margin-block:20px 16px}
+ .scene.entry.business:not(.invitations)>.home-continuation{margin-top:20px;padding-top:20px;padding-bottom:8px}
+}
+@media(max-width:700px){
+ .scene .commercial-footer{margin-top:24px}
+ .scene .commercial-footer nav a{padding:0;min-height:40px}
+ .scene .commercial-footer-hours{font-size:12px;line-height:1.5;margin:0 0 8px}
+ .scene .commercial-footer .footer-brand img{width:100px}
+ .scene .commercial-footer .footer-layout{padding:14px 0 0;display:block;padding-top:10px}
+ .scene .commercial-footer nav{margin:6px 0 0;font-size:12px;gap:0 12px;margin-top:2px}
+ .scene .commercial-footer .footer-brand p{max-width:none;font-size:12px;line-height:1.45;margin:4px 0 0}
+ .scene .commercial-footer .footer-legal{padding-top:4px;gap:0 8px;font-size:12px;grid-template-columns:1fr 1fr;display:grid;margin:0}
+ body .scene .studio-footer .commercial-footer .footer-layout{margin:0;padding:6px 0 0}
+ body .scene .studio-footer .commercial-footer .footer-legal{margin:0;padding:4px 0 0;gap:0 8px}
+ .scene .commercial-footer nav a+a::before{left:-8px}
+ body[data-scene] .scene .studio-footer .commercial-footer .footer-layout{margin:0;padding:6px 0 0}
+ body[data-scene] .scene .studio-footer .commercial-footer .footer-legal{margin:0;padding:4px 0 0;gap:0 8px}
+}
+@media(prefers-reduced-motion:reduce){.commercial-footer a,.closing-studio-link{transition:none;transform:none!important}.whatsapp-dialog[open]{animation:none}.whatsapp-dialog :is(button,a){transition:none;transform:none!important}}
+
+.whatsapp-dialog{box-sizing:border-box;width:min(430px,calc(100vw - 40px));max-height:calc(100dvh - 40px);padding:28px;border:1px solid var(--line,#d5dce5);border-radius:22px;background:var(--bg,#fff);color:var(--ink,#14212f);box-shadow:0 24px 90px #0004;text-align:center;overflow:auto}
+.whatsapp-dialog[open]{animation:whatsapp-dialog-enter .22s ease-out}
+.whatsapp-dialog::backdrop{background:#10182980;backdrop-filter:blur(5px)}
+.scene .whatsapp-dialog h2{font-weight:500;font-family:inherit;font-size:27px;line-height:1.2;letter-spacing:-.02em;margin:18px 0 12px;color:inherit}
+.whatsapp-dialog p{font-size:15px;line-height:1.6;margin:0 0 16px;color:var(--muted,#465569)}
+.whatsapp-dialog-close{display:block;margin-left:auto;border:0;background:transparent;color:inherit;min-height:44px;padding:8px 12px;font:inherit;font-size:14px;cursor:pointer}
+.whatsapp-qr{display:grid;place-items:center;min-height:280px;margin:0 auto 18px}
+.whatsapp-qr canvas{max-width:100%;height:auto;border-radius:10px}
+.whatsapp-dialog-open{display:flex;align-items:center;justify-content:center;min-height:48px;padding:10px 18px;border-radius:10px;background:var(--ink,#14212f);color:var(--bg,#fff);font-size:15px;font-weight:600;text-decoration:none}
+.whatsapp-dialog :is(button,a){transition:transform .18s,opacity .18s}
+.whatsapp-dialog :is(button,a):is(:hover,:focus-visible){transform:translateY(-2px);opacity:.85}
+.whatsapp-dialog :is(button,a):focus-visible{outline:2px solid var(--accent,#2463a7);outline-offset:4px}
+.whatsapp-dialog :is(button,a):active{transform:scale(.98)}
+.whatsapp-dialog-status:empty{display:none}
+@keyframes whatsapp-dialog-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.scene .commercial-footer nav a{min-height:44px;align-items:center;display:inline-flex;position:relative}
+.scene .commercial-footer nav a+a::before{content:'·';position:absolute;left:-12px;color:var(--muted)}
+
+@media(min-width:1024px){.home-horizon .contact-layout>div{flex-direction:row;flex-wrap:wrap;align-items:center;gap:16px}.home-horizon .closing-studio-link{margin-top:0}}
+
+@media(min-width:1024px){#negocios-preguntas .faq-list .business-disclosure>summary{padding-block:12px;min-height:56px}}
