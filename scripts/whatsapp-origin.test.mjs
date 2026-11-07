@@ -28,3 +28,10 @@ test('WhatsApp origin is scoped, localized and preserves original content', () =
   }
 });
 
+
+test('origin links keep %20 for spaces, as WhatsApp expects', async () => {
+  const { whatsappOrigin } = await import('../build/whatsapp-origin.mjs');
+  const href = whatsappOrigin('https://wa.me/528129022231?text=Hola%20Nordra', '/bodas', 'Aurora');
+  assert.ok(!href.includes('+'), href);
+  assert.match(href, /text=Hola%20Nordra%0A%0ADesde%20nordrastudio\.mx%2Fbodas%20%C2%B7%20Aurora$/);
+});

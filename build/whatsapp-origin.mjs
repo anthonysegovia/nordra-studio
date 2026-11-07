@@ -12,8 +12,10 @@ export function whatsappOrigin(href, route, plan = '') {
   const prefix = route === '/en' || route.startsWith('/en/') ? 'From' : 'Desde';
   const message = url.searchParams.get('text') || '';
   const origin = `${prefix} nordrastudio.mx${route}${plan ? ' · ' + decode(plan) : ''}`;
-  url.searchParams.set('text', message + '\n\n' + origin);
-  return escape(url.href);
+  // Keep %20 for spaces, as the original links did; some WhatsApp clients show «+» literally.
+  url.searchParams.delete('text');
+  const rest = url.searchParams.toString();
+  return escape(`${url.origin}${url.pathname}?${rest ? rest + '&' : ''}text=${encodeURIComponent(message + '\n\n' + origin)}`);
 }
 
 export function addWhatsAppOrigins(html, path) {
