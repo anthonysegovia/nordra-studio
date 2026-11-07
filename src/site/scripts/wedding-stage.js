@@ -1,7 +1,7 @@
 const list = document.querySelector('.wedding-switch');
 const tabs = [...list.querySelectorAll('[role=tab]')];
 const stage = document.getElementById(tabs[0].getAttribute('aria-controls'));
-const mobile = matchMedia('(max-width:700px)');
+const mobile = matchMedia(document.body.hasAttribute('data-birthday-sign')?'(max-width:900px)':'(max-width:700px)');
 function orient() {
   list.setAttribute('aria-orientation', mobile.matches ? 'horizontal' : 'vertical');
 }

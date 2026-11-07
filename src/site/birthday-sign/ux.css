@@ -103,3 +103,40 @@ body[data-birthday-sign] .birthday-sign-root .card:has(.card-hit:focus-visible) 
 }
 body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root :is(.controls,.cue,.toast,.card>figure,.world-chips button){transition:none!important}
 @media(prefers-reduced-motion:reduce){body[data-birthday-sign] .birthday-sign-root :is(.controls,.cue,.toast,.card>figure,.world-chips button){transition:none!important}}
+/* Keep the actual sample as one device at a time on phones and tablets. */
+body[data-birthday-sign] .plan-dots{display:none}
+body[data-birthday-sign] #cumpleanos-respuesta .wedding-phone{aspect-ratio:390/844;overflow:hidden}
+body[data-birthday-sign] #cumpleanos-respuesta .wedding-phone>.cover{border-radius:inherit}
+body[data-birthday-sign] :is(#bs-estilos,#cumpleanos-respuesta,#cumpleanos-planes-eventos,#cumpleanos-preguntas,#cumpleanos-proceso-invitaciones,#contacto){padding-block:clamp(48px,6vw,88px);margin-block:0}
+@media(max-width:900px){
+ body[data-birthday-sign] #cumpleanos-respuesta{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-direction{display:contents}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-switch{display:flex;gap:8px}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-switch button{flex:1;text-align:center}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-switch button span{display:none}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-devices{height:auto;display:grid;place-items:center;min-height:0}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-devices>*{grid-area:1/1;position:relative;inset:auto;transform:none;translate:none;opacity:1;margin:0 auto;transition:opacity .25s,transform .3s}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-phone{width:min(100%,280px);max-height:none}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-dashboard{width:100%}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-stage[data-step=cover] .wedding-dashboard,
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-stage[data-step=panel] .wedding-phone{opacity:0;visibility:hidden;position:absolute;pointer-events:none;transform:translateY(8px)}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-links{order:2;justify-content:center;margin:0;text-align:center}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-links a[hidden]{display:none}
+ body[data-birthday-sign] #cumpleanos-respuesta .wedding-credit{text-align:center;justify-content:center}
+}
+@media(max-width:700px){
+ body[data-birthday-sign] .back-to-top{display:none!important}
+ body[data-birthday-sign] .occasion-plan-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:12px;margin-inline:-16px;padding:4px 16px 16px;position:relative}
+ body[data-birthday-sign] .occasion-plan-grid>.invite-card{flex:0 0 calc(100% - 32px);scroll-snap-align:start;scroll-snap-stop:always}
+ body[data-birthday-sign] .plan-dots{display:flex;justify-content:center;align-items:center;gap:7px;margin:0 0 22px}
+ body[data-birthday-sign] .plan-dots span{font-size:12px;margin-right:8px}
+ body[data-birthday-sign] .plan-dots i{width:7px;height:7px;background:var(--line);border-radius:9px;transition:width .35s,background .35s}
+ body[data-birthday-sign] .plan-dots i.on{width:22px;background:var(--ink)}
+}
+/* Full-surface hit targets must not move under the pointer, including global press styles. */
+body[data-birthday-sign] .birthday-sign-root :is(.card-hit,.sheet-scrim){transform:none!important;translate:none!important;scale:none!important}
+body[data-birthday-sign] .birthday-sign-root .sheet-scrim:focus-visible{outline:none;box-shadow:none}
+@media(max-width:900px){body[data-birthday-sign] .birthday-sign-root .kicker .pause{width:36px;height:36px;min-width:36px;min-height:36px;padding:0;border:1px solid var(--line);border-radius:50%;justify-content:center;background:color-mix(in srgb,var(--bg) 72%,transparent)}}
+
+body[data-birthday-sign][data-journey-motion=paused] :is(.wedding-devices>*,.plan-dots i){transition:none!important}
+@media(prefers-reduced-motion:reduce){body[data-birthday-sign] :is(.wedding-devices>*,.plan-dots i){transition:none!important}}

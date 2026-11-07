@@ -375,9 +375,6 @@ body[data-birthday-sign] .birthday-sign-root .world-menu strong{font:600 14px No
 body[data-birthday-sign] .birthday-sign-root .world-menu small{grid-column:2;font-size:12px;color:var(--muted)}
 body[data-birthday-sign] .birthday-sign-root .world-menu .check{grid-row:1 / span 2;grid-column:3;opacity:0;font-weight:700;color:var(--accent)}
 body[data-birthday-sign] .birthday-sign-root .world-menu [aria-pressed=true] .check{opacity:1}
-body[data-birthday-sign] .birthday-sign-root .try-style{margin-top:10px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 80%,transparent);border-radius:999px;padding:7px 14px;font:600 12.5px NocheManrope;cursor:pointer;color:var(--ink);transition:border-color .3s,transform .3s var(--ease),background .3s}
-body[data-birthday-sign] .birthday-sign-root .try-style:hover{border-color:var(--accent)}
-body[data-birthday-sign] .birthday-sign-root .try-style[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 body[data-birthday-sign] .birthday-sign-root .card figcaption{display:flex;flex-direction:column;align-items:center}
 
 /* =====================================================================
@@ -452,14 +449,12 @@ body[data-birthday-sign] .birthday-sign-overlay{position:fixed;inset:0;z-index:9
 body[data-birthday-sign] .birthday-sign-root .business-motion-control{display:inline-flex!important}
 
 /* Keep the native occasion navigation and the motion control's hit area stable. */
-body[data-birthday-sign] .birthday-sign-root .card > .try-style{position:relative;z-index:6;margin-top:48px}
 body[data-birthday-sign] .birthday-sign-root .hero.hero-asleep *,body[data-birthday-sign] .birthday-sign-root .hero.hero-asleep *::before,body[data-birthday-sign] .birthday-sign-root .hero.hero-asleep *::after{animation-play-state:paused!important}
 @media(max-width:900px){
  body[data-birthday-sign] .birthday-sign-root .kicker{flex-wrap:nowrap;gap:8px;align-items:center}
  body[data-birthday-sign] .birthday-sign-root .kicker .eyebrow{font-size:9px;letter-spacing:.12em;white-space:nowrap}
  body[data-birthday-sign] .birthday-sign-root .kicker .business-motion-control{width:auto;min-height:28px;margin:0;padding:0 6px;flex:0 0 auto;font-size:10px;gap:5px;align-self:center;border:0;border-radius:999px;background:color-mix(in srgb,var(--bg) 94%,transparent)}
  body[data-birthday-sign] .birthday-sign-root .kicker .business-motion-control::before{width:5px;height:5px}
- body[data-birthday-sign] .birthday-sign-root .card > .try-style{margin-top:12px}
  body[data-birthday-sign] .birthday-sign-root .card > figure,body[data-birthday-sign] .birthday-sign-root .card:is(:hover,:focus-within) > figure{transform:none}
 }
 @media(prefers-reduced-motion:reduce){body[data-birthday-sign] .birthday-sign-root .card > figure{transition:none}}

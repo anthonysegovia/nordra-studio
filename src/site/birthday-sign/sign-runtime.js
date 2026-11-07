@@ -1,3 +1,4 @@
+import {mountSample} from './sample.js';
 import {mountSheet} from './sheet.js';
 import uxEnglish from '../../i18n/cumpleanos.en.json';
 import {mountCards} from './cards.js';
@@ -9,7 +10,7 @@ import {loadFonts} from './fonts.js';
 export async function mountSign({initialStyle,staticMode,loadStyle}){
 const lang=document.documentElement.lang.startsWith('en')?'en':'es',copy=dictionary[lang];
 const text=(key,values={})=>format(lang==='en'?(uxEnglish[key]||key):key,values);
-let cardUI, sheet, chosen=false;
+let cardUI, sheet, sampleUI, chosen=false;
 function markChosen(){chosen=true;updateAsk();}
 let activeStyle=await loadStyle(initialStyle);
 const effects=staticMode?null:await import('./effects.js');
@@ -76,7 +77,7 @@ const gsvg = $('garland');
 function buildGarland(){
   gsvg.textContent = '';
   const w = hero.clientWidth, small = mobile.matches;
-  const sag = small ? 6 : 92, top = small ? 4 : 14, n = Math.max(7, Math.round(w / (small ? 52 : 84)));
+  const sag = small ? 6 : 92, top = small ? 3 : 14, n = Math.max(7, Math.round(w / (small ? 52 : 84)));
   const y = x => top + sag * 4 * (x / w) * (1 - x / w) + (small ? 0 : 10 * Math.sin(x / w * Math.PI * 3));
   let d = `M0 ${y(0)}`; for (let x = 8; x <= w; x += 8) d += `L${x} ${y(x).toFixed(1)}`;
   el('path', { class: 'wire', d }, gsvg);
@@ -232,7 +233,7 @@ async function swap(name, age, tube, style, opts = {}){
   else if (!await lightName(id, true)) return;
   if (opts.confetti) confetti();
   if (opts.announce) status.textContent = format(copy.lit, {name, age:displayAge(age,world())}).replace(/ +\./,'.');
-  scheduleRotation(id);
+  updateAsk();scheduleRotation(id);return true;
 }
 function updateSwitch(){
   sw.setAttribute('aria-checked', on);
@@ -270,6 +271,7 @@ function stopRotation(){ userSet = true; clearTimeout(rotTimer); }
 const ask = $('ask');
 function updateAsk(){
  ask.href = whatsappURL({ ...current, style:world(), color:body.dataset.tube, lettering:plate.dataset.style, lang });
+ sampleUI?.sync();
  const bar=document.querySelector('.mobile-route a[href*="wa.me"]');
  if(bar&&(chosen||userSet)){bar.href=ask.href;bar.classList.add('ready');const label=text('Quiero la mía así');if(bar.textContent!==label){bar.textContent=label;if(!still())bar.animate([{opacity:.3,transform:'translateY(4px)'},{opacity:1,transform:'none'}],{duration:220});}}
 }
@@ -291,7 +293,7 @@ $('namer').addEventListener('submit', async e => {
   const age = cleanAge($('ag').value);
   $('nm').blur(); $('ag').blur();
   if (!on) { on = true; updateSwitch(); }
-  await swap(name, age, null, null, { confetti: true, announce: true });
+  if(!await swap(name, age, null, null, { confetti: true, announce: true }))return;
   if (!sub.classList.contains('on')) { strike(sub); bulbs.forEach(b => b.classList.add('on')); chevs.forEach(c => c.classList.add('on')); arrow.classList.add('chase'); setLit(); }
   personalize(name, age); updateAsk(); ask.hidden = false; if(mobile.matches)sheet?.close();
 });
@@ -446,10 +448,12 @@ function syncWorldUI(){
   worldMenu.querySelectorAll('[data-world]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.world === w)));
   cardUI?.sync();
   $('world-chips').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.world===w)));
+  if(mobile.matches)$('world-chips').querySelector('[aria-pressed=true]')?.scrollIntoView({inline:'center',block:'nearest',behavior:'instant'});
 }
 let busy = false;
 async function goWorld(w, after){
- if (busy || !WORLDS[w] || w===world()) {after?.();return;}
+ if (busy || !WORLDS[w]) return;
+ if(w===world()){after?.();return;}
  busy=true; closeMenu();
  try {
   const nextStyle=await loadStyle(w);
@@ -730,11 +734,12 @@ window.addEventListener('pagehide',()=>{disposed=true;cancelAnimationFrame(fxFra
 window.addEventListener('pageshow',e=>{if(e.persisted){disposed=false;syncPolicy();}});
 sheet=mountSheet({$,mobile,still,preview:async()=>{
  const name=sanitizeName($('nm').value),age=cleanAge($('ag').value);stopRotation();
- if(!on){on=true;updateSwitch();}await swap(name,age,null,null);personalize(name,age);updateAsk();
+ if(!on){on=true;updateSwitch();}if(await swap(name,age,null,null)){personalize(name,age);updateAsk();}
 }});
 $('world-chips').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
  goWorld(b.dataset.world,()=>{markChosen();b.scrollIntoView({inline:'center',block:'nearest',behavior:still()?'instant':'smooth'});});
 }));
+sampleUI=mountSample({root,world,text,ask,still});
 cardUI=mountCards({root,world,goWorld,chosen:markChosen,labels:WORLDS,text,mobile,still});
 await idleTask(()=>build('Camila','30'));
 await idleTask(buildGarland);
