@@ -1,0 +1,5 @@
+.nordra-skip-link{position:fixed;top:calc(96px + env(safe-area-inset-top,0px));left:16px;z-index:2147483647;padding:12px 20px;border:2px solid #135f91;border-radius:12px;background:#f3f7fb;color:#0a1220;font:600 16px/1.5 system-ui,sans-serif;text-decoration:none;box-shadow:0 6px 24px #02081626;transform:translateX(calc(-100% - 32px));opacity:0;transition:transform .16s ease,opacity .16s ease}
+.nordra-skip-link:focus{transform:translateX(0);opacity:1;outline:2px solid #135f91;outline-offset:3px}
+.dark .nordra-skip-link{background:#0b101b;color:#e7edf6;border-color:#91e4eb;outline-color:#91e4eb}
+main[tabindex="-1"]{scroll-margin-top:120px}
+@media(prefers-reduced-motion:reduce){.nordra-skip-link{transition:none}}
