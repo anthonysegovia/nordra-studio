@@ -1,9 +1,8 @@
 import { invitationOfferSchema } from './invitation-schema.mjs';
 import { clientReviews, renderClientCases } from './client-cases.mjs';
-import { invitationOffers, invitationPlanFeatures, invitationMoney, invitationFacts, seasonalOffer, seasons, upcomingSeason } from '../src/data/invitationPricing.ts';
+import { invitationOffers, invitationPlanFeatures, invitationMoney, invitationFacts, seasonalOffer } from '../src/data/invitationPricing.ts';
 const esc = s => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 const whatsapp = text => 'https://wa.me/528129022231?text=' + encodeURIComponent(text);
-const asset = (name, w) => `/nordra/v545/assets/${name}-${w}.webp`;
 
 function price(offer, wedding) {
   const from = offer.startingAt ? 'desde ' : '';
@@ -14,11 +13,11 @@ function price(offer, wedding) {
   return `<p class="invite-price" data-invitation-price="${offer.id}">${regular}${opening}</p><p class="invite-delivery">${delivery}</p>`;
 }
 
-export function invitationCard(offer, idPrefix = '') {
+export function invitationCard(offer, idPrefix = '', celebration = 'mi celebración') {
   const wedding = idPrefix === 'bodas-';
   const featured = offer.id === 'boreal';
   const occasion = { 'cumpleanos-': 'Cumpleaños', 'eventos-': 'Evento' }[idPrefix];
-  const message = `Hola, me interesa el plan ${offer.name} para mi celebración (${offer.startingAt ? 'desde ' : ''}${invitationMoney(offer.cents)} MXN). Mi celebración es…` + (occasion ? `\n\nTipo de celebración: ${occasion}.` : '');
+  const message = `Hola, me interesa el plan ${offer.name} para ${celebration} (${offer.startingAt ? 'desde ' : ''}${invitationMoney(offer.cents)} MXN). ${celebration[0].toUpperCase() + celebration.slice(1)} es…` + (occasion ? `\n\nTipo de celebración: ${occasion}.` : '');
   const points = featured ? offer.points.slice(1) : offer.points.slice(0, 3);
   const badge = wedding ? '<span class="wedding-seal"><span>La más</span> <span>completa</span></span>' : '<span class="invite-badge">La más completa</span>';
   const lily = '<img alt="" src="/artwork/wedding-lilies/lily-stem-v1-320.webp" srcset="/artwork/wedding-lilies/lily-stem-v1-320.webp 320w, /artwork/wedding-lilies/lily-stem-v1-640.webp 640w" sizes="(max-width:700px) 78px, 120px" width="320" height="480" loading="lazy">';
@@ -27,21 +26,14 @@ export function invitationCard(offer, idPrefix = '') {
     <p class="invite-audience">${esc(offer.audience)}</p>${price(offer, wedding)}
     ${featured ? '<p class="invite-inherits">Todo lo de Aurora, más:</p>' : ''}<ul class="invite-points">${points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>${wedding ? '</div>' : ''}
     <a class="invite-cta" href="${esc(whatsapp(message))}" target="_blank" rel="noopener" data-invitation-offer="${offer.id}" data-analytics-whatsapp="plan_${offer.id}">Quiero ${esc(offer.name)} <span aria-hidden="true">↗</span></a>
-    <details class="invite-details"><summary>Ver todo lo que incluye <span aria-hidden="true">+</span></summary><ul>${invitationPlanFeatures[offer.id].map(text => `<li>${esc(text)}</li>`).join('')}</ul></details></article>`;
+    <details class="invite-details"><summary>${wedding ? '<span class="plan-details-desktop">Ver todo lo que incluye</span><span class="plan-details-mobile">Ver todo lo incluido</span>' : 'Ver todo lo que incluye'} <span aria-hidden="true">+</span></summary><ul>${invitationPlanFeatures[offer.id].map(text => `<li>${esc(text)}</li>`).join('')}</ul></details></article>`;
 }
 
 export function renderInvitationOffers() {
   return `<section class="home-continuation invite-offers" id="planes-invitaciones" aria-labelledby="invite-offers-title"><span class="inv-anchor" id="planes-eventos"></span>
     <div class="invite-offers-intro"><h2 id="invite-offers-title">Aurora y Boreal</h2><p>Precios de apertura y regulares en MXN, con IVA incluido. Pago único.</p></div>
     <div class="invite-grid">${invitationOffers.map(o => invitationCard(o)).join('')}</div>
-    <a class="season-bridge" href="#temporadas">¿Una posada o una fiesta de fin de año? Diseños de temporada a ${invitationMoney(seasonalOffer.cents)} <span aria-hidden="true">→</span></a></section>`;
-}
-
-export function renderSeasons(date = new Date()) {
-  const next = upcomingSeason(date);
-  const message = `Hola, me interesa una invitación de temporada (${invitationMoney(seasonalOffer.cents)} MXN). Mi celebración es…`;
-  return `<section class="home-continuation invite-seasons" id="temporadas" aria-labelledby="seasons-title" data-season-next="${next.id}"><span class="inv-anchor" id="temporada"></span><span class="inv-anchor" id="plan-temporada"></span><div class="invite-seasons-intro"><h2 id="seasons-title">Diseños de temporada</h2><p>Con tu fecha y tus datos, a ${invitationMoney(seasonalOffer.cents)} MXN.</p></div>`
-    + `<ul class="season-fan">${seasons.map(s => `<li data-phone-live class="season-card" data-season="${s.id}" data-season-from="${s.order.from.join('-')}" data-season-to="${s.order.to.join('-')}"${s.id === next.id ? ' data-season-current' : ''}><div><span class="season-shot phone-interactive"><span class="phone-screen"><a class="phone-open" href="${s.demo}" aria-label="Abrir la invitación de ${esc(s.name)}"></a><img src="${asset(s.image, 390)}" srcset="${asset(s.image, 390)} 390w, ${asset(s.image, 780)} 780w" sizes="(max-width:700px) 60vw, 240px" width="390" height="844" alt="Invitación de ${esc(s.name)} de Nordra" loading="lazy" decoding="async"></span><span class="phone-open-hint" aria-hidden="true">Ábrela <span>↗</span></span></span><span class="season-caption"><strong>${esc(s.name)}</strong><span class="season-open" aria-hidden="true">↗</span></span></div></li>`).join('')}</ul><a class="season-consult" href="${esc(whatsapp(message))}" target="_blank" rel="noopener" data-invitation-offer="temporada" data-analytics-whatsapp="seasonal_design">Consultar por WhatsApp <span aria-hidden="true">↗</span></a></section>`;
+    <a class="season-bridge" href="/temporada">¿Una posada o una fiesta de fin de año? Diseños de temporada a ${invitationMoney(seasonalOffer.cents)} <span aria-hidden="true">→</span></a></section>`;
 }
 
 export const closingMessage = 'Hola, Nordra. Quiero una invitación digital. Celebro: … Fecha: … Invitados aproximados: …';
@@ -61,14 +53,14 @@ export function renderFaq() {
 }
 
 export function invitationSchema() {
-  const offers = [...invitationOffers, seasonalOffer].map(o => invitationOfferSchema(o, `https://nordrastudio.mx/invitaciones#plan-${o.id}`));
+  const offers = [...invitationOffers, seasonalOffer].map(o => invitationOfferSchema(o, o.id === 'temporada' ? 'https://nordrastudio.mx/temporada' : `https://nordrastudio.mx/invitaciones#plan-${o.id}`));
   return [
     { '@context': 'https://schema.org', '@type': 'Service', name: 'Invitaciones digitales', serviceType: 'Invitaciones digitales con confirmación de asistencia', areaServed: 'MX', provider: { '@id': 'https://nordrastudio.mx/#negocio' }, offers, review: clientReviews() },
     { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: invitationFaq.map(item => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
   ];
 }
 
-export function renderInvitationPage(html, date = new Date()) {
+export function renderInvitationPage(html) {
   if (!html.includes('{{invitations:')) return html;
   return html
     .replaceAll('{{invitations:minimum}}', minPrice)
@@ -76,7 +68,6 @@ export function renderInvitationPage(html, date = new Date()) {
     .replace('{{invitations:closing}}', encodeURIComponent(closingMessage))
     .replace('{{invitations:offers}}', renderInvitationOffers())
     .replace('{{invitations:clients}}', renderClientCases())
-    .replace('{{invitations:seasons}}', renderSeasons(date))
     .replace('{{invitations:faq}}', renderFaq())
     .replace('{{invitations:schema}}', invitationSchema().map(data => `<script type="application/ld+json">${JSON.stringify(data).replaceAll('<', '\\u003c')}</script>`).join(''));
 }

@@ -46,7 +46,7 @@
 .wedding-extra { margin-top:18px; border-block:1px solid var(--line); }
 .wedding-extra summary { padding:6px 0; }
 .wedding-extra p { max-width:75ch; }
-.wedding-plans details[open]>summary span { rotate:45deg; }
+.wedding-plans details[open]>summary span:last-child { rotate:45deg; }
 .wedding-plans .invite-card :focus-visible { outline:2px solid #664c34; outline-offset:3px; }
 @media(prefers-reduced-motion:no-preference) {
   .wedding-plans .invite-card { transition:translate .18s ease,box-shadow .18s ease; }
@@ -76,4 +76,48 @@
   .wedding-plan-grid { grid-template-columns:1fr; gap:12px; }
   .theme-wedding .wedding-process .process-list { margin-block:18px; }
   .theme-wedding .home-closing .contact-layout,.theme-wedding .home-closing .contact-channels { margin-block:16px; }
+}
+
+.plan-details-mobile { display:none; }
+@media (max-width:700px) {
+  .wedding-plans .plan-details-desktop { display:none; }
+  .wedding-plans .plan-details-mobile { display:inline; }
+  .wedding-plans .invite-card { padding:20px; }
+  .wedding-plans .invite-card-head { min-height:40px; }
+  .wedding-plans .wedding-seal { width:52px; height:52px; font-size:12px; }
+  .wedding-plans .invite-audience { display:none; }
+  .wedding-plans .paper-copy .invite-price { margin-block:10px; }
+  .wedding-plans .invite-points { font-size:15px; line-height:1.45; margin-block:8px 12px; }
+  .wedding-plans .invite-details { margin-top:8px; }
+  .wedding-plans .invite-details summary { font-size:15px; }
+  .theme-wedding .wedding-plans { padding-block:20px; }
+  .wedding-plans .rings-plan-seal { margin-bottom:12px; }
+  .wedding-plans>p { margin-bottom:12px; }
+  body[data-scene=bodas] .theme-wedding .home-closing { margin-top:16px; padding-block:20px; }
+  body[data-scene=bodas] .theme-wedding .home-closing h2 { margin-block:0 16px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .contact-layout>p { margin-bottom:8px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .contact-layout .primary-action { margin-top:0; min-height:44px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .contact-channels { padding-top:0; margin-block:12px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .contact-channel { min-height:60px; padding-block:6px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .footer-layout { margin-top:16px; padding-top:16px; gap:12px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .footer-brand p { margin-block:8px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .footer-layout nav { flex-direction:row; flex-wrap:wrap; gap:0 16px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .footer-legal { margin-top:12px; padding-block:12px 0; gap:0 12px; }
+}
+@media (max-width:700px) and (prefers-reduced-motion:no-preference) {
+  .wedding-plans .invite-details[open] ul { animation:plan-details-enter .2s ease-out; }
+}
+@keyframes plan-details-enter { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
+
+@media (max-width:700px) {
+  .wedding-plans .invite-card { padding-block:16px; }
+  .wedding-plans .invite-points li { line-height:1.45; }
+  .wedding-plans .wedding-plan-grid { padding-top:4px; }
+  .wedding-plans .invite-card-head { min-height:32px; }
+  .wedding-plans .invite-price { row-gap:0; }
+  .wedding-plans .invite-opening { gap:0; }
+  body[data-scene=bodas] .theme-wedding .home-closing :is(.contact-layout,.contact-channels) { margin-block:8px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .contact-layout { gap:8px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .footer-layout { margin-top:8px; padding-top:8px; }
+  body[data-scene=bodas] .theme-wedding .home-closing .footer-brand p { margin-block:4px; }
 }

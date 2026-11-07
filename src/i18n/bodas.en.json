@@ -90,5 +90,8 @@
   "¿Cómo se paga?": "How do payments work?",
   "Sonido": "Sound",
   "Ver en movimiento": "View in motion",
-  "Toquen o giren los anillos": "Tap or turn the rings"
+  "Toquen o giren los anillos": "Tap or turn the rings",
+  "Hola, me interesa el plan Aurora para nuestra boda ({price} MXN). Nuestra boda es…": "Hi, I’m interested in the Aurora plan for our wedding ({price} MXN). Our wedding is…",
+  "Hola, me interesa el plan Boreal para nuestra boda (desde {price} MXN). Nuestra boda es…": "Hi, I’m interested in the Boreal plan for our wedding (from {price} MXN). Our wedding is…",
+  "Ver todo lo incluido": "See everything included"
 }

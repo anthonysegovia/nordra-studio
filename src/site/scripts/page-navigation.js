@@ -138,3 +138,17 @@
  addEventListener('popstate',()=>{const r=route();go(r.next,r.anchor,'none');});
  const initialRoute=route();if(initialRoute.next!==scene)go(initialRoute.next,initialRoute.anchor,'none');
 })();
+
+// Scroll only the navigation strip so deep links retain their vertical position.
+const occasionPath = document.querySelector('.occasion-path');
+function revealCurrentOccasion() {
+  if (!occasionPath || !matchMedia('(max-width:700px)').matches) return;
+  const active = occasionPath.querySelector('[aria-current="page"]');
+  if (!active) return;
+  const navBox = occasionPath.getBoundingClientRect();
+  const activeBox = active.getBoundingClientRect();
+  if (activeBox.right > navBox.right) occasionPath.scrollLeft += activeBox.right - navBox.right;
+  if (activeBox.left < navBox.left) occasionPath.scrollLeft -= navBox.left - activeBox.left;
+}
+document.fonts.ready.then(revealCurrentOccasion);
+addEventListener('resize', revealCurrentOccasion);

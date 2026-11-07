@@ -35,5 +35,7 @@
   "Hola, me interesa el plan Aurora para mi celebración ({price} MXN). Mi celebración es…\n\nTipo de celebración: Evento.": "Hi, I’m interested in Aurora for my celebration ({price} MXN). My celebration is…\n\nOccasion: Event.",
   "Panel de Conexión 27": "Conexión 27 dashboard",
   "Gafete holográfico de Conexión 27 sobre una mesa de piedra arena": "Conexión 27 holographic badge on a sandstone table",
-  "Portada de El gafete, Conexión 27": "El gafete cover, Conexión 27"
+  "Portada de El gafete, Conexión 27": "El gafete cover, Conexión 27",
+  "Hola, me interesa el plan Aurora para mi evento ({price} MXN). Mi evento es…\n\nTipo de celebración: Evento.": "Hi, I’m interested in the Aurora plan for my event ({price} MXN). My event is…\n\nCelebration type: Event.",
+  "Hola, me interesa el plan Boreal para mi evento (desde {price} MXN). Mi evento es…\n\nTipo de celebración: Evento.": "Hi, I’m interested in the Boreal plan for my event (from {price} MXN). My event is…\n\nCelebration type: Event."
 }

@@ -43,7 +43,7 @@ export function renderOccasionPrices(html) {
 
 export function renderOccasionPage(html) {
   return renderOccasionPrices(html).replace(/\{\{occasion:(bodas|cumpleanos|eventos):plans\}\}/g, (_, page) =>
-    invitationOffers.map(offer => invitationCard(offer, page + '-')).join('')).replace(/\{\{occasion:(bodas|cumpleanos|eventos|temporada):(faq|schema)\}\}/g, (_, page, kind) =>
+    invitationOffers.map(offer => invitationCard(offer, page + '-', { bodas: 'nuestra boda', eventos: 'mi evento' }[page])).join('')).replace(/\{\{occasion:(bodas|cumpleanos|eventos|temporada):(faq|schema)\}\}/g, (_, page, kind) =>
     kind === 'faq'
       ? faq[page].map(item => `<details class="faq-item"><summary><span>${item.question}</span><span aria-hidden="true">+</span></summary><div class="faq-answer"><p>${item.answerHtml}</p></div></details>`).join('')
       : occasionSchema(page).map(data => `<script type="application/ld+json">${JSON.stringify(data).replaceAll('<', '\\u003c')}</script>`).join(''));

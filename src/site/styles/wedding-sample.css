@@ -18,7 +18,7 @@ body.dark #bodas-respuesta{--paper:#1c1714;--paper-2:#28201b;--sample-ink:#efe6d
 #bodas-respuesta h2{font:400 clamp(44px,4.4vw,62px)/1.02 'Cormorant Wedding',serif;letter-spacing:-.01em;margin:0 0 14px;color:var(--sample-ink)}
 #bodas-respuesta .wedding-direction>p{font-size:14px;color:var(--soft);margin:0 0 30px}
 #bodas-respuesta .wedding-switch{display:grid;gap:4px;margin:0 0 30px;padding:0}
-#bodas-respuesta .wedding-switch button{display:grid;grid-template-columns:34px 1fr;gap:2px 10px;width:100%;padding:16px 18px;border:0;border-radius:12px;background:transparent;transition:background .35s var(--sample-ease),transform .35s var(--sample-ease)}
+#bodas-respuesta .wedding-switch button{display:grid;grid-template-columns:1fr;gap:2px 10px;width:100%;padding:16px 18px;border:0;border-radius:12px;background:transparent;transition:background .35s var(--sample-ease),transform .35s var(--sample-ease)}
 #bodas-respuesta .wedding-switch button::before{content:"";display:block;position:absolute;left:0;top:14px;bottom:14px;width:2px;border-radius:2px;background:var(--gold);transform:scaleY(0);transition:transform .45s var(--sample-ease)}
 #bodas-respuesta .wedding-switch button:hover{background:color-mix(in srgb,var(--paper-2) 60%,transparent)}
 #bodas-respuesta .wedding-switch button[aria-selected=true]{background:var(--paper-2)}
@@ -76,3 +76,25 @@ body.dark #bodas-respuesta{--paper:#1c1714;--paper-2:#28201b;--sample-ink:#efe6d
 body[data-journey-motion=paused] #bodas-respuesta *,body[data-journey-motion=paused] #bodas-respuesta *::before{transition:none!important;animation:none!important}
 /* These sections use their own rings and active-step stroke. */
 #bodas-respuesta>.travel-thread,#bodas-planes-eventos>.travel-thread,#bodas-respuesta .motion-indicator{display:none}
+
+@media (max-width:700px) {
+  #bodas-respuesta .rings-couple { padding-block:12px 24px; gap:16px; }
+  #bodas-respuesta .wedding-sample-composition { padding-block:12px 24px; }
+  #bodas-respuesta .wedding-switch { margin-bottom:12px; }
+  #bodas-respuesta .wedding-switch button { padding-block:8px; }
+  #bodas-respuesta .wedding-stage { margin-bottom:4px; }
+  #bodas-respuesta .wedding-credit { margin-bottom:0; }
+  #bodas-respuesta .rings-thread b { height:32px; }
+}
+
+@media (max-width:700px) {
+  #bodas-respuesta .rings-couple { padding-block:8px 0; gap:12px; }
+  #bodas-respuesta .couple-date { margin-block:8px; }
+  #bodas-respuesta .couple-lead { max-width:none; }
+  #bodas-respuesta .wedding-sample-composition { padding-block:8px 0; }
+  #bodas-respuesta h2 { margin-bottom:8px; }
+  #bodas-respuesta .wedding-direction>p { margin-bottom:12px; }
+  #bodas-respuesta .wedding-switch em { display:none; }
+  #bodas-respuesta .wedding-links { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  #bodas-respuesta .wedding-links a { display:flex; align-items:center; min-height:44px; line-height:1.5; text-align:center; }
+}

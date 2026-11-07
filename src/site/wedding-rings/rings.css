@@ -155,3 +155,12 @@ body[data-scene=bodas] #bodas-respuesta>.travel-thread{display:none}
  body[data-journey-motion=paused] .rings-hero *{transition:none!important;animation:none!important}
 }
 @media(max-width:700px),(pointer:coarse){body:not(.dark) .rings-hero .eyebrow{color:var(--ink)}}
+
+@media (max-width:700px) {
+  body[data-scene=bodas] .rings-mobile-row { display:none; }
+  body[data-scene=bodas] .rings-hero .occasion-path { height:44px; align-self:flex-start; width:calc(100% - 32px); margin:0 -20px; padding:0 4px 0 20px; }
+  body[data-scene=bodas] .rings-hero .occasion-path a,
+  body[data-scene=bodas] .rings-hero .occasion-path a:first-child { display:flex; min-height:44px; margin:0; }
+}
+
+@media (max-width:700px) { body[data-scene=bodas] .rings-hero .eyebrow { font-size:12px; } }

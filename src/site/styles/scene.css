@@ -1236,3 +1236,35 @@ body[data-journey-motion=paused] .occasion-paper{display:none}
  .eyebrow-split>.eyebrow-divider{display:none}
  .eyebrow-balanced{text-wrap:balance}
 }
+/* Compact occasion navigation keeps the return link available on phones. */
+@media (max-width:700px) {
+  body[data-scene] .occasion-path {
+    display:flex;
+    flex-wrap:nowrap;
+    align-items:center;
+    gap:8px;
+    height:44px;
+    margin-bottom:0;
+    overflow-x:auto;
+    scrollbar-width:none;
+    font-size:12px;
+  }
+  body[data-scene] .occasion-path::-webkit-scrollbar { display:none; }
+  body[data-scene] .occasion-path a,
+  body[data-scene] .occasion-path a:first-child {
+    display:flex;
+    flex:none;
+    align-items:center;
+    justify-content:center;
+    min-width:44px;
+    min-height:44px;
+    margin:0;
+    padding:8px 6px;
+    font-size:12px;
+    white-space:nowrap;
+  }
+}
+
+@media (max-width:700px) {
+  body:is([data-scene=eventos],[data-scene=temporada]) .occasion-path { margin-top:-2px; }
+}

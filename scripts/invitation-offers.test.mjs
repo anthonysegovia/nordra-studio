@@ -16,9 +16,8 @@ test('plan cards, WhatsApp messages and the billing catalogue share every invita
  for(const offer of invitationOffers)for(const event of ['wedding','celebration','gathering'])assert.equal(paymentCatalog.find(s=>s.id===`${event}-${offer.id}`)?.cents,offer.cents,`${event}-${offer.id}`);
  const comparison=page.match(/<section[^>]*id="planes-invitaciones"[\s\S]*?<\/section>/)[0];
  assert.ok(!comparison.includes('id="plan-temporada"'));
- assert.ok(comparison.includes('href="#temporadas">¿Una posada o una fiesta de fin de año? Diseños de temporada a '+invitationMoney(seasonalOffer.cents)));
- const quote=page.match(/class="season-consult" href="([^"]+)"/)[1];
- assert.ok(new URL(quote.replaceAll('&amp;','&')).searchParams.get('text').includes(invitationMoney(seasonalOffer.cents)));
+ assert.ok(comparison.includes('href="/temporada">¿Una posada o una fiesta de fin de año? Diseños de temporada a '+invitationMoney(seasonalOffer.cents)));
+ assert.ok(!page.includes('id="temporadas"'));
  for(const season of seasons)assert.equal(paymentCatalog.find(s=>s.id===season.catalogId)?.cents,seasonalOffer.cents,season.id);
  assert.ok(page.includes(`Desde ${invitationMoney(invitationOffers[0].cents)} MXN.`));
  assert.ok(page.includes(encodeURIComponent(closingMessage)));
@@ -26,7 +25,7 @@ test('plan cards, WhatsApp messages and the billing catalogue share every invita
 });
 test('the next season follows the calendar without dates shown to visitors',()=>{
  assert.equal(upcomingSeason(new Date(2026,9,10)).id,'halloween');assert.equal(upcomingSeason(new Date(2026,9,31)).id,'posadas');assert.equal(upcomingSeason(new Date(2026,11,20)).id,'fin-de-ano');assert.equal(upcomingSeason(new Date(2027,1,3)).id,'halloween');
- assert.equal((page.match(/data-season-current/g)||[]).length,1);
+ assert.equal((page.match(/data-season-current/g)||[]).length,0);
 });
 test('visible FAQ, FAQPage and Service offers come from one source',()=>{
  const blocks=[...page.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1]));

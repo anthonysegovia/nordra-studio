@@ -75,18 +75,11 @@ try {
   }
   if (values.report) { fs.mkdirSync(path.dirname(values.report), { recursive: true }); fs.writeFileSync(values.report, JSON.stringify(rows, null, 2)); }
   if (!values.audit) assert.deepEqual(rows.filter(r => r.small.length || r.contrast.length || r.sampledFailures.length), [], 'Commercial text must be >=12px and meet WCAG AA contrast (4.5:1 normal; 3:1 large).');
-  for (const [date, expected] of [['2026-11-01','posadas'],['2026-12-20','fin-de-ano'],['2026-09-15','halloween']]) {
-    const context = await browser.newContext({ viewport:{width:375,height:812},reducedMotion:'reduce' });
-    const page = await context.newPage();
-    await page.clock.setFixedTime(new Date(`${date}T12:00:00-06:00`));
-    await page.goto(base.replace(/\/$/,'')+'/invitaciones#temporadas');
-    await page.waitForSelector(`.season-card[data-season-current][data-season="${expected}"]`);
-    await context.close();
-  }
   const noJs = await browser.newContext({javaScriptEnabled:false});
   const fallback = await noJs.newPage();
   await fallback.goto(base.replace(/\/$/,'')+'/invitaciones');
-  assert.equal(await fallback.locator('#temporadas .season-card a').count(),3);
+  assert.equal(await fallback.locator('#temporadas').count(),0);
+  assert.equal(await fallback.locator('.grounding a[href="/temporada"], .inv-temporada a[href="/temporada"]').count(),2);
   await noJs.close();
-  console.log('Season gallery: three visitor dates and no-JS links passed');
+  console.log('Season discovery: hero and category links work without JavaScript');
 } finally { await browser.close(); await server?.close(); }

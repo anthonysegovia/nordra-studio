@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import postcss from 'postcss';
 import { commercialTypeFloor } from '../build/commercial-type.mjs';
-import { seasons } from '../src/data/invitationPricing.ts';
 import { renderInvitationPage } from '../build/invitation-offers.mjs';
 
 test('the CSS floor preserves sizes, line heights and private/phone styles', async () => {
@@ -15,12 +14,12 @@ test('the CSS floor preserves sizes, line heights and private/phone styles', asy
   for (const from of ['/repo/src/panel.css', '/repo/src/site/styles/phone-frame.css', '/repo/src/site/styles/landscape.css']) assert.equal((await process(from)).css, input);
 });
 
-test('the seasonal gallery provides real links without JavaScript',()=>{
+test('seasonal designs remain discoverable without the duplicate gallery',()=>{
  const html=renderInvitationPage(readFileSync('invitaciones.html','utf8'));
  assert.ok(!html.includes('{{invitations:'));
- const gallery=html.split('id="temporadas"')[1].split('</section>')[0];
- for(const season of seasons)assert.ok(gallery.includes('href="'+season.demo+'"'));
- assert.doesNotMatch(gallery,/showcase-tab|role="tab"/);
+ assert.ok(!html.includes('id="temporadas"'));
+ assert.match(html, /class="grounding"[\s\S]*?href="\/temporada"/);
+ assert.match(html, /class="inv-temporada"><a href="\/temporada"/);
 });
 
 test('home keeps two equivalent doors, with filled and outlined buttons in the same action group', () => {
