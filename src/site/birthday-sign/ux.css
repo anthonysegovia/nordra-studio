@@ -49,8 +49,8 @@ body[data-birthday-sign] .birthday-sign-root :is(.lead-m,.world-chips,.pause-ico
   body[data-birthday-sign] .birthday-sign-root .pause[aria-pressed=true] .ico-r{display:block}
   body[data-birthday-sign] .birthday-sign-root .lead-m{display:block;order:1;margin:12px 0 0;font-size:15px;color:var(--muted)}
   body[data-birthday-sign] .birthday-sign-root h1{font-size:36px}
-  body[data-birthday-sign] .birthday-sign-root .shelf .custom-toggle{position:absolute;left:50%;bottom:24px;z-index:2;width:auto;margin:0!important;min-height:40px;padding:0 18px;font-size:14px;transform:translateX(-50%);white-space:nowrap}
-  body[data-birthday-sign] .birthday-sign-root .shelf .custom-toggle:active{transform:translateX(-50%) scale(.95)}
+  body[data-birthday-sign] .birthday-sign-root .shelf .custom-toggle{position:absolute;inset-inline:0;bottom:24px;z-index:2;width:max-content;margin:0 auto!important;min-height:40px;padding:0 18px;font-size:14px;white-space:nowrap}
+  body[data-birthday-sign] .birthday-sign-root .shelf .custom-toggle:active{transform:scale(.95)}
   body[data-birthday-sign] .birthday-sign-root .shelf{height:72px!important;margin-top:6px!important}
   body[data-birthday-sign] .birthday-sign-root .hero-copy>.lead,body[data-birthday-sign] .birthday-sign-root .hero-copy>.actions{display:none}
   body[data-birthday-sign] .birthday-sign-root .hero{padding-bottom:30px}
@@ -154,10 +154,10 @@ body[data-birthday-sign] .birthday-sign-root .card-hit{box-shadow:none!important
  body[data-birthday-sign] .birthday-sign-root .shelf .props{position:absolute;inset:0;margin:0;pointer-events:none}
  body[data-birthday-sign] .birthday-sign-root .shelf .props button{pointer-events:auto}
  body[data-birthday-sign][data-world=espacio] .birthday-sign-root .shelf .console{display:contents}
- body[data-birthday-sign] .birthday-sign-root .shelf :is(.c-lever,.knob,.glass-prop,.turntable,.giftbox,.crown,.slipper){position:absolute;bottom:18px}
- body[data-birthday-sign] .birthday-sign-root .shelf :is(.c-lever[data-l="1"],.glass-prop,.giftbox,.crown){left:30px}
+ body[data-birthday-sign] .birthday-sign-root .shelf .props :is(.c-lever,.knob,.glass-prop,.turntable,.giftbox,.crown,.slipper){position:absolute;bottom:18px}
+ body[data-birthday-sign] .birthday-sign-root .shelf .props :is(.c-lever[data-l="1"],.glass-prop,.giftbox,.crown){left:30px}
  body[data-birthday-sign] .birthday-sign-root .shelf .c-lever[data-l="2"]{left:62px}
- body[data-birthday-sign] .birthday-sign-root .shelf .knob{right:52px}
- body[data-birthday-sign] .birthday-sign-root .shelf :is(.turntable,.slipper){right:48px;width:44px}
+ body[data-birthday-sign] .birthday-sign-root .shelf .props .knob{right:52px}
+ body[data-birthday-sign] .birthday-sign-root .shelf .props :is(.turntable,.slipper){right:48px;width:44px}
 }
-@media(max-width:360px){body[data-birthday-sign] .birthday-sign-root .shelf .custom-toggle{font-size:12px;padding-inline:8px}body[data-birthday-sign] .birthday-sign-root .shelf :is(.knob,.turntable,.slipper){right:45px}}
+@media(max-width:360px){body[data-birthday-sign] .birthday-sign-root .shelf .custom-toggle{font-size:12px;padding-inline:8px}body[data-birthday-sign] .birthday-sign-root .shelf .props :is(.knob,.turntable,.slipper){right:45px}}
