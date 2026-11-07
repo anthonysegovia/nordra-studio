@@ -107,7 +107,7 @@ body[data-birthday-sign][data-journey-motion=paused] .birthday-sign-root :is(.co
 body[data-birthday-sign] .plan-dots{display:none}
 body[data-birthday-sign] #cumpleanos-respuesta .wedding-phone{aspect-ratio:390/844;overflow:hidden}
 body[data-birthday-sign] #cumpleanos-respuesta .wedding-phone>.cover{border-radius:inherit}
-body[data-birthday-sign] :is(#bs-estilos,#cumpleanos-respuesta,#cumpleanos-planes-eventos,#cumpleanos-preguntas,#cumpleanos-proceso-invitaciones,#contacto){padding-block:clamp(48px,6vw,88px);margin-block:0}
+body[data-birthday-sign] :is(#bs-estilos,#cumpleanos-respuesta,#cumpleanos-planes-eventos,#cumpleanos-preguntas,#cumpleanos-proceso-invitaciones,#cumpleanos-contacto-invitaciones){padding-block:clamp(32px,5vw,72px);margin-block:0}
 @media(max-width:900px){
  body[data-birthday-sign] #cumpleanos-respuesta{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
  body[data-birthday-sign] #cumpleanos-respuesta .wedding-direction{display:contents}
