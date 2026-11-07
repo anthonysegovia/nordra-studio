@@ -186,9 +186,13 @@ body[data-journey-motion=paused] .package-details summary{transition:none}
   background:none;filter:none;overflow:hidden;translate:none;
   --hero-mask:radial-gradient(ellipse 46% 46% at 50% 50%,#000 32%,transparent 100%);
   -webkit-mask-image:var(--hero-mask);mask-image:var(--hero-mask);
-  opacity:.36
+  opacity:.50
  }
- body.dark .scene[data-view] .aurora-field[data-renderer=texture-mobile],.dark .studio-page>.studio-aurora:has(.studio-aurora-poster){opacity:.40}
+ body.dark .scene[data-view] .aurora-field[data-renderer=texture-mobile],.dark .studio-page>.studio-aurora:has(.studio-aurora-poster){opacity:.52}
+ /* Keep secondary hero copy above AA on the page-specific palettes. */
+ body .scene[data-view=bodas] .aurora-field[data-renderer=texture-mobile],body.dark .scene[data-view=bodas] .aurora-field[data-renderer=texture-mobile]{opacity:.20}
+ body:not(.dark) .scene[data-view=cumpleanos] .aurora-field[data-renderer=texture-mobile]{opacity:.10}
+ body.dark .scene[data-view=eventos] .aurora-field[data-renderer=texture-mobile]{opacity:.40}
  .rings-hero>.aurora-field[data-renderer=texture-mobile]{z-index:0}
  .theme-birthday .wall>.aurora-field[data-renderer=texture-mobile]{z-index:1}
 }

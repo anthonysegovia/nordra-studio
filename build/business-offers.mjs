@@ -44,7 +44,7 @@ function card(group){
 }
 function row(group){
  const offer=levels(group)[0];
- return `<a class="offer-row" data-row="${group.id}" href="${esc(businessWhatsApp(offer))}" target="_blank" rel="noopener" data-analytics-whatsapp="web_option"${group.id==='business'?' hidden':''}><strong>${group.name}</strong><span>${group.goal}</span><small>desde ${minimum(group)}</small><i aria-hidden="true">↗</i></a>`;
+ return `<a class="offer-row" data-row="${group.id}" data-offer-name="${offer.name}" href="${esc(businessWhatsApp(offer))}" target="_blank" rel="noopener" data-analytics-whatsapp="web_option"${group.id==='business'?' hidden':''}><strong>${group.name}</strong><span>${group.goal}</span><small>desde ${minimum(group)}</small><i aria-hidden="true">↗</i></a>`;
 }
 
 function hosting() {

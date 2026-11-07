@@ -1,3 +1,4 @@
+import { whatsappOriginPlugin } from './build/whatsapp-origin.mjs';
 import {renderGafete} from './src/celebrations/gafete/template.mjs';
 import { translatedPages, loadLocaleTemplate, translatedPageOutput } from './build/translated-pages.mjs';
 import { commercialLocales } from './build/commercial-locales.mjs';
@@ -25,7 +26,7 @@ export default defineConfig({
     {name:'number-invitation',transformIndexHtml:{order:'pre',handler:html=>renderInvitation(html)}},
     loadLocaleTemplate(), commercialLocales(),
     { name: "nordra-home-client-highlights", transformIndexHtml: { order: "pre", handler: html => renderHomeClientHighlights(html) } },
-    occasionContentPlugin(), seasonalPagePlugin(), businessContentPlugin(), businessOffersPlugin(), invitationOffersPlugin(), {name:"mobile-whatsapp",transformIndexHtml:{order:"pre",handler:html=>mobileWhatsApp(html)}}, translatedPageOutput(), commercialPreview(), siteScripts(), siteStyles(), react(), tailwindcss()
+    occasionContentPlugin(), seasonalPagePlugin(), businessContentPlugin(), businessOffersPlugin(), invitationOffersPlugin(), {name:"mobile-whatsapp",transformIndexHtml:{order:"pre",handler:html=>mobileWhatsApp(html)}}, translatedPageOutput(), commercialPreview(), siteScripts(), siteStyles(), whatsappOriginPlugin(), react(), tailwindcss()
   ],
 });
 

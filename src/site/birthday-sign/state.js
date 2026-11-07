@@ -14,4 +14,4 @@ export function whatsappMessage({name,age,style='neon',color='rosa',lettering='c
  const en=lang.startsWith('en'),l=en?'en':'es',w=STYLES.includes(style)?style:'neon',person=[sanitizeName(name),sanitizeAge(age)].filter(Boolean).join(' ');
  return en?`Hi, Nordra. I'd like an invitation with my name in lights: ${person}, in ${colors[l][color]||colors[l].rosa} with ${letters[l][lettering]||letters[l].cursiva} lettering, ${styleLabels[l][w]} style.`:`Hola, Nordra. Quiero una invitación con mi nombre en luces: ${person}, en ${colors[l][color]||colors[l].rosa} y letra ${letters[l][lettering]||letters[l].cursiva}, estilo ${styleLabels[l][w]}.`;
 }
-export function whatsappURL(options){return 'https://wa.me/528129022231?text='+encodeURIComponent(whatsappMessage(options));}
+export function whatsappURL(options){return 'https://wa.me/528129022231?text='+encodeURIComponent(whatsappMessage(options)+(options.origin?'\n\n'+options.origin:''));}

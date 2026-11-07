@@ -270,7 +270,7 @@ function stopRotation(){ userSet = true; clearTimeout(rotTimer); }
 /* ---------- formulario, estilo y color ---------- */
 const ask = $('ask');
 function updateAsk(){
- ask.href = whatsappURL({ ...current, style:world(), color:body.dataset.tube, lettering:plate.dataset.style, lang });
+ ask.href = whatsappURL({ ...current, style:world(), color:body.dataset.tube, lettering:plate.dataset.style, lang, origin:ask.dataset.whatsappOrigin });
  sampleUI?.sync();
  const bar=document.querySelector('.mobile-route a[href*="wa.me"]');
  if(bar&&(chosen||userSet)){bar.href=ask.href;bar.classList.add('ready');const label=text('Quiero la mía así');if(bar.textContent!==label){bar.textContent=label;if(!still())bar.animate([{opacity:.3,transform:'translateY(4px)'},{opacity:1,transform:'none'}],{duration:220});}}

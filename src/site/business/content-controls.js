@@ -13,8 +13,8 @@ export function initializeBusinessContent(root){
   const subject=en?'My website project · '+(name||'Nordra Studio'):name?'Mi proyecto web · '+name:'Mi proyecto web · Nordra Studio';
   const body=en?(name?'Hi, I’m interested in the '+name+' package.\nMy business is…':'Hi, I’d like to talk about a website for my business.\nMy business is…'):name?'Hola, me interesa el paquete '+name+'.\nMi negocio es…':'Hola, me gustaría platicar de una página web para mi negocio.\nMi negocio es…';
   const mobileContact = root.querySelector('.mobile-route [data-analytics-whatsapp="mobile_bar"]');
-  if (mobileContact) mobileContact.href = offer?.href || defaultWhatsApp;
-  for(const link of contactLinks){link.dataset.businessPackage=packageId;link.href=link.dataset.businessContact==='email'?'mailto:hola@nordrastudio.mx?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body):offer?.href||defaultWhatsApp;}
+  if (mobileContact) mobileContact.href = offer?.dataset.whatsappPageHref || defaultWhatsApp;
+  for(const link of contactLinks){link.dataset.businessPackage=packageId;link.href=link.dataset.businessContact==='email'?'mailto:hola@nordrastudio.mx?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body):offer?.dataset.whatsappPageHref||defaultWhatsApp;}
  }
  offers.addEventListener('offerchange',contact,options);contact();
  halo?.addEventListener('pointermove',event=>{if(paused()||event.pointerType==='touch')return;cancelAnimationFrame(haloFrame);const {clientX,clientY}=event;haloFrame=requestAnimationFrame(()=>{const box=halo.getBoundingClientRect();halo.style.setProperty('--contact-x',(clientX-box.left)+'px');halo.style.setProperty('--contact-y',(clientY-box.top)+'px');haloFrame=0;});},options);
