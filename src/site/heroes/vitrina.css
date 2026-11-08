@@ -181,8 +181,6 @@ body .scene.business.has-3d-hero{padding-top:0}
 .has-3d-hero>#hero{margin-inline:calc(-1 * var(--hero-gutter,0px))}
 #hero .hero-tools{grid-column:1/-1;font-size:13px;color:var(--muted);padding-top:12px}
 #hero .hero-tools a,#hero .hero-tools button{padding:8px 12px;border:1px solid var(--line);border-radius:999px}
-.hero-flight-shot{aspect-ratio:16/9;border-radius:14px;background-size:cover;background-position:top}
-.example-card:has(.hero-flight-shot)>img{display:none}
 #hero.hero-fallback .stage::before{opacity:1}
 @media(prefers-reduced-motion:reduce){#hero *,#hero::after{animation:none!important;transition:none!important}}
 

@@ -1,6 +1,6 @@
 import { businessOffers, businessMoney } from '../../data/businessOffers.ts';
 import { tr, english } from './locale.js';
-import { THREE, clamp, seg, eo, eio, bounce, lerp, spring, seenBefore, stillMode, createStage, place, toStage, screenRect, createClock, tiltControls, followGlow, scrollFlight, canvasTexture, dotTexture, softTexture } from './shared.js';
+import { THREE, clamp, seg, eo, eio, bounce, lerp, spring, seenBefore, stillMode, createStage, place, toStage, screenRect, createClock, tiltControls, followGlow, canvasTexture, dotTexture, softTexture } from './shared.js';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
 import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js';
@@ -392,21 +392,8 @@ openBtn.addEventListener('focus',()=>{if(openBtn.matches(':focus-visible')){hove
 openBtn.addEventListener('blur',()=>{hoverTarget=0;holdHover=false;});
 openBtn.addEventListener('keydown',e=>{if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;e.preventDefault();const n=DEMOS.length,d=(SLOTS[slot].d+(e.key==='ArrowRight'?1:n-1))%n;jump(d);setTimeout(labelBtn,60);});
 
-function countUp(el){if(!el.dataset.t)el.dataset.t=el.textContent;const txt=el.dataset.t,mt=txt.match(/\$([\d,]+)/);if(!mt)return;const val=+mt[1].replace(/,/g,''),t0=performance.now();
- const st=()=>{const k=Math.min(1,(performance.now()-t0)/800);el.textContent=k<1?txt.replace(mt[0],'$'+(Math.round(val*eo(k)/10)*10).toLocaleString('es-MX')):txt;if(k<1)requestAnimationFrame(st);};st();}
-// Al bajar, la vitrina se desarma: cada franja vuela a una tarjeta de paquetes
-[0,1,2].forEach(i=>{const ghost=$('ghost'+i),target=document.querySelectorAll('.hero-flight-shot')[i],band=[[0,.34],[.33,.67],[.66,1]][i];let prev=-1;
- // al aterrizar, la franja se asienta con un resorte y la tarjeta se ilumina un momento
- const land=st=>{if(st===2&&prev===1&&!still){target.animate([{transform:'translateY(-16px) scale(.96)'},{transform:'translateY(4px) scale(1.012)',offset:.5},{transform:'translateY(-1px)',offset:.78},{transform:'none'}],{duration:700,easing:'cubic-bezier(.2,.8,.2,1)'});
-  const card=target.closest('.example-card');card.classList.add('landed');countUp(card.querySelector('p'));clearTimeout(card._t);card._t=setTimeout(()=>card.classList.remove('landed'),1100);}prev=st;};
- scrollFlight({hero,startEl:stage,ghost,target,lag:i*.12,
-  fromRect:()=>{const r=mode==='desk'?screenRect(screen,SW,SH,camera,stage):screenRect(phoneScreen,PW-.08,PH-.08,camera,stage);return {left:r.left,top:r.top+r.height*band[0],width:r.width,height:r.height*(band[1]-band[0])};},
-  onProgress:i===0?(p=>{scrollP=p;}):null,
-  onState:st=>{const s=SLOTS[slot],d=DEMOS[s.d],src=s.m==='desk'?d.desk:d.mob;
-   const live=s.m==='desk'?screenMat:phoneMat,f=live.uniforms.fA.value,o=live.uniforms.oA.value,vf=(band[1]-band[0])*f,top=o+band[0]*f;
-   for(const el of [ghost,target]){el.style.backgroundImage=`url(${src})`;el.style.backgroundSize=`100% ${100/vf}%`;el.style.backgroundPosition=`0 ${vf<1?top/(1-vf)*100:0}%`;}
-   screen.visible=phoneScreen.visible=st===0;land(st);}});});
-addEventListener('scroll',()=>{const p=clamp(scrollY/(hero.offsetHeight*.9));root.position.z=-p*1.6;renderer.domElement.style.opacity=String(1-p*.5);if(clock.paused||still)draw();},{passive:true});
+// Al bajar, la vitrina solo gira y se aleja; los ejemplos de abajo conservan sus propias imágenes
+addEventListener('scroll',()=>{const p=clamp(scrollY/(hero.offsetHeight*.9));scrollP=p;root.position.z=-p*1.6;renderer.domElement.style.opacity=String(1-p*.5);if(clock.paused||still)draw();},{passive:true});
 
 const cta=document.querySelector('.cta'),miniState=mini.querySelector('header small');
 const look=on=>{ctaLook=on?1:0;mini.classList.toggle('writing',on);miniState.textContent=on?tr("escribiendo…"):tr("en línea");};

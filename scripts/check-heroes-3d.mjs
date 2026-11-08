@@ -1,4 +1,4 @@
-﻿import assert from 'node:assert/strict';
+import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 // Servidor Vite ya iniciado. CHROME_CHANNEL permite usar el navegador instalado.
 const base = process.env.HERO_URL || 'http://127.0.0.1:5174';
@@ -25,7 +25,7 @@ try {
    await page.locator('.pill[data-occ="eventos"]').click();
    assert.equal(await page.locator('#hero').getAttribute('data-occ'),'eventos');
    if(!mobile){await page.locator('#qrBtn').evaluate(b=>b.click());await page.waitForFunction(()=>!!document.querySelector('#qrBox svg'));await page.keyboard.press('Escape');assert.equal(await page.locator('#qrBtn').getAttribute('aria-expanded'),'false');}
-  }else{await page.evaluate(()=>{const target=document.querySelector('.hero-flight-shot');scrollTo(0,target.getBoundingClientRect().top+scrollY-innerHeight*.3+2);});await page.waitForTimeout(150);assert.equal(await page.locator('.hero-flight-shot').first().evaluate(e=>e.style.opacity),'1');await page.locator('#pause').click();assert.equal(await page.locator('#pause').getAttribute('aria-pressed'),'true');await page.locator('#replay').click();}
+  }else{await page.locator('#caso-nitida img').scrollIntoViewIfNeeded();assert.ok(await page.locator('#caso-nitida img').isVisible(),'Los ejemplos conservan su imagen');}
   await page.locator('.theme-button').click();await page.waitForTimeout(750);assert.ok(await page.locator('body').evaluate(e=>e.classList.contains('dark')));
   await page.evaluate(()=>scrollTo(0,0));
   await page.screenshot({path:`review/hero-${route.replaceAll('/','-')}-${mobile?'movil':'escritorio'}.jpg`,type:'jpeg',quality:85});
