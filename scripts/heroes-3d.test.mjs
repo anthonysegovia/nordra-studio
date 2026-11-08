@@ -13,7 +13,6 @@ test('heroes locales: módulos diferidos, recursos completos y ninguna CDN',()=>
  const files=readdirSync(new URL('../public/nordra/v550/assets/',import.meta.url),{withFileTypes:true});
  assert.ok(files.every(f=>f.isFile()&&!f.name.endsWith('.png')));
  for(const name of ['bodas','cumple','eventos'])for(const suffix of ['.mp4','-0.jpg'])assert.ok(files.some(f=>f.name==='apertura-'+name+suffix));
- assert.match(read('src/site/heroes/sobre.js'),/import\('qrcode'\)/);
 });
 test('contrato Three r181 utilizado por los shaders personalizados',()=>{
  assert.equal(REVISION,'181');

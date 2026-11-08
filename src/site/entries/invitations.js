@@ -12,6 +12,7 @@ import '../styles/client-cases.css';
 import '../styles/carousel-positions.css';
 import '../scripts/carousel-positions.js?entry=invitations';
 import '../scripts/invitation-offers.js?entry=invitations';
+import '../scripts/celebras-fold.js?entry=invitations';
 import '../scripts/client-cases.js?entry=invitations';
 import '../scripts/nordra-materials.js?entry=invitations';
 import '../scripts/nordra-theatre.js?entry=invitations';

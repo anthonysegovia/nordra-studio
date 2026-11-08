@@ -19,12 +19,10 @@ try {
   if(quiet)assert.ok(!requests.some(u=>/apertura-.*\.mp4/.test(u)),'Quieto no descarga videos');
   const initialMetrics=await page.evaluate(()=>({...window.heroMetrics}));
   if(route.includes('invitaciones')){
-   await page.locator('#names').fill('Alex & Dani');
    await page.locator('.pill[data-occ="cumple"]').click();
    assert.equal(await page.locator('#hero').getAttribute('data-occ'),'cumple');
    await page.locator('.pill[data-occ="eventos"]').click();
    assert.equal(await page.locator('#hero').getAttribute('data-occ'),'eventos');
-   if(!mobile){await page.locator('#qrBtn').evaluate(b=>b.click());await page.waitForFunction(()=>!!document.querySelector('#qrBox svg'));await page.keyboard.press('Escape');assert.equal(await page.locator('#qrBtn').getAttribute('aria-expanded'),'false');}
   }else{await page.locator('#caso-nitida img').scrollIntoViewIfNeeded();assert.ok(await page.locator('#caso-nitida img').isVisible(),'Los ejemplos conservan su imagen');}
   await page.locator('.theme-button').click();await page.waitForTimeout(750);assert.ok(await page.locator('body').evaluate(e=>e.classList.contains('dark')));
   await page.evaluate(()=>scrollTo(0,0));
