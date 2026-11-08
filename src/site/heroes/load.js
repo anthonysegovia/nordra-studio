@@ -13,9 +13,16 @@ export function loadHero(load) {
     hero.querySelector('canvas')?.remove();
     hero.querySelectorAll('#pause,#replay').forEach(button => { button.hidden = true; });
   });
-  // Escritorio: el 3D empieza a descargarse de inmediato, sin esperar a que terminen las imágenes.
+  // Escritorio: el 3D espera a que la página ya esté pintada, para que preparar los gráficos no retrase la entrada.
   // Teléfono: primero se pinta el texto y el póster; el 3D arranca en cuanto el navegador queda libre.
-  if (!matchMedia('(max-width:860px)').matches) { run(); return; }
+  if (!matchMedia('(max-width:860px)').matches) {
+    if (document.documentElement.hasAttribute('data-page-shown')) { run(); return; }
+    let started = false;
+    const begin = () => { if (!started) { started = true; run(); } };
+    addEventListener('nordra-page-shown', begin, { once: true });
+    setTimeout(begin, 1500);
+    return;
+  }
   const schedule = () => requestAnimationFrame(() => {
     if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 600 });
     else setTimeout(run, 150);

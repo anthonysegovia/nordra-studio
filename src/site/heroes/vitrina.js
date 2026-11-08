@@ -365,7 +365,8 @@ function frame(t){
 }
 const openBtn=$('openDemo');if(isNarrow)$('wheelHint').textContent=tr("Desliza de lado para recorrerla");
 const now=()=>WARP(clock.now());
-function draw(){frame(now());renderer.render(scene,camera);}
+let warmed=false;
+function draw(){if(!warmed)return;frame(now());renderer.render(scene,camera);}
 // Presupuesto: si tras la entrada el equipo no sostiene 50 cuadros por segundo, se baja la calidad
 let lowQ=false,perf={n:0,sum:0,prev:0};
 function degrade(fps){if(lowQ)return;lowQ=true;renderer.setPixelRatio(1);if(reflector)reflector.visible=false;dustMat.visible=false;caustic.visible=false;size();console.info('Vitrina: calidad reducida a',fps.toFixed(0),'cps');}
@@ -408,13 +409,21 @@ openBtn.addEventListener('pointercancel',()=>{sw=null;});
 $('pause').onclick=e=>{const p=clock.toggle();hero.classList.toggle('hero-paused',p);e.currentTarget.setAttribute('aria-pressed',String(p));e.currentTarget.querySelector('span').textContent=p?tr("Reanudar movimiento"):tr("Pausar movimiento");if(!p)loop();};
 
 size();
-document.fonts.ready.then(()=>{
+// Los shaders se compilan en paralelo para que la página responda mientras se prepara el cristal.
+// El reflejo del piso se dibuja sobre una textura y usa sus propias variantes.
+function warm(){
+ const tasks=[],target=reflector?.getRenderTarget();
+ if(target){renderer.setRenderTarget(target);tasks.push(renderer.compileAsync(scene,camera));renderer.setRenderTarget(null);}
+ tasks.push(renderer.compileAsync(scene,camera));
+ return Promise.all(tasks).catch(()=>{}).then(()=>{warmed=true;});
+}
+Promise.all([warm(),document.fonts.ready]).then(()=>{
  if(still){reset();hero.classList.add('go');stage.classList.add('ready');clock.start();events.slice(0,4).forEach(e=>{e.done=true;e.fn();});setTimeout(()=>{msgsEl.querySelectorAll('.msg').forEach(m=>m.classList.add('on','sent'));draw();},400);draw();return;}
  if(isNarrow){
   // Teléfono: primero una imagen quieta idéntica al primer cuadro; al llegar, la entrada corta
   reset();clock.offset=1.72;stage.classList.add('ready');hero.classList.add('go');draw();
   const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconnect();start(1.72);}},{threshold:.4});io.observe(stage);}
- else start(repeat?1.2:0);
+ else start(1.72);
 });
 let backgroundPaused=false;
 function syncVisibility(){const hidden=document.hidden||document.body.classList.contains('has-page-frame')||window.frameElement?.getAttribute('aria-hidden')==='true';if(hidden&&!clock.paused){backgroundPaused=true;clock.toggle();cancelAnimationFrame(raf);}else if(!hidden&&backgroundPaused){backgroundPaused=false;if(clock.paused)clock.toggle();loop();}}

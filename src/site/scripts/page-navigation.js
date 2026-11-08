@@ -14,6 +14,7 @@
   await Promise.race([Promise.all(images.map(img=>img.decode?.().catch(()=>{}))),timeout(1800)]);
   if(parent!==window)dispatchEvent(new Event('nordra-page-prepared'));
   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+  root.setAttribute('data-page-shown','');dispatchEvent(new Event('nordra-page-shown'));
   if(parent!==window)parent.postMessage({type:'nordra-page-ready',scene,...readState(),title:document.title,background:getComputedStyle(document.body).backgroundColor},'*');
  }
  ready();
