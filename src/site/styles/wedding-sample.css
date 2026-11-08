@@ -77,24 +77,63 @@ body[data-journey-motion=paused] #bodas-respuesta *,body[data-journey-motion=pau
 /* These sections use their own rings and active-step stroke. */
 #bodas-respuesta>.travel-thread,#bodas-planes-eventos>.travel-thread,#bodas-respuesta .motion-indicator{display:none}
 
+/* Phones: one large title per screen, one action per section, one rhythm between sections. */
 @media (max-width:700px) {
-  #bodas-respuesta .rings-couple { padding-block:12px 24px; gap:16px; }
-  #bodas-respuesta .wedding-sample-composition { padding-block:12px 24px; }
-  #bodas-respuesta .wedding-switch { margin-bottom:12px; }
-  #bodas-respuesta .wedding-switch button { padding-block:8px; }
-  #bodas-respuesta .wedding-stage { margin-bottom:4px; }
-  #bodas-respuesta .wedding-credit { margin-bottom:0; }
-  #bodas-respuesta .rings-thread b { height:32px; }
-}
+  body[data-scene=bodas] { --phone-section-gap:88px; }
 
-@media (max-width:700px) {
-  #bodas-respuesta .rings-couple { padding-block:8px 0; gap:12px; }
-  #bodas-respuesta .couple-date { margin-block:8px; }
-  #bodas-respuesta .couple-lead { max-width:none; }
-  #bodas-respuesta .wedding-sample-composition { padding-block:8px 0; }
-  #bodas-respuesta h2 { margin-bottom:8px; }
-  #bodas-respuesta .wedding-direction>p { margin-bottom:12px; }
-  #bodas-respuesta .wedding-switch em { display:none; }
-  #bodas-respuesta .wedding-links { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  #bodas-respuesta .wedding-links a { display:flex; align-items:center; min-height:44px; line-height:1.5; text-align:center; }
+  /* The menu and the bottom bar already reach the occasions and the plans. */
+  body[data-scene=bodas] .occasion-path,
+  body[data-scene=bodas] .rings-hero .occasion-path,
+  body[data-scene=bodas] .rings-hero .options-compare { display:none; }
+  body[data-scene=bodas] .rings-hero .copy { margin-top:28px; }
+  body[data-scene=bodas] .rings-hero .actions { margin-top:24px; }
+  body[data-scene=bodas] .rings-hero .rings-controls { top:auto; bottom:14px; right:16px; }
+  /* The script centres the hint on the rings; on phones it shares a row with the controls. */
+  body[data-scene=bodas] .rings-hero .hint { left:20px!important; transform:none; }
+
+  /* The couple is one moment; the sample is the next one. */
+  body[data-scene=bodas] #bodas-respuesta .rings-couple { padding:24px 28px var(--phone-section-gap); gap:28px; }
+  body[data-scene=bodas] #bodas-respuesta .couple-date { margin-block:14px 20px; }
+  body[data-scene=bodas] #bodas-respuesta .couple-lead { max-width:20ch; }
+  body[data-scene=bodas] #bodas-respuesta .wedding-sample-composition { padding:0 20px; }
+  body[data-scene=bodas] #bodas-respuesta h2 { font-size:40px; line-height:1.05; margin-bottom:10px; }
+  body[data-scene=bodas] #bodas-respuesta .wedding-direction>p { margin-bottom:24px; }
+  body[data-scene=bodas] #bodas-respuesta .wedding-switch { margin-bottom:28px; }
+  body[data-scene=bodas] #bodas-respuesta .wedding-switch button { padding-block:12px; }
+  body[data-scene=bodas] #bodas-respuesta .wedding-stage { margin-bottom:24px; }
+  /* Only the authorship stays: the phone right above already shows the names. */
+  body[data-scene=bodas] #bodas-respuesta .wedding-credit { margin:0 0 8px; }
+  body[data-scene=bodas] #bodas-respuesta .wedding-credit-names { display:none; }
+
+  /* One link, matching the step on screen. */
+  body[data-scene=bodas] #bodas-respuesta .wedding-links { display:flex; justify-content:center; }
+  body[data-scene=bodas] #bodas-respuesta .wedding-links a { display:inline-flex; align-items:center; gap:8px; min-height:44px; white-space:nowrap; font-size:15px; }
+  body[data-scene=bodas] #bodas-respuesta .wedding-links a+a,
+  body[data-scene=bodas] #bodas-respuesta .wedding-sample-composition:has([data-step=panel]) .wedding-links a:first-child { display:none; }
+  body[data-scene=bodas] #bodas-respuesta .wedding-sample-composition:has([data-step=panel]) .wedding-links a+a { display:inline-flex; }
+
+  body[data-scene=bodas] :is(#bodas-planes-eventos,#bodas-preguntas,#bodas-contacto-invitaciones) { margin-top:var(--phone-section-gap); padding-top:0; border-top:0; }
+  body[data-scene=bodas] :is(#bodas-preguntas,#bodas-contacto-invitaciones)>.travel-thread { display:none; }
+  body[data-scene=bodas] :is(#bodas-planes-eventos,#bodas-preguntas) { padding-bottom:0; }
+
+  /* Plans: price, three reasons, one button. The full list stays one tap away. */
+  body[data-scene=bodas] #bodas-planes-eventos>:is(h2,p) { text-align:center; }
+  body[data-scene=bodas] #bodas-planes-eventos .wedding-plan-grid { gap:20px; padding-top:12px; }
+  body[data-scene=bodas] #bodas-planes-eventos .invite-card { padding:24px; }
+  body[data-scene=bodas] #bodas-planes-eventos .invite-card::before,
+  body[data-scene=bodas] #bodas-planes-eventos .invite-card::after,
+  body[data-scene=bodas] #bodas-planes-eventos .paper-lilies { display:none; }
+  body[data-scene=bodas] #bodas-planes-eventos .wedding-seal { flex-direction:row; gap:.3em; width:auto; height:auto; padding:5px 10px; border-radius:999px; outline:0; font:600 12px/1.2 Manrope,sans-serif; }
+  body[data-scene=bodas] #bodas-planes-eventos .invite-points li:nth-child(n+4) { display:none; }
+  body[data-scene=bodas] #bodas-planes-eventos .invite-cta { display:flex; justify-content:center; width:100%; min-height:48px; }
+  body[data-scene=bodas] #bodas-planes-eventos .invite-details { margin-top:10px; border-top:0; }
+
+  /* The closing is the page's only ending. The empty section keeps «Cómo empezar» landing there. */
+  body[data-scene=bodas] #bodas-proceso-invitaciones { min-height:0; height:0; margin:0; padding:0; border:0; overflow:hidden; }
+  body[data-scene=bodas] #bodas-proceso-invitaciones>* { display:none; }
+
+  body[data-scene=bodas] #bodas-contacto-invitaciones .contact-layout>p { text-align:center; }
+
+  /* The bottom bar and the footer already take the reader back. */
+  body[data-scene=bodas] .back-to-top:not([hidden]) { display:none; }
 }
