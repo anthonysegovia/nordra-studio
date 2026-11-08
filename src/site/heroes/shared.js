@@ -89,28 +89,6 @@ export function followGlow(hero, stage, obj, camera) {
   hero.style.setProperty('--gy', ((sb.top - hb.top + p.y) / hb.height * 100).toFixed(1) + '%');
 }
 
-// Viaje al bajar: una copia de la pantalla vuela desde el objeto 3D hasta su lugar en la sección siguiente.
-export function scrollFlight({ hero, startEl = hero, ghost, target, fromRect, onState, onProgress, lag = 0 }) {
-  if (stillMode()) return () => {};
-  let state = -1;
-  function update() {
-    const tg = typeof target === 'function' ? target() : target, tb = tg.getBoundingClientRect();
-    const sb = startEl.getBoundingClientRect(), start = sb.top + scrollY + sb.height * .5 - innerHeight * .3, end = Math.max(start + 200, tb.top + scrollY - innerHeight * .3);
-    const raw = clamp((scrollY - start) / (end - start)); onProgress?.(raw);
-    const p = clamp((raw - lag) / (1 - lag));
-    const s = p <= 0 ? 0 : p >= 1 ? 2 : 1;
-    if (s !== state) { state = s; ghost.style.visibility = s === 1 ? 'visible' : 'hidden'; tg.style.opacity = s === 2 ? 1 : 0; onState?.(s); }
-    if (s === 1) {
-      const a = fromRect(), k = eio(p);
-      const L = lerp(a.left, tb.left, k), T = lerp(a.top, tb.top, k), W = lerp(a.width, tb.width, k), H = lerp(a.height, tb.height, k);
-      ghost.style.transform = `translate(${L}px,${T}px)`; ghost.style.width = W + 'px'; ghost.style.height = H + 'px';
-      ghost.style.borderRadius = lerp(6, 14, k) + 'px';
-    }
-  }
-  addEventListener('scroll', update, { passive: true }); addEventListener('resize', update);
-  return update;
-}
-
 export function canvasTexture(w, h, draw) {
   const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h);
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;

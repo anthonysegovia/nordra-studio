@@ -41,7 +41,6 @@ body.dark #hero .window{background:repeating-linear-gradient(112deg,transparent 
 #hero .gift{position:relative;display:inline-block}
 #hero .gift svg{position:absolute;left:-8%;top:-18%;width:116%;height:140%;overflow:visible;pointer-events:none}
 #hero .gift path{fill:none;stroke:var(--seal);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:.85}
-#hero.spark .gift path{stroke-dashoffset:0;transition:stroke-dashoffset 1.6s cubic-bezier(.4,.1,.2,1)}
 #hero .lead{font-size:18px;line-height:1.62;color:var(--muted);margin:26px 0 0;max-width:480px}
 #hero .price{font-size:15px;margin:12px 0 0}
 #hero .occasions{margin-top:24px}
@@ -58,11 +57,6 @@ body.dark #hero .window{background:repeating-linear-gradient(112deg,transparent 
 #hero .sw:hover{transform:scale(1.12)}
 #hero .sw[aria-pressed=true]{box-shadow:0 0 0 2px var(--ink);transform:scale(1.08)}
 #hero .sw:active{transform:scale(.92)}
-#hero .hint3{position:absolute;left:0;top:0;z-index:6;display:flex;gap:8px;align-items:center;padding:7px 13px;border-radius:99px;background:var(--ink);color:var(--bg);font-size:12.5px;white-space:nowrap;pointer-events:none;opacity:0;scale:.85;transition:opacity .35s,scale .45s cubic-bezier(.2,1.4,.4,1)}
-#hero .hint3.on{opacity:1;scale:1}
-#hero .hint3 i{position:relative;width:8px;height:8px;border-radius:50%;background:var(--seal)}
-#hero .hint3 i::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--seal);animation:ping 1.3s ease-out infinite}
-@keyframes ping{0%{opacity:.8;transform:scale(.4)}100%{opacity:0;transform:scale(1.5)}}
 #hero .notif{position:absolute;left:0;top:0;z-index:5;display:flex;gap:8px;align-items:center;padding:7px 9px;border-radius:12px;background:rgba(250,248,245,.92);color:#2b2130;box-shadow:0 10px 24px -14px #000;font-size:11px;line-height:1.25;pointer-events:none;opacity:0;translate:0 -10px;transition:opacity .35s,translate .45s cubic-bezier(.2,1.2,.4,1)}
 #hero .notif.on{opacity:1;translate:0 0}
 #hero .notif b{flex:none;display:grid;place-items:center;width:20px;height:20px;border-radius:6px;background:#2f8f5b;color:#fff;font-size:11px}
@@ -146,7 +140,6 @@ body.dark #hero .wa .txt{color:#53bdeb}
 #hero .counter a{font-size:12px;border-bottom:1px solid currentColor;transition:opacity .25s}#hero .counter a:hover{opacity:.7}
 #hero .try{font-size:14px;padding:8px 2px;border-bottom:1px solid var(--line);transition:border-color .3s}
 #hero .try:hover{border-color:var(--ink)}
-.hero-ghost{position:fixed;left:0;top:0;z-index:30;visibility:hidden;pointer-events:none;background-size:cover;background-position:50% 0;box-shadow:0 30px 60px -30px #2b2130}
 
 #hero .dir{padding:90px 64px;border-top:1px solid var(--line)}
 #hero .dir h2{font:500 40px Sora,sans-serif;letter-spacing:-.035em;margin:0 0 30px}
@@ -190,7 +183,6 @@ body.dark #hero .wa .txt{color:#53bdeb}
 #hero button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
 #hero .file-note{display:none}
 #hero.hero-still *,#hero.hero-still::after{animation:none!important;transition:none!important}
-.hero-ghost{border-color:transparent}
 
 @font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:400;font-display:swap;src:url('/fonts/wedding/cormorant-latin-italic.woff2') format('woff2')}
 @font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:400 500;font-display:swap;src:url('/fonts/wedding/cormorant-latin-roman.woff2') format('woff2')}

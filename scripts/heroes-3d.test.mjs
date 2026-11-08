@@ -21,8 +21,7 @@ test('contrato Three r181 utilizado por los shaders personalizados',()=>{
  assert.match(ShaderChunk.uv_pars_fragment,/#ifdef USE_ALPHAMAP[\s\S]*vAlphaMapUv/);
  assert.ok(ShaderChunk.colorspace_fragment);
 });
-test('quieto evita el vuelo y los videos; texto visible antes de cargar el motor',()=>{
- assert.match(read('src/site/heroes/shared.js'),/if \(stillMode\(\)\) return/);
+test('quieto evita los videos; texto visible antes de cargar el motor',()=>{
  assert.match(read('src/site/heroes/shared.js'),/saveData/);
  assert.match(read('src/site/heroes/sobre.js'),/if\(!vids\[k\]&&!still\)/);
  const loader=read('src/site/heroes/load.js');assert.match(loader,/max-width:860px/);assert.match(loader,/requestIdleCallback\(run, \{ timeout: 600 \}\)/);assert.doesNotMatch(loader,/addEventListener\('load'/);

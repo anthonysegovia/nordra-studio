@@ -31,11 +31,10 @@
   <div class="actions fade" style="--d:1.15s"><a class="cta" href="#tipos-invitacion">Explorar invitaciones <span aria-hidden="true">↓</span></a><a class="link" href="#panel-invitados">Panel de invitados en Aurora y Boreal <span aria-hidden="true">↗</span></a></div>
  </div>
  <div class="stage" id="stage">
-  <p class="sr">Un sobre sobre la mesa se abre, sale una tarjeta con sus nombres, se dobla y se convierte en la invitación real en un teléfono; llegan confirmaciones de ejemplo al panel.</p>
+  <p class="sr">Un sobre sobre la mesa se abre, sale la tarjeta con la portada de la invitación y se convierte en un teléfono; llegan confirmaciones de ejemplo al panel.</p>
 
   <div class="chip" id="chip" aria-hidden="true"><b>✓</b><span id="chipName">Ana confirmó</span><small id="chipPeople">· 2 personas</small><em class="tag">Ejemplo</em></div>
   <div class="counter" id="counter" tabindex="0" role="group" aria-label="Confirmaciones de ejemplo y resumen del panel de muestra"><div class="row1"><strong id="count">12</strong><span>confirmados</span><em class="tag">Ejemplo</em></div><div class="more"><div><dl><dt>Pendientes</dt><dd id="pend">23</dd><dt>No asistirán</dt><dd>3</dd><dt>Mesas (Boreal)</dt><dd>6</dd></dl><a href="/panel-boda.html">Ver panel de muestra ↗</a></div></div></div>
-  <div class="hint3" id="hint3" aria-hidden="true"><i></i><span id="hint3t">Toca el sello</span></div>
   <div class="notif" id="notif" aria-hidden="true"><b>✓</b><div><span id="notifT">Ana confirmó</span><small id="notifS">2 personas · Panel de invitados</small></div><em class="tag">Ejemplo</em></div>
   <div class="under" id="under"><a class="try" id="try" href="https://nordrastudio.mx/invitaciones/valentina-y-sebastian/" target="_blank" rel="noopener">Pruébala aquí ↗</a><button type="button" id="shareBtn" aria-expanded="false" aria-controls="sharePop">Así se comparte</button><button type="button" class="qr-btn" id="qrBtn" aria-expanded="false" aria-controls="qrPop">Ábrela en tu teléfono</button></div>
   <div class="popv" id="sharePop" role="dialog" aria-label="Así se ve al compartir por WhatsApp"><h4>ASÍ LA RECIBEN POR WHATSAPP</h4><div class="wa"><div class="bub"><div class="prev"><img id="waImg" alt=""><div><strong id="waTitle">Valentina &amp; Sebastián · Nuestra boda</strong><span id="waDesc">Te invitamos a celebrar con nosotros. Confirma tu asistencia aquí.</span><small>nordrastudio.mx</small></div></div><div class="txt" id="waLink">nordrastudio.mx/invitaciones/valentina-y-sebastian/</div><div class="meta">10:42 ✓✓</div></div></div><p>Ejemplo. Tus invitados la abren desde el enlace, sin descargar nada.</p></div>
@@ -95,5 +94,5 @@ new ResizeObserver(measurePreview).observe(document.querySelector('main'));
 function arrive(id){id=({"eventos": "tipos-invitacion", "comparar-paquetes": "tipos-invitacion"})[id]||id;const target=document.getElementById(id);if(target&&!target.closest('[hidden]')){target.scrollIntoView({behavior:'instant',block:'start'});}}
 addEventListener('message',event=>{if(event.source===parent&&event.data?.type==='nordra-anchor')document.fonts.ready.then(()=>requestAnimationFrame(()=>arrive(event.data.id)));});
 document.fonts.ready.then(()=>{measurePreview();requestAnimationFrame(()=>arrive(location.hash.slice(1)));});
-</script><script type="module" src="/src/site/entries/invitations.js"></script><div class="hero-ghost" id="ghost" aria-hidden="true"></div></body></html>
+</script><script type="module" src="/src/site/entries/invitations.js"></script></body></html>
 
