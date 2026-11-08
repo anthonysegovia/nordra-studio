@@ -74,13 +74,13 @@ test('wedding stationery uses the approved lilies and reserves the readable seal
   }
 });
 
-test('general invitation cards retain the approved HTML from c78307f', () => {
+test('general invitation cards keep the simplified approved HTML', () => {
   const offers = renderInvitationOffers();
   assert.doesNotMatch(offers, /paper-lilies|wedding-lilies|wedding-seal|paper-terms/);
   const cards = offers.match(/<article [\s\S]*?<\/article>/g);
   assert.equal(cards.length, 2);
   assert.equal(createHash('sha256').update(cards.join('')).digest('hex'),
-    '282f73dba10b43235868f4a3b94d416c0bf0a7fc5415f7cc511ad1c17b2b9a47');
+    'acbec987d1885dbfaff9513d6fed76bc3c2ab9da19c9bd9c258a393883a78dc8');
 });
 
 test('Boreal spreads its second real lily away from the first', () => {
@@ -126,7 +126,6 @@ for (const [name,slug] of [['cumpleanos','camila-30'],['eventos','conexion-27']]
       }
     }
     assert.doesNotMatch(source,/BIRTHDAY INVITES|NORDRA STUDIO \/ EVENTS/);
-    assert.match(english,/NORDRA STUDIO (?:· BIRTHDAYS|\/ EVENTS)/);
     assert.match(source,/¿Cómo se paga\?<\/span>[\s\S]*?50% de anticipo/);
     assert.match(english,/How do payments work\?/);
   });

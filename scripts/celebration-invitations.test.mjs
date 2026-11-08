@@ -41,6 +41,6 @@ test('Invitaciones keeps the legacy destinations and the four real screens in re
  const journey=html.split('id="asi-lo-viven"')[1].split('</section>')[0];
  assert.equal((journey.match(/class="journey-card"/g)||[]).length,4);
  for(const name of ['inv-guest-cover','inv-guest-open','inv-guest-rsvp','dashboard-v3-es'])assert.ok(journey.includes(name));
- for(const href of ['/invitaciones/valentina-y-sebastian/','/panel-boda.html'])assert.ok(journey.includes('href="'+href+'"'));
+ assert.ok(journey.includes('href="/panel-boda.html"'));
  for(const forPage of ['/bodas','/cumpleanos','/eventos','/temporada','/invitaciones/camila-30/','/invitaciones/conexion-27/'])assert.ok(html.split('id="tipos-invitacion"')[1].split('</section>')[0].includes('href="'+forPage+'"'));
 });

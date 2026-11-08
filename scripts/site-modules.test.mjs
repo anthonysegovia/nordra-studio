@@ -48,7 +48,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch","occasion-stage","birthday-noche"],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch","occasion-stage","birthday-noche", "simple"],
     "inline": 3
   },
   "eventos": {
@@ -75,7 +75,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch","occasion-stage"],
+    "entryStyles": ["phone-frame", "showcase-live", "occasion-live", "mobile-chrome","language-switch","occasion-stage", "simple"],
     "inline": 3
   },
   "bodas": {
@@ -102,7 +102,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["mobile-chrome","language-switch","wedding-page","occasion-stage","wedding-sample"],
+    "entryStyles": ["mobile-chrome","language-switch","wedding-page","occasion-stage","wedding-sample", "simple"],
     "inline": 3
   },
   "temporada": {
@@ -130,7 +130,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "seasonal-page", "mobile-chrome","language-switch"],
+    "entryStyles": ["phone-frame", "showcase-live", "seasonal-page", "mobile-chrome","language-switch", "simple"],
     "inline": 5
   },
   "invitaciones": {
@@ -143,7 +143,7 @@ const pages = {
       "contact"
     ],
     "inline": 3,
-    "entryStyles": ["invitation-offers", "client-cases", "carousel-positions", "mobile-chrome","language-switch"]
+    "entryStyles": ["invitation-offers", "client-cases", "carousel-positions", "mobile-chrome","language-switch", "simple"]
   },
   "negocios": {
     "entry": "business",
@@ -154,7 +154,7 @@ const pages = {
       "contact"
     ],
     "inline": 3,
-    "entryStyles": ["business-examples", "mobile-chrome", "language-switch", "business-offers", "carousel-positions", "business-content"],
+    "entryStyles": ["business-examples", "mobile-chrome", "language-switch", "business-offers", "carousel-positions", "business-content", "simple"],
     "unscoped": [ "carousel-positions", "business-offers", "business-content"]
   },
   "index": {
@@ -177,7 +177,7 @@ const pages = {
       "contact"
     ],
     "inline": 4,
-    "entryStyles": ["phone-frame", "mobile-chrome","language-switch"]
+    "entryStyles": ["phone-frame", "mobile-chrome","language-switch", "simple"]
   },
   "estudio": {
     "entry": "estudio",
@@ -198,7 +198,7 @@ const pages = {
     ],
     "styles": [],
     "inline": 3,
-    "entryStyles": ["mobile-chrome", "language-switch", "studio-showcase"]
+    "entryStyles": ["mobile-chrome", "language-switch", "studio-showcase", "simple"]
   }
 };
 pages.bodas.deferred = ['wedding-stage','living-images','nordra-materials','nordra-theatre'];

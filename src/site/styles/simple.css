@@ -1,0 +1,126 @@
+/* One idea and one action per section, on every commercial page. Loaded last. */
+
+/* Anchors that used to be whole sections now land on the closing. */
+.section-anchor{display:block;height:0;scroll-margin-top:calc(var(--header-h,72px) + 12px)}
+
+/* Closing: title, one line, the WhatsApp button and two quiet links. */
+.scene .home-closing .contact-layout{display:flex;flex-direction:column;align-items:center;gap:20px;max-width:640px;margin-inline:auto;text-align:center}
+.scene .home-closing .contact-layout>div{display:flex;justify-content:center;width:100%}
+.scene .home-closing .contact-layout>p{margin:0}
+.scene .home-closing .contact-layout .primary-action{width:min(100%,380px);margin:0}
+.closing-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 10px;color:var(--muted);font-size:15px;line-height:1.6}
+.closing-steps span+span::before{content:"·";margin-right:10px}
+.closing-links{display:flex;justify-content:center;gap:28px;margin:18px 0 0;font-size:15px}
+.closing-links a{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:5px;transition:color .2s,text-decoration-color .2s,transform .2s}
+.closing-links a:hover,.closing-links a:focus-visible{color:var(--ink);text-decoration-color:currentColor}
+.closing-links a:active{transform:scale(.97)}
+.scene .closing-aurora{opacity:.26!important}
+
+/* Moving heroes keep a pause control, as a small icon instead of a line of text. */
+.scene #hero .trust{justify-content:flex-end;margin-top:0;padding-top:0;border:0}
+.scene #hero .pause{justify-content:center;width:36px;height:36px;border:1px solid var(--line);border-radius:50%;transition:border-color .25s,transform .2s}
+.scene #hero .pause span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.scene #hero .pause i{width:10px;height:12px;border-inline:3px solid currentColor;border-radius:0;background:none}
+.scene #hero .pause[aria-pressed=true] i{width:0;height:0;border-block:6px solid transparent;border-inline:0;border-left:10px solid currentColor}
+.scene #hero .pause:hover{border-color:var(--accent)}
+.scene #hero .pause:active{transform:scale(.9)}
+.scene .business-motion-control:not(#bs-pause){position:relative;flex:none;width:36px;height:36px;min-width:36px;min-height:36px;padding:0;overflow:hidden;border:1px solid var(--line);border-radius:50%;text-indent:200%;white-space:nowrap;transition:border-color .25s,transform .2s}
+.scene .business-motion-control:not(#bs-pause)::before{content:"";position:absolute;top:50%;left:50%;width:10px;height:12px;margin:0;border-inline:3px solid var(--ink);border-radius:0;background:none;translate:-50% -50%}
+.scene .business-motion-control:not(#bs-pause)[aria-pressed=true]::before{width:0;height:0;border-block:6px solid transparent;border-inline:0;border-left:10px solid var(--ink)}
+.scene .business-motion-control:not(#bs-pause):hover{border-color:var(--accent)}
+.scene .business-motion-control:not(#bs-pause):active{transform:scale(.9)}
+
+/* The sample offers one link, the one that matches the open tab. */
+.occasion-stage:has(.wedding-stage[data-step=panel]) .wedding-links a:first-child,
+.occasion-stage:has(.wedding-stage[data-step=cover]) .wedding-links a:last-child{display:none}
+
+/* Inicio */
+.signature-works-all{display:inline-flex;align-items:center;gap:10px;min-height:44px;margin-top:22px;font-size:15px;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:5px;transition:text-decoration-color .2s,color .2s}
+.signature-works-all:hover,.signature-works-all:focus-visible{color:var(--accent);text-decoration-color:currentColor}
+
+/* Negocios */
+.scene #hero .phases{display:none}
+.business .offer-hosting{display:block}
+.business .offer-hosting details>p{margin:0 0 12px;color:var(--muted)}
+
+/* Estudio */
+.studio-work-more{display:none}
+.studio-principles h3{margin:0}
+
+/* Temporada */
+.design-actions a{font-weight:600}
+
+/* Cumpleaños: fonts, colours and modes wait behind one control. */
+body[data-birthday-sign] .birthday-sign-root .row-toggle{display:none}
+body[data-birthday-sign] .birthday-sign-root .arrow{display:none}
+@media(min-width:901px){
+ body[data-birthday-sign] .birthday-sign-root .row-toggle{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:color-mix(in srgb,var(--bg) 78%,transparent);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer;transition:border-color .25s,transform .2s}
+ body[data-birthday-sign] .birthday-sign-root .row-toggle:hover,body[data-birthday-sign] .birthday-sign-root .row-toggle[aria-expanded=true]{border-color:var(--tube)}
+ body[data-birthday-sign] .birthday-sign-root .row-toggle:active{transform:scale(.96)}
+ body[data-birthday-sign] .birthday-sign-root .row-toggle span{transition:transform .3s}
+ body[data-birthday-sign] .birthday-sign-root .row-toggle[aria-expanded=true] span{transform:rotate(45deg)}
+ body[data-birthday-sign] .birthday-sign-root .row{display:none}
+ body[data-birthday-sign] .birthday-sign-root .row.open{display:flex}
+}
+
+@media(max-width:700px){
+ /* Every section gets room; nothing floats over the reading. */
+ body[data-scene] .occasion-page .occasion-path{display:none}
+ .scene.occasion-page .occasion-lead .options-compare{display:none}
+ .commercial-footer .footer-brand p,.commercial-footer .footer-layout nav{display:none}
+ .closing-steps{flex-direction:column;align-items:center}
+ .closing-steps span+span::before{content:none}
+ .studio-work-gallery.can-collapse:not(.show-all) .studio-work:nth-child(n+4){display:none}
+ .studio-work-gallery.can-collapse~.studio-work-more{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin-top:18px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--ink);font:inherit;font-size:15px;cursor:pointer;transition:border-color .2s,transform .2s}
+ .studio-work-more:active{transform:scale(.98)}
+
+ /* Inicio: one decision, with its words outside the picture. */
+ .scene .signature-works-grid{display:flex;overflow-x:auto;gap:14px;margin-inline:-24px;padding-inline:24px;scroll-snap-type:x mandatory;scroll-padding-inline:24px;scrollbar-width:none}
+ .scene .signature-works-grid::-webkit-scrollbar{display:none}
+ .scene .signature-work{flex:0 0 80%;scroll-snap-align:start}
+ .scene .horizon-path{display:flex;flex-direction:column;aspect-ratio:auto;height:auto;min-height:0;background:none}
+ .scene .horizon-path::after{display:none}
+ .scene .horizon-path-photo{position:static;z-index:0;height:190px;transform:none}
+ .scene .horizon-path-caption{position:static;padding:18px 24px 32px}
+ .scene .horizon-path-caption::before{display:none}
+ .dark .scene .horizon-path{color:var(--ink)}
+ .dark .scene .horizon-path h2{color:var(--ink)}
+
+ /* Temporada: the action comes before the phone. */
+ .seasonal-hero-lead{order:2}
+ .seasonal-hero .seasonal-hero-live{order:3}
+ .seasonal-tabs{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none}
+ .seasonal-tabs button{flex:none;white-space:nowrap}
+ .seasonal-tabs small{display:none}
+}
+
+/* One rule for section titles: left and medium weight; only questions and closing are centred. */
+.scene .studio-method-heading{margin-inline:0;text-align:start}
+.scene :is(.signature-works-heading,.home-client-highlights,.inv-directory,.invite-journey,.client-cases-intro,.business-examples,.person-copy)>h2,
+.scene .signature-works-heading h2{font-weight:500}
+.scene :is(.inv-directory,.invite-journey,.client-cases-intro,.business-examples,.invite-offers-intro)>h2,
+.scene .invite-offers-intro h2{font-size:clamp(32px,3.7vw,52px);line-height:1.12;letter-spacing:-.04em}
+
+body[data-birthday-sign] .birthday-sign-root .controls .row:not(.open){display:none}
+@media(max-width:900px){body[data-birthday-sign] .birthday-sign-root .controls .row:not(.open){display:flex}}
+.scene .business-motion-control:not(#bs-pause)::before{box-sizing:border-box;border-block:0}
+@media(max-width:700px){
+ .scene .seasonal-tabs{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none}
+ .scene .seasonal-tabs small{display:none}
+}
+
+@media(min-width:901px){
+ body[data-birthday-sign] .birthday-sign-root .kicker .pause{display:grid;place-items:center;width:36px;height:36px;min-height:36px;padding:0;border:1px solid var(--line);border-radius:50%;transition:border-color .25s,transform .2s}
+ body[data-birthday-sign] .birthday-sign-root .kicker .pause::before{display:none}
+ body[data-birthday-sign] .birthday-sign-root .kicker .pause:hover{border-color:var(--accent)}
+ body[data-birthday-sign] .birthday-sign-root .kicker .pause:active{transform:scale(.9)}
+ body[data-birthday-sign] .birthday-sign-root .pause-txt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+ body[data-birthday-sign] .birthday-sign-root .pause-ico{display:block;width:14px;height:14px}
+ body[data-birthday-sign] .birthday-sign-root .pause-ico path{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+ body[data-birthday-sign] .birthday-sign-root .pause-ico .ico-r{display:none;fill:var(--ink);stroke-width:1.4}
+ body[data-birthday-sign] .birthday-sign-root .pause[aria-pressed=true] .ico-p{display:none}
+ body[data-birthday-sign] .birthday-sign-root .pause[aria-pressed=true] .ico-r{display:block}
+}
+@media(max-width:700px){
+ .scene .collection-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+}

@@ -36,7 +36,6 @@
     <div class="actions">
       <svg class="arrow" id="bs-arrow" viewBox="0 0 104 36" aria-hidden="true"><path d="M30 6 14 18 30 30"/><path d="M58 6 42 18 58 30"/><path d="M86 6 70 18 86 30"/></svg>
       <a class="btn" href="#bs-estilos">Encuentra tu estilo <span aria-hidden="true">↓</span></a>
-      <a class="link" href="#cumpleanos-planes-eventos">Ver paquetes <span aria-hidden="true">↗</span></a>
     </div>
   </div>
 
@@ -71,7 +70,8 @@
           <button type="submit">Prender <span aria-hidden="true">↗</span></button>
         </form>
         <a class="ask" id="bs-ask" data-analytics-whatsapp="letrero" href="#" target="_blank" rel="noopener" hidden><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.3 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg><span id="bs-ask-text">Quiero la mía así</span> <span aria-hidden="true">↗</span></a>
-        <div class="row">
+        <button class="row-toggle" id="bs-row-toggle" type="button" aria-expanded="false" aria-controls="bs-row">Personalizar <span aria-hidden="true">+</span></button>
+        <div class="row" id="bs-row">
           <div class="seg" role="group" aria-label="Estilo de letra">
             <button type="button" data-s="cursiva" aria-pressed="true" aria-label="Cursiva">Cursiva</button>
             <button type="button" data-s="bloque" aria-pressed="false" aria-label="Bloque">Bloque</button>
@@ -105,7 +105,6 @@
 <section class="styles" id="bs-estilos" aria-labelledby="bs-estilos-titulo">
   <div class="styles-head">
     <div><p class="eyebrow">UN DISEÑO DE NORDRA</p><h2 id="bs-estilos-titulo">Un nombre,<br><b>muchos estilos</b></h2></div>
-    <p>Para él, para ella, para los peques o para tus XV. El neón es solo una de las formas de vestir tu invitación.</p>
   </div>
   <ul class="fan" id="bs-fan">
     <li class="card" data-world="caja"><figure style="margin:0">
@@ -122,31 +121,24 @@
       <figcaption><strong>Misión espacial</strong><span>Iker · 6</span></figcaption></figure><button class="card-hit" type="button" data-world="espacio" aria-pressed="false" aria-label="Probar el estilo Misión espacial"></button></li>
   </ul>
   <div class="fan-dots" id="bs-fan-dots"><span class="fan-count" id="bs-fan-count">1 de 4</span><i class="on"></i><i></i><i></i><i></i></div>
-  <div class="styles-foot"><a class="btn" data-analytics-whatsapp="estilos" target="_blank" rel="noopener" href="https://wa.me/528129022231?text=Hola%2C%20Nordra.%20Me%20gustar%C3%ADa%20una%20invitaci%C3%B3n%20digital%20para%20un%20cumplea%C3%B1os.">Cuéntanos tu idea <span aria-hidden="true">↗</span></a></div>
 
 </section>
 </div><section class="home-continuation wedding-sample occasion-stage" id="cumpleanos-respuesta" aria-labelledby="cumpleanos-response-title">
  <span class="occasion-anchor" id="cumpleanos-event-experience"></span><span class="occasion-anchor" id="event-experience"></span>
  <div class="wedding-direction"><h2 id="cumpleanos-response-title">Así llega cada respuesta</h2><p>Muestra interactiva · datos ficticios</p>
  <div class="wedding-switch" role="tablist" aria-label="Recorrido de la muestra" aria-orientation="vertical">
- <button type="button" role="tab" id="cumpleanos-tab-invitacion" aria-controls="cumpleanos-panel-muestra" aria-selected="true"><strong>Abre la invitación</strong><span>Consulta la fecha, el lugar y la agenda</span></button>
- <button type="button" role="tab" id="cumpleanos-tab-panel" aria-controls="cumpleanos-panel-muestra" aria-selected="false" tabindex="-1"><strong>Mira el panel</strong><span>Cada respuesta aparece en tu panel</span></button></div>
+ <button type="button" role="tab" id="cumpleanos-tab-invitacion" aria-controls="cumpleanos-panel-muestra" aria-selected="false" tabindex="-1"><strong>Abre la invitación</strong><span>Consulta la fecha, el lugar y la agenda</span></button>
+ <button type="button" role="tab" id="cumpleanos-tab-panel" aria-controls="cumpleanos-panel-muestra" aria-selected="true"><strong>Mira el panel</strong><span>Cada respuesta aparece en tu panel</span></button></div>
  <div class="wedding-links"><a href="/invitaciones/camila-30/">Abrir la invitación completa ↗</a><a href="/panel-cumple.html">Probar el panel de muestra ↗</a></div></div>
- <div class="wedding-stage" id="cumpleanos-panel-muestra" role="tabpanel" aria-labelledby="cumpleanos-tab-invitacion" data-step="cover">
+ <div class="wedding-stage" id="cumpleanos-panel-muestra" role="tabpanel" aria-labelledby="cumpleanos-tab-panel" data-step="panel">
  <div class="wedding-devices"><a class="wedding-dashboard" href="/panel-cumple.html" aria-label="Probar el panel de muestra"><img src="/artwork/birthday-dashboard-preview/dashboard-es-760.webp" srcset="/artwork/birthday-dashboard-preview/dashboard-es-760.webp 760w, /artwork/birthday-dashboard-preview/dashboard-es-1280.webp 1280w" sizes="(max-width:700px) 86vw, 55vw" alt="Panel de Camila 30" loading="lazy"></a>
  <div class="wedding-phone"><img src="/artwork/birthday-noche/camila-portada-390.webp" srcset="/artwork/birthday-noche/camila-portada-390.webp 390w, /artwork/birthday-noche/camila-portada-780.webp 780w" sizes="(max-width:700px) 43vw, 318px" width="390" height="844" loading="lazy" alt="Portada de Camila 30 con la caja de regalo y el lazo dorado"></div></div>
  <p class="wedding-credit">Camila 30 · Un diseño de Nordra</p></div></section><section class="home-continuation occasion-plans" id="cumpleanos-planes-eventos"><span class="occasion-anchor" id="planes-eventos"></span>
- <h2 id="cumpleanos-decision-title">Aurora y Boreal</h2><p>Precios de apertura y regulares en MXN, con IVA incluido. Pago único.</p>
- <div class="occasion-plan-grid">{{occasion:cumpleanos:plans}}</div><div class="occasion-extra"><details><summary>Servicios adicionales<span aria-hidden="true">+</span></summary><p>Lo que acordamos en tu paquete está incluido: tus fotos, enlaces a mapas, el formulario y el panel de invitados. Puedes compartir tu enlace manualmente por WhatsApp sin un cargo adicional de Nordra. Si quieres sumar mensajes automáticos, venta de entradas o alguna integración de pago, primero te explicamos los costos de configuración y las comisiones del proveedor. Tú decides si seguimos adelante antes de contratar o activar algo.</p></details></div></section><section class="home-continuation audience-faq" id="cumpleanos-preguntas" aria-labelledby="cumpleanos-faq-title"><div><h2 id="cumpleanos-faq-title">Preguntas frecuentes</h2></div><div class="faq-list">{{occasion:cumpleanos:faq}}</div></section><section class="home-continuation studio-process process-roadmap" id="cumpleanos-proceso-invitaciones" aria-labelledby="cumpleanos-invitation-process-title">
-
-<div class="process-heading"><div class="process-intro"><h2 id="cumpleanos-invitation-process-title">Tú pones el plan<br>Nosotros, el diseño</h2></div></div>
-<ol class="process-list"><li><div class="process-step-copy"><h3>Cuéntanos tu idea de fiesta</h3></div></li><li><div class="process-step-copy"><h3>Elegimos colores y detalles</h3></div></li><li><div class="process-step-copy"><h3>Invita a tus personas favoritas</h3></div></li></ol>
-<div class="process-finish"><a class="terms-link" href="/terminos-del-servicio.html" target="_blank" rel="noopener">Consultar condiciones del servicio ↗</a></div>
-</section><footer class="home-continuation studio-footer home-closing" id="cumpleanos-contacto-invitaciones">
- <p class="eyebrow">NORDRA STUDIO · CUMPLEAÑOS</p>
- <h2>Ahora sí<br><span>arma el plan</span></h2>
+ <h2 id="cumpleanos-decision-title">Aurora y Boreal</h2><p>MXN con IVA incluido. Pago único.</p>
+ <div class="occasion-plan-grid">{{occasion:cumpleanos:plans}}</div><div class="occasion-extra"><details><summary>Servicios adicionales<span aria-hidden="true">+</span></summary><p>Lo que acordamos en tu paquete está incluido: tus fotos, enlaces a mapas, el formulario y el panel de invitados. Puedes compartir tu enlace manualmente por WhatsApp sin un cargo adicional de Nordra. Si quieres sumar mensajes automáticos, venta de entradas o alguna integración de pago, primero te explicamos los costos de configuración y las comisiones del proveedor. Tú decides si seguimos adelante antes de contratar o activar algo.</p></details></div></section><section class="home-continuation audience-faq" id="cumpleanos-preguntas" aria-labelledby="cumpleanos-faq-title"><div><h2 id="cumpleanos-faq-title">Preguntas frecuentes</h2></div><div class="faq-list">{{occasion:cumpleanos:faq}}</div></section><span class="section-anchor" id="cumpleanos-proceso-invitaciones" aria-hidden="true"></span><footer class="home-continuation studio-footer home-closing" id="cumpleanos-contacto-invitaciones">
+  <h2>Ahora sí<br><span>arma el plan</span></h2>
  <div class="contact-layout"><p>Cuéntanos la fecha y el estilo de tu fiesta.</p><div><a class="primary-action" href="https://wa.me/528129022231?text=Hola%2C%20Nordra.%20Me%20gustar%C3%ADa%20una%20invitaci%C3%B3n%20digital%20para%20un%20cumplea%C3%B1os." target="_blank" rel="noopener" data-analytics-whatsapp="closing">Cuéntanos de tu cumple <span aria-hidden="true">↗</span></a></div></div>
- <div class="contact-alternatives contact-channels"><a href="tel:+528129022231" class="contact-channel" aria-label="Llámanos al +52 81 2902 2231, México"><span class="contact-channel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3H4.5C3.7 3 3 3.7 3 4.5 3 13.6 10.4 21 19.5 21c.8 0 1.5-.7 1.5-1.5V17l-5-2-2 2a16 16 0 0 1-7-7l2-2-2-5Z"/></svg></span><span class="contact-channel-copy"><span class="eyebrow">LLÁMANOS</span><strong class="contact-phone-number"><img src="/nordra/v544/assets/mx.svg" alt="México" width="26" height="20" loading="lazy"> <span>81 2902 2231</span></strong></span><span class="contact-channel-arrow" aria-hidden="true">↗</span></a><a href="mailto:hola@nordrastudio.mx" class="contact-channel"><span class="contact-channel-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span class="contact-channel-copy"><span class="eyebrow">ESCRÍBENOS</span><strong>hola@nordrastudio.mx</strong></span><span class="contact-channel-arrow" aria-hidden="true">↗</span></a></div>
+ <div class="closing-links"><a href="tel:+528129022231" aria-label="Llámanos al +52 81 2902 2231, México">Llamar</a><a href="mailto:hola@nordrastudio.mx">Correo</a></div>
 <!-- commercial:footer -->
 </footer></section>
 

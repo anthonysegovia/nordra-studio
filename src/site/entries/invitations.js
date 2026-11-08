@@ -27,6 +27,7 @@ import '../analytics/entry.js';
 import '../scripts/showcase-live.js?entry=invitations';
 
 import '../../../public/motion-system.css';
+import '../styles/simple.css';
 import '../scripts/interaction-motion.js?entry=invitations';
 
 import { loadHero } from '../heroes/load.js';

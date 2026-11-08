@@ -44,9 +44,9 @@ describe('site — mobile-chrome', () => {
     };
     runInNewContext(source, context);
     const scroll = y => { context.scrollY = y; events.get('scroll')(); };
-    const [topButton, backdrop] = created;
+    const [backdrop] = created;
     const toggleMenu = open => { menu.hidden = !open; observers.forEach(fn => fn()); };
-    return { scroll, tucked: () => header.classList.has('header-tucked'), menu, header, document, headerEvents: header.listeners, topButton, backdrop, toggleMenu, routes, boxes, docEvents, stored };
+    return { scroll, tucked: () => header.classList.has('header-tucked'), menu, header, document, headerEvents: header.listeners, backdrop, toggleMenu, routes, boxes, docEvents, stored };
   }
   test('tucks while reading down and returns on the first move up', () => {
     const app = setup();
@@ -67,12 +67,6 @@ describe('site — mobile-chrome', () => {
     app.menu.hidden = false; app.scroll(800); assert.equal(app.tucked(), false);
     app.menu.hidden = true; app.scroll(1400); assert.equal(app.tucked(), true);
     app.headerEvents.get('focusin')(); assert.equal(app.tucked(), false);
-  });
-  test('offers a way back to the top after about two screens', () => {
-    const app = setup();
-    app.scroll(900); assert.equal(app.topButton.hidden, true);
-    app.scroll(1700); assert.equal(app.topButton.hidden, false);
-    app.scroll(300); assert.equal(app.topButton.hidden, true);
   });
   test('marks the section in view on the bottom bar', () => {
     const app = setup({ sections: [{ id: 'paquetes', top: 100, bottom: 900 }, { id: 'casos', top: 900, bottom: 1800 }] });
@@ -105,6 +99,6 @@ describe('site — mobile-chrome', () => {
   });
   test('never tucks on larger screens', () => {
     const app = setup({ phone: false });
-    app.scroll(800); app.scroll(1600); assert.equal(app.tucked(), false); assert.equal(app.topButton.hidden, true);
+    app.scroll(800); app.scroll(1600); assert.equal(app.tucked(), false);
   });
 });

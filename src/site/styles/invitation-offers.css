@@ -113,8 +113,8 @@ body[data-journey-motion=paused] .inv-cover *{transform:none!important}
 @media(max-width:700px){
  .invitations .home-continuation,.invitations .inv-directory,.invitations .invite-journey{margin:20px 0 0;padding:20px 0 0}
  .invite-grid{grid-template-columns:minmax(0,1fr);gap:12px}.invite-card{padding:14px 16px}.invite-offers-intro{display:block;margin-bottom:12px}
- .journey-stack,.invitations .client-case-grid,.season-fan{display:flex;justify-content:start;align-items:stretch;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;min-height:0;margin:0;padding:4px;scroll-padding-inline:4px}
- .journey-card,.invitations .client-case-grid>.client-case,.season-fan .season-card{flex:0 0 84%;scroll-snap-align:start}
+ .journey-stack,.season-fan{display:flex;justify-content:start;align-items:stretch;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;min-height:0;margin:0;padding:4px;scroll-padding-inline:4px}
+ .journey-card,.season-fan .season-card{flex:0 0 84%;scroll-snap-align:start}
  .journey-shot{height:230px}.journey-caption{margin-top:8px}
  .season-fan .season-card,.season-fan .season-card:is(:first-child,:last-child,[data-season-current]){width:auto;margin:0;transform:none}
  .season-shot{height:258px;width:auto;aspect-ratio:auto;text-align:center;border:1px solid var(--line);background:var(--warm-surface);box-shadow:none}

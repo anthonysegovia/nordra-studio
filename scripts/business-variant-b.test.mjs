@@ -25,9 +25,7 @@ test('four objectives share one feature stage and use only published work',()=>{
  const choices=[...html.matchAll(/<input type="radio" name="web-goal" value="([^"]+)"( checked)?><strong>([^<]+)<\/strong>/g)];
  assert.deepEqual(Object.fromEntries(choices.map(m=>[m[1],m[3]])),approved.objectives);
  assert.deepEqual(choices.filter(m=>m[2]).map(m=>m[1]),['business']);
- const rows=[...html.matchAll(/<a class="offer-row"[^>]+>/g)].map(m=>m[0]);
- assert.equal(rows.filter(row=>!row.endsWith(' hidden>')).length,3);
- assert.ok(rows.every(row=>row.includes('https://wa.me/')));
+ assert.doesNotMatch(html,/offer-row/);
  const images=[...html.matchAll(/<img src="([^"]+)"[^>]+>/g)].map(m=>m[1]);
  assert.deepEqual(images.sort(),approved.examples.map(o=>'/nordra/'+o.image).sort());
 });
@@ -59,7 +57,7 @@ test('old case and design hashes select the right card and bring the gallery int
 
 test('the studio owns the profile and business links there beside the examples', () => {
   const studio = readFileSync('estudio.html', 'utf8');
-  assert.match(studio, /id="quien-esta-detras"[^>]*>[\s\S]*?Quién está detrás[\s\S]*?Hablas con quien diseña y programa tu proyecto/);
+  assert.match(studio, /id="quien-esta-detras"[^>]*>[\s\S]*?Anthony Segovia[\s\S]*?Hablas directo con quien diseña y programa tu proyecto/);
   assert.doesNotMatch(source, /id="quien-esta-detras"|>Quién está detrás</);
   assert.match(source, /href="\/estudio#quien-esta-detras"/);
 

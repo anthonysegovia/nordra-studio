@@ -24,7 +24,6 @@ if (root?.querySelector('.invite-offers')) {
   const start = () => {
     glow();
     window.NordraCarousel?.positions(root.querySelector('.journey-stack'), document.documentElement.lang==='en'?'Guest journey position':'Posición en el recorrido');
-    window.NordraCarousel?.positions(root.querySelector('.client-case-grid'), document.documentElement.lang==='en'?'Client position':'Posición en los clientes', card => card.querySelector('h3').textContent.trim());
   };
   'requestIdleCallback' in window ? requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 200);
 }

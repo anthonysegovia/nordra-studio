@@ -38,7 +38,8 @@ test('occasion sample tabs have no decorative numbers and preserve their selecti
     const tabs = readFileSync(`${page}.html`, 'utf8').match(/<button[^>]*role="tab"[^>]*>[\s\S]*?<\/button>/g);
     assert.equal(tabs.length, 2, page);
     for (const tab of tabs) assert.doesNotMatch(tab.replace(/<[^>]+>/g, ''), /\b0[12]\b/, page);
-    assert.match(tabs[0], /aria-selected="true"/);
-    assert.match(tabs[1], /aria-selected="false"/);
+    const first = page === 'bodas';
+    assert.match(tabs[first ? 0 : 1], /aria-selected="true"/);
+    assert.match(tabs[first ? 1 : 0], /aria-selected="false"/);
   }
 });

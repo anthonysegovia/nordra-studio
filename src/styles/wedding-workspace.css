@@ -274,3 +274,12 @@ html .wedding-workspace[data-occasion=birthday]{--seat-paper:var(--surface);--se
 body[data-journey-motion=paused] .seat-options{animation:none!important}
 body[data-journey-motion=paused] .seat-move button{transform:none!important;transition:none!important}
 @media(prefers-reduced-motion:reduce){.wedding-workspace .seat-options{animation:none!important}.wedding-workspace .seat-move button{transform:none!important;transition:none!important}}
+
+/* The sample guide starts as a small invitation instead of covering the list. */
+.sample-guide h3:focus{outline:none}
+.sample-guide-hint{display:inline-flex;align-items:center;gap:2px}
+.sample-guide-hint button{min-height:32px;padding:0 8px;border:0;background:none;color:inherit;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;transition:color .2s,transform .2s}
+.sample-guide-hint button:last-child{text-decoration:none;font-size:16px;line-height:1}
+.sample-guide-hint button:hover{color:var(--panel-accent)}
+.sample-guide-hint button:active{transform:scale(.95)}
+@media(prefers-reduced-motion:reduce){.sample-guide-hint button{transition:none}}

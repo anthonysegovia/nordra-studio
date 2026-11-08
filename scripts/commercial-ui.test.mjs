@@ -22,12 +22,13 @@ test('seasonal designs remain discoverable without the duplicate gallery',()=>{
  assert.match(html, /class="inv-temporada"><a href="\/temporada"/);
 });
 
-test('home keeps two equivalent doors, with filled and outlined buttons in the same action group', () => {
+test('home leads to the one place where the visitor chooses a path', () => {
   const source = readFileSync('index.html', 'utf8');
   const actions = source.match(/<div class="horizon-actions">([\s\S]*?)<\/div>/)[1];
-  assert.equal((actions.match(/<a /g) || []).length, 2);
-  assert.match(actions, /class="horizon-button" href="\/negocios"[^>]*>Quiero una página web/);
-  assert.match(actions, /class="horizon-button horizon-button-outline" href="\/invitaciones"[^>]*>Quiero una invitación/);
+  assert.equal((actions.match(/<a /g) || []).length, 1);
+  assert.match(actions, /class="horizon-button" href="#elige-tu-camino"/);
+  assert.match(source, /class="horizon-path horizon-business"/);
+  assert.match(source, /class="horizon-path horizon-invitations"/);
   assert.doesNotMatch(actions, /options-compare/);
 });
 

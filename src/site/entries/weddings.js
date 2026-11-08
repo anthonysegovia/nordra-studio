@@ -39,3 +39,4 @@ if (details) {
  observer.observe(details);
  addEventListener('pagehide', () => observer.disconnect(), {once:true});
 }
+import '../styles/simple.css';

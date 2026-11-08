@@ -102,8 +102,7 @@ test('client images stay exactly the inspected guest-free covers, not RSVP lists
       assert.equal(bytes.subarray(0, 3).toString('hex'), 'ffd8ff');
     }
   }
-  assert.equal((renderClientCases().match(/<template data-client-cover>/g) || []).length, 2);
-  assert.equal((renderClientCases().match(/<noscript><img /g) || []).length, 2);
+  assert.doesNotMatch(renderClientCases(), /<img /);
 });
 
 test('client cards quote the first authorized sentence and disclose the complete original opinion', () => {

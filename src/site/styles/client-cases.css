@@ -53,3 +53,5 @@ body.dark .client-case-art{background:linear-gradient(140deg,#153236,#29223d)}
  .client-opinion-full[open]>summary{display:none}
  .client-case-grid{gap:32px;margin-top:28px}
 }
+.client-case-by{margin:12px 0 0;color:var(--muted);font-size:14px;line-height:1.5}
+.client-case-by strong{color:var(--ink)}

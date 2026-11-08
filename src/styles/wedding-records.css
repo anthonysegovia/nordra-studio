@@ -215,3 +215,24 @@
   .panel-desktop-filters>label { flex-direction:column; align-items:flex-start; gap:5px; white-space:nowrap; }
   .panel-desktop-filters .ledger-quick-filters { grid-column:1/-1; }
 }
+
+/* Phone: the guest list reaches the first screen; every tool stays one row away. */
+@media(max-width:760px){
+  .wedding-workspace .workspace-welcome,.wedding-workspace .workspace-welcome-editorial{min-height:0;padding:10px 0 6px}
+  .wedding-workspace .workspace-welcome .workspace-eyebrow{display:none}
+  .wedding-workspace .workspace-welcome h1{font-size:30px;margin-bottom:4px}
+  .wedding-workspace .workspace-welcome-art{height:104px;width:46vw}
+  .wedding-workspace .workspace-quick-links{flex-wrap:nowrap;gap:14px;overflow-x:auto;margin-block:4px 8px;padding-bottom:2px;white-space:nowrap;scrollbar-width:none}
+  .wedding-workspace .workspace-quick-links::-webkit-scrollbar{display:none}
+  .wedding-workspace .ledger-heading{margin-bottom:6px}
+  .wedding-workspace .ledger-heading h2{font-size:30px;margin-bottom:2px}
+  .wedding-workspace .ledger-heading>div:first-child>p{display:none}
+  .wedding-workspace .panel-tasks{flex-wrap:nowrap;gap:12px;overflow-x:auto;margin-bottom:8px;white-space:nowrap;scrollbar-width:none}
+  .wedding-workspace .panel-tasks::-webkit-scrollbar{display:none}
+  .wedding-workspace .guest-ledger .ledger-stat{min-height:0;padding:8px 10px;gap:2px}
+  .ledger-stat-value{font-size:26px}
+}
+@media(max-width:760px){
+  .wedding-workspace .guest-ledger .panel-tasks{display:flex;align-items:center}
+  .wedding-workspace .guest-ledger .panel-tasks>*{flex:none;width:auto;margin:0;white-space:nowrap}
+}

@@ -129,11 +129,8 @@ body[data-journey-motion=paused] #bodas-respuesta *,body[data-journey-motion=pau
   body[data-scene=bodas] #bodas-planes-eventos .invite-details { margin-top:10px; border-top:0; }
 
   /* The closing is the page's only ending. The empty section keeps «Cómo empezar» landing there. */
-  body[data-scene=bodas] #bodas-proceso-invitaciones { min-height:0; height:0; margin:0; padding:0; border:0; overflow:hidden; }
-  body[data-scene=bodas] #bodas-proceso-invitaciones>* { display:none; }
 
   body[data-scene=bodas] #bodas-contacto-invitaciones .contact-layout>p { text-align:center; }
 
   /* The bottom bar and the footer already take the reader back. */
-  body[data-scene=bodas] .back-to-top:not([hidden]) { display:none; }
 }

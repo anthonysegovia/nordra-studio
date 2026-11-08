@@ -24,5 +24,11 @@
  }
  }
  boot();
+ // Phones start with three works; the rest are one tap away.
+ const works=document.querySelector('.studio-work-gallery'),more=document.querySelector('.studio-work-more');
+ if(works&&more){
+  works.classList.add('can-collapse');
+  more.addEventListener('click',()=>{works.classList.add('show-all');more.remove();works.querySelector('.studio-work:nth-child(4)')?.focus({preventScroll:true});});
+ }
  addEventListener('pageshow',event=>{if(event.persisted)boot();});
 })();

@@ -24,4 +24,5 @@ import '../scripts/page-navigation.js?entry=seasonal';
 import '../analytics/entry.js';
 
 import '../../../public/motion-system.css';
+import '../styles/simple.css';
 import '../scripts/interaction-motion.js?entry=seasonal';

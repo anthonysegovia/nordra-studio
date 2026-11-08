@@ -406,7 +406,6 @@ openBtn.addEventListener('pointermove',e=>{if(!sw)return;const dx=e.clientX-sw.x
 openBtn.addEventListener('pointerup',e=>{if(!sw)return;const dx=e.clientX-sw.x,s=SLOTS[slot];if(!DEMOS[s.d].scroll&&Math.abs(dx)>50){const n=DEMOS.length;jump((s.d+(dx<0?1:n-1))%n);}sw=null;});
 openBtn.addEventListener('pointercancel',()=>{sw=null;});
 $('pause').onclick=e=>{const p=clock.toggle();hero.classList.toggle('hero-paused',p);e.currentTarget.setAttribute('aria-pressed',String(p));e.currentTarget.querySelector('span').textContent=p?tr("Reanudar movimiento"):tr("Pausar movimiento");if(!p)loop();};
-$('replay').onclick=()=>{hero.classList.remove('go');void hero.offsetWidth;start(0);};
 
 size();
 document.fonts.ready.then(()=>{

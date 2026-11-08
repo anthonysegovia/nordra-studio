@@ -42,27 +42,20 @@ function card(group){
  <div class="offer-copy">${recommended?badge:''}<h3 id="title-${group.id}" tabindex="-1">${group.name}</h3><ul class="offer-points">${group.points.map(p=>`<li>${p}</li>`).join('')}</ul>
  ${selector}<div class="offer-levels">${offers.map(level).join('')}</div></div>${visual(group,offers)}</article>`;
 }
-function row(group){
- const offer=levels(group)[0];
- return `<a class="offer-row" data-row="${group.id}" data-offer-name="${offer.name}" href="${esc(businessWhatsApp(offer))}" target="_blank" rel="noopener" data-analytics-whatsapp="web_option"${group.id==='business'?' hidden':''}><strong>${group.name}</strong><span>${group.goal}</span><small>desde ${minimum(group)}</small><i aria-hidden="true">↗</i></a>`;
-}
 
 function hosting() {
  const minimum = Math.min(...businessHosting.flatMap(plan => plan.terms.filter(term => term.months === 1).map(term => term.cents)));
- return `<div class="offer-hosting"><p>Primer mes de alojamiento incluido. Después, desde <strong>${businessMoney(minimum)}</strong> al mes.</p><details><summary>Ver planes de alojamiento <span aria-hidden="true">+</span></summary><div class="hosting-plans">${businessHosting.map(h=>`<div><h4>${h.name}</h4><p>${h.terms.map(t=>`<span data-hosting="hosting-${h.id}-${t.id}">${h.startingAt?'desde ':''}<strong>${businessMoney(t.cents)}</strong>${t.months===1?'/mes':` por ${t.months} meses`}</span>`).join(' · ')}</p></div>`).join('')}</div></details></div>`;
+ return `<div class="offer-hosting"><details><summary>Ver planes de alojamiento <span aria-hidden="true">+</span></summary><p>Primer mes de alojamiento incluido. Después, desde <strong>${businessMoney(minimum)}</strong> al mes.</p><div class="hosting-plans">${businessHosting.map(h=>`<div><h4>${h.name}</h4><p>${h.terms.map(t=>`<span data-hosting="hosting-${h.id}-${t.id}">${h.startingAt?'desde ':''}<strong>${businessMoney(t.cents)}</strong>${t.months===1?'/mes':` por ${t.months} meses`}</span>`).join(' · ')}</p></div>`).join('')}</div></details></div>`;
 }
 export function renderBusinessOffers(html) {
  const helpOffer={name:'una página para mi negocio',cents:Math.min(...businessOffers.map(o=>o.cents))};
  const section=`<section class="home-continuation business-offers" id="opciones-web" aria-labelledby="web-options-title">
- <template data-desktop-aurora="options-aurora"></template>
  <div class="offer-anchors" aria-hidden="true"><span id="guia-web"></span>${groups.map(group=>`<span id="offer-${group.id}"></span>`).join('')}${businessOffers.map(o=>`<span id="service-${o.id}"></span>`).join('')}</div>
  <h2 id="web-options-title">Elige cómo empezar</h2>
  <p class="goal-question" id="goal-question">¿Qué quieres lograr con tu página?</p>
  <fieldset class="offer-goals" aria-labelledby="goal-question" hidden>${groups.map(goal).join('')}</fieldset>
  <div class="offer-stage">${groups.map(card).join('')}</div>
  <small class="offer-note">${businessPriceNote}</small>
- <div class="offer-rows">${groups.map(row).join('')}</div>
- <a class="offer-help" href="${esc(businessWhatsApp(helpOffer))}" target="_blank" rel="noopener" data-analytics-whatsapp="web_option">¿No sabes cuál? Platícanos tu idea <span aria-hidden="true">↗</span></a>
  ${hosting()}</section>`;
  return html.replace('{{business:minimum}}',businessMoney(helpOffer.cents)).replace('{{business:offers}}',section);
 }

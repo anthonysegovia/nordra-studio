@@ -24,4 +24,5 @@ import '../analytics/entry.js';
 import '../styles/occasion-stage.css';
 
 import '../../../public/motion-system.css';
+import '../styles/simple.css';
 import '../scripts/interaction-motion.js?entry=events';

@@ -4,22 +4,11 @@
  const en=document.documentElement?.lang==='en';
  const header=document.querySelector('.site-header');if(!header)return;
  const small=matchMedia('(max-width:700px)');
- const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const menu=document.getElementById('mobile-menu');
  const menuButton=document.querySelector('.menu-button');
  const routes=[...document.querySelectorAll('.mobile-route a[href^="#"]')];
  let last=scrollY,queued=false;
  const tuck=hidden=>header.classList.toggle('header-tucked',hidden);
-
- // Back to top: a quiet control once the reader is about two screens down.
- const topButton=document.createElement('button');
- topButton.type='button';topButton.className='back-to-top';topButton.hidden=true;
- topButton.setAttribute('aria-label',en?'Back to top':'Volver arriba');topButton.textContent='↑';
- topButton.addEventListener('click',()=>{
-  scrollTo({top:0,behavior:reduced.matches?'auto':'smooth'});
-  header.querySelector('a')?.focus({preventScroll:true});
- });
- document.body.append(topButton);
 
  // The bottom bar marks the section in view, the way the desktop nav marks the page.
  function mark(){
@@ -34,7 +23,6 @@
 
  function update(){
   const y=scrollY,delta=y-last;
-  topButton.hidden=!small.matches||y<innerHeight*2;
   mark();
   // Keep it visible near the top, with the menu open, or while it holds focus.
   if(!small.matches||y<120||(menu&&!menu.hidden)||header.contains(document.activeElement)){tuck(false);last=y;return;}

@@ -6,17 +6,6 @@ export function initializeObjectives(root) {
   const goals = root.querySelector('.offer-goals');
   const panels = [...root.querySelectorAll('[data-group]')];
   const radios = [...goals.querySelectorAll('input')];
-  const rows = [...root.querySelectorAll('.offer-row')].map(link => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = link.className;
-    button.dataset.row = link.dataset.row;
-    button.hidden = link.hidden;
-    button.append(...link.childNodes);
-    link.replaceWith(button);
-    return button;
-  });
-
   const stage = root.querySelector('.offer-stage');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let resize;
@@ -36,7 +25,6 @@ export function initializeObjectives(root) {
     const id = selected.dataset.level;
     panels.forEach(el => { el.inert = el !== panel; });
     radios.forEach(input => { input.checked = input.value === panel.dataset.group; });
-    rows.forEach(row => { row.hidden = row.dataset.row === panel.dataset.group; });
     for (const el of panel.querySelectorAll('[data-level]')) el.hidden = el.dataset.level !== id;
     for (const input of panel.querySelectorAll('.offer-switch input')) input.checked = input.value === id;
     for (const detail of root.querySelectorAll('.offer-details[open]')) detail.open = false;
@@ -91,10 +79,6 @@ export function initializeObjectives(root) {
   for (const panel of panels) {
     panel.querySelector('.offer-switch')?.addEventListener('change', e => choose(panel.dataset.group, e.target.value, e.target));
   }
-  for (const row of rows) row.addEventListener('click', () => {
-    const panel = choose(row.dataset.row, undefined, row.parentElement);
-    panel.querySelector('h3').focus({preventScroll:true});
-  });
   root.addEventListener('offeranchor', e => fromAnchor(e.detail));
   fromAnchor(root.dataset.requestedAnchor || location.hash.slice(1));
   root.classList.add('offers-ready');

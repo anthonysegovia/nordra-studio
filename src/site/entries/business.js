@@ -27,6 +27,7 @@ import '../styles/business-content.css';
 import '../scripts/business-content.js';
 
 import '../../../public/motion-system.css';
+import '../styles/simple.css';
 import '../scripts/interaction-motion.js?entry=business';
 
 import { loadHero } from '../heroes/load.js';
