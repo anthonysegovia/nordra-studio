@@ -1,6 +1,6 @@
 (()=>{
  const host=document.querySelector('.business[data-view]:not([hidden])');
- if(!host)return;
+ if(!host||host.classList.contains('has-3d-hero'))return;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const mobile=matchMedia('(max-width:700px)');
  const animations=new Set();

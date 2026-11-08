@@ -28,3 +28,6 @@ import '../scripts/business-content.js';
 
 import '../../../public/motion-system.css';
 import '../scripts/interaction-motion.js?entry=business';
+
+import { loadHero } from '../heroes/load.js';
+loadHero(() => import('../heroes/vitrina.js'));

@@ -9,7 +9,7 @@ const approved = JSON.parse(readFileSync('scripts/fixtures/business-variant-b.js
 
 test('business sections lead from prices to examples, questions and contact', () => {
   const html = renderBusinessOffers(renderBusinessContent(source));
-  const order = ['class="business-head"', 'class="business-benefits"', 'id="opciones-web"', 'class="offer-hosting"', 'id="proyectos"', 'class="business-trust"', 'id="negocios-preguntas"', 'id="proceso"', 'id="contacto-negocios"'];
+  const order = ['id="hero"', 'class="business-benefits"', 'id="opciones-web"', 'class="offer-hosting"', 'id="proyectos"', 'class="business-trust"', 'id="negocios-preguntas"', 'id="proceso"', 'id="contacto-negocios"'];
   const positions = order.map(marker => html.indexOf(marker));
   assert.ok(positions.every(i => i >= 0));
   assert.deepEqual(positions, [...positions].sort((a,b) => a-b));

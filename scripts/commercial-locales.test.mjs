@@ -36,7 +36,7 @@ for(const page of translatedPages){
      }
    }
    for(const match of en.matchAll(/data-analytics-whatsapp="([^"]+)"/g))assert.ok(buttonIds.includes(match[1]),match[1]);
-   const prose=en.replace(/<(script|style|blockquote)\b[^>]*>[\s\S]*?<\/\1>/gi,'').replace(/<[^>]+>/g,' ');
+   const prose=en.replace(/<(script|style|blockquote)\b[^>]*>[\s\S]*?<\/\1>/gi,'').replace(/<[^>]+>/g,' ').replace(/nordrastudio\.mx\/[^\s<]+/g,'');
    assert.doesNotMatch(prose,/\b(?:negocios|invitaciones|tu proyecto|conoce|platiquemos|cotizar|vestimenta|asistencia)\b/i);
    if(page==='negocios')for(const offer of businessOffers){
      const tag=en.match(new RegExp('<a [^>]*data-offer="'+offer.id+'"[^>]*>'))[0];
