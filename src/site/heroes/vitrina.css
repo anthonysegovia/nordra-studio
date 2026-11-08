@@ -84,7 +84,7 @@ body.dark #hero{--bg:#0a141d;--bg-2:#0f1e2a;--ink:#e8f1f6;--muted:#9fb3c2;--line
 @keyframes ring{0%{opacity:.9;transform:scale(.3)}100%{opacity:0;transform:scale(1.8)}}
 #hero .mini{position:absolute;left:0;top:0;z-index:4;width:236px;border-radius:26px;padding:8px;background:#0e1820;box-shadow:0 30px 60px -30px #0b2a3a;pointer-events:none;opacity:0;transform-origin:50% 50%;transition:opacity .6s}
 #hero .mini.on{opacity:1}
-#hero .mini .in3d{transform:perspective(900px) rotateY(14deg) rotateX(4deg);transform-origin:100% 50%}
+#hero .mini .in3d{transform:none}
 #hero .mini .scr{border-radius:20px;overflow:hidden;background:#efe7dd}
 body.dark #hero .mini .scr{background:#0b141a}
 #hero .mini header{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--wa);color:#fff;font-size:12px}

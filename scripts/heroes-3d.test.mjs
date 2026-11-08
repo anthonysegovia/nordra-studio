@@ -25,7 +25,7 @@ test('quieto evita el vuelo y los videos; texto visible antes de cargar el motor
  assert.match(read('src/site/heroes/shared.js'),/if \(stillMode\(\)\) return/);
  assert.match(read('src/site/heroes/shared.js'),/saveData/);
  assert.match(read('src/site/heroes/sobre.js'),/if\(!vids\[k\]&&!still\)/);
- assert.match(read('src/site/heroes/load.js'),/requestAnimationFrame\(\(\) => requestAnimationFrame/);
+ const loader=read('src/site/heroes/load.js');assert.match(loader,/max-width:860px/);assert.match(loader,/requestIdleCallback\(run, \{ timeout: 600 \}\)/);assert.doesNotMatch(loader,/addEventListener\('load'/);
  for(const page of ['negocios','invitaciones'])assert.match(read(page+'.html'),/<section class="hero nordra-hero"[\s\S]*?<h1[\s\S]*?class="cta"/);
  const vitrina=read('src/site/heroes/vitrina.js');assert.equal((vitrina.match(/lcp:'/g)||[]).length,2);assert.match(vitrina,/lcp:'0.9'/);assert.match(vitrina,/lcp:'1.2'/);
 });
