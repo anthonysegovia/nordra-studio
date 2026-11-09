@@ -22,8 +22,6 @@ export function mountSheet({$,mobile,still,preview}){
     scrollTo({top:scrollY+$('sign').getBoundingClientRect().top-header-12,behavior:still()?'instant':'smooth'});
     focusTimer=setTimeout(()=>$('nm').focus({preventScroll:true}),still()?0:320);
   });
-  const rowToggle=$('row-toggle'),row=$('row');
-  rowToggle.addEventListener('click',()=>{const open=row.classList.toggle('open');rowToggle.setAttribute('aria-expanded',String(open));});
   $('sheet-x').addEventListener('click',close);scrim.addEventListener('click',close);
   document.addEventListener('keydown',e=>{
     if(!mobile.matches||!controls.classList.contains('open'))return;

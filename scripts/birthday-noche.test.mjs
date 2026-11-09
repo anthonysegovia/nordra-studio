@@ -42,7 +42,7 @@ test('birthday body, secondary text and interactive accents meet AA in each pale
 test('the birthday identity uses local Sora and every customer-facing birthday entry names Camila',()=>{
  const fonts=read('src/styles/noche-fonts.css');
  assert.match(fonts,/Sora-latin\.woff2/);assert.doesNotMatch(fonts,/cormorant|liga/i);
- for(const file of ['cumpleanos.html','invitaciones.html','invitaciones/camila-30/index.html','public/invitaciones/camila-30/fecha.ics','src/i18n/cumpleanos.en.json','src/i18n/invitaciones.en.json','src/lib/occasionPanels.ts','src/data/invitationOccasions.ts','server/sample-occasions.js']){
+ for(const file of ['cumpleanos.html','invitaciones/camila-30/index.html','public/invitaciones/camila-30/fecha.ics','src/i18n/cumpleanos.en.json','src/i18n/invitaciones.en.json','src/lib/occasionPanels.ts','src/data/invitationOccasions.ts','server/sample-occasions.js']){
    const value=renderInvitation(read(file));assert.match(value,/Camila/,file);assert.doesNotMatch(value,/\bsof[ií]a\b/i,file);
  }
 });

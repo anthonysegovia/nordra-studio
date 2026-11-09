@@ -23,6 +23,12 @@ export function loadHero(load) {
     setTimeout(begin, 1500);
     return;
   }
+  if (hero.dataset.phoneStart === 'tap' && !still) {
+    const play = document.getElementById('phonePlay');
+    play?.addEventListener('click', () => { play.remove(); run(); }, { once: true });
+    return;
+  }
+  document.getElementById('phonePlay')?.remove();
   const schedule = () => requestAnimationFrame(() => {
     if ('requestIdleCallback' in window) requestIdleCallback(run, { timeout: 600 });
     else setTimeout(run, 150);

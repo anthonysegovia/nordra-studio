@@ -50,18 +50,9 @@
 /* Temporada */
 .design-actions a{font-weight:600}
 
-/* Cumpleaños: fonts, colours and modes wait behind one control. */
-body[data-birthday-sign] .birthday-sign-root .row-toggle{display:none}
+/* Cumpleaños: the visitor only picks a style. The sign runtime still drives these hidden controls. */
+body[data-birthday-sign] :is(#bs-custom-toggle,#bs-controls,#bs-sheet-scrim,#bs-switch-box){display:none!important}
 body[data-birthday-sign] .birthday-sign-root .arrow{display:none}
-@media(min-width:901px){
- body[data-birthday-sign] .birthday-sign-root .row-toggle{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:color-mix(in srgb,var(--bg) 78%,transparent);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer;transition:border-color .25s,transform .2s}
- body[data-birthday-sign] .birthday-sign-root .row-toggle:hover,body[data-birthday-sign] .birthday-sign-root .row-toggle[aria-expanded=true]{border-color:var(--tube)}
- body[data-birthday-sign] .birthday-sign-root .row-toggle:active{transform:scale(.96)}
- body[data-birthday-sign] .birthday-sign-root .row-toggle span{transition:transform .3s}
- body[data-birthday-sign] .birthday-sign-root .row-toggle[aria-expanded=true] span{transform:rotate(45deg)}
- body[data-birthday-sign] .birthday-sign-root .row{display:none}
- body[data-birthday-sign] .birthday-sign-root .row.open{display:flex}
-}
 
 @media(max-width:700px){
  /* Every section gets room; nothing floats over the reading. */
@@ -101,8 +92,6 @@ body[data-birthday-sign] .birthday-sign-root .arrow{display:none}
 .scene :is(.inv-directory,.invite-journey,.client-cases-intro,.business-examples,.invite-offers-intro)>h2,
 .scene .invite-offers-intro h2{font-size:clamp(32px,3.7vw,52px);line-height:1.12;letter-spacing:-.04em}
 
-body[data-birthday-sign] .birthday-sign-root .controls .row:not(.open){display:none}
-@media(max-width:900px){body[data-birthday-sign] .birthday-sign-root .controls .row:not(.open){display:flex}}
 .scene .business-motion-control:not(#bs-pause)::before{box-sizing:border-box;border-block:0}
 @media(max-width:700px){
  .scene .seasonal-tabs{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none}
@@ -123,4 +112,38 @@ body[data-birthday-sign] .birthday-sign-root .controls .row:not(.open){display:n
 }
 @media(max-width:700px){
  .scene .collection-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+}
+
+/* Plan details, trust and small type */
+.plan-assurance{margin-top:4px;color:var(--muted);font-size:14px}
+.invite-details li.only-boreal{font-weight:600}
+.closing-hours{margin:6px 0 0;color:var(--muted);font-size:14px;text-align:center}
+.scene .home-closing .contact-layout .primary-action{display:flex;align-items:center;justify-content:center;gap:14px;min-height:56px;padding:0 28px;border:0;border-radius:999px;background:var(--ink);color:var(--bg);font-size:16px;font-weight:600;transition:transform .2s,box-shadow .25s}
+.scene .home-closing .contact-layout .primary-action:hover,.scene .home-closing .contact-layout .primary-action:focus-visible{transform:translateY(-2px);box-shadow:0 14px 28px -14px color-mix(in srgb,var(--ink) 70%,transparent)}
+.scene .home-closing .contact-layout .primary-action:active{transform:scale(.98)}
+.scene .season-bridge{margin-top:20px}
+.invitations .business-trust{display:flex;align-items:center;gap:12px;margin:32px 0 0;min-height:44px}
+.invitations .business-trust img{width:34px;height:34px;border-radius:50%;object-fit:cover}
+.site-header .desktop-nav a{font-size:14px;color:var(--ink)}
+.scene .eyebrow{font-size:13px;color:color-mix(in srgb,var(--ink) 78%,transparent)}
+.scene :is(.wedding-links a,.options-compare,.terms-link,.offer-details summary,.link){min-height:44px;display:inline-flex;align-items:center}
+.seasonal-tabs button:has(small[hidden])>span::after{content:"";display:inline-block;width:7px;height:7px;margin-left:8px;border-radius:50%;background:currentColor;vertical-align:middle}
+.phone-play{display:none}
+@media(max-width:860px){
+ #hero .phone-play{position:absolute;left:50%;bottom:18px;z-index:6;display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--ink);font:600 14px Manrope,sans-serif;cursor:pointer;translate:-50% 0;transition:transform .2s,border-color .2s}
+ #hero .phone-play:active{transform:scale(.96)}
+ #hero[data-phone-start=tap]:not([data-loaded]) .pause{display:none}
+}
+@media(max-width:700px){
+ body.dark .scene .horizon-path .horizon-button-outline{color:var(--ink);border-color:var(--line)}
+ .scene .invite-journey{margin-top:48px}
+}
+body[data-birthday-sign] .birthday-sign-root .cover :is(small,p){font-size:13px}
+body[data-birthday-sign] .birthday-sign-root :is(.card figcaption span,.kicker .eyebrow){font-size:13px}
+
+.scene .home-closing .contact-layout .primary-action::after{display:none}
+.scene .home-closing .contact-layout>.closing-steps{font-size:15px}
+body[data-birthday-sign] #bs-toast:not(.show){visibility:hidden}
+@media(min-width:901px){
+ body[data-birthday-sign] .birthday-sign-root .kicker .pause .pause-ico{display:block}
 }

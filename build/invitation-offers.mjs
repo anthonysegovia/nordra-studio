@@ -26,12 +26,12 @@ export function invitationCard(offer, idPrefix = '', celebration = 'mi celebraci
     ${wedding ? `<p class="invite-audience">${esc(offer.audience)}</p>` : ''}${price(offer, wedding)}
     ${featured ? '<p class="invite-inherits">Todo lo de Aurora, más:</p>' : ''}<ul class="invite-points">${points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>${wedding ? '</div>' : ''}
     <a class="invite-cta" href="${esc(whatsapp(message))}" target="_blank" rel="noopener" data-invitation-offer="${offer.id}" data-analytics-whatsapp="plan_${offer.id}">Quiero ${esc(offer.name)} <span aria-hidden="true">↗</span></a>
-    <details class="invite-details"><summary>${wedding ? '<span class="plan-details-desktop">Ver todo lo que incluye</span><span class="plan-details-mobile">Ver todo lo incluido</span>' : 'Ver todo lo que incluye'} <span aria-hidden="true">+</span></summary><ul>${wedding ? '' : `<li>Lista en ${esc(offer.delivery)}</li>`}${invitationPlanFeatures[offer.id].map(text => `<li>${esc(text)}</li>`).join('')}</ul></details></article>`;
+    <details class="invite-details"><summary>${wedding ? '<span class="plan-details-desktop">Ver todo lo que incluye</span><span class="plan-details-mobile">Ver todo lo incluido</span>' : 'Ver todo lo que incluye'} <span aria-hidden="true">+</span></summary><ul>${wedding ? '' : `<li>Lista en ${esc(offer.delivery)}</li>`}${invitationPlanFeatures[offer.id].map(text => `<li${featured && !text.startsWith('Todo Aurora') ? ' class="only-boreal"' : ''}>${esc(text)}</li>`).join('')}</ul></details></article>`;
 }
 
 export function renderInvitationOffers() {
   return `<section class="home-continuation invite-offers" id="planes-invitaciones" aria-labelledby="invite-offers-title"><span class="inv-anchor" id="planes-eventos"></span>
-    <div class="invite-offers-intro"><h2 id="invite-offers-title">Aurora y Boreal</h2><p>MXN con IVA incluido. Pago único.</p></div>
+    <div class="invite-offers-intro"><h2 id="invite-offers-title">Aurora y Boreal</h2><p>MXN con IVA incluido. Pago único, en dos partes: 50 % para iniciar y 50 % al aprobar.</p><p class="plan-assurance">Incluye 3 rondas de cambios. Tarjeta con Mercado Pago y factura (CFDI).</p></div>
     <div class="invite-grid">${invitationOffers.map(o => invitationCard(o)).join('')}</div>
     <a class="season-bridge" href="/temporada">¿Una posada o una fiesta de fin de año? Diseños de temporada a ${invitationMoney(seasonalOffer.cents)} <span aria-hidden="true">→</span></a></section>`;
 }

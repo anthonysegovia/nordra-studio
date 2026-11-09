@@ -37,7 +37,7 @@ export function renderOccasionPrices(html) {
   return html.replace(/\{\{offer:(aurora|boreal):(opening|regular)\}\}/g, (_, id, kind) => {
     const offer = invitationOffers.find(item => item.id === id);
     return (offer.startingAt ? 'Desde ' : '') + invitationMoney(kind === 'regular' ? offer.regularCents : offer.cents);
-  }).replaceAll('{{occasion:seasonal-price}}', invitationMoney(seasonalOffer.cents))
+  }).replaceAll('{{occasion:seasonal-price}}', invitationMoney(seasonalOffer.cents)).replaceAll('{{occasion:seasonal-delivery}}', seasonalOffer.delivery)
     .replaceAll('{{occasion:seasonal-price-encoded}}', encodeURIComponent(invitationMoney(seasonalOffer.cents)));
 }
 

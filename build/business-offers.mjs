@@ -55,7 +55,7 @@ export function renderBusinessOffers(html) {
  <p class="goal-question" id="goal-question">¿Qué quieres lograr con tu página?</p>
  <fieldset class="offer-goals" aria-labelledby="goal-question" hidden>${groups.map(goal).join('')}</fieldset>
  <div class="offer-stage">${groups.map(card).join('')}</div>
- <small class="offer-note">${businessPriceNote}</small>
+ <small class="offer-note">${businessPriceNote} <span>50 % para iniciar y 50 % antes de publicar.</span> <span>Tarjeta con Mercado Pago y factura (CFDI).</span></small>
  ${hosting()}</section>`;
  return html.replace('{{business:minimum}}',businessMoney(helpOffer.cents)).replace('{{business:offers}}',section);
 }

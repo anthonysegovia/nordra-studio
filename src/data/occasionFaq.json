@@ -13,6 +13,10 @@
       "answerHtml": "El alojamiento de Aurora y Boreal incluye hasta 12 meses antes y 90 días después del evento. El soporte por WhatsApp va desde la entrega hasta 30 días después; las extensiones se cotizan aparte."
     },
     {
+      "question": "¿Cuánto tarda y podemos hacer cambios?",
+      "answerHtml": "Aurora está lista en 3–5 días hábiles y Boreal en 5–7, desde que recibimos sus datos y el anticipo. Incluye 3 rondas de cambios. Los cambios de contenido después de la entrega se cotizan aparte."
+    },
+    {
       "question": "¿Cómo se paga?",
       "answerHtml": "Acordamos detalles y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar."
     }
@@ -29,6 +33,10 @@
     {
       "question": "¿Puedo compartir los enlaces por WhatsApp?",
       "answerHtml": "Puedes copiar los enlaces y compartirlos manualmente por WhatsApp sin cargo adicional de Nordra. Los mensajes automáticos y otras integraciones se cotizan por separado antes de activarse."
+    },
+    {
+      "question": "¿Cuánto tarda y puedo hacer cambios?",
+      "answerHtml": "Aurora está lista en 3–5 días hábiles y Boreal en 5–7, desde que recibimos tus datos y el anticipo. Incluye 3 rondas de cambios. Los cambios de contenido después de la entrega se cotizan aparte."
     },
     {
       "question": "¿Cómo se paga?",
@@ -49,6 +57,10 @@
       "answerHtml": "La venta de entradas y las integraciones de pago se cotizan aparte. Antes de contratar o activar algo, se explican los costos de configuración y las comisiones del proveedor."
     },
     {
+      "question": "¿Cuánto tarda y puedo hacer cambios?",
+      "answerHtml": "Aurora está lista en 3–5 días hábiles y Boreal en 5–7, desde que recibimos tus datos y el anticipo. Incluye 3 rondas de cambios. Los cambios de contenido después de la entrega se cotizan aparte."
+    },
+    {
       "question": "¿Cómo se paga?",
       "answerHtml": "Acordamos detalles y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar. Al confirmar la cotización, te enviamos un enlace de Mercado Pago para pagar con tarjeta de crédito o débito."
     }
@@ -65,6 +77,10 @@
     {
       "question": "¿Incluye el mismo panel que Aurora o Boreal?",
       "answerHtml": "La oferta de Temporada tiene su propio alcance. El panel, las mesas y los pases QR no se anuncian como incluidos en esta colección. Si los necesitas, consúltalos al cotizar."
+    },
+    {
+      "question": "¿Cuánto tarda?",
+      "answerHtml": "Está lista en 1–2 días hábiles desde que recibimos tus datos y el anticipo. Confirma cambios y vigencia en tu cotización."
     },
     {
       "question": "¿Cómo se paga?",

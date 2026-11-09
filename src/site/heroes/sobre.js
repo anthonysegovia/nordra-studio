@@ -249,7 +249,8 @@ function frame(t){
  place(under,phone,new THREE.Vector3(0,-PH/2,.06),camera,stage,0,14,'center');
  followGlow(hero,stage,lift>.5?phone:holder,camera);
 }
-function draw(){frame(advance());renderer.render(scene,camera);}
+let warmed=false;
+function draw(){if(!warmed)return;frame(advance());renderer.render(scene,camera);}
 let raf=0,offscreen=false;function loop(){cancelAnimationFrame(raf);draw();if(!clock.paused&&!still&&!offscreen)raf=requestAnimationFrame(loop);}
 // Visitas repetidas: la tarjeta ya viene saliendo del sobre
 const skipTo=()=>repeat&&!still?(OCC[occ].ribbon?.45:0)+.6+.9:0;
@@ -275,8 +276,8 @@ $('pause').onclick=e=>{const p=clock.toggle();const v=vids[occ]?.userData.video;
 
 document.querySelectorAll('.pill').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.occ===occ)));
 size();
-Promise.all([document.fonts.load('italic 400 92px "Cormorant Garamond"'),document.fonts.load('500 96px Sora'),document.fonts.ready]).then(()=>{
- ready=true;applyOcc();draw();
+Promise.all([document.fonts.load('italic 400 92px "Cormorant Garamond"'),document.fonts.load('500 96px Sora'),document.fonts.ready]).then(()=>{ready=true;applyOcc();return renderer.compileAsync(scene,camera).catch(()=>{});}).then(()=>{
+ warmed=true;applyOcc();draw();
  if(still||!isNarrow){start(skipTo());return;}
  hero.classList.add('go');stage.classList.add('ready');draw();const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconnect();start(skipTo());}},{threshold:.35});io.observe(stage);
 });

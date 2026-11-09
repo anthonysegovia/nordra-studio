@@ -31,7 +31,7 @@ const DEMOS=[
  {name:'Cantera',kind:tr("arquitectura"),barrio:'Valle Oriente',lcp:'1.2',tint:'#d38a5e',pin:[2.05,.4],hours:[9,18],talks:[[tr("Somos un despacho de arquitectura"),tr("¡Qué bien! ¿Qué obra quieres mostrar?")],[tr("¿Cuánto tarda?"),tr("Desde 3–5 días hábiles, según el paquete")]],word:tr("Tu despacho,"),href:'https://nordrastudio.mx/demos/cantera/',desk:'/nordra/v550/assets/cantera-desk.jpg',mob:'/nordra/v550/assets/cantera-movil.jpg',scroll:false}];
 const SLOTS=[{d:0,m:'desk'},{d:0,m:'phone'},{d:1,m:'desk'},{d:2,m:'desk'},{d:2,m:'phone'},{d:1,m:'phone'}];
 const loader=new THREE.TextureLoader();
-function tex(src,ratio){const t=loader.load(src,()=>{t.userData.frac=Math.min(1,t.image.width/ratio/t.image.height);if(still||clock.paused||!clock.started)draw();});t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=MAXANI;t.userData.frac=1;return t;}
+function tex(src,ratio){let loaded;const ready=new Promise(r=>{loaded=r;});const t=loader.load(src,()=>{t.userData.frac=Math.min(1,t.image.width/ratio/t.image.height);loaded();if(still||clock.paused||!clock.started)draw();},undefined,loaded);t.userData.ready=ready;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=MAXANI;t.userData.frac=1;return t;}
 
 // Vitrina: cristal con grosor y borde iridiscente
 const W=3.4,H=2.25,D=.16,SW=3.2,SH=1.8,SY=-.12,PW=.98,PH=2.0;
@@ -417,7 +417,8 @@ function warm(){
  tasks.push(renderer.compileAsync(scene,camera));
  return Promise.all(tasks).catch(()=>{}).then(()=>{warmed=true;});
 }
-Promise.all([warm(),document.fonts.ready]).then(()=>{
+const firstShot=Promise.race([DEMOS[0].tDesk.userData.ready,new Promise(r=>setTimeout(r,1500))]);
+Promise.all([warm(),document.fonts.ready,firstShot]).then(()=>{
  if(still){reset();hero.classList.add('go');stage.classList.add('ready');clock.start();events.slice(0,4).forEach(e=>{e.done=true;e.fn();});setTimeout(()=>{msgsEl.querySelectorAll('.msg').forEach(m=>m.classList.add('on','sent'));draw();},400);draw();return;}
  if(isNarrow){
   // Teléfono: primero una imagen quieta idéntica al primer cuadro; al llegar, la entrada corta

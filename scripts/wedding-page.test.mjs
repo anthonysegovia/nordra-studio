@@ -80,7 +80,7 @@ test('general invitation cards keep the simplified approved HTML', () => {
   const cards = offers.match(/<article [\s\S]*?<\/article>/g);
   assert.equal(cards.length, 2);
   assert.equal(createHash('sha256').update(cards.join('')).digest('hex'),
-    'acbec987d1885dbfaff9513d6fed76bc3c2ab9da19c9bd9c258a393883a78dc8');
+    '30ef9abcc40ff09bea11a4f3a52603b61de92bfeded12d8885e77c564b8598ee');
 });
 
 test('Boreal spreads its second real lily away from the first', () => {

@@ -32,7 +32,7 @@ for (const page of ['bodas', 'cumpleanos', 'eventos', 'temporada']) {
       assert.ok(!JSON.stringify(schema).includes('priceValidUntil'));
     });
     const visible = [...html.matchAll(/<details class="faq-item"><summary><span>(.*?)<\/span>[\s\S]*?<div class="faq-answer"><p>(.*?)<\/p>/g)];
-    assert.equal(visible.length, 4);
+    assert.equal(visible.length, 5);
     assert.deepEqual(faq.mainEntity.map(q => [q.name, q.acceptedAnswer.text]), visible.map(m => [plainAnswer(m[1]), plainAnswer(m[2])]));
     assert.ok(faq.mainEntity.every(q => !/<[^>]+>/.test(q.acceptedAnswer.text)));
     if (page === 'temporada') {

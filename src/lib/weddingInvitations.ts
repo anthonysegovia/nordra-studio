@@ -108,6 +108,21 @@ export function decodeInvitations(raw: string | null, now = Date.now()): Wedding
     return validateList(legacy.map(row => ({ id: row.id, kind: "individual", updated_at: row.updated_at, people: [{ id: `${row.id}-person`, name: row.guest_name, attendance: row.attendance }] })));
   } catch { return null; }
 }
+export function printInvitations(invitations: WeddingInvitation[], title: string, english = false) {
+  const esc = (value: string) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;');
+  const headers = english ? ['Invitation', 'Person', 'Attendance'] : ['Invitación', 'Persona', 'Asistencia'];
+  const rows = invitationsCsv(invitations, english).replace('\uFEFF', '').split('\r\n').slice(1).map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(m => m[1].replaceAll('""', '"')));
+  const frame = document.createElement('iframe');
+  frame.setAttribute('aria-hidden', 'true');
+  frame.style.cssText = 'position:fixed;width:0;height:0;border:0';
+  document.body.append(frame);
+  const page = frame.contentDocument!;
+  page.body.innerHTML = '<style>body{font:13px/1.4 system-ui,sans-serif;margin:24px}h1{font-size:20px}table{width:100%;border-collapse:collapse}th,td{padding:6px 8px;border-bottom:1px solid #ccc;text-align:left}</style><h1>' + esc(title) + '</h1><table><thead><tr>' + headers.map(h => '<th>' + h + '</th>').join('') + '</tr></thead><tbody>' + rows.map(r => '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[3]) + '</td><td>' + esc(r[4]) + '</td></tr>').join('') + '</tbody></table>';
+  frame.contentWindow!.addEventListener('afterprint', () => frame.remove(), { once: true });
+  frame.contentWindow!.focus();
+  frame.contentWindow!.print();
+}
+
 export function invitationsCsv(invitations: WeddingInvitation[], english = false) {
   const cell = (value: string) => '"' + (/^[\s\uFEFF]*[=+\-@\t\r\n]/u.test(value) ? "'" + value : value).replaceAll('"', '""') + '"';
   const headers = english ? ["Invitation", "Type", "Places in invitations", "Person", "Attendance", "Last updated (UTC)"] : ["Invitación", "Tipo", "Lugares en invitaciones", "Persona", "Asistencia", "Última actualización (UTC)"];

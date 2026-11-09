@@ -222,8 +222,7 @@
   .wedding-workspace .workspace-welcome .workspace-eyebrow{display:none}
   .wedding-workspace .workspace-welcome h1{font-size:30px;margin-bottom:4px}
   .wedding-workspace .workspace-welcome-art{height:104px;width:46vw}
-  .wedding-workspace .workspace-quick-links{flex-wrap:nowrap;gap:14px;overflow-x:auto;margin-block:4px 8px;padding-bottom:2px;white-space:nowrap;scrollbar-width:none}
-  .wedding-workspace .workspace-quick-links::-webkit-scrollbar{display:none}
+  .wedding-workspace .workspace-quick-links{flex-wrap:wrap;gap:0 14px;margin-block:4px 8px;padding-bottom:2px}
   .wedding-workspace .ledger-heading{margin-bottom:6px}
   .wedding-workspace .ledger-heading h2{font-size:30px;margin-bottom:2px}
   .wedding-workspace .ledger-heading>div:first-child>p{display:none}

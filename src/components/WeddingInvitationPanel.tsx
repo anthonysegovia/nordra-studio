@@ -2,7 +2,7 @@ import { usePanelTerms } from '../lib/panelTerms';
 import { PanelExperience, reminderUrl } from '../lib/panelExperience';
 import { useContext, useEffect, useMemo, useId, useRef, useState } from 'react';
 import { ArrowRight, Check, ChevronLeft, ChevronRight, Clock3, Download, Plus, Search, Share2, X } from 'lucide-react';
-import { invitationKindLabel, invitationLabel, invitationsCsv, summarizeInvitations, type WeddingInvitation } from '../lib/weddingInvitations';
+import { invitationKindLabel, invitationLabel, invitationsCsv, printInvitations, summarizeInvitations, type WeddingInvitation } from '../lib/weddingInvitations';
 import { invitationProgress, pendingTasks, selectDashboardInvitations, type GuestFilter, type GuestOrder } from '../lib/weddingDashboard';
 import type { BorealState } from '../lib/weddingBoreal';
 import type { ManagementAction, WeddingManagement } from '../lib/weddingManagement';
@@ -62,7 +62,7 @@ export function WeddingInvitationPanel({ invitations, english, syncStatus, onTab
   return <section className="guest-ledger" aria-labelledby="ledger-title">
     <div className="ledger-heading"><div><h2 id="ledger-title" tabIndex={-1}>{config.identity.guests[lang]}</h2>{syncStatus}<p>{summary.invitations} {english ? 'invitations' : 'invitaciones'}<span> · </span>{summary.total} {english ? 'places in invitations' : 'lugares en invitaciones'}</p></div><div><div className="panel-more" onBlur={e=>{if(!e.currentTarget.contains(e.relatedTarget))setMore(false);}} onKeyDown={e=>{if(e.key==='Escape'){setMore(false);moreButton.current?.focus();}}}>
       <button ref={moreButton} aria-expanded={more} aria-controls={id+'more'} onClick={()=>setMore(!more)}>⋯ {english?'More':'Más'}</button>
-      <div id={id+'more'} hidden={!more}><div className="ledger-secondary-tools">{!readOnly&&<button disabled={disabled} onClick={()=>{setMore(false);onImport();}}>{english?'Import list':'Importar lista'}</button>}<button onClick={()=>{setMore(false);onHistory();}}>{english?'Activity and recovery':'Historial y recuperación'}</button><button className="ledger-export" onClick={()=>{setMore(false);download();}} disabled={!invitations.length}><Download size={16} aria-hidden="true" />{english ? 'Download list' : 'Descargar lista'}</button></div></div></div>{addButton}</div></div>
+      <div id={id+'more'} hidden={!more}><div className="ledger-secondary-tools">{!readOnly&&<button disabled={disabled} onClick={()=>{setMore(false);onImport();}}>{english?'Import list':'Importar lista'}</button>}<button onClick={()=>{setMore(false);onHistory();}}>{english?'Activity and recovery':'Historial y recuperación'}</button><button className="ledger-export" onClick={()=>{setMore(false);download();}} disabled={!invitations.length}><Download size={16} aria-hidden="true" />{english ? 'Download list' : 'Descargar lista'}</button><button onClick={()=>{setMore(false);printInvitations(invitations,config.identity.guests[lang],english);}} disabled={!invitations.length}>{english ? 'Print list' : 'Imprimir lista'}</button></div></div></div>{addButton}</div></div>
 
     <aside className="panel-tasks" aria-label={config.tasks.title[lang]}><strong>{config.tasks.title[lang]}</strong>
       {(['followup','unsent','unseated'] as const).filter(key=>tasks[key]>0).map(key=><button key={key} onClick={()=>{if(key==='unseated')onTables();else {setQuery('');chooseFilter(key);}}}>{tasks[key]} {(tasks[key]===1?config.tasks.singular[key]:config.tasks[key])[lang]}</button>)}
