@@ -32,6 +32,19 @@ export const birthdayPanel:typeof base = {
   ]},
   reminder(inv,en){return greeting(inv,en)+(en?"I’d love to know if you can come to my birthday party. Here’s your invitation:":inv.kind==='individual'?'Me encantaría saber si podrás venir a mi cumple. Aquí está tu invitación:':'Me encantaría saber si podrán venir a mi cumple. Aquí está su invitación:')},
 };
+// Each birthday style dresses the panel with its own invitation. Caja de regalo, also the sample
+// for Neón, is the base. These styles have no public invitation yet, so their panels link to none.
+function styledBirthday(style:string,name:string,kicker:readonly [string,string],place:string,photo:string,badge:readonly [string,string]):typeof base {
+  return {...birthdayPanel,style,identity:{...birthdayPanel.identity,name,title:[name],mark:[name],invitation:'',photo,srcSet:'',kicker:[...kicker],place:[place,place],badge:[...badge],brand:[...badge]}};
+}
+const birthdayStyles:Record<string,typeof base>={
+  bar:styledBirthday('bar','Andrés 40',['EL BAR DE ANDRÉS','ANDRÉS’S BAR'],'El Sótano','/artwork/birthday-panel/bar-lampara.webp',['BAR CLANDESTINO','SPEAKEASY']),
+  xv:styledBirthday('xv','Ximena XV',['LA GALA DE XIMENA','XIMENA’S GALA'],'Salón Cristal','/artwork/birthday-panel/xv-tiara.webp',['GALA DE XV','QUINCE GALA']),
+  espacio:styledBirthday('espacio','Iker 6',['LA MISIÓN DE IKER','IKER’S MISSION'],'Base Planetario','/artwork/birthday-panel/espacio-cohete.webp',['MISIÓN ESPACIAL','SPACE MISSION']),
+};
+export function birthdayPanelFor(style:string|null) {
+  return (style && Object.hasOwn(birthdayStyles,style)) ? birthdayStyles[style] : birthdayPanel;
+}
 export const eventPanel:typeof base = {
   ...base,key:'event',accent:'var(--o-accent)',ink:'var(--o-text)',paper:'var(--o-surface)',
   sample:{path:'/panel-evento.html',date:['12 de junio de 2027','June 12, 2027'],iso:'2027-06-12'},

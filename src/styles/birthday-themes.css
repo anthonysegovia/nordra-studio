@@ -1,0 +1,142 @@
+/* Each birthday style dresses its panel with its own invitation: the object, surface, type and palette.
+   Caja de regalo (also the sample for Neón) is the base look in birthday-panel.css. */
+@font-face{font-family:ThemePoiret;src:url('/fonts/birthday-sign/poiret-one-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:ThemeFredoka;src:url('/fonts/birthday-sign/fredoka-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:ThemePinyon;src:url('/fonts/wedding/pinyon-script-subset.woff2') format('woff2');font-weight:400;font-display:swap}
+
+/* ---- Bar clandestino: latón, madera y luz ámbar ---- */
+html :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=birthday][data-style=bar] {
+  --o-bg:#efe2cc; --o-surface:#fbf3e4; --o-hover:#e6d6bb; --o-active:#dcc8a6; --o-text:#2b1a0f; --o-muted:#6b5340; --o-line:#d3bf9f;
+  --o-accent:#8a6420; --o-on-accent:#fff7e6; --o-yes:#7a5716; --o-yes-bg:#f2e0b8; --o-wait:#6b5340; --o-wait-bg:#e6d6bb; --o-no:#7f3a28; --o-no-bg:#f1dacf;
+  --o-side:#e6d6bb; --o-side-text:#2b1a0f; --o-side-muted:#6b5340; --o-side-hover:#dcc8a6; --o-side-active:#dcc8a6; --o-side-active-text:#2b1a0f; --o-side-line:#d3bf9f;
+  --o-nav:#e6d6bbf5; --o-nav-text:#6b5340; --o-nav-strong:#2b1a0f; --o-nav-hover:#dcc8a6; --o-nav-active:#dcc8a6; --o-nav-active-text:#2b1a0f;
+}
+html[data-theme=dark] :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=birthday][data-style=bar] {
+  --o-bg:#1c120b; --o-surface:#2a1b10; --o-hover:#3a2716; --o-active:#4a321c; --o-text:#f1e1bf; --o-muted:#cdb68f; --o-line:#4f3a24;
+  --o-accent:#d6b26a; --o-on-accent:#1c120b; --o-yes:#e6c47c; --o-yes-bg:#43301a; --o-wait:#d8c4a0; --o-wait-bg:#33261a; --o-no:#ffb9a3; --o-no-bg:#47261c;
+  --o-side:#150d07; --o-side-text:#f1e1bf; --o-side-muted:#cdb68f; --o-side-hover:#3a2716; --o-side-active:#4a321c; --o-side-active-text:#f1e1bf; --o-side-line:#4f3a24;
+  --o-nav:#150d07f5; --o-nav-text:#cdb68f; --o-nav-strong:#f1e1bf; --o-nav-hover:#3a2716; --o-nav-active:#4a321c; --o-nav-active-text:#f1e1bf;
+}
+html .wedding-workspace[data-occasion=birthday][data-style=bar],html .wedding-operations-dialog[data-occasion=birthday][data-style=bar] {
+  --o-title:ThemePoiret,NocheSora,sans-serif; --o-radius-s:4px; --o-radius-card:6px; --o-radius-hero:6px; --o-radius-pill:3px;
+  --box:290px;
+  --h-base:#1c120b; --h-text:#f6dc9c; --h-soft:#e6d2a8; --h-kicker:#cdb68f; --h-count:#f6dc9c;
+  --h-image:url('/artwork/birthday-panel/bar-madera.webp') center/cover;
+  --h-x:calc(100% - var(--hero-pad) - var(--meter) - 14px - var(--box)/2);
+  --h-veil:radial-gradient(calc(var(--box)*.8) 190px at var(--h-x) 62px,#ffae4a52,transparent 72%),linear-gradient(90deg,#140b05e6 0,#140b05b3 44%,#140b0566 100%);
+  --h-card:#22140aee; --h-card-line:#c99a4b66; --h-card-text:#f1e1bf; --h-card-muted:#cdb68f; --h-card-hover:#ffffff10;
+  --h-seat:#4f3a24; --h-seat-yes:#e6c47c; --h-seat-no-a:#5a2f22; --h-seat-no-b:#7d4634; --h-stat-yes:#e6c47c; --h-stat-wait:#d8c4a0; --h-stat-no:#ffb9a3;
+}
+html .wedding-workspace[data-occasion=birthday][data-style=bar] {
+  & .occasion-hero {box-shadow:inset 0 0 0 1px #c99a4b,inset 0 0 0 5px #1c120bcc,inset 0 0 0 6px #6b4a1c}
+  & .occasion-hero h1 {font-weight:400;letter-spacing:.01em}
+  & .occasion-object {top:0;bottom:auto;filter:none;transform-origin:50% 0;animation-name:occasion-sway}
+  & .occasion-hero:hover .occasion-object {transform:none}
+  & :is(h1,h2,h3,h4,.boreal-summary strong) {font-weight:400;letter-spacing:.005em}
+  & .workspace-brand {font-family:ThemePoiret,var(--o-title);font-weight:400;letter-spacing:.24em}
+  /* Poiret One is reserved for titles: names and figures stay in a sturdier face */
+  & :is(.ledger-stat-value,.boreal-summary strong,.occasion-avatar) {font-family:NocheSora,OccasionSora,sans-serif;font-weight:500;letter-spacing:-.03em}
+  & :is(.ledger-name,.panel-tasks strong) {font-family:var(--o-body);font-weight:600;letter-spacing:0}
+  & :is(.ledger-row,.guest-ledger .ledger-quick-filters button) {border-radius:var(--o-radius-s)}
+  &:not([data-tab=guests]) {--box:190px}
+  &:not([data-tab=guests]) .occasion-object {top:0;bottom:auto}
+}
+@keyframes occasion-sway {from{opacity:0;transform:translateY(-16px) rotate(1deg)}to{opacity:1;transform:none}}
+
+/* ---- Gala de XV: plata, tiara y noche estrellada ---- */
+html :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=birthday][data-style=xv] {
+  --o-bg:#eeeaf8; --o-surface:#fbfaff; --o-hover:#e2dcf4; --o-active:#d9d0f1; --o-text:#1d1840; --o-muted:#5b557a; --o-line:#cfc8e8;
+  --o-accent:#5b41b4; --o-on-accent:#fff; --o-yes:#4d36a3; --o-yes-bg:#e1d9f8; --o-wait:#5b557a; --o-wait-bg:#e8e4f4; --o-no:#8a2f55; --o-no-bg:#f6dfe9;
+  --o-side:#e2dcf4; --o-side-text:#1d1840; --o-side-muted:#5b557a; --o-side-hover:#d9d0f1; --o-side-active:#d9d0f1; --o-side-active-text:#1d1840; --o-side-line:#cfc8e8;
+  --o-nav:#e2dcf4f5; --o-nav-text:#5b557a; --o-nav-strong:#1d1840; --o-nav-hover:#d9d0f1; --o-nav-active:#d9d0f1; --o-nav-active-text:#1d1840;
+}
+html .wedding-operations-dialog[data-occasion=birthday][data-style=bar] .seating-plan-title p {font-family:var(--o-body);font-weight:600;letter-spacing:.14em}
+
+html[data-theme=dark] :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=birthday][data-style=xv] {
+  --o-bg:#0f1233; --o-surface:#191d4a; --o-hover:#262a63; --o-active:#2e3173; --o-text:#ece8ff; --o-muted:#bdb5e6; --o-line:#363a78;
+  --o-accent:#c9bbff; --o-on-accent:#0f1233; --o-yes:#d6cbff; --o-yes-bg:#352f7a; --o-wait:#bdc8ee; --o-wait-bg:#232860; --o-no:#ffc2d2; --o-no-bg:#45224e;
+  --o-side:#0b0e2c; --o-side-text:#ece8ff; --o-side-muted:#bdb5e6; --o-side-hover:#262a63; --o-side-active:#2e3173; --o-side-active-text:#ece8ff; --o-side-line:#363a78;
+  --o-nav:#0b0e2cf5; --o-nav-text:#bdb5e6; --o-nav-strong:#ece8ff; --o-nav-hover:#262a63; --o-nav-active:#2e3173; --o-nav-active-text:#ece8ff;
+}
+html .wedding-workspace[data-occasion=birthday][data-style=xv],html .wedding-operations-dialog[data-occasion=birthday][data-style=xv] {
+  --box:270px;
+  --h-base:#0f1233; --h-text:#f4f1ff; --h-soft:#d9d3f5; --h-kicker:#bdb5e6; --h-count:#f4f1ff;
+  --h-image:url('/artwork/birthday-panel/xv-seda.webp') center bottom/cover;
+  --h-x:calc(100% - var(--hero-pad) - var(--meter) - 14px - var(--box)/2);
+  --h-veil:radial-gradient(calc(var(--box)*.8) 120px at var(--h-x) 80px,#b9a6ff40,transparent 72%),linear-gradient(90deg,#0b0e2cf0 0,#0b0e2cc4 44%,#0b0e2c80 100%);
+  --h-card:#191d4aee; --h-card-line:#ffffff24; --h-card-text:#ece8ff; --h-card-muted:#bdb5e6; --h-card-hover:#ffffff12;
+  --h-seat:#363a78; --h-seat-yes:#d6cbff; --h-seat-no-a:#4b2a5c; --h-seat-no-b:#6e3d78; --h-stat-yes:#d6cbff; --h-stat-wait:#bdc8ee; --h-stat-no:#ffc2d2;
+}
+html .wedding-workspace[data-occasion=birthday][data-style=xv] {
+  & .occasion-hero h1 {font:400 clamp(46px,4.8vw,66px)/1 ThemePinyon,var(--o-title);letter-spacing:0;white-space:nowrap}
+  & .occasion-object {top:14px;bottom:auto;filter:drop-shadow(0 8px 14px #05061c99);transform-origin:50% 50%}
+  &:not([data-tab=guests]) {--box:150px}
+  &:not([data-tab=guests]) .occasion-object {top:18px;bottom:auto}
+  &:not([data-tab=guests]) .occasion-hero h1 {font-size:clamp(36px,3.8vw,50px)}
+}
+
+/* ---- Misión espacial: cabina, planetas y despegue ---- */
+html :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=birthday][data-style=espacio] {
+  --o-bg:#e6f0ff; --o-surface:#fbfdff; --o-hover:#d6e4fb; --o-active:#c9dbf8; --o-text:#14213d; --o-muted:#43557a; --o-line:#c3d4ef;
+  --o-accent:#c2410c; --o-on-accent:#fff; --o-yes:#a33a0c; --o-yes-bg:#ffe9b8; --o-wait:#43557a; --o-wait-bg:#dce7f8; --o-no:#8a2f55; --o-no-bg:#f6dfe9;
+  --o-side:#d6e4fb; --o-side-text:#14213d; --o-side-muted:#43557a; --o-side-hover:#c9dbf8; --o-side-active:#c9dbf8; --o-side-active-text:#14213d; --o-side-line:#c3d4ef;
+  --o-nav:#d6e4fbf5; --o-nav-text:#43557a; --o-nav-strong:#14213d; --o-nav-hover:#c9dbf8; --o-nav-active:#c9dbf8; --o-nav-active-text:#14213d;
+}
+html[data-theme=dark] :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=birthday][data-style=espacio] {
+  --o-bg:#10153d; --o-surface:#1a2052; --o-hover:#282f6c; --o-active:#31397d; --o-text:#f2f5ff; --o-muted:#b9c3e6; --o-line:#39417f;
+  --o-accent:#ffd84a; --o-on-accent:#14213d; --o-yes:#ffd84a; --o-yes-bg:#46421f; --o-wait:#b9d4ff; --o-wait-bg:#253066; --o-no:#ffc0b0; --o-no-bg:#4a2746;
+  --o-side:#0b1033; --o-side-text:#f2f5ff; --o-side-muted:#b9c3e6; --o-side-hover:#282f6c; --o-side-active:#31397d; --o-side-active-text:#f2f5ff; --o-side-line:#39417f;
+  --o-nav:#0b1033f5; --o-nav-text:#b9c3e6; --o-nav-strong:#f2f5ff; --o-nav-hover:#282f6c; --o-nav-active:#31397d; --o-nav-active-text:#f2f5ff;
+}
+html .wedding-workspace[data-occasion=birthday][data-style=espacio],html .wedding-operations-dialog[data-occasion=birthday][data-style=espacio] {
+  --o-title:ThemeFredoka,NocheSora,sans-serif; --o-radius-s:16px; --o-radius-card:22px; --o-radius-hero:24px; --o-radius-pill:999px;
+  --box:164px;
+  --h-base:#10153d; --h-text:#f2f5ff; --h-soft:#d3dbf5; --h-kicker:#b9c3e6; --h-count:#ffd84a;
+  --h-image:url('/artwork/birthday-panel/espacio-nubes.webp') center bottom/cover;
+  --h-x:calc(100% - var(--hero-pad) - var(--meter) - 14px - var(--box)/2);
+  --h-veil:linear-gradient(90deg,#0b1033eb 0,#0b1033b8 44%,#0b103366 100%);
+  --h-card:#1a2052ee; --h-card-line:#ffffff24; --h-card-text:#f2f5ff; --h-card-muted:#b9c3e6; --h-card-hover:#ffffff12;
+  --h-seat:#39417f; --h-seat-yes:#ffd84a; --h-seat-no-a:#4a2746; --h-seat-no-b:#6e3a5e; --h-stat-yes:#ffd84a; --h-stat-wait:#b9d4ff; --h-stat-no:#ffc0b0;
+}
+html .wedding-workspace[data-occasion=birthday][data-style=espacio] {
+  & .occasion-hero {min-height:286px}
+  & .occasion-hero h1 {letter-spacing:-.02em}
+  & .panel-tasks strong {font-weight:500}
+  & .ledger-row {border-radius:var(--o-radius-card)}
+  & .occasion-object {bottom:6px;filter:none;transform-origin:50% 100%;animation-name:occasion-launch}
+  & .occasion-hero:hover .occasion-object {transform:translateY(-6px) rotate(1deg)}
+  &:not([data-tab=guests]) {--box:76px}
+  &:not([data-tab=guests]) .occasion-hero {min-height:0}
+  &:not([data-tab=guests]) .occasion-object {bottom:4px}
+}
+@keyframes occasion-launch {from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+
+@media(max-width:1280px) {
+  html .wedding-workspace[data-occasion=birthday]:is([data-style=bar],[data-style=xv],[data-style=espacio]) .occasion-object {right:22px;top:0;bottom:auto}
+  html .wedding-workspace[data-occasion=birthday][data-style=bar] {--box:210px;--h-veil:radial-gradient(190px 130px at calc(100% - 127px) 44px,#ffae4a4d,transparent 72%),linear-gradient(90deg,#140b05e6,#140b0599)}
+  html .wedding-workspace[data-occasion=birthday][data-style=xv] {--box:190px;--h-veil:linear-gradient(90deg,#0b0e2cf0,#0b0e2c99)}
+  html .wedding-workspace[data-occasion=birthday][data-style=espacio] {--box:100px;--h-veil:linear-gradient(90deg,#0b1033eb,#0b103388)}
+  html .wedding-workspace[data-occasion=birthday][data-style=espacio] .occasion-hero {min-height:0}
+  html .wedding-workspace[data-occasion=birthday][data-style=xv] .occasion-object {top:12px}
+  html .wedding-workspace[data-occasion=birthday][data-style=espacio] .occasion-object {top:10px}
+  html .wedding-workspace[data-occasion=birthday]:is([data-style=bar],[data-style=xv]):not([data-tab=guests]) {--box:150px}
+  html .wedding-workspace[data-occasion=birthday][data-style=espacio]:not([data-tab=guests]) {--box:70px}
+  html .wedding-workspace[data-occasion=birthday]:is([data-style=bar],[data-style=xv],[data-style=espacio]) .occasion-copy {padding-right:calc(var(--box) + 22px)}
+}
+@media(max-width:760px) {
+  html .wedding-workspace[data-occasion=birthday]:is([data-style=bar],[data-style=xv],[data-style=espacio]) .occasion-object {right:8px}
+  html .wedding-workspace[data-occasion=birthday][data-style=bar] {--box:142px;--h-veil:radial-gradient(130px 90px at calc(100% - 79px) 30px,#ffae4a4d,transparent 72%),linear-gradient(180deg,#140b05b3,#140b05e0 62%)}
+  html .wedding-workspace[data-occasion=birthday][data-style=xv] {--box:120px;--h-veil:linear-gradient(180deg,#0b0e2c99,#0b0e2ce0 62%)}
+  html .wedding-workspace[data-occasion=birthday][data-style=espacio] {--box:78px;--h-veil:linear-gradient(180deg,#0b103399,#0b1033e0 62%)}
+  html .wedding-workspace[data-occasion=birthday][data-style=bar] .occasion-copy {padding-right:136px}
+  html .wedding-workspace[data-occasion=birthday][data-style=xv] .occasion-copy {padding-right:132px}
+  html .wedding-workspace[data-occasion=birthday][data-style=espacio] .occasion-copy {padding-right:84px}
+  html .wedding-workspace[data-occasion=birthday][data-style=xv] .occasion-hero h1 {font-size:40px}
+  html .wedding-workspace[data-occasion=birthday]:is([data-style=bar],[data-style=xv]):not([data-tab=guests]) {--box:96px}
+  html .wedding-workspace[data-occasion=birthday][data-style=espacio]:not([data-tab=guests]) {--box:46px}
+  html .wedding-workspace[data-occasion=birthday]:is([data-style=bar],[data-style=xv],[data-style=espacio]):not([data-tab=guests]) .occasion-copy {padding-right:100px;min-height:0}
+  html .wedding-workspace[data-occasion=birthday][data-style=xv]:not([data-tab=guests]) .occasion-hero h1 {font-size:34px}
+}
+@media print {
+  html[data-theme=dark] .wedding-operations-dialog[data-occasion=birthday]:is([data-style=bar],[data-style=xv],[data-style=espacio]) {--o-surface:#fff;--o-hover:#f2f0f4;--o-text:#111;--o-muted:#555;--o-line:#ccc;--o-accent:#333;--o-wait:#777}
+}

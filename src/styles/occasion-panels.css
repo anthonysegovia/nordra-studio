@@ -120,6 +120,7 @@ html :is(.wedding-workspace,.wedding-operations-dialog):is([data-occasion=birthd
   & :is(.seating-plan-legend i,.seating-plan-grid li i).pending {background:var(--o-wait)}
   & .wedding-operations-dialog,&.wedding-operations-dialog {background:var(--o-surface);color:var(--o-text);font-family:var(--o-body)}
   & .seating-plan-title {border-color:var(--o-line)}
+  &.wedding-operations-dialog :is(select,input:not([type=checkbox],[type=radio]),textarea) {background:var(--o-surface);color:var(--o-text);border-color:var(--o-line);border-radius:var(--o-radius-s)}
   & header {border-color:var(--o-line)}
 
   /* Reception: scanner and head count side by side, then the list */

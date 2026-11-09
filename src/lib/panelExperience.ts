@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import type { WeddingInvitation } from './weddingInvitations';
 
 export const defaultPanelExperience = {
-  key: 'wedding', accent: '#67533e', paper: '#fffdf8', ink: '#43392f',
+  style: '', key: 'wedding', accent: '#67533e', paper: '#fffdf8', ink: '#43392f',
   sample: {path:'/panel-boda.html', date:['19 de junio de 2027','June 19, 2027'], iso:''},
   kinds: {individual:['Individual','Individual'], couple:['Pareja','Couple'], plusOne:['Con +1','With +1']} as Record<string,readonly [string,string]>,
   identity:{
