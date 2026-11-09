@@ -49,7 +49,7 @@ export function invitationMoney(cents: number) {
 
 export const invitationPlanFeatures = {
   aurora: [
-        "Diseño de catálogo personalizado", "Galería de recuerdos con hasta 30 fotos",
+        "Un diseño de nuestra colección, con tus datos", "Galería de recuerdos con hasta 30 fotos",
         "Cuenta propia y panel privado de invitados", "Enlaces personales para individuales, parejas y +1",
         "Confirmación por persona que se refleja automáticamente en tu panel", "Sin límite de invitados, incluidos acompañantes",
         "Búsqueda, filtros, pendientes y descarga de lista", "Copiar enlaces y compartir por WhatsApp",

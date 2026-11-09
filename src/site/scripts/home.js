@@ -1,3 +1,4 @@
+addEventListener('DOMContentLoaded',()=>{const track=document.querySelector('.signature-works-grid');if(track)window.NordraCarousel?.positions(track,document.documentElement.lang==='en'?'Work position':'Posición en los trabajos',card=>card.querySelector('h3').textContent);});
 /* Ambient light and a small reversible image movement; the heading never moves. */
 (()=>{
  const root=document.querySelector('.home-horizon');if(!root)return;

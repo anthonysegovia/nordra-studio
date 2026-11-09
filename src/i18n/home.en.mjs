@@ -1,6 +1,10 @@
 // Editorial copy for the shared home template. Keys are its complete Spanish
 // text nodes or accessible labels, never substrings inside URLs or scripts.
 export const homeCopy = {
+  "Te atiende directamente quien lo diseña.": "You work directly with the person who designs it.",
+  "Ver demo": "View demo",
+  "Abrir invitación": "Open invitation",
+  "Conceptos de Nordra": "Nordra concepts",
   "Elige tu camino": "Choose your path",
   "Ver todos los trabajos": "See all work",
   "Cuéntanos tu idea.": "Tell us your idea.",

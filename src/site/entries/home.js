@@ -5,6 +5,8 @@ import '../scripts/journey.js?entry=home';
 import '../scripts/scroll-motion.js?entry=home';
 import '../scripts/theme-transition.js?entry=home';
 import '../scripts/interface-icons.js?entry=home';
+import '../styles/carousel-positions.css';
+import '../scripts/carousel-positions.js?entry=home';
 import '../styles/mobile-chrome.css';
 import '../styles/language-switch.css';
 import '../scripts/mobile-chrome.js?entry=home';

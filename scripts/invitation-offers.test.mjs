@@ -19,7 +19,7 @@ test('plan cards, WhatsApp messages and the billing catalogue share every invita
  assert.ok(comparison.includes('href="/temporada">¿Una posada o una fiesta de fin de año? Diseños de temporada a '+invitationMoney(seasonalOffer.cents)));
  assert.ok(!page.includes('id="temporadas"'));
  for(const season of seasons)assert.equal(paymentCatalog.find(s=>s.id===season.catalogId)?.cents,seasonalOffer.cents,season.id);
- assert.ok(page.includes(`Desde ${invitationMoney(invitationOffers[0].cents)} MXN.`));
+ assert.ok(page.includes(`Desde ${invitationMoney(invitationOffers[0].cents)} MXN`));
  assert.ok(page.includes(encodeURIComponent(closingMessage)));
  assert.ok(!/negocio|llevar tu idea a la web/i.test(page.slice(page.indexOf('id="proceso-invitaciones"'),page.indexOf('<!-- commercial:footer -->'))));
 });

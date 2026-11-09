@@ -52,6 +52,7 @@ const copy = {
   "Ver panel de muestra ↗": "View sample dashboard ↗",
   "2 personas · Panel de invitados": "2 guests · Guest dashboard",
   "Pruébala aquí ↗": "Try it here ↗",
+  "Ábrela aquí ↗": "Open it here ↗",
   "Así se comparte": "How to share it",
   "Ábrela en tu teléfono": "Open it on your phone",
   "ASÍ LA RECIBEN POR WHATSAPP": "HOW IT ARRIVES ON WHATSAPP",

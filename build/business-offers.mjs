@@ -1,8 +1,8 @@
 import { businessOffers, businessHosting, businessMoney, businessPriceNote, businessWhatsApp } from '../src/data/businessOffers.ts';
 const esc = s => String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
 const groups = [
- { id:'landing', name:'Landing', goal:'Que me encuentren', points:['Diseño adaptable','WhatsApp y mapa','Redes sociales'] },
- { id:'business', name:'Sitio de Negocio', goal:'Mostrar mis servicios', points:['4 a 6 apartados','Galería y formulario','SEO básico'] },
+ { id:'landing', name:'Una página', goal:'Que me encuentren', points:['Se ve bien en celular','WhatsApp y mapa','Redes sociales'] },
+ { id:'business', name:'Sitio de Negocio', goal:'Mostrar mis servicios', points:['4 a 6 apartados','Galería y formulario','Aparece en Google'] },
  { id:'custom', name:'Proyectos a medida', goal:'Vender o agendar', points:['Catálogo','Integraciones','Formularios'] },
  { id:'immersive', name:'Experiencia inmersiva', goal:'Lanzar algo memorable', points:['Escena propia','Recorrido por capítulos','Versión para celular'] },
 ];

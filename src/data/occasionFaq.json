@@ -18,7 +18,7 @@
     },
     {
       "question": "¿Cómo se paga?",
-      "answerHtml": "Acordamos detalles y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar."
+      "answerHtml": "Acordamos detalles y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar. Al confirmar la cotización, les enviamos un enlace de Mercado Pago para pagar con tarjeta de crédito o débito."
     }
   ],
   "cumpleanos": [
@@ -76,7 +76,7 @@
     },
     {
       "question": "¿Incluye el mismo panel que Aurora o Boreal?",
-      "answerHtml": "La oferta de Temporada tiene su propio alcance. El panel, las mesas y los pases QR no se anuncian como incluidos en esta colección. Si los necesitas, consúltalos al cotizar."
+      "answerHtml": "No incluye panel, mesas ni pases QR. Si los necesitas, pregúntanos al cotizar."
     },
     {
       "question": "¿Cuánto tarda?",
@@ -84,7 +84,7 @@
     },
     {
       "question": "¿Cómo se paga?",
-      "answerHtml": "Acordamos alcance y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar."
+      "answerHtml": "Acordamos detalles y fechas. Iniciamos con 50% de anticipo; el resto, al aprobar y antes de publicar. Al confirmar la cotización, te enviamos un enlace de Mercado Pago para pagar con tarjeta de crédito o débito."
     }
   ]
 }

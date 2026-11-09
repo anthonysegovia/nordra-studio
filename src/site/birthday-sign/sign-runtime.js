@@ -38,13 +38,9 @@ const css = v => getComputedStyle(body).getPropertyValue(v).trim();
 const still = () => reduce || body.dataset.journeyMotion === 'paused';
 let visible = true, disposed = false, initialized = false;
 let on = false, run = 0, tubes = [], bulbs = [], chevs = [...arrow.querySelectorAll('path')];
-let userSet = false, sampleIx = 0, current = { name: 'Camila', age: '30' };
-const SAMPLES = [
-  { name: 'Camila', age: '30', tube: 'rosa', style: 'cursiva' },
-  { name: 'Andrés', age: '40', tube: 'ambar', style: 'bloque' },
-  { name: 'Ximena', age: 'XV', tube: 'violeta', style: 'cursiva' },
-  { name: 'Iker', age: '6', tube: 'cielo', style: 'retro' }
-];
+let userSet = false, current = { name: 'Camila', age: '30' };
+// Every style has its own person: an XV gala is never Andrés, 40.
+const WORLD_PEOPLE = { neon: ['Camila', '30'], caja: ['Camila', '30'], bar: ['Andrés', '40'], xv: ['Ximena', 'XV'], espacio: ['Iker', '6'] };
 const COLOR = { rosa: 'rosa', ambar: 'ámbar', menta: 'menta', violeta: 'violeta', cielo: 'cielo' };
 
 /* ---------- 1 · nombre, edad y estilo ---------- */
@@ -244,16 +240,7 @@ sw.addEventListener('click', () => { click(); if (navigator.vibrate) navigator.v
 
 /* rotación de festejados mientras nadie escribe su nombre */
 let rotTimer;
-function scheduleRotation(id){
-  clearTimeout(rotTimer);
-  if (userSet || still() || disposed || !visible || document.hidden || id!==run) return;
-  rotTimer = setTimeout(() => {
-    if (id !== run || userSet || !on || !visible || document.hidden || body.dataset.journeyMotion === 'paused' || party || zone.classList.contains('is-wrapped') || zone.classList.contains('door-in')) return scheduleRotation(id);
-    if (zone.contains(document.activeElement) && document.activeElement.tagName === 'INPUT') return scheduleRotation(id);
-    sampleIx = (sampleIx + 1) % SAMPLES.length; const s = SAMPLES[sampleIx];
-    swap(s.name, s.age, world() === 'neon' ? s.tube : null, world() === 'neon' ? s.style : null);
-  }, 5200);
-}
+function scheduleRotation(){ clearTimeout(rotTimer); }
 function stopRotation(){ userSet = true; clearTimeout(rotTimer); }
 
 /* parpadeo ocasional */
@@ -270,7 +257,7 @@ function stopRotation(){ userSet = true; clearTimeout(rotTimer); }
 /* ---------- formulario, estilo y color ---------- */
 const ask = $('ask');
 function updateAsk(){
- ask.href = whatsappURL({ ...current, style:world(), color:body.dataset.tube, lettering:plate.dataset.style, lang, origin:ask.dataset.whatsappOrigin });
+ ask.href = whatsappURL({ style:world(), lang, origin:ask.dataset.whatsappOrigin });
  sampleUI?.sync();
  const bar=document.querySelector('.mobile-route a[href*="wa.me"]');
  if(bar&&(chosen||userSet)){bar.href=ask.href;bar.classList.add('ready');const label=text('Quiero la mía así');if(bar.textContent!==label){bar.textContent=label;if(!still())bar.animate([{opacity:.3,transform:'translateY(4px)'},{opacity:1,transform:'none'}],{duration:220});}}
@@ -674,7 +661,7 @@ function applyWorld(w){
   body.dataset.world = w; rememberStyle(w);
   stopParty(); syncWorldUI(); worldCopy();
   ++run; sparks = []; smokeP = []; shoot = []; zone.classList.remove('is-wrapped', 'is-unwrapping', 'door-in');
-  build(current.name, current.age);
+  build(...(WORLD_PEOPLE[w] || WORLD_PEOPLE.neon));
   buildGarland(); paintBase(); seedMotes(); fit();
   if (on) { bulbs.forEach(b => b.classList.add('on')); tubes.forEach(t => t.classList.add('on')); }
   setLit(); status.textContent = format(copy.styleNotice,{style:WORLDS[w].label}); updateAsk();
@@ -741,7 +728,7 @@ $('world-chips').querySelectorAll('button').forEach(b=>b.addEventListener('click
 }));
 sampleUI=mountSample({root,world,text,ask,still});
 cardUI=mountCards({root,world,goWorld,chosen:markChosen,labels:WORLDS,text,mobile,still});
-await idleTask(()=>build('Camila','30'));
+await idleTask(()=>build(...(WORLD_PEOPLE[world()] || WORLD_PEOPLE.neon)));
 await idleTask(buildGarland);
 await paintBase();
 await idleTask(layout);initialized=true;seedMotes();handoff();updateAsk();

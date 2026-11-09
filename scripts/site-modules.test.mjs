@@ -121,6 +121,7 @@ const pages = {
       "nordra-materials",
       "nordra-theatre",
       "interface-icons",
+      "carousel-positions",
       "mobile-chrome",
       "language-switch",
       "page-navigation"
@@ -130,7 +131,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "seasonal-page", "mobile-chrome","language-switch", "simple"],
+    "entryStyles": ["phone-frame", "showcase-live", "seasonal-page", "carousel-positions", "mobile-chrome","language-switch", "simple"],
     "inline": 5
   },
   "invitaciones": {
@@ -164,6 +165,7 @@ const pages = {
       "scroll-motion",
       "theme-transition",
       "interface-icons",
+      "carousel-positions",
       "mobile-chrome",
       "language-switch",
       "home",
@@ -177,7 +179,7 @@ const pages = {
       "contact"
     ],
     "inline": 4,
-    "entryStyles": ["phone-frame", "mobile-chrome","language-switch", "simple"]
+    "entryStyles": ["phone-frame", "carousel-positions", "mobile-chrome","language-switch", "simple"]
   },
   "estudio": {
     "entry": "estudio",

@@ -10,7 +10,7 @@ test('published static prices, quote links and billing catalogue share every pac
  for(const offer of businessOffers){const entry=paymentCatalog.find(s=>s.id===offer.id);assert.equal(entry.cents,offer.cents);assert.equal(entry.label,offer.name);const a=html.match(new RegExp(`<a[^>]*data-offer="${offer.id}"[^>]*>[\\s\\S]*?<\\/a>`))?.[0];assert.ok(a,offer.id);assert.ok(html.includes('<p class="offer-price"><small>desde</small> '+businessMoney(offer.cents)+'</p>'));assert.ok(a.includes(`data-offer-price="${entry.cents}"`));const url=new URL(a.match(/href="([^"]+)"/)[1].replaceAll('&amp;','&'));assert.equal(url.hostname,'wa.me');assert.equal(url.pathname,'/528129022231');assert.ok(url.searchParams.get('text').includes(`${offer.name} (desde ${businessMoney(entry.cents)}`));assert.ok(url.searchParams.get('text').includes('Mi negocio es…'));assert.ok(!a.includes(businessMoney(offer.maxCents))||offer.cents===offer.maxCents);}
  for(const host of businessHosting)for(const term of host.terms){const id=`hosting-${host.id}-${term.id}`,entry=paymentCatalog.find(s=>s.id===id);assert.equal(entry.cents,term.cents);const span=html.match(new RegExp(`<span data-hosting="${id}">([\\s\\S]*?)<\\/span>`))?.[1];assert.ok(span?.includes(businessMoney(entry.cents)),id);}
  assert.ok(html.includes('Precios desde, en MXN con IVA incluido. Confirmamos alcance y precio final en tu cotización.'));
- assert.ok(html.includes(`Desde ${businessMoney(businessOffers[0].cents)} MXN.`));
+ assert.ok(html.includes(`Desde ${businessMoney(businessOffers[0].cents)} MXN`));
  assert.equal(new Set(paymentCatalog.map(s=>s.id)).size,paymentCatalog.length);
 });
 test('generated panels expose one initial price per group and all six quotes with their own details',()=>{

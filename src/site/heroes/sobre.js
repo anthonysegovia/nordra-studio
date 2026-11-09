@@ -172,7 +172,7 @@ setTheme(document.body.classList.contains('dark'));
 addEventListener('nordra-theme',()=>{setTheme(document.body.classList.contains('dark'));draw();});
 
 function size(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
- root.scale.setScalar(isNarrow?Math.min(1.12,w/348):1.22);root.position.set(0,isNarrow?-.1:-.56,0);draw();}
+ root.scale.setScalar(isNarrow?Math.min(1.12,w/348):1.5);root.position.set(0,isNarrow?-.1:-.72,0);draw();}
 addEventListener('resize',size);
 
 // Confirmaciones: iniciales que llegan desde los bordes al teléfono
@@ -253,7 +253,7 @@ let warmed=false;
 function draw(){if(!warmed)return;frame(advance());renderer.render(scene,camera);}
 let raf=0,offscreen=false;function loop(){cancelAnimationFrame(raf);draw();if(!clock.paused&&!still&&!offscreen)raf=requestAnimationFrame(loop);}
 // Visitas repetidas: la tarjeta ya viene saliendo del sobre
-const skipTo=()=>repeat&&!still?(OCC[occ].ribbon?.45:0)+.6+.9:0;
+const skipTo=()=>(repeat||isNarrow)&&!still?(OCC[occ].ribbon?.45:0)+.6+.9:0;
 function start(from=0){reset();wakeAt=0;rushShift=0;rushing=false;hero.classList.add('go');stage.classList.add('ready');clock.start(from);hero.classList.remove('hero-paused');cancelAnimationFrame(raf);if(still){events.slice(0,2).forEach(e=>{e.done=true;e.fn();});setTimeout(draw,1200);}loop();}
 
 // Clic en el teléfono: abre la invitación

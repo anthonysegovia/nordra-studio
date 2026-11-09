@@ -55,7 +55,7 @@ export function renderHomeClientHighlights(html, cases = clientCases) {
 export function renderClientCases(cases = clientCases) {
   validateClientCases(cases);
   if (!cases.length) return '';
-  return `<section class="home-continuation client-cases" id="clientes-reales" aria-labelledby="client-cases-title"><div class="client-cases-intro"><h2 id="client-cases-title">Clientes reales</h2></div><div class="client-case-grid">${cases.map(item => {
+  return `<section class="home-continuation client-cases" id="clientes-reales" aria-labelledby="client-cases-title"><div class="client-cases-intro"><h2 id="client-cases-title">Lo que dicen nuestros clientes</h2></div><div class="client-case-grid">${cases.map(item => {
     const first = [...new Intl.Segmenter('es', {granularity:'sentence'}).segment(item.opinion.text)][0]?.segment.trim();
     const opinion = first ? `<div class="client-case-opinion">${renderRating(item)}<blockquote class="client-highlight-quote"><p>${esc(first)}</p></blockquote><details class="client-opinion-full"><summary>Leer opinión completa <span aria-hidden="true">+</span></summary><blockquote><p>${esc(item.opinion.text)}</p><footer>${esc(item.displayName)}</footer></blockquote></details></div>` : '';
     return `<article class="client-case" aria-labelledby="client-${item.id}">${opinion}<p class="client-case-by"><strong id="client-${item.id}">${esc(item.displayName)}</strong> <span aria-hidden="true">·</span> <span>${esc(item.occasion)}</span></p><a class="options-compare" href="${esc(item.invitationUrl)}" target="_blank" rel="noopener">Ver la invitación <span aria-hidden="true">↗</span></a></article>`;

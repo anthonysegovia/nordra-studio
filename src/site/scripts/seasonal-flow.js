@@ -1,3 +1,4 @@
+addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.seasonal-demo-grid').forEach(track=>window.NordraCarousel?.positions(track,document.documentElement.lang==='en'?'Design position':'Posición en los diseños',card=>card.querySelector('h3').textContent));});
 // The ambient field and the CSS palette follow the collection, even while motion is paused.
 (()=>{
  const host=document.querySelector('[data-view="temporada"]:not([hidden])');

@@ -12,6 +12,7 @@ const colors={es:{rosa:'rosa',ambar:'ámbar',menta:'menta',violeta:'violeta',cie
 const letters={es:{cursiva:'cursiva',bloque:'bloque',retro:'retro',motel:'motel'},en:{cursiva:'script',bloque:'block',retro:'retro',motel:'motel'}};
 export function whatsappMessage({name,age,style='neon',color='rosa',lettering='cursiva',lang='es'}){
  const en=lang.startsWith('en'),l=en?'en':'es',w=STYLES.includes(style)?style:'neon',person=[sanitizeName(name),sanitizeAge(age)].filter(Boolean).join(' ');
+ if(!person)return en?`Hi, Nordra. I'd like a birthday invitation in the ${styleLabels[l][w]} style.`:`Hola, Nordra. Quiero una invitación de cumpleaños estilo ${styleLabels[l][w]}.`;
  return en?`Hi, Nordra. I'd like an invitation with my name in lights: ${person}, in ${colors[l][color]||colors[l].rosa} with ${letters[l][lettering]||letters[l].cursiva} lettering, ${styleLabels[l][w]} style.`:`Hola, Nordra. Quiero una invitación con mi nombre en luces: ${person}, en ${colors[l][color]||colors[l].rosa} y letra ${letters[l][lettering]||letters[l].cursiva}, estilo ${styleLabels[l][w]}.`;
 }
 export function whatsappURL(options){return 'https://wa.me/528129022231?text='+encodeURIComponent(whatsappMessage(options)+(options.origin?'\n\n'+options.origin:''));}
