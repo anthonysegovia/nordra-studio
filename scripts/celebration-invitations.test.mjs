@@ -39,8 +39,8 @@ test('Invitaciones keeps the legacy destinations and the four real screens in re
    for(const id of ids)assert.ok(contents.includes('id="'+id+'"'),id);
  }
  const journey=html.split('id="asi-lo-viven"')[1].split('</section>')[0];
- assert.equal((journey.match(/class="journey-card"/g)||[]).length,4);
- for(const name of ['inv-guest-cover','inv-guest-open','inv-guest-rsvp','dashboard-v3-es'])assert.ok(journey.includes(name));
+ assert.equal((journey.match(/class="journey-card[ "]/g)||[]).length,4);
+ for(const name of ['inv-guest-cover','inv-guest-open','inv-guest-rsvp','dashboard-v4-es'])assert.ok(journey.includes(name));
  assert.ok(journey.includes('href="/panel-boda.html"'));
  for(const forPage of ['/bodas','/cumpleanos','/eventos','/temporada'])assert.ok(html.split('id="tipos-invitacion"')[1].split('</section>')[0].includes('href="'+forPage+'"'));
 });

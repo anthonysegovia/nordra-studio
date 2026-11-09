@@ -255,8 +255,6 @@ body[data-scene] .occasion-page .occasion-path{display:none}
 .scene .season-bridge{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;border:1px solid var(--line);transition:border-color .2s,transform .2s}
 .scene .season-bridge:hover,.scene .season-bridge:focus-visible{border-color:var(--accent)}
 .scene .season-bridge:active{transform:scale(.99)}
-.scene .journey-shot{padding:0;overflow:hidden}
-.scene .journey-shot img{width:100%;height:100%;object-fit:cover}
 .scene .inv-actions a{white-space:nowrap}
 .scene .client-case{padding:0;border:0;background:none}
 .scene .invite-journey{margin-top:0}
@@ -378,13 +376,6 @@ body[data-birthday-sign] .birthday-sign-root :is(.lead,.lead-m){color:var(--ink)
 @media(min-width:701px){.scene .seasonal-demo-grid{grid-template-columns:repeat(2,minmax(0,380px));justify-content:start;gap:32px}}
 @media(min-width:901px){html body[data-birthday-sign] .birthday-sign-root #bs-titulo{white-space:nowrap;font-size:clamp(46px,5vw,72px)!important}}
 
-/* «Cómo funciona»: each step shows the part of the screen its caption talks about. */
-html body .scene .journey-shot{height:auto;aspect-ratio:5/6;place-items:stretch}
-html body .scene .journey-card:nth-child(1) .journey-shot img{object-position:50% 45%}
-html body .scene .journey-card:nth-child(2) .journey-shot img{object-position:50% 83%}
-html body .scene .journey-card:nth-child(3) .journey-shot img{object-position:50% 100%}
-html body .scene .journey-card:nth-child(4) .journey-shot img{object-position:55% 0}
-html body .scene .journey-shot.journey-dashboard img,html body .scene .journey-card .journey-shot img{height:100%;min-height:100%;width:100%;max-width:none;object-fit:cover}
 /* Work cards keep the whole 16:9 artwork, so no headline is cut. */
 html body [data-view="estudio"] .studio-work .studio-work-image{position:relative;inset:auto;aspect-ratio:16/9;height:auto;border-radius:var(--radius-card)}
 html body [data-view="estudio"] .studio-work .studio-work-image img{object-position:50% 30%}
@@ -392,5 +383,29 @@ html body [data-view="estudio"] .studio-work[data-studio-active] .studio-work-ca
 .signature-note{float:right;margin-top:36px}
 @media(max-width:700px){.signature-note{float:none;margin-top:12px}}
 .occasion-stage:has(.wedding-stage[data-step=panel]) .wedding-credit{visibility:hidden}
-html body .scene .journey-shot{display:block;position:relative}
-html body .scene .journey-card .journey-shot img{position:absolute;inset:0}
+
+
+/* «Cómo funciona»: complete screens along one route, never cropped. */
+.journey-route{position:relative;margin-top:24px}
+.journey-line{display:none}
+html body .scene .journey-stack{display:grid;grid-template-columns:repeat(3,auto) minmax(0,1fr);gap:clamp(32px,4vw,56px);align-items:start;margin:0;padding:0;overflow:visible}
+html body .scene .journey-card{position:relative;flex:none;min-width:0}
+.journey-phone{--w:clamp(150px,14.6vw,210px);display:block;width:var(--w);aspect-ratio:390/844;padding:calc(var(--w)*.03);border-radius:calc(var(--w)*.14);background:#17242f;box-shadow:0 0 0 1px var(--line),0 30px 50px -28px #000a}
+.journey-phone img{display:block;width:100%;height:100%;border-radius:calc(var(--w)*.11);object-fit:cover;object-position:top}
+.journey-panel{display:block;overflow:hidden;border-radius:12px;box-shadow:0 0 0 1px var(--line),0 30px 50px -28px #000a}
+.journey-panel img{display:block;width:100%;height:auto}
+.journey-title{display:block;margin-top:16px;font-family:Sora,Manrope,sans-serif;font-size:18px;font-weight:600;line-height:1.3;letter-spacing:-.02em}
+@media(min-width:901px){
+ .journey-line{display:block;position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+ .journey-line path{stroke:var(--accent);stroke-opacity:.34;stroke-width:1.5;stroke-dasharray:3 8}
+ html body .scene .journey-card:nth-child(2){margin-top:44px}
+ html body .scene .journey-card:nth-child(4){margin-top:96px}
+}
+@media(max-width:900px){
+ html body .scene .journey-stack{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:4px;padding:4px;scrollbar-width:none}
+ html body .scene .journey-stack::-webkit-scrollbar{display:none}
+ html body .scene .journey-card{flex:0 0 auto;scroll-snap-align:start}
+ html body .scene .journey-card-panel{flex:0 0 min(300px,82vw)}
+ .journey-phone{--w:230px}
+}
+@media(prefers-reduced-motion:no-preference){.journey-phone,.journey-panel{transition:transform .35s cubic-bezier(.2,.8,.2,1)}.journey-card:hover :is(.journey-phone,.journey-panel){transform:translateY(-4px)}}
