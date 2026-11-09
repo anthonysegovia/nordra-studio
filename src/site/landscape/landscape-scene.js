@@ -416,6 +416,15 @@ function profile() {
   return { name: 'desktop', dpr: 2, pixels: 4200000, fps: 60, reflection: 0.5, bandSegments: 320 };
 }
 
+// Page heroes reuse the home camera solve with their own framing: the massif
+// clears the copy and the low sun stays out of it. Home has no composition.
+function pageView(side, width) {
+  if (width <= 700) return { zoom: 1.195, shift: 0, summit: 0.6408, share: 0.62, sunX: -0.66, sunY: 0.24 };
+  if (width < 1000) return { zoom: 1, shift: 0, summit: 0.76, share: 0.56, sunX: -0.74, sunY: 0.2 };
+  return { zoom: 1, shift: { right: 0.134, left: -0.134, center: 0 }[side] ?? 0, summit: side === 'center' ? 0.655 : 0.6213, share: 0.445,
+    sunX: { right: 0.86, left: -0.86, center: -0.66 }[side] ?? -0.66, sunY: 0.235 };
+}
+
 const ease = t => (t <= 0 ? 0 : t >= 1 ? 1 : t * t * t * (t * (t * 6 - 15) + 10));
 const phase = (elapsed, [from, to]) => ease((elapsed - from) / (to - from));
 
@@ -600,6 +609,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   renderer.debug.onShaderError = () => { shaderFailed = true; };
   dark.value = targetDark;
   // Frame the mountain: width as a share of the viewport, summit just below the buttons.
+  const copyAnchor = () => stage.parentElement.querySelector('.horizon-actions') || stage.parentElement.querySelector('.horizon-title');
   function frame() {
     const rect = stage.getBoundingClientRect();
     width = Math.max(1, rect.width); height = Math.max(1, rect.height);
@@ -612,17 +622,19 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     camera.aspect = width / height;
     const mobile = width <= 700;
     camera.fov = mobile ? 46 : 34;
-    camera.updateProjectionMatrix();
+    camera.clearViewOffset();
+    const composition = stage.dataset?.composition;
+    const view = composition ? pageView(composition, width) : null;
     // Star size is set in device pixels, so stars stay crisp and round at any resolution.
-    sky.material.uniforms.pixelAngle.value = (camera.fov * Math.PI / 180) / (height * ratio);
+    sky.material.uniforms.pixelAngle.value = (camera.fov * Math.PI / 180) / (height * ratio * (view?.zoom ?? 1));
     if (water.getRenderTarget) {
       const size = Math.max(256, Math.round(Math.max(width, height) * ratio * quality.reflection));
       water.getRenderTarget().setSize(size, Math.round(size * height / width));
     }
-    const buttons = stage.parentElement.querySelector('.horizon-actions').getBoundingClientRect();
-    const summitTop = (buttons.bottom - rect.top + 56) / height; // 0 = top
+    const buttons = copyAnchor().getBoundingClientRect();
+    const summitTop = view?.summit ?? (buttons.bottom - rect.top + 56) / height; // 0 = top
     // Smaller share and a higher eye leave a real lake to touch below the mountain.
-    const share = mobile ? 0.95 : 0.48;
+    const share = view?.share ?? (mobile ? 0.95 : 0.48);
     const leftEdge = new Vector3(-MOUNTAIN.width / 2, 0, MOUNTAIN.z), rightEdge = new Vector3(MOUNTAIN.width / 2, 0, MOUNTAIN.z);
     let distance = 60, lift = 9;
     for (let i = 0; i < 8; i++) {
@@ -656,6 +668,10 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
         }
       }
     }
+    if (view) {
+      const fullWidth = width * view.zoom;
+      camera.setViewOffset(fullWidth, height * view.zoom, (fullWidth - width) / 2 - view.shift * width, 0, width, height);
+    }
     // A very short first fold needs a much more distant eye. Keep the sky dome
     // inside the far plane and the water underneath that eye, including on resize.
     const far = Math.max(1200, rest.position.length() + 950);
@@ -665,7 +681,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     // The low arctic sun sits upper left of the mountain, so its halo and sun dog frame the summit.
     const horizon = new Vector3(0, 0, -800).project(camera).y;
     const skyDirection = (x, y) => { raycaster.setFromCamera(new Vector2(x, y), camera); return raycaster.ray.direction.clone().normalize(); };
-    sun.value.copy(skyDirection(mobile ? -0.56 : -0.66, horizon + (mobile ? 0.175 : 0.235)));
+    sun.value.copy(skyDirection(view?.sunX ?? (mobile ? -0.56 : -0.66), horizon + (view?.sunY ?? (mobile ? 0.175 : 0.235))));
     if (water.getRenderTarget) water.material.uniforms.horizonUV.value = 0.5 + horizon * 0.5;
     // The night curtains still use the lower edge of the copy as their elevation reference.
     const copyBottom = 1 - 2 * (buttons.bottom - rect.top) / height;
@@ -850,7 +866,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
   resize.observe(stage);
   // Font swaps can move the buttons without changing the hero's outer dimensions.
   resize.observe(stage.parentElement.querySelector('.horizon-title'));
-  resize.observe(stage.parentElement.querySelector('.horizon-actions'));
+  resize.observe(copyAnchor());
   addEventListener('pointermove', onPointerMove, { passive: true });
   document.addEventListener('pointerleave', onPointerLeave);
   addEventListener('pointerdown', onPointerDown, { passive: true });

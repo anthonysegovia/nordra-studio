@@ -32,7 +32,7 @@ test('sample does not send requests or persist responses',()=>{
 test('Invitaciones keeps the legacy destinations and the four real screens in reading order', async()=>{
  const {renderInvitationPage}=await import('../build/invitation-offers.mjs');
  const html=renderInvitationPage(read('invitaciones.html'));
- const order=['tipos-invitacion','planes-invitaciones','asi-lo-viven','clientes-reales','invitaciones-preguntas','proceso-invitaciones','contacto-invitaciones'];
+ const order=['tipos-invitacion','asi-lo-viven','planes-invitaciones','clientes-reales','invitaciones-preguntas','proceso-invitaciones','contacto-invitaciones'];
  const positions=order.map(id=>html.indexOf('id="'+id+'"'));assert.ok(positions.every(n=>n>=0));assert.deepEqual(positions,[...positions].sort((a,b)=>a-b));
  for(const [section,ids] of [['asi-lo-viven',['panel-invitados','event-experience']],['planes-invitaciones',['planes-eventos']]]){
    const contents=html.split('id="'+section+'"')[1].split('</section>')[0];

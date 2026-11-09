@@ -47,4 +47,5 @@ Preferencias explícitas del usuario, aplicables a cambios futuros:
 
 - En la muestra de Cumpleaños el visitante solo elige estilo: se retiró la opción de escribir nombre y edad, tipografías, colores e interruptores (decisión del usuario del 08/11/2026: «entre menos opciones le demos al usuario mejor»). No agregar personalización del visitante en las muestras de Bodas, Cumpleaños ni Eventos.
 - En Cumpleaños, cada estilo tiene su propia persona de ejemplo y el letrero no rota nombres: Neón y Caja de regalo, Camila 30; Bar clandestino, Andrés 40; Gala de XV, Ximena XV; Misión espacial, Iker 6.
-- En teléfono, los heroes van sin aurora: fondo limpio (decisión del usuario del 08/11/2026).
+- En teléfono, las auroras fijas de fondo no se usan: los heroes van limpios (decisión del usuario del 08/11/2026). La excepción es el paisaje real de Inicio, que también usan Negocios, Invitaciones y El estudio.
+- Negocios, Invitaciones y El estudio comparten el paisaje de Inicio (noche con aurora, día sin ella). El texto va en la franja libre entre la aurora y la montaña, sin tapar ninguna; el sol nunca queda detrás del texto. Si cambia el encuadre en `pageView`, regenerar sus imágenes con `scripts/capture-landscape-posters.mjs --page`.

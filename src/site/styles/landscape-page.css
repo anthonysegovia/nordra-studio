@@ -1,0 +1,54 @@
+/* Negocios, Invitaciones and El estudio share the home landscape. The copy lives
+   in the clear band between the aurora and the massif, in both themes. */
+@import "./landscape.css";
+.page-landscape{--hero-ink:#10293a;--hero-muted:#35505f;--hero-accent:#22616f;--hero-button:#14293a;--hero-button-ink:#fff;--hero-button-hover:#24485d;--copy-top:39.75%;position:relative;isolation:isolate;overflow:hidden;min-height:max(calc(100svh - 94px),620px);color:var(--hero-ink);font-family:Manrope,system-ui,sans-serif}
+.dark .page-landscape{--hero-ink:#f1f5fc;--hero-muted:#c3d3df;--hero-accent:#8ad8ea;--hero-button:#a9dcef;--hero-button-ink:#0b1b28;--hero-button-hover:#d7edf7}
+body .scene.has-3d-hero{padding-top:0}
+body .has-3d-hero>.page-landscape{width:calc(100% + 128px);margin-left:-64px;margin-right:-64px}
+.page-landscape .landscape-poster{position:absolute;inset:0;z-index:-2;overflow:hidden;background:#a9c8ec;pointer-events:none}
+.dark .page-landscape .landscape-poster{background:#05121e}
+.page-landscape .landscape-poster picture{position:absolute;inset:0;display:block}
+.page-landscape .landscape-poster img{display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 100%}
+.page-landscape .horizon-landscape::after,.page-landscape .landscape-poster::after{display:none}
+.page-landscape-copy{position:absolute;top:var(--copy-top);left:clamp(32px,4.45vw,64px);right:clamp(32px,4.45vw,64px);z-index:2;animation:page-landscape-in .8s cubic-bezier(.2,.8,.2,1) both}
+.page-landscape-left .page-landscape-copy{text-align:right}
+.page-landscape-center .page-landscape-copy{text-align:center}
+.page-landscape .eyebrow{margin:0 0 14px;font-size:13px;letter-spacing:.16em;color:var(--hero-muted)}
+.scene .page-landscape h1{margin:0;max-width:none;font:600 clamp(52px,5.2vw,76px)/1.06 Sora,Manrope,sans-serif;letter-spacing:-.05em;color:var(--hero-ink);text-shadow:none}
+.scene .page-landscape h1 span{color:var(--hero-accent)}
+.page-landscape-right h1 span,.page-landscape-left h1 span{display:block}
+.page-landscape .lead{margin:16px 0 0;font-size:18px;line-height:1.5;color:var(--hero-muted)}
+.page-landscape .price{margin:6px 0 0;font-size:15px;line-height:1.5;color:var(--hero-muted)}
+.page-landscape .horizon-actions{margin-top:24px}
+.page-landscape .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:var(--button-height,52px);padding:0 26px;border-radius:999px;background:var(--hero-button);color:var(--hero-button-ink);font-size:15px;font-weight:600;transition:background-color .25s ease,transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease}
+.page-landscape .cta span{display:inline-block;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.page-landscape .cta:hover{background:var(--hero-button-hover);transform:translateY(-2px);box-shadow:0 10px 24px #06182a33;opacity:1}
+.page-landscape .cta:hover span{transform:translate(2px,-2px)}
+.page-landscape .cta[href^="#"]:hover span{transform:translateY(3px)}
+.page-landscape .cta:active{transform:scale(.97)}
+.page-landscape .cta:focus-visible{outline:3px solid #6379df;outline-offset:4px;animation:page-landscape-focus .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes page-landscape-in{from{opacity:0;transform:translateY(14px)}}
+@keyframes page-landscape-focus{from{outline-offset:12px;outline-color:transparent}}
+@media(max-width:999px){
+ .page-landscape{--copy-top:43%;min-height:max(calc(100svh - 94px),860px)}
+ .page-landscape-copy,.page-landscape-left .page-landscape-copy{text-align:center}
+ .page-landscape .landscape-poster img{object-position:50% 0}
+ body .has-3d-hero>.page-landscape{width:calc(100% + 80px);margin-left:-40px;margin-right:-40px}
+ .page-landscape h1 span{display:block}
+}
+@media(max-width:700px){
+ .page-landscape{--copy-top:41.5%;min-height:max(calc(100svh - 68px),760px)}
+ body .has-3d-hero>.page-landscape{width:calc(100% + 44px);margin-left:-22px;margin-right:-22px}
+ .page-landscape-copy{left:22px;right:22px}
+ .page-landscape .eyebrow{display:none}
+ .scene .page-landscape h1{font-size:clamp(34px,10.2vw,40px)}
+ .page-landscape .lead{margin-top:10px;font-size:16px}
+ .page-landscape .horizon-actions{margin-top:14px}
+ .page-landscape .cta{display:flex}
+}
+@media(prefers-reduced-motion:reduce){.page-landscape-copy{animation:none}.page-landscape .cta,.page-landscape .cta span{transition:none}.page-landscape .cta:focus-visible{animation:none}}
+body[data-journey-motion=paused] .page-landscape-copy{animation:none}
+html body .scene.studio-page .studio-heading{padding-top:clamp(40px,5vw,64px)}
+html body .scene.studio-page .studio-heading-copy{margin:0 auto;max-width:none}
+html body .scene.studio-page .studio-values{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 32px;margin:0;text-align:center}
+html body .scene.studio-page .studio-values span::before,html body .scene.studio-page .studio-values span::after{display:none}

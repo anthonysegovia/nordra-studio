@@ -10,6 +10,7 @@ import { occasionContentPlugin } from './build/occasion-content.mjs';
 import { businessContentPlugin } from "./build/business-content.mjs";
 import { businessOffersPlugin } from "./build/business-offers.mjs";
 import { mobileWhatsApp } from "./build/mobile-whatsapp.mjs";
+import { landscapeHero } from "./build/landscape-hero.mjs";
 import { invitationOffersPlugin } from "./build/invitation-offers.mjs";
 import { renderHomeClientHighlights } from "./build/client-cases.mjs";
 import { seasonalPagePlugin } from "./build/seasonal-page.mjs";
@@ -30,7 +31,7 @@ export default defineConfig({
     {name:'number-invitation',transformIndexHtml:{order:'pre',handler:html=>renderInvitation(html)}},
     loadLocaleTemplate(), commercialLocales(),
     { name: "nordra-home-client-highlights", transformIndexHtml: { order: "pre", handler: html => renderHomeClientHighlights(html) } },
-    performanceImages(), occasionContentPlugin(), seasonalPagePlugin(), businessContentPlugin(), businessOffersPlugin(), invitationOffersPlugin(), {name:"mobile-whatsapp",transformIndexHtml:{order:"pre",handler:html=>mobileWhatsApp(html)}}, translatedPageOutput(), commercialFooter(), commercialPreview(), siteScripts(), siteStyles(), whatsappOriginPlugin(), react(), tailwindcss()
+    performanceImages(), occasionContentPlugin(), seasonalPagePlugin(), businessContentPlugin(), businessOffersPlugin(), invitationOffersPlugin(), {name:"landscape-hero",transformIndexHtml:{order:"pre",handler:landscapeHero}},{name:"mobile-whatsapp",transformIndexHtml:{order:"pre",handler:html=>mobileWhatsApp(html)}}, translatedPageOutput(), commercialFooter(), commercialPreview(), siteScripts(), siteStyles(), whatsappOriginPlugin(), react(), tailwindcss()
   ],
 });
 

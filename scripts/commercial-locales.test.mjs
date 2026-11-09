@@ -8,6 +8,7 @@ import {renderInvitationPage} from '../build/invitation-offers.mjs';
 import {renderOccasionPage} from '../build/occasion-content.mjs';
 import {renderSeasonalPage} from '../build/seasonal-page.mjs';
 import {mobileWhatsApp} from '../build/mobile-whatsapp.mjs';
+import {landscapeHero} from '../build/landscape-hero.mjs';
 import {buttonIds} from '../src/site/analytics/policy.js';
 import {businessOffers,businessMoney} from '../src/data/businessOffers.ts';
 import {invitationOffers,invitationMoney} from '../src/data/invitationPricing.ts';
@@ -17,7 +18,7 @@ const origin='https://nordrastudio.mx';
 for(const page of translatedPages){
  test(`${page}: equivalent routes, anchors, prices and English contact links`,()=>{
    const file=(page==='aviso-de-privacidad'?'public/':'')+page+'.html';
-   const source=[renderOccasionPage,renderSeasonalPage,renderBusinessContent,renderBusinessOffers,renderInvitationPage,mobileWhatsApp]
+   const source=[renderOccasionPage,renderSeasonalPage,renderBusinessContent,renderBusinessOffers,renderInvitationPage,mobileWhatsApp,landscapeHero]
      .reduce((html,fn)=>fn(html),readFileSync(file,'utf8'));
    const en=render(source,{path:'/en/'+page+'.html'}),es=render(source,{path:'/'+page+'.html'});
    for(const [html,path,language] of [[en,'/en/'+page,'en'],[es,'/'+page,'es-MX']]){

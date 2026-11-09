@@ -18,7 +18,7 @@ test('seasonal designs remain discoverable without the duplicate gallery',()=>{
  const html=renderInvitationPage(readFileSync('invitaciones.html','utf8'));
  assert.ok(!html.includes('{{invitations:'));
  assert.ok(!html.includes('id="temporadas"'));
- assert.match(html, /(?:class="grounding"|class="trust fade")[\s\S]*?href="\/temporada"/);
+ assert.match(html, /class="page-landscape-copy"[\s\S]*?href="\/temporada"/);
  assert.match(html, /class="inv-temporada"><a href="\/temporada"/);
 });
 
@@ -37,7 +37,7 @@ test('other commercial occasion heroes keep a single existing filled button', ()
     const source = readFileSync(`${page}.html`, 'utf8');
     assert.equal((source.match(/class="(?:horizon-button(?: business-quote)?|cta)"/g) || []).length, 1, page);
   }
-  assert.match(readFileSync('negocios.html', 'utf8'), /class="(?:options-compare|link)" href="#opciones-web"/);
+  assert.match(readFileSync('negocios.html', 'utf8'), /href="#opciones-web"/);
 });
 
 test('homepage keeps headline C, its approved social title and the descriptive search title', () => {

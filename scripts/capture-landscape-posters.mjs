@@ -27,6 +27,8 @@ const { values } = parseArgs({ options: {
   version: { type: 'string', default: 'v5' },
   theme: { type: 'string', default: 'both' },
   software: { type: 'boolean', default: false },
+  page: { type: 'string' },
+  formats: { type: 'string' },
 } });
 assert.ok(['start', 'final'].includes(values.phase), '--phase must be start or final');
 assert.ok(['light', 'dark', 'both'].includes(values.theme), '--theme must be light, dark or both');
@@ -41,9 +43,10 @@ fs.mkdirSync(values.output, { recursive: true }); fs.mkdirSync(values.evidence, 
 const browser = await chromium.launch({ executablePath: values.chrome, headless: true,
   args: ['--enable-webgl', '--enable-unsafe-swiftshader', ...(values.software ? ['--use-angle=swiftshader'] : [])] });
 const records = [];
+const pagePath = values.page ? `/${values.page}` : '/';
 try {
-  const viewports = { compact: { width: 1440, height: 900 }, desktop: { width: 1920, height: 900 }, wide: { width: 2560, height: 1080 }, mobile: { width: 390, height: 844 } };
-  for (const format of Object.keys(viewports)) for (const theme of (values.theme === 'both' ? ['light', 'dark'] : [values.theme])) {
+  const viewports = { compact: { width: 1440, height: 900 }, desktop: { width: 1920, height: values.page ? 1080 : 900 }, wide: { width: 2560, height: 1080 }, mobile: { width: 390, height: 844 }, ...(values.page ? { tablet: { width: 820, height: 1180 } } : {}) };
+  for (const format of (values.formats?.split(',') ?? Object.keys(viewports))) for (const theme of (values.theme === 'both' ? ['light', 'dark'] : [values.theme])) {
     const mobile = format === 'mobile';
     const context = await browser.newContext({ viewport: viewports[format], deviceScaleFactor: mobile ? 2 : 1 });
     await context.addInitScript(() => {
@@ -53,7 +56,7 @@ try {
     const page = await context.newPage();
     // Keep the actual layout and fonts, but invoke the scene alone at the chosen
     // instant. This also works when the normal loader keeps a poster.
-    await page.route(url => url.pathname === '/', async route => {
+    await page.route(url => url.pathname === pagePath, async route => {
       const response = await route.fetch();
       const body = (await response.text())
         .replace(/<script\b[^>]*type="module"[^>]*>[\s\S]*?<\/script>/g, '')
@@ -70,7 +73,7 @@ try {
       if (mobile) { assert.match(body, /name:"mobile",dpr:1\.5/); body = body.replace(/name:"mobile",dpr:1\.5,pixels:\d+(?:e[+-]?\d+)?/i, 'name:"mobile",dpr:2,pixels:2000000'); }
       await route.fulfill({ response, body });
     });
-    await page.goto(`${values.url}/?theme=${theme}&motion=paused&nieve=0`);
+    await page.goto(`${values.url}${pagePath}?theme=${theme}&motion=paused&nieve=0`);
     await page.evaluate(() => document.fonts.ready);
     await page.evaluate(async ({ file, dark, initialElapsed }) => {
       // Freeze animation scheduling only in this offline browser. No capture
@@ -141,8 +144,8 @@ try {
       return { png, icePng, canvas: { width: rect.width, height: rect.height }, summitY, baseY, massifHeight: baseY - summitY,
         horizonY: y(point.set(0, 0, -800)), sunX: (sun.clone().project(camera).x + 1) * rect.width / 2,
         sunY: y(sun), camera: camera.position.toArray() };
-    }, {holdPeak: theme === 'dark' && values.phase === 'final', portrait: mobile, portraitSeconds: NIGHT_PORTRAIT_MS / 1000, daylight: theme === 'light'});
-    const name = `landscape-${values.phase === 'start' ? 'start' : 'poster'}-${theme}-${format}${values.version ? `-${values.version}` : ''}`;
+    }, {holdPeak: theme === 'dark' && values.phase === 'final', portrait: mobile, portraitSeconds: NIGHT_PORTRAIT_MS / 1000, daylight: theme === 'light' && !values.page});
+    const name = values.page ? `landscape-${['mobile', 'tablet'].includes(format) ? 'page' : values.page}-${theme}-${format}` : `landscape-${values.phase === 'start' ? 'start' : 'poster'}-${theme}-${format}${values.version ? `-${values.version}` : ''}`;
     const png = Buffer.from(capture.png.split(',')[1], 'base64'); delete capture.png;
     if (capture.icePng) {
       const patch = spawnSync('ffmpeg',['-y','-loglevel','error','-i','pipe:0','-frames:v','1','-c:v','libwebp','-q:v','88',

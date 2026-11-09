@@ -30,5 +30,4 @@ import '../../../public/motion-system.css';
 import '../styles/simple.css';
 import '../scripts/interaction-motion.js?entry=business';
 
-import { loadHero } from '../heroes/load.js';
-loadHero(() => import('../heroes/vitrina.js'));
+import '../landscape/landscape-hero.js';

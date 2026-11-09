@@ -29,5 +29,4 @@ import '../../../public/motion-system.css';
 import '../styles/simple.css';
 import '../scripts/interaction-motion.js?entry=invitations';
 
-import { loadHero } from '../heroes/load.js';
-loadHero(() => import('../heroes/sobre.js'));
+import '../landscape/landscape-hero.js';

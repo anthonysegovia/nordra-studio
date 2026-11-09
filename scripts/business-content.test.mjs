@@ -30,5 +30,5 @@ test('each service has the source minimum, MXN, VAT and the existing business id
 test('delivery appears on every quote and the business hero title stays intact',()=>{
  for(const offer of businessOffers)assert.ok(rendered.includes('data-delivery="'+offer.id+'">'+offer.delivery));
  assert.match(rendered,/<title>Diseño de páginas web en Monterrey · Nordra Studio<\/title>/);
- assert.match(rendered,/id="business-title"[^>]*>[\s\S]*?Tu visión,/);
+ assert.match(rendered,/id="business-title"[^>]*>[\s\S]*?Una web/);
 });

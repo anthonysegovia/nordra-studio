@@ -33,3 +33,4 @@ if (portrait) {
 import '../../../public/motion-system.css';
 import '../styles/simple.css';
 import '../scripts/interaction-motion.js?entry=estudio';
+import '../landscape/landscape-hero.js';

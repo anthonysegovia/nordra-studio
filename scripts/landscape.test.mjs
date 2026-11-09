@@ -26,7 +26,7 @@ test('wide framing keeps water below the projected mountain and restores the app
     summitCandidates: [new Vector3(0, 14.5, -36), new Vector3(0, 14.5, -43)],
     waterlineFront: new Vector3(0, 0, -35.23159), sun: { value: new Vector3() }, shoreZ: {},
     raycaster: new Raycaster(), lakePlane: new Plane(new Vector3(0, 1, 0), 0), hit: new Vector3(),
-    clock: { elapsed: 60000 }, place() {}, render() {},
+    clock: { elapsed: 60000 }, place() {}, render() {}, copyAnchor: () => ({ getBoundingClientRect: () => ({ bottom: buttonBottom }) }),
   };
   const frame = runInNewContext(frameSource + '\nframe;', scope);
   const resize = (width, height, viewportHeight, bottom) => {
