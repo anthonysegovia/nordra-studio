@@ -7,6 +7,7 @@ export const sampleOccasions = {
   },
   event: {
     path:'/invitaciones/conexion-27/', name:'Conexión 27', date:'2027-06-12', location:'Espacio Nodo · Monterrey',
+    tables:['Zona 1','Zona 2','Zona 3'],
     guests:[['individual','Alba Ríos','pending'],['couple','Elena Vidal','yes','Luis Soto','pending'],['plusOne','Omar León','yes','','pending'],['individual','Irene Mora','no'],['couple','Mónica Paz','yes','Pablo Rey','yes'],['individual','Julia Vera','pending'],['plusOne','Bruno Lara','pending','','pending'],['individual','Inés Cano','yes']],
   },
 };

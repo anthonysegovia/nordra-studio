@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowUpRight, CalendarDays, Check, CircleDot, Heart, Mail, QrCode, RotateCcw, UsersRound } from "lucide-react";
 import { WeddingInvitationPanel } from "../components/WeddingInvitationPanel";
 import { WeddingInvitationEditor, type WeddingInvitationAction } from "../components/WeddingInvitationEditor";
-import { invitationLabel, type WeddingInvitation } from "../lib/weddingInvitations";
+import { invitationLabel, summarizeInvitations, type WeddingInvitation } from "../lib/weddingInvitations";
 import { useWeddingCloud } from "../lib/weddingCloud";
 import { setLanguage, useLanguage } from "../language";
 import { weddingDate, lastWeddingDay, weddingError, type WeddingEvent } from "../lib/weddingClient";
@@ -29,6 +29,8 @@ export function WeddingWorkspace({ wedding, adminView = false, experience: reque
   const { localSample, management, managementAction, lastSyncedAt, syncing, changedIds, invitations, saveInvitation, deleteInvitation, reset, resetKey, loading, syncError, refresh, event: latestEvent, errorCode, boreal, borealAction } = useWeddingCloud(wedding?.id, adminView, experience.key);
   const lang=english?1:0;
   const text=panelTerms(experience.key,english);
+  const occasion=experience.key!=='wedding';
+  const [statsSlot,setStatsSlot]=useState<HTMLDivElement|null>(null);
   const real = latestEvent ?? wedding;
   const readOnly=localSample || !!real?.archived;
   const hasBoreal = !real || real.plan === 'Boreal';
@@ -57,14 +59,14 @@ export function WeddingWorkspace({ wedding, adminView = false, experience: reque
   const welcome = useRef<HTMLElement>(null);
   const [compact,setCompact] = useState(false);
   useEffect(()=>{
-    const observer = new IntersectionObserver(([entry])=>setCompact(entry.boundingClientRect.bottom < 1));
+    const observer = new IntersectionObserver(([entry])=>setCompact(!entry.isIntersecting && entry.boundingClientRect.bottom < 1));
     if (welcome.current) observer.observe(welcome.current);
     return ()=>observer.disconnect();
   },[]);
   const dateLabel = real ? weddingDate(real.eventDate) : experience.sample.date[english?1:0];
   const daysLeft = (() => {
-    if (!real) return null;
-    const days = Math.ceil((new Date(real.eventDate).getTime() - Date.now()) / 86400000);
+    if (!real && !occasion) return null;
+    const days = Math.ceil((new Date(real ? real.eventDate : experience.sample.iso).getTime() - Date.now()) / 86400000);
     return Number.isNaN(days) || days < 0 ? null : days;
   })();
   const listFocus = useRef<HTMLDivElement>(null);
@@ -91,44 +93,51 @@ export function WeddingWorkspace({ wedding, adminView = false, experience: reque
     setNotice({ kind: "deleted", name: invitationLabel(invitation) });
   }
   const replyInvitation = invitations.find(invitation => invitation.kind === "plusOne") ?? invitations[0];
+  const summary = summarizeInvitations(invitations);
+  const countdown = daysLeft === null ? '' : daysLeft === 0 ? (english ? 'Today' : 'Es hoy') : english ? `${daysLeft} ${daysLeft === 1 ? 'day' : 'days'} to go` : daysLeft === 1 ? 'Falta 1 día' : `Faltan ${daysLeft} días`;
   const noticeText = !notice ? "" : notice.kind === "reset" ? (english ? "The original sample list has been restored" : "La lista de muestra volvió a su estado inicial")
     : notice.kind === "storage" ? (english ? "The change could not be saved. Please try again." : "No se pudo guardar el cambio. Intenta nuevamente.")
     : `${notice.name} · ${notice.kind === "added" ? (english ? "added to the list" : "se agregó a la lista") : notice.kind === "updated" ? (english ? "changes saved" : "cambios guardados") : (english ? "removed from the list" : "se eliminó de la lista")}`;
 
-  return <PanelExperience.Provider value={experience}><div className="wedding-workspace" data-occasion={experience.key} style={{ '--panel-accent': experience.accent, '--panel-paper':experience.paper, '--panel-ink':experience.ink } as React.CSSProperties}>
+  return <PanelExperience.Provider value={experience}><div className="wedding-workspace" data-occasion={experience.key} data-tab={activeTab} style={{ '--panel-accent': experience.accent, '--panel-paper':experience.paper, '--panel-ink':experience.ink } as React.CSSProperties}>
     <a className="workspace-skip" href="#workspace-main">{english ? "Skip to content" : "Saltar al contenido"}</a>
     <aside className="workspace-sidebar">
+      {experience.key==='event' && <div className="occasion-lanyard" aria-hidden="true"><img src={identity.photo} srcSet={identity.srcSet} sizes="150px" width={480} height={720} decoding="async" alt=""/></div>}
       <a className="workspace-brand" href={identity.back} aria-label={'Nordra Studio · '+identity.brandLabel[lang]}>NORDRA<span>{identity.brand[lang]}</span></a>
       <div className="workspace-couple"><span className="workspace-monogram" aria-hidden="true">{real ? <Heart size={34} strokeWidth={1}/> : <>{identity.mark[0]}{identity.mark[1] && <em>{identity.mark[1]}</em>}{identity.mark[2]}</>}</span><p>{couple}</p><span>{identity.badge[lang]}</span></div>
       <nav className="workspace-navigation" aria-label={identity.panel[lang]}>
         <button className={activeTab === 'guests' ? 'workspace-nav-current' : ''} aria-current={activeTab === 'guests' ? 'page' : undefined} onClick={() => navigate('guests')}><UsersRound size={18} strokeWidth={1.5} aria-hidden="true" /><span>{identity.nav[lang]}</span></button>
-        {hasBoreal && <><button className={activeTab === 'tables' ? 'workspace-nav-current' : ''} aria-current={activeTab === 'tables' ? 'page' : undefined} onClick={() => navigate('tables')}><CircleDot size={18} strokeWidth={1.5} aria-hidden="true"/><span>{english ? 'Tables' : 'Mesas'}</span></button><button className={activeTab === 'reception' ? 'workspace-nav-current' : ''} aria-current={activeTab === 'reception' ? 'page' : undefined} onClick={() => navigate('reception')}><QrCode size={18} strokeWidth={1.5} aria-hidden="true"/><span>{english ? 'Reception' : 'Recepción'}</span></button></>}
+        {hasBoreal && <><button className={activeTab === 'tables' ? 'workspace-nav-current' : ''} aria-current={activeTab === 'tables' ? 'page' : undefined} onClick={() => navigate('tables')}><CircleDot size={18} strokeWidth={1.5} aria-hidden="true"/><span>{text('navTables')}</span></button><button className={activeTab === 'reception' ? 'workspace-nav-current' : ''} aria-current={activeTab === 'reception' ? 'page' : undefined} onClick={() => navigate('reception')}><QrCode size={18} strokeWidth={1.5} aria-hidden="true"/><span>{text('navReception')}</span></button></>}
         {invitationPath && <a href={invitationPath} target="_blank" rel="noopener noreferrer" title={english ? 'Open your invitation in a new tab' : experience.key==='wedding'?'Abrir su invitación en otra pestaña':'Abrir tu invitación en otra pestaña'}><Mail size={18} strokeWidth={1.5} aria-hidden="true" /><span>{identity.ours[lang]}</span><ArrowUpRight className="workspace-nav-external" size={14} aria-hidden="true" /></a>}
       </nav>
-      <div className="workspace-sidebar-bottom"><Heart size={19} strokeWidth={1.2} aria-hidden="true" /><p>{identity.motto[lang]}</p><a href={identity.back+'#'+identity.anchor}><ArrowLeft size={15} aria-hidden="true" />{identity.backLabel[lang]}</a></div>
+      <div className="workspace-sidebar-bottom"><Heart size={19} strokeWidth={1.2} aria-hidden="true" /><p>{identity.motto[lang]}</p><a href={identity.back+'#'+identity.anchor}><ArrowLeft size={15} aria-hidden="true" /><span>{identity.backLabel[lang]}</span></a></div>
     </aside>
 
     <div className="workspace-body">
       <header className="workspace-topbar"><span>{identity.space[lang]}</span><div><span className="workspace-sample-label">{real ? (adminView ? "Administración de Nordra" : "Panel privado") : (english ? "Sample data" : "Datos de muestra")}</span>{!real && experience.key === 'birthday' && <BirthdayThemeButton english={english}/>}{real ? <>{adminView ? <a href="/?panel=pagos&seccion=bodas">Volver a bodas</a> : <><button type="button" onClick={onBack}>Mis bodas</button><button type="button" onClick={onSignOut}>Salir</button></>}</> : <button type="button" className="workspace-language" onClick={() => setLanguage(english ? "es" : "en")} aria-label={english ? "Cambiar a español" : "Switch to English"}>{english ? "ES" : "EN"}</button>}</div></header>
       <main id="workspace-main" tabIndex={-1}>
         {compact && <div className="panel-compact-bar" aria-hidden="true"><strong>{couple}</strong><span>{dateLabel}</span></div>}
-        <section ref={welcome} className={`workspace-welcome${!real ? " workspace-welcome-editorial" : ""}`} aria-labelledby="workspace-title">
+        {occasion ? <section ref={welcome} className="occasion-hero" aria-labelledby="workspace-title">
+          <div className="occasion-copy"><p className="occasion-kicker">{identity.kicker[lang]}</p><h1 id="workspace-title">{identity.name}</h1><p className="occasion-when"><span>{dateLabel}</span><span>{identity.place[lang]}</span>{countdown && <b>{countdown}</b>}</p></div>
+          <img className="occasion-object" src={identity.photo} srcSet={identity.srcSet || undefined} sizes="(max-width:760px) 124px, 220px" alt="" decoding="async"/>
+          <div className="occasion-meter"><p>{experience.meter(summary.yes,summary.total,english)}</p><div className="occasion-bar" aria-hidden="true">{summary.total<=40 ? Array.from({length:summary.total},(_,index)=><i key={index} className={index<summary.yes?'is-yes':index>=summary.total-summary.no?'is-no':''}/>) : (['yes','pending','no'] as const).map(status=>summary[status]>0&&<i key={status} className={status==='yes'?'is-yes':status==='no'?'is-no':''} style={{flexGrow:summary[status]}}/>)}</div><div ref={setStatsSlot}/></div>
+        </section> : <section ref={welcome} className={`workspace-welcome${!real ? " workspace-welcome-editorial" : ""}`} aria-labelledby="workspace-title">
           <div><p className="workspace-eyebrow">{identity.kicker[lang]}</p><h1 id="workspace-title">{real ? couple : <>{identity.title[0]}{identity.title[1] && <em>{identity.title[1]}</em>}{identity.title[2]}</>}</h1><p className="workspace-date"><CalendarDays size={15} aria-hidden="true" />{dateLabel}<span>·</span>{real ? real.city : identity.place[lang]}{daysLeft !== null && <><span>·</span>{daysLeft === 0 ? (english ? 'Today' : 'Es hoy') : english ? `${daysLeft} ${daysLeft === 1 ? 'day' : 'days'} to go` : `${daysLeft === 1 ? 'Falta 1 día' : `Faltan ${daysLeft} días`}`}</>}</p><p className="workspace-welcome-note">{identity.note[lang]}</p></div>
           {real ? real.coverPath && <img className="workspace-portrait" src={real.coverPath} width={1600} height={1068} alt={`La boda de ${couple}`} /> : <div className="workspace-welcome-art" aria-hidden="true"><img src={identity.photo} srcSet={identity.srcSet || undefined} sizes="(max-width:760px) 76vw, (max-width:1250px) 43vw, 510px" width={1200} height={1200} decoding="async" alt="" /></div>}
-        </section>
+        </section>}
 
         <div className="workspace-quick-links">{!wedding && !real && !adminView && location.pathname===experience.sample.path && <SampleGuide english={english} link={replyInvitation?.link} onGuests={()=>navigate('guests')}/>}{real && !adminView && !real.archived && <SampleGuide client english={english} onGuests={()=>navigate('guests')}/>}{invitationPath && <a href={invitationPath} target="_blank" rel="noopener noreferrer"><Mail size={15} aria-hidden="true" />{english ? 'Open invitation' : 'Abrir invitación'}<ArrowUpRight size={14} aria-hidden="true" /></a>}{!real && replyInvitation?.link && <a href={replyInvitation.link} target="_blank" rel="noopener noreferrer">{text('asGuest')}<ArrowUpRight size={14} aria-hidden="true" /></a>}{real && <span>{real.archived ? 'Solo consulta · ' : ''}Disponible hasta el {lastWeddingDay(real.expiresAt)}{real.replyUntil ? ' · Confirmaciones hasta el ' + weddingDate(real.replyUntil) : ''}</span>}</div>
 
         {localSample && <p className="workspace-sync" role="status">{english ? 'Explore this sample in read-only mode for now. You can try editing later.' : 'Por ahora, explora esta muestra en modo de solo lectura. Puedes probar los cambios más tarde.'}</p>}
-        <div ref={sectionContent} className="workspace-section-content" tabIndex={-1} role="region" aria-label={activeTab === 'tables' ? (english ? 'Tables' : 'Mesas') : activeTab === 'reception' ? (english ? 'Reception' : 'Recepción') : identity.nav[lang]}>
-        {activeTab !== 'guests' && <><p className={`workspace-sync${syncError ? ' is-offline' : ''}`} role="status">{localSample ? (english ? 'Sample data · Read only' : 'Datos de muestra · Solo lectura') : loading ? (english ? 'Preparing your space…' : 'Preparando su espacio…') : syncError ? (english ? 'Connection interrupted · Changes are paused' : 'Conexión interrumpida · Los cambios están en pausa') : (english ? 'Boreal · Synced with your invitations' : 'Boreal · Sincronizado con sus invitaciones')}{syncError && <button onClick={() => void refresh()}>{english ? 'Retry' : 'Reintentar'}</button>}</p>{errorCode && <p role="alert">{weddingError(new Error(errorCode))}</p>}{!loading && (activeTab === 'tables' ? <WeddingTables invitations={invitations} state={boreal} action={borealAction} english={english} disabled={syncError} readOnly={readOnly} couple={couple}/> : <WeddingReception invitations={invitations} state={boreal} action={borealAction} english={english} disabled={syncError} readOnly={readOnly}/>)}</>}
+        <div ref={sectionContent} className="workspace-section-content" tabIndex={-1} role="region" aria-label={activeTab === 'tables' ? text('navTables') : activeTab === 'reception' ? text('navReception') : identity.nav[lang]}>
+        {activeTab !== 'guests' && <><p className={`workspace-sync${syncError ? ' is-offline' : ''}`} role="status">{localSample ? (english ? 'Sample data · Read only' : 'Datos de muestra · Solo lectura') : loading ? text('preparing') : syncError ? (english ? 'Connection interrupted · Changes are paused' : 'Conexión interrumpida · Los cambios están en pausa') : text('synced')}{syncError && <button onClick={() => void refresh()}>{english ? 'Retry' : 'Reintentar'}</button>}</p>{errorCode && <p role="alert">{weddingError(new Error(errorCode))}</p>}{!loading && (activeTab === 'tables' ? <WeddingTables invitations={invitations} state={boreal} action={borealAction} english={english} disabled={syncError} readOnly={readOnly} couple={couple}/> : <WeddingReception invitations={invitations} state={boreal} action={borealAction} english={english} disabled={syncError} readOnly={readOnly}/>)}</>}
 
         <div className="workspace-content-grid" hidden={activeTab !== 'guests'}>
           <div className="workspace-confirmations" id="confirmaciones" ref={listFocus} tabIndex={-1}>
             {loading && <p role="status">{english?'Loading invitations…':'Cargando invitaciones…'}</p>}
             {syncError && loading && <button onClick={()=>void refresh()}>{english?'Retry':'Reintentar'}</button>}
             {real && errorCode && <p role="alert">{weddingError(new Error(errorCode))}{errorCode === "signed_out" && <a href="/mi-boda.html"> · Iniciar sesión</a>}</p>}
-            {!loading && <div className="workspace-live-list"><WeddingInvitationPanel syncStatus={localSample ? <span>{english?'Sample data · Read only':'Datos de muestra · Solo lectura'}</span> : <WeddingSyncStatus at={lastSyncedAt} syncing={syncing} offline={syncError} english={english} onRefresh={()=>void refresh()} />} onTables={()=>navigate('tables')} management={management} managementAction={managementAction} changedIds={changedIds} onImport={()=>setOperation('import')} onHistory={()=>setOperation('history')} key={resetKey} invitations={invitations} english={english} boreal={hasBoreal ? boreal : undefined} disabled={busy || syncError} readOnly={readOnly} onAdd={() => setEditor({ mode: "add" })} onEdit={(invitation, personId) => setEditor({ mode: "edit", invitation, personId })} onCorrect={(invitation, personId) => setEditor({ mode: "attendance", invitation, personId })} onDelete={invitation => setEditor({ mode: "delete", invitation })} /></div>}
+            {!loading && <div className="workspace-live-list"><WeddingInvitationPanel statsSlot={statsSlot} syncStatus={localSample ? <span>{english?'Sample data · Read only':'Datos de muestra · Solo lectura'}</span> : <WeddingSyncStatus at={lastSyncedAt} syncing={syncing} offline={syncError} english={english} onRefresh={()=>void refresh()} />} onTables={()=>navigate('tables')} management={management} managementAction={managementAction} changedIds={changedIds} onImport={()=>setOperation('import')} onHistory={()=>setOperation('history')} key={resetKey} invitations={invitations} english={english} boreal={hasBoreal ? boreal : undefined} disabled={busy || syncError} readOnly={readOnly} onAdd={() => setEditor({ mode: "add" })} onEdit={(invitation, personId) => setEditor({ mode: "edit", invitation, personId })} onCorrect={(invitation, personId) => setEditor({ mode: "attendance", invitation, personId })} onDelete={invitation => setEditor({ mode: "delete", invitation })} /></div>}
             <div className="workspace-list-footer"><span><Check size={14} aria-hidden="true" />{english ? "Replies arrive from each personal invitation" : "Las respuestas llegan desde cada invitación personal"}</span>{!real && <button type="button" disabled={loading || busy || syncError || readOnly} onClick={() => resetDialog.current?.showModal()}><RotateCcw size={14} aria-hidden="true" />{english ? "Reset preview" : "Reiniciar vista"}</button>}</div>
             <p className="workspace-reset-notice" role="status">{noticeText}</p>
           </div>

@@ -30,7 +30,7 @@ try{
   await page.getByText('Por ahora, explora esta muestra',{exact:false}).waitFor();
   assert(await page.locator('.ledger-row').count()>0,'fallback has guests');
   assert.equal(await page.getByText('Conexión interrumpida',{exact:false}).count(),0);
-  await page.getByRole('button',{name:'Mesas',exact:true}).first().click();await page.locator('.boreal-seating-person').first().waitFor();await settle(page);if(await page.getByRole('button',{name:'Saltar guía',exact:true}).isVisible())await page.getByRole('button',{name:'Saltar guía',exact:true}).click();
+  await page.getByRole('button',{name:/^(Mesas|Zonas)$/}).first().click();await page.locator('.boreal-seating-person').first().waitFor();await settle(page);if(await page.getByRole('button',{name:'Saltar guía',exact:true}).isVisible())await page.getByRole('button',{name:'Saltar guía',exact:true}).click();
   assert(await page.locator('.boreal-seating-person').count()>0);
   assert.equal(await page.locator('.seat-move>button:not(:disabled)').count(),0);
   assert.equal(await page.locator('a[href*="guest="]').count(),0);

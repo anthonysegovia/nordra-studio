@@ -1,0 +1,95 @@
+/* Event panel: El mostrador de registro. Sand stone, ink and green; the badge hangs from the menu. */
+html:has(.wedding-workspace[data-occasion=event]) {background:#efe8dc}
+
+html :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=event] {
+  --o-bg:#efe8dc; --o-surface:#fbf8f2; --o-hover:#ebe3d4; --o-active:#e6dcc9; --o-text:#12303f; --o-muted:#55666a; --o-line:#d7cdbc;
+  --o-accent:#226553; --o-on-accent:#fff; --o-yes:#1d5c4b; --o-yes-bg:#dcebe4; --o-wait:#74561f; --o-wait-bg:#f2e6cd; --o-no:#7c3f3a; --o-no-bg:#f1e0dc;
+  --o-side:#12303f; --o-side-text:#fff; --o-side-muted:#c6d4d0; --o-side-hover:#ffffff14; --o-side-active:#fbf8f2; --o-side-active-text:#12303f; --o-side-line:#ffffff24;
+  --o-nav:#12303f; --o-nav-text:#c6d4d0; --o-nav-strong:#fff; --o-nav-hover:#ffffff14; --o-nav-active:#fbf8f2; --o-nav-active-text:#12303f;
+  --o-title:OccasionSora,sans-serif; --o-body:OccasionSora,sans-serif;
+  --o-radius-s:6px; --o-radius-card:8px; --o-radius-hero:10px; --o-radius-pill:3px;
+  --meter:410px; --hero-object-gap:96px;
+  --h-base:#d9bd92; --h-text:#12303f; --h-soft:#33464d; --h-kicker:#4a4a3e; --h-count:#226553;
+  --h-image:url('/artwork/event-gafete/mesa-live-1536.webp') center/cover;
+  --h-veil:linear-gradient(90deg,#f6efe3f2 0,#f6efe3d9 46%,#f6efe366 100%);
+  --h-card:#fbf8f2; --h-card-line:transparent; --h-card-text:#12303f; --h-card-muted:#55666a; --h-card-hover:#f4eee3;
+  --h-seat:#f2e6cd; --h-seat-yes:#226553; --h-seat-no-a:#f1e0dc; --h-seat-no-b:#e2c9c2; --h-stat-yes:#1d5c4b; --h-stat-wait:#74561f; --h-stat-no:#7c3f3a;
+  font-size:15px;
+
+  /* The badge hangs from the top of the menu */
+  & .workspace-sidebar {padding-top:0;overflow:hidden}
+  & .occasion-lanyard {display:block;width:150px;margin:-46px auto 0;transform-origin:50% 0;animation:occasion-hang 1.1s cubic-bezier(.2,.7,.2,1) both;transition:transform .5s cubic-bezier(.2,.7,.2,1);filter:drop-shadow(0 16px 18px #03121a80)}
+  & .occasion-lanyard img {display:block;width:100%;height:auto}
+  & .workspace-sidebar:hover .occasion-lanyard {transform:rotate(-1.6deg)}
+  & .workspace-brand {margin-top:12px;font:400 11px/1.4 var(--o-title);letter-spacing:.2em;color:#a9c2bb;display:flex;justify-content:center;gap:.8em}
+  & .workspace-brand>span {display:inline;margin:0;font:inherit;letter-spacing:inherit;color:inherit}
+  & .workspace-sidebar .workspace-navigation {margin-top:22px}
+  & .workspace-sidebar nav :is(a,button):hover:not([aria-current=page]) {box-shadow:inset 3px 0 0 #8fd6bf}
+
+  & .occasion-object {display:none}
+
+  /* Attendee register: dense and aligned */
+  & .ledger-list {border:1px solid var(--o-line);border-top:0;border-radius:0 0 8px 8px;overflow:hidden}
+  & .ledger-columns {grid-template-columns:minmax(0,1.5fr) 150px minmax(0,1.1fr) 88px 112px;gap:14px;align-items:center;height:40px;padding:0 18px;background:var(--o-side);border:0;border-radius:8px 8px 0 0;color:#d9e4e0;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
+  & .ledger-row {grid-template-columns:minmax(0,1fr) 112px;gap:14px;padding:0 18px;min-height:66px;border-top:1px solid var(--o-line)}
+  & .ledger-row:first-child {border-top:0}
+  & .ledger-row:hover {background:#f4eee3;box-shadow:inset 3px 0 0 var(--o-accent)}
+  & .guest-ledger .ledger-record {grid-template-columns:minmax(0,1.5fr) 150px minmax(0,1.1fr) 88px;align-items:center;gap:14px;padding:10px 0}
+  & .ledger-kind {display:none}
+  & .ledger-name {font-size:15px;font-weight:500;letter-spacing:-.015em}
+  & :is(.occasion-kind,.occasion-zone) {font-size:13px;color:var(--o-muted)}
+  & .guest-ledger .ledger-row-actions button {color:var(--o-text);font-size:13px;border-radius:6px}
+  & .guest-ledger .ledger-row-actions button:hover {background:var(--o-hover);color:var(--o-accent)}
+  & .guest-ledger .ledger-quick-filters button {border-radius:4px}
+
+  /* Zones stack as rows with an occupancy bar */
+  & .boreal-table-grid {grid-template-columns:1fr;gap:10px}
+  & .boreal-table-card {display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:20px;padding:18px 24px}
+  & .boreal-table-card:hover {border-color:var(--o-accent);box-shadow:inset 3px 0 0 var(--o-accent)}
+  & .boreal-table-select {grid-template-columns:minmax(140px,200px) minmax(0,1fr) minmax(130px,200px);align-items:center;column-gap:26px;padding:0}
+  & .boreal-table-select h3 {grid-column:1;grid-row:1;font-size:26px}
+  & .boreal-table-select p {grid-column:1;grid-row:2;font-size:13px}
+  & .occasion-seats {grid-column:2;grid-row:1/3;margin:0}
+  & .occasion-seats>i {height:26px;background:var(--o-hover);border:1px solid var(--o-line)}
+  & .occasion-members {grid-column:3;grid-row:1/3;margin:0;padding:0;border:0;min-height:0;text-align:right;font-size:13.5px}
+  & .boreal-table-actions {border:0;padding:0;margin:0}
+}
+@keyframes occasion-hang {from{transform:translateY(-34px) rotate(3deg)}to{transform:none}}
+@media(max-width:1280px) {
+  html :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=event] {
+    & .occasion-lanyard {width:128px}
+  }
+}
+@media(max-width:980px) {
+  html :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=event] {
+    & .boreal-table-card {grid-template-columns:1fr}
+    & .ledger-columns {grid-template-columns:minmax(0,1.4fr) 120px minmax(0,1fr) 44px}
+    & .ledger-columns>:nth-child(4),& .occasion-zone {display:none}
+    & .guest-ledger .ledger-record {grid-template-columns:minmax(0,1.4fr) 120px minmax(0,1fr)}
+    & .ledger-row {grid-template-columns:minmax(0,1fr) 44px}
+    & .ledger-row-actions>:is(button,a)>span {display:none}
+  }
+}
+@media(max-width:760px) {
+  html :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=event] {
+    --h-veil:linear-gradient(180deg,#f6efe3f0,#f6efe3cc);
+    & .occasion-lanyard {display:none}
+    & .workspace-brand {margin:0;color:var(--o-text);font-weight:500;align-self:center}
+    & .occasion-object {display:block;position:absolute;right:8px;top:-34px;width:100px;height:auto;filter:drop-shadow(0 12px 12px #3a2c1566)}
+    &:not([data-tab=guests]) .occasion-object {display:none}
+    &:not([data-tab=guests]) .occasion-copy {padding-right:0}
+    & .ledger-columns {display:none}
+    & .ledger-list {border-top:1px solid var(--o-line);border-radius:8px}
+    & .ledger-row {min-height:0}
+    & .guest-ledger .ledger-record {grid-template-columns:minmax(0,1fr)}
+    & .occasion-kind {display:none}
+    & .boreal-table-card {padding:16px}
+    & .boreal-table-select {grid-template-columns:1fr auto;row-gap:10px}
+    & .boreal-table-select h3 {font-size:22px}
+    & .occasion-seats {grid-column:1/-1;grid-row:3}
+    & .occasion-members {grid-column:2;grid-row:1/3}
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  html :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=event] .occasion-lanyard {animation:none;transition:none}
+}

@@ -3,7 +3,8 @@ import type { WeddingInvitation } from './weddingInvitations';
 
 export const defaultPanelExperience = {
   key: 'wedding', accent: '#67533e', paper: '#fffdf8', ink: '#43392f',
-  sample: {path:'/panel-boda.html', date:['19 de junio de 2027','June 19, 2027']},
+  sample: {path:'/panel-boda.html', date:['19 de junio de 2027','June 19, 2027'], iso:''},
+  kinds: {individual:['Individual','Individual'], couple:['Pareja','Couple'], plusOne:['Con +1','With +1']} as Record<string,readonly [string,string]>,
   identity:{
     name:'Valentina & Sebastián', title:['Valentina ','&',' Sebastián'], mark:['V','&','S'],
     back:'/bodas', anchor:'panel-boda', invitation:'/invitaciones/valentina-y-sebastian/', download:'boda',
@@ -33,6 +34,7 @@ export const defaultPanelExperience = {
       {title:['Regresa y mira cómo cambió tu panel','Return and see your updated dashboard'], detail:['Vuelve a esta pestaña y busca al invitado para ver su respuesta.','Return to this tab and find the guest to see the reply.']},
     ],
   },
+  meter(_yes: number, _total: number, _english: boolean) { return ''; },
   reminder(invitation: WeddingInvitation, english: boolean) {
     const names = invitation.people.map(person => person.name.trim().split(/\s+/)[0]).filter(Boolean);
     const addressees = new Intl.ListFormat(english ? 'en' : 'es-MX').format(names);

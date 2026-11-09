@@ -1,4 +1,4 @@
-import { usePanelTerms } from '../lib/panelTerms';
+import { usePanelTerms, useZoneText } from '../lib/panelTerms';
 import { useEffect, useRef, useState } from 'react';
 import type { WeddingInvitation } from '../lib/weddingInvitations';
 import type { BorealAction, BorealState, WeddingTable } from '../lib/weddingBoreal';
@@ -9,6 +9,7 @@ export function SeatGuests({table,state,invitations,action,english,disabled,onCl
   english:boolean; disabled:boolean; onClose:()=>void;
 }) {
   const text=usePanelTerms(english);
+  const z = useZoneText();
   const dialog=useRef<HTMLDialogElement>(null);
   const [query,setQuery]=useState(''),[all,setAll]=useState(false),[ids,setIds]=useState<string[]>([]);
   const [busy,setBusy]=useState(false),[error,setError]=useState('');
@@ -49,6 +50,6 @@ export function SeatGuests({table,state,invitations,action,english,disabled,onCl
     <p aria-live="polite">{count} {english?'selected':count===1?'seleccionado':'seleccionados'}{count>free && (english?' · Over capacity':' · Se supera la capacidad')}</p>
     {error&&<p role="alert">{error}</p>}
     <div className="workspace-editor-actions"><button className="workspace-editor-cancel" disabled={busy} onClick={onClose}>{english?'Cancel':'Cancelar'}</button>
-    <button className="workspace-button" disabled={disabled||busy||!count||count>free} onClick={()=>void save()}>{english?`Seat at ${table.name} (${free} places free)`:`Sentar en ${table.name} (${free} lugares libres)`}</button></div>
+    <button className="workspace-button" disabled={disabled||busy||!count||count>free} onClick={()=>void save()}>{z(english?`Seat at ${table.name} (${free} places free)`:`Sentar en ${table.name} (${free} lugares libres)`)}</button></div>
   </dialog>
 }

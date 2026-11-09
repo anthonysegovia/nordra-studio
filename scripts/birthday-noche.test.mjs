@@ -48,9 +48,9 @@ test('the birthday identity uses local Sora and every customer-facing birthday e
 });
 test('birthday RSVP states meet AA on their badge backgrounds in both themes',()=>{
  const css=read('src/styles/birthday-panel.css');
- for(const section of css.split('html[data-theme=dark] .wedding-workspace[data-occasion=birthday] ').slice(0,2)){
-   const value=name=>luminance(section.match(new RegExp('--'+name+':#([0-9a-f]{6})'))[1]);
-   for(const [text,bg] of [['yes','yes-bg'],['gold','pending-bg'],['no','no-bg']]){
+ for(const section of css.split('html[data-theme=dark] :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=birthday] ').slice(0,2)){
+   const value=name=>luminance(section.match(new RegExp('--o-'+name+':#([0-9a-f]{6})'))[1]);
+   for(const [text,bg] of [['yes','yes-bg'],['wait','wait-bg'],['no','no-bg']]){
      const a=value(text),b=value(bg);assert.ok((Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5,text);
    }
  }

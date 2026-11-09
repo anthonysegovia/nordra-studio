@@ -1,4 +1,4 @@
-import { usePanelTerms } from '../lib/panelTerms';
+import { usePanelTerms, useZoneText } from '../lib/panelTerms';
 import { useContext } from 'react';
 import { PanelExperience, reminderUrl } from '../lib/panelExperience';
 import { useLayoutEffect, useRef, useState } from 'react';
@@ -12,13 +12,15 @@ import { ActivityList } from './WeddingHistory';
 
 export function AttendanceBadge({ status, english, children }: { status: WeddingAttendance; english: boolean; children?: React.ReactNode }) {
   const Icon = status === 'yes' ? Check : status === 'no' ? Minus : Clock3;
-  return <span className={`ledger-badge is-${status}`}><Icon size={14} aria-hidden="true" />{children ?? (status === 'yes' ? (english ? 'Confirmed' : 'Confirmado') : status === 'no' ? (english ? 'Not attending' : 'No asistirá') : (english ? 'Pending' : 'Pendiente'))}</span>;
+  const text = usePanelTerms(english);
+  return <span className={`ledger-badge is-${status}`}><Icon size={14} aria-hidden="true" />{children ?? text(status === 'yes' ? 'statusYes' : status === 'no' ? 'statusNo' : 'statusPending')}</span>;
 }
 
 export type RecordActions = { disabled?: boolean; readOnly?: boolean; onEdit: (invitation: WeddingInvitation, personId?: string) => void; onCorrect: (invitation: WeddingInvitation, personId: string) => void; onDelete: (invitation: WeddingInvitation) => void };
 
 export function WeddingRecordDetail({ invitation, english, boreal, sharing, management, managementAction, onClose, disabled, readOnly, onEdit, onCorrect, onDelete }: RecordActions & { invitation: WeddingInvitation; english: boolean; boreal?: BorealState; sharing: boolean; management: WeddingManagement; managementAction: ManagementAction; onClose: () => void }) {
   const text=usePanelTerms(english);
+  const z = useZoneText();
   const dialog = useRef<HTMLDialogElement>(null);
   const [copied, setCopied] = useState(false), [fallback, setFallback] = useState(false);
   const progress = invitationProgress(invitation);
@@ -30,7 +32,8 @@ export function WeddingRecordDetail({ invitation, english, boreal, sharing, mana
     try {await managementAction({action:'delivery',id:invitation.id,kind,previous:delivery?.updatedAt ?? null});}
     catch(reason){setTrackingError(weddingError(reason));}finally{setTracking(false);}
   }
-  const reminder = reminderUrl(invitation,english,useContext(PanelExperience));
+  const config = useContext(PanelExperience);
+  const reminder = reminderUrl(invitation,english,config);
   useLayoutEffect(() => {
     const element = dialog.current;
     const trigger = document.activeElement as HTMLElement | null;
@@ -47,7 +50,7 @@ export function WeddingRecordDetail({ invitation, english, boreal, sharing, mana
   return <dialog ref={dialog} className="wedding-record-drawer" aria-labelledby="record-detail-title" onCancel={event => { event.preventDefault(); onClose(); }} onClick={event => { if (event.target === dialog.current) onClose(); }}>
     <div className="record-detail-inner">
       <header className="record-detail-header"><span>{english ? 'Invitation details' : 'Detalle de invitación'}</span><button autoFocus onClick={onClose} aria-label={english ? 'Close details' : 'Cerrar detalle'}><X size={20} aria-hidden="true" /></button></header>
-      <p className="record-kind">{invitationKindLabel(invitation.kind, english)} · {invitation.people.length} {english ? (invitation.people.length === 1 ? 'place' : 'places') : invitation.people.length === 1 ? 'lugar' : 'lugares'}</p>
+      <p className="record-kind">{invitationKindLabel(invitation.kind, english, config.kinds)} · {invitation.people.length} {english ? (invitation.people.length === 1 ? 'place' : 'places') : invitation.people.length === 1 ? 'lugar' : 'lugares'}</p>
       <h2 id="record-detail-title">{invitationLabel(invitation)}</h2>
       <p className="record-completion">{progress.complete ? <Check size={15} aria-hidden="true" /> : <Clock3 size={15} aria-hidden="true" />}{progress.complete ? (english ? 'All replies received' : 'Respuestas completas') : (english ? `${progress.pending} ${progress.pending === 1 ? 'reply' : 'replies'} pending` : `${progress.pending} ${progress.pending === 1 ? 'respuesta pendiente' : 'respuestas pendientes'}`)}</p>
       {!readOnly && invitation.link && <details className="record-share" open={sharing || undefined}><summary><Share2 size={16} aria-hidden="true" />{english ? 'Share invitation' : 'Compartir invitación'}</summary><div><button onClick={copy}>{copied ? <Check size={16} /> : <Copy size={16} />}{copied ? (english ? 'Copied' : 'Copiado') : (english ? 'Copy link' : 'Copiar enlace')}</button><a href={`https://wa.me/?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener noreferrer"><MessageCircle size={17} aria-hidden="true" />WhatsApp</a></div><span role="status" className="ledger-sr-only">{copied ? (english ? 'Personal link copied' : 'Enlace personal copiado') : ''}</span>{fallback && <label>{english ? 'Copy this link' : 'Copia este enlace'}<input readOnly value={invitation.link} onFocus={event => event.currentTarget.select()} /></label>}</details>}
@@ -56,9 +59,9 @@ export function WeddingRecordDetail({ invitation, english, boreal, sharing, mana
         const table = boreal?.tables.find(item => item.id === boreal.seats[person.id]);
         const arrival = boreal?.arrivals[person.id];
         return <section className="record-person" key={person.id} aria-label={person.name || (english ? 'Companion' : 'Acompañante')}>
-          <p className="record-person-role">{index === 0 ? (text('mainGuest')) : invitation.kind === 'couple' ? (english ? 'Partner' : 'Pareja') : (english ? 'Companion' : 'Acompañante')}</p>
+          <p className="record-person-role">{index === 0 ? (text('mainGuest')) : invitation.kind === 'couple' ? text('partner') : (english ? 'Companion' : 'Acompañante')}</p>
           <h3>{person.name || (english ? 'Name to be confirmed' : 'Nombre por definir')}</h3><AttendanceBadge status={person.attendance} english={english} />
-          {boreal && <dl className="record-person-facts"><div><dt>{english ? 'Table' : 'Mesa'}</dt><dd>{person.attendance === 'no' ? (english ? 'Not required' : 'No requiere') : table?.name || (english ? 'Not assigned' : 'Sin asignar')}</dd></div><div><dt>{english ? 'Arrival' : 'Entrada'}</dt><dd>{arrival ? `${english ? 'Arrived' : 'Ingresó'} · ${arrivalTime(arrival.at)}` : person.attendance === 'yes' ? (english ? 'Yet to arrive' : 'Por llegar') : person.attendance === 'no' ? (english ? 'Not attending' : 'No asistirá') : (english ? 'Awaiting RSVP' : 'Sin confirmar')}</dd></div></dl>}
+          {boreal && <dl className="record-person-facts"><div><dt>{z(english ? 'Table' : 'Mesa')}</dt><dd>{person.attendance === 'no' ? (english ? 'Not required' : 'No requiere') : table?.name || (english ? 'Not assigned' : 'Sin asignar')}</dd></div><div><dt>{english ? 'Arrival' : 'Entrada'}</dt><dd>{arrival ? `${english ? 'Arrived' : 'Ingresó'} · ${arrivalTime(arrival.at)}` : person.attendance === 'yes' ? (english ? 'Yet to arrive' : 'Por llegar') : person.attendance === 'no' ? (english ? 'Not attending' : 'No asistirá') : (english ? 'Awaiting RSVP' : 'Sin confirmar')}</dd></div></dl>}
           {!readOnly && <div className="record-person-actions">{!person.name && <button disabled={disabled} onClick={() => onEdit(invitation, person.id)}><Pencil size={14} />{english ? 'Add name' : 'Agregar nombre'}</button>}<button disabled={disabled} onClick={() => onCorrect(invitation, person.id)}>{english ? 'Correct RSVP' : 'Corregir asistencia'}</button></div>}
         </section>;
       })}</div>

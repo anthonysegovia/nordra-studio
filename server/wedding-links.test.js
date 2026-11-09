@@ -128,7 +128,7 @@ test('sample occasions are allowlisted, isolated by cookie, and reset to new per
     assert.equal(new URL(group.link).pathname,'/invitaciones/'+slug+'/');
     if(occasion==='wedding')continue;
     assert(snapshot.management.delivery[group.id].sentAt);
-    assert.equal(snapshot.boreal.tables[0].name,'Mesa 1');
+    assert.equal(snapshot.boreal.tables[0].name,occasion==='event'?'Zona 1':'Mesa 1');
     const access=guestBody(snapshot,group);
     assert.equal((await f.call({...access,occasion:'wedding'})).status,404);
     const reply=await f.call({...access,action:'guest-reply',occasion,people:group.people.map(p=>({...p,attendance:'yes'})),updatedAt:group.updated_at});

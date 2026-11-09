@@ -34,7 +34,8 @@ export const weddingInvitationSamples: WeddingInvitation[] = [
 export function invitationLabel(invitation: WeddingInvitation) {
   return invitation.kind === "couple" ? invitation.people.map(person => person.name).join(" & ") : invitation.people[0].name + (invitation.kind === "plusOne" ? " +1" : "");
 }
-export function invitationKindLabel(kind: WeddingInvitationKind, english = false) {
+export function invitationKindLabel(kind: WeddingInvitationKind, english = false, kinds?: Record<string, readonly [string, string]>) {
+  if (kinds?.[kind]) return kinds[kind][english ? 1 : 0];
   return kind === "individual" ? (english ? "Individual" : "Individual") : kind === "couple" ? (english ? "Couple" : "Pareja") : (english ? "With +1" : "Con +1");
 }
 export function summarizeInvitations(invitations: WeddingInvitation[]) {
@@ -123,9 +124,9 @@ export function printInvitations(invitations: WeddingInvitation[], title: string
   frame.contentWindow!.print();
 }
 
-export function invitationsCsv(invitations: WeddingInvitation[], english = false) {
+export function invitationsCsv(invitations: WeddingInvitation[], english = false, kinds?: Record<string, readonly [string, string]>) {
   const cell = (value: string) => '"' + (/^[\s\uFEFF]*[=+\-@\t\r\n]/u.test(value) ? "'" + value : value).replaceAll('"', '""') + '"';
   const headers = english ? ["Invitation", "Type", "Places in invitations", "Person", "Attendance", "Last updated (UTC)"] : ["Invitación", "Tipo", "Lugares en invitaciones", "Persona", "Asistencia", "Última actualización (UTC)"];
-  const rows = invitations.flatMap(invitation => invitation.people.map(person => [invitationLabel(invitation), invitationKindLabel(invitation.kind, english), String(invitation.people.length), person.name || (english ? "Companion to be named" : "Acompañante por definir"), person.attendance === "yes" ? (english ? "Confirmed" : "Confirmado") : person.attendance === "no" ? (english ? "Not attending" : "No asistirá") : (english ? "Pending" : "Pendiente"), invitation.updated_at]));
+  const rows = invitations.flatMap(invitation => invitation.people.map(person => [invitationLabel(invitation), invitationKindLabel(invitation.kind, english, kinds), String(invitation.people.length), person.name || (english ? "Companion to be named" : "Acompañante por definir"), person.attendance === "yes" ? (english ? "Confirmed" : "Confirmado") : person.attendance === "no" ? (english ? "Not attending" : "No asistirá") : (english ? "Pending" : "Pendiente"), invitation.updated_at]));
   return "\uFEFF" + [headers, ...rows].map(row => row.map(cell).join(",")).join("\r\n");
 }

@@ -5,6 +5,7 @@ import { WeddingWorkspace } from "./sections/WeddingWorkspace";
 import { eventPanel } from "./lib/occasionPanels";
 import "./styles/wedding-workspace.css";
 import "./styles/occasion-panels.css";
+import "./styles/event-panel.css";
 
 const url=new URL(location.href);
 if(url.searchParams.get('lang')==='en'){

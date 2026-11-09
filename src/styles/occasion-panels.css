@@ -1,30 +1,212 @@
-@font-face{font-family:OccasionSyne;src:url('/demos/del-otro-lado/assets/fonts/syne.ttf') format('truetype');font-weight:400 800;font-display:swap}
+/* Shared layer for the birthday and event panels. The wedding styles stay untouched:
+   every rule here is scoped to these two occasions and reads the --o-* tokens each one defines. */
 @font-face{font-family:OccasionSora;src:url('/fonts/sora/Sora-latin.woff2') format('woff2');font-weight:100 800;font-display:swap}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]){--occasion-bg:#f0e9ff;--occasion-title:OccasionSyne, sans-serif;background:var(--occasion-bg);color:var(--panel-ink);font-family:OccasionSora,sans-serif}
-.wedding-workspace[data-occasion=event]{--occasion-bg:#e9f4f1;--occasion-title:OccasionSora,sans-serif}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.workspace-body,.workspace-main,.workspace-welcome,.ledger-tools){background:var(--occasion-bg)}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.workspace-sidebar,.workspace-navigation,.ledger-row,.boreal-table-card,.record-detail-inner,.workspace-dialog-inner,.panel-compact-bar){background:var(--panel-paper);color:var(--panel-ink)}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(h1,h2,h3,.workspace-monogram,.workspace-couple p,.ledger-stat-value){font-family:var(--occasion-title);color:var(--panel-ink)}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-monogram{font-size:1rem;border-radius:20px;color:var(--panel-accent)}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art{background:var(--occasion-bg)}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art img{object-fit:contain;object-position:85% center}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art::after{background:linear-gradient(90deg,var(--occasion-bg),transparent 36%)}
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.workspace-button,.guest-ledger .ledger-add,.workspace-nav-current){background:var(--panel-accent);border-color:var(--panel-accent);color:white}
-@media(max-width:760px){
-  .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .workspace-welcome-art{width:32vw;right:-4px}
+
+html :is(.wedding-workspace,.wedding-operations-dialog):is([data-occasion=birthday],[data-occasion=event]) {
+  --seat-paper:var(--o-surface);--seat-ink:var(--o-text);--seat-accent:var(--o-accent);--seat-line:var(--o-line);
+  --hero-pad:clamp(24px,3vw,40px);
+  background:var(--o-bg);color:var(--o-text);font-family:var(--o-body);font-variant-numeric:lining-nums tabular-nums;
+
+  & .guest-ledger {--ledger-paper:var(--o-surface);--ledger-muted:var(--o-muted);--ledger-line:var(--o-line)}
+  & .boreal-section {--boreal-line:var(--o-line)}
+  & :is(.workspace-body,.workspace-topbar,.workspace-section-content,.ledger-tools,.workspace-footer) {background:var(--o-bg);color:var(--o-text)}
+  & :is(p,small,label,legend,summary,strong,span,h1,h2,h3,h4,button,a,select,input) {color:inherit}
+
+  /* Type: nothing keeps the wedding serif */
+  & :is(h1,h2,h3,h4,.workspace-sidebar-bottom p,.boreal-summary strong,.boreal-table-center>span,.record-detail-name,.wedding-paper-monogram,.wedding-reply-context,.seating-plan-grid>strong,.seating-plan-table>strong,.seating-plan-title h3,.seating-plan-title p,.boreal-reception-access h3) {font-family:var(--o-title);font-style:normal;font-weight:500;letter-spacing:-.025em}
+  & :is(.boreal-summary strong,.boreal-table-center>span) {font-variant-numeric:lining-nums tabular-nums}
+  & :is(h2,.boreal-heading h2) {font-size:clamp(28px,2.9vw,38px);line-height:1.08;letter-spacing:-.03em}
+  & .workspace-dialog :is(h2,h3) {font-size:clamp(26px,2.6vw,34px)}
+  & .workspace-sidebar-bottom>svg,& .workspace-sidebar-bottom p,& .workspace-couple,& .boreal-heading .workspace-eyebrow {display:none}
+
+  /* Surfaces */
+  & :is(.ledger-list,.ledger-row,.boreal-table-card,.boreal-assignment-panel,.boreal-reception-list>button,.boreal-arrival-result,.boreal-scanner,.panel-more,.sample-guide,.workspace-dialog,.workspace-dialog-inner,.record-detail-header,.record-detail-inner,.wedding-record-drawer,.wedding-operations-dialog,.operations-actions,.workspace-invitation-card,.seating-plan-grid,.seating-plan-grid article,.seating-plan-table,.import-row,.panel-compact-bar) {background:var(--o-surface);color:var(--o-text);border-color:var(--o-line)}
+  & :is(.ledger-empty,.ledger-quick-filters button>span,.boreal-table-center,.boreal-seat-label,.workspace-dialog .wedding-editor-person,.import-upload,.boreal-upload) {background:var(--o-hover);border-color:var(--o-line)}
+  & .workspace-topbar {border-bottom:0}
+  & .boreal-heading-actions .boreal-quiet {border:1px solid var(--o-line);border-radius:var(--o-radius-s);padding-inline:16px}
+  & :is(.workspace-footer,.ledger-row,.boreal-reception-list,.boreal-reception-access,.boreal-group-heading,.boreal-seating-person) {border-color:var(--o-line)}
+  & :is(.workspace-list-footer,.workspace-footer,.workspace-topbar,.workspace-sync,.ledger-results,.boreal-summary span,.ledger-heading p,.ledger-list small,.workspace-quick-links,.wedding-sync-status,.boreal-filters label>span:first-child,.boreal-list-meta,.boreal-list-meta>label,.boreal-list-heading span,.boreal-legend,.boreal-table-card p,.boreal-reception-list>button small,.boreal-reception-access p,.boreal-reception-access>small,.boreal-scanner>small,.seating-plan-footnote,.seating-plan-unassigned p,.seating-plan-grid header p,.wedding-editor-person legend,.wedding-preview-note,.ledger-kind) {color:var(--o-muted)}
+  & :is(.boreal-section,.guest-ledger,.workspace-dialog,.wedding-operations-dialog,.record-detail-inner,.panel-filter-sheet) :is(select,input:not([type=checkbox],[type=radio]),textarea) {background:var(--o-surface);color:var(--o-text);border-color:var(--o-line);border-radius:var(--o-radius-s)}
+  & :is(.guest-ledger .ledger-quick-filters button,.boreal-quiet,.boreal-icon,.ledger-row-actions button,.boreal-pagination button,.panel-filter-trigger,.panel-more>button,.ledger-secondary-tools button,.workspace-language,.guide-trigger,.seat-picker button,.wedding-operations-dialog button,.record-share summary,.wedding-sync-status button,.boreal-plan-entry>button,.seat-move>button,.seating-plan-assign button,.wedding-kind-picker label,.workspace-editor-cancel,.workspace-dialog-close,.seat-picker .seat-bulk button) {background:var(--o-surface);color:var(--o-text);border-color:var(--o-line)}
+  & :is(.guest-ledger .ledger-quick-filters button:hover,.boreal-quiet:hover,.panel-more>button:hover,.panel-filter-trigger:hover,.boreal-plan-entry>button:hover,.workspace-language:hover) {background:var(--o-hover);border-color:var(--o-accent)}
+  & .guest-ledger .ledger-quick-filters button[aria-pressed=true] {background:var(--o-active);border-color:var(--o-active)}
+  & :is(.workspace-button,.guest-ledger .ledger-add,.sample-guide button:first-of-type,.boreal-scanner>.workspace-button) {background:var(--o-accent);color:var(--o-on-accent);border-color:var(--o-accent);border-radius:var(--o-radius-s)}
+  & .workspace-dialog .wedding-kind-picker label:has(input:checked) {color:var(--o-text);background:var(--o-active);border-color:var(--o-active)}
+  & :is(.ledger-search,.boreal-filters) input::placeholder {color:var(--o-muted);opacity:1}
+  & :focus-visible {outline-color:var(--o-accent)}
+
+  /* Status colours */
+  & .ledger-badge {border:0;border-radius:var(--o-radius-pill);font-weight:600;gap:6px}
+  & .ledger-badge>svg {display:none}
+  & .ledger-badge em {font-style:normal;font-weight:400;opacity:.85}
+  & .ledger-badge.is-yes {background:var(--o-yes-bg);color:var(--o-yes)}
+  & .ledger-badge.is-pending {background:var(--o-wait-bg);color:var(--o-wait)}
+  & .ledger-badge.is-no {background:var(--o-no-bg);color:var(--o-no)}
+  & :is(.boreal-legend i.is-filled,.occasion-seats i.is-filled) {background:var(--o-accent);border-color:var(--o-accent)}
+  & :is(.boreal-legend i.is-reserved,.occasion-seats i.is-reserved) {background:var(--o-wait);border-color:var(--o-wait)}
+
+  /* What's next: a single quiet line */
+  & .panel-tasks {padding:11px 0;margin-top:14px;border-block:1px solid var(--o-line);background:none;color:var(--o-text);gap:6px 22px;font-size:14px}
+  & .panel-tasks strong {font-family:var(--o-title);font-weight:600}
+
+  /* Sidebar */
+  & .workspace-sidebar {background:var(--o-side);color:var(--o-side-text);border-color:var(--o-line)}
+  & .workspace-sidebar .workspace-navigation {background:transparent;margin-top:32px}
+  & .workspace-sidebar nav :is(a,button) {color:var(--o-side-muted);border-radius:var(--o-radius-s);font-size:14px}
+  & .workspace-sidebar nav :is(a,button):hover {background:var(--o-side-hover);color:var(--o-side-text)}
+  & .workspace-sidebar .workspace-navigation>[aria-current=page] {background:var(--o-side-active);color:var(--o-side-active-text);font-weight:600}
+  & .workspace-sidebar-bottom {color:var(--o-side-muted)}
+  & .workspace-sidebar-bottom a {color:var(--o-side-muted);border-color:var(--o-side-line);font-size:13px}
+  & .workspace-sidebar-bottom a:hover {color:var(--o-side-text)}
+  & .workspace-brand {color:var(--o-side-text)}
+
+  /* Hero: the invitation's own object and surface, with the head count in one piece */
+  & .occasion-hero {position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,var(--meter));gap:32px;align-items:end;margin-top:0;padding:var(--hero-pad);border-radius:var(--o-radius-hero);background:var(--h-base);color:var(--h-text)}
+  & .occasion-hero::before {content:"";position:absolute;inset:0;z-index:-2;background:var(--h-image)}
+  & .occasion-hero::after {content:"";position:absolute;inset:0;z-index:-1;background:var(--h-veil)}
+  & .occasion-hero h1 {font:500 clamp(42px,5vw,68px)/1 var(--o-title);letter-spacing:-.03em;margin:12px 0 14px;color:var(--h-text)}
+  & .occasion-kicker {margin:0;font-size:11.5px;font-weight:600;letter-spacing:.2em;color:var(--h-kicker)}
+  & .occasion-when {display:flex;flex-wrap:wrap;gap:2px 14px;margin:0;font-size:14px;color:var(--h-soft)}
+  & .occasion-when b {font-weight:600;color:var(--h-count)}
+  & .occasion-meter {padding:18px 20px;border-radius:var(--o-radius-card);background:var(--h-card);border:1px solid var(--h-card-line);box-shadow:0 18px 30px -24px #000c}
+  & .occasion-meter>p {margin:0;font-size:13px;color:var(--h-card-muted)}
+  & .occasion-bar {display:flex;gap:3px;margin-top:12px}
+  & .occasion-bar>i {flex:1 1 0;height:12px;border-radius:3px;background:var(--h-seat);transition:transform .25s ease}
+  & .occasion-bar>i.is-yes {background:var(--h-seat-yes)}
+  & .occasion-bar>i.is-no {background:repeating-linear-gradient(135deg,var(--h-seat-no-a) 0 3px,var(--h-seat-no-b) 3px 6px)}
+  & .occasion-meter:hover .occasion-bar>i {transform:scaleY(1.25)}
+  & .ledger-stats {display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:12px -8px -6px;padding:0;background:none;border:0}
+  & .ledger-stat {display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:68px;padding:8px;border:0;border-radius:6px;background:none;color:var(--h-card-text);text-align:left;box-shadow:inset 0 -2px 0 transparent;translate:none}
+  & .ledger-stat>svg {display:none}
+  & .ledger-stat:is(:hover,[aria-pressed=true]) {background:var(--h-card-hover);box-shadow:inset 0 -2px 0 var(--c);translate:none}
+  & .ledger-stat.is-yes {--c:var(--h-stat-yes)}
+  & .ledger-stat.is-pending {--c:var(--h-stat-wait)}
+  & .ledger-stat.is-no {--c:var(--h-stat-no)}
+  & .ledger-stat-value {font:500 32px/1 var(--o-title);letter-spacing:-.04em;font-variant-numeric:lining-nums tabular-nums;color:var(--c)}
+  & .ledger-stat>span:not(.ledger-stat-value) {font-size:12.5px;line-height:1.25;color:var(--h-card-text)}
+  & .workspace-quick-links {margin-top:16px}
+  &:not([data-tab=guests]) .occasion-kicker,&:not([data-tab=guests]) .ledger-stats {display:none}
+  &:not([data-tab=guests]) .occasion-hero {padding-block:22px}
+  &:not([data-tab=guests]) .occasion-hero h1 {font-size:clamp(30px,3.4vw,44px);margin:0 0 6px}
+
+  /* Guest list */
+  & .ledger-heading {margin-top:6px}
+  & .ledger-mobile-people {display:none}
+  & .ledger-search {position:relative}
+  & .ledger-search>svg {position:absolute;z-index:1;color:var(--o-muted)}
+  & .ledger-search input {text-overflow:ellipsis}
+  & .ledger-response {display:grid;gap:5px;justify-items:start}
+  & .ledger-row {animation:none}
+  & .ledger-row:hover {background:var(--o-hover)}
+
+  /* Tables or zones: seats in line, in place of the wedding's round table */
+  & .boreal-table-card {text-align:left;border-radius:var(--o-radius-card)}
+  & .boreal-table-select {display:grid;text-align:left;width:100%;background:none;border:0;padding:0}
+  & .boreal-table-actions {padding:12px 0 0;margin-top:12px}
+  & .boreal-table-select h3 {font-size:24px;line-height:1.15;margin:0}
+  & .boreal-table-select p {margin:4px 0 0;font-size:14px}
+  & .occasion-seats {display:grid;grid-template-columns:repeat(var(--seats,8),1fr);gap:3px;margin-top:16px;order:3}
+  & .occasion-seats>i {height:14px;border-radius:3px;background:var(--o-active);transition:transform .25s ease}
+  & .boreal-table-card:hover .occasion-seats>i {transform:scaleY(1.2)}
+  & .occasion-members {display:block;order:4;margin-top:14px;padding-top:12px;border-top:1px solid var(--o-line);font-size:14px;color:var(--o-muted);min-height:44px}
+  & .occasion-members b {font-weight:600;color:var(--o-text)}
+  & .boreal-table-card.is-selected {border-color:var(--o-accent);box-shadow:inset 0 0 0 1px var(--o-accent)}
+
+  /* Seating sheet */
+  & .seating-plan-table {border:0;outline:0;box-shadow:none;border-radius:var(--o-radius-s);background:var(--o-hover);color:var(--o-text)}
+  & .seating-plan-table::before,& .seating-plan-table::after {display:none}
+  & :is(.seating-plan-legend,.seating-plan-title span) {color:var(--o-muted)}
+  & :is(.seating-plan-legend i,.seating-plan-grid li i) {background:var(--o-accent)}
+  & :is(.seating-plan-legend i,.seating-plan-grid li i).pending {background:var(--o-wait)}
+  & .wedding-operations-dialog,&.wedding-operations-dialog {background:var(--o-surface);color:var(--o-text);font-family:var(--o-body)}
+  & .seating-plan-title {border-color:var(--o-line)}
+  & header {border-color:var(--o-line)}
+
+  /* Reception: scanner and head count side by side, then the list */
+  & .boreal-reception {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:12px;align-items:stretch}
+  & .boreal-reception>.boreal-scanner {grid-column:1;grid-row:1;display:flex;flex-direction:column;justify-content:center;gap:8px;margin:0;padding:22px;border-radius:var(--o-radius-card)}
+  & .boreal-reception>.boreal-summary {grid-column:2;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(3,1fr);margin:0;padding:4px 24px;background:var(--o-surface);border:1px solid var(--o-line);border-radius:var(--o-radius-card)}
+  & .boreal-reception>.boreal-summary>div {border-left:0;padding:0;align-items:center;width:100%}
+  & .boreal-reception>.boreal-summary>div+div {border-top:1px solid var(--o-line)}
+  & .boreal-reception>.boreal-summary strong {font-size:32px;min-width:52px}
+  & .boreal-reception>.boreal-summary span {max-width:none;font-size:14px}
+  & .boreal-reception>.boreal-filters,& .boreal-reception>.boreal-reception-guests {grid-column:1/-1}
+  & .boreal-reception-list {border:1px solid var(--o-line);border-radius:var(--o-radius-card);overflow:hidden}
+  & .boreal-reception-list>button:hover {background:var(--o-hover)}
+  & .boreal-reception-list>button>svg {color:var(--o-muted)}
 }
-.occasion-add-slot{display:none}
-@media(max-width:760px){
-  .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .ledger-heading .ledger-add{display:none}
-  .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .ledger-controls{display:grid;grid-template-columns:minmax(0,1fr) auto 56px;align-items:end}
-  .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .ledger-controls>label:first-child{grid-column:auto;min-width:0}
-  .occasion-add-slot{display:block}
-  .wedding-workspace .guest-ledger .occasion-add-slot .ledger-add{position:static;box-shadow:0 2px 6px #34291725}
+.occasion-add-slot {display:none}
+
+@media(max-width:1100px) {
+  html .wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) .occasion-hero {grid-template-columns:1fr;gap:18px}
 }
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.guest-ledger,.boreal-section,.seating-plan-grid,.seat-picker){
-  font-variant-numeric:lining-nums tabular-nums;
+@media(max-width:760px) {
+  html :is(.wedding-workspace,.wedding-operations-dialog):is([data-occasion=birthday],[data-occasion=event]) {
+    & .workspace-sidebar {background:var(--o-bg);border:0;padding:12px 16px 8px;min-height:62px;justify-content:flex-start;align-items:center;gap:12px}
+    & .workspace-body {padding-inline:16px}
+    & .ledger-heading .ledger-add {display:none}
+    & .ledger-controls {display:grid;grid-template-columns:minmax(0,1fr) auto 48px;gap:8px;align-items:end}
+    & .ledger-mobile-people {display:none}
+    & .ledger-controls>label:first-child {grid-column:auto;min-width:0}
+    & .ledger-controls>label>span:first-child {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+    & .occasion-add-slot {display:block}
+    & .guest-ledger .occasion-add-slot .ledger-add {position:static;width:48px;height:48px;padding:0;justify-content:center;box-shadow:none}
+    & .guest-ledger .occasion-add-slot .ledger-add>span {display:none}
+    & .workspace-quick-links {flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none;gap:14px;font-size:13px}
+    & .workspace-quick-links a>svg:last-child {display:none}
+    & .workspace-sample-label {display:none}
+    & .workspace-sidebar-bottom a>span {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+    & .workspace-sidebar-bottom a {min-width:40px;justify-content:center}
+    & .workspace-sidebar-bottom {order:-1}
+    & .workspace-brand,& .workspace-sidebar-bottom a {color:var(--o-text)}
+    & .workspace-sidebar .workspace-navigation {margin:0;background:var(--o-nav);border-color:var(--o-line)}
+    & .workspace-sidebar .workspace-navigation>:is(button,a) {color:var(--o-nav-text);font-family:var(--o-body);background:transparent}
+    & .workspace-sidebar .workspace-navigation>:is(button,a):is(:hover,:focus-visible) {background:var(--o-nav-hover);color:var(--o-nav-strong)}
+    & .workspace-sidebar .workspace-navigation>[aria-current=page] {background:var(--o-nav-active);color:var(--o-nav-active-text);box-shadow:none}
+    & .workspace-sidebar-bottom {padding:0;margin:0}
+    & .workspace-sidebar-bottom a {border:0;padding:0}
+    & .workspace-topbar>span:first-child {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+    & .workspace-topbar {position:absolute;top:10px;right:16px;padding:0;background:none}
+    & .workspace-topbar>div {gap:8px}
+    & :is(.workspace-language,.birthday-theme-button) {width:40px;height:40px;min-height:40px}
+    & .occasion-hero {padding:18px;gap:16px}
+    & .occasion-copy {padding-right:var(--hero-object-gap);min-height:118px}
+    & .occasion-hero h1 {font-size:33px;margin:6px 0 8px;white-space:nowrap}
+    & .occasion-kicker {font-size:10.5px;letter-spacing:.16em}
+    & .occasion-when {display:grid;font-size:13px}
+    & .occasion-meter {padding:14px}
+    & .occasion-meter>p,& .wedding-sync-status {display:none}
+    & .occasion-bar {margin-top:0}
+    & .ledger-stat-value {font-size:28px}
+    & .ledger-stat>span:not(.ledger-stat-value) {font-size:12px}
+    & .ledger-stat {min-height:60px}
+    &:not([data-tab=guests]) .occasion-meter {display:none}
+    &:not([data-tab=guests]) .occasion-copy {min-height:0;padding-right:84px}
+    &:not([data-tab=guests]) .occasion-hero h1 {font-size:24px}
+    &:not([data-tab=guests]) .occasion-hero {padding-block:14px}
+    &:not([data-tab=guests]) .occasion-when span:nth-child(2) {display:none}
+    & .panel-tasks {flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+    & .ledger-row {grid-template-columns:minmax(0,1fr) 44px;position:relative;padding:12px}
+    & .ledger-row-actions {grid-column:2;grid-row:1;align-self:start}
+    & .ledger-row-actions>:is(button,a) {width:44px;min-height:44px;padding:0;justify-content:center}
+    & .ledger-row-actions>:is(button,a)>span {display:none}
+    & .guest-ledger .ledger-record {grid-template-columns:minmax(0,1fr);padding:0;gap:8px}
+    & .ledger-record-arrow {display:none}
+    & .ledger-response {display:flex;flex-wrap:wrap;gap:5px}
+    & .ledger-name {display:block}
+    & .ledger-completion {display:none}
+    & .boreal-reception {grid-template-columns:minmax(0,1fr)}
+    & .boreal-reception>.boreal-scanner,& .boreal-reception>.boreal-summary {grid-column:1;grid-row:auto}
+    & .boreal-reception>.boreal-summary {grid-template-rows:none;grid-template-columns:repeat(3,1fr);padding:12px 0}
+    & .boreal-reception>.boreal-summary>div {flex-direction:column;align-items:flex-start;gap:2px;padding:0 12px}
+    & .boreal-reception>.boreal-summary>div+div {border-top:0;border-left:1px solid var(--o-line)}
+    & .boreal-reception>.boreal-summary strong {font-size:26px;min-width:0}
+    & .boreal-reception>.boreal-summary span {font-size:12.5px}
+  }
 }
-.wedding-workspace:is([data-occasion=birthday],[data-occasion=event]) :is(.ledger-stat-value,.boreal-summary strong,.boreal-table-center>span){
-  font-family:OccasionSora,sans-serif;
-  font-variant-numeric:lining-nums tabular-nums;
+@media(prefers-reduced-motion:reduce) {
+  html :is(.wedding-workspace,.wedding-operations-dialog):is([data-occasion=birthday],[data-occasion=event]) :is(.occasion-bar>i,.occasion-seats>i,.occasion-object) {transition:none;animation:none}
+}
+@media print {
+  html[data-theme=dark] .wedding-operations-dialog[data-occasion=birthday] {--o-surface:#fff;--o-hover:#f2eef4;--o-text:#1d1a2e;--o-muted:#5d5468;--o-line:#d8cbdc;--o-accent:#74531b;--o-wait:#5d5468}
 }

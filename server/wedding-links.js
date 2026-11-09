@@ -117,6 +117,7 @@ function sampleState(occasion) {
   const boreal = sampleBoreal(invitations);
   const management = { sampleOccasion:occasion, delivery:{}, history:[], trash:[], imports:[] };
   if (occasion !== 'wedding') {
+    boreal.tables.forEach((table,index)=>{table.name=sampleOccasions[occasion].tables?.[index] ?? table.name});
     // Leave a mix of assigned and unassigned people in the sample.
     boreal.seats = { [invitations[1].people[0].id]:boreal.tables[0].id };
     for (const invitation of invitations.slice(0,5)) management.delivery[invitation.id]={sentAt:invitation.updated_at,updatedAt:invitation.updated_at};
