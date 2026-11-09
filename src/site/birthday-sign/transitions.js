@@ -62,15 +62,16 @@ const TRANSITIONS = {
     const s = V('v-space'), cnt = V('v-count'), fog = V('v-fade'), rk = V('v-rocket', ROCKET);
     s.style.opacity = 0; fog.style.cssText = 'background:#e9ecf5;opacity:0'; rk.style.opacity = 0;
     ani(s, [{ opacity: 0 }, { opacity: .82 }], { duration: 220 });
-    for (const n of [3, 2, 1]) { cnt.textContent = n; await ani(cnt, [{ opacity: 0, transform: 'translate(-50%,-50%) scale(1.6)' }, { opacity: 1, transform: 'translate(-50%,-50%) scale(1)', offset: .4 }, { opacity: 0, transform: 'translate(-50%,-50%) scale(.8)' }], { duration: 115, fill: 'none' }); }
+    for (const n of [3, 2, 1]) { cnt.textContent = n; await ani(cnt, [{ opacity: 0, transform: 'translate(-50%,-50%) scale(1.6)' }, { opacity: 1, transform: 'translate(-50%,-50%) scale(1)', offset: .25 }, { opacity: 1, transform: 'translate(-50%,-50%) scale(1)', offset: .75 }, { opacity: 0, transform: 'translate(-50%,-50%) scale(.8)' }], { duration: 430, fill: 'none' }); }
     cnt.remove();
-    const W0 = innerWidth, H0 = innerHeight, t0 = performance.now(), D = 420;
+    const W0 = innerWidth, H0 = innerHeight, t0 = performance.now(), D = 1500;
+    let puff = 0;
     rk.style.opacity = 1;
     await new Promise(res => requestAnimationFrame(function f(t){
-      const k = Math.min(1, (t - t0) / D), e = k * k * (3 - 2 * k), x = -.1 * W0 + 1.25 * W0 * e, y = 1.1 * H0 - 1.3 * H0 * e;
+      const k = Math.max(0, Math.min(1, (t - t0) / D)), e = Math.pow(k, 1.75), x = -.1 * W0 + 1.25 * W0 * e, y = 1.1 * H0 - 1.3 * H0 * e;
       rk.style.transform = `translate(${x}px,${y}px) rotate(42deg)`;
-      smoke(x - 30, y + 40, k > .2);
-      fog.style.opacity = Math.max(0, (k - .45) / .55);
+      if (t - puff >= 32) { puff = t; smoke(x - 30, y + 40, k > .2); }
+      fog.style.opacity = Math.max(0, (k - .72) / .28);
       if (k < 1) requestAnimationFrame(f); else res();
     }));
     swap(); s.remove(); rk.remove();

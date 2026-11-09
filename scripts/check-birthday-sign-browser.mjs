@@ -185,7 +185,7 @@ try{
    // Every target transition is exercised throughout the initial-style matrix.
    await checkGiftNameTag(p);await clickCards(s);await checkUndo(s);
    const target=styles[(styles.indexOf(style)+1)%styles.length];await choose(s,target);
-   const transitions=await p.evaluate(()=>window.__signTransitions);assert(transitions.length);for(const t of transitions)assert(t.ms<=1300,'Transition exceeded 1.3 s: '+JSON.stringify(t));
+   const transitions=await p.evaluate(()=>window.__signTransitions);assert(transitions.length);for(const t of transitions)assert(t.ms<=(t.kind==='espacio'?3600:1300),'Transition exceeded 1.3 s: '+JSON.stringify(t));
    if(target==='caja'){assert(await p.locator('#bs-zone').evaluate(e=>e.classList.contains('is-wrapped')));await p.locator('#bs-bow').focus();await p.keyboard.press('Enter');await p.waitForFunction(()=>!document.getElementById('bs-zone').classList.contains('is-wrapped'));}
    if(target==='bar'){await p.waitForFunction(()=>!document.getElementById('bs-zone').classList.contains('door-in'),null,{timeout:5000});assert(!await p.locator('#bs-door').isVisible());}
    await openControls(s);await p.locator('#bs-party').click();await p.waitForTimeout(300);if(width<=900)await p.locator('#bs-sheet-x').click();await p.locator('[data-business-toggle]').click();await p.waitForFunction(()=>document.body.dataset.journeyMotion==='paused');await p.waitForTimeout(100);

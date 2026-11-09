@@ -17,12 +17,13 @@ export function mountSample({root,world,text,ask,still}){
   const dashboard=section.querySelector('.wedding-dashboard'),preview=dashboard.querySelector('img'),panelLink=links.children[1];
   const original={href:panelLink.getAttribute('href'),src:preview.getAttribute('src'),srcset:preview.getAttribute('srcset')};
   const styled=(value,style)=>style?value.replaceAll('birthday-dashboard-preview/','birthday-dashboard-preview/'+style+'/'):value;
-  function syncPanel(style){
+  function syncPanel(style,name,age){
     const url=new URL(original.href,location.origin);
     if(style)url.searchParams.set('estilo',style);
     const href=url.pathname+url.search;
     panelLink.href=href;dashboard.href=href;
     preview.src=styled(original.src,style);
+    preview.alt=text('Panel de {name} {age}',{name,age});
     if(original.srcset)preview.srcset=styled(original.srcset,style);
   }
   function sync(){
@@ -36,7 +37,7 @@ export function mountSample({root,world,text,ask,still}){
     const link=links.firstElementChild;link.textContent=text(selected==='caja'?'Abrir la invitación completa ↗':'Pedir este estilo ↗');
     link.href=selected==='caja'?'/invitaciones/camila-30/':ask.href;
     link.target=selected==='caja'?'_self':'_blank';link.rel='noopener';
-    syncPanel(cover==='caja'?'':cover);
+    syncPanel(cover==='caja'?'':cover,name,age);
   }
   sync();return {sync};
 }
