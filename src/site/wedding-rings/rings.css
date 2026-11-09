@@ -148,8 +148,8 @@ body[data-scene=bodas] #bodas-respuesta>.travel-thread{display:none}
  .rings-hero .options-compare{font-size:15px;min-height:40px;margin:0;gap:4px;padding:8px 2px;border:0;background:linear-gradient(var(--line),var(--line)) center calc(100% - 6px)/100% 1px no-repeat;transition:background-size .22s}
  .rings-hero .options-compare::after{display:none}
  .rings-hero .options-compare:hover{background-size:0 1px}
- .rings-hero #rings-stage{position:relative;inset:auto;flex:none;order:1;width:100vw;height:380px;margin-top:-24px;z-index:1}
- .rings-hero .rings-poster{inset:auto 0 0;height:380px;z-index:0}
+ .rings-hero #rings-stage{--rings-dust-lift:200px;position:relative;inset:auto;flex:none;order:1;width:100vw;height:calc(380px + var(--rings-dust-lift));margin-top:calc(-24px - var(--rings-dust-lift));z-index:1;-webkit-mask-image:linear-gradient(transparent,rgba(0,0,0,.2) 10%,rgba(0,0,0,.58) 24%,#000 40%);mask-image:linear-gradient(transparent,rgba(0,0,0,.2) 10%,rgba(0,0,0,.58) 24%,#000 40%)}
+ .rings-hero .rings-poster{inset:auto 0 0;height:380px;z-index:0;-webkit-mask-image:linear-gradient(transparent,#000 24%);mask-image:linear-gradient(transparent,#000 24%)}
  .rings-hero .rings-motion{bottom:34px;display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:13px;background:color-mix(in srgb,var(--paper) 82%,transparent);backdrop-filter:blur(6px);transition:background .22s,border-color .22s}
  .rings-motion svg{display:block;width:12px;height:12px}
  .rings-hero .rings-motion:hover{background:var(--paper);border-color:var(--accent)}

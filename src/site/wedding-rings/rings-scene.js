@@ -127,7 +127,7 @@ function emitMote(u,spread,fall){threadCurve.getPointAt(clamp(u),motePt);pair.lo
  moteVel.set([(Math.random()-.5)*.12,fall?-(.12+Math.random()*.18):(Math.random()-.5)*.1,(Math.random()-.5)*.12],i*3);moteAge[i]=0;moteLife[i]=fall?3.2+Math.random()*1.4:1.2+Math.random()*1.2;}
 
 // Gold dust with depth-of-field: out-of-focus grains open into soft discs (bokeh).
-const DUST=LITE?520:1500;
+const DUST=LITE?660:1500;
 const dGeo=new THREE.BufferGeometry();
 const seeds=new Float32Array(DUST*4),targets=new Float32Array(DUST*3),pos=new Float32Array(DUST*3);
 for(let i=0;i<DUST;i++){
@@ -139,9 +139,9 @@ for(let i=0;i<DUST;i++){
 dGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));dGeo.setAttribute('aSeed',new THREE.BufferAttribute(seeds,4));dGeo.setAttribute('aTarget',new THREE.BufferAttribute(targets,3));
 dGeo.boundingSphere=new THREE.Sphere(new THREE.Vector3(),8);
 const dustMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,
- uniforms:{uTime:{value:0},uGather:{value:0},uPixel:{value:1},uPointer:{value:new THREE.Vector3(99,99,99)},uPush:{value:0},uSpeed:{value:1},uAlpha:{value:0},uDark:{value:0},uFocus:{value:7},uAperture:{value:.4}},
- vertexShader:`attribute vec4 aSeed;attribute vec3 aTarget;uniform float uTime,uGather,uPixel,uPush,uSpeed,uAlpha,uFocus,uAperture;uniform vec3 uPointer;varying float vA;varying float vHot;varying float vCoc;
- void main(){float ang=aSeed.y+uTime*aSeed.w*uSpeed;vec3 orbit=vec3(cos(ang)*aSeed.x,aSeed.z+sin(uTime*.3+aSeed.y*3.)*.12,sin(ang)*aSeed.x*.55-.3);
+ uniforms:{uTime:{value:0},uGather:{value:0},uPixel:{value:1},uPointer:{value:new THREE.Vector3(99,99,99)},uPush:{value:0},uSpeed:{value:1},uAlpha:{value:0},uDark:{value:0},uRise:{value:0},uFocus:{value:7},uAperture:{value:.4}},
+ vertexShader:`attribute vec4 aSeed;attribute vec3 aTarget;uniform float uTime,uGather,uPixel,uPush,uSpeed,uAlpha,uFocus,uAperture,uRise;uniform vec3 uPointer;varying float vA;varying float vHot;varying float vCoc;
+ void main(){float ang=aSeed.y+uTime*aSeed.w*uSpeed;vec3 orbit=vec3(cos(ang)*aSeed.x,aSeed.z+sin(uTime*.3+aSeed.y*3.)*.12,sin(ang)*aSeed.x*.55-.3);orbit.y+=uRise*step(.52,fract(aSeed.y*5.17))*fract(aSeed.y*11.3);
  float g=uGather*smoothstep(0.,1.,fract(aSeed.y*7.31)*.4+.6);vec3 p=mix(orbit,aTarget,g);
  vec3 d=p-uPointer;float dist=length(d);p+=normalize(d+1e-4)*uPush*.45*smoothstep(1.,0.,dist);
  vec4 mv=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*mv;
@@ -151,7 +151,9 @@ const dustMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,
  fragmentShader:`varying float vA;varying float vHot;varying float vCoc;uniform float uDark;void main(){vec2 c=gl_PointCoord-.5;float r=length(c)*2.;
  float sharp=pow(clamp(1.-r,0.,1.),1.8);float disc=smoothstep(1.,.86,r)*(.7+.3*smoothstep(.5,.9,r));float a=mix(sharp,disc,clamp(vCoc*.6,0.,1.));
  vec3 edge=mix(vec3(.62,.43,.17),vec3(.95,.74,.38),uDark);vec3 core=vec3(1.4,1.25,1.);vec3 col=mix(edge,core,pow(sharp,2.)*(.6+.4*vHot));gl_FragColor=vec4(col,a*vA);}`});
-const dust=new THREE.Points(dGeo,dustMat);holder.add(dust);
+// The dust has its own rig: it follows the rings' entry pose but ignores drag, tap and scroll turns.
+const dustRig=new THREE.Group();scene.add(dustRig);
+const dust=new THREE.Points(dGeo,dustMat);dustRig.add(dust);
 
 // (2) Jeweller's bokeh: large soft discs of light behind the rings.
 const BOKEH=LITE?10:22;const bokeh=[];
@@ -251,12 +253,15 @@ function setTheme(dark){
 setTheme(currentDark);
 
 // ---------- (5) Layout and camera ----------
-let W=1,H=1,finalDist=7,ringCx=0,ringCy=0;
+let W=1,H=1,lift=0,finalDist=7,ringCx=0,ringCy=0;
 const actions=document.querySelector('.actions'),hint=document.getElementById('hint');
 const script1=document.getElementById('script1'),script2=document.getElementById('script2');
 const camDirFinal=new THREE.Vector3(0,Math.sin(THREE.MathUtils.degToRad(13)),Math.cos(THREE.MathUtils.degToRad(13)));
 function resize(){
- W=stage.clientWidth;H=stage.clientHeight;renderer.setSize(W,H,false);camera.aspect=W/H;
+ W=stage.clientWidth;H=stage.clientHeight;renderer.setSize(W,H,false);
+ // On phones the canvas extends above the rings' frame only to carry dust towards the title.
+ lift=narrowQ.matches?parseFloat(getComputedStyle(stage).getPropertyValue('--rings-dust-lift'))||0:0;
+ const frameH=H-lift;camera.aspect=W/frameH;
  const pr=renderer.getPixelRatio();
  rtMain.setSize(Math.round(W*pr),Math.round(H*pr));rtRefl.setSize(Math.round(W*pr*.6),Math.round(H*pr*.6));
  for(let i=0;i<LEVELS;i++){const d=2<<i;bloomRT[i].setSize(Math.max(2,Math.round(W*pr/d)),Math.max(2,Math.round(H*pr/d)));bloomTmp[i].setSize(bloomRT[i].width,bloomRT[i].height);}
@@ -266,9 +271,10 @@ function resize(){
  script1.setAttribute('x',wide?20:450);script2.setAttribute('x',wide?20:450);
  let unit;
  if(wide){unit=Math.min(H*.25,W*.16);ringCx=W*.7;ringCy=H*.55;}
- else if(narrowQ.matches){unit=Math.min(H*.28,W*.27);ringCx=W/2;ringCy=H*.47;}
+ else if(narrowQ.matches){unit=Math.min(frameH*.28,W*.27);ringCx=W/2;ringCy=lift+frameH*.47;}
  else{const heroTop=hero.getBoundingClientRect().top,below=actions.getBoundingClientRect().bottom-heroTop;const space=LITE?Math.max(140,H-below-70):Math.max(260,H-below-30);unit=Math.min(space*(LITE?.38:.3),W*.27);ringCx=W/2;ringCy=below+space*.5;}
- const half=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));finalDist=(H/2)/(unit*half);
+ const half=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));finalDist=(frameH/2)/(unit*half);
+ dustMat.uniforms.uRise.value=lift/unit*1.1;
  hint.style.left=ringCx+'px';hint.style.top=((narrowQ.matches?stage.offsetTop:0)+Math.min(H-34,ringCy+unit*1.45))+'px';
 }
 const observer=new ResizeObserver(()=>{if(!disposed){resize();if(active)render();}});observer.observe(stage);
@@ -303,6 +309,7 @@ function pose(e,dt){
  holder.rotation.y=.4+1.1*(1-turn)+Math.sin(idle*.35)*.12*idleOn+tilt.x*.25+spin+userRot+sc*1.1;
  holder.rotation.x=-.08+tilt.y*.12-sc*.2;holder.rotation.z=.08;
  ringB.rotation.x=.55+(THETA-.55)*swing+Math.sin(idle*.6)*.04*idleOn-sc*.32;
+ dustRig.position.copy(holder.position);dustRig.rotation.set(-.08,.4+1.1*(1-turn),.08);
  mirrorHolder.position.copy(holder.position);mirrorHolder.rotation.copy(holder.rotation);mB.rotation.x=ringB.rotation.x;
  // the moment the band closes: ripple, glint and a chime
  const tClose=3.35;
@@ -315,7 +322,7 @@ function pose(e,dt){
  const dist=Math.exp(lerp(Math.log(1.55),Math.log(finalDist),k));
  target.copy(gemW).lerp(holder.position,k);
  camera.position.copy(target).addScaledVector(dir,dist);camera.lookAt(target);
- camera.setViewOffset(W,H,-(ringCx-W/2)*(wideQ.matches?1:k),-(ringCy-H/2)*k,W,H);camera.updateProjectionMatrix();
+ {const frameH=H-lift;camera.setViewOffset(W,frameH,-(ringCx-W/2)*(wideQ.matches?1:k),-(ringCy-lift-frameH/2)*k-lift,W,H);}camera.updateProjectionMatrix();
  dustMat.uniforms.uFocus.value=camera.position.distanceTo(target);dustMat.uniforms.uAperture.value=lerp(1.1,.12,k);
  // (2) pen of light: head runs 0→1+tail between 2.2 s and 4.2 s
  const head=reduce?-1:lerp(-.02,1+TAIL,clamp((t-2.2)/2));
@@ -363,7 +370,7 @@ function pose(e,dt){
    dummy.position.set(p.x,p.y,p.z);dummy.rotation.set(Math.sin(p.rx)*1.2,p.ry,Math.cos(p.rx*.8)*.9);
   }else{dummy.position.set(p.x,rest,p.z);dummy.rotation.set(-Math.PI/2+.08,p.ry,0);if(clock-p.landed>7)spawnPetal(p,false);}
   const shrink=p.landed>0?1-smooth(5.5,7,clock-p.landed):1;
-  dummy.scale.setScalar(p.scale*shrink*(pOn>0?1:0));dummy.updateMatrix();petals.setMatrixAt(i,dummy.matrix);
+  dummy.scale.setScalar(p.scale*shrink*(pOn>0?1:0)*(lift>0?1-smooth(1,1.7,p.y):1));dummy.updateMatrix();petals.setMatrixAt(i,dummy.matrix);
  });
  petals.instanceMatrix.needsUpdate=true;
  dustMat.uniforms.uTime.value=silkMat.uniforms.uTime.value=clock;
@@ -389,7 +396,7 @@ function frame(now){
  const dt=Math.min(.05,(now-last)/1000);last=now;
  if(!paused&&shown){clock+=dt;
   tilt.x+=((pointerIn&&!dragging?pointerNDC.x:0)-tilt.x)*.04;tilt.y+=((pointerIn&&!dragging?-pointerNDC.y:0)-tilt.y)*.04;
-  if(pointerIn){ray.setFromCamera(pointerNDC,camera);if(ray.ray.intersectPlane(plane,hit)){holder.worldToLocal(hit);dustMat.uniforms.uPointer.value.copy(hit);}}
+  if(pointerIn){ray.setFromCamera(pointerNDC,camera);if(ray.ray.intersectPlane(plane,hit)){dustRig.worldToLocal(hit);dustMat.uniforms.uPointer.value.copy(hit);}}
   dustMat.uniforms.uPush.value+=((pointerIn?1:0)-dustMat.uniforms.uPush.value)*.06;
   pose(clock-.25,dt);render();
  }

@@ -35,7 +35,7 @@ try{for(const engine of (process.env.HERO_ENGINES||'chrome,webkit').split(',')){
    if(await page.locator('[data-rings-start]').isVisible())await tap(page,'[data-rings-start]');
    await page.evaluate(()=>window.__rings.freeze(7.8));
    const framing=await page.evaluate(()=>{const b=document.querySelector('#rings-stage').getBoundingClientRect();return {width:innerWidth,stageHeight:b.height,points:window.__rings.project().map(p=>({x:p.x-b.left,y:p.y-b.top})),stageWidth:b.width};});
-   assert(framing.points.every(p=>p.x>0&&p.x<framing.stageWidth&&p.y>0&&p.y<framing.stageHeight),JSON.stringify(framing));if(width<=700)assert.equal(framing.stageHeight,380);results.push({kind:'resize',...framing});
+   assert(framing.points.every(p=>p.x>0&&p.x<framing.stageWidth&&p.y>0&&p.y<framing.stageHeight),JSON.stringify(framing));if(width<=700)assert.equal(framing.stageHeight,580);results.push({kind:'resize',...framing});
   }await context.close();
  }
  for(const width of [390,1440])for(const theme of ['light','dark']){
