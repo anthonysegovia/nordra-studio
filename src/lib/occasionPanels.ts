@@ -13,7 +13,7 @@ export const birthdayPanel:typeof base = {
   identity:{
     name:'Camila 30',title:['Camila 30'],mark:['C','30'],back:'/cumpleanos',anchor:'cumpleanos-panel-muestra',
     invitation:'/invitaciones/camila-30/',download:'cumpleanos',photo:'/artwork/birthday-caja/cerrada-660.webp',srcSet:'/artwork/birthday-caja/cerrada-360.webp 360w, /artwork/birthday-caja/cerrada-660.webp 660w',
-    place:['Terraza Aurora','Terraza Aurora'],brand:['NOCHE DE CUMPLE','BIRTHDAY NIGHT'],brandLabel:['Cumpleaños','Birthdays'],
+    place:['Terraza Aurora','Terraza Aurora'],brand:['BIRTHDAYS','BIRTHDAYS'],brandLabel:['Cumpleaños','Birthdays'],
     badge:['MI CUMPLEAÑOS','MY BIRTHDAY'],panel:['Panel de cumpleaños','Birthday dashboard'],space:['Tu espacio de cumpleaños','Your birthday space'],
     backLabel:['Volver a Cumpleaños','Back to Birthdays'],kicker:['LA FIESTA DE CAMILA','CAMILA’S PARTY'],note:['Reúne a tus personas favoritas.','Bring your favorite people together.'],
     motto:['Hecho para tu fiesta','Made for your party'],guests:['Quién viene','Who’s coming'],nav:['Quién viene','Who’s coming'],ours:['La invitación','The invitation'],
@@ -35,7 +35,7 @@ export const birthdayPanel:typeof base = {
 // Each birthday style dresses the panel with its own invitation. Caja de regalo, also the sample
 // for Neón, is the base. These styles have no public invitation yet, so their panels link to none.
 function styledBirthday(style:string,name:string,kicker:readonly [string,string],place:string,photo:string,badge:readonly [string,string]):typeof base {
-  return {...birthdayPanel,style,identity:{...birthdayPanel.identity,name,title:[name],mark:[name],invitation:'',photo,srcSet:'',kicker:[...kicker],place:[place,place],badge:[...badge],brand:[...badge]}};
+  return {...birthdayPanel,style,identity:{...birthdayPanel.identity,name,title:[name],mark:[name],invitation:'',photo,srcSet:'',kicker:[...kicker],place:[place,place],badge:[...badge]}};
 }
 const birthdayStyles:Record<string,typeof base>={
   bar:styledBirthday('bar','Andrés 40',['EL BAR DE ANDRÉS','ANDRÉS’S BAR'],'El Sótano','/artwork/birthday-panel/bar-lampara.webp',['BAR CLANDESTINO','SPEAKEASY']),
@@ -53,7 +53,7 @@ export const eventPanel:typeof base = {
   identity:{
     name:'Conexión 27',title:['Conexión 27'],mark:['C27'],back:'/eventos',anchor:'eventos-panel-muestra',
     invitation:'/invitaciones/conexion-27/',download:'evento',photo:'/artwork/event-gafete/reverso-live-480.webp',srcSet:'/artwork/event-gafete/reverso-live-480.webp 480w, /artwork/event-gafete/reverso-live-960.webp 960w',
-    place:['Espacio Nodo · Monterrey','Espacio Nodo · Monterrey'],brand:['EVENTOS','EVENTS'],brandLabel:['Eventos','Events'],
+    place:['Espacio Nodo · Monterrey','Espacio Nodo · Monterrey'],brand:['EVENTS','EVENTS'],brandLabel:['Eventos','Events'],
     badge:['MI EVENTO','MY EVENT'],panel:['Panel del evento','Event dashboard'],space:['Tu espacio del evento','Your event space'],
     backLabel:['Volver a Eventos','Back to Events'],kicker:['PUNTO DE ENCUENTRO','MEETING POINT'],note:['Consulta quién viene al encuentro.','See who is coming to the event.'],
     motto:['Hecho para tu encuentro','Made for your gathering'],guests:['Asistentes','Attendees'],nav:['Asistentes','Attendees'],ours:['Invitación','Invitation'],
