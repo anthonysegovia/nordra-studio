@@ -69,7 +69,7 @@ test('incremental brick light matches the original sum, and only dirties influen
 test('approved birthday hero is text-first with four whole-card style buttons',()=>{
  const html=fs.readFileSync(new URL('../cumpleanos.html',import.meta.url),'utf8');
  const hero=html.slice(html.indexOf('<section class="hero"'),html.indexOf('<section class="styles"'));
- assert.ok(hero.includes('<h1 id="bs-titulo">Tu nombre,<br><em>en luces</em></h1>'));
+ assert.ok(hero.includes('<h1 id="bs-titulo">Un cumpleaños<br><em>con tu sello</em></h1>'));
  assert.doesNotMatch(hero,/<img|<iframe|occasion-poster|fetchpriority="high"/);
  assert.match(hero,/class="btn" href="#bs-estilos"/);
  assert.ok(html.includes('href="/invitaciones/camila-30/"'));

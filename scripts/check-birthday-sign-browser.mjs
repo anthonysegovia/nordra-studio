@@ -126,7 +126,7 @@ try{
   if(mobileLayout&&(width!==390||height!==664))continue;
   const caseLabel=[lang,theme,width,height,style].join("-");if(process.env.BIRTHDAY_CASE&&process.env.BIRTHDAY_CASE!==caseLabel)continue;const s=await contextFor({lang,theme,width,height}),p=s.page;const label=[lang,theme,width,height,style].join('-');
   try{
-   await visit(s,style);assert.match(await p.locator('h1').textContent(),lang==='en'?/in lights/:/en luces/);
+   await visit(s,style);assert.match(await p.locator('h1').textContent(),lang==='en'?/with your touch/:/con tu sello/);
    assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'Horizontal overflow '+label);
    assert.equal(await p.locator('#bs-sound').getAttribute('aria-pressed'),'false');
    if(width===390){

@@ -256,7 +256,7 @@ body[data-scene] .occasion-page .occasion-path{display:none}
 .scene .season-bridge:hover,.scene .season-bridge:focus-visible{border-color:var(--accent)}
 .scene .season-bridge:active{transform:scale(.99)}
 .scene .journey-shot{padding:0;overflow:hidden}
-.scene .journey-shot img{width:100%;height:100%;object-fit:cover;object-position:top}
+.scene .journey-shot img{width:100%;height:100%;object-fit:cover}
 .scene .inv-actions a{white-space:nowrap}
 .scene .client-case{padding:0;border:0;background:none}
 .scene .invite-journey{margin-top:0}
@@ -376,3 +376,21 @@ body[data-birthday-sign] .birthday-sign-root :is(.lead,.lead-m){color:var(--ink)
 .scene .studio-heading-copy{max-width:820px}
 .scene .studio-heading-copy>p:first-child{max-width:560px}
 @media(min-width:701px){.scene .seasonal-demo-grid{grid-template-columns:repeat(2,minmax(0,380px));justify-content:start;gap:32px}}
+@media(min-width:901px){html body[data-birthday-sign] .birthday-sign-root #bs-titulo{white-space:nowrap;font-size:clamp(46px,5vw,72px)!important}}
+
+/* «Cómo funciona»: each step shows the part of the screen its caption talks about. */
+html body .scene .journey-shot{height:auto;aspect-ratio:5/6;place-items:stretch}
+html body .scene .journey-card:nth-child(1) .journey-shot img{object-position:50% 45%}
+html body .scene .journey-card:nth-child(2) .journey-shot img{object-position:50% 83%}
+html body .scene .journey-card:nth-child(3) .journey-shot img{object-position:50% 100%}
+html body .scene .journey-card:nth-child(4) .journey-shot img{object-position:55% 0}
+html body .scene .journey-shot.journey-dashboard img,html body .scene .journey-card .journey-shot img{height:100%;min-height:100%;width:100%;max-width:none;object-fit:cover}
+/* Work cards keep the whole 16:9 artwork, so no headline is cut. */
+html body [data-view="estudio"] .studio-work .studio-work-image{position:relative;inset:auto;aspect-ratio:16/9;height:auto;border-radius:var(--radius-card)}
+html body [data-view="estudio"] .studio-work .studio-work-image img{object-position:50% 30%}
+html body [data-view="estudio"] .studio-work[data-studio-active] .studio-work-caption strong{font-size:20px;animation:none}
+.signature-note{float:right;margin-top:36px}
+@media(max-width:700px){.signature-note{float:none;margin-top:12px}}
+.occasion-stage:has(.wedding-stage[data-step=panel]) .wedding-credit{visibility:hidden}
+html body .scene .journey-shot{display:block;position:relative}
+html body .scene .journey-card .journey-shot img{position:absolute;inset:0}
