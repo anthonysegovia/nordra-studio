@@ -67,7 +67,7 @@ export function reconcileBoreal(row, invitations) {
   return { ...state, seats: Object.fromEntries(Object.entries(state.seats).filter(([id]) => people.some(person => person.id === id && person.attendance !== 'no'))) };
 }
 export function sampleBoreal(invitations) {
-  const tables = [{ id: 'table-jazmin', name: 'Jazmín', capacity: 8 }, { id: 'table-olivo', name: 'Olivo', capacity: 8 }, { id: 'table-azahar', name: 'Azahar', capacity: 6 }];
+  const tables = [{ id: 'table-1', name: 'Mesa 1', capacity: 8 }, { id: 'table-2', name: 'Mesa 2', capacity: 8 }, { id: 'table-3', name: 'Mesa 3', capacity: 6 }];
   const seats = {};
   for (const invitation of invitations) {
     const people = invitation.people.filter(person => person.attendance !== 'no');

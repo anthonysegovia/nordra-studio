@@ -10,7 +10,7 @@ export function weddingLocalSample(occasion: string) {
     id:`local-${index}`,kind:kind as WeddingInvitationKind,updated_at:'2026-10-25T18:00:00Z',
     people:[{id:`local-${index}-0`,name,attendance:attendance as WeddingAttendance},...(kind==='individual'?[]:[{id:`local-${index}-1`,name:companion ?? '',attendance:(reply ?? 'pending') as WeddingAttendance}])],
   })) : structuredClone(weddingInvitationSamples);
-  const boreal:BorealState={...structuredClone(emptyBoreal),tables:(seed.tables ?? ['Jazmín','Olivo','Azahar']).map((name,index)=>({id:`local-table-${index}`,name,capacity:index===2?6:8}))};
+  const boreal:BorealState={...structuredClone(emptyBoreal),tables:(seed.tables ?? ['Mesa 1','Mesa 2','Mesa 3']).map((name,index)=>({id:`local-table-${index}`,name,capacity:index===2?6:8}))};
   if(occasion==='wedding'){
     for(const invitation of invitations){
       const people=invitation.people.filter(p=>p.attendance!=='no');
