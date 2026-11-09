@@ -3,7 +3,7 @@ import { invitationOffers, invitationMoney } from '../src/data/invitationPricing
 
 export function renderCommercialFooter(en = false) {
  const prefix = en ? '/en' : '';
- return `<p class="closing-hours">${en ? 'We reply Monday to Friday 9 a.m.–6 p.m. and Saturday 10 a.m.–4 p.m. (Mexico City time)' : 'Respondemos de lunes a viernes de 9 a 6 y sábados de 10 a 4'}</p><div class="commercial-footer">
+ return `<p class="closing-hours">${en ? 'Mon–Fri 9–6 · Sat 10–4 (CDMX)' : 'Lun a vie 9–6 · Sáb 10–4'}</p><div class="commercial-footer">
  <div class="footer-layout"><div class="footer-brand"><a href="#inicio" aria-label="${en ? 'Nordra Studio, back to top' : 'Nordra Studio, ir al inicio'}"><img class="logo-light" width="640" height="213" loading="lazy" src="/nordra/v551/assets/logo-original-360.webp" alt="Nordra Studio"><img class="logo-dark" width="640" height="213" loading="lazy" src="/nordra/v551/assets/logo-original-oscuro-360.webp" alt="Nordra Studio"></a><p>${en ? 'Your idea deserves a place in the digital world' : 'Tu idea merece un lugar en el mundo digital'}</p></div>
  <nav aria-label="${en ? 'Explore Nordra' : 'Explorar Nordra'}"><a href="${prefix}/estudio" data-go="estudio">${en ? 'Meet Nordra' : 'Conoce Nordra'}</a><a href="${prefix}/negocios" data-go="negocios">${en ? 'Business' : 'Negocios'}</a><a href="${prefix}/invitaciones" target="_blank" rel="noopener">${en ? 'Invitations' : 'Invitaciones'}</a><a href="${prefix}/temporada" data-go="temporada">${en ? 'Seasonal' : 'Temporada'}</a></nav></div>
  <p class="commercial-footer-hours">Monterrey, Nuevo León</p>

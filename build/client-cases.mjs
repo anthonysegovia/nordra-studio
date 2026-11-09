@@ -47,7 +47,7 @@ export function renderHomeClientHighlights(html, cases = clientCases) {
   const section = `<section class="home-client-highlights" aria-labelledby="client-highlights-title">
     <h2 id="client-highlights-title">${en ? 'In our clients’ words' : 'Lo que dicen nuestros clientes'}</h2>
     <div class="client-case-grid">${quotes.join('')}</div>
-    <a class="options-compare" data-anchor="clientes-reales" href="${en ? '/en' : ''}/invitaciones#clientes-reales">${en ? 'See their invitations' : 'Ver sus invitaciones'} <span aria-hidden="true">↗</span></a>
+    <a class="options-compare" data-anchor="clientes-reales" href="${en ? '/en' : ''}/invitaciones#clientes-reales">${en ? 'See their invitations' : 'Ver sus invitaciones'} <span aria-hidden="true">→</span></a>
   </section>`;
   return html.replace('{{clients:home}}', () => quotes.length ? section : '');
 }

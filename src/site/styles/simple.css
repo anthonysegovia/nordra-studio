@@ -147,3 +147,162 @@ body[data-birthday-sign] #bs-toast:not(.show){visibility:hidden}
 @media(min-width:901px){
  body[data-birthday-sign] .birthday-sign-root .kicker .pause .pause-ico{display:block}
 }
+
+/* ---- One visual system across pages: space, titles, corners and buttons ---- */
+:root{--space-section:clamp(88px,8vw,112px);--type-section:clamp(32px,3.6vw,52px);--type-detail:clamp(24px,2.3vw,32px);--radius-small:10px;--radius-card:20px;--button-height:52px}
+.travel-thread{display:none!important}
+.scene :is(.signature-works,.home-client-highlights,.studio-showcase,.studio-method,.studio-person,.business-offers,.business-examples,.audience-faq,.inv-directory,.invite-offers,.invite-journey,.client-cases,.occasion-stage,.occasion-plans,.seasonal-collection,.home-closing),
+body[data-birthday-sign] .birthday-sign-root #bs-estilos{margin-block:0!important;padding-block:calc(var(--space-section)/2)!important;border-top:0!important;border-bottom:0!important;min-height:0}
+.scene .home-closing{padding-bottom:28px!important;text-align:center}
+.scene .home-closing .commercial-footer{text-align:left}
+.scene :is(.signature-works-heading,.home-client-highlights,.studio-showcase-heading,.studio-method-heading,.business-offers,.business-examples,.audience-faq,.inv-directory,.invite-offers-intro,.invite-journey,.client-cases-intro,.occasion-stage,.occasion-plans,.collection-heading,.home-closing) h2,
+.scene .wedding-direction h2,body[data-birthday-sign] .birthday-sign-root .styles-head h2{font-size:var(--type-section)!important;line-height:1.12}
+.scene .person-copy h2{font-size:var(--type-detail)!important;margin:0 0 8px}
+.scene :is(.signature-works-heading,.studio-showcase-heading,.client-cases-intro,.home-client-highlights) h2{margin-top:0}
+.scene :is(.invite-card,.offer-panel,.person-card,.journey-shot,.inv-cover-img,.signature-work-image,.client-case,.example-card img,.season-bridge){border-radius:var(--radius-card)!important}
+.scene :is(.goal-choice,.faq-item,.offer-switch label){border-radius:var(--radius-small)}
+.scene :is(.cta,.invite-cta,.offer-quote,.primary-action,.horizon-button,.seasonal-hero-lead .horizon-button),body[data-birthday-sign] .birthday-sign-root .btn{min-height:var(--button-height)!important;height:auto!important;padding-block:0;padding-inline:26px;border-radius:999px!important;font-size:15px!important;font-weight:600}
+@media(min-width:701px){
+ .scene h1,body[data-birthday-sign] .birthday-sign-root h1{font-size:clamp(52px,5.2vw,76px)!important}
+ .scene .gathering-hero h1 .business-title-line:first-child{font-size:1em;margin-bottom:0}
+}
+@media(max-width:700px){
+ .scene :is(.cta,.invite-cta,.offer-quote,.primary-action,.horizon-button),body[data-birthday-sign] .birthday-sign-root .btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;max-width:none}
+}
+.scene .business-offers .offer-badge{border-radius:999px}
+.scene .closing-aurora{opacity:.16!important}
+.home-horizon .home-closing{background:radial-gradient(60% 55% at 28% 45%,color-mix(in srgb,#5ec9d6 11%,transparent),transparent 72%),radial-gradient(55% 50% at 74% 40%,color-mix(in srgb,#9d7bc8 11%,transparent),transparent 72%)}
+
+/* Closing and footer */
+.scene .closing-links{display:inline-flex;vertical-align:middle;margin:14px 0 0}
+.scene .closing-hours{display:inline-block;margin:14px 0 0 22px;vertical-align:middle;font-size:15px}
+@media(min-width:1024px){
+ .scene .commercial-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 24px;padding-top:18px}
+ .scene .commercial-footer :is(.footer-layout,.footer-legal){display:contents}
+ .scene .commercial-footer .footer-brand p{display:none}
+ .scene .commercial-footer .commercial-footer-hours{margin:0;font-size:13px}
+ .scene .commercial-footer .footer-legal{font-size:13px}
+}
+@media(min-width:901px){
+ .scene .audience-faq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:48px;align-items:start}
+ .scene .audience-faq>div:first-child{margin:0;max-width:none;text-align:start}
+ .scene .audience-faq h2{margin:0;text-wrap:balance}
+ .scene .audience-faq .faq-list{margin:0;max-width:none;width:100%}
+ .scene .audience-faq .seasonal-shared-link{grid-column:2}
+}
+
+/* Navigation */
+body[data-scene] .occasion-page .occasion-path{display:none}
+@media(max-width:700px){.scene .mobile-route:not(:has(>a:nth-child(3))){grid-template-columns:repeat(2,minmax(0,1fr))}}
+.scene .collection-heading{position:relative}
+.scene .collection-heading .business-motion-control{position:absolute;top:4px;right:0}
+
+/* Inicio */
+.scene .client-highlight blockquote,.scene .client-highlight blockquote p,.scene .client-highlight-quote p,.scene .client-case blockquote p{font-weight:400}
+@media(max-width:700px){.scene .horizon-path-caption .service-starting-price{padding:0;background:none;margin-left:0}}
+
+/* Estudio */
+.scene .studio-heading-layout{display:block}
+.scene .studio-heading-copy{margin-top:20px;max-width:560px}
+[data-view="estudio"] .studio-desk img{width:100%;height:clamp(220px,32vw,440px);object-fit:cover}
+.scene .studio-method-heading h2{text-align:start}
+.scene .person-card{display:grid;grid-template-columns:clamp(96px,14vw,180px) minmax(0,1fr);align-items:center;gap:clamp(18px,3vw,36px);max-width:720px;padding:clamp(16px,2vw,24px)}
+.scene .person-card .person-photo{width:100%}
+.scene .person-card .person-photo img{width:100%;height:auto;border-radius:var(--radius-small)}
+@media(min-width:701px){
+ [data-view="estudio"] .studio-work-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;height:auto}
+ [data-view="estudio"] .studio-work{flex:none;overflow:visible;border-radius:0;background:none;color:var(--ink)}
+ [data-view="estudio"] .studio-work::after{display:none}
+ [data-view="estudio"] .studio-work-image{position:relative;inset:auto;aspect-ratio:16/10;border-radius:var(--radius-card)}
+ [data-view="estudio"] .studio-work .studio-work-image img{opacity:1;filter:none;object-position:50% 20%}
+ [data-view="estudio"] .studio-work .studio-work-caption{position:relative;inset:auto;margin-top:12px;padding-right:32px;gap:2px}
+ [data-view="estudio"] .studio-work .studio-work-caption strong{writing-mode:horizontal-tb;transform:none;white-space:normal;font-size:20px;animation:none}
+ [data-view="estudio"] .studio-work .studio-work-caption>span:not(.studio-work-arrow){opacity:1;max-height:none;font-size:15px;color:var(--muted)}
+ [data-view="estudio"] .studio-work .studio-work-arrow{opacity:1;font-size:20px}
+}
+[data-view="estudio"] .studio-work-image img{object-position:50% 20%}
+
+/* Negocios */
+.scene #hero :is(.wheel-hint,.caption>span:not(.dots),.caption>b){display:none}
+@media(max-width:860px){
+ #hero[data-phone-start=tap] .stage{height:420px!important}
+ #hero[data-phone-start=tap] .stage::before{background-size:cover}
+}
+.scene .business-benefits{border:0;padding-block:16px;margin:0}
+.scene .business-benefits ul{border:0;align-items:start}
+.scene .business-benefits li{border:0;padding:0}
+.scene .business-benefits h3{font-size:15px;font-weight:500;line-height:1.35}
+.scene .business-benefits svg{width:20px;height:20px}
+.scene .business-offers .offer-copy .offer-badge{display:none}
+.scene .offer-art.offer-work{padding:0;background:none}
+.scene .offer-art.offer-work img{border:0;border-radius:0}
+.scene .offer-art.offer-work a>span{padding:8px 14px}
+.scene .business-offers :is(.offer-points li,.offer-delivery,.goal-choice>span:not(.offer-badge),.goal-choice strong,.offer-details summary,.offer-details li,.offer-hosting summary,.offer-work a>span,.goal-question){font-size:15px}
+.scene .offer-note{display:block;margin:0 0 12px;font-size:13px}
+.scene .example-card{padding:0;border:0;background:none}
+.scene .example-card:is(:hover,:focus-visible,:active){box-shadow:none}
+.scene .example-card :is(p,span){font-size:15px}
+.scene .example-card h3{font-size:20px}
+.scene .business-trust{margin:-28px 0 0;padding:0;border:0}
+
+/* Invitaciones */
+.scene .invite-offers-intro{display:block}
+.scene .invite-offers-intro h2{margin:0 0 10px}
+.scene :is(.invite-offers-intro,.occasion-plans)>p{display:inline;margin:0;font-size:15px;color:var(--muted)}
+.scene :is(.invite-offers-intro,.occasion-plans)>p+p::before{content:" "}
+.scene :is(.occasion-plans) h2{margin-bottom:10px}
+.scene .invite-grid,.scene .occasion-plan-grid,.scene .wedding-plan-grid{margin-top:24px}
+.scene .season-bridge{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;border:1px solid var(--line);transition:border-color .2s,transform .2s}
+.scene .season-bridge:hover,.scene .season-bridge:focus-visible{border-color:var(--accent)}
+.scene .season-bridge:active{transform:scale(.99)}
+.scene .journey-shot{padding:0;overflow:hidden}
+.scene .journey-shot img{width:100%;height:100%;object-fit:cover;object-position:top}
+.scene .inv-actions a{white-space:nowrap}
+.scene .client-case{padding:0;border:0;background:none}
+.scene .invite-journey{margin-top:0}
+
+/* Ocasiones */
+body[data-birthday-sign] .birthday-sign-root .styles-head h2,body[data-birthday-sign] .birthday-sign-root .styles-head h2 b{font-weight:550}
+@media(min-width:701px){
+ .scene .gathering-hero{grid-template-columns:1.25fr .75fr}
+ .scene .gathering-hero :is(h1,.occasion-lead){grid-column:1}
+ .scene .gathering-hero .occasion-hero-live{grid-column:2;grid-row:2/4}
+}
+@media(max-width:700px){
+ body[data-scene=bodas] #bodas-respuesta .rings-couple{padding-bottom:44px;gap:20px}
+ body[data-scene=bodas] #bodas-respuesta .wedding-phone{width:min(52vw,210px);margin-inline:auto}
+}
+
+/* Temporada */
+.scene .seasonal-hero h1 .business-title-line{padding-left:0!important;margin-left:0}
+.scene .seasonal-chapter{display:block;padding-block:28px 0;border:0}
+.scene .seasonal-chapter header h3{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.scene .seasonal-chapter header p{margin:0 0 16px}
+
+/* Page-level rules that outrank the shared system */
+.scene .studio-method-heading{max-width:none}
+.scene .collection-heading .business-motion-control:not(#bs-pause){position:absolute;top:4px;right:0}
+body[data-birthday-sign] .birthday-sign-root #bs-estilos .styles-head h2,body[data-birthday-sign] .birthday-sign-root #bs-estilos .styles-head h2 b{font-weight:550}
+body[data-scene=bodas] #bodas-planes-eventos h2{font-size:var(--type-section)!important}
+@media(min-width:701px){
+ html body [data-view="estudio"] .studio-work-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;height:auto}
+ html body [data-view="estudio"] .studio-work,html body [data-view="estudio"] .studio-work[data-studio-active]{flex:none;overflow:visible;border-radius:0;background:none;color:var(--ink)}
+ html body [data-view="estudio"] .studio-work::after{display:none}
+ html body [data-view="estudio"] .studio-work .studio-work-image{position:relative;inset:auto;aspect-ratio:16/10;border-radius:var(--radius-card)}
+ html body [data-view="estudio"] .studio-work .studio-work-caption{position:relative;inset:auto;margin-top:12px;padding-right:32px;gap:2px}
+ html body [data-view="estudio"] .studio-work .studio-work-caption strong{writing-mode:horizontal-tb;transform:none;white-space:normal;font-size:20px;animation:none}
+ html body [data-view="estudio"] .studio-work .studio-work-caption>span:not(.studio-work-arrow){opacity:1;max-height:none;font-size:15px;color:var(--muted)}
+ html body [data-view="estudio"] .studio-work .studio-work-arrow{opacity:1;font-size:20px}
+}
+@media(max-width:700px){
+ body[data-scene=bodas] #bodas-respuesta .rings-thread{display:none}
+ body[data-scene=bodas] #bodas-respuesta .rings-couple figure img{width:auto;height:240px;margin-inline:auto}
+}
+html body .scene .studio-method-heading h2{margin-inline:0;max-width:none}
+@media(min-width:901px){
+ html body .scene.scene .audience-faq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:48px;align-items:start}
+ html body .scene.scene .audience-faq>div:first-child{margin:0;max-width:none;text-align:start}
+ html body .scene.scene .audience-faq h2{max-width:none;margin:0;text-align:start}
+ html body .scene.scene .audience-faq .faq-list{max-width:none;width:100%;margin:0;grid-column:2}
+}
+html body .scene .studio-method-heading{margin-inline:0;max-width:none;text-align:start}

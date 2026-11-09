@@ -45,7 +45,7 @@ function card(group){
 
 function hosting() {
  const minimum = Math.min(...businessHosting.flatMap(plan => plan.terms.filter(term => term.months === 1).map(term => term.cents)));
- return `<div class="offer-hosting"><details><summary>Ver planes de alojamiento <span aria-hidden="true">+</span></summary><p>Primer mes de alojamiento incluido. Después, desde <strong>${businessMoney(minimum)}</strong> al mes.</p><div class="hosting-plans">${businessHosting.map(h=>`<div><h4>${h.name}</h4><p>${h.terms.map(t=>`<span data-hosting="hosting-${h.id}-${t.id}">${h.startingAt?'desde ':''}<strong>${businessMoney(t.cents)}</strong>${t.months===1?'/mes':` por ${t.months} meses`}</span>`).join(' · ')}</p></div>`).join('')}</div></details></div>`;
+ return `<div class="offer-hosting"><details><summary>Precios, pagos y alojamiento <span aria-hidden="true">+</span></summary><small class="offer-note">${businessPriceNote} <span>50 % para iniciar y 50 % antes de publicar.</span> <span>Tarjeta con Mercado Pago y factura (CFDI).</span></small><p>Primer mes de alojamiento incluido. Después, desde <strong>${businessMoney(minimum)}</strong> al mes.</p><div class="hosting-plans">${businessHosting.map(h=>`<div><h4>${h.name}</h4><p>${h.terms.map(t=>`<span data-hosting="hosting-${h.id}-${t.id}">${h.startingAt?'desde ':''}<strong>${businessMoney(t.cents)}</strong>${t.months===1?'/mes':` por ${t.months} meses`}</span>`).join(' · ')}</p></div>`).join('')}</div></details></div>`;
 }
 export function renderBusinessOffers(html) {
  const helpOffer={name:'una página para mi negocio',cents:Math.min(...businessOffers.map(o=>o.cents))};
@@ -55,7 +55,6 @@ export function renderBusinessOffers(html) {
  <p class="goal-question" id="goal-question">¿Qué quieres lograr con tu página?</p>
  <fieldset class="offer-goals" aria-labelledby="goal-question" hidden>${groups.map(goal).join('')}</fieldset>
  <div class="offer-stage">${groups.map(card).join('')}</div>
- <small class="offer-note">${businessPriceNote} <span>50 % para iniciar y 50 % antes de publicar.</span> <span>Tarjeta con Mercado Pago y factura (CFDI).</span></small>
  ${hosting()}</section>`;
  return html.replace('{{business:minimum}}',businessMoney(helpOffer.cents)).replace('{{business:offers}}',section);
 }
