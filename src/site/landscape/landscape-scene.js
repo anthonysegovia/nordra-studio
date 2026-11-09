@@ -418,8 +418,9 @@ function profile() {
 
 // Page heroes reuse the home camera solve with their own framing: the massif
 // clears the copy and the low sun stays out of it. Home has no composition.
-function pageView(side, width) {
-  if (width <= 700) return { zoom: 1.195, shift: 0, summit: 0.6408, share: 0.62, sunX: -0.66, sunY: 0.24 };
+function pageView(side, width, height) {
+  // Phones match the home landscape: its summit follows that page's title size.
+  if (width <= 700) return { zoom: 1, shift: 0, summit: (402 + 0.2907 * (Math.min(width, 494) - 390)) / height, share: 0.95, sunX: -0.56, sunY: 0.175 };
   if (width < 1000) return { zoom: 1, shift: 0, summit: 0.76, share: 0.56, sunX: -0.74, sunY: 0.2 };
   return { zoom: 1, shift: { right: 0.134, left: -0.134, center: 0 }[side] ?? 0, summit: side === 'center' ? 0.655 : 0.6213, share: 0.445,
     sunX: { right: 0.86, left: -0.86, center: -0.66 }[side] ?? -0.66, sunY: 0.235 };
@@ -624,7 +625,7 @@ export async function createLandscapeScene(stage, { reduced = false, paused = fa
     camera.fov = mobile ? 46 : 34;
     camera.clearViewOffset();
     const composition = stage.dataset?.composition;
-    const view = composition ? pageView(composition, width) : null;
+    const view = composition ? pageView(composition, width, height) : null;
     // Star size is set in device pixels, so stars stay crisp and round at any resolution.
     sky.material.uniforms.pixelAngle.value = (camera.fov * Math.PI / 180) / (height * ratio * (view?.zoom ?? 1));
     if (water.getRenderTarget) {

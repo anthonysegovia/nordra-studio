@@ -1,7 +1,7 @@
 // One poster and stage for the page heroes that share the home landscape.
 const asset = (name, theme, format) => `/nordra/v552/assets/landscape-${name}-${theme}-${format}.webp`;
 const data = (name, format) => `data-light="${asset(name, 'light', format)}" data-dark="${asset(name, 'dark', format)}"`;
-const sizes = { mobile: [780, 1552], tablet: [820, 1086], compact: [1440, 806], desktop: [1920, 986], wide: [2560, 986] };
+const sizes = { mobile: [780, 1528], tablet: [820, 1086], compact: [1440, 806], desktop: [1920, 986], wide: [2560, 986] };
 const box = format => `width="${sizes[format][0]}" height="${sizes[format][1]}"`;
 
 // Runs before the first paint of the hero: the early body script has already set the theme.

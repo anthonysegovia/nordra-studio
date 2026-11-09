@@ -37,13 +37,15 @@ body .has-3d-hero>.page-landscape{width:calc(100% + 128px);margin-left:-64px;mar
  .page-landscape h1 span{display:block}
 }
 @media(max-width:700px){
- .page-landscape{--copy-top:41.5%;min-height:max(calc(100svh - 68px),760px)}
+ .page-landscape{--summit:calc(402px + .2907*(min(100vw,494px) - 390px));min-height:max(calc(100svh - 80px),660px)}
+ .page-landscape .landscape-poster img{position:absolute;left:0;width:100%;height:auto;top:calc(var(--summit) - 103.08vw)}
  body .has-3d-hero>.page-landscape{width:calc(100% + 44px);margin-left:-22px;margin-right:-22px}
- .page-landscape-copy{left:22px;right:22px}
+ .page-landscape-copy{left:22px;right:22px;top:auto;bottom:calc(100% - var(--summit) + 18px)}
  .page-landscape .eyebrow{display:none}
- .scene .page-landscape h1{font-size:clamp(34px,10.2vw,40px)}
- .page-landscape .lead{margin-top:10px;font-size:16px}
- .page-landscape .horizon-actions{margin-top:14px}
+ .scene .page-landscape h1{font-size:clamp(32px,9.2vw,38px)}
+ .page-landscape .lead{margin-top:8px;font-size:16px;line-height:1.4}
+ .page-landscape .price{margin-top:2px}
+ .page-landscape .horizon-actions{margin-top:12px}
  .page-landscape .cta{display:flex}
 }
 @media(prefers-reduced-motion:reduce){.page-landscape-copy{animation:none}.page-landscape .cta,.page-landscape .cta span{transition:none}.page-landscape .cta:focus-visible{animation:none}}
