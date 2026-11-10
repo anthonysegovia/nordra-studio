@@ -662,7 +662,7 @@ function applyWorld(w){
   stopParty(); syncWorldUI(); worldCopy();
   ++run; sparks = []; smokeP = []; shoot = []; zone.classList.remove('is-wrapped', 'is-unwrapping', 'door-in');
   build(...(WORLD_PEOPLE[w] || WORLD_PEOPLE.neon));
-  buildGarland(); paintBase(); seedMotes(); fit();
+  fit(); buildGarland(); paintBase(); seedMotes();
   if (on) { bulbs.forEach(b => b.classList.add('on')); tubes.forEach(t => t.classList.add('on')); }
   setLit(); status.textContent = format(copy.styleNotice,{style:WORLDS[w].label}); updateAsk();
   parallax();

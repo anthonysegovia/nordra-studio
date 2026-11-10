@@ -243,7 +243,7 @@ body[data-birthday-sign] .birthday-sign-root .chandelier .metal{fill:none;stroke
 body[data-birthday-sign]:not(.dark) .birthday-sign-root .chandelier .metal{stroke:#9a90c8}
 body[data-birthday-sign] .birthday-sign-root .chandelier .drop{fill:rgba(235,230,255,.7);stroke:#fff;stroke-width:.6}
 body[data-birthday-sign] .birthday-sign-root .chandelier .flame{fill:#fff6d6;filter:drop-shadow(0 0 calc(2px + var(--lit,0) * 8px) #ffe6a0);opacity:calc(.3 + var(--lit,0) * .7)}
-body[data-birthday-sign][data-world=xv] .birthday-sign-root .rainbows{display:block;position:absolute;inset:0;z-index:3;pointer-events:none}
+body[data-birthday-sign][data-world=xv] .birthday-sign-root .rainbows{display:none}
 body[data-birthday-sign] .birthday-sign-root .rainbows i{position:absolute;width:90px;height:34px;border-radius:50%;background:linear-gradient(90deg,#ff6b6b,#ffd36b,#7bff8f,#6bd5ff,#9b7bff);filter:blur(7px);opacity:calc(var(--lit,0) * .35);mix-blend-mode:screen;animation:bs-rb 9s ease-in-out infinite alternate}
 body[data-birthday-sign]:not(.dark) .birthday-sign-root .rainbows i{mix-blend-mode:multiply;opacity:calc(var(--lit,0) * .2)}
 body[data-birthday-sign] .birthday-sign-root .rainbows i:nth-child(1){left:52%;top:18%;transform:rotate(-20deg)}body[data-birthday-sign] .birthday-sign-root .rainbows i:nth-child(2){left:86%;top:30%;transform:rotate(25deg);animation-delay:-3s}body[data-birthday-sign] .birthday-sign-root .rainbows i:nth-child(3){left:46%;top:62%;transform:rotate(10deg);animation-delay:-5s}body[data-birthday-sign] .birthday-sign-root .rainbows i:nth-child(4){left:74%;top:8%;transform:rotate(-8deg);animation-delay:-2s}body[data-birthday-sign] .birthday-sign-root .rainbows i:nth-child(5){left:92%;top:66%;transform:rotate(-30deg);animation-delay:-7s}

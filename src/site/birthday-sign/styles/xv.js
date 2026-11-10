@@ -22,9 +22,14 @@ const STAR = (x, y, s) => `M${x} ${y - s}Q${x} ${y} ${x + s} ${y}Q${x} ${y} ${x}
 export function garlandWorld(n, w, y, small, context){
 const {rand,el,gsvg}=context;
 const out = [], wd = 'xv', rr = rand(11);
+// El candelabro cuelga en medio de la guirnalda: sin hilos de estrellas que crucen sus brazos.
+const ch = gsvg?.ownerDocument?.querySelector?.('.birthday-sign-root .chandelier')?.getBoundingClientRect();
+const g0 = ch && gsvg.getBoundingClientRect?.();
+const clear = ch && ch.width && g0 ? [ch.left - g0.left - 36, ch.right - g0.left + 36] : null;
 
     for (let i = 0; i < n; i++) {
       const x = (i + .5) * w / n, yy = y(x), L = (small ? 6 : 30) + rr() * (small ? 8 : 70);
+      if (clear && x > clear[0] && x < clear[1]) continue;
       const g = el('g', { class: 'bulb', style: `--sw:${4 + (i % 3) * .8}s;--sd:${-(i * .41) % 2}s` }, gsvg);
       el('path', { class: 'strand', d: `M${x} ${yy}V${yy + L}` }, g);
       el('path', { class: 'star', d: STAR(x, yy + L + 6, small ? 5 : 7) }, g);
