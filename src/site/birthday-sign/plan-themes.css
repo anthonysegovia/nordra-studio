@@ -3,7 +3,7 @@
 @font-face{font-family:PlanTilt;src:url('/fonts/birthday-sign/tilt-neon-400.woff2') format('woff2');font-display:swap}
 @font-face{font-family:PlanPoiret;src:url('/fonts/birthday-sign/poiret-one-400.woff2') format('woff2');font-display:swap}
 @font-face{font-family:PlanFredoka;src:url('/fonts/birthday-sign/fredoka-500.woff2') format('woff2');font-weight:500;font-display:swap}
-@font-face{font-family:PlanPinyon;src:url('/fonts/wedding/pinyon-script-subset.woff2') format('woff2');font-display:swap}
+@font-face{font-family:PlanPinyon;src:url('/fonts/birthday-sign/pinyon-script-latin.woff2') format('woff2');font-display:swap}
 
 body[data-birthday-sign] #cumpleanos-planes-eventos .invite-card {
   --line:var(--pc-line);--muted:var(--pc-muted);--ink:var(--pc-text);--accent:var(--pc-accent);--warm-a:var(--pc-accent);--warm-b:var(--pc-accent);

@@ -2,7 +2,7 @@
    Caja de regalo (also the sample for Neón) is the base look in birthday-panel.css. */
 @font-face{font-family:ThemePoiret;src:url('/fonts/birthday-sign/poiret-one-400.woff2') format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:ThemeFredoka;src:url('/fonts/birthday-sign/fredoka-500.woff2') format('woff2');font-weight:500;font-display:swap}
-@font-face{font-family:ThemePinyon;src:url('/fonts/wedding/pinyon-script-subset.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:ThemePinyon;src:url('/fonts/birthday-sign/pinyon-script-latin.woff2') format('woff2');font-weight:400;font-display:swap}
 
 /* ---- Bar clandestino: latón, madera y luz ámbar ---- */
 html :is(.wedding-workspace,.wedding-operations-dialog)[data-occasion=birthday][data-style=bar] {
