@@ -5,16 +5,17 @@ import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {buildInputs} from './check-vercel-build-inputs.mjs';
 const root=new URL('../',import.meta.url),read=file=>fs.readFileSync(new URL(file,root),'utf8');
-for(const [page,entry,slug] of [['eventos','events','conexion-27']]){
- const html=read(page+'.html'),hero=html.slice(html.indexOf('<div class="occasion-hero '),html.indexOf('<section class="home-continuation wedding-sample'));
- test(`${page}: hero cannot regress to a conceptual poster`,()=>{
-  assert.doesNotMatch(hero,/organico|occasion-poster|organic-poster/);assert.match(hero,/live-phone nordra-phone/);assert.match(hero,/fetchpriority="high"/);assert.match(hero,/loading="eager"/);assert.match(hero,/width="780" height="1688"/);
- });
- test(`${page}: try link opens the right invitation using the shared controller`,()=>{
-  assert.match(hero,new RegExp(`href="/invitaciones/${slug}/" data-live-try="[^"]+" aria-label="[^"]+">`));assert.match(hero,/Un diseño de Nordra/);assert.ok(hero.includes(slug==='camila-30'?'/artwork/birthday-noche/camila-portada-780.webp':'/artwork/invitation-covers/conexion-27.webp'));assert.doesNotMatch(hero,/<iframe/);
-  const entryText=read(`src/site/entries/${entry}.js`);for(const css of ['phone-frame','showcase-live','occasion-live'])assert.ok(entryText.includes(`../styles/${css}.css`));assert.ok(entryText.includes(`../scripts/showcase-live.js?entry=${entry}`));assert.match(read('src/site/scripts/showcase-live.js'), /\.showcase-live/);
- });
-}
+test('eventos: approved badge hero has responsive fallbacks and retains the experience anchor',()=>{
+ const html=read('eventos.html'),hero=html.slice(html.indexOf('<section class="badge-hero'),html.indexOf('<section class="home-continuation wedding-sample'));
+ assert.match(hero,/id="badge-stage"/);
+ assert.match(hero,/href="#eventos-event-experience"/);
+ assert.match(hero,/href="#eventos-planes-eventos"/);
+ assert.doesNotMatch(hero,/live-phone|data-live-try|<iframe|mock-panel/);
+ for(const theme of ['light','dark'])for(const format of ['mobile','desktop','wide'])assert.ok(hero.includes(`badge-poster-${theme}-${format}.webp`));
+ assert.match(read('src/site/entries/events.js'),/event-badge\/badge-hero.js/);
+ assert.match(read('src/site/event-badge/badge-hero.js'),/import\('\.\/badge-scene.js'\)/);
+ assert.match(html,/href="\/invitaciones\/conexion-27\/"/);
+});
 test('Camila uses her own copy throughout the five stops',()=>{const html=renderInvitation(read('invitaciones/camila-30/index.html'));assert.match(html,/Hay algo para ti en esta caja/);assert.doesNotMatch(html,/Nos vemos a las siete|Lo que debes saber|Tu pase|Treinta y con ganas de bailar|Tu presencia es el regalo|Lo mejor es celebrarlo contigo|Nuestra noche|Con mis personas favoritas|Así lo celebramos|Mi noche favorita empieza contigo/i);});
 test('retired poster styles and assets are absent from deploy inputs',()=>{
  assert.doesNotMatch(read('src/site/styles/scene.css'),/occasion-poster|organic-poster|birthday-poster|event-poster/);

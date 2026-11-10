@@ -26,3 +26,6 @@ import '../styles/occasion-stage.css';
 import '../../../public/motion-system.css';
 import '../styles/simple.css';
 import '../scripts/interaction-motion.js?entry=events';
+
+import '../event-badge/badge.css';
+import '../event-badge/badge-hero.js';

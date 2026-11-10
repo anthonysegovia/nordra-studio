@@ -13,6 +13,7 @@
   "Aquí empieza": "Bring your",
   "el encuentro": "people together",
   "Explora la experiencia": "Explore the experience",
+  "Ver planes": "See plans",
   "La invitación reúne fecha, ubicaciones, cómo llegar, vestimenta y agenda según el contenido acordado.": "The invitation brings together the date, locations, directions, dress code and schedule, as agreed for your event.",
   "Explora la muestra del encuentro.": "Explore the sample invitation.",
   "Tú tienes el motivo": "You bring the occasion",
@@ -37,5 +38,11 @@
   "Gafete holográfico de Conexión 27 sobre una mesa de piedra arena": "Conexión 27 holographic badge on a sandstone table",
   "Portada de El gafete, Conexión 27": "El gafete cover, Conexión 27",
   "Hola, me interesa el plan Aurora para mi evento ({price} MXN). Mi evento es…\n\nTipo de celebración: Evento.": "Hi, I’m interested in the Aurora plan for my event ({price} MXN). My event is…\n\nCelebration type: Event.",
-  "Hola, me interesa el plan Boreal para mi evento (desde {price} MXN). Mi evento es…\n\nTipo de celebración: Evento.": "Hi, I’m interested in the Boreal plan for my event (from {price} MXN). My event is…\n\nCelebration type: Event."
+  "Hola, me interesa el plan Boreal para mi evento (desde {price} MXN). Mi evento es…\n\nTipo de celebración: Evento.": "Hi, I’m interested in the Boreal plan for my event (from {price} MXN). My event is…\n\nCelebration type: Event.",
+  "Fecha, sede, agenda y acceso, en un gafete que llega al teléfono de cada invitado.": "Date, venue, schedule and access, on a badge that reaches every guest's phone.",
+  "Toca o gira el gafete": "Tap or turn the badge",
+  "Muestra ·": "Sample ·",
+  "Congreso": "Conference",
+  "Ver en movimiento": "View in motion",
+  "Muestra animada: un gafete de acceso cuelga de su cordón, se escanea su código y se reimprime con otros eventos: un congreso, un lanzamiento, una graduación, una gala con causa y un reencuentro.": "Animated sample: an access badge hangs from its lanyard, its code is scanned and it reprints for other events: a conference, a launch, a graduation, a charity gala and a reunion."
 }

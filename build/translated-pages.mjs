@@ -86,6 +86,7 @@ function renderEnglish(html,page) {
   translated=translated.replace(/(\/artwork\/wedding-dashboard-preview\/dashboard-v[34])-es-/g,'$1-en-');
   translated=translated.replace(/href="\/panel-(cumple|evento)\.html"/g,'href="/panel-$1.html?lang=en"');
   translated=translated.replace(/(\/artwork\/(?:birthday|event)-dashboard-preview\/dashboard)-es-/g,'$1-en-');
+  if(page==='eventos')translated=translated.replaceAll('/artwork/event-badge/','/artwork/event-badge/en/');
   if(page===legal)translated=translated.replace(/(<h1>[^<]+<\/h1>)/,'$1<p class="translation-note">This is a translation for convenience; the Spanish version is the legally binding one.</p>')
     .replace("'Activar tema claro' : 'Activar tema oscuro'","'Switch to light mode' : 'Switch to dark mode'");
   return translated;
