@@ -1,0 +1,102 @@
+/* Plans dress up as the chosen style. Cards carry the invitation's own dark art in both site themes,
+   so their text colours are fixed here rather than read from the page. */
+@font-face{font-family:PlanTilt;src:url('/fonts/birthday-sign/tilt-neon-400.woff2') format('woff2');font-display:swap}
+@font-face{font-family:PlanPoiret;src:url('/fonts/birthday-sign/poiret-one-400.woff2') format('woff2');font-display:swap}
+@font-face{font-family:PlanFredoka;src:url('/fonts/birthday-sign/fredoka-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:PlanPinyon;src:url('/fonts/wedding/pinyon-script-subset.woff2') format('woff2');font-display:swap}
+
+body[data-birthday-sign] #cumpleanos-planes-eventos .invite-card {
+  --line:var(--pc-line);--muted:var(--pc-muted);--ink:var(--pc-text);--accent:var(--pc-accent);--warm-a:var(--pc-accent);--warm-b:var(--pc-accent);
+  overflow:hidden;color:var(--pc-text);background:var(--pc-bg);border-color:var(--pc-line);border-radius:var(--pc-radius)!important;
+  & :is(h3,.invite-opening strong,.invite-opening,.invite-inherits,.invite-points,.invite-details,.invite-price) {color:var(--pc-text)}
+  & .invite-card-head h3 {font:var(--pc-title-weight,400) var(--pc-title-size,36px)/1.05 var(--pc-title);letter-spacing:var(--pc-title-track,0);text-shadow:var(--pc-title-glow,none)}
+  & :is(.invite-opening small,.invite-regular) {color:var(--pc-muted)}
+  & .invite-points li::marker {color:var(--pc-accent)}
+  & .invite-badge {background:var(--pc-badge-bg);color:var(--pc-badge-ink);border:1px solid var(--pc-badge-line,transparent);border-radius:var(--pc-badge-radius,12px)}
+  & .invite-cta {background:var(--pc-accent);color:var(--pc-on-accent);border-radius:var(--pc-cta-radius,24px)!important;font-weight:600;transition:transform .2s,box-shadow .25s,filter .2s}
+  & .invite-cta:is(:hover,:focus-visible) {box-shadow:0 12px 24px -12px var(--pc-accent);filter:brightness(1.07)}
+  & .invite-details {border-color:var(--pc-line)}
+  & .invite-details summary {color:var(--pc-text)}
+  & :is(.invite-card-head,.invite-price,.invite-inherits,.invite-points,.invite-cta,.invite-details) {position:relative;z-index:1}
+  /* The invitation's object rests on the featured plan */
+  &.invite-featured::after {content:"";position:absolute;z-index:0;pointer-events:none;background:var(--pc-object) center/contain no-repeat;width:var(--pc-object-w,0);aspect-ratio:var(--pc-object-ratio,1);top:var(--pc-object-top,auto);right:var(--pc-object-right,24px);transition:transform .45s cubic-bezier(.2,.7,.2,1);transform-origin:var(--pc-object-origin,50% 50%)}
+  &.invite-featured:is(:hover,:focus-within)::after {transform:var(--pc-object-hover,translateY(-3px))}
+}
+
+/* Neón: tubos de luz sobre ladrillo */
+body[data-birthday-sign][data-world=neon] #cumpleanos-planes-eventos .invite-card {
+  --pc-tube:#4fe3ff;--pc-text:#f7f3ff;--pc-muted:#c6bdd8;--pc-line:#ffffff24;--pc-accent:var(--pc-tube);--pc-on-accent:#120d1b;--pc-radius:18px;
+  --pc-bg:repeating-linear-gradient(0deg,#ffffff0d 0 1px,transparent 1px 24px),repeating-linear-gradient(90deg,#ffffff08 0 1px,transparent 1px 58px),#15101d;
+  --pc-title:PlanTilt,Sora,sans-serif;--pc-title-size:40px;--pc-title-glow:0 0 6px var(--pc-tube),0 0 22px var(--pc-tube);
+  --pc-badge-bg:transparent;--pc-badge-ink:var(--pc-tube);--pc-badge-line:var(--pc-tube);
+  border-color:var(--pc-tube);box-shadow:0 0 18px -4px var(--pc-tube),inset 0 0 22px -12px var(--pc-tube);
+}
+body[data-birthday-sign][data-world=neon] #cumpleanos-planes-eventos .invite-featured {--pc-tube:#ff5aa8}
+
+/* Caja de regalo: la caja medianoche y su listón dorado */
+body[data-birthday-sign][data-world=caja] #cumpleanos-planes-eventos .invite-card {
+  --pc-text:#f7ecd8;--pc-muted:#d3c2cf;--pc-line:#e2c07a40;--pc-accent:#e6c98e;--pc-on-accent:#1f1426;--pc-radius:20px;
+  --pc-bg:linear-gradient(90deg,#160f22f0,#160f22cc),url('/artwork/birthday-caja/fondo-1440.webp') center 74%/cover;
+  --pc-title:NocheSora,Sora,sans-serif;--pc-title-weight:500;--pc-title-track:-.03em;
+  --pc-badge-bg:#e6c98e;--pc-badge-ink:#1f1426;
+  --pc-object:url('/artwork/birthday-caja/cerrada-360.webp');--pc-object-w:150px;--pc-object-ratio:360/403;--pc-object-top:18px;--pc-object-right:22px;
+  padding-right:132px;
+  &::before {content:"";position:absolute;z-index:0;top:0;bottom:0;right:74px;width:26px;background:linear-gradient(90deg,#7a5420,#e9c98b 42%,#c49a52 66%,#7a5420);opacity:.92;pointer-events:none}
+}
+body[data-birthday-sign][data-world=caja] #cumpleanos-planes-eventos .invite-featured::before {top:150px}
+
+/* Bar clandestino: madera, latón y luz ámbar */
+body[data-birthday-sign][data-world=bar] #cumpleanos-planes-eventos .invite-card {
+  --pc-text:#f1e1bf;--pc-muted:#cdb68f;--pc-line:#c99a4b55;--pc-accent:#d6b26a;--pc-on-accent:#1c120b;--pc-radius:6px;--pc-cta-radius:4px;
+  --pc-bg:linear-gradient(90deg,#140b05e8,#140b05c7),url('/artwork/birthday-panel/bar-madera.webp') center/cover;
+  --pc-title:PlanPoiret,Sora,sans-serif;--pc-title-size:44px;--pc-title-track:.01em;
+  --pc-badge-bg:transparent;--pc-badge-ink:#e6c47c;--pc-badge-line:#c99a4b;--pc-badge-radius:3px;
+  --pc-object:url('/artwork/birthday-panel/bar-lampara.webp');--pc-object-w:300px;--pc-object-ratio:860/359;--pc-object-top:0px;--pc-object-right:10px;--pc-object-origin:50% 0;--pc-object-hover:rotate(-.8deg);
+  border-color:#c99a4b;box-shadow:inset 0 0 0 4px #1c120bcc,inset 0 0 0 5px #6b4a1c;
+}
+
+/* Gala de XV: plata, tiara y noche estrellada */
+body[data-birthday-sign][data-world=xv] #cumpleanos-planes-eventos .invite-card {
+  --pc-text:#f1eeff;--pc-muted:#c8c1ec;--pc-line:#ffffff2e;--pc-accent:#c9bbff;--pc-on-accent:#0f1233;--pc-radius:22px;
+  --pc-bg:linear-gradient(90deg,#0b0e2cf0,#0b0e2cb8),url('/artwork/birthday-panel/xv-seda.webp') center bottom/cover,#0f1233;
+  --pc-title:PlanPinyon,Sora,sans-serif;--pc-title-size:52px;
+  --pc-badge-bg:#c9bbff;--pc-badge-ink:#0f1233;
+  --pc-object:url('/artwork/birthday-panel/xv-tiara.webp');--pc-object-w:250px;--pc-object-ratio:860/390;--pc-object-top:14px;--pc-object-right:22px;
+}
+
+/* Misión espacial: cabina, planetas y despegue */
+body[data-birthday-sign][data-world=espacio] #cumpleanos-planes-eventos .invite-card {
+  --pc-text:#f2f5ff;--pc-muted:#c3cdec;--pc-line:#ffffff2e;--pc-accent:#ffd84a;--pc-on-accent:#14213d;--pc-radius:28px;
+  --pc-bg:linear-gradient(90deg,#0b1033f0,#0b1033b0),url('/artwork/birthday-panel/espacio-nubes.webp') center bottom/cover,#10153d;
+  --pc-title:PlanFredoka,Sora,sans-serif;--pc-title-weight:500;--pc-title-size:40px;--pc-title-track:-.02em;
+  --pc-badge-bg:#ffd84a;--pc-badge-ink:#14213d;
+  --pc-object:url('/artwork/birthday-panel/espacio-cohete.webp');--pc-object-w:128px;--pc-object-ratio:500/743;--pc-object-top:16px;--pc-object-right:28px;--pc-object-hover:translateY(-8px) rotate(1deg);
+}
+
+@media(max-width:700px) {
+  body[data-birthday-sign] #cumpleanos-planes-eventos .invite-card {--pc-title-size:32px}
+  body[data-birthday-sign][data-world=xv] #cumpleanos-planes-eventos .invite-card {--pc-title-size:42px;--pc-object-w:112px;--pc-object-top:8px;--pc-object-right:8px}
+  body[data-birthday-sign][data-world=bar] #cumpleanos-planes-eventos .invite-card {--pc-title-size:36px;--pc-object-w:122px;--pc-object-right:4px}
+  body[data-birthday-sign][data-world=espacio] #cumpleanos-planes-eventos .invite-card {--pc-object-w:62px;--pc-object-top:10px;--pc-object-right:10px}
+  body[data-birthday-sign][data-world=caja] #cumpleanos-planes-eventos .invite-card {--pc-object-w:82px;--pc-object-top:8px;--pc-object-right:8px;padding-right:58px;&::before{right:22px;width:16px}}
+  body[data-birthday-sign][data-world=caja] #cumpleanos-planes-eventos .invite-featured::before {top:88px}
+  /* The badge moves under the name so it never meets the object */
+  body[data-birthday-sign] #cumpleanos-planes-eventos .invite-card-head {flex-wrap:wrap;gap:6px 12px;padding-right:var(--pc-head-gap,0)}
+  body[data-birthday-sign] #cumpleanos-planes-eventos .invite-featured .invite-card-head {--pc-head-gap:110px}
+  body[data-birthday-sign][data-world=neon] #cumpleanos-planes-eventos .invite-featured .invite-card-head {--pc-head-gap:0px}
+}
+@media(prefers-reduced-motion:reduce) {
+  body[data-birthday-sign] #cumpleanos-planes-eventos .invite-card.invite-featured::after {transition:none;transform:none}
+}
+
+/* Pause control: a true circle with its icon centred, at every width */
+body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause {display:inline-flex!important;align-items:center;justify-content:center;flex:none;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;gap:0;border:1px solid var(--line);border-radius:50%;background:color-mix(in srgb,var(--bg) 72%,transparent);color:var(--ink);box-shadow:none!important;transition:border-color .25s,background .25s,transform .2s}
+body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause::before,body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause::after {display:none;content:none}
+body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause .pause-txt {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause .pause-ico {display:block;width:16px;height:16px;margin:0}
+body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause .pause-ico path {fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause .pause-ico .ico-r {display:none;fill:var(--ink);stroke-width:1.4}
+body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause[aria-pressed=true] .ico-p {display:none}
+body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause[aria-pressed=true] .ico-r {display:block}
+body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause:is(:hover,:focus-visible) {border-color:var(--accent);transform:scale(1.06)}
+body[data-birthday-sign] .birthday-sign-root .kicker #bs-pause:active {transform:scale(.92)}

@@ -27,5 +27,6 @@ import '../birthday-sign/sign.css';
 import '../birthday-sign/sign-hero.js';
 
 import '../birthday-sign/ux.css';
+import '../birthday-sign/plan-themes.css';
 
 import '../styles/simple.css';

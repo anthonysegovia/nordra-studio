@@ -47,6 +47,8 @@ Preferencias explícitas del usuario, aplicables a cambios futuros:
 
 - En Cumpleaños, cada estilo con invitación propia abre su panel con esa temática mediante /panel-cumple.html?estilo=bar, xv o espacio: objeto, superficie, tipografía y paleta de su invitación (Andrés 40, Ximena XV, Iker 6). Neón y Caja de regalo comparten el panel base. Estos tres estilos aún no tienen invitación pública, así que su panel no enlaza a ninguna.
 
+- En Cumpleaños, los planes Aurora y Boreal toman la temática del estilo elegido (Neón, Caja de regalo, Bar clandestino, Gala de XV o Misión espacial), con el arte de su invitación y sus colores en ambos temas del sitio. Sus estilos viven en src/site/birthday-sign/plan-themes.css.
+
 - Publicar únicamente mediante Git: un push a main despliega el sitio completo y requiere autorización expresa. Antes de publicar, comprobar que la rama contiene la versión en producción y todos sus archivos de ejecución; no publicar un ajuste aislado sobre una base anterior. Por decisión del responsable del 29/10/2026, E:\Nordra Studio\Plataforma\nordra-studio-publicar-ARCHIVADA es una copia archivada con el enlace de Vercel desactivado (.vercel-desactivado). No usarla, no desplegar desde ella ni copiar archivos de ella.
 
 - En la muestra de Cumpleaños el visitante solo elige estilo: se retiró la opción de escribir nombre y edad, tipografías, colores e interruptores (decisión del usuario del 08/11/2026: «entre menos opciones le demos al usuario mejor»). No agregar personalización del visitante en las muestras de Bodas, Cumpleaños ni Eventos.
