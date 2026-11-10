@@ -144,7 +144,7 @@ body[data-birthday-sign] #bs-toast:not(.show){visibility:hidden}
 }
 
 /* ---- One visual system across pages: space, titles, corners and buttons ---- */
-:root{--space-section:clamp(88px,8vw,112px);--type-section:clamp(32px,3.6vw,52px);--type-detail:clamp(24px,2.3vw,32px);--radius-small:10px;--radius-card:20px;--button-height:52px}
+:root{--space-section:clamp(112px,10vw,152px);--type-section:clamp(32px,3.6vw,52px);--type-detail:clamp(24px,2.3vw,32px);--radius-small:10px;--radius-card:20px;--button-height:52px}
 .travel-thread{display:none!important}
 .scene :is(.signature-works,.home-client-highlights,.studio-showcase,.studio-method,.studio-person,.business-offers,.business-examples,.audience-faq,.inv-directory,.invite-offers,.invite-journey,.client-cases,.occasion-stage,.occasion-plans,.seasonal-collection,.home-closing),
 body[data-birthday-sign] .birthday-sign-root #bs-estilos{margin-block:0!important;padding-block:calc(var(--space-section)/2)!important;border-top:0!important;border-bottom:0!important;min-height:0}

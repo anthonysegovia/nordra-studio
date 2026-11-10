@@ -54,7 +54,7 @@ body[data-birthday-sign] .birthday-sign-root .blinds{position:absolute;inset:-20
 body[data-birthday-sign]:not(.dark) .birthday-sign-root .blinds{display:block}
 body[data-birthday-sign] .birthday-sign-root .wall::before{content:"";position:absolute;inset:0;z-index:2;background:
   linear-gradient(90deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 64%,transparent) 26%,transparent 48%),
-  linear-gradient(180deg,transparent 72%,var(--bg) 100%);transition:background .5s}
+  linear-gradient(180deg,transparent 58%,color-mix(in srgb,var(--bg) 55%,transparent) 80%,var(--bg) 100%);transition:background .5s}
 body[data-birthday-sign] .birthday-sign-root .wall-glow{position:absolute;z-index:3;inset:0;opacity:calc(var(--lit,0) * var(--glow-strength) * (1 - var(--handoff) * .7));transition:opacity .09s linear;
   background:radial-gradient(34% 28% at var(--gx,62%) 40%,color-mix(in srgb,var(--tube) 34%,transparent),transparent 70%);mix-blend-mode:screen}
 body[data-birthday-sign]:not(.dark) .birthday-sign-root .wall-glow{mix-blend-mode:multiply}

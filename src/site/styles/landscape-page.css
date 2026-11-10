@@ -54,3 +54,5 @@ html body .scene.studio-page .studio-heading{padding-top:clamp(40px,5vw,64px)}
 html body .scene.studio-page .studio-heading-copy{margin:0 auto;max-width:none}
 html body .scene.studio-page .studio-values{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 32px;margin:0;text-align:center}
 html body .scene.studio-page .studio-values span::before,html body .scene.studio-page .studio-values span::after{display:none}
+/* No hard edge between the landscape and the next section (user rule, 10/11/2026). */
+html body #hero.page-landscape::after,.page-landscape::after{display:block;content:"";position:absolute;left:0;right:0;bottom:0;height:clamp(140px,22vh,240px);z-index:1;pointer-events:none;background:linear-gradient(to bottom,transparent,color-mix(in srgb,var(--bg) 72%,transparent) 45%,var(--bg) 82%)}
