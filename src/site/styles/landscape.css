@@ -36,5 +36,5 @@ body:not(.dark) :is(.horizon-landscape,.landscape-poster)::after{background:line
 @media(prefers-reduced-motion:reduce){.horizon-landscape,.horizon-landscape.has-scene{opacity:0;transition:none}}
 @media(prefers-reduced-motion:reduce){.landscape-poster .landscape-poster-previous{transition:none}}
 body[data-journey-motion=paused] .horizon-landscape{opacity:0;transition:none}
-/* No hard edge between the landscape and the next section (user rule, 10/11/2026). */
-html body .home-horizon .horizon-hero::after{display:block;content:"";position:absolute;left:0;right:0;bottom:0;height:clamp(140px,22vh,240px);z-index:1;pointer-events:none;background:linear-gradient(to bottom,transparent,color-mix(in srgb,var(--bg) 72%,transparent) 45%,var(--bg) 82%)}
+/* The landscape turns transparent at its foot, so the page (and its ambient aurora) shows through without a line. User rule, 10/11/2026. */
+.home-horizon .horizon-hero>:is(.landscape-poster,.horizon-landscape){-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - clamp(64px,9vh,104px)),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - clamp(64px,9vh,104px)),transparent)}
