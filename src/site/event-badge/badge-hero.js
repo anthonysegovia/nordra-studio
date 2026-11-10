@@ -15,7 +15,8 @@ function mountBadge() {
   const frame = window.frameElement;
   let scene, loading = false, failed = false, disposed = false;
   let painted = false, visible = false, near = false, requested = false;
-  let idle = 0, paint = 0;
+  let idle = 0, paint = 0, expectExpired = false;
+  const expectTimer = setTimeout(() => { expectExpired = true; sync(); }, 4500);
   const listen = (target, name, callback) => target?.addEventListener(name, callback, { signal: events.signal });
   function fitViewport() {
     // Include the real header and invitation navigation in the first screen.
@@ -65,12 +66,9 @@ function mountBadge() {
       if (!badgePolicy(snapshot()).load) return;
       const { createBadgeScene } = await import('./badge-scene.js');
       if (!badgePolicy(snapshot()).load) return;
-      let entered = false;
-      try { entered = sessionStorage.getItem('nordra-badge-entered') === '1'; } catch {}
       const next = await createBadgeScene(stage, {
         dark: snapshot().dark,
-        entered,
-        onEnter() { try { sessionStorage.setItem('nordra-badge-entered', '1'); } catch {} },
+        entered: false,
         isCancelled: () => !badgePolicy(snapshot()).load,
         onFallback: () => queueMicrotask(fallback),
       });
@@ -98,6 +96,8 @@ function mountBadge() {
     }
     const policy = badgePolicy(state);
     hero.classList.toggle('has-scene', policy.showScene);
+    // Desktop that will animate: keep the hanging poster out of the way so the badge drops in.
+    hero.classList.toggle('expect-scene', !policy.showScene && !failed && !expectExpired && !state.phone && !state.static && !state.reduced && !state.paused);
     hero.dataset.running = String(policy.animate);
     stage.dataset.renderer = policy.showScene ? 'webgl' : 'static';
     motion.hidden = !policy.offerMotion;

@@ -94,7 +94,8 @@ body.dark .badge-hero .vignette{background:radial-gradient(120% 90% at 60% 45%,t
 .badge-hero .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* The host keeps navigation in normal flow and copy visible at first paint. */
 body[data-scene=eventos] .theme-gathering>.aurora-field{display:none}
-body[data-scene=eventos] .occasion-page .occasion-path{display:flex;position:relative;z-index:5;gap:24px;flex-wrap:wrap;margin-bottom:0}
+/* Like Bodas and Cumpleaños, the hero starts right under the header. */
+body[data-scene=eventos] .scene.theme-gathering{padding-top:0}
 body[data-scene=eventos] .badge-hero{width:100vw;max-width:none;margin-left:calc(50% - 50vw);margin-top:0;padding-top:calc(74px + 3vh);color:var(--ink);font-family:Manrope,sans-serif;line-height:normal;text-align:left}
 body[data-scene=eventos] .badge-hero h1{max-width:none;text-wrap:initial;font-family:Sora,sans-serif;font-size:clamp(46px,5.4vw,88px)!important}
 .badge-hero .eyebrow,.badge-hero .caption p{line-height:normal}
@@ -107,13 +108,13 @@ body[data-scene=eventos] .badge-hero h1{max-width:none;text-wrap:initial;font-fa
 .badge-hero .badge-poster-dark{display:none}
 body.dark .badge-hero .badge-poster-light{display:none}
 body.dark .badge-hero .badge-poster-dark{display:block}
-.badge-hero.has-scene .badge-poster{visibility:hidden}
+.badge-hero.has-scene .badge-poster,.badge-hero.expect-scene .badge-poster{visibility:hidden}
 .badge-hero #badge-stage{visibility:hidden;touch-action:pan-y}
 .badge-hero.has-scene #badge-stage{visibility:visible}
 .badge-hero:not(.has-scene) .hint{visibility:hidden}
 /* The poster already contains the atmosphere. Avoid rasterizing its SVG noise
    and blurred lighting a second time before the first paint. */
-.badge-hero:not(.has-scene)>:is(.stone,.window,.venue,.grain){display:none}
+.badge-hero:not(.has-scene):not(.expect-scene)>:is(.stone,.window,.venue,.grain){display:none}
 .badge-hero .badge-motion{position:absolute;z-index:5;bottom:110px;left:50%;translate:-50% 0;padding:10px 18px;min-height:44px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);font:500 13px Manrope,sans-serif;cursor:pointer;transition:background .25s,border-color .25s}
 .badge-hero .badge-motion:hover,.badge-hero .badge-motion:focus-visible{background:var(--paper-2);border-color:var(--accent)}
 .badge-hero .badge-motion[hidden]{display:none}
@@ -129,7 +130,6 @@ body[data-journey-motion=paused] .badge-hero *,body[data-journey-motion=paused] 
  body[data-scene=eventos] .badge-hero h1{font-size:40px!important}
  .badge-hero .caption{order:1}
  .badge-hero .badge-motion{position:relative;left:auto;bottom:auto;translate:none;order:2;align-self:center;margin:-20px auto 28px}
- body[data-scene=eventos] .occasion-page .occasion-path{flex-wrap:nowrap;gap:16px;overflow-x:auto;padding-bottom:8px}
  body[data-scene=eventos] .badge-hero .business-motion-control{display:flex!important}
 }
 @media(prefers-reduced-motion:reduce){.badge-hero *,.badge-hero ::after{animation:none!important;transition:none!important}}

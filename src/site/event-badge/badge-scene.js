@@ -644,8 +644,9 @@ export async function createBadgeScene(stage, options = {}) {
     let paused = reduce, running = false, visible = true, last = 0, clock = 0;
     let phase = 'enter', phaseT = 0, pendingSwap = false, hoverX = 0, hoverY = 0, nextAuto = 0;
     function spring(k, c, x, v, target, dt) { const a = -k * (x - target) - c * v; v += a * dt; x += v * dt; return [x, v]; }
-    function flip() { if (pendingSwap)
-        return; pendingSwap = true; S.turnT += TAU; S.turnV += 3.2; S.rollV += .35; S.dropV -= .7; dotsBox.style.setProperty('--p', 0); phase = 'flip'; phaseT = 0; fadeStamp = true; }
+    function nextReady() { const i = (current + 1) % EVENTS.length; return Boolean(fronts[i] && stamps[i]); }
+    function flip() { if (pendingSwap || !nextReady())
+        return false; pendingSwap = true; S.turnT += TAU; S.turnV += 3.2; S.rollV += .35; S.dropV -= .7; dotsBox.style.setProperty('--p', 0); phase = 'flip'; phaseT = 0; fadeStamp = true; return true; }
     let fadeStamp = false;
     function enter() {
         entered = true;
@@ -760,9 +761,8 @@ export async function createBadgeScene(stage, options = {}) {
                 nextAuto = clock + 3.4;
             }
         }
-        if (phase === 'idle' && nextAuto && clock > nextAuto && !dragging) {
+        if (phase === 'idle' && nextAuto && clock > nextAuto && !dragging && flip()) {
             nextAuto = 0;
-            flip();
         }
         apply();
         holoMat.uniforms.uShift.value = S.turn * .18 + S.roll * .6 + clock * .015;
@@ -843,6 +843,7 @@ export async function createBadgeScene(stage, options = {}) {
             if (ev.pointerType === 'touch' && navigator.vibrate)
                 navigator.vibrate(8);
             if (paused) {
+                if (!nextReady()) return;
                 showEvent((current + 1) % EVENTS.length);
                 strapMat.color.copy(lanTarget);
                 tabMat.color.copy(lanTarget);
@@ -855,7 +856,7 @@ export async function createBadgeScene(stage, options = {}) {
         }
         // after a spin, settle on the nearest front-facing turn and reprint if it went around
         const k = Math.round((S.turn + S.turnV * .35) / TAU);
-        if (k !== Math.round(S.turnT / TAU)) {
+        if (k !== Math.round(S.turnT / TAU) && nextReady()) {
             pendingSwap = true;
             fadeStamp = true;
             phase = 'flip';
@@ -977,16 +978,6 @@ export async function createBadgeScene(stage, options = {}) {
         await new Promise(resolve => requestAnimationFrame(resolve));
         renderer.initTexture(texture);
     }
-    // Prepare later cards individually while the browser is idle. All cards are
-    // ready before interaction is enabled, including rapid successive taps.
-    for (let index = 1; index < EVENTS.length; index++) {
-        for (const [textures, draw] of [[fronts, frontTex], [stamps, okTex]]) {
-            await new Promise(resolve => window.requestIdleCallback ? requestIdleCallback(resolve, { timeout: 200 }) : setTimeout(resolve, 0));
-            textures[index] = draw(EVENTS[index], index);
-            await new Promise(resolve => requestAnimationFrame(resolve));
-            renderer.initTexture(textures[index]);
-        }
-    }
     showEvent(0);
     layout();
     setTheme(currentDark);
@@ -999,5 +990,19 @@ export async function createBadgeScene(stage, options = {}) {
         return { setState() { }, dispose() { } };
     }
     performance.mark('nordra-badge-ready');
+    // Later cards are drawn after the entrance starts, one per idle slot.
+    (async () => {
+    // Prepare later cards individually while the browser is idle. All cards are
+    // ready before interaction is enabled, including rapid successive taps.
+    for (let index = 1; index < EVENTS.length; index++) {
+        for (const [textures, draw] of [[fronts, frontTex], [stamps, okTex]]) {
+            if (disposed) return;
+            await new Promise(resolve => window.requestIdleCallback ? requestIdleCallback(resolve, { timeout: 200 }) : setTimeout(resolve, 0));
+            textures[index] = draw(EVENTS[index], index);
+            await new Promise(resolve => requestAnimationFrame(resolve));
+            renderer.initTexture(textures[index]);
+        }
+    }
+    })();
     return { setState, dispose };
 }

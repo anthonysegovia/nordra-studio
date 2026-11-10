@@ -145,15 +145,14 @@ try {
     await page.locator('#eventos-response-title').scrollIntoViewIfNeeded();
     await page.screenshot({ path: path.join(output, `${lang}-${theme}-${mobile ? 'mobile' : 'desktop'}-response.png`) });
     assert.equal(await page.evaluate(() => window.__badge.state.running), false);
-    // Repeat visits skip the drop while preserving automatic reprints.
+    // Every visit plays the entrance again (requested by the user on 10/11/2026).
     await page.evaluate(() => { sessionStorage.setItem('nordra-journey', JSON.stringify({ paused: false })); });
     await page.goto(`${url}/${lang === 'en' ? 'en/' : ''}eventos?theme=${theme}&motion=playing`);
     if (mobile) { await realTap(page, '[data-badge-start]'); await page.locator('#badge-stage').scrollIntoViewIfNeeded(); }
     await page.waitForFunction(() => window.__badge?.state.entered);
     const repeated = await page.evaluate(() => window.__badge.state);
-    assert.equal(repeated.phase, 'idle');
-    assert.equal(repeated.stamp, 1);
-    assert(Math.abs(repeated.drop) < .03);
+    assert.equal(repeated.phase, 'enter');
+    assert(repeated.drop > .5, JSON.stringify(repeated));
     await page.locator('#eventos-response-title').scrollIntoViewIfNeeded();
     await page.waitForFunction(() => !window.__badge.state.running);
     await page.evaluate(() => dispatchEvent(new PageTransitionEvent('pagehide')));
