@@ -42,8 +42,13 @@ test('other commercial occasion heroes keep a single existing filled button', ()
 
 test('homepage keeps headline C, its approved social title and the descriptive search title', () => {
   const html = readFileSync('index.html', 'utf8');
-  const heading = html.match(/<h1 id="entry-title"[\s\S]*?<\/h1>/)[0].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  const h1 = html.match(/<h1 id="entry-title"[\s\S]*?<\/h1>/)[0];
+  // The accessible headline stays fixed; the rotating endings are hidden from assistive technology.
+  const heading = h1.replace(/<span class="title-rotator-phrases" hidden>[\s\S]*?<\/span><\/span>/, '</span>').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
   assert.equal(heading, 'Tu página y tu invitación hechas contigo');
+  const endings = [...h1.matchAll(/<span data-phrase>([^<]+)<\/span>/g)].map(m => m[1]);
+  assert.equal(endings[0], 'hechas contigo');
+  assert.ok(endings.length >= 3);
   const title = html.match(/<title>(.*?)<\/title>/)[1];
   const og = html.match(/property="og:title" content="([^"]*)"/)[1];
   assert.equal(title, 'Nordra Studio · Diseño web e invitaciones digitales');

@@ -12,6 +12,7 @@ import '../styles/language-switch.css';
 import '../scripts/mobile-chrome.js?entry=home';
 import '../scripts/language-switch.js?entry=home';
 import '../scripts/home.js?entry=home';
+import '../scripts/title-rotator.js?entry=home';
 import '../scripts/home-snow.js?entry=home';
 import '../scripts/page-navigation.js?entry=home';
 import '../analytics/entry.js';

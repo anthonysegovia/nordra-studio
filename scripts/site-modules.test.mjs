@@ -169,6 +169,7 @@ const pages = {
       "mobile-chrome",
       "language-switch",
       "home",
+      "title-rotator",
       "home-snow",
       "page-navigation"
     ],
