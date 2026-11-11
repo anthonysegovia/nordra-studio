@@ -148,21 +148,21 @@ body.dark .home-snow{opacity:0}
 body[data-journey-motion="paused"] .home-snow{opacity:0;transition:none}
 @media(prefers-reduced-motion:reduce){.home-snow{display:none}}
 /* Home title «Escarcha»: frost creeps over the ending, it crumbles into a few flakes and the next one thaws in. */
-.title-rotator{position:relative;--ice:#7fbfdc;--ice-glow:#ffffff}
-.dark .title-rotator{--ice:#e3f5ff;--ice-glow:#bfe9ff}
+.title-rotator{position:relative;--ice:#5fa9d0;--ice-glow:#ffffff;--frost-line:#4f9fca;--frost-glow:#a9dcf3;--frost-shard:rgba(150,205,232,.5);--frost-star:#3d93c2}
+.dark .title-rotator{--ice:#e3f5ff;--ice-glow:#9fdcff;--frost-line:#f1faff;--frost-glow:#8fd3ff;--frost-shard:rgba(205,238,255,.32);--frost-star:#ffffff}
 .title-rotator-stage{display:none}
 .title-rotator.is-ready .title-rotator-static{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .title-rotator.is-ready .title-rotator-stage{display:inline-block;position:relative;vertical-align:bottom;white-space:nowrap;transition:width .7s cubic-bezier(.5,0,.2,1)}
 .title-rotator-word{display:inline-block;white-space:nowrap}
 .title-rotator-char{display:inline-block}
-.title-rotator-word.is-freezing .title-rotator-char{animation:title-freeze .42s ease-out both}
-.title-rotator-word.is-crumbling .title-rotator-char{animation:title-crumble .42s cubic-bezier(.55,0,.8,.4) both}
-.title-rotator-word.is-thawing .title-rotator-char{animation:title-thaw 1s cubic-bezier(.2,.7,.2,1) both}
-@keyframes title-freeze{to{color:var(--ice);text-shadow:0 0 .14em var(--ice-glow),0 0 .02em var(--ice-glow);filter:brightness(1.08)}}
-@keyframes title-crumble{from{color:var(--ice);text-shadow:0 0 .14em var(--ice-glow)}to{color:var(--ice);opacity:0;transform:translateY(.16em) scale(.9);filter:blur(3px)}}
-@keyframes title-thaw{0%{opacity:0;color:var(--ice);text-shadow:0 0 .3em var(--ice-glow);transform:translateY(-.16em) scale(1.06);filter:blur(6px)}45%{opacity:1;color:var(--ice);text-shadow:0 0 .14em var(--ice-glow);transform:none;filter:blur(0)}}
-.title-snow{position:absolute;inset:0;pointer-events:none;overflow:visible}
-.title-snow i{position:absolute;border-radius:50%;background:radial-gradient(circle,#fff 0 40%,color-mix(in srgb,var(--ice) 70%,#fff) 62%,transparent 72%);box-shadow:0 0 6px color-mix(in srgb,var(--ice-glow) 80%,transparent);opacity:0;animation-name:title-flake;animation-timing-function:cubic-bezier(.3,.1,.6,1);animation-fill-mode:forwards}
-body:not(.dark) .title-snow i{background:radial-gradient(circle,#fff 0 22%,#6fb4d8 46%,transparent 72%);box-shadow:0 0 5px #6fb4d880}
-@keyframes title-flake{0%{opacity:0;transform:scale(.4)}15%{opacity:1;transform:scale(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(160deg) scale(.7)}}
-@media(prefers-reduced-motion:reduce){.title-rotator-word .title-rotator-char,.title-snow i{animation:none!important}.title-snow{display:none}.title-rotator.is-ready .title-rotator-stage{transition:none}}
+.title-frost{position:absolute;z-index:1;pointer-events:none}
+/* Frozen: the letters turn to ice where the frost has reached them. */
+.title-rotator-word.is-freezing .title-rotator-char{animation:title-freeze .34s ease-out both}
+.title-rotator-word.is-shattering .title-rotator-char{animation:title-shatter .3s cubic-bezier(.5,0,.9,.4) both;animation-delay:0s!important}
+.title-rotator-word.is-waiting .title-rotator-char{opacity:0}
+/* Crystallising: each letter forms as the star passes, then thaws into the accent. */
+.title-rotator-word.is-crystallising .title-rotator-char{animation:title-crystal 1.15s cubic-bezier(.2,.7,.2,1) both}
+@keyframes title-freeze{to{color:var(--ice);text-shadow:0 0 .16em var(--ice-glow),0 0 .03em var(--ice-glow)}}
+@keyframes title-shatter{0%{color:var(--ice);text-shadow:0 0 .3em var(--ice-glow),0 0 .05em #fff;transform:none}30%{color:#fff}100%{color:var(--ice);opacity:0;transform:scale(.94);filter:blur(2px)}}
+@keyframes title-crystal{0%{opacity:0;color:var(--ice);text-shadow:0 0 .45em var(--ice-glow);transform:translateY(.06em) scale(.55);filter:blur(5px)}22%{opacity:1;color:var(--frost-star);text-shadow:0 0 .3em var(--ice-glow),0 0 .06em #fff;transform:scale(1.07);filter:blur(0)}55%{color:var(--ice);text-shadow:0 0 .14em var(--ice-glow);transform:none}}
+@media(prefers-reduced-motion:reduce){.title-rotator-word .title-rotator-char{animation:none!important}.title-frost{display:none}.title-rotator.is-ready .title-rotator-stage{transition:none}}
