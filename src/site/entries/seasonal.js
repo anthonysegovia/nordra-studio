@@ -11,6 +11,7 @@ import '../scripts/theme-transition.js?entry=seasonal';
 import '../scripts/living-images.js?entry=seasonal';
 import '../styles/phone-frame.css';
 import '../styles/showcase-live.css';
+import '../styles/invitation-offers.css';
 import '../styles/seasonal-page.css';
 import '../scripts/showcase-live.js?entry=seasonal';
 import '../scripts/nordra-materials.js?entry=seasonal';

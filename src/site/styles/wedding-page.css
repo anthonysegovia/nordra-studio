@@ -5,7 +5,7 @@
 .wedding-anchor { position:absolute; inset:0 auto auto 0; }
 .wedding-sample h2,.wedding-plans h2 { margin:0; font-size:clamp(38px,5vw,76px); line-height:1.06; }
 .wedding-sample>p,.wedding-plans>p { margin:12px 0 24px; color:var(--muted); }
-.wedding-plan-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 clamp(18px,3vw,42px); padding-top:16px; }
+.wedding-plan-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0 clamp(18px,3vw,42px); padding-top:16px; }
 .wedding-plans .invite-card {
   --paper:#f6f1e7; --print:#433329; --secondary:#624f42; --lift:0px;
   position:relative; isolation:isolate; display:grid; grid-template-rows:subgrid; grid-row:span 3;
@@ -26,9 +26,9 @@
   background:#e7dcc7; color:#47382d; font:500 16px/1 'Cormorant Wedding',Georgia,serif; }
 .wedding-plans .paper-copy p { margin:10px 0; color:var(--secondary); }
 .wedding-plans .paper-copy .invite-price { display:grid; gap:4px; margin-block:18px; }
-.wedding-plans .invite-opening { display:grid; gap:5px; color:var(--print); }
-.wedding-plans .invite-opening small { font:600 .72rem/1.4 Manrope,sans-serif; text-transform:uppercase; letter-spacing:.1em; }
-.wedding-plans .invite-opening strong { font:500 clamp(38px,3.1vw,48px)/1.08 'Cormorant Wedding',Georgia,serif; }
+.wedding-plans .invite-amount { display:grid; gap:5px; color:var(--print); }
+
+.wedding-plans .invite-amount strong { font:500 clamp(38px,3.1vw,48px)/1.08 'Cormorant Wedding',Georgia,serif; }
 .wedding-plans .paper-terms { color:var(--secondary); font-size:clamp(.76rem,1.2vw,.9rem); }
 .wedding-plans :is(.invite-points,.invite-details ul) { padding-inline-start:1.15em; line-height:1.6; color:var(--print); }
 .wedding-plans .invite-points { margin:10px 0 18px; }
@@ -115,7 +115,7 @@
   .wedding-plans .wedding-plan-grid { padding-top:4px; }
   .wedding-plans .invite-card-head { min-height:32px; }
   .wedding-plans .invite-price { row-gap:0; }
-  .wedding-plans .invite-opening { gap:0; }
+  .wedding-plans .invite-amount { gap:0; }
   body[data-scene=bodas] .theme-wedding .home-closing :is(.contact-layout,.contact-channels) { margin-block:8px; }
   body[data-scene=bodas] .theme-wedding .home-closing .contact-layout { gap:8px; }
   body[data-scene=bodas] .theme-wedding .home-closing .footer-layout { margin-top:8px; padding-top:8px; }

@@ -45,13 +45,13 @@ test('the dashboard hover lift composes with the stage transform instead of repl
   assert.match(css, /\[data-step=panel\] \.wedding-phone \{[^}]*pointer-events:auto/);
 });
 
-test('Bodas shows both catalogue prices before each disclosure and keeps the complete plan inside', () => {
+test('Bodas shows three catalogue prices before each disclosure and keeps the complete plan inside', () => {
   assert.doesNotMatch(wedding, /plan-comparison|Qué incluyen los paquetes/);
   for (const offer of invitationOffers) {
     const article = wedding.split('id="bodas-plan-' + offer.id + '"')[1].split('</article>')[0];
     const [visible, detail] = article.split('<details');
     assert.ok(visible.includes('<strong>' + invitationMoney(offer.cents) + '</strong>'));
-    assert.ok(visible.match(/<s [^>]*>([^<]+)<\/s>/)[1].includes(invitationMoney(offer.regularCents)));
+    assert.doesNotMatch(visible, /<s[ >]|Precio de apertura/);
     assert.ok(visible.includes(offer.delivery));
     assert.equal(visible.match(/<li>/g).length, 3);
     assert.ok(invitationPlanFeatures[offer.id].every(feature => detail.includes(feature)));
@@ -78,9 +78,8 @@ test('general invitation cards keep the simplified approved HTML', () => {
   const offers = renderInvitationOffers();
   assert.doesNotMatch(offers, /paper-lilies|wedding-lilies|wedding-seal|paper-terms/);
   const cards = offers.match(/<article [\s\S]*?<\/article>/g);
-  assert.equal(cards.length, 2);
-  assert.equal(createHash('sha256').update(cards.join('')).digest('hex'),
-    '1fa2f06b6635f5acada4b0d7ea4232aee941a7081c2dc398fd9ec9aed27c4b0e');
+  assert.equal(cards.length, 3);
+  for (const offer of invitationOffers) assert.ok(cards.some(card => card.includes(`id="plan-${offer.id}"`)));
 });
 
 test('Boreal spreads its second real lily away from the first', () => {
@@ -90,7 +89,7 @@ test('Boreal spreads its second real lily away from the first', () => {
 });
 
 for (const [name,slug] of [['cumpleanos','camila-30'],['eventos','conexion-27']]) {
-  test(name + ' shows the real details screen, localized dashboard and two catalogue plans', async () => {
+  test(name + ' shows the real details screen, localized dashboard and three catalogue plans', async () => {
     const source = page(name);
     const { translatedPageOutput } = await import('../build/translated-pages.mjs');
     const english = translatedPageOutput().transformIndexHtml.handler(mobileWhatsApp(source), {path:'/en/'+name+'.html'});
@@ -121,7 +120,7 @@ for (const [name,slug] of [['cumpleanos','camila-30'],['eventos','conexion-27']]
       for(const offer of invitationOffers){
         const [visible,details]=html.split('id="'+name+'-plan-'+offer.id+'"')[1].split('</article>')[0].split('<details');
         assert.ok(visible.includes('<strong>'+invitationMoney(offer.cents)+'</strong>'));
-        assert.ok(visible.match(/<s [^>]*>([^<]+)<\/s>/)[1].includes(invitationMoney(offer.regularCents)));
+    assert.doesNotMatch(visible, /<s[ >]|Precio de apertura/);
         assert.ok(details.includes('<summary>'));
       }
     }

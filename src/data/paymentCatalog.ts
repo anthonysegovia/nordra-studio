@@ -1,5 +1,5 @@
 import { businessOffers, businessHosting, businessMoney } from "./businessOffers";
-import { invitationMoney, invitationOffers, seasonalOffer, seasons } from "./invitationPricing";
+import { invitationMoney, invitationOffers, seasonalOffer, seasonalPanelOffer, seasons } from "./invitationPricing";
 
 export type ChargeMode = "full" | "deposit" | "balance";
 export type CatalogService = { id: string; label: string; group: string; cents: number | null; note?: string };
@@ -10,8 +10,9 @@ export const paymentCatalog: CatalogService[] = [
   ...businessOffers.map(offer => ({ id: offer.id, group: "Páginas de negocios", label: offer.name, cents: offer.cents, note: `Rango de referencia: ${businessMoney(offer.cents)}–${businessMoney(offer.maxCents)}${offer.openEnded ? "+" : ""}. IVA incluido. Ajusta según la cotización.` })),
   ...[ { id: "wedding", label: "Boda" }, { id: "celebration", label: "Cumpleaños y celebración" }, { id: "gathering", label: "Evento y encuentro" } ].flatMap(event => invitationOffers.map(plan => ({
     id: `${event.id}-${plan.id}`, group: "Eventos y celebraciones", label: `${event.label} · ${plan.name}`, cents: plan.cents,
-    note: `Precio de apertura: ${plan.startingAt ? "desde " : ""}${invitationMoney(plan.cents)} MXN. Precio regular: ${plan.startingAt ? "desde " : ""}${invitationMoney(plan.regularCents)} MXN. IVA incluido.${plan.startingAt ? " Confirma el precio final de la propuesta." : ""}`,
+    note: `${invitationMoney(plan.cents)} MXN. IVA incluido. Pago único por evento.`,
   }))),
+  { id: "temporada-panel", group: "Invitaciones de temporada", label: "Temporada con panel", cents: seasonalPanelOffer.cents },
   ...seasons.map(season => ({ id: season.catalogId, group: "Invitaciones de temporada", label: season.label, cents: seasonalOffer.cents })),
   ...businessHosting.flatMap(host => host.terms.map(term => ({ id: `hosting-${host.id}-${term.id}`, group: "Alojamiento y soporte", label: `${host.catalogName} · Alojamiento ${term.label}`, cents: term.cents, note: `${host.startingAt ? "Desde " : ""}${businessMoney(term.cents)} MXN, IVA incluido. Confirma los límites y el importe contratado.` }))),
   ...[

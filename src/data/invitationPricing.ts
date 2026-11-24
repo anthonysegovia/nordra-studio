@@ -1,16 +1,20 @@
 export const invitationOffers = [
-  { id: "aurora", name: "Aurora", cents: 199900, regularCents: 299900, startingAt: false, tone: 1, delivery: "3–5 días hábiles",
+  { id: "esencial", name: "Esencial", cents: 39900, startingAt: false, tone: 0, delivery: "1–2 días hábiles",
+    audience: "Solo tu invitación, lista para compartir.",
+    points: ["Diseño de colección con tus datos", "Fecha, lugar y cómo llegar", "Un enlace para compartir por WhatsApp"] },
+  { id: "aurora", name: "Aurora", cents: 99900, startingAt: false, tone: 1, delivery: "3–5 días hábiles",
     audience: "Para invitar con estilo y saber quién viene.",
     points: ["Invitación personalizada", "Confirmación de asistencia por persona", "Panel de invitados y confirmaciones", "Enlaces personales para cada invitado"] },
-  { id: "boreal", name: "Boreal", cents: 299900, regularCents: 599900, startingAt: true, tone: 2, delivery: "5–7 días hábiles",
+  { id: "boreal", name: "Boreal", cents: 149900, startingAt: false, tone: 2, delivery: "5–7 días hábiles",
     audience: "Para organizar cada detalle, de la mesa a la puerta.",
     points: ["Todo lo de Aurora", "Organización de mesas", "Pases QR para tus invitados", "Registro de llegadas el día del evento"] },
 ] as const;
 
 // Seasonal invitations share one price. `order` is the window to ask for one, so the page can point to the next season.
-export const seasonalOffer = { id: "temporada", name: "Temporada", cents: 59900, delivery: "1–2 días hábiles",
+export const seasonalOffer = { id: "temporada", name: "Temporada", cents: 39900, delivery: "1–2 días hábiles",
   audience: "Para celebrar la temporada con un diseño listo para compartir.",
   points: ["Diseño de temporada personalizado", "Fecha, lugar y tus datos", "Lista para compartir por WhatsApp"] } as const;
+export const seasonalPanelOffer = { ...invitationOffers.find(o => o.id === "aurora")!, id: "temporada-panel", name: "Con panel" } as const;
 export const seasons = [
   { id: "halloween", catalogId: "halloween", name: "Halloween", label: "Invitación de Halloween", demo: "/demos/halloween/index.html", image: "inv-season-halloween", order: { from: [9, 1], to: [10, 24] },
     caption: "Un poco de misterio. Mucha diversión.", designs: [
@@ -40,7 +44,7 @@ export function upcomingSeason(date = new Date()) {
 // Keep in step with the system limit (server/wedding-links.js, server/wedding-management.js) and the plan pages.
 export const invitationFacts = {
   guests: "Sin límite de invitados, incluidos acompañantes, en Aurora y Boreal.",
-  afterEvent: "La invitación y el panel siguen en línea hasta 90 días después del evento, y el soporte por WhatsApp hasta 30 días después.",
+  afterEvent: "En Aurora y Boreal, la invitación y el panel siguen en línea hasta 90 días después del evento, y el soporte por WhatsApp hasta 30 días después.",
 } as const;
 
 export function invitationMoney(cents: number) {
@@ -48,6 +52,7 @@ export function invitationMoney(cents: number) {
 }
 
 export const invitationPlanFeatures = {
+  esencial: ["Un diseño de nuestra colección, con tus datos", "Fecha, lugar y cómo llegar", "Un enlace para compartir por WhatsApp", "Sin panel, sin enlaces personales ni confirmación por persona", "Alojamiento hasta 7 días naturales después del evento"],
   aurora: [
         "Un diseño de nuestra colección, con tus datos", "Galería de recuerdos con hasta 30 fotos",
         "Cuenta propia y panel privado de invitados", "Enlaces personales para individuales, parejas y +1",

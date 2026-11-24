@@ -1,8 +1,10 @@
-import faq from '../src/data/occasionFaq.json' with { type: 'json' };
-import { invitationMoney, invitationOffers, seasonalOffer } from '../src/data/invitationPricing.ts';
+import faqSource from '../src/data/occasionFaq.json' with { type: 'json' };
+import { invitationMoney, invitationOffers, seasonalOffer, seasonalPanelOffer } from '../src/data/invitationPricing.ts';
 import { invitationOfferSchema } from './invitation-schema.mjs';
 
 import { invitationCard } from './invitation-offers.mjs';
+
+const faq = Object.fromEntries(Object.entries(faqSource).map(([page, items]) => [page, items.map(item => ({ ...item, answerHtml: renderOccasionPrices(item.answerHtml) }))]));
 
 const names = { bodas: 'bodas', cumpleanos: 'cumpleaños', eventos: 'eventos', temporada: 'temporada' };
 // These editorial answers only contain inline links. Decode entities after
@@ -20,7 +22,7 @@ export function occasionSchema(page) {
       name: `Invitaciones digitales de ${names[page]}`,
       serviceType: `Invitaciones digitales para ${names[page]}`,
       areaServed: 'MX', provider: { '@id': 'https://nordrastudio.mx/#negocio' }, url,
-      offers: (page === 'temporada' ? [seasonalOffer] : invitationOffers).map(offer =>
+      offers: (page === 'temporada' ? [seasonalOffer, seasonalPanelOffer] : invitationOffers).map(offer =>
         invitationOfferSchema(offer, page === 'temporada' ? url : `${url}#${page}-plan-${offer.id}`)),
     },
     {
@@ -34,15 +36,15 @@ export function occasionSchema(page) {
 }
 
 export function renderOccasionPrices(html) {
-  return html.replace(/\{\{offer:(aurora|boreal):(opening|regular)\}\}/g, (_, id, kind) => {
+  return html.replace(/\{\{offer:(esencial|aurora|boreal):(price|delivery)\}\}/g, (_, id, kind) => {
     const offer = invitationOffers.find(item => item.id === id);
-    return (offer.startingAt ? 'Desde ' : '') + invitationMoney(kind === 'regular' ? offer.regularCents : offer.cents);
+    return kind === 'delivery' ? offer.delivery : invitationMoney(offer.cents);
   }).replaceAll('{{occasion:seasonal-price}}', invitationMoney(seasonalOffer.cents)).replaceAll('{{occasion:seasonal-delivery}}', seasonalOffer.delivery)
     .replaceAll('{{occasion:seasonal-price-encoded}}', encodeURIComponent(invitationMoney(seasonalOffer.cents)));
 }
 
 export function renderOccasionPage(html) {
-  return renderOccasionPrices(html).replace(/\{\{occasion:(bodas|cumpleanos|eventos):plans\}\}/g, (_, page) =>
+  return renderOccasionPrices(html).replace('{{occasion:temporada:plans}}', [seasonalOffer, seasonalPanelOffer].map(offer => invitationCard(offer, 'temporada-', 'mi celebración de temporada')).join('')).replace(/\{\{occasion:(bodas|cumpleanos|eventos):plans\}\}/g, (_, page) =>
     invitationOffers.map(offer => invitationCard(offer, page + '-', { bodas: 'nuestra boda', eventos: 'mi evento' }[page])).join('')).replace(/\{\{occasion:(bodas|cumpleanos|eventos|temporada):(faq|schema)\}\}/g, (_, page, kind) =>
     kind === 'faq'
       ? faq[page].map(item => `<details class="faq-item"><summary><span>${item.question}</span><span aria-hidden="true">+</span></summary><div class="faq-answer"><p>${item.answerHtml}</p></div></details>`).join('')

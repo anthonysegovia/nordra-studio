@@ -27,7 +27,8 @@ try{
   assert.equal(await halloween.isVisible(),c.date!=='2026-09-15');
   if(await halloween.isVisible())assert.equal(await halloween.textContent(),'Vuelve en septiembre');
   assert.equal(await page.locator('link[rel=stylesheet]').count(),1);
-  assert.equal((await page.locator('body').innerText()).split(invitationMoney(seasonalOffer.cents)).length,2);
+  assert.ok((await page.locator('body').innerText()).includes(invitationMoney(seasonalOffer.cents)));
+  assert.equal(await page.locator('#temporada-planes .invite-card').count(),2);
   await tabs.first().focus();
   for(let i=0;i<expected.length;i++){
     assert.equal(await page.getByRole('tab',{selected:true}).getAttribute('aria-controls'),expected[i]);

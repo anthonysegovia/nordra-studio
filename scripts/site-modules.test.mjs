@@ -131,7 +131,7 @@ const pages = {
       "nordra-theatre",
       "contact"
     ],
-    "entryStyles": ["phone-frame", "showcase-live", "seasonal-page", "carousel-positions", "mobile-chrome","language-switch", "simple"],
+    "entryStyles": ["phone-frame", "showcase-live", "invitation-offers", "seasonal-page", "carousel-positions", "mobile-chrome","language-switch", "simple"],
     "inline": 5
   },
   "invitaciones": {

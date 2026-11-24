@@ -5,18 +5,15 @@ const esc = s => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').repl
 const whatsapp = text => 'https://wa.me/528129022231?text=' + encodeURIComponent(text);
 
 function price(offer, wedding) {
-  const from = offer.startingAt ? 'desde ' : '';
-  const regular = offer.regularCents ? `<s class="invite-regular" aria-label="Precio regular ${from}${invitationMoney(offer.regularCents)}">${from}${invitationMoney(offer.regularCents)}</s>` : '';
-  const opening = `<span class="invite-opening">${offer.regularCents ? '<small>Precio de apertura</small>' : ''}<span>${from}<strong>${invitationMoney(offer.cents)}</strong> MXN</span></span>`;
+  const amount = `<span class="invite-amount"><span><strong>${invitationMoney(offer.cents)}</strong> MXN</span></span>`;
   const delivery = `Lista en ${esc(offer.delivery)}`;
-  if (wedding) return `<p class="invite-price" data-invitation-price="${offer.id}">${opening}<span class="paper-terms">${regular} · <span>${delivery}</span></span></p>`;
-  return `<p class="invite-price" data-invitation-price="${offer.id}">${regular}${opening}</p>`;
+  return `<p class="invite-price" data-invitation-price="${offer.id}">${amount}${wedding ? `<span class="paper-terms">${delivery}</span>` : ''}</p>`;
 }
 
 // Long plans read as three short groups; the wording stays in the shared catalogue.
 function planList(id, featured) {
-  const features = invitationPlanFeatures[id];
-  if (id !== 'aurora') return features.map(text => `<li${featured && !text.startsWith('Todo Aurora') ? ' class="only-boreal"' : ''}>${esc(text)}</li>`).join('');
+  const features = invitationPlanFeatures[id === 'temporada' ? 'esencial' : id === 'temporada-panel' ? 'aurora' : id];
+  if (!['aurora', 'temporada-panel'].includes(id)) return features.map(text => `<li${featured && !text.startsWith('Todo Aurora') ? ' class="only-boreal"' : ''}>${esc(text)}</li>`).join('');
   const groups = [['Diseño', [0, 1, 8, 9, 10, 11]], ['Invitados', [2, 3, 4, 5, 6, 7]], ['Después de la entrega', [12, 13]]];
   return groups.map(([title, items]) => `<li class="plan-group">${title}</li>${items.map(i => `<li>${esc(features[i])}</li>`).join('')}`).join('');
 }
@@ -31,15 +28,15 @@ export function invitationCard(offer, idPrefix = '', celebration = 'mi celebraci
   const lily = '<img alt="" src="/artwork/wedding-lilies/lily-stem-v1-320.webp" srcset="/artwork/wedding-lilies/lily-stem-v1-320.webp 320w, /artwork/wedding-lilies/lily-stem-v1-640.webp 640w" sizes="(max-width:700px) 78px, 120px" width="320" height="480" loading="lazy">';
   return `<article class="invite-card${featured ? ' invite-featured' : ''}" id="${idPrefix}plan-${offer.id}" aria-labelledby="${idPrefix}plan-title-${offer.id}"><div class="invite-light" aria-hidden="true"></div>${wedding ? `<div class="paper-lilies" aria-hidden="true">${lily}${featured ? lily : ''}</div><div class="paper-copy">` : ''}
     <div class="invite-card-head"><h3 id="${idPrefix}plan-title-${offer.id}">${esc(offer.name)}</h3>${featured ? badge : ''}</div>
-    ${wedding ? `<p class="invite-audience">${esc(offer.audience)}</p>` : ''}${price(offer, wedding)}
+    ${wedding ? `<p class="invite-audience">${esc(offer.audience)}</p>` : ''}${price(offer, wedding)}${['esencial', 'temporada'].includes(offer.id) ? '<p class="invite-scope">Sin panel ni confirmación por persona</p>' : ''}
     ${featured ? '<p class="invite-inherits">Todo lo de Aurora, más:</p>' : ''}<ul class="invite-points">${points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>${wedding ? '</div>' : ''}
-    <a class="invite-cta" href="${esc(whatsapp(message))}" target="_blank" rel="noopener" data-invitation-offer="${offer.id}" data-analytics-whatsapp="plan_${offer.id}">Quiero ${esc(offer.name)} <span aria-hidden="true">↗</span></a>
+    <a class="invite-cta" href="${esc(whatsapp(message))}" target="_blank" rel="noopener" data-invitation-offer="${offer.id}" data-analytics-whatsapp="plan_${offer.id}">${offer.id === 'temporada-panel' ? 'Quiero mi invitación con panel' : `Quiero ${esc(offer.name)}`} <span aria-hidden="true">↗</span></a>
     <details class="invite-details"><summary>${wedding ? '<span class="plan-details-desktop">Ver todo lo que incluye</span><span class="plan-details-mobile">Ver todo lo incluido</span>' : 'Ver todo lo que incluye'} <span aria-hidden="true">+</span></summary><ul>${wedding ? '' : `<li>Lista en ${esc(offer.delivery)}</li>`}${planList(offer.id, featured)}</ul></details></article>`;
 }
 
 export function renderInvitationOffers() {
   return `<section class="home-continuation invite-offers" id="planes-invitaciones" aria-labelledby="invite-offers-title"><span class="inv-anchor" id="planes-eventos"></span>
-    <div class="invite-offers-intro"><h2 id="invite-offers-title">Elige tu plan</h2><p>MXN con IVA incluido. Sin mensualidades: 50 % para iniciar y 50 % al aprobar.</p><p class="plan-assurance">Incluye 3 rondas de cambios. Tarjeta con Mercado Pago y factura (CFDI).</p></div>
+    <div class="invite-offers-intro"><h2 id="invite-offers-title">Elige tu plan</h2><p>MXN con IVA incluido. Pago único por evento: 50 % para iniciar y 50 % al aprobar.</p><p class="plan-assurance">Aurora y Boreal incluyen 3 rondas de cambios. Tarjeta con Mercado Pago y factura (CFDI).</p></div>
     <div class="invite-grid">${invitationOffers.map(o => invitationCard(o)).join('')}</div>
     <a class="season-bridge" href="/temporada">¿Una posada o una fiesta de fin de año? Diseños de temporada a ${invitationMoney(seasonalOffer.cents)} <span aria-hidden="true">→</span></a></section>`;
 }
@@ -50,8 +47,8 @@ export const invitationFaq = [
   { q: '¿Qué incluye el panel?', a: 'Aurora y Boreal incluyen un panel privado con enlaces personales, confirmados y pendientes. Boreal suma mesas, pases QR y registro de llegadas. La simulación no guarda ni envía respuestas.', link: ['/bodas#bodas-respuesta', 'Prueba el recorrido del invitado.', 'bodas', 'bodas-respuesta'] },
   { q: '¿Cuántos invitados caben?', a: invitationFacts.guests },
   { q: '¿Cómo la comparto?', a: 'Envía el enlace por WhatsApp, redes o correo. En Aurora y Boreal cada invitado puede recibir su enlace personal.' },
-  { q: '¿Cuánto tarda?', a: `Aurora, ${invitationOffers[0].delivery}; Boreal, ${invitationOffers[1].delivery}; Temporada, ${seasonalOffer.delivery}. El plazo cuenta desde que recibimos tus datos y el anticipo.` },
-  { q: '¿Hasta cuándo sigue activa?', a: invitationFacts.afterEvent + ' Los cambios de contenido después de la entrega se cotizan aparte. En Temporada, confirma funciones, cambios y vigencia en tu cotización.' },
+  { q: '¿Cuánto tarda?', a: `${invitationOffers.map(o => `${o.name}, ${o.delivery}`).join('; ')}; Temporada, ${seasonalOffer.delivery}. El plazo cuenta desde que recibimos tus datos y el anticipo.` },
+  { q: '¿Hasta cuándo sigue activa?', a: invitationFacts.afterEvent + ' Los cambios de contenido después de la entrega se cotizan aparte. Esencial y Temporada sin panel incluyen alojamiento hasta 7 días naturales después del evento.' },
   { q: '¿Cómo pago y facturo?', a: 'Para iniciar necesitamos la propuesta aceptada, los materiales y un anticipo del 50%. El otro 50% se paga después de tu aprobación y antes de publicar o entregar los accesos finales. Al confirmar la cotización, te enviamos un enlace de Mercado Pago para pagar con tarjeta de crédito o débito. Emitimos factura (CFDI); solicítala al pedir tu cotización.' },
 
 ];

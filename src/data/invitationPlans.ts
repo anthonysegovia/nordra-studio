@@ -4,7 +4,18 @@ import { invitationOffers, invitationPlanFeatures } from "./invitationPricing";
 export function getInvitationPlans(english: boolean) {
   return [
     {
-      ...invitationOffers[0], Icon: ClipboardList,
+      ...invitationOffers.find(o => o.id === "esencial")!, name: english ? "Essential" : "Esencial", Icon: Link,
+      level: english ? "Invitation only" : "Solo la invitación",
+      audience: english ? "Your invitation, ready to share" : "Tu invitación, lista para compartir",
+      purpose: english ? "Share your celebration" : "Comparte tu celebración",
+      benefits: [],
+      highlights: english ? ["Collection design with your details", "Date, venue and directions", "One link to share via WhatsApp"] : invitationOffers.find(o => o.id === "esencial")!.points,
+      features: english ? ["A design from our collection with your details", "Date, venue and directions", "One link to share via WhatsApp", "No dashboard, personal links or RSVP per person", "Hosting until 7 calendar days after the event"] : invitationPlanFeatures.esencial,
+      responseTitle: english ? "One link to share" : "Un enlace para compartir",
+      responseDescription: english ? "No dashboard, personal links or RSVP per person" : "Sin panel, sin enlaces personales ni confirmación por persona",
+    },
+    {
+      ...invitationOffers.find(o => o.id === "aurora")!, Icon: ClipboardList,
       level: english ? "Invitation + private guest panel" : "Invitación + panel privado de invitados",
       audience: english ? "Invite and collect every reply in one place" : "Invita y reúne cada respuesta en un solo lugar",
       purpose: english ? "Invite and confirm" : "Invita y confirma",
@@ -29,7 +40,7 @@ export function getInvitationPlans(english: boolean) {
       responseDescription: english ? "Personal links, replies per person and your private panel. No guest limit, companions included." : "Enlaces personales, respuestas por persona y tu panel privado. Sin límite de invitados, incluidos acompañantes",
     },
     {
-      ...invitationOffers[1], Icon: TicketCheck,
+      ...invitationOffers.find(o => o.id === "boreal")!, Icon: TicketCheck,
       level: english ? "Everything in Aurora + tables and QR passes" : "Todo Aurora + mesas y pases QR",
       audience: english ? "A place for everyone, a smoother welcome" : "Un lugar para cada persona, una bienvenida más ágil",
       purpose: english ? "Seat and welcome" : "Organiza y recibe",

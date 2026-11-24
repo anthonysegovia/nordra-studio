@@ -33,7 +33,7 @@ body[data-journey-motion=paused] .inv-cover *{transform:none!important}
 .invite-offers-intro{display:flex;justify-content:space-between;gap:40px;align-items:end;margin-bottom:30px}
 .invitations :is(.invite-offers-intro,.invite-panel,.invite-journey,.invite-seasons) h2{font-size:clamp(32px,3.7vw,52px);line-height:1.15;margin:14px 0 0;letter-spacing:-.045em}
 .invite-offers-intro>p{max-width:400px;font-size:13px;line-height:1.75;color:var(--muted);margin:0}
-.invite-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
+.invite-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
 .invite-card{--glow-strength:.35;position:relative;isolation:isolate;display:flex;flex-direction:column;border-radius:22px;padding:24px 22px 22px;background:var(--warm-surface);border:1px solid color-mix(in srgb,var(--warm-b) 22%,var(--line));scroll-margin-top:112px;transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s}
 .invite-card:hover,.invite-card:focus-within{--glow-strength:1;transform:translateY(-3px);box-shadow:0 22px 40px -30px color-mix(in srgb,var(--warm-b) 70%,transparent)}
 .invite-light{position:absolute;inset:-1px;z-index:-1;border-radius:inherit;padding:1.5px;pointer-events:none;background:conic-gradient(from var(--glow-angle),transparent 0deg,var(--warm-a) 40deg,var(--warm-b) 80deg,transparent 140deg,transparent 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:var(--glow-strength);transition:opacity .35s}
@@ -44,7 +44,7 @@ body[data-journey-motion=paused] .inv-cover *{transform:none!important}
 .invite-card-head{display:flex;align-items:center;gap:12px}
 .invite-card-head h3{font-size:24px;margin:0}.invite-badge{font-size:12px;border-radius:12px;background:var(--ink);color:var(--bg);padding:3px 9px}
 .invite-audience,.invite-delivery,.invite-inherits,.invite-price{margin:8px 0;font-size:14px}
-.invite-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px}.invite-regular{color:var(--muted)}.invite-opening{order:-1}.invite-opening small{display:block;color:var(--muted);font-size:12px}.invite-opening strong{font-size:30px}
+.invite-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px}.invite-amount{order:-1}.invite-amount strong{font-size:30px}
 .invite-points{padding-left:18px;margin:4px 0 12px;font-size:14px}.invite-points li::marker{color:var(--accent)}
 .invite-cta{margin-top:auto;align-self:start;padding:10px 16px;display:flex;gap:12px;align-items:center;min-height:44px;border-radius:24px;color:var(--bg);background:var(--ink);transition:transform .2s}
 .invite-cta:hover,.invite-cta:focus-visible{transform:translateY(-2px)}
@@ -137,3 +137,5 @@ body[data-journey-motion=paused] .invitations :is(.inv-directory,.invite-offers,
 }
 /* The occasion cards answer the hero question; the heading stays for screen readers only. */
 .scene .inv-directory>h2.inv-directory-hidden{position:absolute;width:1px;height:1px;margin:0;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+@media(min-width:701px){.seasonal-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}

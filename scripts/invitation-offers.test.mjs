@@ -8,12 +8,13 @@ test('plan cards, WhatsApp messages and the billing catalogue share every invita
  for(const offer of invitationOffers){
   const card=page.match(new RegExp(`<article[^>]*id="plan-${offer.id}"[\\s\\S]*?<\\/article>`))?.[0];assert.ok(card,offer.id);
   assert.ok(card.includes(invitationMoney(offer.cents)));assert.ok(card.includes(`Lista en ${offer.delivery}`));
-  if(offer.regularCents)assert.match(card,new RegExp(`<s[^>]*>[^<]*${invitationMoney(offer.regularCents).replace('$','\\$')}</s>`));
+  assert.doesNotMatch(card, /<s[ >]|Precio de apertura/);
   for(const feature of invitationPlanFeatures[offer.id])assert.ok(card.includes(feature));
   assert.ok(card.includes('Ver todo lo que incluye'));
   const text=new URL(card.match(/class="invite-cta" href="([^"]+)"/)[1].replaceAll('&amp;','&')).searchParams.get('text');assert.ok(text.includes(invitationMoney(offer.cents)),text);
  }
  for(const offer of invitationOffers)for(const event of ['wedding','celebration','gathering'])assert.equal(paymentCatalog.find(s=>s.id===`${event}-${offer.id}`)?.cents,offer.cents,`${event}-${offer.id}`);
+ assert.equal(paymentCatalog.find(s=>s.id==='temporada-panel')?.cents, invitationOffers.find(o=>o.id==='aurora').cents);
  const comparison=page.match(/<section[^>]*id="planes-invitaciones"[\s\S]*?<\/section>/)[0];
  assert.ok(!comparison.includes('id="plan-temporada"'));
  assert.ok(comparison.includes('href="/temporada">¿Una posada o una fiesta de fin de año? Diseños de temporada a '+invitationMoney(seasonalOffer.cents)));

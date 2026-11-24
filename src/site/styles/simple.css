@@ -340,8 +340,8 @@ html[lang=en] .seasonal-tabs button:has(small[hidden])>span::after{content:"Now"
 .invite-details li.plan-group{list-style:none;margin:12px 0 4px -18px;font-weight:600}
 .invite-details li.plan-group:first-child{margin-top:0}
 .scene .invite-card .invite-price{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
-.scene .invite-card .invite-opening{order:1}
-.scene .invite-card .invite-regular{order:2;font-size:14px}
+.scene .invite-card .invite-amount{order:1}
+
 .scene .invite-card .paper-terms{order:2}
 html body .wedding-plans .wedding-seal,html body .wedding-seal{flex-direction:row;gap:.3em;width:auto;height:auto;padding:5px 10px;border-radius:999px;font-size:13px;outline:0}
 .scene .goal-choice{position:relative}

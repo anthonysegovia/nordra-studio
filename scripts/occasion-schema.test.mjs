@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { renderOccasionPage, plainAnswer } from '../build/occasion-content.mjs';
-import { invitationOffers, seasonalOffer, invitationMoney } from '../src/data/invitationPricing.ts';
+import { invitationOffers, seasonalOffer, seasonalPanelOffer, invitationMoney } from '../src/data/invitationPricing.ts';
 import { renderInvitationPage } from '../build/invitation-offers.mjs';
 
 for (const page of ['bodas', 'cumpleanos', 'eventos', 'temporada']) {
@@ -18,7 +18,7 @@ for (const page of ['bodas', 'cumpleanos', 'eventos', 'temporada']) {
     assert.equal(service.url, `https://nordrastudio.mx/${page}`);
     assert.equal(service.provider['@id'], 'https://nordrastudio.mx/#negocio');
     assert.equal(service.areaServed, 'MX');
-    const offers = page === 'temporada' ? [seasonalOffer] : invitationOffers;
+    const offers = page === 'temporada' ? [seasonalOffer, seasonalPanelOffer] : invitationOffers;
     assert.equal(service.offers.length, offers.length);
     offers.forEach((offer, i) => {
       const schema = service.offers[i];
@@ -38,7 +38,7 @@ for (const page of ['bodas', 'cumpleanos', 'eventos', 'temporada']) {
     if (page === 'temporada') {
       assert.doesNotMatch(source, /\$\s*599|%24599|599\s*MXN/);
       const price = invitationMoney(seasonalOffer.cents);
-      assert.equal(html.split(price).length - 1, 1);
+      assert.ok(html.includes(price));
       assert.ok(html.includes(`Diseños de temporada a ${price} MXN, IVA incluido.`));
       assert.ok(visible.some(m => m[1] === '¿Cómo se paga?'));
 

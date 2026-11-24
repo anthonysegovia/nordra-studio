@@ -2,7 +2,7 @@
   "bodas": [
     {
       "question": "¿Qué detalles puede reunir nuestra invitación?",
-      "answerHtml": "Los planes incluyen fecha, ubicaciones y cómo llegar, código de vestimenta, agenda y una galería de hasta 30 fotografías. El diseño de catálogo se personaliza con su historia y los detalles acordados."
+      "answerHtml": "Aurora y Boreal incluyen fecha, ubicaciones y cómo llegar, código de vestimenta, agenda y una galería de hasta 30 fotografías. El diseño de catálogo se personaliza con su historia y los detalles acordados."
     },
     {
       "question": "¿Podemos organizar mesas y usar pases QR?",
@@ -10,11 +10,11 @@
     },
     {
       "question": "¿Cuánto tiempo estará disponible?",
-      "answerHtml": "El alojamiento de Aurora y Boreal incluye hasta 12 meses antes y 90 días después del evento. El soporte por WhatsApp va desde la entrega hasta 30 días después; las extensiones se cotizan aparte."
+      "answerHtml": "Esencial incluye alojamiento hasta 7 días naturales después del evento. El alojamiento de Aurora y Boreal incluye hasta 12 meses antes y 90 días después del evento. El soporte por WhatsApp va desde la entrega hasta 30 días después; las extensiones se cotizan aparte."
     },
     {
       "question": "¿Cuánto tarda y podemos hacer cambios?",
-      "answerHtml": "Aurora está lista en 3–5 días hábiles y Boreal en 5–7, desde que recibimos sus datos y el anticipo. Incluye 3 rondas de cambios. Los cambios de contenido después de la entrega se cotizan aparte."
+      "answerHtml": "Esencial está lista en {{offer:esencial:delivery}}; Aurora, {{offer:aurora:delivery}}; Boreal, {{offer:boreal:delivery}}, desde que recibimos tus datos y el anticipo. Aurora y Boreal incluyen 3 rondas de cambios. Los cambios de contenido después de la entrega se cotizan aparte."
     },
     {
       "question": "¿Cómo se paga?",
@@ -36,7 +36,7 @@
     },
     {
       "question": "¿Cuánto tarda y puedo hacer cambios?",
-      "answerHtml": "Aurora está lista en 3–5 días hábiles y Boreal en 5–7, desde que recibimos tus datos y el anticipo. Incluye 3 rondas de cambios. Los cambios de contenido después de la entrega se cotizan aparte."
+      "answerHtml": "Esencial está lista en {{offer:esencial:delivery}}; Aurora, {{offer:aurora:delivery}}; Boreal, {{offer:boreal:delivery}}, desde que recibimos tus datos y el anticipo. Aurora y Boreal incluyen 3 rondas de cambios. Los cambios de contenido después de la entrega se cotizan aparte."
     },
     {
       "question": "¿Cómo se paga?",
@@ -58,7 +58,7 @@
     },
     {
       "question": "¿Cuánto tarda y puedo hacer cambios?",
-      "answerHtml": "Aurora está lista en 3–5 días hábiles y Boreal en 5–7, desde que recibimos tus datos y el anticipo. Incluye 3 rondas de cambios. Los cambios de contenido después de la entrega se cotizan aparte."
+      "answerHtml": "Esencial está lista en {{offer:esencial:delivery}}; Aurora, {{offer:aurora:delivery}}; Boreal, {{offer:boreal:delivery}}, desde que recibimos tus datos y el anticipo. Aurora y Boreal incluyen 3 rondas de cambios. Los cambios de contenido después de la entrega se cotizan aparte."
     },
     {
       "question": "¿Cómo se paga?",
@@ -76,11 +76,11 @@
     },
     {
       "question": "¿Incluye el mismo panel que Aurora o Boreal?",
-      "answerHtml": "No incluye panel, mesas ni pases QR. Si los necesitas, pregúntanos al cotizar."
+      "answerHtml": "Temporada cuesta {{occasion:seasonal-price}} MXN sin panel. Con panel cuesta {{offer:aurora:price}} MXN e incluye el alcance de Aurora: enlaces personales y confirmación por persona. No incluye mesas ni pases QR."
     },
     {
       "question": "¿Cuánto tarda?",
-      "answerHtml": "Está lista en 1–2 días hábiles desde que recibimos tus datos y el anticipo. Confirma cambios y vigencia en tu cotización."
+      "answerHtml": "Temporada está lista en {{occasion:seasonal-delivery}}; con panel, en {{offer:aurora:delivery}}, desde que recibimos tus datos y el anticipo."
     },
     {
       "question": "¿Cómo se paga?",
