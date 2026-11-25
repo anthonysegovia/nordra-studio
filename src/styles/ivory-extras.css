@@ -173,9 +173,33 @@
   @media(max-width:700px){
    .iv-gallery-grid button{animation:iv-coverflow linear both;animation-timeline:view(inline);animation-range:cover}
   }
-  .iv-letter-photo img{animation:iv-develop linear both;animation-timeline:view();animation-range:entry 0% cover 45%}
-  @media(min-width:701px){.iv-letter-photo img{animation:iv-develop linear both,iv-pan linear both;animation-timeline:view(),view();animation-range:entry 0% cover 45%,cover}}
-  .iv-rsvp-photo img{animation:iv-develop linear both;animation-timeline:view();animation-range:entry 0% cover 45%}
+  .iv-letter-photo img{animation:iv-develop linear both;animation-timeline:view();animation-range:entry 0% entry 100%}
+  @media(min-width:701px){.iv-letter-photo img{animation:iv-develop linear both,iv-pan linear both;animation-timeline:view(),view();animation-range:entry 0% entry 100%,cover}}
+  .iv-rsvp-photo img{animation:iv-develop linear both;animation-timeline:view();animation-range:entry 0% entry 100%}
  }
 }
 .iv-paused :is(.iv-letter-photo,.iv-rsvp-photo,.iv-gallery-dialog) *{animation:none!important}
+
+/* Soft corners: one scale for every surface, photograph and control of the invitation. */
+:root{--iv-r-surface:22px;--iv-r-photo:18px;--iv-r-inner:11px;--iv-r-control:12px}
+@media(max-width:700px){:root{--iv-r-surface:18px;--iv-r-photo:15px;--iv-r-inner:9px}}
+.iv-cover::after,.iv-entrance-frame{border-radius:var(--iv-r-surface)}
+.iv-entrance-frame::after{border-radius:calc(var(--iv-r-surface) - 6px)}
+.iv-letter-photo img,.iv-gallery-full img{border-radius:var(--iv-r-photo)}
+.iv-rsvp-photo{border-radius:var(--iv-r-photo);overflow:clip}
+.iv-rsvp-photo img,.iv-rsvp-photo::after{border-radius:inherit}
+.iv-rsvp-paper{border-radius:var(--iv-r-surface)}
+.iv-location,.iv-atelier{border-radius:var(--iv-r-surface);overflow:clip}
+.iv-look-stage{border-radius:48% 48% var(--iv-r-photo) var(--iv-r-photo)}
+.iv-look-stage::before{border-radius:48% 48% var(--iv-r-inner) var(--iv-r-inner)}
+.iv-outfit-switch,.iv-outfit-switch::before{border-radius:999px}
+.iv-fabric-swatches button{border-radius:var(--iv-r-control)}
+.iv-fabric-sample{border-radius:8px}
+.iv-length-choice button,.iv-outline-button,.iv-button,.iv-person input,.iv-person select,.iv-skip{border-radius:var(--iv-r-control)}
+.iv-seal{border-radius:50% 50% var(--iv-r-control) var(--iv-r-control)}
+.iv-timeline-dot{border-radius:2px}
+.iv-gallery-grid button{border-radius:var(--iv-r-photo)}
+.iv-gallery-close{border-radius:999px;padding-inline:14px}
+.iv-envelope{border-radius:0 0 var(--iv-r-photo) var(--iv-r-photo);overflow:clip}
+.iv-envelope-card{border-radius:var(--iv-r-inner) var(--iv-r-inner) 0 0}
+@media(max-width:700px){.iv-gallery-grid img{border-radius:var(--iv-r-inner)}}
