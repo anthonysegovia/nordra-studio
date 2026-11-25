@@ -1,4 +1,7 @@
 {
+  "crons": [
+    { "path": "/api/keep-alive", "schedule": "17 15 * * *" }
+  ],
   "routes": [
     {
       "src": "/(.*)",
