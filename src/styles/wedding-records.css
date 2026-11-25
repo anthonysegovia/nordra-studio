@@ -88,7 +88,7 @@
 .wedding-workspace .wedding-record-drawer button:hover,.wedding-workspace .wedding-record-drawer a:hover,.wedding-workspace .wedding-record-drawer summary:hover{background:#ede4d6}
 .wedding-workspace .record-detail-header button{border:0;width:44px}
 .record-kind{font-size:13px;color:#74624b;margin:0 0 9px}
-.wedding-workspace .record-detail-inner h2{font:400 39px/1.07 NordraWedding,Georgia,serif;letter-spacing:-.025em;margin:0 0 14px;overflow-wrap:anywhere}
+.wedding-workspace .record-detail-inner h2{font:400 39px/1.07 NordraWedding,Georgia,serif;letter-spacing:-.005em;margin:0 0 14px;overflow-wrap:anywhere}
 .record-completion{font-size:14px;color:#6b604f;display:flex;align-items:center;gap:7px;margin:0 0 23px}
 .record-share{margin-bottom:24px}
 .wedding-workspace .wedding-record-drawer .record-share summary{width:100%;background:#806b50;color:#fffdf8;border-color:#806b50;list-style:none}

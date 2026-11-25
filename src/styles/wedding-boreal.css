@@ -6,7 +6,7 @@
 .boreal-section { --boreal-line:#dfd7ca; animation:boreal-enter .45s ease both; }
 .boreal-heading { display:flex; justify-content:space-between; align-items:center; gap:24px; padding:24px 0 27px; }
 .boreal-heading .workspace-eyebrow { margin:0 0 9px; }
-.boreal-heading h2 { margin:0; font:400 clamp(32px,3vw,43px)/1.1 NordraWedding,Georgia,serif; letter-spacing:-.02em; }
+.boreal-heading h2 { margin:0; font:400 clamp(32px,3vw,43px)/1.1 NordraWedding,Georgia,serif; letter-spacing:-.005em; }
 .boreal-heading p:not(.workspace-eyebrow) { color:#766b5e; font-size:14px; margin:12px 0 0; }
 .boreal-heading-actions { display:flex; align-items:center; gap:18px; flex-shrink:0; }
 .wedding-workspace .boreal-quiet { display:inline-flex; gap:8px; align-items:center; justify-content:center; padding:10px 2px; min-height:44px; border:0; background:transparent; color:#76634c; font-size:13px; }

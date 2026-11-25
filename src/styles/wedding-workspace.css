@@ -1,5 +1,5 @@
-@font-face { font-family:NordraWedding; src:url('/fonts/wedding/cormorant-latin-roman.woff2') format('woff2'); font-weight:300 700; font-style:normal; font-display:swap; }
-@font-face { font-family:NordraWedding; src:url('/fonts/wedding/cormorant-latin-italic.woff2') format('woff2'); font-weight:300 700; font-style:italic; font-display:swap; }
+@font-face { font-family:NordraWedding; src:url('/fonts/wedding/gloock-latin.woff2') format('woff2'); font-weight:300 700; font-style:normal; font-display:swap; size-adjust:84%; }
+@font-face { font-family:NordraWedding; src:url('/fonts/wedding/gloock-latin.woff2') format('woff2'); font-weight:300 700; font-style:italic; font-display:swap; size-adjust:84%; }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; color-scheme:light; background:#f6f3ed; }
 body { margin:0; color:#4d443b; font-family:"Segoe UI",Arial,sans-serif; font-size:15px; line-height:1.5; }
@@ -43,7 +43,7 @@ img { display:block; max-width:100%; }
 .workspace-language:hover { background:#ece6db; }
 .workspace-welcome { display:flex; align-items:center; justify-content:space-between; gap:36px; padding:42px 0 40px; }
 .workspace-eyebrow { font-size:10px; letter-spacing:.16em; color:#766b5e; margin:0 0 13px; }
-.workspace-welcome h1 { font:400 clamp(40px,4.4vw,65px)/1.05 NordraWedding,Georgia,serif; letter-spacing:-.035em; margin:0 0 17px; }
+.workspace-welcome h1 { font:400 clamp(40px,4.4vw,65px)/1.05 NordraWedding,Georgia,serif; letter-spacing:-.005em; margin:0 0 17px; }
 .workspace-welcome h1 em { color:#998061; font-weight:400; }
 .workspace-date { display:flex; align-items:center; flex-wrap:wrap; gap:9px; font-size:12px; margin:0; color:#766b5e; }
 .workspace-welcome-note { color:#766b5e; font-size:14px; margin:19px 0 0; }
@@ -156,7 +156,7 @@ img { display:block; max-width:100%; }
 .workspace-confirmations .guest-panel-row-actions .guest-panel-delete:is(:hover,:focus-visible) { background:#f4e7de; color:#9a5b45; }
 .workspace-guest-editor { padding:8px; }
 .workspace-guest-editor .workspace-dialog-inner { padding:35px; }
-.workspace-guest-editor h2 { font:400 38px/1.1 NordraWedding,Georgia,serif; letter-spacing:-.02em; margin:0 0 28px; max-width:13ch; }
+.workspace-guest-editor h2 { font:400 38px/1.1 NordraWedding,Georgia,serif; letter-spacing:-.005em; margin:0 0 28px; max-width:13ch; }
 .workspace-editor-icon { display:grid; place-items:center; width:48px; height:48px; border:1px solid #ddd0bd; border-radius:50%; color:#806b50; margin-bottom:23px; }
 .workspace-editor-icon.is-removing { color:#935c48; border-color:#e2c9bb; background:#f9f0e8; }
 .workspace-guest-editor select { display:block; width:100%; min-height:48px; padding:10px 12px; border:1px solid #d8cdbd; border-radius:4px; background:#fffdf8; font-size:16px; cursor:pointer; }
