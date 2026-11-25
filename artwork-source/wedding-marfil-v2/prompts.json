@@ -1,0 +1,27 @@
+{
+  "tool": "Built-in image_gen",
+  "date": "2026-11-25",
+  "reference": "public/artwork/invitation-editorial/wedding-v2-1200.webp",
+  "prompts": [
+    {
+      "name": "nervous-groom",
+      "prompt": "Use case: photorealistic-natural. Generate one standalone editorial wedding photograph, vertical 4:5. Reference image is the exact identity and styling reference: preserve SAME TWO ADULT PEOPLE, woman's warm olive skin, delicate long nose, brown hair loose low bun with cheek strands, ivory thin-strap silk gown and translucent veil; man's wavy brown hair, short natural beard, face proportions, light taupe linen jacket and white shirt. Same faces, age and hairstyles, another moment of their same session. Soft ivory window daylight, warm cream minimal setting, natural texture and subtle fine grain. Scene: waist-up groom adjusting his jacket with a restrained half smile; bride softly out of focus behind him looking at him amused. Both entire faces visible, recognizable, anatomically natural hands small and discreet, never foreground. No ornate flowers, sparkles, text, logos, watermark or collage."
+    },
+    {
+      "name": "before-call",
+      "prompt": "Use case: photorealistic-natural. Generate one standalone editorial wedding photograph, horizontal 3:2. Reference image is the exact identity and styling reference: preserve SAME TWO ADULT PEOPLE, woman's warm olive skin, delicate long nose, brown hair loose low bun with cheek strands, ivory thin-strap silk gown and translucent veil; man's wavy brown hair, short natural beard, face proportions, light taupe linen jacket and white shirt. Same faces, age and hairstyles, another moment of their same session. Soft ivory window daylight, warm cream minimal setting, natural texture and subtle fine grain. Scene: the couple seated together beside a tall window with translucent curtains, quietly waiting to be called, speaking softly to each other. Medium-wide view, relaxed intimate conversation. Both entire faces visible, recognizable, anatomically natural hands small and discreet, never foreground. No ornate flowers, sparkles, text, logos, watermark or collage."
+    },
+    {
+      "name": "heavy-veil",
+      "prompt": "Use case: photorealistic-natural. Generate one standalone editorial wedding photograph, vertical 4:5. Reference image is the exact identity and styling reference: preserve SAME TWO ADULT PEOPLE, woman's warm olive skin, delicate long nose, brown hair loose low bun with cheek strands, ivory thin-strap silk gown and translucent veil; man's wavy brown hair, short natural beard, face proportions, light taupe linen jacket and white shirt. Same faces, age and hairstyles, another moment of their same session. Soft ivory window daylight, warm cream minimal setting, natural texture and subtle fine grain. Scene: bride seen from three-quarter back looking over her shoulder, entire face visible, long veil cascading down; groom behind her carefully supporting the edge of her veil, his hands discreet and small in composition. Three-quarter length view with both full faces recognizable. Both entire faces visible, recognizable, anatomically natural hands small and discreet, never foreground. No ornate flowers, sparkles, text, logos, watermark or collage."
+    },
+    {
+      "name": "sore-smiles",
+      "prompt": "Use case: photorealistic-natural. Generate one standalone editorial wedding photograph, horizontal 3:2. Reference image is the exact identity and styling reference: preserve SAME TWO ADULT PEOPLE, woman's warm olive skin, delicate long nose, brown hair loose low bun with cheek strands, ivory thin-strap silk gown and translucent veil; man's wavy brown hair, short natural beard, face proportions, light taupe linen jacket and white shirt. Same faces, age and hairstyles, another moment of their same session. Soft ivory window daylight, warm cream minimal setting, natural texture and subtle fine grain. Scene: both laughing genuinely, foreheads almost touching, eyes narrowed with spontaneous laughter. Waist-up candid portrait with full heads and faces in frame, joyful intimate moment. Both entire faces visible, recognizable, anatomically natural hands small and discreet, never foreground. No ornate flowers, sparkles, text, logos, watermark or collage."
+    },
+    {
+      "name": "both-camera",
+      "prompt": "Use case: photorealistic-natural. Generate one standalone editorial wedding photograph, vertical 4:5. Reference image is the exact identity and styling reference: preserve SAME TWO ADULT PEOPLE, woman's warm olive skin, delicate long nose, brown hair loose low bun with cheek strands, ivory thin-strap silk gown and translucent veil; man's wavy brown hair, short natural beard, face proportions, light taupe linen jacket and white shirt. Same faces, age and hairstyles, another moment of their same session. Soft ivory window daylight, warm cream minimal setting, natural texture and subtle fine grain. Scene: portrait of both standing side by side looking directly at the camera, each with a peaceful soft smile. Waist-up view, full heads with space above, entire recognizable faces, hands outside frame. Both entire faces visible, recognizable, anatomically natural hands small and discreet, never foreground. No ornate flowers, sparkles, text, logos, watermark or collage."
+    }
+  ]
+}
