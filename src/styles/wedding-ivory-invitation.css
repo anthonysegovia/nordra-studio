@@ -1,6 +1,6 @@
-@font-face{font-family:Ivory;src:url('/fonts/wedding/cormorant-latin-roman.woff2') format('woff2');font-style:normal;font-weight:300 700;font-display:swap}
-@font-face{font-family:Ivory;src:url('/fonts/wedding/cormorant-latin-italic.woff2') format('woff2');font-style:italic;font-weight:300 700;font-display:swap}
-:root{font-family:Ivory,serif;color:#5b4a3e;background:#f8f5ee;font-synthesis:none;--iv-paper:#f8f5ee;--iv-ink:#5b4a3e;--iv-muted:#786654;--iv-line:#d8cbb8;--iv-accent:#705b45}
+@font-face{font-family:IvoryDisplay;src:url('/fonts/wedding/gloock-latin.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap;size-adjust:84%}
+@font-face{font-family:IvoryText;src:url('/nordra/v541/assets/manrope-latin.woff2') format('woff2');font-style:normal;font-weight:200 800;font-display:swap;size-adjust:80%}
+:root{font-family:IvoryText,"Segoe UI",system-ui,sans-serif;color:#5b4a3e;background:#f8f5ee;font-synthesis:none;--iv-paper:#f8f5ee;--iv-ink:#5b4a3e;--iv-muted:#786654;--iv-line:#d8cbb8;--iv-accent:#705b45}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:85px}
 body{margin:0;min-width:0}

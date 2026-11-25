@@ -149,7 +149,7 @@
 .iv-gallery-tools em{display:inline-block;animation:iv-tick .4s ease both}
 .iv-story-line li.iv-seen{animation-delay:calc(var(--i,0) * 140ms)}
 .iv-story-line li::before{transition-delay:calc(var(--i,0) * 140ms)}
-.iv-countdown strong{display:inline-block;min-width:2.6ch;text-align:center;font-variant-numeric:tabular-nums}
+.iv-countdown strong{display:inline-block;min-width:2.6ch;margin-inline:.14em;text-align:center;font-variant-numeric:tabular-nums}
 .iv-countdown-tick{display:inline-block;animation:iv-tick .5s ease both}
 .iv-travel-notes h3{position:relative;padding-bottom:9px}
 .iv-travel-notes h3::after{content:'';position:absolute;left:0;bottom:0;width:46px;height:1px;background:var(--iv-accent);scale:0 1;transform-origin:left}
@@ -203,3 +203,13 @@
 .iv-envelope{border-radius:0 0 var(--iv-r-photo) var(--iv-r-photo);overflow:clip}
 .iv-envelope-card{border-radius:var(--iv-r-inner) var(--iv-r-inner) 0 0}
 @media(max-width:700px){.iv-gallery-grid img{border-radius:var(--iv-r-inner)}}
+
+/* Typography: Gloock for names, titles and figures; Manrope for reading. No script-like italics. */
+:is(h1,h2,.iv-location h3,.iv-monogram,.iv-time,.iv-story-line time,.iv-countdown strong,.iv-footer-names,.iv-signature span,.iv-envelope-card,.iv-envelope-seal,.iv-seal,.iv-rsvp-photo>p,.iv-letter-body .iv-letter-invite,.iv-guest-name,.iv-cover-date strong){font-family:IvoryDisplay,Georgia,serif;font-weight:400;letter-spacing:0}
+.iv-letter-photo::before{font-family:IvoryDisplay,Georgia,serif;font-weight:400;letter-spacing:-.02em}
+:is(.iv-cover h1,.iv-entrance h2){letter-spacing:-.008em}
+:is(.iv-monogram,.iv-seal,.iv-envelope-seal){letter-spacing:-.03em}
+:is(h3,h4):not(.iv-location h3){font-family:IvoryText,"Segoe UI",system-ui,sans-serif;font-weight:500;letter-spacing:-.01em}
+html body *,html body *::before{font-style:normal!important}
+:is(h1,h2,h3,.iv-footer-names,.iv-signature span,.iv-envelope-card) em{color:#9a7f60}
+.iv-rsvp-photo>p em{color:#f1e2cb}
