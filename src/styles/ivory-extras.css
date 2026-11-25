@@ -213,3 +213,19 @@
 html body *,html body *::before{font-style:normal!important}
 :is(h1,h2,h3,.iv-footer-names,.iv-signature span,.iv-envelope-card) em{color:#9a7f60}
 .iv-rsvp-photo>p em{color:#f1e2cb}
+
+/* Window light: sunlight through sheer curtains drifts slowly over the paper, as in the
+   session photographs. Every layer only multiplies (shade), so dark text keeps its contrast. It sits above the surfaces and below the menu, never takes input,
+   and stops with «Pausar luz» or reduced motion. */
+.iv-window{position:fixed;inset:-12vh -25vw;pointer-events:none;z-index:5;overflow:hidden;contain:strict}
+.iv-window>span{position:absolute;inset:0;will-change:transform}
+.iv-window-folds{mix-blend-mode:multiply;transform-origin:50% 0;background:repeating-linear-gradient(101deg,transparent 0 6%,#6e553c0b 9%,#6e553c12 10.5%,#6e553c0b 12%,transparent 15% 19%,#6e553c08 22%,transparent 26% 31%);animation:iv-sway 17s ease-in-out infinite alternate}
+.iv-window-folds-far{background:repeating-linear-gradient(97deg,transparent 0 11%,#6e553c08 15%,transparent 20% 34%);animation:iv-sway-far 26s ease-in-out infinite alternate;opacity:.9}
+.iv-window-beam{mix-blend-mode:multiply;background:linear-gradient(112deg,#6e553c0f 0 24%,transparent 38% 50%,#6e553c0c 64%,#6e553c0f 100%);animation:iv-beam 31s ease-in-out infinite alternate}
+@keyframes iv-sway{0%{transform:translateX(-3%) skewX(-4deg)}45%{transform:translateX(1%) skewX(1.5deg)}100%{transform:translateX(3.5%) skewX(4.5deg)}}
+@keyframes iv-sway-far{0%{transform:translateX(2%) skewX(2deg);opacity:.6}100%{transform:translateX(-3%) skewX(-3deg);opacity:1}}
+@keyframes iv-beam{0%{transform:translateX(-14%);opacity:.55}50%{opacity:1}100%{transform:translateX(12%);opacity:.7}}
+@media(max-width:700px){.iv-window{inset:-8vh -45vw}.iv-window-folds{animation-duration:15s}}
+.iv-paused .iv-window>span{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.iv-window>span{animation:none}}
+@media print{.iv-window{display:none}}

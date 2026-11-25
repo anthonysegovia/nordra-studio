@@ -56,6 +56,7 @@ export function WeddingIvoryInvitation() {
   };
 
   return <><div ref={page} className={`iv-page${paused ? " iv-paused" : ""}`}>
+    <div className="iv-window" aria-hidden="true"><span className="iv-window-folds" /><span className="iv-window-folds iv-window-folds-far" /><span className="iv-window-beam" /></div>
     <a className="iv-skip" href="#iv-rsvp" onClick={event => { event.preventDefault(); goTo("iv-rsvp"); }}>Ir a confirmación</a>
     <header className={`iv-header ${entrance ? "iv-header-awaiting" : "iv-header-open"}`} inert={entrance} aria-hidden={entrance}>
       <button className="iv-monogram" aria-label="Volver a la portada" onClick={() => goTo("iv-cover")}>V<em>&</em>S</button>
