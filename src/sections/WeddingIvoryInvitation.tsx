@@ -39,7 +39,7 @@ export function WeddingIvoryInvitation() {
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) if (entry.isIntersecting) { entry.target.classList.add("iv-seen"); observer.unobserve(entry.target); }
     }, { threshold: .08, rootMargin: "0px 0px -20px 0px" });
-    const observe = () => root.querySelectorAll("h1,h2,h3,h4,p,figcaption,legend,label,summary,.iv-seal,.iv-time,.iv-story-line li,.iv-gallery-item").forEach(element => {
+    const observe = () => root.querySelectorAll("h1,h2,h3,h4,p,figcaption,legend,label,summary,.iv-seal,.iv-time,.iv-story-line li,.iv-gallery-item,.iv-envelope").forEach(element => {
       // Gallery captions travel with their figure's mask, without a second clipped reveal.
       if (element.matches('.iv-gallery-item figcaption')) return;
       element.setAttribute("data-iv-reveal", "");

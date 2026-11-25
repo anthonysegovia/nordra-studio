@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type React from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { WeddingEditorialPhoto } from './WeddingEditorialPhoto';
 
@@ -14,6 +15,7 @@ export const ivoryGallery = [
 export function IvoryGallery() {
   const [active, setActive] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
+  const [direction, setDirection] = useState(0);
   const grid = useRef<HTMLDivElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
@@ -45,12 +47,12 @@ export function IvoryGallery() {
     });
     return () => { cancelAnimationFrame(frame); modal.close(); document.body.style.overflow = previous; opener.current?.focus({ preventScroll: true }); };
   }, [isOpen]);
-  const move = (delta: number) => setSelected(index => index === null ? null : (index + delta + ivoryGallery.length) % ivoryGallery.length);
+  const move = (delta: number) => { setDirection(delta); setSelected(index => index === null ? null : (index + delta + ivoryGallery.length) % ivoryGallery.length); };
   return <section id="iv-gallery" className="iv-gallery iv-extra" tabIndex={-1} aria-labelledby="iv-gallery-title">
     <div className="iv-wrap"><p className="iv-kicker">LA SESIÓN DE FOTOS</p><h2 id="iv-gallery-title">De trescientas, nos <em>quedamos</em> con seis</h2></div>
     <div ref={grid} className="iv-gallery-grid iv-wrap">
-      {ivoryGallery.map((photo, index) => <figure key={photo.shot} data-index={index} className="iv-gallery-item">
-        <button aria-label={`Ampliar foto: ${photo.caption}`} onClick={event => { opener.current = event.currentTarget; origin.current = event.currentTarget.getBoundingClientRect(); setSelected(index); }}>
+      {ivoryGallery.map((photo, index) => <figure key={photo.shot} data-index={index} className="iv-gallery-item" style={{ '--i': index } as React.CSSProperties}>
+        <button aria-label={`Ampliar foto: ${photo.caption}`} onClick={event => { opener.current = event.currentTarget; origin.current = event.currentTarget.getBoundingClientRect(); setDirection(0); setSelected(index); }}>
           <WeddingEditorialPhoto shot={photo.shot} english={false} sizes="(max-width:700px) 80vw, (max-width:1200px) 45vw, 600px" />
         </button><figcaption><em>{photo.caption}</em></figcaption>
       </figure>)}
@@ -67,13 +69,13 @@ export function IvoryGallery() {
     }}>
       <button className="iv-gallery-close" aria-label="Cerrar visor de fotos" onClick={() => setSelected(null)} autoFocus><X size={19} />Cerrar</button>
       {selected !== null && <>
-        <div ref={image} className="iv-gallery-full" onTouchStart={event => { touch.current = { x: event.touches[0].clientX, y: event.touches[0].clientY }; }} onTouchEnd={event => {
+        <div ref={image} key={selected} className="iv-gallery-full" style={{ '--dir': direction } as React.CSSProperties} onTouchStart={event => { touch.current = { x: event.touches[0].clientX, y: event.touches[0].clientY }; }} onTouchEnd={event => {
           if (!touch.current) return;
           const dx = event.changedTouches[0].clientX - touch.current.x, dy = event.changedTouches[0].clientY - touch.current.y;
           if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) move(dx < 0 ? 1 : -1);
           touch.current = null;
         }}><WeddingEditorialPhoto key={selected} shot={ivoryGallery[selected].shot} english={false} sizes="100vw" eager /></div>
-        <div className="iv-gallery-tools"><button aria-label="Foto anterior" onClick={() => move(-1)}><ChevronLeft /></button><p aria-live="polite"><em>{ivoryGallery[selected].caption}</em></p><button aria-label="Foto siguiente" onClick={() => move(1)}><ChevronRight /></button></div>
+        <div className="iv-gallery-tools"><button aria-label="Foto anterior" onClick={() => move(-1)}><ChevronLeft /></button><p aria-live="polite"><em key={selected}>{ivoryGallery[selected].caption}</em></p><button aria-label="Foto siguiente" onClick={() => move(1)}><ChevronRight /></button></div>
       </>}
     </dialog>
   </section>;

@@ -1,4 +1,5 @@
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
+import type React from 'react';
 import { CalendarPlus, Clock3, Plus } from 'lucide-react';
 
 // Client configuration: leave sample destinations empty; never route samples to a real service.
@@ -12,7 +13,7 @@ const moments = [
   ['2027', 'Ciudad de México, 19 de junio. Aquí entras tú'],
 ];
 export function IvoryStory() {
-  return <section id="iv-story" className="iv-story iv-extra iv-wrap" tabIndex={-1} aria-labelledby="iv-story-title"><p className="iv-kicker">ANTES DE ESTA CARTA</p><h2 id="iv-story-title">Ocho años en <em>cuatro líneas</em></h2><ol className="iv-story-line">{moments.map(([year, text]) => <li key={year}><time dateTime={year}>{year}</time><p>{text}</p></li>)}</ol></section>;
+  return <section id="iv-story" className="iv-story iv-extra iv-wrap" tabIndex={-1} aria-labelledby="iv-story-title"><p className="iv-kicker">ANTES DE ESTA CARTA</p><h2 id="iv-story-title">Ocho años en <em>cuatro líneas</em></h2><ol className="iv-story-line">{moments.map(([year, text], index) => <li key={year} style={{ '--i': index } as React.CSSProperties}><time dateTime={year}>{year}</time><p>{text}</p></li>)}</ol></section>;
 }
 
 export function IvoryTravelNotes() {
@@ -32,11 +33,39 @@ export function ivoryCountdown(now: number) {
   const minutes = Math.ceil((wedding - now) / 60_000);
   return { days: Math.floor(minutes / 1440), hours: Math.floor(minutes % 1440 / 60), minutes: minutes % 60 };
 }
+// Counts the days up from zero the first time the countdown is seen.
+function useCountUp(target: number | undefined) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [value, setValue] = useState<number | undefined>(target);
+  const started = useRef(false);
+  useEffect(() => {
+    const element = ref.current;
+    if (target === undefined || !element || started.current) { setValue(target); return; }
+    if (!window.IntersectionObserver || matchMedia('(prefers-reduced-motion: reduce)').matches || element.closest('.iv-paused')) { setValue(target); return; }
+    setValue(0);
+    let frame = 0;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect(); started.current = true;
+      const start = performance.now();
+      const step = (time: number) => {
+        const progress = Math.min(1, (time - start) / 1300);
+        setValue(Math.round(target * (1 - Math.pow(1 - progress, 3))));
+        if (progress < 1) frame = requestAnimationFrame(step);
+      };
+      frame = requestAnimationFrame(step);
+    }, { threshold: .6 });
+    observer.observe(element);
+    return () => { observer.disconnect(); cancelAnimationFrame(frame); };
+  }, [target]);
+  return [ref, value] as const;
+}
 export function IvoryCalendar() {
   const countdown = ivoryCountdown(useMinuteClock());
+  const [countRef, shownDays] = useCountUp('days' in countdown ? countdown.days : undefined);
   const google = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda%20de%20Valentina%20y%20Sebasti%C3%A1n&dates=20270619T230000Z%2F20270620T070000Z&location=Ciudad%20de%20M%C3%A9xico';
   return <div className="iv-calendar">
-    <div aria-live="off" className="iv-countdown"><span className="iv-sr-only">Boda de Valentina y Sebastián, 19 de junio de 2027 a las 17:00, Ciudad de México</span><p aria-hidden="true">{'message' in countdown ? countdown.message : <>Faltan <strong>{countdown.days}</strong> días, {countdown.hours} h y {countdown.minutes} min</>}</p></div>
+    <div ref={countRef} aria-live="off" className="iv-countdown"><span className="iv-sr-only">Boda de Valentina y Sebastián, 19 de junio de 2027 a las 17:00, Ciudad de México</span><p aria-hidden="true">{'message' in countdown ? countdown.message : <>Faltan <strong>{shownDays}</strong> días, <span key={`${countdown.hours}:${countdown.minutes}`} className="iv-countdown-tick">{countdown.hours} h y {countdown.minutes} min</span></>}</p></div>
     <div className="iv-calendar-actions"><a className="iv-outline-button" href={google} target="_blank" rel="noopener noreferrer"><CalendarPlus size={17} aria-hidden="true" />Agregar a Google Calendar<span className="iv-sr-only"> (abre en otra pestaña)</span></a><a className="iv-outline-button" href="/invitaciones/valentina-y-sebastian/fecha.ics" download="valentina-y-sebastian.ics">Apple u Outlook</a></div>
     <p className="iv-calendar-note">19 de junio de 2027 · Horarios de muestra</p>
   </div>;

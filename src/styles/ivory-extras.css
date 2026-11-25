@@ -19,7 +19,7 @@
 .iv-gallery-item:nth-child(4){grid-column:3;grid-row:2}
 .iv-gallery-item:nth-child(5){grid-column:1;grid-row:3}
 .iv-gallery-item:nth-child(6){grid-column:3;grid-row:3}
-.iv-gallery-grid button{display:block;padding:0;width:100%;flex:1;min-height:0;overflow:hidden;background:#ede5d9}
+.iv-gallery-grid button{display:block;padding:0;width:100%;flex:1;min-height:0;overflow:hidden;overflow:clip;background:#ede5d9}
 .iv-gallery-grid img{width:100%;height:100%;object-fit:cover;object-position:center 35%;transition:transform .6s cubic-bezier(.2,.65,.25,1)}
 .iv-gallery-grid button:is(:hover,:focus-visible,:active) img{transform:scale(1.035)}
 .iv-gallery-item.iv-seen{animation:iv-photo-reveal .85s cubic-bezier(.2,.65,.25,1) both}
@@ -90,8 +90,10 @@
  .iv-gallery-item{flex:0 0 80vw;scroll-snap-align:start}
  .iv-gallery-grid button{height:94vw;max-height:420px;flex:none}
  .iv-gallery-grid img{width:100%;height:100%;object-fit:cover;object-position:center}
- .iv-gallery-item:nth-child(even) button{background:transparent}
- .iv-gallery-item:nth-child(even) img{object-fit:contain}
+ .iv-gallery-item{display:flex;flex-direction:column;justify-content:center;min-height:min(94vw,420px)}
+ .iv-gallery-grid button{padding:7px;background:#fffdf8;box-shadow:0 12px 26px #5b4a3e1c,0 1px 2px #5b4a3e14}
+ .iv-gallery-item:nth-child(even) button{height:auto;aspect-ratio:3 / 2}
+ .iv-gallery-item:nth-child(even) img{object-fit:cover}
  .iv-gallery-item figcaption{display:none}
  .iv-gallery-caption{display:block;font-size:19px;line-height:1.3;min-height:50px;margin-top:10px;text-align:center}
  .iv-gallery-caption em{animation:iv-control-in .35s both}
@@ -122,3 +124,58 @@
 .iv-paused :is(.iv-extra,.iv-calendar,.iv-invite-notes,.iv-travel-notes) *, .iv-paused .iv-story-line li::before{animation:none!important;transition:none!important}
 .iv-paused [data-iv-reveal]{opacity:1}
 @media(prefers-reduced-motion:reduce){.iv-story-line li::before{transform:none}.iv-gallery-grid{scroll-behavior:auto}.iv-gallery-item{clip-path:none;opacity:1}}
+
+/* Photographs develop like prints from the session: overexposed and soft, then true colour. */
+@keyframes iv-develop{0%{filter:sepia(.55) saturate(.35) brightness(1.38) contrast(.78) blur(6px)}55%{filter:sepia(.18) saturate(.82) brightness(1.08) contrast(.94) blur(.5px)}100%{filter:none}}
+@keyframes iv-drift{from{translate:0 -4%}to{translate:0 4%}}
+@keyframes iv-pan{from{object-position:center 30%}to{object-position:center 58%}}
+@keyframes iv-coverflow{0%{scale:.9;opacity:.55;rotate:-2.5deg}50%{scale:1;opacity:1;rotate:0deg}100%{scale:.9;opacity:.55;rotate:2.5deg}}
+@keyframes iv-visor-in{from{opacity:0;translate:calc(var(--dir,0) * 48px) 0;filter:blur(4px)}to{opacity:1;translate:0 0;filter:none}}
+@keyframes iv-card-out{from{translate:0 70px}to{translate:0 0}}
+@keyframes iv-stamp{0%{opacity:0;scale:1.6;rotate:-22deg}70%{opacity:1;scale:.94;rotate:3deg}100%{opacity:1;scale:1;rotate:0deg}}
+@keyframes iv-tick{from{opacity:0;translate:0 -6px}to{opacity:1;translate:0 0}}
+@keyframes iv-rule{from{scale:0 1}to{scale:1 1}}
+
+.iv-gallery-item.iv-seen img{animation:iv-develop 1.9s cubic-bezier(.3,.5,.3,1) both}
+.iv-gallery-item.iv-seen{animation-delay:calc(var(--i,0) * 110ms)}
+.iv-gallery-item.iv-seen img{animation-delay:calc(var(--i,0) * 110ms + .15s)}
+.iv-gallery-grid button{position:relative}
+.iv-gallery-grid button::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#3a2a1d26,transparent 45%);opacity:0;transition:opacity .45s;pointer-events:none}
+.iv-gallery-grid button:is(:hover,:focus-visible)::after{opacity:1}
+.iv-gallery-item figcaption{transition:color .35s,translate .45s cubic-bezier(.2,.65,.25,1)}
+.iv-gallery-item:has(button:is(:hover,:focus-visible)) figcaption{color:var(--iv-ink);translate:6px 0}
+.iv-gallery-full{animation:iv-visor-in .5s cubic-bezier(.2,.65,.25,1) both}
+.iv-gallery-full img{animation:none}
+.iv-gallery-tools em{display:inline-block;animation:iv-tick .4s ease both}
+.iv-story-line li.iv-seen{animation-delay:calc(var(--i,0) * 140ms)}
+.iv-story-line li::before{transition-delay:calc(var(--i,0) * 140ms)}
+.iv-countdown strong{display:inline-block;min-width:2.6ch;text-align:center;font-variant-numeric:tabular-nums}
+.iv-countdown-tick{display:inline-block;animation:iv-tick .5s ease both}
+.iv-travel-notes h3{position:relative;padding-bottom:9px}
+.iv-travel-notes h3::after{content:'';position:absolute;left:0;bottom:0;width:46px;height:1px;background:var(--iv-accent);scale:0 1;transform-origin:left}
+.iv-travel-notes h3.iv-seen::after{animation:iv-rule .8s .25s cubic-bezier(.2,.65,.25,1) both}
+.iv-question-answer p{opacity:0;translate:0 -6px;transition:opacity .35s .05s,translate .35s .05s}
+.iv-question-answer[data-open=true] p{opacity:1;translate:0 0}
+.iv-envelope.iv-seen .iv-envelope-card{animation:iv-card-out 1s .35s cubic-bezier(.2,.65,.25,1) both}
+.iv-envelope.iv-seen .iv-envelope-seal{animation:iv-stamp .7s 1.05s cubic-bezier(.3,.6,.3,1) both}
+.iv-album-locked svg{transition:transform .9s cubic-bezier(.3,.6,.3,1)!important}
+.iv-album-locked:is(:hover,:focus-visible,:active) svg{transform:rotate(360deg)!important}
+.iv-album-locked:active{transform:scale(.97)!important}
+
+@supports (animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){
+  /* Desktop: each print drifts gently inside its frame as the page moves. */
+  @media(min-width:701px){
+   .iv-gallery-grid img{scale:1.1}
+   .iv-gallery-item.iv-seen img{animation:iv-develop 1.9s cubic-bezier(.3,.5,.3,1) calc(var(--i,0) * 110ms + .15s) both,iv-drift linear both;animation-timeline:auto,view();animation-range:normal,cover}
+  }
+  /* Phone: the photo in the centre of the strip comes forward, its neighbours rest. */
+  @media(max-width:700px){
+   .iv-gallery-grid button{animation:iv-coverflow linear both;animation-timeline:view(inline);animation-range:cover}
+  }
+  .iv-letter-photo img{animation:iv-develop linear both;animation-timeline:view();animation-range:entry 0% cover 45%}
+  @media(min-width:701px){.iv-letter-photo img{animation:iv-develop linear both,iv-pan linear both;animation-timeline:view(),view();animation-range:entry 0% cover 45%,cover}}
+  .iv-rsvp-photo img{animation:iv-develop linear both;animation-timeline:view();animation-range:entry 0% cover 45%}
+ }
+}
+.iv-paused :is(.iv-letter-photo,.iv-rsvp-photo,.iv-gallery-dialog) *{animation:none!important}
